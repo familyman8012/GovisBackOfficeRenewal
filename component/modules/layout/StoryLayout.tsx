@@ -1,0 +1,51 @@
+import styled from "@emotion/styled";
+import {
+  ThemeProvider,
+  css as emotionCss,
+  SerializedStyles,
+} from "@emotion/react";
+import React from "react";
+import { theme } from "@/component/theme";
+
+interface IStoryArgs {
+  darkMode: boolean;
+  children?: React.ReactNode;
+  noPadding?: boolean;
+  customCss?: SerializedStyles;
+}
+
+const Container = styled.div<{ darkMode: boolean }>`
+  margin: -1rem;
+  ${({ darkMode }) =>
+    darkMode &&
+    `
+    background-color: #2D3748;
+  `};
+`;
+
+const Content = styled.div<{
+  noPadding?: boolean;
+  customCss?: SerializedStyles;
+}>`
+  padding: ${({ noPadding }) => (noPadding ? "0" : "1rem")};
+  ${({ customCss }) => customCss}
+`;
+
+const StoryLayout = ({
+  darkMode,
+  children,
+  noPadding,
+  customCss,
+}: IStoryArgs) => {
+  return (
+    <ThemeProvider theme={theme}>
+      <Container darkMode={darkMode}>
+        <Content noPadding={noPadding} customCss={customCss}>
+          {children}
+        </Content>
+      </Container>
+    </ThemeProvider>
+  );
+};
+
+export default StoryLayout;
