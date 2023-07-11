@@ -1,19 +1,18 @@
-import React from "react";
-import { Meta, Story } from "@storybook/react";
-import Colr, { ColorProps } from "./Color";
-import StoryLayout from "@/component/modules/layout/StoryLayout";
-import ColorBox from "./Color";
-import { theme } from "@/component/theme";
-import { css as emotionCss } from "@emotion/react";
+import React from 'react';
+import { Meta, Story } from '@storybook/react';
+import { css as emotionCss } from '@emotion/react';
+import StoryLayout from '@ComponentFarm/modules/layout/StoryLayout';
+import { theme } from '@ComponentFarm/theme';
+import ColorBox, { ColorProps } from './Color';
 
 const meta: Meta = {
-  title: "Atoms/Color",
-  tags: ["autodocs"],
+  title: 'Atoms/Color',
+  tags: ['autodocs'],
   parameters: {
     docs: {
       story: { inline: true }, // render the story in an iframe
-      canvas: { sourceState: "shown" }, // start with the source open
-      source: { type: "code" }, // forces the raw source code (rather than the rendered JSX).
+      canvas: { sourceState: 'shown' }, // start with the source open
+      source: { type: 'code' }, // forces the raw source code (rather than the rendered JSX).
     },
   },
 };
@@ -33,7 +32,7 @@ const customStyles = emotionCss`
   }
 `;
 
-const Colors: Story<Props> = (args) => (
+const Colors: Story<Props> = args => (
   <StoryLayout {...args} customCss={customStyles}>
     {Object.entries(theme.colors).map(([bgColor, hex]) => (
       <ColorBox key={bgColor} color={{ bgColor, hex }} />
@@ -45,6 +44,6 @@ export const ColorsInfo = Colors.bind({});
 
 ColorsInfo.argTypes = {
   darkMode: {
-    control: "boolean",
+    control: 'boolean',
   },
 };

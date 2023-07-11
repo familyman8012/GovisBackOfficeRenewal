@@ -1,13 +1,13 @@
-import styled from "@emotion/styled";
-import { useTheme } from "@emotion/react";
-import React from "react";
-import Typo from "../Typo/Typo";
+import React from 'react';
+import { Theme, useTheme } from '@emotion/react';
+import styled from '@emotion/styled';
+import Typo from '../Typo/Typo';
 
 export interface ColorProps {
   bgColor: string;
   code?: number;
   hex?: string;
-  theme?: any;
+  theme?: Theme;
 }
 
 const Container = styled.div`
@@ -30,8 +30,8 @@ const Content = styled.div`
   padding: 0.75rem;
 `;
 
-function ColorBox({ color }: { color: ColorProps }) {
-  const theme: any = useTheme();
+const ColorBox = ({ color }: { color: ColorProps }) => {
+  const theme: Theme = useTheme();
 
   return (
     <Container>
@@ -46,6 +46,6 @@ function ColorBox({ color }: { color: ColorProps }) {
       </Content>
     </Container>
   );
-}
+};
 
 export default ColorBox;

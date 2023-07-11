@@ -1,54 +1,53 @@
-import styled from "@emotion/styled";
-import React from "react";
-import { useTheme } from "@emotion/react";
+import React, { ElementType } from 'react';
+import { Theme, useTheme } from '@emotion/react';
+import styled from '@emotion/styled';
 
 type Variant =
-  | "xs"
-  | "sm"
-  | "md"
-  | "lg"
-  | "xl"
-  | "h6"
-  | "h5"
-  | "h4"
-  | "h3"
-  | "h2"
-  | "h1";
-type Weight = "normal" | "medium" | "semibold" | "bold";
+  | 'xs'
+  | 'sm'
+  | 'md'
+  | 'lg'
+  | 'xl'
+  | 'h6'
+  | 'h5'
+  | 'h4'
+  | 'h3'
+  | 'h2'
+  | 'h1';
+type Weight = 'normal' | 'medium' | 'semibold' | 'bold';
 
 type StyledTextProps = {
   variant: Variant;
   weight: Weight;
   color?: string;
-  theme: any;
+  theme: Theme;
 };
 
 const StyledText = styled.div<StyledTextProps>`
   font-size: ${({ variant, theme }) => theme.fontSize[variant][0]};
   line-height: ${({ variant, theme }) => theme.fontSize[variant][1]};
   font-weight: ${({ weight, theme }) => theme.fontWeight[weight]};
-  color: ${({ color }) => color || "inherit"};
+  color: ${({ color }) => color || 'inherit'};
 `;
 
 export type TypoProps = {
-  as?: any;
+  as?: ElementType;
   variant: Variant;
   color?: string;
   weight?: Weight;
   children?: React.ReactNode;
-  theme?: any;
 };
 
 const Typo: React.FC<TypoProps> = ({
-  as,
-  variant = "md",
+  as = 'p',
+  variant = 'md',
   color,
-  weight = "normal",
+  weight = 'normal',
   children,
 }) => {
   const theme = useTheme();
-  const isHeading = variant.startsWith("h");
-  const Component = as || (isHeading ? variant : "p");
+  const isHeading = variant.startsWith('h');
+  const Component = as || (isHeading ? variant : undefined); // Modified this line
 
   return (
     <StyledText

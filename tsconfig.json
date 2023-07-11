@@ -15,7 +15,13 @@
     "jsx": "preserve",
     "incremental": true,
     "paths": {
-      "@/*": ["./*"]
+      "@ComponentFarm/*": ["./component/*"],
+      "@ApiFarm/*": ["./src/api/*"],
+      "@InterfaceFarm/*": ["./src/interface/*"],
+      "@UtilFarm/*": ["./util/*"],
+      "@HookFarm/*": ["./src/hook/*"],
+      "@MobxFarm/*": ["./src/mobx/*"],
+      "@PagesFarm/*": ["./pages/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],

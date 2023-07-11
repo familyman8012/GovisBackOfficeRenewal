@@ -1,5 +1,5 @@
-import React, { Dispatch, SetStateAction } from "react";
-import styled from "@emotion/styled";
+import React, { Dispatch, SetStateAction } from 'react';
+import styled from '@emotion/styled';
 
 interface ButtonItem {
   value: string;
@@ -42,7 +42,7 @@ const Button = styled.button<{ isActive: boolean }>`
     border-bottom-right-radius: 0.5rem;
   }
 
-  ${(props) =>
+  ${props =>
     props.isActive &&
     `
       background-color: #F9FAFB; 
@@ -57,10 +57,10 @@ const Button = styled.button<{ isActive: boolean }>`
   }
 `;
 
-function ButtonGroup({ options, active, setActive }: ButtonGroupProps) {
+const ButtonGroup = ({ options, active, setActive }: ButtonGroupProps) => {
   return (
     <>
-      {options.map((option, index) => (
+      {options.map(option => (
         <Button
           key={option.value}
           isActive={active === option.value}
@@ -71,6 +71,6 @@ function ButtonGroup({ options, active, setActive }: ButtonGroupProps) {
       ))}
     </>
   );
-}
+};
 
 export default ButtonGroup;

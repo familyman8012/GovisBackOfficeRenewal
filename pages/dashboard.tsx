@@ -1,12 +1,14 @@
-import { authStore } from "@/src/mobx/store";
-import React from "react";
+import React from 'react';
+import { authStore } from '@MobxFarm/store';
 
-function Dashboard() {
+const Dashboard = () => {
   return (
     <div>
-      <button onClick={() => authStore.logOut()}>로그아웃</button>
+      <button type="button" onClick={() => authStore.logOut()}>
+        로그아웃
+      </button>
     </div>
   );
-}
+};
 
 export default Dashboard;

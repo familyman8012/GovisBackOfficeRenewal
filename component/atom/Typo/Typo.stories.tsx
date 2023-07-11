@@ -1,39 +1,39 @@
-import React from "react";
-import { Meta, Story } from "@storybook/react";
-import Typo, { TypoProps } from "./Typo";
-import StoryLayout from "@/component/modules/layout/StoryLayout";
+import React from 'react';
+import { Meta, Story } from '@storybook/react';
+import StoryLayout from '@ComponentFarm/modules/layout/StoryLayout';
+import Typo, { TypoProps } from './Typo';
 
 const meta: Meta = {
-  title: "Atoms/Typo",
-  tags: ["autodocs"],
+  title: 'Atoms/Typo',
+  tags: ['autodocs'],
   args: {
     TotalProps: {
       props: `variant, as?,color?, weight?`,
     },
     variant: {
-      xs: ["12px", "18px"],
-      sm: ["14px", "20px"],
-      md: ["16px", "24px"],
-      lg: ["18px", "28px"],
-      xl: ["20px", "30px"],
+      xs: ['12px', '18px'],
+      sm: ['14px', '20px'],
+      md: ['16px', '24px'],
+      lg: ['18px', '28px'],
+      xl: ['20px', '30px'],
 
-      h6: ["24px", "32px"],
-      h5: ["30px", "38px"],
-      h4: ["36px", "44px"],
-      h3: ["48px", "60px"],
-      h2: ["60px", "72px"],
-      h1: ["72px", "90px"],
+      h6: ['24px', '32px'],
+      h5: ['30px', '38px'],
+      h4: ['36px', '44px'],
+      h3: ['48px', '60px'],
+      h2: ['60px', '72px'],
+      h1: ['72px', '90px'],
     },
     fontWeight: { normal: 400, medium: 500, semibold: 600, bold: 700 },
     asDesc: {
-      as: "h1, p, span 등 태그",
+      as: 'h1, p, span 등 태그',
     },
   },
   parameters: {
     docs: {
       story: { inline: true }, // render the story in an iframe
-      canvas: { sourceState: "shown" }, // start with the source open
-      source: { type: "code" }, // forces the raw source code (rather than the rendered JSX).
+      canvas: { sourceState: 'shown' }, // start with the source open
+      source: { type: 'code' }, // forces the raw source code (rather than the rendered JSX).
     },
   },
 };
@@ -44,8 +44,8 @@ interface Props extends TypoProps {
   darkMode: boolean;
 }
 
-const TypoHeadings: Story<Props> = (args) => (
-  <StoryLayout darkMode={args.darkMode}>
+const TypoHeadings: Story<Props> = ({ darkMode, ...args }) => (
+  <StoryLayout darkMode={darkMode}>
     <Typo {...args} variant="h1">
       Display h1
     </Typo>
@@ -71,20 +71,20 @@ export const Heading = TypoHeadings.bind({});
 
 Heading.argTypes = {
   weight: {
-    control: "radio",
-    options: ["normal", "medium", "semibold", "bold"],
+    control: 'radio',
+    options: ['normal', 'medium', 'semibold', 'bold'],
   },
   darkMode: {
-    control: "boolean",
+    control: 'boolean',
   },
 };
 
 Heading.parameters = {
-  controls: { exclude: ["customColor"] },
+  controls: { exclude: ['customColor'] },
 };
 
-const TypoText: Story<Props> = (args) => (
-  <StoryLayout darkMode={args.darkMode}>
+const TypoText: Story<Props> = ({ darkMode, ...args }) => (
+  <StoryLayout darkMode={darkMode}>
     <Typo {...args} variant="xl">
       Text xl
     </Typo>
@@ -107,10 +107,10 @@ export const Text = TypoText.bind({});
 
 Text.argTypes = {
   weight: {
-    control: "radio",
-    options: ["normal", "medium", "semibold", "bold"],
+    control: 'radio',
+    options: ['normal', 'medium', 'semibold', 'bold'],
   },
   darkMode: {
-    control: "boolean",
+    control: 'boolean',
   },
 };

@@ -1,38 +1,30 @@
-import Head from "next/head";
-import {
-  useState,
-  useEffect,
-  ChangeEventHandler,
-  SyntheticEvent,
-  useMemo,
-  ReactElement,
-} from "react";
-import { useRouter } from "next/router";
-import { toast } from "react-toastify";
-import dayjs from "dayjs";
-import { runInAction } from "mobx";
-import { authStore } from "@/src/mobx/store";
-import styled from "@emotion/styled";
-import { BoRequest } from "@/src/api";
-import { errorHandler } from "@/util/error-handler";
+import { useState, useEffect, SyntheticEvent, ReactElement } from 'react';
+import dayjs from 'dayjs';
+import { runInAction } from 'mobx';
+import { useRouter } from 'next/router';
+import { toast } from 'react-toastify';
+import styled from '@emotion/styled';
+import { BoRequest } from '@ApiFarm/index';
+import { authStore } from '@MobxFarm/store';
+import { errorHandler } from '@UtilFarm/error-handler';
 
 const LoginWrap = styled.div``;
 const FormInput = styled.input``;
 const Button = styled.button``;
 
-export default function Login() {
+const Login = () => {
   const router = useRouter();
-  const [email, setEmail] = useState<string | string[] | undefined>("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState<string | string[] | undefined>('');
+  const [password, setPassword] = useState('');
   const [showGuideModal, setShowGuideModal] = useState(false);
   const [isLoginState, setIsLoginState] = useState(-1);
 
-  const now = useMemo(() => dayjs(), []);
+  // const now = useMemo(() => dayjs(), []);
 
   useEffect(() => {
-    if (localStorage.getItem("user_info") !== null) {
+    if (localStorage.getItem('user_info') !== null) {
       setIsLoginState(1);
-      router.push("/dashboard");
+      router.push('/dashboard');
     } else {
       setIsLoginState(0);
     }
@@ -42,25 +34,28 @@ export default function Login() {
     e.preventDefault();
 
     try {
-      const user = await BoRequest.post("/account/login", {
-        email: email,
-        password: password,
+      const user = await BoRequest.post('/account/login', {
+        email,
+        password,
       });
 
-      if (user.data.code === "9001") {
-        toast.error("아이디 또는 이메일과 비밀번호를 확인해 주세요.");
+      if (user.data.code === '9001') {
+        toast.error('아이디 또는 이메일과 비밀번호를 확인해 주세요.');
       }
 
       runInAction(() => {
         authStore.login(user.data.data);
       });
-    } catch ({ code, message }: any) {
-      errorHandler(code, message);
+    } catch (error: unknown) {
+      if (typeof error === 'object' && error !== null) {
+        const { code, message } = error as { code: string; message: string };
+        errorHandler(code, message);
+      }
     }
   };
 
   if (isLoginState === -1) {
-    return <div></div>;
+    return <div />;
   }
 
   return (
@@ -84,7 +79,7 @@ export default function Login() {
                     type="email"
                     value={String(email)}
                     autoComplete="username"
-                    onChange={(event) => setEmail(event.target.value)}
+                    onChange={event => setEmail(event.target.value)}
                   />
                 </div>
                 <div className="login__input-wrapper">
@@ -98,7 +93,7 @@ export default function Login() {
                     value={password}
                     placeholder="비밀번호를 입력해 주세요."
                     autoComplete="current-password"
-                    onChange={(event) => setPassword(event.target.value)}
+                    onChange={event => setPassword(event.target.value)}
                   />
                 </div>
                 <div className="login__action">
@@ -124,17 +119,18 @@ export default function Login() {
               </p>
             </div>
           </div>
+          {showGuideModal && 1}
           {/* <LoginGuideModal
             show={showGuideModal}
             onClose={() => setShowGuideModal(false)}
           /> */}
         </LoginWrap>
       ) : (
-        <div></div>
+        <div />
       )}
     </>
   );
-}
+};
 
 Login.getLayout = function getLayout(page: ReactElement) {
   return (
@@ -151,3 +147,4 @@ Login.getLayout = function getLayout(page: ReactElement) {
     // </LayoutWrap>
   );
 };
+export default Login;

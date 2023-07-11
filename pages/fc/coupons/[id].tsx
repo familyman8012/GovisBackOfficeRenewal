@@ -1,8 +1,8 @@
-import React from "react";
-import { useRouter } from "next/router";
-import { useGoBack } from "@/src/hook/useGoBack";
+import React from 'react';
+import { useRouter } from 'next/router';
+import { useGoBack } from '@HookFarm/useGoBack';
 
-function CouponDetail() {
+const CouponDetail = () => {
   const router = useRouter();
   const handleBack = useGoBack();
 
@@ -10,10 +10,12 @@ function CouponDetail() {
 
   return (
     <div>
-      <div onClick={handleBack}>뒤로가기</div>
+      <button type="button" onClick={handleBack}>
+        뒤로가기
+      </button>
       {id}
     </div>
   );
-}
+};
 
 export default CouponDetail;

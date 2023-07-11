@@ -1,11 +1,7 @@
-import styled from "@emotion/styled";
-import {
-  ThemeProvider,
-  css as emotionCss,
-  SerializedStyles,
-} from "@emotion/react";
-import React from "react";
-import { theme } from "@/component/theme";
+import React from 'react';
+import { ThemeProvider, SerializedStyles, Theme } from '@emotion/react';
+import styled from '@emotion/styled';
+import { theme } from '@ComponentFarm/theme';
 
 interface IStoryArgs {
   darkMode: boolean;
@@ -27,7 +23,7 @@ const Content = styled.div<{
   noPadding?: boolean;
   customCss?: SerializedStyles;
 }>`
-  padding: ${({ noPadding }) => (noPadding ? "0" : "1rem")};
+  padding: ${({ noPadding }) => (noPadding ? '0' : '1rem')};
   ${({ customCss }) => customCss}
 `;
 
@@ -38,7 +34,7 @@ const StoryLayout = ({
   customCss,
 }: IStoryArgs) => {
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme as Theme}>
       <Container darkMode={darkMode}>
         <Content noPadding={noPadding} customCss={customCss}>
           {children}

@@ -1,20 +1,27 @@
-import "@/styles/globals.css";
-import type { AppProps } from "next/app";
-import { ThemeProvider } from "@emotion/react";
-import { theme } from "@/component/theme";
-import { ReactQueryDevtools } from "react-query/devtools";
-import {
-  Hydrate,
-  QueryCache,
-  QueryClient,
-  QueryClientProvider,
-} from "react-query";
-import { errorHandler } from "@/util/error-handler";
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import { ServerError } from "@/src/interface/response";
+import { ReactElement, ReactNode } from 'react';
+import type { AppProps } from 'next/app';
+import { NextPage } from 'next';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { ToastContainer } from 'react-toastify';
+import { ThemeProvider } from '@emotion/react';
+import 'react-toastify/dist/ReactToastify.css';
+import { ServerError } from '@InterfaceFarm/response';
+import Layout from '@ComponentFarm/modules/layout';
+import { theme } from '@ComponentFarm/theme';
+import { errorHandler } from '@UtilFarm/error-handler';
 
-export default function App({ Component, pageProps }: AppProps) {
+export type NextPageWithLayout = NextPage & {
+  getLayout?: (page: ReactElement) => ReactNode;
+  auth?: boolean;
+};
+
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout;
+};
+
+const App = ({ Component, pageProps }: AppPropsWithLayout) => {
+  const getLayout = Component.getLayout ?? (page => <Layout>{page}</Layout>);
+
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
@@ -38,7 +45,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <QueryClientProvider client={queryClient}>
       <ThemeProvider theme={theme}>
-        <Component {...pageProps} />
+        {getLayout(<Component {...pageProps} />)}
       </ThemeProvider>
       <ToastContainer
         pauseOnFocusLoss={false}
@@ -48,4 +55,6 @@ export default function App({ Component, pageProps }: AppProps) {
       />
     </QueryClientProvider>
   );
-}
+};
+
+export default App;

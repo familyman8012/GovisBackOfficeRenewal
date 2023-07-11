@@ -8,5 +8,5 @@ export type ServerError = {
   code: string;
   message: string;
   status: number;
-  response: any;
+  response: unknown;
 };

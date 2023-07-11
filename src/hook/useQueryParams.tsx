@@ -1,8 +1,8 @@
-import { useRouter } from "next/router";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from 'react';
+import { useRouter } from 'next/router';
 
 type QueryParams = {
-  [key: string]: any;
+  [key: string]: number | string | string[] | undefined;
 };
 
 function useQueryParams(
@@ -10,7 +10,7 @@ function useQueryParams(
 ): [
   QueryParams,
   (newParams: QueryParams) => void,
-  (sortField: string) => void
+  (sortField: string) => void,
 ] {
   const router = useRouter();
   const isInitialMount = useRef(true);
@@ -24,7 +24,7 @@ function useQueryParams(
     if (isInitialMount.current) {
       isInitialMount.current = false;
 
-      const queryStringIndex = router.asPath.indexOf("?");
+      const queryStringIndex = router.asPath.indexOf('?');
       const hasQueryParams = queryStringIndex !== -1;
 
       if (!hasQueryParams) {
@@ -42,19 +42,19 @@ function useQueryParams(
         const queryParamsString = router.asPath.slice(queryStringIndex + 1);
         const urlParams = new URLSearchParams(queryParamsString);
         const queryParams: { [key: string]: string } = {};
-        for (let [key, value] of urlParams) {
+        urlParams.forEach((value, key) => {
           queryParams[key] = value;
-        }
+        });
         setParams({ ...initialParams, ...queryParams });
       }
       return;
     }
 
-    setParams((prevParams) => ({ ...prevParams, ...router.query }));
+    setParams(prevParams => ({ ...prevParams, ...router.query }));
   }, [router.query]);
 
   const updateParams = (newParams: QueryParams) => {
-    setParams((prevParams) => ({ ...prevParams, ...newParams }));
+    setParams(prevParams => ({ ...prevParams, ...newParams }));
     router.push(
       {
         pathname: router.pathname,
@@ -72,12 +72,12 @@ function useQueryParams(
     if (currentSortField === sortField) {
       updateParams({
         sort_field: sortField,
-        sort_type: currentSortType === "asc" ? "desc" : "asc",
+        sort_type: currentSortType === 'asc' ? 'desc' : 'asc',
       });
     } else {
       updateParams({
         sort_field: sortField,
-        sort_type: "asc",
+        sort_type: 'asc',
       });
     }
   };

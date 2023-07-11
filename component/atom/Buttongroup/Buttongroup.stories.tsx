@@ -1,19 +1,18 @@
-import React, { useState } from "react";
-import { Meta, Story } from "@storybook/react";
-
-import styled from "@emotion/styled";
-import { options1, options2, options3 } from "./const";
-import StoryLayout from "@/component/modules/layout/StoryLayout";
-import ButtonGroup from "./Buttongroup";
+import React, { useState } from 'react';
+import { Meta, Story } from '@storybook/react';
+import styled from '@emotion/styled';
+import StoryLayout from '@ComponentFarm/modules/layout/StoryLayout';
+import ButtonGroup from './Buttongroup';
+import { options1, options2, options3 } from './const';
 
 const meta: Meta = {
-  title: "Atoms/ButtonGroup",
-  tags: ["autodocs"],
+  title: 'Atoms/ButtonGroup',
+  tags: ['autodocs'],
   parameters: {
     docs: {
       story: { inline: true }, // render the story in an iframe
-      canvas: { sourceState: "shown" }, // start with the source open
-      source: { type: "code" }, // forces the raw source code (rather than the rendered JSX).
+      canvas: { sourceState: 'shown' }, // start with the source open
+      source: { type: 'code' }, // forces the raw source code (rather than the rendered JSX).
     },
   },
 };
@@ -30,10 +29,10 @@ const SpacedContainer = styled.div`
   }
 `;
 
-const StoryButtonGroup: Story<Props> = (args) => {
+const StoryButtonGroup: Story<Props> = args => {
   const [active1, setActive1] = useState(options1[0].value);
   const [active2, setActive2] = useState(options2[0].value);
-  const [viewOption, setViewOption] = useState("list");
+  const [viewOption, setViewOption] = useState('list');
   return (
     <StoryLayout {...args}>
       <SpacedContainer>

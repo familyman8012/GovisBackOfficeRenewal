@@ -1,10 +1,14 @@
-import { useGoBack } from "@/src/hook/useGoBack";
-import React from "react";
+import React from 'react';
+import { useGoBack } from '@HookFarm/useGoBack';
 
-function Add() {
+const Add = () => {
   const handleBack = useGoBack();
 
-  return <div onClick={handleBack}>뒤로가기</div>;
-}
+  return (
+    <button type="button" onClick={handleBack}>
+      뒤로가기
+    </button>
+  );
+};
 
 export default Add;
