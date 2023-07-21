@@ -9,6 +9,7 @@ import { ServerError } from '@InterfaceFarm/response';
 import Layout from '@ComponentFarm/modules/layout';
 import { theme } from '@ComponentFarm/theme';
 import { errorHandler } from '@UtilFarm/error-handler';
+import 'react-datepicker/dist/react-datepicker.css';
 
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;

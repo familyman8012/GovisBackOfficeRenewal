@@ -19,13 +19,12 @@ export const PaginationWrap = styled.div`
   }
 
   ul.pagination li {
-    display: inline-block;  
+    display: flex;
     width: 30px;
     height: 30px;
     border: 1px solid #e2e2e2;
-    display: flex;
     justify-content: center;
-    align-items: center;  
+    align-items: center;
     font-size: 1rem;
   }
 

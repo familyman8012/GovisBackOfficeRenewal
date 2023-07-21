@@ -1,3 +1,4 @@
+import React from 'react';
 import { FiCircle, FiGrid, FiList } from 'react-icons/fi';
 
 export const options1 = [

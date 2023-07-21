@@ -1,7 +1,7 @@
 import React from 'react';
 import { Meta, Story } from '@storybook/react';
 import { css as emotionCss } from '@emotion/react';
-import StoryLayout from '@ComponentFarm/modules/layout/StoryLayout';
+import StoryLayout from '@ComponentFarm/modules/story_layout/StoryLayout';
 import { theme } from '@ComponentFarm/theme';
 import ColorBox, { ColorProps } from './Color';
 

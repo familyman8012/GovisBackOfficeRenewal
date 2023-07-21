@@ -1,6 +1,6 @@
 import React from 'react';
 import { Meta, Story } from '@storybook/react';
-import StoryLayout from '@ComponentFarm/modules/layout/StoryLayout';
+import StoryLayout from '@ComponentFarm/modules/story_layout/StoryLayout';
 import Typo, { TypoProps } from './Typo';
 
 const meta: Meta = {

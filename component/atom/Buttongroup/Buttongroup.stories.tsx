@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Meta, Story } from '@storybook/react';
 import styled from '@emotion/styled';
-import StoryLayout from '@ComponentFarm/modules/layout/StoryLayout';
+import StoryLayout from '@ComponentFarm/modules/story_layout/StoryLayout';
 import ButtonGroup from './Buttongroup';
 import { options1, options2, options3 } from './const';
 

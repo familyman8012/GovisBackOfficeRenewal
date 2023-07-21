@@ -1,6 +1,6 @@
-import React, { ElementType } from 'react';
-import { Theme, useTheme } from '@emotion/react';
+import React, { ElementType, HTMLAttributes } from 'react';
 import styled from '@emotion/styled';
+import { theme } from '@ComponentFarm/theme';
 
 type Variant =
   | 'xs'
@@ -20,13 +20,12 @@ type StyledTextProps = {
   variant: Variant;
   weight: Weight;
   color?: string;
-  theme: Theme;
 };
 
 const StyledText = styled.div<StyledTextProps>`
-  font-size: ${({ variant, theme }) => theme.fontSize[variant][0]};
-  line-height: ${({ variant, theme }) => theme.fontSize[variant][1]};
-  font-weight: ${({ weight, theme }) => theme.fontWeight[weight]};
+  font-size: ${({ variant }) => theme.fontSize[variant][0]};
+  line-height: ${({ variant }) => theme.fontSize[variant][1]};
+  font-weight: ${({ weight }) => theme.fontWeight[weight]};
   color: ${({ color }) => color || 'inherit'};
 `;
 
@@ -36,7 +35,7 @@ export type TypoProps = {
   color?: string;
   weight?: Weight;
   children?: React.ReactNode;
-};
+} & HTMLAttributes<HTMLElement>; // HTML element attrs를 extend해서 추가함.
 
 const Typo: React.FC<TypoProps> = ({
   as = 'p',
@@ -44,8 +43,8 @@ const Typo: React.FC<TypoProps> = ({
   color,
   weight = 'normal',
   children,
+  ...rest
 }) => {
-  const theme = useTheme();
   const isHeading = variant.startsWith('h');
   const Component = as || (isHeading ? variant : undefined); // Modified this line
 
@@ -53,9 +52,9 @@ const Typo: React.FC<TypoProps> = ({
     <StyledText
       as={Component}
       variant={variant}
-      theme={theme}
       color={color}
       weight={weight}
+      {...rest}
     >
       {children}
     </StyledText>

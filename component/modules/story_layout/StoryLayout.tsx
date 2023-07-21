@@ -2,6 +2,7 @@ import React from 'react';
 import { ThemeProvider, SerializedStyles, Theme } from '@emotion/react';
 import styled from '@emotion/styled';
 import { theme } from '@ComponentFarm/theme';
+import 'react-datepicker/dist/react-datepicker.css';
 
 interface IStoryArgs {
   darkMode: boolean;
@@ -23,6 +24,10 @@ const Content = styled.div<{
   noPadding?: boolean;
   customCss?: SerializedStyles;
 }>`
+  * {
+    box-sizing: border-box;
+  }
+
   padding: ${({ noPadding }) => (noPadding ? '0' : '1rem')};
   ${({ customCss }) => customCss}
 `;
@@ -40,6 +45,7 @@ const StoryLayout = ({
           {children}
         </Content>
       </Container>
+      <div id="modal-root" />
     </ThemeProvider>
   );
 };

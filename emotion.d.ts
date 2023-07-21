@@ -1,31 +1,39 @@
-import '@emotion/react';
-
-interface Colors {
-  [key: string]: string;
-}
-
-interface FontSize {
-  [key: string]: [string, string];
-}
-
-interface FontWeight {
-  [key: string]: number;
-}
-
-interface Screens {
-  [key: string]: string;
-}
-
-interface Spacing {
-  [key: number]: string;
-}
-
-declare module '@emotion/react' {
-  export interface Theme {
-    colors: Colors;
-    fontSize: FontSize;
-    fontWeight: FontWeight;
-    screens: Screens;
-    spacing: Spacing;
-  }
+export interface Theme {
+  colors: {
+    [key: string]: string;
+  };
+  fontSize: {
+    [key: string]: [string, string];
+  };
+  fontWeight: {
+    [key: string]: number;
+  };
+  buttonSizes: {
+    [key: string]: {
+      height: string;
+      padding: string;
+      fontSize: string;
+    };
+  };
+  screens: {
+    [key: string]: string;
+  };
+  spacing: {
+    [key: string]: string;
+  };
+  buttonVariants: {
+    [key: string]: {
+      backgroundColor: string;
+      color: string;
+      border?: string;
+      '&:hover': {
+        backgroundColor: string;
+        color?: string;
+      };
+      '&:disabled': {
+        backgroundColor: string;
+        color?: string;
+      };
+    };
+  };
 }
