@@ -1,4 +1,4 @@
-import React, { Dispatch, FC, ReactNode, SetStateAction } from 'react';
+import React, { FC, ReactNode } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { createPortal } from 'react-dom';
 import { css } from '@emotion/react';
@@ -6,11 +6,11 @@ import { Button } from '@ComponentFarm/atom/Button/Button';
 
 type ModalProps = {
   isOpen: boolean;
-  setIsOpen: Dispatch<SetStateAction<boolean>>;
+  onClose: () => void;
   children: ReactNode;
 };
 
-const Modal: FC<ModalProps> = ({ isOpen, setIsOpen, children }) => {
+const Modal: FC<ModalProps> = ({ isOpen, onClose, children }) => {
   const ModalPop = (
     <>
       <AnimatePresence>
@@ -25,8 +25,8 @@ const Modal: FC<ModalProps> = ({ isOpen, setIsOpen, children }) => {
               top: 50%;
               left: 50%;
               transform: translate(-50%, -50%);
-              width: 400px;
-              height: 200px;
+              width: fit-width;
+              height:;
               background-color: white;
               padding: 1em;
               border-radius: 10px;
@@ -34,8 +34,12 @@ const Modal: FC<ModalProps> = ({ isOpen, setIsOpen, children }) => {
             `}
           >
             {children}
-            <Button variant="primary" onClick={() => setIsOpen(false)}>
-              Close Modal
+            <Button
+              variant="primary"
+              onClick={onClose}
+              style={{ position: 'absolute', top: '10px', right: '10px' }}
+            >
+              x
             </Button>
           </motion.div>
         )}

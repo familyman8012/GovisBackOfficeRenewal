@@ -42,6 +42,11 @@ const StoryModal: Story<Props> = (args, children) => {
       document.body.style.overflow = 'unset';
     }
   }, [isOpen]);
+
+  const handlerClose = () => {
+    setIsOpen(false);
+  };
+
   return (
     <StoryLayout
       {...args}
@@ -53,7 +58,7 @@ const StoryModal: Story<Props> = (args, children) => {
         Open Modal
       </Button>
 
-      <Modal isOpen={isOpen} setIsOpen={setIsOpen}>
+      <Modal isOpen={isOpen} onClose={handlerClose}>
         <p>This is my modal content.</p>
       </Modal>
     </StoryLayout>

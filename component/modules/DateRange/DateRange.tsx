@@ -8,6 +8,7 @@ import React, {
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { FiCalendar } from 'react-icons/fi';
+import { Button } from '@ComponentFarm/atom/Button/Button';
 import { TextInput } from '@ComponentFarm/atom/TextInput/TextInput';
 
 export type DateRange = [Date | null, Date | null];
@@ -25,12 +26,28 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
   const [startDateInput, setStartDateInput] = useState('');
   const [endDateInput, setEndDateInput] = useState('');
   const [open, setOpen] = useState(false);
+  const [isResetVisible, setIsResetVisible] = useState(false);
   const refEndDate = useRef<HTMLInputElement | null>(null);
   const ref = useRef<HTMLDivElement | null>(null);
 
   const validateDate = (dateStr: string) => {
     const regex = /^\d{4}-\d{2}-\d{2}$/;
-    return regex.test(dateStr);
+    if (!regex.test(dateStr)) {
+      return false;
+    }
+
+    const [year, month, day] = dateStr.split('-').map(Number);
+    if (year < 2000) {
+      return false;
+    }
+
+    const date = new Date(year, month - 1, day);
+
+    return (
+      date.getFullYear() === year &&
+      date.getMonth() === month - 1 &&
+      date.getDate() === day
+    );
   };
 
   const handleStartDateChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -38,7 +55,11 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
     setStartDateInput(dateStr);
     if (validateDate(dateStr)) {
       const date = new Date(dateStr);
-      setDateRange([date, dateRange[1]]);
+      setDateRange((prev): DateRange => {
+        const update: DateRange = [date, prev[1]];
+        onDateRangeChange(update);
+        return update;
+      });
     }
   };
 
@@ -47,7 +68,14 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
     setEndDateInput(dateStr);
     if (validateDate(dateStr)) {
       const date = new Date(dateStr);
-      setDateRange([dateRange[0], date]);
+      if (dateRange[0] && date < dateRange[0]) {
+        return;
+      }
+      setDateRange((prev): DateRange => {
+        const update: DateRange = [prev[0], date];
+        onDateRangeChange(update);
+        return update;
+      });
     }
   };
 
@@ -60,16 +88,22 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
   const handleEndDateKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && validateDate(endDateInput)) {
       setOpen(false);
+      refEndDate.current?.blur();
     }
   };
 
   const handleFocus = () => {
     setOpen(true);
+    setIsResetVisible(true);
   };
 
   const onChange = (update: DateRange) => {
     setDateRange(update);
+    if (update[0]) {
+      setStartDateInput(update[0].toISOString().split('T')[0]);
+    }
     if (update[1]) {
+      setEndDateInput(update[1].toISOString().split('T')[0]);
       setOpen(false);
     }
     onDateRangeChange(update);
@@ -78,7 +112,17 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
   const onClickOutside = (event: MouseEvent) => {
     if (ref.current && !ref.current.contains(event.target as Node)) {
       setOpen(false);
+      setIsResetVisible(false);
     }
+  };
+
+  const handleResetClick = () => {
+    setDateRange([null, null]);
+    setStartDateInput('');
+    setEndDateInput('');
+    setIsResetVisible(false);
+    onDateRangeChange([null, null]);
+    setOpen(false);
   };
 
   useEffect(() => {
@@ -124,6 +168,11 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
             disabled={!validateDate(startDateInput)}
             ref={refEndDate}
           />
+          {!!startDateInput && !!endDateInput && isResetVisible && (
+            <Button type="button" variant="primary" onClick={handleResetClick}>
+              리셋
+            </Button>
+          )}
         </div>
       </div>
       {open && (
@@ -131,6 +180,7 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
           selected={dateRange[0]}
           startDate={dateRange[0]}
           endDate={dateRange[1]}
+          minDate={dateRange[0]}
           onChange={onChange}
           selectsRange
           monthsShown={2}

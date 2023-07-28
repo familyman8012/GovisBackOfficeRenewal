@@ -1,5 +1,6 @@
+import React from 'react';
 import type { Preview } from '@storybook/react';
-
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { Global, css } from '@emotion/react';
 import { withThemeFromJSXProvider } from '@storybook/addon-styling';
 
@@ -7,6 +8,7 @@ import { withThemeFromJSXProvider } from '@storybook/addon-styling';
 // import { lightTheme, darkTheme } from '../path/to/themes';
 
 /* TODO: replace with your own global styles, or remove */
+const queryClient = new QueryClient();
 
 const preview: Preview = {
   parameters: {
@@ -26,6 +28,11 @@ const preview: Preview = {
 
   decorators: [
     // Adds global styles and theme switching support.
+    Story => (
+      <QueryClientProvider client={queryClient}>
+        <Story />
+      </QueryClientProvider>
+    ),
   ],
 };
 

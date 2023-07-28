@@ -3,10 +3,10 @@ import type { AppProps } from 'next/app';
 import { NextPage } from 'next';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ToastContainer } from 'react-toastify';
-import { ThemeProvider } from '@emotion/react';
+import { Global, ThemeProvider } from '@emotion/react';
 import 'react-toastify/dist/ReactToastify.css';
 import { ServerError } from '@InterfaceFarm/response';
-import Layout from '@ComponentFarm/modules/layout';
+import reset from '@ComponentFarm/common';
 import { theme } from '@ComponentFarm/theme';
 import { errorHandler } from '@UtilFarm/error-handler';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -21,7 +21,7 @@ type AppPropsWithLayout = AppProps & {
 };
 
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {
-  const getLayout = Component.getLayout ?? (page => <Layout>{page}</Layout>);
+  const getLayout = Component.getLayout ?? (page => <>{page}</>);
 
   const queryClient = new QueryClient({
     defaultOptions: {
@@ -45,6 +45,7 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
 
   return (
     <QueryClientProvider client={queryClient}>
+      <Global styles={reset} />
       <ThemeProvider theme={theme}>
         {getLayout(<Component {...pageProps} />)}
       </ThemeProvider>
