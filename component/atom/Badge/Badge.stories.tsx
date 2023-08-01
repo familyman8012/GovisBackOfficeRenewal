@@ -36,13 +36,22 @@ const StoryBadge: Story<Props> = args => {
       customCss={css`
         display: inline-flex;
         flex-direction: column;
-        & > div + div {
+        & > span + span {
           margin-top: 1.25rem; /* Corresponds to space-y-5 in Tailwind CSS */
         }
       `}
     >
+      <Badge variant="numbering" size="xs">
+        1
+      </Badge>
+      <Badge variant="black" size="sm" textWhite>
+        처리 중
+      </Badge>
+      <Badge {...args}>처리 중</Badge>
+      <Badge variant="gray">처리 중</Badge>
+
       <Badge variant="success" size="lg" LeadingIcon={<FiStar />}>
-        primary, lg
+        TEXT
       </Badge>
 
       <Badge {...args} LeadingIcon={<FiStar />}>

@@ -14,9 +14,9 @@ interface ButtonGroupProps {
 const Button = styled.button<{ isActive: boolean }>`
   display: inline-flex;
   align-items: center;
-  height: 2.5rem;
-  padding: 0 1rem;
-  font-size: 0.875rem;
+  height: 3.5rem;
+  padding: 0 1.4rem;
+  font-size: 1.2rem;
   font-weight: 500;
   color: #4b5563;
   border: 1px solid #e5e7eb;
@@ -33,13 +33,13 @@ const Button = styled.button<{ isActive: boolean }>`
   }
 
   &:first-of-type {
-    border-top-left-radius: 0.5rem;
-    border-bottom-left-radius: 0.5rem;
+    border-top-left-radius: 0.7rem;
+    border-bottom-left-radius: 0.7rem;
   }
 
   &:last-of-type {
-    border-top-right-radius: 0.5rem;
-    border-bottom-right-radius: 0.5rem;
+    border-top-right-radius: 0.7rem;
+    border-bottom-right-radius: 0.7rem;
   }
 
   ${props =>

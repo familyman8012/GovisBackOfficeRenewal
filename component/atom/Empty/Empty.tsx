@@ -15,6 +15,11 @@ const EmptyWrap = styled.div`
   align-items: center;
   text-align: center;
   font-weight: 700;
+
+  p {
+    margin-top: 1rem;
+    font-size: 1.4rem;
+  }
 `;
 
 const Empty: FC<EmptyProps> = ({ Icon }) => {

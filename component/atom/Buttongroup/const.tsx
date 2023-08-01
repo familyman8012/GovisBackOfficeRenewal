@@ -12,8 +12,8 @@ export const options2 = [
     value: 'First',
     content: (
       <>
-        <FiCircle size={20} className="mr-2" />
-        First
+        <FiCircle size={15} style={{ marginRight: 5 }} />
+        FIRST
       </>
     ),
   },
@@ -21,8 +21,8 @@ export const options2 = [
     value: 'Second',
     content: (
       <>
-        <FiCircle size={20} className="mr-2" />
-        Second
+        <FiCircle size={15} style={{ marginRight: 5 }} />
+        SECOND
       </>
     ),
   },
@@ -30,8 +30,8 @@ export const options2 = [
     value: 'Third',
     content: (
       <>
-        <FiCircle size={20} className="mr-2" />
-        Third
+        <FiCircle size={15} style={{ marginRight: 5 }} />
+        THIRD
       </>
     ),
   },

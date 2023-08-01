@@ -1,9 +1,9 @@
 /* eslint-disable react/destructuring-assignment */
 import React, { useState } from 'react';
 import { Meta, Story } from '@storybook/react';
-import { useForm, Controller } from 'react-hook-form';
 import { css } from '@emotion/react';
 import StoryLayout from '@ComponentFarm/modules/story_layout/StoryLayout';
+import CheckBox from '@ComponentFarm/atom/Checkbox/CheckBox';
 import CheckBoxGroup, { CheckBoxGroupProps } from './CheckBoxGroup';
 
 const meta: Meta = {
@@ -36,75 +36,102 @@ const StoryCheckboxGroup: Story<Props> = args => {
     { label: 'Orange', value: '3' },
   ];
 
-  const [selectedValues, setSelectedValues] = useState<string[]>([]);
+  const options2 = [
+    { label: 'A', value: 'A' },
+    { label: 'B', value: 'B' },
+    { label: 'C', value: 'C' },
+    { label: 'D', value: 'D' },
+    { label: 'E', value: 'E' },
+  ];
 
-  const onChange = (checkedValues: string[]) => {
-    setSelectedValues(checkedValues);
-    console.log('checked = ', checkedValues, selectedValues);
-  };
-
+  const [selectedFruits, setSelectedFruits] = useState<string[]>([]);
+  const [selectedLetters, setSelectedLetters] = useState<string[]>([]);
   return (
     <StoryLayout
       {...args}
       customCss={css`
         /* display: flex; */
-        & > div + div {
-          margin-top: 1rem; /* Corresponds to space-y-5 in Tailwind CSS */
+        div {
+          margin-top: 20px; /* Corresponds to space-y-5 in Tailwind CSS */
         }
       `}
     >
-      <CheckBoxGroup options={options} onChange={onChange} />
+      <div>
+        <div>
+          <CheckBoxGroup
+            options={options}
+            onChange={setSelectedFruits}
+            defaultValue={[]}
+            name="fruits"
+          />
+        </div>
+        <div>
+          <CheckBoxGroup
+            options={options}
+            allChechkHandler={options}
+            onChange={setSelectedFruits}
+            defaultValue={[]}
+            name="fruits"
+          />
+        </div>
+        <div>
+          <CheckBoxGroup
+            onChange={setSelectedLetters}
+            defaultValue={[]}
+            allChechkHandler={options2}
+            name="letters"
+          >
+            <table>
+              <tbody>
+                <tr>
+                  <td>
+                    <CheckBox value="A" label="A" />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <span>
+                      <CheckBox value="B" label="B" />
+                    </span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <CheckBox value="C" label="C" />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <CheckBox value="D" label="D" />
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <CheckBox value="E" label="E" />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </CheckBoxGroup>
+        </div>
+        <div>
+          <h3>Selected Fruits:</h3>
+          <ul>
+            {selectedFruits.map((fruit, index) => (
+              <li key={fruit}>{fruit}</li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <h3>Selected Letters:</h3>
+          <ul>
+            {selectedLetters.map((letter, index) => (
+              <li key={letter}>{letter}</li>
+            ))}
+          </ul>
+        </div>
+      </div>
     </StoryLayout>
   );
 };
 export const Default = StoryCheckboxGroup.bind({});
-
-const StoryCheckboxGroup2: Story<Props> = args => {
-  const options = [
-    { label: 'Apple', value: '1' },
-    { label: 'Pear', value: '2' },
-    { label: 'Orange', value: '3' },
-  ];
-
-  type FormData = {
-    fruits: string[];
-  };
-
-  const {
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm<FormData>();
-
-  const onSubmit = (data: any) => console.log(data);
-
-  return (
-    <StoryLayout
-      {...args}
-      customCss={css`
-        /* display: flex; */
-        & > div + div {
-          margin-top: 1rem; /* Corresponds to space-y-5 in Tailwind CSS */
-        }
-      `}
-    >
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Controller
-          name="fruits"
-          control={control}
-          rules={{ required: 'At least one fruit is required.' }}
-          render={({ field: { onChange, value } }) => (
-            <CheckBoxGroup
-              options={options}
-              defaultValue={value}
-              onChange={onChange}
-            />
-          )}
-        />
-        {errors.fruits && <p>{errors.fruits.message}</p>}
-        <input type="submit" />
-      </form>
-    </StoryLayout>
-  );
-};
-export const ReactHookForm = StoryCheckboxGroup2.bind({});

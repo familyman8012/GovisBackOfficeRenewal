@@ -4,10 +4,7 @@ import {
   ReactDatePickerProps,
 } from 'react-datepicker';
 import { FiCalendar } from 'react-icons/fi';
-import {
-  TextInput,
-  TextInputProps,
-} from '@ComponentFarm/atom/TextInput/TextInput';
+import { IcoInput, IcoInputProps } from '@ComponentFarm/atom/IcoInput/IcoInput';
 
 export type NewDate = Date | ChangeEvent<Element> | null;
 
@@ -16,14 +13,14 @@ export interface DatePickerProps extends Partial<ReactDatePickerProps> {
   onChange: (date: NewDate, event: SyntheticEvent<any> | undefined) => void;
 }
 
-// DateInput 컴포넌트 만들기  - 기존 TextInput 컴포넌트를 활용
-export const DateInput: React.FC<TextInputProps> = ({
+// DateInput 컴포넌트 만들기  - 기존 IcoInput 컴포넌트를 활용
+export const DateInput: React.FC<IcoInputProps> = ({
   onClick,
   value,
   onChange,
   ...props
 }) => (
-  <TextInput
+  <IcoInput
     {...props}
     value={value}
     onClick={onClick}

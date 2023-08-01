@@ -280,35 +280,6 @@ export const data = [
   },
 ];
 
-interface DataType {
-  id: string;
-  name: string;
-  deadline: Date;
-  type: string;
-  isComplete: boolean;
-  _hasContent: boolean;
-  nodes: DataType[] | null;
-}
-
-export const COLUMNS = [
-  { label: 'Task', renderCell: (item: DataType) => item.name, pinLeft: true },
-  {
-    label: 'Deadline',
-    renderCell: () => '여러 컨텐츠들이 있어요.',
-    pinLeft: true,
-  },
-  { label: 'Type', renderCell: (item: DataType) => item.type },
-  {
-    label: 'Complete',
-    renderCell: (item: DataType) => item.isComplete.toString(),
-  },
-  {
-    label: 'Tasks',
-    renderCell: (item: DataType) => item.nodes?.length,
-    pinRight: true,
-  },
-];
-
 // 1. colwidth, 2. 1열과 마지막열을 제외한, sticky 열의 left 혹은 right 값, 3.그라데이션열 시작, 끝
 export const customStyle = [
   `250px 25% 25% 50% 150px`,

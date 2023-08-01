@@ -3,6 +3,7 @@ import type { Preview } from '@storybook/react';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { Global, css } from '@emotion/react';
 import { withThemeFromJSXProvider } from '@storybook/addon-styling';
+import reset from '../component/common';
 
 /* TODO: update import for your custom theme configurations */
 // import { lightTheme, darkTheme } from '../path/to/themes';
@@ -21,7 +22,19 @@ const preview: Preview = {
     },
     options: {
       storySort: {
-        order: ['Atoms', ['Color', 'Typo', '...'], 'modules'],
+        order: [
+          'Atoms',
+          [
+            'Color',
+            'Typo',
+            'Plain Input',
+            'Plain Select',
+            'Plain CheckBox',
+            'Plain Radio',
+            '...',
+          ],
+          'modules',
+        ],
       },
     },
   },
@@ -30,6 +43,7 @@ const preview: Preview = {
     // Adds global styles and theme switching support.
     Story => (
       <QueryClientProvider client={queryClient}>
+        <Global styles={reset} />
         <Story />
       </QueryClientProvider>
     ),

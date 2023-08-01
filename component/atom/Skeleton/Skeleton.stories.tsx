@@ -17,6 +17,9 @@ const meta: Meta = {
       story: { inline: true }, // render the story in an iframe
       canvas: { sourceState: 'shown' }, // start with the source open
       source: { type: 'code' }, // forces the raw source code (rather than the rendered JSX).
+      description: {
+        component: 'description',
+      },
     },
   },
 };

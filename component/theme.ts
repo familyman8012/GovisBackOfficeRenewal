@@ -4,6 +4,9 @@ export const theme: Theme = {
   colors: {
     transparent: 'transparent',
     white: '#fff',
+    black: '#000',
+    brand25: '#ff6d00',
+    brand50: '#ff9240',
     gray25: '#FCFCFD',
     gray50: '#F9FAFB',
     gray100: '#F2F4F7',
@@ -74,45 +77,11 @@ export const theme: Theme = {
     h2: ['60px', '72px'],
     h1: ['72px', '90px'],
   },
-  fontWeight: { normal: 400, medium: 500, semibold: 600, bold: 700 },
-  buttonSizes: {
-    sm: {
-      height: '36px',
-      padding: '0 14px',
-      fontSize: '14px',
-    },
-    md: {
-      height: '40px',
-      padding: '0 16px',
-      fontSize: '14px',
-    },
-    lg: {
-      height: '44px',
-      padding: '0 18px',
-      fontSize: '16px',
-    },
-    xl: {
-      height: '48px',
-      padding: '0 20px',
-      fontSize: '16px',
-    },
-    '2xl': {
-      height: '60px',
-      padding: '0 28px',
-      fontSize: '18px',
-    },
-  },
-  buttonVariants: {
-    temp: {
-      backgroundColor: '#ddd',
-      color: 'white',
-      '&:hover': {
-        backgroundColor: '#ddd',
-      },
-      '&:disabled': {
-        backgroundColor: '#ddd',
-      },
-    },
+  fontWeight: {
+    normal: 400,
+    medium: 500,
+    semibold: 600,
+    bold: 700,
   },
   screens: {
     xs: '420px',
@@ -129,66 +98,5 @@ export const theme: Theme = {
     58: '14.5rem',
     62: '15.5rem',
     70: '17.5rem',
-  },
-};
-
-theme.buttonVariants = {
-  primary: {
-    backgroundColor: theme.colors.primary600,
-    color: 'white',
-    '&:hover': {
-      backgroundColor: theme.colors.primary700,
-    },
-    '&:disabled': {
-      backgroundColor: theme.colors.primary200,
-    },
-  },
-  secondary: {
-    backgroundColor: theme.colors.primary50,
-    color: theme.colors.primary700,
-    border: 'transparent',
-    '&:hover': {
-      backgroundColor: theme.colors.primary100,
-    },
-    '&:disabled': {
-      backgroundColor: theme.colors.primary25,
-      color: theme.colors.primary300,
-    },
-  },
-  secondaryGray: {
-    backgroundColor: 'white',
-    color: theme.colors.gray700,
-    border: theme.colors.gray300,
-    '&:hover': {
-      backgroundColor: theme.colors.gray50,
-      color: theme.colors.gray800,
-    },
-    '&:disabled': {
-      backgroundColor: theme.colors.gray200,
-      color: theme.colors.gray300,
-    },
-  },
-  tertiary: {
-    backgroundColor: 'white',
-    color: theme.colors.primary700,
-    '&:hover': {
-      backgroundColor: theme.colors.primary50,
-    },
-    '&:disabled': {
-      backgroundColor: 'white',
-      color: theme.colors.gray300,
-    },
-  },
-  tertiaryGray: {
-    backgroundColor: 'white',
-    color: theme.colors.gray900,
-    '&:hover': {
-      backgroundColor: theme.colors.gray50,
-      color: theme.colors.gray800,
-    },
-    '&:disabled': {
-      backgroundColor: 'white',
-      color: theme.colors.gray300,
-    },
   },
 };

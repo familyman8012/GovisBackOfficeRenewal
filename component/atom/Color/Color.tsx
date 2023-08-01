@@ -16,8 +16,7 @@ const Container = styled.div`
   box-shadow:
     0 1px 3px rgba(0, 0, 0, 0.12),
     0 1px 2px rgba(0, 0, 0, 0.24);
-  width: 6.5rem;
-  height: 9.75rem;
+  height: 12.75rem;
 `;
 
 const ColorPreview = styled.div<ColorProps>`

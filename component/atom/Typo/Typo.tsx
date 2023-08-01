@@ -28,14 +28,13 @@ const StyledText = styled.div<StyledTextProps>`
   font-weight: ${({ weight }) => theme.fontWeight[weight]};
   color: ${({ color }) => color || 'inherit'};
 `;
-
-export type TypoProps = {
+export type TypoProps = HTMLAttributes<HTMLDivElement> & {
   as?: ElementType;
   variant: Variant;
   color?: string;
   weight?: Weight;
   children?: React.ReactNode;
-} & HTMLAttributes<HTMLElement>; // HTML element attrs를 extend해서 추가함.
+};
 
 const Typo: React.FC<TypoProps> = ({
   as = 'p',

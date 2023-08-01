@@ -1,10 +1,11 @@
 /* eslint-disable react/destructuring-assignment */
-import React, { useCallback, useState } from 'react';
+import React, { useState } from 'react';
 import { Meta, Story } from '@storybook/react';
+import { useForm, Controller } from 'react-hook-form';
 import { css } from '@emotion/react';
 import StoryLayout from '@ComponentFarm/modules/story_layout/StoryLayout';
 import { countries, dates, prices } from './sampleData';
-import { GoSelect, SelectProps, IOption } from './Select';
+import { GoSelect, IOption, MultiSelectProps } from './Select';
 
 const meta: Meta = {
   title: 'Atoms/Select',
@@ -25,35 +26,23 @@ const meta: Meta = {
 
 export default meta;
 
-interface Props extends SelectProps {
+interface Props extends MultiSelectProps {
   darkMode: boolean;
 }
 
-const formatOptionLabel = ({ label }: IOption) => <div>{label}</div>;
-
 const StorySelect: Story<Props> = args => {
   const [selectedPrice, setSelectedPrice] = useState<IOption | null>(null);
-  const [selectedDate, setSelectedDate] = useState<IOption | null>(null);
-  const [selectedCountry, setSelectedCountry] = useState<IOption | null>(null);
-
-  const onSelectPrice = useCallback((option: IOption | null) => {
-    setSelectedPrice(option);
-  }, []);
-
-  const onSelectDate = useCallback((option: IOption | null) => {
-    setSelectedDate(option);
-  }, []);
-
-  const onSelectCountry = useCallback((option: IOption | null) => {
-    setSelectedCountry(option);
-  }, []);
+  const [selectedDates, setSelectedDates] = useState<IOption[] | null>(null);
+  const [selectedCountries, setSelectedCountries] = useState<IOption | null>(
+    null
+  );
 
   return (
     <StoryLayout
       {...args}
       customCss={css`
         & > div + div {
-          margin: 10.25rem; /* Corresponds to space-y-5 in Tailwind CSS */
+          margin: 10.25rem;
           margin-left: 1.25rem;
         }
       `}
@@ -61,23 +50,67 @@ const StorySelect: Story<Props> = args => {
       <GoSelect
         options={prices}
         selectedOption={selectedPrice}
-        setSelectedOption={onSelectPrice}
+        setSelectedOption={setSelectedPrice}
         placeholder="Select price"
       />
       <GoSelect
+        isMulti
         options={dates}
-        selectedOption={selectedDate}
-        setSelectedOption={onSelectDate}
-        placeholder="Select date"
+        selectedOption={selectedDates}
+        setSelectedOption={setSelectedDates}
+        placeholder="Select dates"
       />
       <GoSelect
         options={countries}
-        selectedOption={selectedCountry}
-        setSelectedOption={onSelectCountry}
+        selectedOption={selectedCountries}
+        setSelectedOption={setSelectedCountries}
         placeholder="Select country"
-        formatOptionLabel={formatOptionLabel} // 이 부분을 변경하였습니다.
       />
     </StoryLayout>
   );
 };
 export const Default = StorySelect.bind({});
+
+const StorySelect2: Story<Props> = args => {
+  const { handleSubmit, control } = useForm();
+
+  const onSubmit = (data: any) => {
+    console.log(data);
+  };
+
+  const options: IOption[] = [
+    { value: 'option1', label: 'Option 1' },
+    { value: 'option2', label: 'Option 2' },
+    { value: 'option3', label: 'Option 3' },
+  ];
+
+  return (
+    <StoryLayout
+      {...args}
+      customCss={css`
+        & > div + div {
+          margin: 10.25rem;
+          margin-left: 1.25rem;
+        }
+      `}
+    >
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Controller
+          name="selectOption"
+          control={control}
+          defaultValue={null}
+          rules={{ required: true }} // if this field is required
+          render={({ field: { onChange, value } }) => (
+            <GoSelect
+              options={options}
+              selectedOption={value}
+              setSelectedOption={onChange}
+            />
+          )}
+        />
+        <input type="submit" value="Submit" />
+      </form>
+    </StoryLayout>
+  );
+};
+export const reactHookForm = StorySelect2.bind({});

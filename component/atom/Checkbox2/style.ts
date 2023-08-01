@@ -2,17 +2,10 @@ import styled from '@emotion/styled';
 // eslint-disable-next-line import/no-cycle
 import { CheckBoxSize, sizes } from './CheckBox';
 
-export const Label = styled.label`
-  display: inline-flex;
-  font-size: 1.4rem;
-  align-items: center;
-  margin-right: 10px;
-`;
-
 export const CheckBoxWrap = styled.input<{ chksize?: CheckBoxSize }>`
   width: ${props => sizes[props.chksize || 'md']};
   height: ${props => sizes[props.chksize || 'md']};
-  margin: 0 5px 0 0;
+  margin-top: 0.25em;
   vertical-align: top;
   background-color: #fff;
   background-repeat: no-repeat;
@@ -25,6 +18,12 @@ export const CheckBoxWrap = styled.input<{ chksize?: CheckBoxSize }>`
   appearance: none;
   -webkit-print-color-adjust: exact;
   color-adjust: exact;
+
+  &:indeterminate {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10h8'/%3e%3c/svg%3e");
+  }
 
   &:active {
     filter: brightness(90%);

@@ -41,6 +41,8 @@ const StoryBadge: Story<Props> = args => {
       `}
     >
       <CheckBox />
+      <CheckBox readOnly />
+      <CheckBox disabled />
     </StoryLayout>
   );
 };

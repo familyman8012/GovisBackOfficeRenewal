@@ -5,10 +5,10 @@ import { useForm } from 'react-hook-form';
 import { FiAlertCircle, FiHelpCircle, FiMail } from 'react-icons/fi';
 import { css } from '@emotion/react';
 import StoryLayout from '@ComponentFarm/modules/story_layout/StoryLayout';
-import { TextInput, TextInputProps } from './TextInput';
+import { IcoInput, IcoInputProps } from './IcoInput';
 
 const meta: Meta = {
-  title: 'Atoms/TextInput',
+  title: 'Atoms/IcoInput',
   tags: ['autodocs'],
   args: {
     TotalProps: {
@@ -26,11 +26,11 @@ const meta: Meta = {
 
 export default meta;
 
-interface Props extends TextInputProps {
+interface Props extends IcoInputProps {
   darkMode: boolean;
 }
 
-const StoryTextInput: Story<Props> = args => {
+const StoryIcoInput: Story<Props> = args => {
   const [text1, setText1] = React.useState<string>('');
 
   return (
@@ -44,7 +44,7 @@ const StoryTextInput: Story<Props> = args => {
       `}
     >
       <div>
-        <TextInput
+        <IcoInput
           type="email"
           value={text1}
           onChange={event => setText1(event.target.value)}
@@ -54,7 +54,7 @@ const StoryTextInput: Story<Props> = args => {
           disabled={args.disabled}
         />
         <div style={{ marginBottom: '1rem' }} />
-        <TextInput
+        <IcoInput
           type="email"
           value={text1}
           onChange={event => setText1(event.target.value)}
@@ -65,7 +65,7 @@ const StoryTextInput: Story<Props> = args => {
           disabled={args.disabled}
         />
         <div style={{ marginBottom: '1rem' }} />
-        <TextInput
+        <IcoInput
           type="email"
           value={text1}
           onChange={event => setText1(event.target.value)}
@@ -77,7 +77,7 @@ const StoryTextInput: Story<Props> = args => {
           disabled={args.disabled}
         />
         <div style={{ marginBottom: '1rem' }} />
-        <TextInput
+        <IcoInput
           type="email"
           value={text1}
           onChange={event => setText1(event.target.value)}
@@ -90,7 +90,7 @@ const StoryTextInput: Story<Props> = args => {
         />
       </div>
       <div>
-        <TextInput
+        <IcoInput
           type="text"
           value={text1}
           onChange={event => setText1(event.target.value)}
@@ -102,7 +102,7 @@ const StoryTextInput: Story<Props> = args => {
           disabled={args.disabled}
         />
         <div style={{ marginBottom: '1rem' }} />
-        <TextInput
+        <IcoInput
           type="text"
           value={text1}
           onChange={event => setText1(event.target.value)}
@@ -117,7 +117,7 @@ const StoryTextInput: Story<Props> = args => {
     </StoryLayout>
   );
 };
-export const Default = StoryTextInput.bind({});
+export const Default = StoryIcoInput.bind({});
 
 Default.args = {
   disabled: false,
@@ -132,7 +132,7 @@ Default.argTypes = {
   },
 };
 
-const StoryTextInput2: Story<Props> = args => {
+const StoryIcoInput2: Story<Props> = args => {
   const {
     register,
     formState: { errors },
@@ -152,7 +152,7 @@ const StoryTextInput2: Story<Props> = args => {
       `}
     >
       <form onSubmit={onSubmit}>
-        <TextInput
+        <IcoInput
           type="text"
           name="firstName"
           placeholder="이메일을 입력하세요"
@@ -163,7 +163,7 @@ const StoryTextInput2: Story<Props> = args => {
           error={errors.firstName && String(errors.firstName.message)}
         />
         <div style={{ marginBottom: '1rem' }} />
-        <TextInput
+        <IcoInput
           type="text"
           name="secondName"
           placeholder="입력하세요"
@@ -183,4 +183,4 @@ const StoryTextInput2: Story<Props> = args => {
     </StoryLayout>
   );
 };
-export const ReactHookForm = StoryTextInput2.bind({});
+export const ReactHookForm = StoryIcoInput2.bind({});

@@ -38,32 +38,24 @@ export const prices: IOption[] = [
 
 export const dates: IOption[] = [
   {
-    label: 'Okt 25 - Okt 31',
+    label: '이물혼입',
     value: 'okt25',
   },
   {
-    label: 'Nov 1 - Nov 7',
+    label: '배송불량',
     value: 'nov1',
   },
   {
-    label: 'Nov 8 - Nov 14',
+    label: '품질불량',
     value: 'nov8',
   },
   {
-    label: 'Nov 15 - Nov 21',
-    value: 'nov15',
+    label: '입수부족',
+    value: 'nov9',
   },
   {
-    label: 'Nov 22 - Nov 28',
-    value: 'nov22',
-  },
-  {
-    label: 'Nov 29 - Dec 4',
-    value: 'nov29',
-  },
-  {
-    label: 'Dec 5 - Dec 11',
-    value: 'dec5',
+    label: '기타',
+    value: 'nov10',
   },
 ];
 
@@ -71,24 +63,6 @@ export type CountryISO = 'BE' | 'DE' | 'FR' | 'IT' | 'NL' | 'RU' | 'US';
 type rentalImg = 'rental0' | 'rental1' | 'rental2';
 
 type image = 'logo' | 'demoAvatar' | CountryISO | rentalImg;
-
-// Development images
-// const devImages: Record<image, string> = {
-//   logo: require("./logo.png"),
-//   demoAvatar: require("./demoAvatar.png"),
-
-//   BE: require("./be.svg"),
-//   DE: require("./de.svg"),
-//   FR: require("./fr.svg"),
-//   IT: require("./it.svg"),
-//   NL: require("./nl.svg"),
-//   RU: require("./ru.svg"),
-//   US: require("./us.svg"),
-
-//   rental0: require("./rental0.png"),
-//   rental1: require("./rental1.png"),
-//   rental2: require("./rental2.png"),
-// };
 
 // Production images (CDN)
 const prodImages: Record<image, string> = {

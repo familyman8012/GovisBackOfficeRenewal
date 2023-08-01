@@ -28,15 +28,13 @@ const RadioGroup: React.FC<RadioGroupProps> = ({
       {options.map((option, index) => (
         // eslint-disable-next-line react/no-array-index-key
         <div key={index}>
-          <label>
-            <Radio
-              value={option.value}
-              chksize="md"
-              checked={checkedValue === option.value}
-              onChange={handleChange}
-            />
-            {option.label}
-          </label>
+          <Radio
+            value={option.value}
+            chksize="md"
+            checked={checkedValue === option.value}
+            onChange={handleChange}
+            label={option.label}
+          />
         </div>
       ))}
     </div>

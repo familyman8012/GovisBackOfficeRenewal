@@ -9,7 +9,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { FiCalendar } from 'react-icons/fi';
 import { Button } from '@ComponentFarm/atom/Button/Button';
-import { TextInput } from '@ComponentFarm/atom/TextInput/TextInput';
+import { IcoInput } from '@ComponentFarm/atom/IcoInput/IcoInput';
 
 export type DateRange = [Date | null, Date | null];
 
@@ -135,7 +135,7 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
   return (
     <div ref={ref} className="wrap_datepicker">
       <div style={{ width: '200px' }}>
-        <TextInput
+        <IcoInput
           type="text"
           value={
             startDateInput && endDateInput

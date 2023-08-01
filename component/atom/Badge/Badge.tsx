@@ -1,9 +1,17 @@
 import React, { FC, ReactNode } from 'react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { theme } from '@ComponentFarm/theme';
 
-type BadgeVariant = 'gray' | 'primary' | 'error' | 'warning' | 'success';
-type BadgeSize = 'sm' | 'md' | 'lg';
+type BadgeVariant =
+  | 'numbering'
+  | 'black'
+  | 'gray'
+  | 'primary'
+  | 'error'
+  | 'warning'
+  | 'success';
+type BadgeSize = 'xs' | 'sm' | 'md' | 'lg';
 
 export interface BadgeProps {
   children: ReactNode;
@@ -11,60 +19,78 @@ export interface BadgeProps {
   size?: BadgeSize;
   LeadingIcon?: React.ReactElement;
   TrailingIcon?: React.ReactElement;
+  textWhite?: boolean;
 }
 
 const badgeBase = css`
   display: inline-flex;
+  justify-content: center;
   align-items: center;
-  border-radius: 20px;
-  font-size: 16px;
+  width: fit-content;
+  font-weight: 500;
+  border-radius: 2rem;
 `;
 
 const variants = {
+  numbering: css`
+    color: ${theme.colors.white};
+    border-radius: 100%;
+    background-color: ${theme.colors.black};
+  `,
+  black: css`
+    color: ${theme.colors.gray500};
+    background-color: ${theme.colors.black};
+  `,
   gray: css`
-    background-color: #f0f3f5;
-    color: #1f2933;
+    color: ${theme.colors.gray500};
+    background-color: ${theme.colors.gray100};
   `,
   primary: css`
-    background-color: #ecf8ff;
-    color: #1e3a8a;
+    color: ${theme.colors.primary600};
+    background-color: ${theme.colors.primary100};
   `,
   error: css`
-    background-color: #fef2f2;
     color: #b91c1c;
+    background-color: #fef2f2;
   `,
   warning: css`
-    background-color: #fef3c7;
     color: #92400e;
+    background-color: #fef3c7;
   `,
   success: css`
-    background-color: #d1fae5;
     color: #064e3b;
+    background-color: #d1fae5;
   `,
 };
 
 const sizes = {
+  xs: css`
+    min-width: 2.1rem;
+    height: 2.1rem;
+    font-size: 11px;
+  `,
   sm: css`
-    height: 22px;
-    padding: 0 8px;
-    font-size: 12px;
+    min-width: 5.4rem;
+    height: 3.2rem;
+    font-size: 1.4rem;
   `,
   md: css`
-    height: 24px;
-    padding: 0 10px;
-    font-size: 12px;
+    min-width: 8.3rem;
+    height: 3.4rem;
+    font-size: 1.4rem;
   `,
   lg: css`
-    height: 28px;
-    padding: 0 12px;
-    font-size: 14px;
+    min-width: 15rem;
+    height: 4rem;
+    font-size: 1.4rem;
   `,
 };
 
-const BadgeWrapper = styled.div<BadgeProps>`
+const BadgeWrapper = styled.span<BadgeProps>`
   ${badgeBase};
-  ${props => variants[props.variant]};
   ${props => sizes[props.size || 'md']};
+  ${props => variants[props.variant]};
+  ${props => (props.textWhite ? 'color:white' : '')};
 `;
 
 export const Badge: FC<BadgeProps> = ({
@@ -73,12 +99,13 @@ export const Badge: FC<BadgeProps> = ({
   LeadingIcon,
   TrailingIcon,
   children,
+  textWhite,
 }) => {
   const Leading = LeadingIcon?.type;
   const Trailing = TrailingIcon?.type;
 
   return (
-    <BadgeWrapper variant={variant} size={size}>
+    <BadgeWrapper variant={variant} size={size} textWhite={textWhite}>
       {Leading && (
         <Leading {...LeadingIcon.props} style={{ marginRight: '6px' }} />
       )}

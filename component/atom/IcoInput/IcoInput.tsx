@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import { theme } from '@ComponentFarm/theme';
 import Typo from '../Typo/Typo';
 
-export interface TextInputProps {
+export interface IcoInputProps {
   type?: 'text' | 'email';
   value?: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
@@ -22,7 +22,7 @@ export interface TextInputProps {
   readOnly?: boolean;
 }
 
-type TextInputComponentProps = {
+type IcoInputComponentProps = {
   disabled?: boolean;
   LeadingIcon?: React.ReactElement;
   TrailingIcon?: React.ReactElement;
@@ -34,6 +34,11 @@ const InputContainer = styled.div<{ leadingText?: string }>`
   position: relative;
   display: ${props => (props.leadingText ? 'flex' : 'block')};
   align-items: ${props => (props.leadingText ? 'center' : '')};
+
+  svg {
+    width: 17px;
+    height: 17px;
+  }
 `;
 
 const IconContainer = styled.div`
@@ -62,7 +67,7 @@ const LeadingTextContainer = styled.div<{ disabled?: boolean }>`
     props.disabled ? theme.colors.gray50 : theme.colors.white};
 `;
 
-const TextInputComponent = styled.input<TextInputComponentProps>`
+const IcoInputComponent = styled.input<IcoInputComponentProps>`
   width: 100%;
   cursor: text;
   color: ${theme.colors.gray900};
@@ -107,7 +112,7 @@ const ErrorText = styled(HelperText)`
   color: ${theme.colors.error500};
 `;
 
-export const TextInput: FC<TextInputProps> = ({
+export const IcoInput: FC<IcoInputProps> = ({
   type = 'text',
   value,
   onChange,
@@ -164,8 +169,9 @@ export const TextInput: FC<TextInputProps> = ({
           </LeadingTextContainer>
         ) : null}
 
-        <TextInputComponent
+        <IcoInputComponent
           type={type}
+          className="icoInput"
           {...(register || { value, onChange })} // 'register'를 'field'로 변경
           name={name}
           placeholder={placeholder}
