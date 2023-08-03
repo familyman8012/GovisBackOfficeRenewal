@@ -13,6 +13,7 @@ export const folder = `@media (max-width: 359px)`;
 const enFontTypes = [100, 200, 300, 'regular', 500, 600, 700, 800, 900];
 const krFontTypes = [100, 300, 'regular', 500, 700, 900];
 const solanoTypes = [300, 400, 500, 600, 700];
+const pretendardTypes = [100, 200, 300, 400, 500, 600, 700, 800, 900];
 
 const montserrat = enFontTypes.map(weight => {
   let fontWeight;
@@ -42,6 +43,20 @@ const montserrat = enFontTypes.map(weight => {
     }
   `;
 });
+
+const pretendard = pretendardTypes.map(
+  weight => css`
+    @font-face {
+      font-family: 'Pretendard';
+      font-style: normal;
+      font-weight: ${weight === 400 ? 'normal' : weight};
+      src:
+        local('Pretendard'),
+        url('/font/Pretendard-${weight}.woff') format('woff'),
+        url('/font/Pretendard-${weight}.woff2') format('woff2');
+    }
+  `
+);
 
 const notoSansKR = krFontTypes.map(weight => {
   let fontWeight;
@@ -104,6 +119,32 @@ const COLOR = {
   gray: '#707070',
   inputBorder: '#e0e0e0',
   loadingbg: '#e5e5e5',
+  'color-text-action-label': '#444444',
+  'color-text-action-label-active': '#181818',
+  'color-text-brand': '#ff4600',
+  'color-text-brand-primary': '#ffffff',
+  'color-text-button-default-disabled': '#c9c9c9',
+  'color-text-default': '#181818',
+  'color-text-import': '#fb4637',
+  'color-text-error': '#fb4637',
+  'color-text-icon-default': '#747474',
+  'color-text-input-disabled': '#444444',
+  'color-text-link': '#FF4600',
+  'color-text-link-active': '#ad3000',
+  'color-text-link-disabled': '#ad3000',
+  'color-text-link-focus': '#ad3000',
+  'color-text-link-hover': '#d63b00',
+  'color-background': '#ffffff',
+  'color-background-input-checkbox-disabled': '#c9c9c9',
+  'color-background-input-disabled': '#f3f3f3',
+  'color-background-notification-new': '#f3f3f3',
+  'color-background-row-hover': '#967575',
+  'color-background-row-selected': '#f3f3f3',
+  'color-background-toast': '#747474',
+  'color-background-toggle': '#aeaeae',
+  'color-background-toggle-disabled': '#aeaeae',
+  'color-background-toggle-hover': '#939393',
+  'color-brand': '#ff4600',
 };
 
 /* Font sizes */
@@ -113,6 +154,21 @@ const FONT_SIZES = {
   inputM: '62rem',
   inputL: '84rem',
   inputHeight: '4rem',
+  fontsize1: '1rem',
+  fontsize2: '1.2rem',
+  fontsize3: '1.3rem',
+  fontsize4: '1.4rem',
+  fontsize5: '1.6rem',
+  fontsize6: '1.8rem',
+  fontsize7: '2rem',
+  fontsize8: '2.4rem',
+  fontsize9: '2.8rem',
+  fontsize10: '3.2rem',
+};
+
+const LINE_HEIGHTS = {
+  text: 1.1,
+  heading: 1.2,
 };
 
 const forVariables = (obj: any, fn: any) =>
@@ -130,6 +186,7 @@ const reset = css`
   :root {
     ${createVariables(FONT_SIZES, 'size')}
     ${createVariables(COLOR, 'color')}
+    ${createVariables(LINE_HEIGHTS, 'lineheight')}
     --swiper-navigation-size : 8rem;
   }
 
@@ -182,9 +239,11 @@ const reset = css`
   table {
     margin: 0;
     padding: 0;
-    font-family: 'Noto Sans KR', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: 'Pretendard', 'Noto Sans KR', 'Helvetica Neue', Helvetica,
+      Arial, sans-serif;
     line-height: normal;
   }
+
   img,
   fieldset,
   button {
@@ -397,6 +456,7 @@ const reset = css`
   ${montserrat}
   ${notoSansKR}
   ${solanoFT}
+  ${pretendard}
 `;
 
 export const Content = styled.div`
