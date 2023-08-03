@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { SyntheticEvent, useState } from 'react';
 import { Meta, Story } from '@storybook/react';
 import { useForm, Controller } from 'react-hook-form';
 import { css } from '@emotion/react';
@@ -7,7 +7,7 @@ import DatePicker, { DatePickerProps, NewDate } from './DatePicker';
 
 // Define the form data structure
 interface IFormInput {
-  selectedDate: Date;
+  selectedDate: string;
 }
 
 const meta: Meta = {
@@ -44,7 +44,11 @@ interface Props extends DatePickerProps {
 }
 
 const StoryDatePicker: Story<Props> = args => {
-  const [date, setDate] = useState<Date | null>(null);
+  const [selectedDate, setSelectedDate] = useState('2023-08-05');
+  const handleSubmit = () => {
+    console.log(selectedDate);
+  };
+
   return (
     <StoryLayout
       {...args}
@@ -53,13 +57,13 @@ const StoryDatePicker: Story<Props> = args => {
       `}
     >
       <div>
-        <DatePicker
-          selectedDate={date}
-          onChange={(newDate: NewDate) => setDate(newDate as Date)}
-        />
-        <button type="button" onClick={() => console.log(date)}>
-          Print Date
-        </button>
+        <form onSubmit={handleSubmit}>
+          <DatePicker
+            selectedDate={selectedDate}
+            onChange={(newDate: string) => setSelectedDate(newDate)}
+          />
+          <button type="submit">Submit</button>
+        </form>
       </div>
     </StoryLayout>
   );
@@ -67,7 +71,11 @@ const StoryDatePicker: Story<Props> = args => {
 export const Default = StoryDatePicker.bind({});
 
 const StoryDatePicker2: Story<Props> = args => {
-  const { control, handleSubmit } = useForm<IFormInput>();
+  const { control, handleSubmit } = useForm<IFormInput>({
+    defaultValues: {
+      selectedDate: '2023-08-07', // 이곳에서 defaultValue를 제공합니다.
+    },
+  });
   const onSubmit = (data: IFormInput) => {
     console.log(data);
   };
@@ -86,7 +94,12 @@ const StoryDatePicker2: Story<Props> = args => {
           render={({ field }) => (
             <DatePicker
               selectedDate={field.value}
-              onChange={(newDate: NewDate) => field.onChange(newDate as Date)}
+              onChange={(
+                newDate: NewDate,
+                event: SyntheticEvent<any> | undefined
+              ) => {
+                field.onChange(String(newDate));
+              }}
             />
           )}
         />

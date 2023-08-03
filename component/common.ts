@@ -1,4 +1,5 @@
 import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
 export const breakpoints = [200, 767, 800, 1200, 1600];
 export const mq = breakpoints.map(
@@ -288,6 +289,7 @@ const reset = css`
   input.inp,
   select,
   textarea {
+    width: 100%;
     height: var(--size-inputHeight);
     font-size: 1.6rem;
     border: 1px solid var(--color-inputBorder);
@@ -333,6 +335,10 @@ const reset = css`
       padding: 9px !important;
       font-size: 13px;
     }
+  }
+
+  .react-datepicker-wrapper {
+    width: 100%;
   }
 
   .hiddenZone {
@@ -391,6 +397,67 @@ const reset = css`
   ${montserrat}
   ${notoSansKR}
   ${solanoFT}
+`;
+
+export const Content = styled.div`
+  padding: 24px;
+`;
+
+export const FormWrap = styled.form`
+  width: 1090px;
+  margin: 0 24px;
+  h3 {
+    margin: 20px 0;
+    padding-bottom: 10px;
+    font-size: 18px;
+    font-style: normal;
+    border-bottom: 1px solid;
+  }
+  h4 {
+    margin-bottom: 8px;
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 21px;
+  }
+  label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 600;
+
+    &.req {
+      &:after {
+        display: inline-block;
+        content: '*';
+        color: red;
+        vertical-align: middle;
+        margin-left: 3px;
+      }
+    }
+  }
+  .line {
+    display: flex;
+    margin-top: 30px;
+    justify-content: space-between;
+  }
+  .box_upload_image {
+    width: 324px;
+    .thumb {
+      height: 220px;
+      background: lightgray;
+    }
+    .box_btn {
+      display: flex;
+      align-items: center;
+      margin: 10px;
+
+      .txt_notice {
+        margin-left: 10px;
+        font-size: 14px;
+      }
+    }
+  }
 `;
 
 export default reset;
