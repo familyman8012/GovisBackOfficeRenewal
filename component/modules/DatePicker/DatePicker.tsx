@@ -7,16 +7,14 @@ import React, {
 } from 'react';
 import { ko } from 'date-fns/esm/locale';
 import dayjs from 'dayjs';
-import {
-  default as DatePickerLibrary,
-  ReactDatePickerProps,
-} from 'react-datepicker';
+import DatepickerLibrary, { ReactDatePickerProps } from 'react-datepicker';
 import { FiCalendar } from 'react-icons/fi';
-import styled from '@emotion/styled';
+import { DateInputWrapper } from './style';
 
 export type NewDate = string | ChangeEvent<Element> | null;
 
 export interface DatePickerProps extends Partial<ReactDatePickerProps> {
+  className?: string;
   selectedDate: string | null;
   onChange: any;
 }
@@ -26,32 +24,6 @@ interface DateInputProps {
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
-
-const DateInputWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  width: 100%;
-  height: var(--size-inputHeight);
-  padding: 0 0.7rem;
-  font-size: 1.6rem;
-  border: 1px solid var(--color-inputBorder);
-  border-radius: 2px;
-  -webkit-transition:
-    border-color 0.15s ease-in-out,
-    box-shadow 0.15s ease-in-out;
-  transition:
-    border-color 0.15s ease-in-out,
-    box-shadow 0.15s ease-in-out;
-
-  input {
-    width: 100%;
-    font-size: 1.6rem;
-    border: none;
-  }
-  svg {
-    color: #aaa;
-  }
-`;
 
 // DateInput 컴포넌트 만들기  - 기존 IcoInput 컴포넌트를 활용
 const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
@@ -74,6 +46,7 @@ const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
 DateInput.displayName = 'DateInput';
 
 const DatePicker: React.FC<DatePickerProps> = ({
+  className,
   selectedDate,
   onChange,
   dateFormat = 'yyyy-MM-dd',
@@ -105,7 +78,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
   };
 
   return (
-    <DatePickerLibrary
+    <DatepickerLibrary
       selected={selectedDateState}
       onChange={handleChange}
       locale={ko}

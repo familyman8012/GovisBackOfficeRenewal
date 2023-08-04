@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { datepickerGlobalStyle } from '@ComponentFarm/modules/DatePicker/style';
 
 export const breakpoints = [200, 767, 800, 1200, 1600];
 export const mq = breakpoints.map(
@@ -457,6 +458,7 @@ const reset = css`
   ${notoSansKR}
   ${solanoFT}
   ${pretendard}
+  ${datepickerGlobalStyle}
 `;
 
 export const Content = styled.div`
