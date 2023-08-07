@@ -1,6 +1,7 @@
-import React, { FC, SetStateAction, Dispatch } from 'react';
+import React, { FC } from 'react';
 import { FiChevronDown } from 'react-icons/fi';
-import Select, {
+import {
+  default as SelectLibrary,
   components,
   DropdownIndicatorProps,
   StylesConfig,
@@ -9,33 +10,23 @@ import Select, {
 export interface IOption {
   value: string;
   label: string | React.ReactNode;
+  status?: string;
 }
 
-interface CommonProps {
+export interface SelectProps {
   options: IOption[];
+  selectedOption: IOption | null;
+  setSelectedOption: (option: IOption | null) => void;
   placeholder?: string;
   LeadingIcon?: React.ReactElement;
   width?: string;
   height?: string;
   isSearchable?: boolean;
   formatOptionLabel?: (option: IOption) => React.ReactNode;
+  formatStatus?: (status: string) => React.ReactNode;
 }
 
-interface SingleSelectProps extends CommonProps {
-  selectedOption: IOption | null;
-  setSelectedOption: Dispatch<SetStateAction<IOption | null>>;
-  isMulti?: boolean;
-}
-
-export interface MultiSelectProps extends CommonProps {
-  selectedOption: readonly IOption[] | null;
-  setSelectedOption: Dispatch<SetStateAction<IOption[] | null>>;
-  isMulti: boolean;
-}
-
-export type SelectProps = SingleSelectProps | MultiSelectProps;
-
-const DropdownIndicator = (props: DropdownIndicatorProps<IOption, boolean>) => {
+const DropdownIndicator = (props: DropdownIndicatorProps<IOption, false>) => {
   return (
     <components.DropdownIndicator {...props}>
       <FiChevronDown size={20} className="text-gray-500" />
@@ -43,7 +34,7 @@ const DropdownIndicator = (props: DropdownIndicatorProps<IOption, boolean>) => {
   );
 };
 
-export const GoSelect: FC<SelectProps> = ({
+export const Select: FC<SelectProps> = ({
   options,
   selectedOption,
   setSelectedOption,
@@ -52,16 +43,16 @@ export const GoSelect: FC<SelectProps> = ({
   width,
   height,
   isSearchable,
-  isMulti = false,
   formatOptionLabel,
+  formatStatus,
+  ...restProps
 }) => {
-  const customStyles: StylesConfig<IOption, boolean> = {
+  const customStyles: StylesConfig<IOption, false> = {
     control: (provided, state) => ({
       ...provided,
       width,
       height,
       display: 'flex',
-      fontSize: '1.6rem',
       border: state.isFocused ? '1px solid #000' : '1px solid #d4d4d4',
       boxShadow: state.isFocused ? '0 0 0 1px #0070f3' : undefined,
       '&:hover': {
@@ -81,42 +72,39 @@ export const GoSelect: FC<SelectProps> = ({
     }),
     option: (provided, state) => ({
       ...provided,
-      fontSize: '1.6rem',
-      paddingLeft: isMulti ? '2.5rem' : '',
-      background: isMulti
-        ? state.isSelected
-          ? "url('http://localhost:3000/images/ico_checkbox2.png') no-repeat 0.5rem center / 2rem"
-          : "url('http://localhost:3000/images/ico_checkbox.png') no-repeat 0.5rem center / 2rem"
-        : '',
       backgroundColor: state.isSelected
         ? '#0070f3'
         : state.isFocused
         ? '#ebf8ff'
         : 'transparent',
-      color: state.isSelected ? 'inherit' : 'inherit',
+      color: state.isSelected ? 'white' : 'inherit',
     }),
   };
 
-  const handleChange = (value: any) => {
-    setSelectedOption(value);
+  // 상태에 따라 뱃지와 라벨을 포맷하는 함수
+  const customFormatOptionLabel = (option: IOption) => {
+    const statusBadge = formatStatus
+      ? formatStatus(String(option.status))
+      : null;
+    return (
+      <>
+        {statusBadge}
+        {option.label}
+      </>
+    );
   };
 
   return (
-    <Select<IOption, boolean>
+    <SelectLibrary
       styles={customStyles}
-      classNames={{
-        option: state => (state.isSelected ? 'eunsuk' : 'mmm'),
-      }}
       components={{ DropdownIndicator }}
       options={options}
       value={selectedOption}
-      onChange={handleChange}
+      onChange={setSelectedOption}
       placeholder={placeholder || 'Select...'}
       isClearable={false}
-      isSearchable={isSearchable}
-      isMulti={isMulti}
-      formatOptionLabel={formatOptionLabel}
-      hideSelectedOptions={false} // 여기에 이 줄을 추가
+      isSearchable
+      formatOptionLabel={customFormatOptionLabel}
     />
   );
 };

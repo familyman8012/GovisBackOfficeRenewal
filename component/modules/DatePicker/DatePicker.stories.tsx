@@ -1,14 +1,12 @@
-import React, { SyntheticEvent, useState } from 'react';
+import React, { useState } from 'react';
 import { Meta, Story } from '@storybook/react';
 import { useForm, Controller } from 'react-hook-form';
 import { css } from '@emotion/react';
 import StoryLayout from '@ComponentFarm/modules/story_layout/StoryLayout';
+import ErrorTxt from '@ComponentFarm/atom/ErrorTxt/ErrorTxt';
 import DatePicker, { DatePickerProps, NewDate } from './DatePicker';
 
 // Define the form data structure
-interface IFormInput {
-  selectedDate: string;
-}
 
 const meta: Meta = {
   title: 'MODULES/DatePicker',
@@ -71,12 +69,15 @@ const StoryDatePicker: Story<Props> = args => {
 export const Default = StoryDatePicker.bind({});
 
 const StoryDatePicker2: Story<Props> = args => {
-  const { control, handleSubmit } = useForm<IFormInput>({
-    defaultValues: {
-      selectedDate: '2023-08-07', // 이곳에서 defaultValue를 제공합니다.
-    },
-  });
-  const onSubmit = (data: IFormInput) => {
+  type IFormInput2 = {
+    selectedDate: string | null;
+  };
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<IFormInput2>();
+  const onSubmit = (data: IFormInput2) => {
     console.log(data);
   };
 
@@ -91,18 +92,20 @@ const StoryDatePicker2: Story<Props> = args => {
         <Controller
           control={control}
           name="selectedDate"
+          rules={{ required: '필수 입력 항목입니다.' }}
           render={({ field }) => (
             <DatePicker
               selectedDate={field.value}
-              onChange={(
-                newDate: NewDate,
-                event: SyntheticEvent<any> | undefined
-              ) => {
+              onChange={(newDate: NewDate) => {
                 field.onChange(String(newDate));
               }}
             />
           )}
         />
+        {errors.selectedDate && (
+          <ErrorTxt>{String(errors.selectedDate.message)}</ErrorTxt>
+        )}{' '}
+        {/* 에러를 보여주는 부분 */}
         <button type="submit">Submit</button>
       </form>
     </StoryLayout>

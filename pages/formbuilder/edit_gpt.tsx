@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 // @ts-nocheck
 import { useState } from 'react';
 import Prism from 'prismjs';
@@ -105,10 +106,22 @@ const CodePreview = ({ lines }) => {
                     return `        <Controller
                 control={control}
                 name="${field.name}"
+                ${
+                  field.isRequired
+                    ? `rules={{ required: '필수 입력 항목입니다.' }}`
+                    : ''
+                }
                 render={({ field }) => (
                   <DatePicker selected={field.value} onChange={(date) => field.onChange(date)} />
                 )}
-              />\n`;
+              />\n
+              ${
+                field.isRequired
+                  ? `{errors.${field.name} && (
+                    <ErrorTxt>{errors.${field.name}.message}</ErrorTxt>
+                )}\n`
+                  : ''
+              }\n`;
                   case FieldTypes.TEXTAREA:
                     return `            <div className="field${fieldIndex + 1}">
                     <label htmlFor="${field.name}" className="${labelClass}">${

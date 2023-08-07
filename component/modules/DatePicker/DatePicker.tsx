@@ -5,7 +5,6 @@ import React, {
   useEffect,
   forwardRef,
 } from 'react';
-import { ko } from 'date-fns/esm/locale';
 import dayjs from 'dayjs';
 import {
   default as DatePickerLibrary,
@@ -94,7 +93,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
 
   const handleChange = (
     date: Date | null,
-    event: SyntheticEvent<any> | undefined
+    event: SyntheticEvent | undefined
   ) => {
     setSelectedDateState(date);
     if (date) {
@@ -108,7 +107,6 @@ const DatePicker: React.FC<DatePickerProps> = ({
     <DatePickerLibrary
       selected={selectedDateState}
       onChange={handleChange}
-      locale={ko}
       // @ts-ignore - customInput 의 props 가 DateInput에게 전달되도록
       customInput={<DateInput />}
       dateFormat={dateFormat}

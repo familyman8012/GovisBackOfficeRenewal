@@ -1,5 +1,6 @@
 import { ReactElement, ReactNode } from 'react';
 import type { AppProps } from 'next/app';
+import { ReactQueryDevtools } from 'react-query/devtools';
 import { NextPage } from 'next';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ToastContainer } from 'react-toastify';
@@ -55,6 +56,7 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
         position="top-right"
         autoClose={4000}
       />
+      <ReactQueryDevtools />
     </QueryClientProvider>
   );
 };
