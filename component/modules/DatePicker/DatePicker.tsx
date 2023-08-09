@@ -5,6 +5,7 @@ import React, {
   useEffect,
   forwardRef,
 } from 'react';
+import ko from 'date-fns/locale/ko';
 import dayjs from 'dayjs';
 import DatepickerLibrary, { ReactDatePickerProps } from 'react-datepicker';
 import { FiCalendar } from 'react-icons/fi';
@@ -88,6 +89,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
       minDate={minDate}
       maxDate={maxDate}
       placeholderText={placeholderText}
+      locale={ko}
       showYearDropdown={showYearDropdown}
       showMonthDropdown={showMonthDropdown}
       {...props}

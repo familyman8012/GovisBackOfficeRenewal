@@ -5,6 +5,7 @@ import React, {
   ChangeEvent,
   KeyboardEvent,
 } from 'react';
+import ko from 'date-fns/locale/ko';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { FiCalendar } from 'react-icons/fi';
@@ -183,8 +184,8 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
           minDate={dateRange[0]}
           onChange={onChange}
           selectsRange
-          monthsShown={2}
           inline
+          locale={ko}
         />
       )}
     </div>

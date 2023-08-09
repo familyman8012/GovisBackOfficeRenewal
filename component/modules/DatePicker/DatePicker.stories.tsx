@@ -66,6 +66,7 @@ const StoryDatePicker: Story<Props> = args => {
     </StoryLayout>
   );
 };
+
 export const Default = StoryDatePicker.bind({});
 
 const StoryDatePicker2: Story<Props> = args => {
