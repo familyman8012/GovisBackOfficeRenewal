@@ -1,62 +1,54 @@
-import React, { ElementType, HTMLAttributes } from 'react';
+/* eslint-disable jsx-a11y/label-has-associated-control */
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import React from 'react';
 import styled from '@emotion/styled';
-import { theme } from '@ComponentFarm/theme';
 
-type Variant =
-  | 'xs'
-  | 'sm'
-  | 'md'
-  | 'lg'
-  | 'xl'
-  | 'h6'
-  | 'h5'
-  | 'h4'
-  | 'h3'
-  | 'h2'
-  | 'h1';
-type Weight = 'normal' | 'medium' | 'semibold' | 'bold';
-
-type StyledTextProps = {
-  variant: Variant;
-  weight: Weight;
-  color?: string;
-};
-
-const StyledText = styled.div<StyledTextProps>`
-  font-size: ${({ variant }) => theme.fontSize[variant][0]};
-  line-height: ${({ variant }) => theme.fontSize[variant][1]};
-  font-weight: ${({ weight }) => theme.fontWeight[weight]};
-  color: ${({ color }) => color || 'inherit'};
+export const TypoWrap = styled.div`
+  div,
+  p {
+    margin-bottom: 2rem;
+  }
+  button {
+    background: none;
+  }
 `;
-export type TypoProps = HTMLAttributes<HTMLDivElement> & {
-  as?: ElementType;
-  variant: Variant;
-  color?: string;
-  weight?: Weight;
-  children?: React.ReactNode;
-};
 
-const Typo: React.FC<TypoProps> = ({
-  as = 'p',
-  variant = 'md',
-  color,
-  weight = 'normal',
-  children,
-  ...rest
-}) => {
-  const isHeading = variant.startsWith('h');
-  const Component = as || (isHeading ? variant : undefined); // Modified this line
-
+const Typo = () => {
   return (
-    <StyledText
-      as={Component}
-      variant={variant}
-      color={color}
-      weight={weight}
-      {...rest}
-    >
-      {children}
-    </StyledText>
+    <TypoWrap>
+      <div>
+        <p>
+          <a href="#">링크</a>
+        </p>
+      </div>
+      <div>
+        <h1>H1 텍스트입니다.</h1>
+      </div>
+      <div>
+        <h2>H2 텍스트입니다.</h2>
+      </div>
+      <div>
+        <h3>H3 텍스트입니다.</h3>
+      </div>
+      <p>body 텍스트입니다.</p>
+      <p className="small">body2 텍스트입니다.</p>
+      <div>
+        <label>라벨 텍스트입니다.</label>
+      </div>
+      <div>
+        <label className="small">라벨 텍스트입니다.</label>
+      </div>
+      <div>
+        <button type="button" disabled>
+          버튼 disabled 텍스트
+        </button>
+      </div>
+      <div>
+        <input type="text" value="input disabled 텍스트" disabled />
+      </div>
+      <div className="helper-text">헬퍼 텍스트</div>
+      <div className="helper-text small">small 헬퍼 텍스트</div>
+    </TypoWrap>
   );
 };
 

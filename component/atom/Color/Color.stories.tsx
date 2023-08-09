@@ -2,7 +2,7 @@ import React from 'react';
 import { Meta, Story } from '@storybook/react';
 import { css as emotionCss } from '@emotion/react';
 import StoryLayout from '@ComponentFarm/modules/story_layout/StoryLayout';
-import { theme } from '@ComponentFarm/theme';
+import { COLOR } from '@ComponentFarm/token';
 import ColorBox, { ColorProps } from './Color';
 
 const meta: Meta = {
@@ -34,7 +34,7 @@ const customStyles = emotionCss`
 
 const Colors: Story<Props> = args => (
   <StoryLayout {...args} customCss={customStyles}>
-    {Object.entries(theme.colors).map(([bgColor, hex]) => (
+    {Object.entries(COLOR).map(([bgColor, hex]) => (
       <ColorBox key={bgColor} color={{ bgColor, hex }} />
     ))}
   </StoryLayout>

@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { useQuery } from 'react-query';
 import { fetchCouponFindAll } from '@ApiFarm/coupon';
 import { Pagination } from '@ComponentFarm/modules/Paginate/Pagination';
+import Typo2 from '@ComponentFarm/atom/Typo/Typo2';
 import ListHandler from '@ComponentFarm/template/fc/coupons/ListHandler';
 import ListTable from '@ComponentFarm/template/fc/coupons/ListTable';
 import useQueryParams from '@HookFarm/useQueryParams';
@@ -29,6 +30,7 @@ const CouponsList = () => {
         updateParams={updateParams}
         resetParams={resetParams}
       />
+      <Typo2 />
       <div>
         <Link href={`/fc/coupons/add?${queryString(params)}`}>등록</Link>
       </div>

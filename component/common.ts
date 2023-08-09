@@ -1,5 +1,15 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import {
+  BACKGROUND,
+  COLOR,
+  FONT,
+  INPUT,
+  LABEL,
+  LINE_HEIGHTS,
+  TABS,
+  TEXTCOLOR,
+} from './token';
 
 export const breakpoints = [200, 767, 800, 1200, 1600];
 export const mq = breakpoints.map(
@@ -10,39 +20,7 @@ export const mq = breakpoints.map(
 );
 export const folder = `@media (max-width: 359px)`;
 
-const enFontTypes = [100, 200, 300, 'regular', 500, 600, 700, 800, 900];
-const krFontTypes = [100, 300, 'regular', 500, 700, 900];
-const solanoTypes = [300, 400, 500, 600, 700];
 const pretendardTypes = [100, 200, 300, 400, 500, 600, 700, 800, 900];
-
-const montserrat = enFontTypes.map(weight => {
-  let fontWeight;
-  if (weight === 'regular') {
-    fontWeight = 'normal';
-  } else {
-    fontWeight = weight;
-  }
-
-  return css`
-    @font-face {
-      font-family: 'Montserrat';
-      font-style: normal;
-      font-weight: ${fontWeight};
-      src:
-        local('montserrat'),
-        url('https://dev-gopizza-homepage.s3.ap-northeast-2.amazonaws.com/ui/font/montserrat-v18-latin-${weight}.eot?#iefix')
-          format('embedded-opentype'),
-        url('https://dev-gopizza-homepage.s3.ap-northeast-2.amazonaws.com/ui/font/montserrat-v18-latin-${weight}.woff2')
-          format('woff2'),
-        url('https://dev-gopizza-homepage.s3.ap-northeast-2.amazonaws.com/ui/font/montserrat-v18-latin-${weight}.woff')
-          format('woff'),
-        url('https://dev-gopizza-homepage.s3.ap-northeast-2.amazonaws.com/ui/font/montserrat-v18-latin-${weight}.ttf')
-          format('truetype'),
-        url('https://dev-gopizza-homepage.s3.ap-northeast-2.amazonaws.com/ui/font/montserrat-v18-latin-${weight}.svg#Montserrat')
-          format('svg');
-    }
-  `;
-});
 
 const pretendard = pretendardTypes.map(
   weight => css`
@@ -58,118 +36,7 @@ const pretendard = pretendardTypes.map(
   `
 );
 
-const notoSansKR = krFontTypes.map(weight => {
-  let fontWeight;
-  if (weight === 'regular') {
-    fontWeight = 'normal';
-  } else {
-    fontWeight = weight;
-  }
-
-  return css`
-    @font-face {
-      font-family: 'Noto Sans KR';
-      font-style: normal;
-      font-weight: ${fontWeight};
-      src:
-        url('https://dev-gopizza-homepage.s3.ap-northeast-2.amazonaws.com/ui/font/noto-sans-kr-v21-korean-${weight}.eot?#iefix')
-          format('embedded-opentype'),
-        url('https://dev-gopizza-homepage.s3.ap-northeast-2.amazonaws.com/ui/font/noto-sans-kr-v21-korean-${weight}.woff2')
-          format('woff2'),
-        url('https://dev-gopizza-homepage.s3.ap-northeast-2.amazonaws.com/ui/font/noto-sans-kr-v21-korean-${weight}.woff')
-          format('woff'),
-        url('https://dev-gopizza-homepage.s3.ap-northeast-2.amazonaws.com/ui/font/noto-sans-kr-v21-korean-${weight}.ttf')
-          format('truetype'),
-        url('https://dev-gopizza-homepage.s3.ap-northeast-2.amazonaws.com/ui/font/noto-sans-kr-v21-korean-${weight}.svg#NotoSansKR')
-          format('svg');
-    }
-  `;
-});
-
-const solanoFT = solanoTypes.map(weight => {
-  return css`
-    @font-face {
-      font-family: 'solano';
-      src:
-        url('https://dev-gopizza-homepage.s3.ap-northeast-2.amazonaws.com/ui/font/solano-${weight}')
-          format('woff2'),
-        url('https://dev-gopizza-homepage.s3.ap-northeast-2.amazonaws.com/ui/font/solano-${weight}-2')
-          format('woff'),
-        url('https://dev-gopizza-homepage.s3.ap-northeast-2.amazonaws.com/ui/font/solano-${weight}-3')
-          format('opentype');
-      font-display: auto;
-      font-style: normal;
-      font-weight: ${weight};
-      font-stretch: normal;
-    }
-  `;
-});
-
 // CSS Variables Setting
-
-/*= ============================================
-=                  Colors                     =
-============================================= */
-
-const COLOR = {
-  orange: '#FF4600',
-  bluedark: '#171C8F',
-  white: '#fff',
-  black: '#000',
-  gray: '#707070',
-  inputBorder: '#e0e0e0',
-  loadingbg: '#e5e5e5',
-  'color-text-action-label': '#444444',
-  'color-text-action-label-active': '#181818',
-  'color-text-brand': '#ff4600',
-  'color-text-brand-primary': '#ffffff',
-  'color-text-button-default-disabled': '#c9c9c9',
-  'color-text-default': '#181818',
-  'color-text-import': '#fb4637',
-  'color-text-error': '#fb4637',
-  'color-text-icon-default': '#747474',
-  'color-text-input-disabled': '#444444',
-  'color-text-link': '#FF4600',
-  'color-text-link-active': '#ad3000',
-  'color-text-link-disabled': '#ad3000',
-  'color-text-link-focus': '#ad3000',
-  'color-text-link-hover': '#d63b00',
-  'color-background': '#ffffff',
-  'color-background-input-checkbox-disabled': '#c9c9c9',
-  'color-background-input-disabled': '#f3f3f3',
-  'color-background-notification-new': '#f3f3f3',
-  'color-background-row-hover': '#967575',
-  'color-background-row-selected': '#f3f3f3',
-  'color-background-toast': '#747474',
-  'color-background-toggle': '#aeaeae',
-  'color-background-toggle-disabled': '#aeaeae',
-  'color-background-toggle-hover': '#939393',
-  'color-brand': '#ff4600',
-};
-
-/* Font sizes */
-const FONT_SIZES = {
-  titleNo: '6.5rem',
-  inputS: '29rem',
-  inputM: '62rem',
-  inputL: '84rem',
-  inputHeight: '4rem',
-  fontsize1: '1rem',
-  fontsize2: '1.2rem',
-  fontsize3: '1.3rem',
-  fontsize4: '1.4rem',
-  fontsize5: '1.6rem',
-  fontsize6: '1.8rem',
-  fontsize7: '2rem',
-  fontsize8: '2.4rem',
-  fontsize9: '2.8rem',
-  fontsize10: '3.2rem',
-};
-
-const LINE_HEIGHTS = {
-  text: 1.1,
-  heading: 1.2,
-};
 
 const forVariables = (obj: any, fn: any) =>
   Object.entries(obj).map(fn).join('\n');
@@ -184,9 +51,14 @@ const reset = css`
   /* CSS Document */
 
   :root {
-    ${createVariables(FONT_SIZES, 'size')}
     ${createVariables(COLOR, 'color')}
+    ${createVariables(TEXTCOLOR, 'textcolor')}
+    ${createVariables(BACKGROUND, 'bg')}
+    ${createVariables(FONT, 'font')}
     ${createVariables(LINE_HEIGHTS, 'lineheight')}
+    ${createVariables(INPUT, 'input')}
+    ${createVariables(LABEL, 'label')}
+    ${createVariables(TABS, 'tabs')}
     --swiper-navigation-size : 8rem;
   }
 
@@ -196,6 +68,7 @@ const reset = css`
     box-sizing: border-box;
     -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
     -webkit-touch-callout: none;
+    color: var(--textcolor-default);
   }
   html {
     font-size: 10px;
@@ -209,7 +82,6 @@ const reset = css`
   body {
     overflow-x: hidden;
     max-width: 100vw;
-    color: var(--color-black);
 
     &.overflowhidden {
       overflow: hidden;
@@ -270,19 +142,23 @@ const reset = css`
     cursor: pointer;
   }
   a:link {
-    color: #000;
+    color: var(--textcolor-link);
     text-decoration: none;
   }
   a:visited {
-    color: #000;
+    color: var(--textcolor-link);
+    text-decoration: none;
+  }
+  a:focus {
+    color: var(--textcolor-linkFocus);
     text-decoration: none;
   }
   a:hover {
-    color: var(--color-orange);
+    color: var(--textcolor-linkHover);
     text-decoration: none;
   }
   a:active {
-    color: #000;
+    color: var(--textcolor-linkActive);
     text-decoration: none;
   }
   em {
@@ -303,27 +179,6 @@ const reset = css`
   legend {
     display: none;
     clear: both;
-  }
-
-  label {
-    vertical-align: middle;
-    cursor: pointer;
-  }
-
-  textarea {
-    width: 100%;
-    height: 20rem;
-    padding: 0.5rem;
-    border: 1px solid #c6c6c6;
-    border-radius: 2px;
-    border-radius: 2px;
-    box-sizing: border-box;
-    overflow: auto;
-    padding: 2.4rem;
-  }
-
-  *:-webkit-auto:fill {
-    -webkit-box-shadow: 0 0 0px 100rem white inset;
   }
 
   hr {
@@ -349,9 +204,9 @@ const reset = css`
   select,
   textarea {
     width: 100%;
-    height: var(--size-inputHeight);
+    height: var(--input-height);
     font-size: 1.6rem;
-    border: 1px solid var(--color-inputBorder);
+    border: 1px solid var(--color-gray5);
     border-radius: 2px;
     transition:
       border-color 0.15s ease-in-out,
@@ -363,13 +218,13 @@ const reset = css`
     }
 
     &.s {
-      width: var(--size-inputS);
+      width: var(--input-small);
     }
     &.m {
-      width: var(--size-inputM);
+      width: var(--input-middle);
     }
     &.l {
-      width: var(--size-inputL);
+      width: var(--input-large);
     }
   }
 
@@ -388,12 +243,107 @@ const reset = css`
       no-repeat #fff 95% 50%;
   }
 
-  textarea {
-    height: 20rem;
-    ${mq[0]} {
-      padding: 9px !important;
-      font-size: 13px;
+  h1 {
+    font-size: var(--font-size8);
+    font-weight: var(--font-bold);
+    line-height: var(--lineheight-heading);
+  }
+
+  h2 {
+    font-size: var(--font-size5);
+    font-weight: var(--font-semibold);
+    line-height: var(--lineheight-heading);
+  }
+
+  h3 {
+    font-size: var(--font-size4);
+    font-weight: var(--font-semibold);
+    line-height: var(--lineheight-heading);
+  }
+
+  div,
+  li,
+  dt,
+  dd,
+  th,
+  td,
+  p,
+  strong,
+  em,
+  a,
+  span {
+    &:not(.small) {
+      font-size: var(--font-size4);
     }
+    font-weight: var(--font-regular);
+    line-height: var(--lineheight-text);
+
+    &.small {
+      font-size: var(--font-size2);
+    }
+  }
+
+  label {
+    color: var(--textcolor-label);
+    vertical-align: middle;
+    cursor: pointer;
+
+    .acitve {
+      color: var(--textcolor-labelActive);
+    }
+    &:not(.small) {
+      font-size: var(--input-fontsize);
+    }
+    font-weight: var(--font-regular);
+    line-height: var(--lineheight-text);
+
+    &.small {
+      font-size: var(--label-fontsize);
+    }
+  }
+
+  button {
+    &:disabled {
+      color: var(--textcolor-buttonDisabled);
+    }
+  }
+
+  svg {
+    color: var(--textcolor-iconDefault);
+  }
+
+  input {
+    &:disabled {
+      color: var(--textcolor-inputDisabled);
+    }
+  }
+
+  .helper-text {
+    &:not(.small) {
+      font-size: var(--font-size4);
+    }
+    font-weight: var(--font-regular);
+    line-height: var(--lineheight-text);
+
+    &.small {
+      font-size: var(--font-size2);
+    }
+  }
+
+  textarea {
+    width: 100%;
+    height: 20rem;
+    padding: 0.5rem;
+    border: 1px solid #c6c6c6;
+    border-radius: 2px;
+    border-radius: 2px;
+    box-sizing: border-box;
+    overflow: auto;
+    padding: 2.4rem;
+  }
+
+  *:-webkit-auto:fill {
+    -webkit-box-shadow: 0 0 0px 100rem white inset;
   }
 
   .react-datepicker-wrapper {
@@ -414,48 +364,7 @@ const reset = css`
     border: 0;
     *visibility: hidden;
   }
-  .screen_out {
-    overflow: hidden;
-    position: absolute;
-    width: 0;
-    height: 0;
-    line-height: 0;
-    text-indent: -9999px;
-  }
 
-  #react-kakao-maps-sdk-map-container {
-    .info_label {
-      span {
-        color: #fff;
-      }
-      padding: 0.7rem 2rem;
-      border-radius: 5rem;
-      font-size: 1.5rem;
-      background: #005ad5;
-      margin: -9.5rem 0 0 -0.9rem;
-      position: relative;
-      color: #fff;
-      margin-left: -0.2rem;
-
-      &:after {
-        content: '';
-        width: 0.8rem;
-        height: 2rem;
-        border: 2rem solid #005ad5;
-        border-color: #005ad5 transparent transparent transparent;
-        border-width: 1.5rem 0.5rem;
-        position: absolute;
-        top: 100%;
-        left: 50%;
-        margin-left: -0.4rem;
-        box-sizing: border-box;
-      }
-    }
-  }
-
-  ${montserrat}
-  ${notoSansKR}
-  ${solanoFT}
   ${pretendard}
 `;
 
