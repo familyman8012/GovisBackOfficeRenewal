@@ -24,6 +24,7 @@ interface DateInputProps {
   onClick: React.MouseEventHandler<HTMLInputElement>;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  placeholder: string;
 }
 
 const DateInputWrapper = styled.div`
@@ -54,7 +55,7 @@ const DateInputWrapper = styled.div`
 
 // DateInput 컴포넌트 만들기  - 기존 IcoInput 컴포넌트를 활용
 const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
-  ({ onClick, value, onChange }, ref) => {
+  ({ onClick, value, onChange, placeholder }, ref) => {
     return (
       <DateInputWrapper>
         <input
@@ -63,6 +64,7 @@ const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
           value={value}
           onChange={onChange}
           ref={ref}
+          placeholder={placeholder}
         />
         <FiCalendar size={20} />
       </DateInputWrapper>

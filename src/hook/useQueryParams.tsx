@@ -1,7 +1,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/router';
 
-type QueryParams = {
+export type QueryParams = {
   [key: string]: number | string | string[] | undefined;
 };
 
@@ -10,6 +10,7 @@ function useQueryParams(
 ): [
   QueryParams,
   (newParams: QueryParams) => void,
+  () => void,
   (sortField: string) => void,
 ] {
   const router = useRouter();
@@ -65,6 +66,18 @@ function useQueryParams(
     );
   };
 
+  const resetParams = () => {
+    setParams({ ...initialParams });
+    router.push(
+      {
+        pathname: router.pathname,
+        query: { ...initialParams },
+      },
+      undefined,
+      { shallow: true }
+    );
+  };
+
   const toggleSort = (sortField: string) => {
     const currentSortField = params.sort_field;
     const currentSortType = params.sort_type;
@@ -82,7 +95,7 @@ function useQueryParams(
     }
   };
 
-  return [params, updateParams, toggleSort];
+  return [params, updateParams, resetParams, toggleSort];
 }
 
 export default useQueryParams;

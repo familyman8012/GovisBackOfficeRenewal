@@ -1,7 +1,9 @@
 import { observable } from 'mobx';
 import router from 'next/router';
+import { ILoginUserResponse } from '@InterfaceFarm/auth';
+import { IUserPermission } from '@InterfaceFarm/user';
 
-export const menuStore = observable({
+export const menuStore: any = observable({
   currentNav: null,
   currentSubUrl: null,
   sideMenuOpen: false,
@@ -12,85 +14,82 @@ export const manageFormStore = observable({
   isEdit: false,
 });
 
-interface IStore {
-  created_at: string;
-  fc_selected: number;
-  mus_idx: number;
-  store_id: number;
-  store_name: string;
-  updated_at: string;
-  user_id: number;
-}
-
-interface IUserinfo {
-  email: string;
-  id: number;
-  is_staff: number;
-  name: string;
-  security_level: number;
-  store_id: number;
-  store_name: string;
-  store_list: IStore[];
-}
-
-interface IPermissionItem {
-  perm_code: string;
-  perm_group_name: string;
-  perm_info_name: string;
-}
-
-interface IAuthData {
-  token: string;
-  info: IUserinfo;
-  permission: IPermissionItem[] | null;
-  // myStore: null;
-}
-
-interface IAuthStore extends Omit<IAuthData, 'info'> {
-  user_info: IUserinfo | null;
+interface IAuthStore {
+  token: string | null;
+  user_info: ILoginUserResponse['user_info'] | null;
+  permission?: IUserPermission[];
+  store_info: ILoginUserResponse['store'] | null;
+  isLoggedIn: boolean;
+  is_staff?: number;
   init: () => void;
-  login: (authData: IAuthData) => void;
+  login: (authData: any) => void;
   logOut: () => void;
 }
 
-export const authStore: IAuthStore = observable({
-  token: '',
-  user_info: null as IUserinfo | null, // explicitly define as null
-  permission: [] as IPermissionItem[],
-  myStore: null,
+const TOKEN_STORAGE_KEY = 'BO_AUTH_TOKEN';
+const USER_STORAGE_KEY = 'BO_USER_INFO';
+const STORE_STORAGE_KEY = 'BO_USER_STORE';
+
+export const authStore = observable<IAuthStore>({
+  token: null,
+  user_info: null,
+  store_info: null,
+  permission: undefined,
+  is_staff: undefined,
   init() {
-    this.token = JSON.parse(String(localStorage.getItem('token')));
-    this.permission = JSON.parse(String(localStorage.getItem('permission')));
-    this.user_info = JSON.parse(String(localStorage.getItem('user_info')));
-    if (localStorage.getItem('myStore') !== null) {
-      this.myStore = JSON.parse(String(localStorage.getItem('myStore')));
+    try {
+      this.token = localStorage.getItem(TOKEN_STORAGE_KEY) ?? null;
+      this.user_info = JSON.parse(
+        String(localStorage.getItem(USER_STORAGE_KEY))
+      );
+      this.store_info = JSON.parse(
+        localStorage.getItem(STORE_STORAGE_KEY) ?? 'null'
+      );
+    } catch (e) {
+      this.token = null;
+      this.user_info = null;
+      this.store_info = null;
     }
   },
-  login(authData: IAuthData) {
+  login(authData: ILoginUserResponse & { token: string }) {
     if (Object.keys(authData).length !== 0) {
-      // const { token, permission, info, myStore } = authData;
-      const { token, permission, info } = authData;
-      this.token = token;
+      this.token = authData.token;
+      this.user_info = authData.user_info;
+      this.store_info = authData.store;
+      this.permission = authData.permission?.perm_list;
 
-      this.permission = permission !== null ? permission : [];
-
-      this.user_info = info;
-
-      // this.myStore = myStore;
-      localStorage.setItem('token', JSON.stringify(token));
-      localStorage.setItem('permission', JSON.stringify(permission));
-      localStorage.setItem('user_info', JSON.stringify(info));
-      // authData.store &&
-      //   localStorage.setItem('myStore', JSON.stringify(authData.store));
-    }
-    if (this.token && this.user_info) {
-      router.push(`${window.location.origin}/dashboard`);
+      localStorage.setItem(TOKEN_STORAGE_KEY, authData.token);
+      localStorage.setItem(
+        USER_STORAGE_KEY,
+        JSON.stringify(authData.user_info)
+      );
+      // eslint-disable-next-line no-unused-expressions
+      authData.store &&
+        localStorage.setItem(STORE_STORAGE_KEY, JSON.stringify(authData.store));
     }
   },
   logOut() {
-    ['token', 'user_info', 'myStore'].forEach(item =>
-      localStorage.removeItem(item)
-    );
+    this.token = null;
+    this.permission = undefined;
+    this.user_info = null;
+    this.store_info = null;
+
+    localStorage.removeItem(TOKEN_STORAGE_KEY);
+    localStorage.removeItem(USER_STORAGE_KEY);
+    localStorage.removeItem(STORE_STORAGE_KEY);
+
+    // 마이그레이션 목적으로 이전에 사용 값 삭제
+    if (
+      localStorage.getItem('token') ||
+      localStorage.getItem('user_info') ||
+      localStorage.getItem('myStore')
+    ) {
+      localStorage.clear();
+    }
+
     router.replace('/');
+  },
+  get isLoggedIn() {
+    return !!this.user_info && !!this.token;
   },
 });

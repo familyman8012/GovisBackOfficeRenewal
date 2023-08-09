@@ -61,8 +61,6 @@ export const Default = StoryPagination.bind({});
 
 Default.args = {
   darkMode: false,
-  activePage: 0,
-  totalItemsCount: 10,
 };
 
 Default.parameters = {

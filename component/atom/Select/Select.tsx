@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, useMemo } from 'react';
 import { FiChevronDown } from 'react-icons/fi';
 import {
   default as SelectLibrary,
@@ -15,8 +15,8 @@ export interface IOption {
 
 export interface SelectProps {
   options: IOption[];
-  selectedOption: IOption | null;
-  setSelectedOption: (option: IOption | null) => void;
+  selectedOption: IOption | string | null;
+  setSelectedOption: (option: any) => void;
   placeholder?: string;
   LeadingIcon?: React.ReactElement;
   width?: string;
@@ -94,12 +94,18 @@ export const Select: FC<SelectProps> = ({
     );
   };
 
+  const computedSelectedOption = useMemo(() => {
+    return typeof selectedOption === 'string'
+      ? options.find(el => el.value === selectedOption)
+      : selectedOption;
+  }, [selectedOption, options]);
+
   return (
     <SelectLibrary
       styles={customStyles}
       components={{ DropdownIndicator }}
       options={options}
-      value={selectedOption}
+      value={computedSelectedOption}
       onChange={setSelectedOption}
       placeholder={placeholder || 'Select...'}
       isClearable={false}
