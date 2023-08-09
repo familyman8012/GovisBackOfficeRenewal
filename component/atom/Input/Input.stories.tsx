@@ -39,7 +39,18 @@ const StoryBadge: Story<Props> = args => {
         }
       `}
     >
-      <input type="text" className="inp" />
+      <div className="field1">
+        <label htmlFor="product_name" className="req">
+          제품명
+        </label>
+        <input
+          type="text"
+          id="product_name"
+          className="inp"
+          placeholder="dd"
+          name="product_name"
+        />
+      </div>
     </StoryLayout>
   );
 };

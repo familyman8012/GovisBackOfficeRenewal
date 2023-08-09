@@ -74,6 +74,10 @@ const reset = css`
     font-size: 10px;
   }
 
+  .sbdocs-preview pre * {
+    color: #fff;
+  }
+
   html,
   body {
     height: 100%;
@@ -200,49 +204,6 @@ const reset = css`
     padding: 0;
   }
 
-  input.inp,
-  select,
-  textarea {
-    width: 100%;
-    height: var(--input-height);
-    font-size: 1.6rem;
-    border: 1px solid var(--color-gray5);
-    border-radius: 2px;
-    transition:
-      border-color 0.15s ease-in-out,
-      box-shadow 0.15s ease-in-out;
-
-    &:focus {
-      outline: 0;
-      box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
-    }
-
-    &.s {
-      width: var(--input-small);
-    }
-    &.m {
-      width: var(--input-middle);
-    }
-    &.l {
-      width: var(--input-large);
-    }
-  }
-
-  input.inp {
-    padding: 0 0.7rem;
-
-    &::placeholder {
-      color: #ddd;
-    }
-  }
-
-  select {
-    padding: 0 1.6rem;
-    appearance: none;
-    background: url('https://dev-gopizza-homepage.s3.ap-northeast-2.amazonaws.com/ui/images/common/ico_sel_arrow.svg')
-      no-repeat #fff 95% 50%;
-  }
-
   h1 {
     font-size: var(--font-size8);
     font-weight: var(--font-bold);
@@ -284,6 +245,10 @@ const reset = css`
   }
 
   label {
+    &:not(.horizontal) {
+      display: block;
+      margin-bottom: 11px;
+    }
     color: var(--textcolor-label);
     vertical-align: middle;
     cursor: pointer;
@@ -300,6 +265,41 @@ const reset = css`
     &.small {
       font-size: var(--label-fontsize);
     }
+  }
+
+  input.inp,
+  select,
+  textarea {
+    width: 100%;
+    height: var(--input-height);
+    font-size: var(--input-fontsize);
+    border: 1px solid var(--color-neutral90, #e5e5e5);
+    border-radius: 0.6rem;
+
+    &::placeholder {
+      color: var(--color-neutral50);
+    }
+
+    &:focus {
+      border: 1px solid var(--color-neutral10, #181818);
+
+      &::placeholder {
+        color: var(--color-neutral10, #181818);
+      }
+    }
+
+    &:disabled {
+      border: 1px solid var(--color-neutral10, #181818);
+      background: var(--color-gray0, #f7f9fc);
+
+      &::placeholder {
+        color: var(--color-neutral10, #181818);
+      }
+    }
+  }
+
+  input.inp {
+    padding: 1rem 1.2rem;
   }
 
   button {
@@ -345,6 +345,49 @@ const reset = css`
   *:-webkit-auto:fill {
     -webkit-box-shadow: 0 0 0px 100rem white inset;
   }
+
+  /* input.inp,
+  select,
+  textarea {
+    width: 100%;
+    height: var(--input-height);
+    font-size: 1.6rem;
+    border: 1px solid var(--color-gray5);
+    border-radius: 2px;
+    transition:
+      border-color 0.15s ease-in-out,
+      box-shadow 0.15s ease-in-out;
+
+    &:focus {
+      outline: 0;
+      box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+    }
+
+    &.s {
+      width: var(--input-small);
+    }
+    &.m {
+      width: var(--input-middle);
+    }
+    &.l {
+      width: var(--input-large);
+    }
+  } */
+
+  /* input.inp {
+    padding: 0 0.7rem;
+
+    &::placeholder {
+      color: #ddd;
+    }
+  }
+
+  select {
+    padding: 0 1.6rem;
+    appearance: none;
+    background: url('https://dev-gopizza-homepage.s3.ap-northeast-2.amazonaws.com/ui/images/common/ico_sel_arrow.svg')
+      no-repeat #fff 95% 50%;
+  } */
 
   .react-datepicker-wrapper {
     width: 100%;
