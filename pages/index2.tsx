@@ -1,11 +1,12 @@
-import { useState, useEffect, SyntheticEvent } from 'react';
+import { useState, useEffect, SyntheticEvent, ReactElement } from 'react';
 import dayjs from 'dayjs';
 import { runInAction } from 'mobx';
 import { useRouter } from 'next/router';
-import { useQuery } from 'react-query';
+import { toast } from 'react-toastify';
 import styled from '@emotion/styled';
-import { fetchMyInfo, fetchMyPermissions, login } from '@ApiFarm/auth';
+import { BoRequest } from '@ApiFarm/index';
 import { authStore } from '@MobxFarm/store';
+import { errorHandler } from '@UtilFarm/error-handler';
 
 const LoginWrap = styled.div``;
 const FormInput = styled.input``;
@@ -13,35 +14,17 @@ const Button = styled.button``;
 
 const Login = () => {
   const router = useRouter();
-
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState<string | string[] | undefined>('');
   const [password, setPassword] = useState('');
-  const [isLoginState, setIsLoginState] = useState(-1);
   const [showGuideModal, setShowGuideModal] = useState(false);
+  const [isLoginState, setIsLoginState] = useState(-1);
 
-  useQuery(
-    ['my-permission', authStore.user_info?.user_idx],
-    () => fetchMyPermissions(),
-    {
-      // eslint-disable-next-line consistent-return
-      onSuccess: (data: any) => {
-        if (data.permission.length === 0) {
-          return authStore.logOut();
-        }
-
-        runInAction(() => {
-          authStore.permission = data.permission;
-          authStore.is_staff = data.is_staff;
-        });
-      },
-      onError: () => authStore.logOut(),
-      enabled: !!authStore.isLoggedIn,
-    }
-  );
+  // const now = useMemo(() => dayjs(), []);
 
   useEffect(() => {
-    if (authStore.isLoggedIn) {
+    if (localStorage.getItem('user_info') !== null) {
       setIsLoginState(1);
+      router.push('/dashboard');
     } else {
       setIsLoginState(0);
     }
@@ -51,23 +34,23 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const tokenData = await login({
+      const user = await BoRequest.post('/account/login', {
         email,
         password,
       });
 
-      const userInfo = await fetchMyInfo(tokenData['GO-AUTH']);
+      if (user.data.code === '9001') {
+        toast.error('아이디 또는 이메일과 비밀번호를 확인해 주세요.');
+      }
 
       runInAction(() => {
-        authStore.login({
-          token: tokenData['GO-AUTH'],
-          ...userInfo,
-        });
-
-        router.push('/fc/coupons');
+        authStore.login(user.data.data);
       });
-    } catch (error: any) {
-      console.log('e', error);
+    } catch (error: unknown) {
+      if (typeof error === 'object' && error !== null) {
+        const { code, message } = error as { code: string; message: string };
+        errorHandler(code, message);
+      }
     }
   };
 
@@ -149,4 +132,19 @@ const Login = () => {
   );
 };
 
+Login.getLayout = function getLayout(page: ReactElement) {
+  return (
+    // <LayoutWrap>
+    //   <Header />
+    <main className="app__main">
+      <section className="app__content">
+        <div className="app__pageCover">
+          {/* <NavText /> */}
+          {page}
+        </div>
+      </section>
+    </main>
+    // </LayoutWrap>
+  );
+};
 export default Login;

@@ -8,6 +8,7 @@ type ButtonVariant =
   | 'transparent'
   | 'outline'
   | 'white'
+  | 'black'
   | 'primary'
   | 'secondary'
   | 'secondaryGray'
@@ -18,9 +19,9 @@ type ButtonSize = 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 
 const buttonSizes = {
   sm: css`
-    height: 3.6rem;
+    height: 2.5rem;
     padding: 0 1.4rem;
-    font-size: 1.4rem;
+    font-size: 1.2rem;
   `,
   md: css`
     min-width: 7.8rem;
@@ -61,6 +62,10 @@ const buttonVariants = {
   white: css`
     background-color: ${theme.colors.white};
     color: ${theme.colors.black};
+  `,
+  black: css`
+    background-color: ${theme.colors.black};
+    color: ${theme.colors.white};
   `,
   outline: css`
     border: 1px solid #6fcf97;

@@ -1,26 +1,24 @@
 import React, { FC } from 'react';
-import Pagination from 'react-js-pagination';
+import { default as PaginationLibrary } from 'react-js-pagination';
 import { PaginationWrap } from './style';
 
 export interface PaginationProps {
-  activePage: number;
-  itemsCountPerPage: number;
-  totalItemsCount: number;
+  pageInfo: number[];
+  totalCount: number;
   handlePageChange: (pageNumber: number) => void;
 }
 
-export const Paginate: FC<PaginationProps> = ({
-  activePage,
-  itemsCountPerPage,
-  totalItemsCount,
+export const Pagination: FC<PaginationProps> = ({
+  pageInfo,
+  totalCount,
   handlePageChange,
 }) => {
   return (
     <PaginationWrap>
-      <Pagination
-        activePage={activePage}
-        itemsCountPerPage={itemsCountPerPage}
-        totalItemsCount={totalItemsCount}
+      <PaginationLibrary
+        activePage={pageInfo[0]}
+        itemsCountPerPage={pageInfo[1]}
+        totalItemsCount={totalCount}
         pageRangeDisplayed={5}
         onChange={handlePageChange}
         itemClass="page-item"

@@ -1,6 +1,7 @@
 /* eslint-disable react/destructuring-assignment */
 import React, { useState } from 'react';
 import { Meta, Story } from '@storybook/react';
+import { Controller, useForm } from 'react-hook-form';
 import { css } from '@emotion/react';
 import StoryLayout from '@ComponentFarm/modules/story_layout/StoryLayout';
 import CheckBox from '@ComponentFarm/atom/Checkbox/CheckBox';
@@ -61,7 +62,7 @@ const StoryCheckboxGroup: Story<Props> = args => {
           <CheckBoxGroup
             options={options}
             onChange={setSelectedFruits}
-            defaultValue={[]}
+            initialCheckedValues={['1', '2']}
             name="fruits"
           />
         </div>
@@ -70,14 +71,14 @@ const StoryCheckboxGroup: Story<Props> = args => {
             options={options}
             allChechkHandler={options}
             onChange={setSelectedFruits}
-            defaultValue={[]}
+            initialCheckedValues={[]}
             name="fruits"
           />
         </div>
         <div>
           <CheckBoxGroup
             onChange={setSelectedLetters}
-            defaultValue={[]}
+            initialCheckedValues={[]}
             allChechkHandler={options2}
             name="letters"
           >
@@ -135,3 +136,38 @@ const StoryCheckboxGroup: Story<Props> = args => {
   );
 };
 export const Default = StoryCheckboxGroup.bind({});
+
+const StoryCheckboxGroup2: Story<Props> = args => {
+  const options = [
+    { label: 'Apple', value: '1' },
+    { label: 'Pear', value: '2' },
+    { label: 'Orange', value: '3' },
+  ];
+
+  const { handleSubmit, control } = useForm();
+
+  const onSubmit = (data: any) => {
+    console.log(data); // form data를 콘솔에 출력합니다.
+  };
+
+  return (
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <Controller
+        name="checkboxGroup"
+        control={control}
+        defaultValue={['1', '2']}
+        render={({ field: { value, ref, ...restField } }) => (
+          <CheckBoxGroup
+            {...restField}
+            options={options}
+            allChechkHandler={options}
+            initialCheckedValues={value}
+          />
+        )}
+      />
+      <button type="submit">Submit</button>
+    </form>
+  );
+};
+
+export const reactHookForm = StoryCheckboxGroup2.bind({});

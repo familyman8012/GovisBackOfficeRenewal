@@ -4,24 +4,24 @@ import CheckBox, { CheckBoxProps } from '@ComponentFarm/atom/Checkbox/CheckBox';
 export interface CheckBoxGroupProps {
   children?: React.ReactNode;
   options?: { label: string; value: string }[];
-  defaultValue?: string[];
   onChange?: (checkedValues: string[]) => void;
   allChechkHandler?: { label: string; value: string }[];
   name: string;
   control?: any;
+  initialCheckedValues?: string[];
 }
 
 const CheckboxGroup: React.FC<CheckBoxGroupProps> = ({
   children,
   options,
-  defaultValue = [],
   onChange,
   allChechkHandler,
   name,
   control,
+  initialCheckedValues = [],
 }) => {
   const [values, setValues] = useState<{ [key: string]: boolean }>(
-    defaultValue.reduce((acc: { [key: string]: boolean }, curr) => {
+    initialCheckedValues.reduce((acc: { [key: string]: boolean }, curr) => {
       acc[curr] = true;
       return acc;
     }, {})

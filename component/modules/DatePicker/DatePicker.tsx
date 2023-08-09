@@ -5,7 +5,6 @@ import React, {
   useEffect,
   forwardRef,
 } from 'react';
-import { ko } from 'date-fns/esm/locale';
 import dayjs from 'dayjs';
 import DatepickerLibrary, { ReactDatePickerProps } from 'react-datepicker';
 import { FiCalendar } from 'react-icons/fi';
@@ -23,11 +22,12 @@ interface DateInputProps {
   onClick: React.MouseEventHandler<HTMLInputElement>;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  placeholder: string;
 }
 
 // DateInput 컴포넌트 만들기  - 기존 IcoInput 컴포넌트를 활용
 const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
-  ({ onClick, value, onChange }, ref) => {
+  ({ onClick, value, onChange, placeholder }, ref) => {
     return (
       <DateInputWrapper>
         <input
@@ -36,6 +36,7 @@ const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
           value={value}
           onChange={onChange}
           ref={ref}
+          placeholder={placeholder}
         />
         <FiCalendar size={20} />
       </DateInputWrapper>
@@ -67,7 +68,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
 
   const handleChange = (
     date: Date | null,
-    event: SyntheticEvent<any> | undefined
+    event: SyntheticEvent | undefined
   ) => {
     setSelectedDateState(date);
     if (date) {
@@ -81,7 +82,6 @@ const DatePicker: React.FC<DatePickerProps> = ({
     <DatepickerLibrary
       selected={selectedDateState}
       onChange={handleChange}
-      locale={ko}
       // @ts-ignore - customInput 의 props 가 DateInput에게 전달되도록
       customInput={<DateInput />}
       dateFormat={dateFormat}

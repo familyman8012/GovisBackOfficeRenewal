@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import { useGoBack } from '@HookFarm/useGoBack';
+import { useGoBack } from '@HookFarm/useGoMove';
 
 const CouponDetail = () => {
   const router = useRouter();

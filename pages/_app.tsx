@@ -1,5 +1,6 @@
-import { ReactElement, ReactNode } from 'react';
+import { ReactElement, ReactNode, useLayoutEffect } from 'react';
 import type { AppProps } from 'next/app';
+import { ReactQueryDevtools } from 'react-query/devtools';
 import { NextPage } from 'next';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ToastContainer } from 'react-toastify';
@@ -10,6 +11,7 @@ import reset from '@ComponentFarm/common';
 import { theme } from '@ComponentFarm/theme';
 import { errorHandler } from '@UtilFarm/error-handler';
 import 'react-datepicker/dist/react-datepicker.css';
+import { authStore } from '@MobxFarm/store';
 
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -21,6 +23,10 @@ type AppPropsWithLayout = AppProps & {
 };
 
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {
+  useLayoutEffect(() => {
+    authStore.init();
+  }, []);
+
   const getLayout = Component.getLayout ?? (page => <>{page}</>);
 
   const queryClient = new QueryClient({
@@ -55,6 +61,7 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
         position="top-right"
         autoClose={4000}
       />
+      <ReactQueryDevtools />
     </QueryClientProvider>
   );
 };

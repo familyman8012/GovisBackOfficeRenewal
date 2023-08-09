@@ -4,8 +4,8 @@ import { Meta, Story } from '@storybook/react';
 import { useForm, Controller } from 'react-hook-form';
 import { css } from '@emotion/react';
 import StoryLayout from '@ComponentFarm/modules/story_layout/StoryLayout';
-import { countries, dates, prices } from './sampleData';
-import { GoSelect, IOption, MultiSelectProps } from './Select';
+import { Select, IOption } from './Select';
+import { Badge } from '../Badge/Badge';
 
 const meta: Meta = {
   title: 'Atoms/Select',
@@ -26,16 +26,18 @@ const meta: Meta = {
 
 export default meta;
 
-interface Props extends MultiSelectProps {
+interface Props {
   darkMode: boolean;
 }
 
 const StorySelect: Story<Props> = args => {
-  const [selectedPrice, setSelectedPrice] = useState<IOption | null>(null);
-  const [selectedDates, setSelectedDates] = useState<IOption[] | null>(null);
-  const [selectedCountries, setSelectedCountries] = useState<IOption | null>(
-    null
-  );
+  const [selectedOption, setSelectedOption] = useState<IOption | null>(null);
+
+  const options: IOption[] = [
+    { value: 'apple', label: 'Apple' },
+    { value: 'banana', label: 'Banana' },
+    { value: 'cherry', label: 'Cherry' },
+  ];
 
   return (
     <StoryLayout
@@ -47,42 +49,51 @@ const StorySelect: Story<Props> = args => {
         }
       `}
     >
-      <GoSelect
-        options={prices}
-        selectedOption={selectedPrice}
-        setSelectedOption={setSelectedPrice}
-        placeholder="Select price"
-      />
-      <GoSelect
-        isMulti
-        options={dates}
-        selectedOption={selectedDates}
-        setSelectedOption={setSelectedDates}
-        placeholder="Select dates"
-      />
-      <GoSelect
-        options={countries}
-        selectedOption={selectedCountries}
-        setSelectedOption={setSelectedCountries}
-        placeholder="Select country"
-      />
+      <div>
+        <Select
+          options={options}
+          selectedOption={selectedOption}
+          setSelectedOption={setSelectedOption}
+        />
+
+        <div>
+          {selectedOption ? (
+            <p>You selected: {selectedOption.label}</p>
+          ) : (
+            <p>Please select an option</p>
+          )}
+        </div>
+      </div>
     </StoryLayout>
   );
 };
 export const Default = StorySelect.bind({});
 
 const StorySelect2: Story<Props> = args => {
-  const { handleSubmit, control } = useForm();
+  type FormData = {
+    fruitSelection: IOption | null;
+  };
 
-  const onSubmit = (data: any) => {
+  const defaultSelectedFruit: IOption = { value: 'banana', label: 'Banana' }; // Default value for the Select component
+  const { control, handleSubmit, setValue } = useForm<FormData>({
+    defaultValues: {
+      fruitSelection: defaultSelectedFruit,
+    },
+  });
+
+  const options: IOption[] = [
+    { value: '1', label: 'Option 1' },
+    { value: '2', label: 'Option 2' },
+    { value: '3', label: 'Option 3' },
+  ];
+
+  const onSubmit = (data: FormData) => {
     console.log(data);
   };
 
-  const options: IOption[] = [
-    { value: 'option1', label: 'Option 1' },
-    { value: 'option2', label: 'Option 2' },
-    { value: 'option3', label: 'Option 3' },
-  ];
+  React.useEffect(() => {
+    setValue('fruitSelection', defaultSelectedFruit); // Set the default value on mount
+  }, [setValue]);
 
   return (
     <StoryLayout
@@ -96,21 +107,92 @@ const StorySelect2: Story<Props> = args => {
     >
       <form onSubmit={handleSubmit(onSubmit)}>
         <Controller
-          name="selectOption"
+          name="fruitSelection"
           control={control}
-          defaultValue={null}
-          rules={{ required: true }} // if this field is required
-          render={({ field: { onChange, value } }) => (
-            <GoSelect
+          defaultValue={defaultSelectedFruit}
+          render={({ field }) => (
+            <Select
               options={options}
-              selectedOption={value}
-              setSelectedOption={onChange}
+              selectedOption={field.value}
+              setSelectedOption={field.onChange}
             />
           )}
         />
-        <input type="submit" value="Submit" />
+        <button type="submit">Submit</button>
       </form>
     </StoryLayout>
   );
 };
 export const reactHookForm = StorySelect2.bind({});
+
+const StorySelect3: Story<Props> = args => {
+  type FormData = {
+    fruitSelection: IOption | null;
+  };
+
+  const defaultSelectedFruit: IOption = { value: 'banana', label: 'Banana' }; // Default value for the Select component
+  const { control, handleSubmit, setValue } = useForm<FormData>({
+    defaultValues: {
+      fruitSelection: defaultSelectedFruit,
+    },
+  });
+
+  const options: IOption[] = [
+    { value: '1', label: 'Option 1', status: 'enabled' },
+    { value: '2', label: 'Option 2', status: 'disabled' },
+    { value: '3', label: 'Option 3', status: 'pending' },
+    // ... more options ...
+  ];
+
+  const onSubmit = (data: FormData) => {
+    console.log(data);
+  };
+
+  React.useEffect(() => {
+    setValue('fruitSelection', defaultSelectedFruit); // Set the default value on mount
+  }, [setValue]);
+
+  const formatStatus = (status: string) => {
+    switch (status) {
+      case 'enabled':
+        return <Badge variant="black">사용</Badge>;
+      case 'disabled':
+        return <Badge variant="error">미사용</Badge>;
+      case 'pending':
+        return <Badge variant="primary">대기중</Badge>;
+
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <StoryLayout
+      {...args}
+      customCss={css`
+        & > div + div {
+          margin: 10.25rem;
+          margin-left: 1.25rem;
+        }
+      `}
+    >
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Controller
+          name="fruitSelection"
+          control={control}
+          defaultValue={defaultSelectedFruit}
+          render={({ field }) => (
+            <Select
+              options={options}
+              selectedOption={field.value}
+              setSelectedOption={field.onChange}
+              formatStatus={formatStatus}
+            />
+          )}
+        />
+        <button type="submit">Submit</button>
+      </form>
+    </StoryLayout>
+  );
+};
+export const reactHookForm2 = StorySelect3.bind({});
