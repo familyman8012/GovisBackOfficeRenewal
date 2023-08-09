@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { theme } from '@ComponentFarm/theme';
-import Typo from '../Typo/Typo';
+import { COLOR } from '@ComponentFarm/token';
 
 export interface ColorProps {
   bgColor: string;
@@ -23,11 +22,15 @@ const ColorPreview = styled.div<ColorProps>`
   height: 5rem;
   border-top-left-radius: 0.375rem;
   border-top-right-radius: 0.375rem;
-  background-color: ${props => theme.colors[props.bgColor]};
+  background-color: ${props => COLOR[props.bgColor]};
 `;
 
 const Content = styled.div`
   padding: 0 10px;
+  text-transform: uppercase;
+  h3 {
+    margin: 10px 0 5px;
+  }
 `;
 
 const ColorBox = ({ color }: { color: ColorProps }) => {
@@ -35,12 +38,8 @@ const ColorBox = ({ color }: { color: ColorProps }) => {
     <Container>
       <ColorPreview bgColor={color.bgColor} />
       <Content>
-        <Typo variant="md" weight="bold">
-          {color.bgColor}
-        </Typo>
-        <Typo variant="md" color={theme.colors.gray500}>
-          {color.hex}
-        </Typo>
+        <h3>{color.bgColor}</h3>
+        <p>{color.hex}</p>
       </Content>
     </Container>
   );
