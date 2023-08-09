@@ -1,6 +1,6 @@
 import React from 'react';
 import { QueryParams } from '@HookFarm/useQueryParams';
-import DatePicker from '../DatePicker/DatePicker';
+import DatePicker from '../../modules/DatePicker/DatePicker';
 
 export type dateConfigType = {
   field: string;
