@@ -13,6 +13,7 @@ interface IStoryArgs {
 
 const Container = styled.div<{ darkMode: boolean }>`
   margin: -1rem;
+
   ${({ darkMode }) =>
     darkMode &&
     `
