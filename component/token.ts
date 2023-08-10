@@ -42,6 +42,9 @@ export const COLOR: Token = {
   red50: '#ea001e',
   red60: '#fb4637',
   blue: '#171C8F',
+  green0: '#E1FCEF',
+  green400: '#38A06C',
+  green500: '#14804A',
 };
 
 export const TEXTCOLOR: Token = {
@@ -125,4 +128,25 @@ export const LABEL: Token = {
 
 export const TABS: Token = {
   fontweight: '700',
+};
+
+export const Badge: Token = {
+  greenLabel: 'var(--color-green500)',
+  greenBorder: 'var(--color-green400)',
+  greenBg: 'var(--color-green0)',
+  yellowLabel: '#B54708',
+  yellowBorder: '#FEDF89',
+  yellowBg: '#FFFAEB',
+  indigoLabel: '#5E5ADB',
+  indigoBorder: '#C7D7FE',
+  indigoBg: '#EEF4FF',
+  blueLabel: '#2264E5',
+  blueBorder: '#B2DDFF',
+  blueBg: '#EFF8FF',
+  redLabel: '#D1293D',
+  redBorder: '#FECDCA',
+  redBg: '#FEF3F2',
+  grayLabel: '#5A6376',
+  grayBorder: '#EAECF0',
+  grayBg: '#F9FAFB',
 };

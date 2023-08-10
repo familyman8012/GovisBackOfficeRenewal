@@ -1,18 +1,10 @@
 import React, { FC, ReactNode } from 'react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { theme } from '@ComponentFarm/theme';
 
 type BadgeSize = 'sm' | 'md' | 'lg';
-type BadgeColor =
-  | 'numbering'
-  | 'black'
-  | 'gray'
-  | 'primary'
-  | 'error'
-  | 'warning'
-  | 'success';
-type BadgeFill = 'fill' | 'outline' | 'transaprent';
+type BadgeColor = 'green' | 'yellow' | 'indigo' | 'blue' | 'red' | 'gray';
+type BadgeFill = 'fill' | 'outline' | 'transparent';
 
 export interface BadgeProps {
   children: ReactNode;
@@ -27,79 +19,88 @@ export interface BadgeProps {
 
 const badgeBase = css`
   display: inline-flex;
-  justify-content: center;
   align-items: center;
   width: fit-content;
   font-weight: 500;
-  border-radius: 2rem;
+  border-radius: 1.6rem;
 `;
 
-const variants = {
-  numbering: css`
-    color: ${theme.colors.white};
-    border-radius: 100%;
-    background-color: ${theme.colors.black};
+const sizes = {
+  sm: css`
+    padding: 0.2rem 0.8rem;
+    font-size: 1.2rem;
+    line-height: 1.8rem;
   `,
-  black: css`
-    color: ${theme.colors.gray500};
-    background-color: ${theme.colors.black};
+  md: css`
+    padding: 0.2rem 1rem;
+    font-size: 1.4rem;
+    line-height: 2rem;
   `,
-  gray: css`
-    color: ${theme.colors.gray500};
-    background-color: ${theme.colors.gray100};
-  `,
-  primary: css`
-    color: ${theme.colors.primary600};
-    background-color: ${theme.colors.primary100};
-  `,
-  error: css`
-    color: #b91c1c;
-    background-color: #fef2f2;
-  `,
-  warning: css`
-    color: #92400e;
-    background-color: #fef3c7;
-  `,
-  success: css`
-    color: #064e3b;
-    background-color: #d1fae5;
+  lg: css`
+    padding: 0.4rem 1.2rem;
+    font-size: 1.4rem;
+    line-height: 2rem;
   `,
 };
 
-const sizes = {
-  xs: css`
-    min-width: 2.1rem;
-    height: 2.1rem;
-    font-size: 11px;
+const colors = {
+  green: css`
+    color: var(--bage-greenLabel);
+    border: 1px solid var(--bage-greenBorder);
+    background-color: var(--bage-greenBg);
   `,
-  sm: css`
-    min-width: 5.4rem;
-    height: 3.2rem;
-    font-size: 1.4rem;
+  yellow: css`
+    color: var(--bage-yellowLabel);
+    border: 1px solid var(--bage-yellowBorder);
+    background-color: var(--bage-yellowBg);
   `,
-  md: css`
-    min-width: 8.3rem;
-    height: 3.4rem;
-    font-size: 1.4rem;
+  indigo: css`
+    color: var(--bage-indigoLabel);
+    border: 1px solid var(--bage-indigoBorder);
+    background-color: var(--bage-indigoBg);
   `,
-  lg: css`
-    min-width: 15rem;
-    height: 4rem;
-    font-size: 1.4rem;
+  blue: css`
+    color: var(--bage-blueLabel);
+    border: 1px solid var(--bage-blueBorder);
+    background-color: var(--bage-blueBg);
+  `,
+  red: css`
+    color: var(--bage-redLabel);
+    border: 1px solid var(--bage-redBorder);
+    background-color: var(--bage-redBg);
+  `,
+  gray: css`
+    color: var(--bage-grayLabel);
+    border: 1px solid var(--bage-grayBorder);
+    background-color: var(--bage-grayBg);
   `,
 };
 
 const BadgeWrapper = styled.span<BadgeProps>`
   ${badgeBase};
   ${props => sizes[props.size || 'md']};
-  ${props => variants[props.variant]};
-  ${props => (props.textWhite ? 'color:white' : '')};
+  ${props => colors[props.color || 'green']};
+  ${props =>
+    props.dot
+      ? `&:before {
+    display: inline-block;
+    content: '';
+    width: 0.6rem;
+    height: 0.6rem;
+    margin-right: 0.4rem;
+    border-radius: 50%;
+    background: currentColor;
+  }`
+      : ''}
+  ${props => (props.fill === 'outline' ? 'background:none' : '')}
+  ${props =>
+    props.fill === 'transparent' ? 'border:none;background:none' : ''}
 `;
 
 export const Badge: FC<BadgeProps> = ({
   size = 'md',
   color = 'green',
-  dot = true,
+  dot,
   fill = 'fill',
   LeadingIcon,
   TrailingIcon,

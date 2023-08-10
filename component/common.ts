@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import { datepickerGlobalStyle } from '@ComponentFarm/modules/DatePicker/style';
 import {
   BACKGROUND,
+  Badge,
   COLOR,
   FONT,
   INPUT,
@@ -60,6 +61,7 @@ const reset = css`
     ${createVariables(INPUT, 'input')}
     ${createVariables(LABEL, 'label')}
     ${createVariables(TABS, 'tabs')}
+    ${createVariables(Badge, 'bage')}
     --swiper-navigation-size : 8rem;
   }
 

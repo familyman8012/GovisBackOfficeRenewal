@@ -1,7 +1,6 @@
 /* eslint-disable react/destructuring-assignment */
 import React from 'react';
 import { Meta, Story } from '@storybook/react';
-import { FiArrowRight, FiStar } from 'react-icons/fi';
 import { css } from '@emotion/react';
 import StoryLayout from '@ComponentFarm/modules/story_layout/StoryLayout';
 import { Badge, BadgeProps } from './Badge';
@@ -29,6 +28,8 @@ interface Props extends BadgeProps {
   darkMode: boolean;
 }
 
+const color = ['green', 'yellow', 'indigo', 'blue', 'red', 'gray'];
+
 const StoryBadge: Story<Props> = args => {
   return (
     <StoryLayout
@@ -41,7 +42,145 @@ const StoryBadge: Story<Props> = args => {
         }
       `}
     >
-      <Badge variant="numbering" size="xs">
+      <div
+        css={css`
+          display: flex;
+          margin-bottom: 10px;
+          span {
+            margin-right: 10px;
+          }
+        `}
+      >
+        {color.map(el => (
+          <Badge key={el} color={el} dot size="lg">
+            label
+          </Badge>
+        ))}
+      </div>
+      <div
+        css={css`
+          display: flex;
+          margin-bottom: 10px;
+          span {
+            margin-right: 10px;
+          }
+        `}
+      >
+        {color.map(el => (
+          <Badge key={el} color={el} dot>
+            label
+          </Badge>
+        ))}
+      </div>
+      <div
+        css={css`
+          display: flex;
+          margin-bottom: 10px;
+          span {
+            margin-right: 10px;
+          }
+        `}
+      >
+        {color.map(el => (
+          <Badge key={el} color={el} size="sm" dot>
+            label
+          </Badge>
+        ))}
+      </div>
+      {/* dot 없을때 */}
+      <div
+        css={css`
+          display: flex;
+          margin-bottom: 10px;
+          span {
+            margin-right: 10px;
+          }
+        `}
+      >
+        {color.map(el => (
+          <Badge key={el} color={el} size="lg">
+            label
+          </Badge>
+        ))}
+      </div>
+      <div
+        css={css`
+          display: flex;
+          margin-bottom: 10px;
+          span {
+            margin-right: 10px;
+          }
+        `}
+      >
+        {color.map(el => (
+          <Badge key={el} color={el}>
+            label
+          </Badge>
+        ))}
+      </div>
+      <div
+        css={css`
+          display: flex;
+          margin-bottom: 10px;
+          span {
+            margin-right: 10px;
+          }
+        `}
+      >
+        {color.map(el => (
+          <Badge key={el} color={el} size="sm">
+            label
+          </Badge>
+        ))}
+      </div>
+      {/* dot 없을때 */}
+      <div
+        css={css`
+          display: flex;
+          margin-bottom: 10px;
+          span {
+            margin-right: 10px;
+          }
+        `}
+      >
+        {color.map(el => (
+          <Badge key={el} color={el} fill="outline">
+            label
+          </Badge>
+        ))}
+      </div>
+      <div
+        css={css`
+          display: flex;
+          margin-bottom: 10px;
+          span {
+            margin-right: 10px;
+          }
+        `}
+      >
+        {color.map(el => (
+          <Badge key={el} color={el} dot fill="outline">
+            label
+          </Badge>
+        ))}
+      </div>
+      <div
+        css={css`
+          display: flex;
+          margin-bottom: 10px;
+          span {
+            margin-right: 10px;
+          }
+        `}
+      >
+        {color.map(el => (
+          <Badge key={el} color={el} fill="transparent" dot>
+            label
+          </Badge>
+        ))}
+      </div>
+
+      {/* <Badge variant="numbering" size="xs">
         1
       </Badge>
       <Badge variant="black" size="sm" textWhite>
@@ -82,30 +221,15 @@ const StoryBadge: Story<Props> = args => {
         TrailingIcon={<FiArrowRight />}
       >
         error, sm
-      </Badge>
+      </Badge> */}
     </StoryLayout>
   );
 };
 export const Default = StoryBadge.bind({});
 
 Default.args = {
-  variant: 'primary',
   size: 'md',
   darkMode: false,
-};
-
-Default.argTypes = {
-  variant: {
-    control: 'radio',
-    options: ['gray', 'primary', 'error', 'warning', 'success'],
-  },
-  size: {
-    control: 'radio',
-    options: ['sm', 'md', 'lg'],
-  },
-  darkMode: {
-    control: 'boolean',
-  },
 };
 
 Default.parameters = {
