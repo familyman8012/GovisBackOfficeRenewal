@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { FONT } from '@ComponentFarm/token';
 
 export const MobilePaginationWrap = styled.div`
   display: flex;
@@ -107,54 +108,53 @@ export const PaginationWrap = styled.div`
   .pagination {
     display: flex;
     justify-content: center;
-    margin-top: 15px;
+    margin-top: 2.8rem;
+    gap: 0.8rem;
   }
 
-  ul {
-    list-style: none;
-    padding: 0;
-  }
-
-  ul.pagination li {
-    display: flex;
-    width: 30px;
-    height: 30px;
-    border: 1px solid #e2e2e2;
-    justify-content: center;
+  .page-item {
+    display: inline-flex;
     align-items: center;
-    font-size: 1rem;
+    justify-content: center;
+    width: 3.2rem;
+    height: 3.2rem;
+    border: 1px solid #dfe3e8;
+    font-weight: 700;
+    font-size: ${FONT.size4};
+    line-height: 1.2;
+    border-radius: 0.4rem;
+    color: #212b36;
+    cursor: pointer;
+    svg {
+      position: static;
+      width: 2.4rem;
+      height: 2.4rem;
+      top: auto;
+      left: auto;
+      color: currentColor;
+    }
   }
 
-  ul.pagination li:first-of-type {
-    border-radius: 5px 0 0 5px;
+  .page-item.disabled {
+    opacity: 0.5;
+    background: #919eab;
+    border-color: #919eab;
+    color: #c4cdd5;
+    cursor: not-allowed;
+    svg {
+      fill: #c4cdd5;
+    }
   }
 
-  ul.pagination li:last-of-type {
-    border-radius: 0 5px 5px 0;
+  .page-item.active {
+    background: var(--color-gray1);
+    color: var(--color-blue);
+    border-color: currentColor;
   }
 
-  ul.pagination li a {
-    text-decoration: none;
-    color: #337ab7;
-    font-size: 1rem;
-  }
-
-  ul.pagination li.active a {
-    color: white;
-  }
-
-  ul.pagination li.active {
-    background-color: #337ab7;
-  }
-
-  ul.pagination li a:hover,
-  ul.pagination li a.active {
-    color: blue;
-  }
-
-  .page-selection {
-    width: 48px;
-    height: 30px;
-    color: #337ab7;
+  .page-link {
+    display: flex;
+    color: inherit;
+    cursor: inherit;
   }
 `;

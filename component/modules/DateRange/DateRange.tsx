@@ -185,6 +185,7 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
           onChange={onChange}
           selectsRange
           inline
+          monthsShown={2}
           locale={ko}
         />
       )}

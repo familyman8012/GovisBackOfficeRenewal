@@ -96,6 +96,7 @@ const StoryDatePicker2: Story<Props> = args => {
           rules={{ required: '필수 입력 항목입니다.' }}
           render={({ field }) => (
             <DatePicker
+              placeholderText="판매 시작일"
               selectedDate={field.value}
               onChange={(newDate: NewDate) => {
                 field.onChange(String(newDate));

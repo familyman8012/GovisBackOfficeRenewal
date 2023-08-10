@@ -71,9 +71,11 @@ const reset = css`
     -webkit-touch-callout: none;
     color: var(--textcolor-default);
   }
+
   html {
     font-size: 10px;
   }
+
   body {
   }
 

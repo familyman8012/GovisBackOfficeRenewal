@@ -1,11 +1,9 @@
 /* eslint-disable react/destructuring-assignment */
 import React from 'react';
 import { Meta, Story } from '@storybook/react';
-import Pagination from 'react-js-pagination';
 import StoryLayout from '@ComponentFarm/modules/story_layout/StoryLayout';
 import useQueryParams from '@HookFarm/useQueryParams';
-import { PaginationProps } from './Pagination';
-import { PaginationWrap } from './style';
+import Pagination, { PaginationProps } from './Pagination';
 
 // Create a client
 
@@ -42,18 +40,11 @@ const StoryPagination: Story<Props> = args => {
 
   return (
     <StoryLayout {...args}>
-      <PaginationWrap>
-        <Pagination
-          activePage={Number(params.page)}
-          itemsCountPerPage={Number(params.size)}
-          totalItemsCount={100}
-          pageRangeDisplayed={5}
-          onChange={handlePageChange}
-          itemClass="page-item"
-          linkClass="page-link"
-          activeClass="active"
-        />
-      </PaginationWrap>
+      <Pagination
+        pageInfo={[Number(params.page), Number(params.size)]}
+        totalCount={100}
+        handlePageChange={handlePageChange}
+      />
     </StoryLayout>
   );
 };

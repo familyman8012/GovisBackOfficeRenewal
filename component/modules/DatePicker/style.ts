@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { BACKGROUND, COLOR, TEXTCOLOR } from '@ComponentFarm/token';
+import { BACKGROUND, COLOR, INPUT, TEXTCOLOR } from '@ComponentFarm/token';
 
 export const datepickerGlobalStyle = css`
   .react-datepicker {
@@ -18,7 +18,7 @@ export const datepickerGlobalStyle = css`
   }
 
   .react-datepicker__month-container {
-    max-width: 375px;
+    max-width: 37.5rem;
     padding: 3.2rem 1.6rem;
   }
 
@@ -135,7 +135,7 @@ export const datepickerGlobalStyle = css`
   .react-datepicker__day--outside-month {
     background: transparent !important;
     pointer-events: none !important;
-    color: transparent !important;
+    color: var(--color-gray6) !important;
   }
 
   .react-datepicker__current-month {
@@ -205,7 +205,7 @@ export const datepickerGlobalStyle = css`
   }
 
   .react-datepicker__header {
-    background: ${COLOR.gray1};
+    background: var(--color-gray-1);
   }
 
   svg:not(.gv-button) {
@@ -273,6 +273,11 @@ export const datepickerGlobalStyle = css`
       z-index: -1;
     }
 
+    &.react-datepicker__day--keyboard-selected {
+      background: transparent !important;
+      border: 0 !important;
+    }
+
     &.react-datepicker__day--range-start,
     &.react-datepicker__day--selecting-range-start {
       background-color: ${COLOR.blue} !important;
@@ -298,10 +303,12 @@ export const datepickerGlobalStyle = css`
 
     &.react-datepicker__day--selecting-range-end,
     &.react-datepicker__day--range-end {
-      background-color: ${COLOR.blue} !important;
-      color: ${TEXTCOLOR.brandPrimary} !important;
-      border-radius: 50%;
-      font-weight: 900;
+      &:not(.react-datepicker__day--outside-month) {
+        background-color: var(--color-blue) !important;
+        color: ${TEXTCOLOR.brandPrimary} !important;
+        border-radius: 50%;
+        font-weight: 900;
+      }
 
       &:before {
         margin-right: 50%;
@@ -319,6 +326,7 @@ export const datepickerGlobalStyle = css`
       }
     }
 
+    &.react-datepicker__day--outside-month,
     &.react-datepicker__day--selecting-range-start.react-datepicker__day--selecting-range-end,
     &.react-datepicker__day--range-start.react-datepicker__day--range-end {
       &::before {
@@ -330,7 +338,6 @@ export const datepickerGlobalStyle = css`
   .react-datepicker__day--selected,
   .react-datepicker__month--selected,
   .react-datepicker__day--range-start,
-  .react-datepicker__day--range-end,
   .react-datepicker__month--range-start,
   .react-datepicker__month--range-end {
     background-color: ${COLOR.blue} !important;
@@ -346,15 +353,8 @@ export const datepickerGlobalStyle = css`
   }
 
   .react-datepicker__day--keyboard-selected {
-    background-color: ${COLOR.blue};
-    color: ${TEXTCOLOR.brandPrimary};
-    border-radius: 50%;
-    font-weight: 900;
-
-    &:active,
-    &:focus {
-      background-color: rgba(0, 0, 0, 0.75);
-    }
+    background: transparent;
+    border: 1px solid var(--color-blue);
 
     &.react-datepicker__day--outside-month {
       background: transparent !important;
@@ -367,17 +367,18 @@ export const datepickerGlobalStyle = css`
   }
 `;
 
-export const DateWrapper = styled.div``;
-
 export const DateInputWrapper = styled.div`
-  display: flex;
+  position: relative;
+  display: inline-flex;
   align-items: center;
-  width: 100%;
-  height: var(--size-inputHeight);
-  padding: 0 0.7rem;
-  font-size: 1.6rem;
-  border: 1px solid var(--color-inputBorder);
-  border-radius: 2px;
+
+  min-width: 14.3rem;
+  height: ${INPUT.height};
+  padding: 0 2.8rem 0 1.2rem;
+  font-size: ${INPUT.fontSize};
+  border: 1px solid ${INPUT.border};
+  border-radius: 0.4rem;
+
   -webkit-transition:
     border-color 0.15s ease-in-out,
     box-shadow 0.15s ease-in-out;
@@ -387,10 +388,31 @@ export const DateInputWrapper = styled.div`
 
   input {
     width: 100%;
-    font-size: 1.6rem;
     border: none;
+    color: inherit;
+    border-radius: inherit;
+    padding: 0;
+    font: inherit;
   }
-  svg {
-    color: #aaa;
+
+  .ico {
+    position: absolute;
+    top: 50%;
+    margin-top: -0.8rem;
+    width: 1.6rem;
+    height: 1.6rem;
+    right: 1.2rem;
   }
+
+  &:focus-within {
+    border-color: ${INPUT.focusBorder};
+  }
+
+  &::-webkit-input-placeholder,
+  &::-moz-placeholder,
+  &:-ms-input-placeholder,
+  &:-moz-placeholder {
+    color: ${INPUT.placeholder};
+  }
+  //
 `;

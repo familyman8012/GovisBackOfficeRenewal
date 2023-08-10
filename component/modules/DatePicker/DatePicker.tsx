@@ -8,7 +8,6 @@ import React, {
 import ko from 'date-fns/locale/ko';
 import dayjs from 'dayjs';
 import DatepickerLibrary, { ReactDatePickerProps } from 'react-datepicker';
-import { FiCalendar } from 'react-icons/fi';
 import { DateInputWrapper } from './style';
 
 export type NewDate = string | ChangeEvent<Element> | null;
@@ -39,7 +38,12 @@ const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
           ref={ref}
           placeholder={placeholder}
         />
-        <FiCalendar size={20} />
+
+        <img
+          src="/images/common/icon-16-calendar.svg"
+          className="ico"
+          alt="calendar"
+        />
       </DateInputWrapper>
     );
   }
@@ -88,6 +92,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
       dateFormat={dateFormat}
       minDate={minDate}
       maxDate={maxDate}
+      dateFormatCalendar="yyyy년 MM월"
       placeholderText={placeholderText}
       locale={ko}
       showYearDropdown={showYearDropdown}
