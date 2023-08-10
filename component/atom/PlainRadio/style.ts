@@ -10,18 +10,18 @@ export const sizes = {
 export const CheckBoxWrap = styled.input<{ chksize?: CheckBoxSize }>`
   width: ${props => sizes[props.chksize || 'md']};
   height: ${props => sizes[props.chksize || 'md']};
+  background: #fff no-repeat 50% / contain;
+  border: 1px solid rgba(0, 0, 0, 0.25);
   /* margin-top: 0.25em;
   vertical-align: top; */
-  background: #fff no-repeat 50% / contain;
-  border: 1px solid var(--input-checkBoxBorder);
-  border-radius: 0.25em;
   appearance: none;
   color-adjust: exact;
+  border-radius: 50%;
 
   &:checked {
-    border: 1px solid var(--input-checkBoxCheckedBorder);
+    border: var(--color-checkBoxborder);
     background-color: var(--bg-inputCheckBox);
-    background-image: url('/images/common/ico_checkbox.svg');
+    background-image: url('/images/common/ico_radio.svg');
   }
 
   &.readonly {
@@ -31,7 +31,7 @@ export const CheckBoxWrap = styled.input<{ chksize?: CheckBoxSize }>`
   }
 
   &:disabled {
-    border: 1px solid var(--input-checkBoxDisabeldBorder);
+    border: 1px solid var(--input-CheckBoxDisabeldBorder);
     background-color: var(--bg-inputCheckBoxDisabled);
     pointer-events: none;
 

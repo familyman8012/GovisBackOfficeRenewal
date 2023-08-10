@@ -1,13 +1,5 @@
 import React from 'react';
-import { CheckBoxWrap } from './style';
-
-export type CheckBoxSize = 'sm' | 'md' | 'lg';
-
-export const sizes = {
-  sm: '0.7rem', // 0.5rem
-  md: '1.4rem', // 1rem
-  lg: '2.8rem', // 2rem
-};
+import { CheckBoxSize, CheckBoxWrap } from './style';
 
 interface CheckBoxProps {
   value?: string;

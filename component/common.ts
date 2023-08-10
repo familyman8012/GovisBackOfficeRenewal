@@ -74,6 +74,8 @@ const reset = css`
   html {
     font-size: 10px;
   }
+  body {
+  }
 
   .sbdocs-preview pre * {
     color: #fff;
@@ -87,6 +89,10 @@ const reset = css`
   body {
     overflow-x: hidden;
     max-width: 100vw;
+
+    font-size: var(--font-size4);
+    font-weight: var(--font-regular);
+    line-height: var(--lineheight-text);
 
     &.overflowhidden {
       overflow: hidden;
@@ -223,28 +229,6 @@ const reset = css`
     line-height: var(--lineheight-heading);
   }
 
-  div,
-  li,
-  dt,
-  dd,
-  th,
-  td,
-  p,
-  strong,
-  em,
-  a,
-  span {
-    &:not(.small) {
-      font-size: var(--font-size4);
-    }
-    font-weight: var(--font-regular);
-    line-height: var(--lineheight-text);
-
-    &.small {
-      font-size: var(--font-size2);
-    }
-  }
-
   label {
     &:not(.horizontal) {
       display: block;
@@ -257,6 +241,7 @@ const reset = css`
     .acitve {
       color: var(--textcolor-labelActive);
     }
+
     &:not(.small) {
       font-size: var(--input-fontsize);
     }
@@ -274,27 +259,28 @@ const reset = css`
     width: 100%;
     height: var(--input-height);
     font-size: var(--input-fontsize);
-    border: 1px solid var(--color-neutral90, #e5e5e5);
+    border: 1px solid var(--input-border);
     border-radius: 0.6rem;
 
     &::placeholder {
-      color: var(--color-neutral50);
+      color: var(--input-placeholder);
     }
 
     &:focus {
-      border: 1px solid var(--color-neutral10, #181818);
+      border: 1px solid var(--input-focusBorder);
 
       &::placeholder {
-        color: var(--color-neutral10, #181818);
+        color: var(--input-focusPlaceholder);
       }
     }
 
     &:disabled {
-      border: 1px solid var(--color-neutral10, #181818);
-      background: var(--color-gray0, #f7f9fc);
+      border: none;
+      box-shadow: 0px 0px 0px 1px rgba(134, 143, 160, 0.24);
+      background: var(--bg-inputDisabled, #f7f9fc);
 
       &::placeholder {
-        color: var(--color-neutral10, #181818);
+        color: var(--inut-disabledPlaceholder);
       }
     }
   }
@@ -317,6 +303,13 @@ const reset = css`
     &:disabled {
       color: var(--textcolor-inputDisabled);
     }
+  }
+
+  select {
+    padding: 0.8rem 1.2rem;
+    appearance: none;
+    background: url('images/common/ico_sel_arrow.svg') no-repeat #fff
+      calc(100% - 12px) 50%;
   }
 
   .helper-text {
@@ -407,6 +400,32 @@ const reset = css`
     clip: rect(0, 0, 0, 0);
     border: 0;
     *visibility: hidden;
+  }
+
+  @media (min-width: 1400px) and (max-width: 1530px) {
+    html {
+      font-size: 9px;
+    }
+  }
+  @media (min-width: 1200px) and (max-width: 1400px) {
+    html {
+      font-size: 8px;
+    }
+  }
+  @media (min-width: 1000px) and (max-width: 1200px) {
+    html {
+      font-size: 7px;
+    }
+  }
+  @media (min-width: 800px) and (max-width: 1000px) {
+    html {
+      font-size: 6px;
+    }
+  }
+  @media (min-width: 768px) and (max-width: 800px) {
+    html {
+      font-size: 5px;
+    }
   }
 
   ${pretendard}
