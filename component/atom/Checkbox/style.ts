@@ -1,62 +1,86 @@
 import styled from '@emotion/styled';
-// eslint-disable-next-line import/no-cycle
-import { CheckBoxSize, sizes } from './CheckBox';
 
-export const Label = styled.label`
-  display: inline-flex;
-  font-size: 1.4rem;
-  align-items: center;
-  margin-right: 10px;
+export type CheckBoxSize = 'sm' | 'md';
+
+export const sizes = {
+  sm: '1.6rem',
+  md: '2.4rem',
+};
+
+export const LabelFontSize = {
+  sm: '1.4rem',
+  md: '1.6rem',
+};
+
+export const LineHeight = {
+  sm: '2rem',
+  md: '2.4rem',
+};
+
+export const Label = styled.label<{ chksize?: CheckBoxSize }>`
+  display: flex;
+  margin-bottom: 0;
+  &:not(.contain_subtext) {
+    align-items: center;
+  }
+
+  &:not(&:last-of-type) {
+    margin-right: 15px;
+  }
+
+  .txt_box {
+    display: flex;
+    flex-direction: column;
+    margin-left: 8px;
+
+    .title {
+      color: var(--color-neutral10);
+      font-size: ${props => LabelFontSize[props.chksize || 'md']};
+      font-weight: 500;
+      line-height: ${props => LineHeight[props.chksize || 'md']};
+    }
+    .sub-text {
+      color: var(--color-neutral50);
+      font-size: ${props => LabelFontSize[props.chksize || 'md']};
+      font-weight: 400;
+      line-height: ${props => LineHeight[props.chksize || 'md']};
+    }
+  }
 `;
 
 export const CheckBoxWrap = styled.input<{ chksize?: CheckBoxSize }>`
   width: ${props => sizes[props.chksize || 'md']};
   height: ${props => sizes[props.chksize || 'md']};
-  margin: 0 5px 0 0;
-  vertical-align: top;
-  background-color: #fff;
-  background-repeat: no-repeat;
-  background-position: 50%;
-  background-size: contain;
-  border: 1px solid rgba(0, 0, 0, 0.25);
+  /* margin-top: 0.25em;
+  vertical-align: top; */
+  background: #fff no-repeat 50% / contain;
+  border: 1px solid var(--input-checkBoxBorder);
   border-radius: 0.25em;
-  -webkit-appearance: none;
-  -moz-appearance: none;
   appearance: none;
-  -webkit-print-color-adjust: exact;
   color-adjust: exact;
 
-  &:active {
-    filter: brightness(90%);
-  }
-
-  &:focus {
-    border-color: #86b7fe;
-    outline: 0;
-    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
-  }
-
   &:checked {
-    background-color: #0d6efd;
-    border-color: #0d6efd;
-
-    &[type='checkbox'] {
-      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='M6 10l3 3l6-6'/%3e%3c/svg%3e");
-    }
-
-    &[type='radio'] {
-      background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='-4 -4 8 8'%3e%3ccircle r='2' fill='%23fff'/%3e%3c/svg%3e");
-    }
+    border: 1px solid var(--input-checkBoxCheckedBorder);
+    background-color: var(--bg-inputCheckBox);
+    background-image: url('/images/common/ico_checkbox.svg');
   }
 
-  &[type='radio'] {
-    border-radius: 50%;
+  &.readonly {
+    border: 1px solid var(--input-checkBoxReadOnlyBorder);
+    background-color: var(--bg-inputCheckBoxReadOnly);
+    &:checked {
+      background-image: url('/images/common/ico_checkbox_disabled.svg');
+    }
+    pointer-events: none;
   }
 
   &:disabled {
+    border: 1px solid var(--input-checkBoxDisabeldBorder);
+    background-color: var(--bg-inputCheckBoxDisabled);
+    &:checked {
+      background-image: url('/images/common/ico_checkbox_disabled.svg');
+    }
     pointer-events: none;
-    filter: none;
-    opacity: 0.5;
 
     ~ .form-check-label {
       opacity: 0.5;

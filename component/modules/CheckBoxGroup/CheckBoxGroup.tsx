@@ -1,9 +1,17 @@
 import React, { ReactNode, useEffect, useState } from 'react';
 import CheckBox, { CheckBoxProps } from '@ComponentFarm/atom/Checkbox/CheckBox';
 
+export type CheckBoxSize = 'sm' | 'md';
+
+export const sizes = {
+  sm: '1.6rem',
+  md: '2.4rem',
+};
+
 export interface CheckBoxGroupProps {
+  chksize?: CheckBoxSize;
   children?: React.ReactNode;
-  options?: { label: string; value: string }[];
+  options?: { label: string; subText?: string; value: string }[];
   onChange?: (checkedValues: string[]) => void;
   allChechkHandler?: { label: string; value: string }[];
   name: string;
@@ -12,6 +20,7 @@ export interface CheckBoxGroupProps {
 }
 
 const CheckboxGroup: React.FC<CheckBoxGroupProps> = ({
+  chksize,
   children,
   options,
   onChange,
@@ -74,7 +83,7 @@ const CheckboxGroup: React.FC<CheckBoxGroupProps> = ({
   };
 
   const renderOptions = (
-    optionArr: { label: string; value: string }[]
+    optionArr: { label: string; subText?: string; value: string }[]
   ): ReactNode => {
     return optionArr.map(option => (
       <CheckBox
@@ -82,7 +91,9 @@ const CheckboxGroup: React.FC<CheckBoxGroupProps> = ({
         value={option.value}
         checked={!!values[option.value]}
         onChange={(e: any) => handleChange(option.value, e.target.checked)}
+        chksize={chksize}
         label={option.label}
+        subText={option.subText}
       />
     ));
   };
@@ -93,6 +104,7 @@ const CheckboxGroup: React.FC<CheckBoxGroupProps> = ({
         key="all"
         value="all"
         checked={isAllSelected}
+        chksize={chksize}
         onChange={(e: any) => handleAllChange(e.target.checked)}
         label="All"
       />
@@ -100,10 +112,10 @@ const CheckboxGroup: React.FC<CheckBoxGroupProps> = ({
   };
 
   return (
-    <div>
+    <span className="box_checkbox_group">
       {renderAllCheckbox()}
       {options ? renderOptions(options) : renderChildren(children)}
-    </div>
+    </span>
   );
 };
 

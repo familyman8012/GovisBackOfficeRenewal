@@ -69,18 +69,10 @@ const reset = css`
     box-sizing: border-box;
     -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
     -webkit-touch-callout: none;
-    color: var(--textcolor-default);
   }
 
   html {
     font-size: 10px;
-  }
-
-  body {
-  }
-
-  .sbdocs-preview pre * {
-    color: #fff;
   }
 
   html,
@@ -92,6 +84,7 @@ const reset = css`
     overflow-x: hidden;
     max-width: 100vw;
 
+    color: var(--textcolor-default);
     font-size: var(--font-size4);
     font-weight: var(--font-regular);
     line-height: var(--lineheight-text);
@@ -232,10 +225,8 @@ const reset = css`
   }
 
   label {
-    &:not(.horizontal) {
-      display: block;
-      margin-bottom: 11px;
-    }
+    display: block;
+    margin-bottom: 11px;
     color: var(--textcolor-label);
     vertical-align: middle;
     cursor: pointer;
@@ -255,6 +246,9 @@ const reset = css`
     }
   }
 
+  input[type='checkbox'] {
+    margin: 0;
+  }
   input.inp,
   select,
   textarea {
@@ -297,10 +291,6 @@ const reset = css`
     }
   }
 
-  svg {
-    color: var(--textcolor-iconDefault);
-  }
-
   input {
     &:disabled {
       color: var(--textcolor-inputDisabled);
@@ -336,6 +326,12 @@ const reset = css`
     box-sizing: border-box;
     overflow: auto;
     padding: 2.4rem;
+  }
+
+  .box_checkbox_group,
+  .box_radio_group {
+    display: flex;
+    align-items: baseline;
   }
 
   *:-webkit-auto:fill {

@@ -7,7 +7,48 @@ export const sizes = {
   md: '2.4rem',
 };
 
-export const RadioBoxWrap = styled.input<{ chksize?: CheckBoxSize }>`
+export const LabelFontSize = {
+  sm: '1.4rem',
+  md: '1.6rem',
+};
+
+export const LineHeight = {
+  sm: '2rem',
+  md: '2.4rem',
+};
+
+export const Label = styled.label<{ chksize?: CheckBoxSize }>`
+  display: flex;
+  margin-bottom: 0;
+  &:not(.contain_subtext) {
+    align-items: center;
+  }
+
+  &:not(&:last-of-type) {
+    margin-right: 15px;
+  }
+
+  .txt_box {
+    display: flex;
+    flex-direction: column;
+    margin-left: 8px;
+
+    .title {
+      color: var(--color-neutral10);
+      font-size: ${props => LabelFontSize[props.chksize || 'md']};
+      font-weight: 500;
+      line-height: ${props => LineHeight[props.chksize || 'md']};
+    }
+    .sub-text {
+      color: var(--color-neutral50);
+      font-size: ${props => LabelFontSize[props.chksize || 'md']};
+      font-weight: 400;
+      line-height: ${props => LineHeight[props.chksize || 'md']};
+    }
+  }
+`;
+
+export const RadioWrap = styled.input<{ chksize?: CheckBoxSize }>`
   width: ${props => sizes[props.chksize || 'md']};
   height: ${props => sizes[props.chksize || 'md']};
   background: #fff no-repeat 50% / contain;

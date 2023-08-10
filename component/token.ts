@@ -65,6 +65,7 @@ export const TEXTCOLOR: Token = {
 export const BACKGROUND: Token = {
   primary: 'var(--color-gray1)',
   brand: 'var(--color-orange60)',
+  inputRadio: 'var(--color-gray1)',
   inputCheckBox: 'var(--color-blue)',
   inputCheckBoxReadOnly: 'var(--color-gray0)',
   inputCheckBoxDisabled: 'var(--color-neutral95)',

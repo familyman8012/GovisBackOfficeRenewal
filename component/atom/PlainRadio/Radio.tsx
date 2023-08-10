@@ -1,5 +1,5 @@
 import React from 'react';
-import { CheckBoxSize, CheckBoxWrap } from './style';
+import { CheckBoxSize, RadioBoxWrap } from './style';
 
 interface CheckBoxProps {
   value?: string;
@@ -15,7 +15,7 @@ const Radio: React.FC<CheckBoxProps> = ({
   chksize = 'md',
 }) => {
   return (
-    <CheckBoxWrap
+    <RadioBoxWrap
       value={value}
       type="radio"
       checked={checked}

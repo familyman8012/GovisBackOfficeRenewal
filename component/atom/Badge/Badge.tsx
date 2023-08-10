@@ -3,7 +3,8 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { theme } from '@ComponentFarm/theme';
 
-type BadgeVariant =
+type BadgeSize = 'sm' | 'md' | 'lg';
+type BadgeColor =
   | 'numbering'
   | 'black'
   | 'gray'
@@ -11,12 +12,14 @@ type BadgeVariant =
   | 'error'
   | 'warning'
   | 'success';
-type BadgeSize = 'xs' | 'sm' | 'md' | 'lg';
+type BadgeFill = 'fill' | 'outline' | 'transaprent';
 
 export interface BadgeProps {
   children: ReactNode;
-  variant: BadgeVariant;
   size?: BadgeSize;
+  color?: BadgeColor;
+  dot?: boolean;
+  fill?: BadgeFill;
   LeadingIcon?: React.ReactElement;
   TrailingIcon?: React.ReactElement;
   textWhite?: boolean;
@@ -94,8 +97,10 @@ const BadgeWrapper = styled.span<BadgeProps>`
 `;
 
 export const Badge: FC<BadgeProps> = ({
-  variant,
   size = 'md',
+  color = 'green',
+  dot = true,
+  fill = 'fill',
   LeadingIcon,
   TrailingIcon,
   children,
@@ -105,7 +110,13 @@ export const Badge: FC<BadgeProps> = ({
   const Trailing = TrailingIcon?.type;
 
   return (
-    <BadgeWrapper variant={variant} size={size} textWhite={textWhite}>
+    <BadgeWrapper
+      size={size}
+      color={color}
+      dot={dot}
+      fill={fill}
+      textWhite={textWhite}
+    >
       {Leading && (
         <Leading {...LeadingIcon.props} style={{ marginRight: '6px' }} />
       )}
