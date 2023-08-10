@@ -7,6 +7,7 @@ export interface Token {
 }
 
 export const COLOR: Token = {
+  gray0: '#f7f9fc',
   gray1: '#fff',
   gray2: '#fafaf9',
   gray3: '#f3f2f2',
@@ -17,6 +18,7 @@ export const COLOR: Token = {
   gray8: '#969492',
   gray9: '#706e6b',
   gray10: '#514f4d',
+  gray300: '#a1a9b8',
   neutral10: '#181818',
   neutral20: '#2e2e2e',
   neutral30: '#444444',
@@ -63,8 +65,10 @@ export const TEXTCOLOR: Token = {
 export const BACKGROUND: Token = {
   primary: 'var(--color-gray1)',
   brand: 'var(--color-orange60)',
-  inputCheckBoxDisabled: 'var(--color-neutral80)',
-  inputDisabled: 'var(--color-neutral95)',
+  inputCheckBox: 'var(--color-blue)',
+  inputCheckBoxReadOnly: 'var(--color-gray0)',
+  inputCheckBoxDisabled: 'var(--color-neutral95)',
+  inputDisabled: 'var(--color-gray0)',
   notificationNew: 'var(--color-neutral95)',
   rowHover: 'var(--color-neutral95)',
   rowSelected: 'var(--color-neutral95)',
@@ -103,6 +107,15 @@ export const INPUT: Token = {
   height: '4rem',
   fontsize: '1.4rem',
   fontweight: '400',
+  border: 'var(--color-neutral90)',
+  placeholder: 'var(--color-neutral50)',
+  focusBorder: 'var(--color-neutral10)',
+  focusPlaceholder: 'var(--color-neutral10)',
+  disabledPlaceholder: 'var(--color-gray300)',
+  checkBoxBorder: 'var(--color-neutral90)',
+  checkBoxCheckedBorder: 'var(--color-blue)',
+  checkBoxReadOnlyBorder: 'var(--color-neutral90)',
+  checkBoxDisabeldBorder: 'var(--color-neutral90)',
 };
 
 export const LABEL: Token = {

@@ -39,6 +39,18 @@ const StoryBadge: Story<Props> = args => {
         }
       `}
     >
+      <div className="field1" style={{ marginBottom: 30 }}>
+        <label htmlFor="product_name" className="req">
+          제품명
+        </label>
+        <input
+          type="text"
+          id="product_name"
+          className="inp"
+          placeholder="Search"
+          name="product_name"
+        />
+      </div>
       <div className="field1">
         <label htmlFor="product_name" className="req">
           제품명
@@ -47,8 +59,9 @@ const StoryBadge: Story<Props> = args => {
           type="text"
           id="product_name"
           className="inp"
-          placeholder="dd"
+          placeholder="Search"
           name="product_name"
+          disabled
         />
       </div>
     </StoryLayout>

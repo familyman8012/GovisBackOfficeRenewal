@@ -40,7 +40,10 @@ const StoryBadge: Story<Props> = args => {
         }
       `}
     >
-      <CheckBoxWrap type="radio" name="fruits" value="apple" />
+      <CheckBoxWrap type="radio" name="fruits" value="apple" chksize="sm" />
+      <CheckBoxWrap type="radio" name="fruits" value="apple" checked />
+      <CheckBoxWrap type="radio" name="fruits" value="apple" disabled />
+      <CheckBoxWrap type="radio" name="fruits" value="apple" readOnly />
     </StoryLayout>
   );
 };
