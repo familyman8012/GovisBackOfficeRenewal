@@ -34,7 +34,7 @@ const carotRight = (
   </svg>
 );
 
-const Pagination: FC<PaginationProps> = ({
+export const Pagination: FC<PaginationProps> = ({
   pageInfo,
   totalCount,
   handlePageChange,

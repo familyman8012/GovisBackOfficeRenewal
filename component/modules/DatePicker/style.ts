@@ -371,10 +371,9 @@ export const DateInputWrapper = styled.div`
   position: relative;
   display: inline-flex;
   align-items: center;
-
-  min-width: 14.3rem;
+  width: 13.3rem;
+  padding: 0;
   height: ${INPUT.height};
-  padding: 0 2.8rem 0 1.2rem;
   font-size: ${INPUT.fontSize};
   border: 1px solid ${INPUT.border};
   border-radius: 0.4rem;
@@ -388,11 +387,13 @@ export const DateInputWrapper = styled.div`
 
   input {
     width: 100%;
+    height: 100%;
     border: none;
     color: inherit;
     border-radius: inherit;
     padding: 0;
     font: inherit;
+    padding: 0 2.8rem 0 1.2rem;
   }
 
   .ico {
@@ -414,5 +415,4 @@ export const DateInputWrapper = styled.div`
   &:-moz-placeholder {
     color: ${INPUT.placeholder};
   }
-  //
 `;
