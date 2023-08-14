@@ -4,21 +4,21 @@ type Props = React.SVGProps<SVGSVGElement> & {
   viewBoxSize?: number,
   customCss?: string,
 };
-export const Up = ({ size, viewBoxSize, ...props }: Props) => (
+export const Right = ({ size, viewBoxSize, ...props }: Props) => (
   <svg
     css={css`
       ${props.customCss}
     `}
     xmlns="http://www.w3.org/2000/svg"
-    width={size || 16}
-    height={size || 16}
+    width={16}
+    height={16}
     fill="none"
-    viewBox={`0 0 ${viewBoxSize || 24} ${viewBoxSize || 24}`}
+    viewBox="0 0 16 16"
   >
     <path
-      fill="#747474"
+      fill="#fff"
       fillRule="evenodd"
-      d="M18 15a.995.995 0 0 1-.64-.232l-5.371-4.476-5.362 4.315a.999.999 0 1 1-1.253-1.558l6-4.828a.998.998 0 0 1 1.266.011l6 5A1 1 0 0 1 18 15Z"
+      d="M6 12c0-.15.05-.302.155-.427l2.984-3.58-2.877-3.575a.666.666 0 1 1 1.039-.836l3.218 4c.2.247.197.601-.007.845l-3.333 4A.667.667 0 0 1 6 12Z"
       clipRule="evenodd"
     />
   </svg>

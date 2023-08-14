@@ -44,7 +44,7 @@ const ListHandler = ({ params, updateParams, resetParams }: IListHandler) => {
         params={params}
         updateParams={updateParams}
       />
-      <Button variant="black" onClick={resetParams}>
+      <Button variant="primary" onClick={resetParams}>
         리셋
       </Button>
     </div>

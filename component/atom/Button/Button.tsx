@@ -5,48 +5,85 @@ import { theme } from '@ComponentFarm/theme';
 import Spinner from '../Spinner/Spinner';
 
 type ButtonVariant =
-  | 'transparent'
-  | 'outline'
-  | 'white'
-  | 'black'
   | 'primary'
   | 'secondary'
-  | 'secondaryGray'
-  | 'tertiary'
-  | 'tertiaryGray';
+  | 'gostPrimary'
+  | 'gostSecondary'
+  | 'transparent';
 
-type ButtonSize = 'sm' | 'md' | 'lg' | 'xl' | '2xl';
+type ButtonSize = 'md' | 'lg';
 
 const buttonSizes = {
-  sm: css`
-    height: 2.5rem;
-    padding: 0 1.4rem;
-    font-size: 1.2rem;
-  `,
   md: css`
-    min-width: 7.8rem;
-    height: 4rem;
+    min-width: 10.5rem;
+    height: 4.4rem;
     padding: 0 1.6rem;
     font-size: 1.4rem;
   `,
   lg: css`
-    height: 4.4rem;
-    padding: 0 1.8rem;
-    font-size: 1.6rem;
-  `,
-  xl: css`
-    height: 4.8rem;
-    padding: 0 2rem;
-    font-size: 1.6rem;
-  `,
-  '2xl': css`
-    height: 6rem;
-    padding: 0 2.8rem;
-    font-size: 1.8rem;
+    height: 5.5rem;
+    padding: 0 1.4rem;
+    font-size: 1.7rem;
   `,
 };
 
 const buttonVariants = {
+  primary: css`
+    color: var(--button-white);
+    background-color: var(--button-blue);
+
+    &:hover {
+      background-color: var(--button-primaryHoverBg);
+    }
+
+    &:disabled {
+      color: var(--button-disableColor);
+      border: 1px solid var(--button-gray);
+      background-color: var(--button-disableBackground);
+    }
+  `,
+  secondary: css`
+    color: var(--button-white);
+    background-color: var(--button-black);
+
+    &:disabled {
+      color: var(--button-disableColor);
+      border: 1px solid var(--button-gray);
+      background-color: var(--button-disableBackground);
+    }
+  `,
+  gostPrimary: css`
+    color: var(--button-blue);
+    border: 1px solid var(--button-blue);
+    background-color: transparent;
+
+    &:not(&:disabled) {
+      &:hover {
+        background-color: var(--button-ghostPrimaryHoverBg);
+      }
+    }
+
+    &:disabled {
+      color: var(--button-gray);
+      border: 1px solid var(--button-gray);
+    }
+  `,
+  gostSecondary: css`
+    color: var(--button-textBlack);
+    border: 1px solid var(--button-gray);
+    background-color: transparent;
+
+    &:not(&:disabled) {
+      &:hover {
+        background-color: var(--button-ghostSecodaryHoverBg);
+      }
+    }
+
+    &:disabled {
+      color: var(--button-gray);
+      border: 1px solid var(--button-gray);
+    }
+  `,
   transparent: css`
     background-color: transparent;
     border: none;
@@ -57,95 +94,6 @@ const buttonVariants = {
 
     &:disabled {
       background-color: ${theme.colors.gray25};
-    }
-  `,
-  white: css`
-    background-color: ${theme.colors.white};
-    color: ${theme.colors.black};
-  `,
-  black: css`
-    background-color: ${theme.colors.black};
-    color: ${theme.colors.white};
-  `,
-  outline: css`
-    border: 1px solid #6fcf97;
-    background-color: ${theme.colors.white};
-    color: #6fcf97;
-
-    &:hover {
-      background-color: ${theme.colors.brand50};
-    }
-
-    &:disabled {
-      background-color: ${theme.colors.gray25};
-    }
-  `,
-  primary: css`
-    background-color: ${theme.colors.brand25};
-    color: ${theme.colors.white};
-
-    &:hover {
-      background-color: ${theme.colors.brand50};
-    }
-
-    &:disabled {
-      background-color: ${theme.colors.gray25};
-    }
-  `,
-  secondary: css`
-    background-color: ${theme.colors.primary50};
-    color: ${theme.colors.primary700};
-    border: transparent;
-
-    &:hover {
-      background-color: ${theme.colors.primary100};
-    }
-
-    &:disabled {
-      background-color: ${theme.colors.primary25};
-      color: ${theme.colors.primary300};
-    }
-  `,
-  secondaryGray: css`
-    background-color: ${theme.colors.white};
-    color: ${theme.colors.gray700};
-    border: ${theme.colors.gray300};
-
-    &:hover {
-      background-color: ${theme.colors.gray50};
-      color: ${theme.colors.gray800};
-    }
-
-    &:disabled {
-      background-color: ${theme.colors.gray200};
-      color: ${theme.colors.gray300};
-    }
-  `,
-  tertiary: css`
-    background-color: ${theme.colors.white};
-    color: ${theme.colors.primary700};
-
-    &:hover {
-      background-color: ${theme.colors.primary50};
-    }
-
-    &:disabled {
-      background-color: ${theme.colors.white};
-      color: ${theme.colors.gray300};
-    }
-  `,
-  tertiaryGray: css`
-    background-color: ${theme.colors.white};
-    color: ${theme.colors.gray900};
-
-    &:hover {
-      background-color: ${theme.colors.gray50};
-      color: ${theme.colors.gray800};
-    }
-
-    &:disabled {
-      background-color: ${theme.colors.white};
-      color: ${theme.colors.gray300};
     }
   `,
 };
@@ -167,15 +115,15 @@ export const StyledButton = styled.button<{
 }>`
   display: flex;
   align-items: center;
-  justify-content:center;
-  width:fit-content;
-  border-radius: 0.375rem; // 6px
+  justify-content: center;
+  width: fit-content;
+  border-radius: 0.4rem;
   font-weight: 500;
   white-space: nowrap;
   user-select: none;
-  box-shadow: 0 2px 4px 0 rgba(0,0,0,.1);
+  cursor: pointer;
+
   &:disabeld {
-    opacity: 0.6
     cursor: 'not-allowed';
   }
 
@@ -193,6 +141,7 @@ export const Button: FC<ButtonProps> = ({
   IconOnly,
   disabled,
   isLoading,
+  type,
   ...buttonProps
 }) => {
   const Leading = LeadingIcon?.type;
@@ -202,31 +151,19 @@ export const Button: FC<ButtonProps> = ({
   return (
     <StyledButton
       {...buttonProps}
-      type="button"
+      type={type}
       variant={variant}
       size={size}
       IconOnly={!!IconOnly}
       disabled={disabled}
     >
       {Leading && (
-        <Leading
-          {...LeadingIcon.props}
-          css={css`
-            margin-right: ${size === '2xl' ? '0.75rem' : '0.5rem'};
-          `}
-        />
+        <Leading {...LeadingIcon.props} customCss="margin-right: 0.4rem;" />
       )}
       {!isLoading ? children : <Spinner color="white" />}
-      {IconOnlyType && (
-        <IconOnlyType {...IconOnly.props} size={size === '2xl' ? 24 : 20} />
-      )}
+      {IconOnlyType && <IconOnlyType {...IconOnly.props} />}
       {Trailing && (
-        <Trailing
-          {...TrailingIcon.props}
-          css={css`
-            margin-left: ${size === '2xl' ? '0.75rem' : '0.5rem'};
-          `}
-        />
+        <Trailing {...TrailingIcon.props} customCss="margin-left: 0.4rem;" />
       )}
     </StyledButton>
   );

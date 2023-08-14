@@ -18,6 +18,7 @@ export { default as More } from './More';
 export { default as Pic } from './Pic';
 export { default as Plus } from './Plus';
 export { default as Product } from './Product';
+export { default as Right } from './Right';
 export { default as Search } from './Search';
 export { default as Semantic } from './Semantic';
 export { default as Setting1 } from './Setting1';

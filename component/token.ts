@@ -156,3 +156,16 @@ export const Badge: Token = {
   orangeBorder: 'var(--color-orange90)',
   orangeBg: 'var(--color-orange95)',
 };
+
+export const Button: Token = {
+  white: 'var(--color-gray1)',
+  black: '#000',
+  blue: 'var(--color-blue)',
+  gray: 'var(--color-neutral90)',
+  textBlack: 'var(--color-neutral10)',
+  disableBackground: 'var(--color-neutral95)',
+  disableColor: 'var(--color-neutral90)',
+  primaryHoverBg: '#121672',
+  ghostPrimaryHoverBg: '#F7F7FA',
+  ghostSecodaryHoverBg: 'var(--color-gray3)',
+};

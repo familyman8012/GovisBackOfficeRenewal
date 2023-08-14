@@ -1,5 +1,5 @@
 /* eslint-disable react/destructuring-assignment */
-
+// @ts-nocheck
 import React from 'react';
 import { Meta, Story } from '@storybook/react';
 import { FiArrowRight, FiStar } from 'react-icons/fi';

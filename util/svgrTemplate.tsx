@@ -1,5 +1,7 @@
 /* eslint-disable no-shadow */
 // @ts-nocheck
+const generate = require('@babel/generator').default;
+
 function template(variables, { tpl }) {
   const { imports, interfaces } = variables;
 
@@ -17,14 +19,42 @@ function template(variables, { tpl }) {
     .filter(Boolean) // null 제거
     .join('\n');
 
+  let svgElement = `
+  ${generate(variables.jsx).code}
+  `;
+
+  // width와 height 속성을 size prop을 사용하도록 수정
+  // eslint-disable-next-line no-template-curly-in-string
+  svgElement = svgElement.replace('<svg', '<svg css={css`${props.customCss}`}');
+  svgElement = svgElement.replace('width={24}', 'width={size || 16}');
+  svgElement = svgElement.replace('height={24}', 'height={size || 16}');
+  svgElement = svgElement.replace(
+    'viewBox="0 0 24 24"',
+    // eslint-disable-next-line no-template-curly-in-string
+    'viewBox={`0 0 ${viewBoxSize || 24} ${viewBoxSize || 24}`}'
+  );
+
+  const componentNameWithoutSvgPrefix = variables.componentName.replace(
+    /^Svg/,
+    ''
+  );
+
   return tpl`
+  import { css } from '@emotion/react';
+
 ${newImports}
 
-type Props = React.SVGProps<SVGSVGElement>;
+type Props = React.SVGProps<SVGSVGElement> & {
+  size?: number;
+  viewBoxSize?:number;
+  customCss?: string;
+};
+export const ${componentNameWithoutSvgPrefix} = ({ size, viewBoxSize, ...props }: Props) => (
 
-const ${variables.componentName}: React.FC<Props> = (props:Props) => ${variables.jsx};
+    ${svgElement}
+);
 
-${variables.exports}
+
   `;
 }
 
