@@ -1,82 +1,64 @@
-/* eslint-disable jsx-a11y/label-has-associated-control */
-/* eslint-disable jsx-a11y/anchor-is-valid */
+// @ts-nocheck
 import React from 'react';
 import { Meta, Story } from '@storybook/react';
+import { css } from '@emotion/react';
 import StoryLayout from '@ComponentFarm/modules/story_layout/StoryLayout';
-import {
-  ArrowDownFilled,
-  Book,
-  Browser,
-  Calendar,
-  Cross,
-  Cube,
-  Dashboard,
-  Data,
-  Down,
-  Edit,
-  Export,
-  File,
-  Flag,
-  Layer,
-  Menu,
-  More,
-  Pic,
-  Plus,
-  Product,
-  Search,
-  Semantic,
-  Setting1,
-  Setting2,
-  Sync,
-  UBuilding,
-  Up,
-} from '.';
-import Alert from './Alert';
+
+// SVG 컴포넌트들을 동적으로 불러옵니다.
+const svgsContext = require.context('.', true, /\.tsx$/);
+
+const svgs = svgsContext
+  .keys()
+  .filter(filename => !filename.includes('stories.tsx')) // 스토리 파일 제외
+  .reduce((acc, filename) => {
+    const svgModule = svgsContext(filename);
+    Object.keys(svgModule).forEach(key => {
+      // default 내보내기 제외하고 모든 내보내기 가져오기
+      if (key !== 'default') {
+        acc[key] = svgModule[key];
+      }
+    });
+    return acc;
+  }, {});
 
 const meta: Meta = {
   title: 'Atoms/Icon',
   tags: ['autodocs'],
   parameters: {
     docs: {
-      story: { inline: true }, // render the story in an iframe
-      canvas: { sourceState: 'shown' }, // start with the source open
-      source: { type: 'code' }, // forces the raw source code (rather than the rendered JSX).
+      story: { inline: true },
+      canvas: { sourceState: 'shown' },
+      source: { type: 'code' },
     },
   },
 };
 
 export default meta;
 
-const Icon: Story<any> = ({ darkMode, ...args }) => (
-  <StoryLayout darkMode={darkMode}>
-    <Alert />
-    <ArrowDownFilled />
-    <Book />
-    <Browser />
-    <Calendar />
-    <Cross />
-    <Cube />
-    <Dashboard />
-    <Data />
-    <Down />
-    <Edit />
-    <Export />
-    <File />
-    <Flag />
-    <Layer />
-    <Menu />
-    <More />
-    <Pic />
-    <Plus />
-    <Product />
-    <Search />
-    <Semantic />
-    <Setting1 />
-    <Setting2 />
-    <Sync />
-    <UBuilding />
-    <Up />
+const SVGDisplay: Story<any> = ({ ...args }) => (
+  <StoryLayout
+    customCss={css`
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4rem;
+      text-align: center;
+      .box_icon {
+        margin-right: 20px;
+      }
+    `}
+  >
+    {Object.values(svgs).map((SVGComponent, index) => (
+      <div key={SVGComponent.name} className="box_icon">
+        <SVGComponent {...args} />
+        <p>{SVGComponent.name}</p>
+      </div>
+    ))}
   </StoryLayout>
 );
 
-export const Default = Icon.bind({});
+export const Default = SVGDisplay.bind({});
+Default.args = {
+  size: 24,
+  viewBoxSize: 24,
+  customCss: 'fill: red;',
+};

@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { useQuery } from 'react-query';
 import { fetchCouponFindAll } from '@ApiFarm/coupon';
-import { Pagination } from '@ComponentFarm/modules/Paginate/Pagination';
+import Pagination from '@ComponentFarm/modules/Paginate/Pagination';
 import ListHandler from '@ComponentFarm/template/fc/coupons/ListHandler';
 import ListTable from '@ComponentFarm/template/fc/coupons/ListTable';
 import useQueryParams from '@HookFarm/useQueryParams';

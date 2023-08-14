@@ -11,6 +11,7 @@ import {
   LINE_HEIGHTS,
   TABS,
   TEXTCOLOR,
+  Button,
 } from './token';
 
 export const breakpoints = [200, 767, 800, 1200, 1600];
@@ -62,6 +63,7 @@ const reset = css`
     ${createVariables(LABEL, 'label')}
     ${createVariables(TABS, 'tabs')}
     ${createVariables(Badge, 'bage')}
+    ${createVariables(Button, 'button')}
     --swiper-navigation-size : 8rem;
   }
 
@@ -250,6 +252,12 @@ const reset = css`
 
     &.small {
       font-size: var(--label-fontsize);
+    }
+  }
+
+  svg {
+    path:not([fill='none']) {
+      fill: currentColor;
     }
   }
 

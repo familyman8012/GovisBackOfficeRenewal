@@ -1,12 +1,19 @@
-type Props = React.SVGProps<SVGSVGElement>;
-const SvgData = (props: Props) => (
+import { css } from '@emotion/react';
+type Props = React.SVGProps<SVGSVGElement> & {
+  size?: number,
+  viewBoxSize?: number,
+  customCss?: string,
+};
+export const Data = ({ size, viewBoxSize, ...props }: Props) => (
   <svg
+    css={css`
+      ${props.customCss}
+    `}
     xmlns="http://www.w3.org/2000/svg"
-    width="1em"
-    height="1em"
+    width={size || 16}
+    height={size || 16}
     fill="none"
-    viewBox="0 0 24 24"
-    {...props}
+    viewBox={`0 0 ${viewBoxSize || 24} ${viewBoxSize || 24}`}
   >
     <path
       stroke="#747474"
@@ -24,4 +31,3 @@ const SvgData = (props: Props) => (
     />
   </svg>
 );
-export default SvgData;

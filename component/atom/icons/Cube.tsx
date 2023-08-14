@@ -1,12 +1,19 @@
-type Props = React.SVGProps<SVGSVGElement>;
-const SvgCube = (props: Props) => (
+import { css } from '@emotion/react';
+type Props = React.SVGProps<SVGSVGElement> & {
+  size?: number,
+  viewBoxSize?: number,
+  customCss?: string,
+};
+export const Cube = ({ size, viewBoxSize, ...props }: Props) => (
   <svg
+    css={css`
+      ${props.customCss}
+    `}
     xmlns="http://www.w3.org/2000/svg"
-    width="1em"
-    height="1em"
+    width={size || 16}
+    height={size || 16}
     fill="none"
-    viewBox="0 0 24 24"
-    {...props}
+    viewBox={`0 0 ${viewBoxSize || 24} ${viewBoxSize || 24}`}
   >
     <path
       fill="#747474"
@@ -16,4 +23,3 @@ const SvgCube = (props: Props) => (
     />
   </svg>
 );
-export default SvgCube;
