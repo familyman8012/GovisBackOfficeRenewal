@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "convert-svg": "npx @svgr/cli --out-dir ./component/atom/icons --icon --template ./util/svgrTemplate.tsx ./public/images/icons --typescript"
   },
   "husky": {
     "hooks": {
@@ -24,6 +25,7 @@
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "@svgr/core": "^8.0.0",
     "@table-library/react-table-library": "^4.1.4",
     "@types/node": "20.3.3",
     "@types/react": "18.2.14",
@@ -72,6 +74,7 @@
     "@storybook/nextjs": "^7.1.0",
     "@storybook/react": "^7.1.0",
     "@storybook/testing-library": "^0.2.0",
+    "@svgr/cli": "^8.0.1",
     "@types/prismjs": "^1.26.0",
     "@types/react-datepicker": "^4.11.2",
     "@types/react-js-pagination": "^3.0.4",

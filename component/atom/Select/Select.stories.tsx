@@ -43,10 +43,7 @@ const StorySelect: Story<Props> = args => {
     <StoryLayout
       {...args}
       customCss={css`
-        & > div + div {
-          margin: 10.25rem;
-          margin-left: 1.25rem;
-        }
+        height: 30vh;
       `}
     >
       <div>
@@ -54,6 +51,7 @@ const StorySelect: Story<Props> = args => {
           options={options}
           selectedOption={selectedOption}
           setSelectedOption={setSelectedOption}
+          prefixLabel="전체분류"
         />
 
         <div>
@@ -99,10 +97,7 @@ const StorySelect2: Story<Props> = args => {
     <StoryLayout
       {...args}
       customCss={css`
-        & > div + div {
-          margin: 10.25rem;
-          margin-left: 1.25rem;
-        }
+        height: 30vh;
       `}
     >
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -155,11 +150,11 @@ const StorySelect3: Story<Props> = args => {
   const formatStatus = (status: string) => {
     switch (status) {
       case 'enabled':
-        return <Badge variant="black">사용</Badge>;
+        return <Badge size="sm">사용</Badge>;
       case 'disabled':
-        return <Badge variant="error">미사용</Badge>;
+        return <Badge size="sm">미사용</Badge>;
       case 'pending':
-        return <Badge variant="primary">대기중</Badge>;
+        return <Badge size="sm">대기중</Badge>;
 
       default:
         return null;
@@ -170,10 +165,7 @@ const StorySelect3: Story<Props> = args => {
     <StoryLayout
       {...args}
       customCss={css`
-        & > div + div {
-          margin: 10.25rem;
-          margin-left: 1.25rem;
-        }
+        height: 30vh;
       `}
     >
       <form onSubmit={handleSubmit(onSubmit)}>

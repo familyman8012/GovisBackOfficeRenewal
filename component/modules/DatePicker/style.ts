@@ -209,21 +209,23 @@ export const datepickerGlobalStyle = css`
     background: var(--color-gray-1);
   }
 
-  svg:not(.gv-button) {
-    position: absolute;
-    width: 18px;
-    height: 18px;
-    right: 10px;
-    top: 10px;
-    color: #828282;
-    pointer-events: none;
-  }
+  .react-datepicker {
+    svg:not(.gv-button) {
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      right: 10px;
+      top: 10px;
+      color: #828282;
+      pointer-events: none;
+    }
 
-  &__none-editable {
-    width: 100%;
-    min-height: 39px;
-    background: transparent;
-    border: 0;
+    &__none-editable {
+      width: 100%;
+      min-height: 39px;
+      background: transparent;
+      border: 0;
+    }
   }
 
   // hide

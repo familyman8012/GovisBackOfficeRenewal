@@ -141,6 +141,11 @@ const reset = css`
     display: block;
   }
 
+  input {
+    border: transparent;
+    outline: none;
+  }
+
   input[type='text']::-ms-clear {
     display: none;
   }

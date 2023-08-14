@@ -120,6 +120,9 @@ export const INPUT: Token = {
   checkBoxCheckedBorder: 'var(--color-blue)',
   checkBoxReadOnlyBorder: 'var(--color-neutral90)',
   checkBoxDisabeldBorder: 'var(--color-neutral90)',
+  selectBorder: 'var(--color-neutral90)',
+  selectFoucsBorder: 'var(--color-neutral50)',
+  selectOptionSelected: '#ededf0',
 };
 
 export const LABEL: Token = {
@@ -149,4 +152,7 @@ export const Badge: Token = {
   grayLabel: '#5A6376',
   grayBorder: '#EAECF0',
   grayBg: '#F9FAFB',
+  orangeLabel: 'var(--color-orange60)',
+  orangeBorder: 'var(--color-orange90)',
+  orangeBg: 'var(--color-orange95)',
 };

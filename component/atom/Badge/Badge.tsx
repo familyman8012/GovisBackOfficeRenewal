@@ -2,8 +2,15 @@ import React, { FC, ReactNode } from 'react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
-type BadgeSize = 'sm' | 'md' | 'lg';
-type BadgeColor = 'green' | 'yellow' | 'indigo' | 'blue' | 'red' | 'gray';
+type BadgeSize = 'sm' | 'md' | 'lg' | 'circle';
+type BadgeColor =
+  | 'green'
+  | 'yellow'
+  | 'indigo'
+  | 'blue'
+  | 'red'
+  | 'gray'
+  | 'orange';
 type BadgeFill = 'fill' | 'outline' | 'transparent';
 
 export interface BadgeProps {
@@ -41,6 +48,12 @@ const sizes = {
     font-size: 1.4rem;
     line-height: 2rem;
   `,
+  circle: css`
+    padding: 0 0.6rem;
+    font-size: 1.2rem;
+    line-height: 1.8rem;
+    border-radius: 50%;
+  `,
 };
 
 const colors = {
@@ -73,6 +86,11 @@ const colors = {
     color: var(--bage-grayLabel);
     border: 1px solid var(--bage-grayBorder);
     background-color: var(--bage-grayBg);
+  `,
+  orange: css`
+    color: var(--bage-orangeLabel);
+    border: 1px solid var(--bage-orangeBorder);
+    background-color: var(--bage-orangeBg);
   `,
 };
 
