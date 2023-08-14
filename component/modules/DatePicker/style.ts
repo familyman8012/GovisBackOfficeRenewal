@@ -166,10 +166,11 @@ export const datepickerGlobalStyle = css`
   .react-datepicker__navigation * {
     width: 100%;
     height: 100%;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M10.5 7.5L15 12L10.5 16.5' stroke='%23020202' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
     left: 0;
     top: 0;
     right: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none'%3E%3Cpath d='M10.5 7.5L15 12L10.5 16.5' stroke='%23020202' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-position: center;
   }
 
   .react-datepicker__navigation *::before {
@@ -208,21 +209,23 @@ export const datepickerGlobalStyle = css`
     background: var(--color-gray-1);
   }
 
-  svg:not(.gv-button) {
-    position: absolute;
-    width: 18px;
-    height: 18px;
-    right: 10px;
-    top: 10px;
-    color: #828282;
-    pointer-events: none;
-  }
+  .react-datepicker {
+    svg:not(.gv-button) {
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      right: 10px;
+      top: 10px;
+      color: #828282;
+      pointer-events: none;
+    }
 
-  &__none-editable {
-    width: 100%;
-    min-height: 39px;
-    background: transparent;
-    border: 0;
+    &__none-editable {
+      width: 100%;
+      min-height: 39px;
+      background: transparent;
+      border: 0;
+    }
   }
 
   // hide

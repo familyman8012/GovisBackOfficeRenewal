@@ -4,7 +4,7 @@ import { Meta, Story } from '@storybook/react';
 import { Controller, useForm } from 'react-hook-form';
 import { css } from '@emotion/react';
 import StoryLayout from '@ComponentFarm/modules/story_layout/StoryLayout';
-import Radio from '@ComponentFarm/atom/Checkbox/Radio';
+import Radio from '@ComponentFarm/atom/Radio/Radio';
 import RadioGroup, { RadioGroupProps } from './RadioGroup';
 
 const meta: Meta = {
@@ -37,6 +37,17 @@ const StoryCheckboxGroup: Story<Props> = args => {
     { label: 'Orange', value: '3' },
   ];
 
+  const options2 = [
+    { label: 'Apple', value: '1' },
+    { label: 'Pear', value: '2' },
+    { label: 'Orange', value: '3' },
+  ];
+  const option3 = [
+    { label: 'Apple', value: '1', subText: 'subText' },
+    { label: 'Pear', value: '2', subText: 'subText' },
+    { label: 'Orange', value: '3', subText: 'subText' },
+  ];
+
   const [selectedRadio, setSelectedRadio] = useState('');
 
   return (
@@ -49,11 +60,29 @@ const StoryCheckboxGroup: Story<Props> = args => {
         }
       `}
     >
-      <RadioGroup
-        options={options}
-        defaultValue={selectedRadio}
-        onChange={setSelectedRadio}
-      />
+      <div style={{ display: 'flex' }}>
+        <RadioGroup
+          options={options}
+          defaultValue={selectedRadio}
+          onChange={setSelectedRadio}
+        />
+      </div>
+      <div style={{ display: 'flex' }}>
+        <RadioGroup
+          options={options2}
+          chksize="sm"
+          defaultValue={selectedRadio}
+          onChange={setSelectedRadio}
+        />
+      </div>
+      <div style={{ display: 'flex' }}>
+        <RadioGroup
+          options={option3}
+          chksize="sm"
+          defaultValue={selectedRadio}
+          onChange={setSelectedRadio}
+        />
+      </div>
       <p>Selected Radio: {selectedRadio}</p>
     </StoryLayout>
   );

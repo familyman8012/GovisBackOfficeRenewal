@@ -27,12 +27,18 @@ export const CheckBoxWrap = styled.input<{ chksize?: CheckBoxSize }>`
   &.readonly {
     border: 1px solid var(--input-checkBoxReadOnlyBorder);
     background-color: var(--bg-inputCheckBoxReadOnly);
+    &:checked {
+      background-image: url('/images/common/ico_checkbox_disabled.svg');
+    }
     pointer-events: none;
   }
 
   &:disabled {
     border: 1px solid var(--input-checkBoxDisabeldBorder);
     background-color: var(--bg-inputCheckBoxDisabled);
+    &:checked {
+      background-image: url('/images/common/ico_checkbox_disabled.svg');
+    }
     pointer-events: none;
 
     ~ .form-check-label {

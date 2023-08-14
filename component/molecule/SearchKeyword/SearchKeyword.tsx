@@ -1,5 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import styled from '@emotion/styled';
 import { Button } from '@ComponentFarm/atom/Button/Button';
+import { Search } from '@ComponentFarm/atom/icons';
 import { Select } from '@ComponentFarm/atom/Select/Select';
 import { QueryParams } from '@HookFarm/useQueryParams';
 
@@ -15,6 +17,31 @@ interface ISearchKeyword {
     search_keyword: string;
   };
 }
+
+export const SearchKeywordWrap = styled.div`
+  display: flex;
+  width: fit-content;
+  border: 1px solid var(--color-neutral90);
+  border-radius: 0.4rem;
+
+  &:focus {
+    border: red;
+  }
+
+  .select_library_control,
+  .inp {
+    border-radius: 0;
+    border: none !important;
+    border-radius: 0.4rem;
+  }
+  .select_library_control {
+    border-right: 0 !important;
+  }
+  .inp {
+    width: auto;
+    height: 4rem;
+  }
+`;
 
 const SearchKeyword = ({
   params,
@@ -39,8 +66,40 @@ const SearchKeyword = ({
     }
   };
 
+  const searchKeywordRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    const inputs = searchKeywordRef.current?.querySelectorAll('input');
+
+    const handleFocus = () => {
+      if (searchKeywordRef.current) {
+        searchKeywordRef.current.style.border =
+          '1px solid var(--color-neutral10)';
+      }
+    };
+
+    const handleBlur = () => {
+      if (searchKeywordRef.current) {
+        searchKeywordRef.current.style.border = '';
+      }
+    };
+
+    inputs?.forEach(input => {
+      input.addEventListener('focus', handleFocus);
+      input.addEventListener('blur', handleBlur);
+    });
+
+    // Cleanup 함수: 이펙트가 끝날 때 (언마운트나 리렌더링 될 때) 이벤트 리스너를 제거합니다.
+    return () => {
+      inputs?.forEach(input => {
+        input.removeEventListener('focus', handleFocus);
+        input.removeEventListener('blur', handleBlur);
+      });
+    };
+  }, []);
+
   return (
-    <span style={{ display: 'flex' }}>
+    <SearchKeywordWrap ref={searchKeywordRef}>
       {selOption && ( // selOption이 있다면 Select 컴포넌트를 렌더링
         <Select
           options={selOption}
@@ -58,10 +117,15 @@ const SearchKeyword = ({
           setKeyword({ ...keyword, search_keyword: e.target.value })
         }
       />
-      <Button variant="primary" onClick={handleSearch}>
-        검색
+      <Button
+        type="button"
+        variant="transparent"
+        IconOnly={<Search />}
+        onClick={handleSearch}
+      >
+        <span className="hiddenZoneV">검색</span>
       </Button>
-    </span>
+    </SearchKeywordWrap>
   );
 };
 

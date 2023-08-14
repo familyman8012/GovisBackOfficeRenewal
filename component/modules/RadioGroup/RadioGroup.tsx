@@ -1,11 +1,19 @@
 import React, { ReactNode, useState, useEffect } from 'react';
 import { CheckBoxProps } from '@ComponentFarm/atom/Checkbox/CheckBox';
-import Radio from '@ComponentFarm/atom/Checkbox/Radio';
+import Radio from '@ComponentFarm/atom/Radio/Radio';
 
-type OptionType = { label: string; value: string };
+export type CheckBoxSize = 'sm' | 'md';
+
+export const sizes = {
+  sm: '1.6rem',
+  md: '2.4rem',
+};
+
+type OptionType = { label: string; subText?: string; value: string };
 type RadioValueType = string;
 
 export interface RadioGroupProps {
+  chksize?: CheckBoxSize;
   children?: React.ReactNode;
   options?: OptionType[];
   defaultValue?: RadioValueType;
@@ -13,6 +21,7 @@ export interface RadioGroupProps {
 }
 
 const RadioGroup: React.FC<RadioGroupProps> = ({
+  chksize,
   children,
   options,
   defaultValue = '',
@@ -59,13 +68,17 @@ const RadioGroup: React.FC<RadioGroupProps> = ({
         value={option.value}
         checked={checkedValue === option.value}
         onChange={() => handleChange(option.value)}
+        chksize={chksize}
         label={option.label}
+        subText={option.subText}
       />
     ));
   };
 
   return (
-    <div>{options ? renderOptions(options) : renderChildren(children)}</div>
+    <span className="box_radio_group">
+      {options ? renderOptions(options) : renderChildren(children)}{' '}
+    </span>
   );
 };
 

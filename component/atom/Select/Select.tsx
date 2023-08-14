@@ -24,6 +24,7 @@ export interface SelectProps {
   isSearchable?: boolean;
   formatOptionLabel?: (option: IOption) => React.ReactNode;
   formatStatus?: (status: string) => React.ReactNode;
+  prefixLabel?: string;
 }
 
 const DropdownIndicator = (props: DropdownIndicatorProps<IOption, false>) => {
@@ -32,6 +33,28 @@ const DropdownIndicator = (props: DropdownIndicatorProps<IOption, false>) => {
       <FiChevronDown size={20} className="text-gray-500" />
     </components.DropdownIndicator>
   );
+};
+
+const CustomControl = (prefixLabel: string) => {
+  const ControlComponent = ({ children, selectProps, ...rest }: any) => {
+    console.log('...rest', rest);
+    return (
+      <components.Control {...rest}>
+        <span
+          style={{
+            padding: '0 2px 0 12px',
+            color: selectProps.value ? 'var(--color-neutral10)' : '#687182',
+          }}
+        >
+          {prefixLabel}
+        </span>
+        {children}
+      </components.Control>
+    );
+  };
+
+  ControlComponent.displayName = 'CustomControl';
+  return ControlComponent;
 };
 
 export const Select: FC<SelectProps> = ({
@@ -45,19 +68,20 @@ export const Select: FC<SelectProps> = ({
   isSearchable,
   formatOptionLabel,
   formatStatus,
+  prefixLabel,
   ...restProps
 }) => {
   const customStyles: StylesConfig<IOption, false> = {
     control: (provided, state) => ({
       ...provided,
       width,
-      height,
+      minHeight: '4rem',
+      height: '4rem',
       display: 'flex',
-      border: state.isFocused ? '1px solid #000' : '1px solid #d4d4d4',
-      boxShadow: state.isFocused ? '0 0 0 1px #0070f3' : undefined,
-      '&:hover': {
-        border: '1px solid #0070f3',
-      },
+      border: state.isFocused
+        ? '1px solid var(--input-selectFoucsBorder) !important'
+        : '1px solid var(--input-selectBorder) !important',
+      boxShadow: state.isFocused ? 'none' : undefined,
     }),
     dropdownIndicator: (provided, state) => ({
       ...provided,
@@ -69,15 +93,24 @@ export const Select: FC<SelectProps> = ({
     menu: provided => ({
       ...provided,
       zIndex: 10,
+      border: '1px solid var(--input-selectBorder)',
+      boxShadow: 'none',
+      borderRadius: '0.4rem',
+    }),
+    menuList: provided => ({
+      paddingTop: 0,
+      overflowY: 'auto',
+      maxHeight: '27rem',
     }),
     option: (provided, state) => ({
       ...provided,
-      backgroundColor: state.isSelected
-        ? '#0070f3'
-        : state.isFocused
-        ? '#ebf8ff'
+      fontSize: '1.4rem',
+      lineHeight: '120%',
+      backgroundColor: state.isFocused
+        ? 'var(--input-selectOptionSelected)'
         : 'transparent',
-      color: state.isSelected ? 'white' : 'inherit',
+      color: state.isFocused ? 'var(--color-blue)' : 'var(--color-neutral10)',
+      // color: state.isSelected ? 'white' : 'inherit',
     }),
   };
 
@@ -102,8 +135,14 @@ export const Select: FC<SelectProps> = ({
 
   return (
     <SelectLibrary
+      classNames={{
+        control: state => 'select_library_control',
+      }}
       styles={customStyles}
-      components={{ DropdownIndicator }}
+      components={{
+        DropdownIndicator,
+        Control: prefixLabel ? CustomControl(prefixLabel) : components.Control,
+      }}
       options={options}
       value={computedSelectedOption}
       onChange={setSelectedOption}

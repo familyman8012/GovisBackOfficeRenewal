@@ -43,6 +43,30 @@ const StoryIcoInput: Story<Props> = args => {
         }
       `}
     >
+      <div style={{ marginBottom: '1rem' }} />
+      <IcoInput
+        type="email"
+        value={text1}
+        onChange={event => setText1(event.target.value)}
+        label="Email"
+        placeholder="veronica@example.com"
+        helperText="This is a hint text to help the user."
+        LeadingIcon={<FiMail />}
+        TrailingIcon={<FiHelpCircle />}
+        disabled={args.disabled}
+      />
+      <div style={{ marginBottom: '1rem' }} />
+      <IcoInput
+        type="email"
+        value={text1}
+        onChange={event => setText1(event.target.value)}
+        label="Email"
+        placeholder="veronica@example.com"
+        error="This is an error message."
+        LeadingIcon={<FiMail />}
+        TrailingIcon={<FiAlertCircle />}
+        disabled={args.disabled}
+      />
       <div>
         <IcoInput
           type="email"
@@ -62,30 +86,6 @@ const StoryIcoInput: Story<Props> = args => {
           placeholder="veronica@example.com"
           helperText="This is a hint text to help the user."
           TrailingIcon={<FiHelpCircle />}
-          disabled={args.disabled}
-        />
-        <div style={{ marginBottom: '1rem' }} />
-        <IcoInput
-          type="email"
-          value={text1}
-          onChange={event => setText1(event.target.value)}
-          label="Email"
-          placeholder="veronica@example.com"
-          helperText="This is a hint text to help the user."
-          LeadingIcon={<FiMail />}
-          TrailingIcon={<FiHelpCircle />}
-          disabled={args.disabled}
-        />
-        <div style={{ marginBottom: '1rem' }} />
-        <IcoInput
-          type="email"
-          value={text1}
-          onChange={event => setText1(event.target.value)}
-          label="Email"
-          placeholder="veronica@example.com"
-          error="This is an error message."
-          LeadingIcon={<FiMail />}
-          TrailingIcon={<FiAlertCircle />}
           disabled={args.disabled}
         />
       </div>

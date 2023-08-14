@@ -2,7 +2,6 @@ import React, { FC } from 'react';
 import { UseFormRegisterReturn } from 'react-hook-form';
 import styled from '@emotion/styled';
 import { theme } from '@ComponentFarm/theme';
-import Typo from '../Typo/Typo';
 
 export interface IcoInputProps {
   type?: 'text' | 'email';
@@ -132,17 +131,7 @@ export const IcoInput: FC<IcoInputProps> = ({
 }) => {
   return (
     <>
-      {label ? (
-        <Typo
-          as="label"
-          variant="sm"
-          weight="medium"
-          color={theme.colors.gray700}
-          style={{ display: 'block', marginBottom: '0.375rem' }}
-        >
-          {label}
-        </Typo>
-      ) : null}
+      {label ? <label>{label}</label> : null}
 
       <InputContainer leadingText={leadingText}>
         <IconContainer>

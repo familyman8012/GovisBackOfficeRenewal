@@ -1,4 +1,5 @@
 /* eslint-disable react/destructuring-assignment */
+
 import React from 'react';
 import { Meta, Story } from '@storybook/react';
 import { FiArrowRight, FiStar } from 'react-icons/fi';
@@ -29,6 +30,8 @@ interface Props extends BadgeProps {
   darkMode: boolean;
 }
 
+const color = ['green', 'yellow', 'indigo', 'blue', 'red', 'gray'];
+
 const StoryBadge: Story<Props> = args => {
   return (
     <StoryLayout
@@ -41,7 +44,193 @@ const StoryBadge: Story<Props> = args => {
         }
       `}
     >
-      <Badge variant="numbering" size="xs">
+      <div
+        css={css`
+          display: flex;
+          margin-bottom: 10px;
+          span {
+            margin-right: 10px;
+          }
+        `}
+      >
+        <Badge color="orange" size="circle">
+          N
+        </Badge>
+      </div>
+      <div
+        css={css`
+          display: flex;
+          margin-bottom: 10px;
+          span {
+            margin-right: 10px;
+          }
+        `}
+      >
+        {color.map(el => (
+          <Badge key={el} color={el} dot size="lg">
+            label
+          </Badge>
+        ))}
+      </div>
+      <div
+        css={css`
+          display: flex;
+          margin-bottom: 10px;
+          span {
+            margin-right: 10px;
+          }
+        `}
+      >
+        {color.map(el => (
+          <Badge key={el} color={el} dot>
+            label
+          </Badge>
+        ))}
+      </div>
+      <div
+        css={css`
+          display: flex;
+          margin-bottom: 10px;
+          span {
+            margin-right: 10px;
+          }
+        `}
+      >
+        {color.map(el => (
+          <Badge key={el} color={el} size="sm" dot>
+            label
+          </Badge>
+        ))}
+      </div>
+      {/* dot 없을때 */}
+      <div
+        css={css`
+          display: flex;
+          margin-bottom: 10px;
+          span {
+            margin-right: 10px;
+          }
+        `}
+      >
+        {color.map(el => (
+          <Badge key={el} color={el} size="lg">
+            label
+          </Badge>
+        ))}
+      </div>
+      <div
+        css={css`
+          display: flex;
+          margin-bottom: 10px;
+          span {
+            margin-right: 10px;
+          }
+        `}
+      >
+        {color.map(el => (
+          <Badge key={el} color={el}>
+            label
+          </Badge>
+        ))}
+      </div>
+      <div
+        css={css`
+          display: flex;
+          margin-bottom: 10px;
+          span {
+            margin-right: 10px;
+          }
+        `}
+      >
+        {color.map(el => (
+          <Badge key={el} color={el} size="sm">
+            label
+          </Badge>
+        ))}
+      </div>
+      {/* dot 없을때 */}
+      <div
+        css={css`
+          display: flex;
+          margin-bottom: 10px;
+          span {
+            margin-right: 10px;
+          }
+        `}
+      >
+        {color.map(el => (
+          <Badge key={el} color={el} fill="outline">
+            label
+          </Badge>
+        ))}
+      </div>
+      <div
+        css={css`
+          display: flex;
+          margin-bottom: 10px;
+          span {
+            margin-right: 10px;
+          }
+        `}
+      >
+        {color.map(el => (
+          <Badge key={el} color={el} dot fill="outline">
+            label
+          </Badge>
+        ))}
+      </div>
+      <div
+        css={css`
+          display: flex;
+          margin-bottom: 10px;
+          span {
+            margin-right: 10px;
+          }
+        `}
+      >
+        {color.map(el => (
+          <Badge key={el} color={el} fill="transparent" dot>
+            label
+          </Badge>
+        ))}
+      </div>
+
+      <div
+        css={css`
+          display: flex;
+          margin-bottom: 10px;
+          span {
+            margin-right: 10px;
+          }
+        `}
+      >
+        <Badge LeadingIcon={<FiStar />}>처리 중</Badge>
+        <Badge
+          {...args}
+          LeadingIcon={
+            <img
+              src="https://res.cloudinary.com/tailwindcss/image/upload/v1635279277/nl_tpy2ab.svg"
+              alt="nl"
+              width="16"
+              height="16"
+            />
+          }
+        >
+          Label
+        </Badge>
+        <Badge {...args} TrailingIcon={<FiArrowRight />}>
+          Label
+        </Badge>
+        <Badge
+          size="lg"
+          LeadingIcon={<FiStar />}
+          TrailingIcon={<FiArrowRight />}
+        >
+          error, sm
+        </Badge>
+      </div>
+
+      {/* <Badge variant="numbering" size="xs">
         1
       </Badge>
       <Badge variant="black" size="sm" textWhite>
@@ -82,30 +271,15 @@ const StoryBadge: Story<Props> = args => {
         TrailingIcon={<FiArrowRight />}
       >
         error, sm
-      </Badge>
+      </Badge> */}
     </StoryLayout>
   );
 };
 export const Default = StoryBadge.bind({});
 
 Default.args = {
-  variant: 'primary',
   size: 'md',
   darkMode: false,
-};
-
-Default.argTypes = {
-  variant: {
-    control: 'radio',
-    options: ['gray', 'primary', 'error', 'warning', 'success'],
-  },
-  size: {
-    control: 'radio',
-    options: ['sm', 'md', 'lg'],
-  },
-  darkMode: {
-    control: 'boolean',
-  },
 };
 
 Default.parameters = {

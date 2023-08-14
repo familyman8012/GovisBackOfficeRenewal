@@ -45,6 +45,12 @@ const StoryCheckboxGroup: Story<Props> = args => {
     { label: 'E', value: 'E' },
   ];
 
+  const option3 = [
+    { label: 'Apple', value: '1', subText: 'subText' },
+    { label: 'Pear', value: '2', subText: 'subText' },
+    { label: 'Orange', value: '3', subText: 'subText' },
+  ];
+
   const [selectedFruits, setSelectedFruits] = useState<string[]>([]);
   const [selectedLetters, setSelectedLetters] = useState<string[]>([]);
   return (
@@ -74,6 +80,35 @@ const StoryCheckboxGroup: Story<Props> = args => {
             initialCheckedValues={[]}
             name="fruits"
           />
+        </div>
+        <div>
+          <CheckBoxGroup
+            options={option3}
+            allChechkHandler={option3}
+            onChange={setSelectedFruits}
+            initialCheckedValues={[]}
+            name="fruits"
+          />
+        </div>
+        <div>
+          <CheckBoxGroup
+            chksize="sm"
+            options={options}
+            allChechkHandler={options}
+            onChange={setSelectedFruits}
+            initialCheckedValues={[]}
+            name="fruits"
+          />
+        </div>
+        <div>
+          {/* <CheckBoxGroup
+            chksize="sm"
+            options={option3}
+            allChechkHandler={option3}
+            onChange={setSelectedFruits}
+            initialCheckedValues={[]}
+            name="fruits"
+          /> */}
         </div>
         <div>
           <CheckBoxGroup

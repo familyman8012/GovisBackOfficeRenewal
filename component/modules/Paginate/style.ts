@@ -108,7 +108,8 @@ export const PaginationWrap = styled.div`
   .pagination {
     display: flex;
     justify-content: center;
-    margin-top: 2.8rem;
+    padding: 1.2rem 0;
+    margin-top: 1.6rem;
     gap: 0.8rem;
   }
 

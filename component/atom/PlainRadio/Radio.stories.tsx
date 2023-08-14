@@ -3,7 +3,7 @@ import React from 'react';
 import { Meta, Story } from '@storybook/react';
 import { css } from '@emotion/react';
 import StoryLayout from '@ComponentFarm/modules/story_layout/StoryLayout';
-import { CheckBoxWrap } from './style';
+import { RadioBoxWrap } from './style';
 
 const meta: Meta = {
   title: 'Atoms/Plain Radio',
@@ -40,10 +40,23 @@ const StoryBadge: Story<Props> = args => {
         }
       `}
     >
-      <CheckBoxWrap type="radio" name="fruits" value="apple" chksize="sm" />
-      <CheckBoxWrap type="radio" name="fruits" value="apple" checked />
-      <CheckBoxWrap type="radio" name="fruits" value="apple" disabled />
-      <CheckBoxWrap type="radio" name="fruits" value="apple" readOnly />
+      <RadioBoxWrap type="radio" name="fruits1" value="apple" chksize="sm" />
+      <RadioBoxWrap type="radio" name="fruits2" value="apple" checked />
+      <RadioBoxWrap
+        type="radio"
+        name="fruits"
+        value="apple"
+        readOnly
+        className="readonly"
+        checked
+      />
+      <RadioBoxWrap
+        type="radio"
+        name="fruits3"
+        value="apple"
+        disabled
+        checked
+      />
     </StoryLayout>
   );
 };

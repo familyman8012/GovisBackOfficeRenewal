@@ -1,12 +1,11 @@
 import React from 'react';
-import { CheckBoxWrap, Label } from './style';
+import { Label, RadioWrap } from './style';
 
-export type CheckBoxSize = 'sm' | 'md' | 'lg';
+export type CheckBoxSize = 'sm' | 'md';
 
 export const sizes = {
-  sm: '1rem', // 0.5rem
-  md: '1.9rem', // 1rem
-  lg: '2.8rem', // 2rem
+  sm: '1.6rem',
+  md: '2.4rem',
 };
 
 interface CheckBoxProps {
@@ -17,6 +16,7 @@ interface CheckBoxProps {
   readOnly?: boolean;
   disabled?: boolean;
   label?: string;
+  subText?: string;
 }
 
 const Radio: React.FC<CheckBoxProps> = ({
@@ -27,10 +27,11 @@ const Radio: React.FC<CheckBoxProps> = ({
   readOnly,
   disabled,
   label,
+  subText,
 }) => {
   return (
-    <Label>
-      <CheckBoxWrap
+    <Label className={subText ? 'contain_subtext' : ''} chksize={chksize}>
+      <RadioWrap
         type="radio"
         value={value}
         checked={checked}
@@ -39,7 +40,10 @@ const Radio: React.FC<CheckBoxProps> = ({
         readOnly={readOnly}
         disabled={disabled}
       />
-      {label}
+      <span className={`txt_box ${chksize ?? ''}`}>
+        <span className="title">{label}</span>
+        <span className="sub-text">{subText}</span>
+      </span>
     </Label>
   );
 };
