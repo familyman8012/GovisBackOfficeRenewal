@@ -1,4 +1,4 @@
-import { ReactElement, ReactNode, useLayoutEffect } from 'react';
+import { ReactElement, ReactNode, useEffect } from 'react';
 import type { AppProps } from 'next/app';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { NextPage } from 'next';
@@ -12,6 +12,7 @@ import { theme } from '@ComponentFarm/theme';
 import { errorHandler } from '@UtilFarm/error-handler';
 import 'react-datepicker/dist/react-datepicker.css';
 import { authStore } from '@MobxFarm/store';
+import Layout from '@ComponentFarm/layout';
 
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -23,11 +24,11 @@ type AppPropsWithLayout = AppProps & {
 };
 
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {
-  useLayoutEffect(() => {
+  useEffect(() => {
     authStore.init();
   }, []);
 
-  const getLayout = Component.getLayout ?? (page => <>{page}</>);
+  const getLayout = Component.getLayout ?? (page => <Layout>{page}</Layout>);
 
   const queryClient = new QueryClient({
     defaultOptions: {

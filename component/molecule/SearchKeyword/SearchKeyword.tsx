@@ -99,7 +99,7 @@ const SearchKeyword = ({
   }, []);
 
   return (
-    <SearchKeywordWrap ref={searchKeywordRef}>
+    <SearchKeywordWrap ref={searchKeywordRef} className="box_searchkeyword">
       {selOption && ( // selOption이 있다면 Select 컴포넌트를 렌더링
         <Select
           options={selOption}

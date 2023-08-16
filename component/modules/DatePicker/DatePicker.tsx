@@ -16,6 +16,7 @@ export interface DatePickerProps extends Partial<ReactDatePickerProps> {
   className?: string;
   selectedDate: string | null;
   onChange: any;
+  disabled?: boolean;
 }
 
 interface DateInputProps {
@@ -23,13 +24,14 @@ interface DateInputProps {
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder: string;
+  disabled?: boolean;
 }
 
 // DateInput 컴포넌트 만들기  - 기존 IcoInput 컴포넌트를 활용
 const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
-  ({ onClick, value, onChange, placeholder }, ref) => {
+  ({ onClick, value, onChange, placeholder, disabled }, ref) => {
     return (
-      <DateInputWrapper>
+      <DateInputWrapper className={disabled ? 'disabled' : ''}>
         <input
           type="text"
           onClick={onClick}
@@ -37,6 +39,7 @@ const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
           onChange={onChange}
           ref={ref}
           placeholder={placeholder}
+          disabled={disabled}
         />
 
         <img
@@ -61,6 +64,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
   placeholderText = 'Select date',
   showYearDropdown = false,
   showMonthDropdown = false,
+  disabled = false,
   ...props
 }) => {
   const [selectedDateState, setSelectedDateState] = useState<Date | null>(
@@ -88,7 +92,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
       selected={selectedDateState}
       onChange={handleChange}
       // @ts-ignore - customInput 의 props 가 DateInput에게 전달되도록
-      customInput={<DateInput />}
+      customInput={<DateInput disabled={disabled} />}
       dateFormat={dateFormat}
       minDate={minDate}
       maxDate={maxDate}
@@ -97,6 +101,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
       locale={ko}
       showYearDropdown={showYearDropdown}
       showMonthDropdown={showMonthDropdown}
+      disabled={disabled}
       {...props}
     />
   );

@@ -1,7 +1,7 @@
 export const searchStatus = [
   {
     value: '',
-    label: '상태 전체',
+    label: '전체',
   },
   {
     value: '0',
@@ -20,7 +20,7 @@ export const searchStatus = [
 export const searchCouponType = [
   {
     value: '',
-    label: '쿠폰 유형 전체',
+    label: '전체',
   },
   {
     value: '0',
@@ -39,7 +39,7 @@ export const searchCouponType = [
 export const searchNotificationType = [
   {
     value: '',
-    label: '알림 유형 전체',
+    label: '전체',
   },
   {
     value: '0',
@@ -74,15 +74,33 @@ export const selectConfig = [
     field: 'search_notification_type',
     options: searchNotificationType,
   },
+  {
+    label: '레시피',
+    field: 'search_notification_type',
+    options: searchNotificationType,
+  },
+  {
+    label: '원재료',
+    field: 'search_notification_type',
+    options: searchNotificationType,
+  },
 ];
 
 export const dateConfig = [
   {
     field: 'search_use_dt',
-    placeholder: '시행기간',
+    placeholder: '판매 시작일',
   },
   {
     field: 'search_end_dt',
-    placeholder: '종료기간',
+    placeholder: '판매 종료일',
+  },
+  {
+    field: 'search_end_dt',
+    placeholder: '등록일',
+  },
+  {
+    field: 'search_end_dt',
+    placeholder: '수정일',
   },
 ];

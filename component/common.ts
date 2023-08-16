@@ -98,6 +98,10 @@ const reset = css`
     }
   }
 
+  #__next {
+    height: 100%;
+  }
+
   body,
   div,
   dl,
@@ -315,7 +319,7 @@ const reset = css`
   select {
     padding: 0.8rem 1.2rem;
     appearance: none;
-    background: url('images/common/ico_sel_arrow.svg') no-repeat #fff
+    background: url('/images/common/ico_sel_arrow.svg') no-repeat #fff
       calc(100% - 12px) 50%;
   }
 
@@ -449,28 +453,36 @@ export const Content = styled.div`
   padding: 24px;
 `;
 
-export const FormWrap = styled.form`
-  width: 1090px;
-  margin: 0 24px;
-  h3 {
-    margin: 20px 0;
-    padding-bottom: 10px;
+export const FormWrap = styled.div`
+  h2 {
+    margin-bottom: 3.2rem;
+    padding: 3.2rem 0;
     font-size: 18px;
-    font-style: normal;
-    border-bottom: 1px solid;
+    font-weight: bold;
+    border-bottom: 1px solid var(--color-neutral90);
   }
-  h4 {
-    margin-bottom: 8px;
-    font-size: 15px;
+  h3 {
+    margin-bottom: 0.8rem;
+    font-size: 1.5rem;
     font-weight: 600;
-    line-height: 21px;
+    line-height: 2.1rem;
+  }
+
+  .line {
+    display: flex;
+    margin-top: 3.2rem;
+  }
+  .field {
+    display: flex;
+    padding-right: 5.6rem;
   }
   label {
-    display: block;
-    margin-bottom: 5px;
-    font-size: 15px;
+    flex: none;
+    width: 31.2rem;
+    font-size: 1.4rem;
     font-style: normal;
     font-weight: 600;
+    line-height: 2rem;
 
     &.req {
       &:after {
@@ -478,14 +490,15 @@ export const FormWrap = styled.form`
         content: '*';
         color: red;
         vertical-align: middle;
-        margin-left: 3px;
+        margin-left: 0.4rem;
       }
     }
   }
-  .line {
-    display: flex;
-    margin-top: 30px;
-    justify-content: space-between;
+  .box_checkbox_group label {
+    width: auto;
+  }
+  .box_inp {
+    width: 100%;
   }
   .box_upload_image {
     width: 324px;
@@ -507,3 +520,57 @@ export const FormWrap = styled.form`
 `;
 
 export default reset;
+
+export const TableWrap = styled.div`
+  overflow: hidden;
+  width: fit-content;
+  height: fit-content;
+  border: 1px solid var(--color-neutral90);
+  border-radius: 0.6rem;
+`;
+
+export const Table = styled.table`
+  th,
+  td {
+    text-align: left;
+    padding-left: 2rem;
+  }
+
+  th {
+    border-bottom: 1px solid var(--color-neutral90);
+  }
+
+  td {
+    border-top: 1px solid var(--color-neutral90);
+  }
+
+  &.basic {
+    width: 100%;
+    tr {
+      &:hover {
+        cursor: pointer;
+        background: #ededfc;
+      }
+      &:last-of-type td {
+        border-bottom: none;
+      }
+    }
+    th {
+      height: 4.8rem;
+      padding-left: 2rem;
+      color: var(--color-gray500);
+      font-size: var(--font-size4);
+      font-weight: 500;
+      letter-spacing: 0.42px;
+      background: #f9fafb;
+    }
+    td {
+      height: 4.8rem;
+      color: var(--color-neutral10);
+
+      &.code {
+        color: var(--color-blue);
+      }
+    }
+  }
+`;

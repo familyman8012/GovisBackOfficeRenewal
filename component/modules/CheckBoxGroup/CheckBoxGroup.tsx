@@ -17,6 +17,7 @@ export interface CheckBoxGroupProps {
   name: string;
   control?: any;
   initialCheckedValues?: string[];
+  disabled?: boolean;
 }
 
 const CheckboxGroup: React.FC<CheckBoxGroupProps> = ({
@@ -28,6 +29,7 @@ const CheckboxGroup: React.FC<CheckBoxGroupProps> = ({
   name,
   control,
   initialCheckedValues = [],
+  disabled = false,
 }) => {
   const [values, setValues] = useState<{ [key: string]: boolean }>(
     initialCheckedValues.reduce((acc: { [key: string]: boolean }, curr) => {
@@ -69,6 +71,7 @@ const CheckboxGroup: React.FC<CheckBoxGroupProps> = ({
           checked: isChecked,
           onChange: (e: any) =>
             handleChange(String(node.props.value), e.target.checked),
+          disabled,
         });
       }
 
@@ -94,6 +97,7 @@ const CheckboxGroup: React.FC<CheckBoxGroupProps> = ({
         chksize={chksize}
         label={option.label}
         subText={option.subText}
+        disabled={disabled}
       />
     ));
   };
@@ -107,6 +111,7 @@ const CheckboxGroup: React.FC<CheckBoxGroupProps> = ({
         chksize={chksize}
         onChange={(e: any) => handleAllChange(e.target.checked)}
         label="All"
+        disabled={disabled}
       />
     ) : null;
   };
