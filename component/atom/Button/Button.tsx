@@ -85,6 +85,7 @@ const buttonVariants = {
     }
   `,
   transparent: css`
+    min-width: auto !important;
     background-color: transparent;
     border: none;
     box-shadow: none;

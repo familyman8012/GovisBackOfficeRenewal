@@ -30,16 +30,21 @@ export const SearchKeywordWrap = styled.div`
 
   .select_library_control,
   .inp {
+    min-height: auto;
+    height: 3.8rem;
     border-radius: 0;
     border: none !important;
     border-radius: 0.4rem;
+  }
+  button {
+    height: 3.8rem;
+    padding: 0 1.2rem;
   }
   .select_library_control {
     border-right: 0 !important;
   }
   .inp {
     width: auto;
-    height: 4rem;
   }
 `;
 

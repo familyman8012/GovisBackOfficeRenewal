@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { Controller, useForm } from 'react-hook-form';
 import { css } from '@emotion/react';
@@ -8,6 +9,7 @@ import DatePicker, {
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Divider } from '@ComponentFarm/atom/Divider/Divider';
 import ErrorTxt from '@ComponentFarm/atom/ErrorTxt/ErrorTxt';
+import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import { FormWrap } from '@ComponentFarm/common';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
 
@@ -80,6 +82,16 @@ const Form: React.FC<FormProps> = ({ initialData, loading, onSubmit }) => {
   const router = useRouter();
   const { id } = router.query;
   const isReadOnly = !id?.includes('add') && !!id;
+  const [activeTabIndex, setActiveTabIndex] = useState(0);
+
+  const tabData = [
+    {
+      title: '제품등록',
+    },
+    {
+      title: '채널별 제품 이미지',
+    },
+  ];
 
   const defaultValues = isEdit
     ? initialData
@@ -118,6 +130,11 @@ const Form: React.FC<FormProps> = ({ initialData, loading, onSubmit }) => {
             </Button>
           </>
         }
+      />
+      <Tabs
+        tabs={tabData}
+        activeTabIndex={activeTabIndex}
+        onTabChange={index => setActiveTabIndex(index)}
       />
       <h2>제품 기본 정보</h2>
       <div className="line line1">

@@ -7,6 +7,7 @@ type BadgeColor =
   | 'green'
   | 'yellow'
   | 'indigo'
+  | 'purple'
   | 'blue'
   | 'red'
   | 'gray'
@@ -72,6 +73,11 @@ const colors = {
     border: 1px solid var(--bage-indigoBorder);
     background-color: var(--bage-indigoBg);
   `,
+  purple: css`
+    color: var(--bage-purpleLabel);
+    border: 1px solid var(--bage-purpleBorder);
+    background-color: var(--bage-purpleBg);
+  `,
   blue: css`
     color: var(--bage-blueLabel);
     border: 1px solid var(--bage-blueBorder);
@@ -135,6 +141,7 @@ export const Badge: FC<BadgeProps> = ({
       dot={dot}
       fill={fill}
       textWhite={textWhite}
+      className="badge"
     >
       {Leading && (
         <Leading {...LeadingIcon.props} style={{ marginRight: '6px' }} />
