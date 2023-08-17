@@ -1,4 +1,4 @@
-import { IFindAll } from "./parameters";
+import { IFindAll } from './parameters';
 
 export interface IGetStoreList {
   store_id?: number;
@@ -71,7 +71,7 @@ export interface IUserCreateParams {
   perm_group_info_idx: number;
 }
 
-export interface IUserUpdateParams extends Omit<IUserCreateParams, "password"> {
+export interface IUserUpdateParams extends Omit<IUserCreateParams, 'password'> {
   user_id: number;
 }
 
@@ -126,11 +126,10 @@ export interface IUserRank {
 }
 
 export interface IUserPermission {
-  perm_info_idx: number; 
+  perm_info_idx: number;
   perm_info_name: string;
   perm_code: string;
 }
-
 
 export interface IStoreUser {
   user_id: number;

@@ -37,16 +37,14 @@ const DropdownIndicator = (props: DropdownIndicatorProps<IOption, false>) => {
 
 const CustomControl = (prefixLabel: string) => {
   const ControlComponent = ({ children, selectProps, ...rest }: any) => {
-    console.log('...rest', rest);
     return (
       <components.Control {...rest}>
         <span
           style={{
-            padding: '0 2px 0 12px',
-            color: selectProps.value ? 'var(--color-neutral10)' : '#687182',
+            padding: '0 .2rem 0 1.2rem',
           }}
         >
-          {prefixLabel}
+          <span style={{ color: '#687182' }}>{prefixLabel}</span>
         </span>
         {children}
       </components.Control>
@@ -78,13 +76,20 @@ export const Select: FC<SelectProps> = ({
       minHeight: '4rem',
       height: '4rem',
       display: 'flex',
-      border: state.isFocused
+      border: state.menuIsOpen
         ? '1px solid var(--input-selectFoucsBorder) !important'
         : '1px solid var(--input-selectBorder) !important',
       boxShadow: state.isFocused ? 'none' : undefined,
     }),
+    valueContainer: (provided, state) => ({
+      ...provided,
+      padding: '.2rem .4rem .2rem .8rem',
+    }),
     dropdownIndicator: (provided, state) => ({
       ...provided,
+      padding: state.selectProps.menuIsOpen
+        ? '.8rem 0 .8rem .8rem'
+        : '.8rem .8rem .8rem 0',
       transform: state.selectProps.menuIsOpen ? 'rotate(180deg)' : undefined,
     }),
     indicatorSeparator: () => ({

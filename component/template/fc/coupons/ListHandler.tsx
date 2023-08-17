@@ -1,5 +1,6 @@
 import React from 'react';
 import { Button } from '@ComponentFarm/atom/Button/Button';
+import { ListHandlerWrap } from '@ComponentFarm/layout/styles';
 import ListDatePickers from '@ComponentFarm/molecule/ListDatePickers/ListDatePickers';
 import ListFilterSelects from '@ComponentFarm/molecule/ListFilterSelects/ListFilterSelects';
 import SearchKeyword from '@ComponentFarm/molecule/SearchKeyword/SearchKeyword';
@@ -28,7 +29,7 @@ const ListHandler = ({ params, updateParams, resetParams }: IListHandler) => {
   };
 
   return (
-    <div style={{ display: 'flex', marginBottom: '50px' }}>
+    <ListHandlerWrap>
       <SearchKeyword
         params={params}
         selOption={searchOption}
@@ -47,7 +48,7 @@ const ListHandler = ({ params, updateParams, resetParams }: IListHandler) => {
       <Button variant="primary" onClick={resetParams}>
         리셋
       </Button>
-    </div>
+    </ListHandlerWrap>
   );
 };
 

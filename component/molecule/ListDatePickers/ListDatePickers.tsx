@@ -20,8 +20,8 @@ const ListDatePickers = ({
 }: ListDatePickersProps) => {
   return (
     <>
-      {dateConfig.map(item => (
-        <span key={item.field}>
+      {dateConfig.map((item, i) => (
+        <div key={item.field} className={`field field${i + 1}`}>
           <DatePicker
             selectedDate={String(params[item.field] ?? '')}
             onChange={(value: string) =>
@@ -29,7 +29,7 @@ const ListDatePickers = ({
             }
             placeholderText={item.placeholder}
           />
-        </span>
+        </div>
       ))}
     </>
   );

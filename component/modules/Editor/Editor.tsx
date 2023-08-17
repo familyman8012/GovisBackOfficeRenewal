@@ -11,9 +11,14 @@ const QuillNoSSRWrapper = dynamic<any>(() => import('react-quill'), {
 export interface EditorProps {
   value: string;
   onChange?: (content: string) => void;
+  disabled?: boolean;
 }
 
-const Editor: React.FC<EditorProps> = ({ value, onChange }) => {
+const Editor: React.FC<EditorProps> = ({
+  value,
+  onChange,
+  disabled = false,
+}) => {
   const quillRef = React.useRef<any | null>(null);
   const imageHandler = () => {
     const input = document.createElement('input');
@@ -71,7 +76,7 @@ const Editor: React.FC<EditorProps> = ({ value, onChange }) => {
   );
 
   const handleChange = (content: string) => {
-    if (onChange) {
+    if (!disabled && onChange) {
       onChange(content);
     }
   };
@@ -83,6 +88,7 @@ const Editor: React.FC<EditorProps> = ({ value, onChange }) => {
       onChange={handleChange}
       modules={quillModules}
       theme="snow"
+      readOnly={disabled}
     />
   );
 };

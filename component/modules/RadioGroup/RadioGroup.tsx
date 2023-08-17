@@ -18,6 +18,7 @@ export interface RadioGroupProps {
   options?: OptionType[];
   defaultValue?: RadioValueType;
   onChange: (checkedValue: RadioValueType) => void;
+  disabled?: boolean;
 }
 
 const RadioGroup: React.FC<RadioGroupProps> = ({
@@ -26,6 +27,7 @@ const RadioGroup: React.FC<RadioGroupProps> = ({
   options,
   defaultValue = '',
   onChange,
+  disabled = false,
 }) => {
   const [checkedValue, setCheckedValue] =
     useState<RadioValueType>(defaultValue);
@@ -48,6 +50,7 @@ const RadioGroup: React.FC<RadioGroupProps> = ({
         return React.cloneElement(node, {
           checked: isChecked,
           onChange: () => handleChange(String(node.props.value)),
+          disabled,
         });
       }
 
@@ -71,6 +74,7 @@ const RadioGroup: React.FC<RadioGroupProps> = ({
         chksize={chksize}
         label={option.label}
         subText={option.subText}
+        disabled={disabled}
       />
     ));
   };

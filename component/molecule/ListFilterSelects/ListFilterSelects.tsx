@@ -24,17 +24,18 @@ const ListFilterSelects = ({
 }: ListFilterSelectsProps) => {
   return (
     <>
-      {selectConfig.map(item => (
-        <span key={item.field}>
+      {selectConfig.map((item, i) => (
+        <div key={item.field} className={`field field${i + 1}`}>
           <Select
             options={item.options}
             selectedOption={String(params[item.field] ?? '')}
             setSelectedOption={({ value }: { value: string }) =>
               updateParams({ [item.field]: value, page: 1 })
             }
-            placeholder={item.label}
+            placeholder="전체"
+            prefixLabel={item.label}
           />
-        </span>
+        </div>
       ))}
     </>
   );

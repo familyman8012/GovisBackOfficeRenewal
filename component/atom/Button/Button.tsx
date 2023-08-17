@@ -85,6 +85,7 @@ const buttonVariants = {
     }
   `,
   transparent: css`
+    min-width: auto !important;
     background-color: transparent;
     border: none;
     box-shadow: none;
@@ -99,7 +100,7 @@ const buttonVariants = {
 };
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant: ButtonVariant;
+  variant?: ButtonVariant;
   size?: ButtonSize;
   LeadingIcon?: ReactElement;
   TrailingIcon?: ReactElement;
@@ -134,7 +135,7 @@ export const StyledButton = styled.button<{
 
 export const Button: FC<ButtonProps> = ({
   children,
-  variant,
+  variant = 'primary',
   size = 'md',
   LeadingIcon,
   TrailingIcon,

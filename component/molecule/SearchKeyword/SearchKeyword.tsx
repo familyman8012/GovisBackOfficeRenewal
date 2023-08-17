@@ -30,16 +30,21 @@ export const SearchKeywordWrap = styled.div`
 
   .select_library_control,
   .inp {
+    min-height: auto;
+    height: 3.8rem;
     border-radius: 0;
     border: none !important;
     border-radius: 0.4rem;
+  }
+  button {
+    height: 3.8rem;
+    padding: 0 1.2rem;
   }
   .select_library_control {
     border-right: 0 !important;
   }
   .inp {
     width: auto;
-    height: 4rem;
   }
 `;
 
@@ -99,7 +104,7 @@ const SearchKeyword = ({
   }, []);
 
   return (
-    <SearchKeywordWrap ref={searchKeywordRef}>
+    <SearchKeywordWrap ref={searchKeywordRef} className="box_searchkeyword">
       {selOption && ( // selOption이 있다면 Select 컴포넌트를 렌더링
         <Select
           options={selOption}

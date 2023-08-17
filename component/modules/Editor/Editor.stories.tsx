@@ -43,7 +43,7 @@ const StoryEditor: Story<Props> = args => {
         height: 500px;
       `}
     >
-      <Editor value={text} onChange={handleTextChange} />
+      <Editor value={text} onChange={handleTextChange} disabled />
     </StoryLayout>
   );
 };

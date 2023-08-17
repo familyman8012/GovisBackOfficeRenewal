@@ -374,8 +374,8 @@ export const DateInputWrapper = styled.div`
   position: relative;
   display: inline-flex;
   align-items: center;
-  width: 13.3rem;
-  padding: 0;
+
+  width: 100%;
   height: ${INPUT.height};
   font-size: ${INPUT.fontSize};
   border: 1px solid ${INPUT.border};
@@ -397,6 +397,14 @@ export const DateInputWrapper = styled.div`
     padding: 0;
     font: inherit;
     padding: 0 2.8rem 0 1.2rem;
+  }
+
+  &.disabled {
+    background: var(--color-neutral95);
+
+    input {
+      background: var(--color-neutral95);
+    }
   }
 
   .ico {
