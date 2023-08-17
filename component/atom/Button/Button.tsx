@@ -114,7 +114,7 @@ export const StyledButton = styled.button<{
   size: ButtonSize;
   IconOnly: boolean;
 }>`
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   width: fit-content;
@@ -124,8 +124,8 @@ export const StyledButton = styled.button<{
   user-select: none;
   cursor: pointer;
 
-  &:disabeld {
-    cursor: 'not-allowed';
+  &:disabled {
+    cursor: not-allowed;
   }
 
   ${props => buttonVariants[props.variant]}

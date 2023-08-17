@@ -3,7 +3,8 @@ import { UseFormRegisterReturn } from 'react-hook-form';
 import styled from '@emotion/styled';
 import { theme } from '@ComponentFarm/theme';
 
-export interface IcoInputProps {
+export interface IcoInputProps
+  extends React.InputHTMLAttributes<HTMLInputElement> {
   type?: 'text' | 'email';
   value?: string;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
