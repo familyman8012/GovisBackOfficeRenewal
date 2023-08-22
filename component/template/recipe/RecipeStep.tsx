@@ -1,7 +1,10 @@
 import { Control } from 'react-hook-form';
 import Editor from '@ComponentFarm/modules/Editor/Editor';
+import RadioGroup from '@ComponentFarm/modules/RadioGroup/RadioGroup';
 import { Button } from '@ComponentFarm/atom/Button/Button';
-import IngredientSearch from '@ComponentFarm/molecule/IngredientSearch';
+import { Select } from '@ComponentFarm/atom/Select/Select';
+import { InnerTable } from '@ComponentFarm/common';
+import IngredientSelect from '@ComponentFarm/molecule/IngredientSelect';
 import { RecipeStepWrap } from './style';
 
 interface Props {
@@ -13,16 +16,45 @@ const RecipeStep = ({ control }: Props) => {
     <RecipeStepWrap>
       <section>
         <h3>기본 정보</h3>
-        <table>
+        <InnerTable bordered>
           <colgroup>
             <col width={157} />
           </colgroup>
           <tbody>
             <tr>
+              <th>토핑 종류</th>
+              <td>
+                <RadioGroup
+                  options={[
+                    {
+                      label: '기본 토핑',
+                      value: '1',
+                    },
+                    {
+                      label: '후토핑',
+                      value: '2',
+                    },
+                    {
+                      label: '기본 제공',
+                      value: '3',
+                    },
+                  ]}
+                  onChange={() => {}}
+                />
+                {/* <Button variant="gostPrimary">사진 첨부</Button> */}
+                {/* <span className="guide-text">
+                  이미지 파일을 첨부해주세요. (최대 1장, 2mb 이하)
+                </span> */}
+              </td>
+            </tr>
+
+            <tr>
               <th>토핑 완성 이미지</th>
               <td>
                 <Button variant="gostPrimary">사진 첨부</Button>
-                <span>이미지 파일을 첨부해주세요. (최대 1장, 2mb 이하)</span>
+                <span className="guide-text">
+                  이미지 파일을 첨부해주세요. (최대 1장, 2mb 이하)
+                </span>
               </td>
             </tr>
             <tr>
@@ -36,30 +68,80 @@ const RecipeStep = ({ control }: Props) => {
                 </div>
               </td>
             </tr>
-            <tr>
-              <th>레시피 설명</th>
-              <td>
-                <Editor value="" />
-              </td>
-            </tr>
           </tbody>
-        </table>
+        </InnerTable>
       </section>
       <section>
         <h3>원재료 정보</h3>
-        <table>
+        <div className="ingredient-buttons">
+          <IngredientSelect onSelect={() => {}} />
+        </div>
+
+        <InnerTable bordered>
           <colgroup>
-            <col width={157} />
+            <col width={210} />
+            <col width={140} />
+            <col width={140} />
+            <col width={140} />
+            <col width={140} />
+            <col />
+            <col width={140} />
           </colgroup>
+          <thead>
+            <tr>
+              <td colSpan={3}>
+                <span className="req">기본 정보</span>
+              </td>
+              <td colSpan={4}>
+                <span className="req">계량 정보</span>
+              </td>
+            </tr>
+            <tr>
+              <td>원재료명</td>
+              <td>수량</td>
+              <td>단위</td>
+              <td>수량</td>
+              <td>단위</td>
+              <td>비고</td>
+              <td>설정</td>
+            </tr>
+          </thead>
           <tbody>
             <tr>
-              <th>원재료 설정</th>
+              <td>{/* <input className="inp" /> */}</td>
               <td>
-                <IngredientSearch onSearch={() => {}} />
+                <input className="inp" placeholder="예: 8" />
+              </td>
+              <td>
+                <Select
+                  placeholder="단위 선택"
+                  options={[]}
+                  selectedOption="1"
+                  setSelectedOption={() => {}}
+                />
+              </td>
+              <td>
+                <input className="inp" placeholder="예: 8" />
+              </td>
+              <td>
+                <Select
+                  placeholder="단위 선택"
+                  options={[]}
+                  selectedOption="1"
+                  setSelectedOption={() => {}}
+                />
+              </td>
+              <td>{/* <textarea /> */}</td>
+              <td>
+                <Button variant="gostSecondary">삭제</Button>
               </td>
             </tr>
           </tbody>
-        </table>
+        </InnerTable>
+      </section>
+      <section>
+        <h3>레시피 설명</h3>
+        <Editor value="" />
       </section>
     </RecipeStepWrap>
   );

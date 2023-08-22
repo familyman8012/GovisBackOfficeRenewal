@@ -12,6 +12,24 @@ const recipeFormStyles = css`
   width: 100%;
   margin: 0;
 
+  [class^='field'] {
+    display: flex;
+    flex-wrap: wrap;
+
+    label {
+      margin-right: 3.2rem;
+      color: var(--color-gray500);
+      font-weight: 600;
+      font-size: 1.4rem;
+      max-width: 280px;
+    }
+
+    p {
+      flex: none;
+      width: 100%;
+    }
+  }
+
   .line {
     display: flex;
     flex-wrap: wrap;
@@ -38,22 +56,8 @@ const recipeFormStyles = css`
     }
   }
 
-  [class^='field'] {
-    display: flex;
-    flex-wrap: wrap;
-
-    label {
-      margin-right: 3.2rem;
-      color: #687182;
-      font-weight: 600;
-      font-size: 1.4rem;
-      max-width: 280px;
-    }
-
-    p {
-      flex: none;
-      width: 100%;
-    }
+  .field3 {
+    flex-wrap: nowrap;
   }
 
   .group {
@@ -90,10 +94,8 @@ const RecipeDetailPage = () => {
         title="레시피 상세 정보"
         BtnBox={
           <>
-            <>
-              <Button variant="gostSecondary">이전</Button>
-              <Button>저장</Button>
-            </>
+            <Button variant="gostSecondary">이전</Button>
+            <Button>저장</Button>
           </>
         }
       />
@@ -113,15 +115,7 @@ const RecipeDetailPage = () => {
         activeTabIndex={1}
         onTabChange={index => {}}
       />
-      {/* <div className="recipe-header">
-        <h3 className="recipe-title">
-          레시피 명<Button variant="primary">가져오기</Button>
-        </h3>
-        <div className="recipe-title-input">
-          <input className="inp" placeholder="오리지널 페퍼로니 피자 ver0.1" />
-          <Button variant="primary">생성</Button>
-        </div>
-      </div> */}
+
       <section>
         <h3>레시피 기본 정보</h3>
         <FormWrap

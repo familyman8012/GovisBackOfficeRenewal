@@ -12,6 +12,7 @@ import {
   TABS,
   TEXTCOLOR,
   Button,
+  TABLE,
 } from './token';
 
 export const breakpoints = [200, 767, 800, 1200, 1600];
@@ -64,6 +65,7 @@ const reset = css`
     ${createVariables(TABS, 'tabs')}
     ${createVariables(Badge, 'bage')}
     ${createVariables(Button, 'button')}
+    ${createVariables(TABLE, 'table')}
     --swiper-navigation-size : 8rem;
   }
 
@@ -573,4 +575,57 @@ export const Table = styled.table`
       }
     }
   }
+`;
+
+export const InnerTable = styled.table<{
+  bordered?: boolean;
+}>`
+  width: 100%;
+  text-align: left;
+  table-layout: fixed;
+  border-spacing: 0;
+  color: var(--color-gray500);
+
+  th,
+  td {
+    padding: 2rem;
+    vertical-align: middle;
+  }
+
+  thead th,
+  thead td {
+    background: var(--table-headerBackground);
+    text-align: center;
+  }
+
+  th {
+    font-weight: 600;
+  }
+
+  td {
+    font-weight: 500;
+  }
+
+  ${props =>
+    props.bordered &&
+    css`
+      border: 1px solid var(--color-neutral90);
+      border-left: 0;
+      border-right: 0;
+
+      th,
+      td {
+        border: 1px solid var(--color-neutral90);
+        border-right: 0;
+
+        &:first-child {
+          border-left: 0;
+        }
+      }
+
+      th:first-child,
+      td:first-child {
+        border-left: 0;
+      }
+    `}
 `;

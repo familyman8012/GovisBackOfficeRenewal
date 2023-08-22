@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { FormWrap } from '@ComponentFarm/common';
 
 const flexPositions = {
   start: 'flex-start',
@@ -41,7 +42,6 @@ export const RegisterRecipeWrap = styled.div`
     font-weight: 700;
     padding: 3.2rem 0;
     margin: 0;
-
     font-size: var(--font-size6);
   }
 
@@ -141,7 +141,9 @@ export const RegisterRecipeWrap = styled.div`
   }
 `;
 
-export const RecipeStepWrap = styled.div`
+export const RecipeStepWrap = styled(FormWrap)`
+  padding-bottom: 3.2rem;
+
   h3 {
     padding-top: 0;
     font-weight: 600;
@@ -150,34 +152,48 @@ export const RecipeStepWrap = styled.div`
     margin-bottom: 0;
   }
 
-  table {
-    width: 100%;
-    text-align: left;
-    table-layout: fixed;
-    border: 1px solid var(--color-neutral90);
-    border-spacing: 0;
-    border-left: 0;
-    border-right: 0;
+  label {
+    width: auto;
+  }
 
-    th,
-    td {
-      padding: 2rem;
-      vertical-align: top;
-      border: 1px solid var(--color-neutral90);
-      border-right: 0;
+  .ingredient-buttons {
+    display: flex;
+    justify-content: space-between;
+    padding: 1.2rem 1rem;
+    background: var(--table-headerBackground);
+    border-bottom: 1px solid var(--color-neutral90);
+  }
 
-      &:first-child {
-        border-left: 0;
-      }
-    }
+  .guide-text {
+    margin-left: 1.6rem;
+    color: var(--color-neutral50);
+    font-weight: 500;
+  }
 
-    th:first-child,
-    td:first-child {
-      border-left: 0;
-    }
+  .ingredient-remove {
+    margin: 3.2rem 0;
   }
 
   section + section {
     margin-top: 6.4rem;
+    table,
+    td,
+    th {
+      border-top: 0;
+    }
+  }
+
+  section:nth-of-type(2) h3 {
+    border-bottom: 1px solid var(--color-neutral90);
+  }
+
+  section:last-child table {
+    text-align: center;
+    table,
+    td,
+    th {
+      text-align: center;
+      border-top: 0;
+    }
   }
 `;

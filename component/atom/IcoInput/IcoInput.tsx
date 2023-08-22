@@ -148,7 +148,9 @@ export const IcoInput: FC<IcoInputProps> = ({
               style={{
                 color: error ? theme.colors.error500 : theme.colors.gray400,
                 marginLeft: !LeadingIcon ? 'auto' : '',
+                justifySelf: 'end',
               }}
+              className="trailingIcon"
             />
           ) : null}
         </IconContainer>

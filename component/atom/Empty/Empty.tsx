@@ -23,13 +23,18 @@ const EmptyWrap = styled.div`
     margin-top: 1rem;
     font-size: 1.4rem;
     text-align: center;
+    white-space: pre;
+  }
+
+  &.no-icon p {
+    margin-top: 0;
   }
 `;
 
 const Empty: FC<React.PropsWithChildren<EmptyProps>> = ({ Icon, children }) => {
   const IconSvg = Icon?.type;
   return (
-    <EmptyWrap>
+    <EmptyWrap className={!IconSvg ? 'no-icon' : ''}>
       {IconSvg && <IconSvg {...Icon.props} />}
       <p>{children ?? '데이터가 없습니다.'}</p>
     </EmptyWrap>
