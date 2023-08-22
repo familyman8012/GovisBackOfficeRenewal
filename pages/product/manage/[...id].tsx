@@ -153,7 +153,7 @@ const Form: React.FC<FormProps> = ({ initialData, loading, onSubmit }) => {
             <label htmlFor="code" className="">
               제품 코드
             </label>
-            <div className="box_inp">
+            <div className={`box_inp ${errors.code ? 'error' : ''}`}>
               <input
                 type="text"
                 id="code"
@@ -169,7 +169,7 @@ const Form: React.FC<FormProps> = ({ initialData, loading, onSubmit }) => {
             <label htmlFor="status" className="req">
               제품 상태
             </label>
-            <div className="box_inp">
+            <div className={`box_inp ${errors.status ? 'error' : ''}`}>
               <select
                 id="status"
                 disabled={isReadOnly}
@@ -191,7 +191,7 @@ const Form: React.FC<FormProps> = ({ initialData, loading, onSubmit }) => {
           <label htmlFor="group" className="req">
             제품 그룹
           </label>
-          <div className="box_inp">
+          <div className={`box_inp ${errors.group ? 'error' : ''}`}>
             <select
               id="group"
               disabled={isReadOnly}
@@ -208,7 +208,7 @@ const Form: React.FC<FormProps> = ({ initialData, loading, onSubmit }) => {
           <label htmlFor="kind" className="req">
             제품 분류
           </label>
-          <div className="box_inp">
+          <div className={`box_inp ${errors.kind ? 'error' : ''}`}>
             <select
               id="kind"
               disabled={isReadOnly}
@@ -227,7 +227,7 @@ const Form: React.FC<FormProps> = ({ initialData, loading, onSubmit }) => {
           <label htmlFor="paykind" className="req">
             판매 분류 (중복 가능)
           </label>
-          <div className="box_inp">
+          <div className={`box_inp ${errors.paykind ? 'error' : ''}`}>
             <Controller
               name="paykind"
               control={control}
@@ -250,7 +250,7 @@ const Form: React.FC<FormProps> = ({ initialData, loading, onSubmit }) => {
           <label htmlFor="name_ko" className="req">
             제품명 (한글)
           </label>
-          <div className="box_inp">
+          <div className={`box_inp ${errors.name_ko ? 'error' : ''}`}>
             <input
               type="text"
               id="name_ko"
@@ -266,7 +266,7 @@ const Form: React.FC<FormProps> = ({ initialData, loading, onSubmit }) => {
           <label htmlFor="name_en" className="req">
             제품명 (영어)
           </label>
-          <div className="box_inp">
+          <div className={`box_inp ${errors.name_en ? 'error' : ''}`}>
             <input
               type="text"
               id="name_en"
@@ -284,7 +284,7 @@ const Form: React.FC<FormProps> = ({ initialData, loading, onSubmit }) => {
           <label htmlFor="desc" className="">
             제품 설명
           </label>
-          <div className="box_inp">
+          <div className={`box_inp ${errors.desc ? 'error' : ''}`}>
             <textarea
               id="desc"
               placeholder="제품에 대한 설명 입력"
@@ -298,10 +298,10 @@ const Form: React.FC<FormProps> = ({ initialData, loading, onSubmit }) => {
       <h2>제품 판매 정보</h2>
       <div className="line line6">
         <div className="field field1">
-          <label htmlFor="startDate" className="">
+          <label htmlFor="startDate" className="req">
             판매 시작일
           </label>
-          <div className="box_inp">
+          <div className={`box_inp ${errors.startDate ? 'error' : ''}`}>
             <Controller
               control={control}
               name="startDate"
@@ -326,7 +326,7 @@ const Form: React.FC<FormProps> = ({ initialData, loading, onSubmit }) => {
           <label htmlFor="startDate" className="">
             판매 종료일
           </label>
-          <div className="box_inp">
+          <div className={`box_inp ${errors.endDate ? 'error' : ''}`}>
             <Controller
               control={control}
               name="endDate"

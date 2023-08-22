@@ -5,7 +5,7 @@ type Props = React.SVGProps<SVGSVGElement> & {
   viewBoxSize?: number;
   customCss?: string;
 };
-export const Layer = ({ size, viewBoxSize, ...props }: Props) => (
+const Layer = ({ size, viewBoxSize, ...props }: Props) => (
   <svg
     css={css`
       ${props.customCss}
@@ -24,3 +24,4 @@ export const Layer = ({ size, viewBoxSize, ...props }: Props) => (
     />
   </svg>
 );
+export default Layer;

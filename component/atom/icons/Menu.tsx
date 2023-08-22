@@ -5,7 +5,7 @@ type Props = React.SVGProps<SVGSVGElement> & {
   viewBoxSize?: number;
   customCss?: string;
 };
-export const Menu = ({ size, viewBoxSize, ...props }: Props) => (
+const Menu = ({ size, viewBoxSize, ...props }: Props) => (
   <svg
     css={css`
       ${props.customCss}
@@ -24,3 +24,4 @@ export const Menu = ({ size, viewBoxSize, ...props }: Props) => (
     />
   </svg>
 );
+export default Menu;

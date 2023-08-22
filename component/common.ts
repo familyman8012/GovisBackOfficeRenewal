@@ -1,6 +1,9 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { datepickerGlobalStyle } from '@ComponentFarm/modules/DatePicker/style';
+import {
+  DateInputWrapper,
+  datepickerGlobalStyle,
+} from '@ComponentFarm/modules/DatePicker/style';
 import {
   BACKGROUND,
   Badge,
@@ -349,6 +352,19 @@ const reset = css`
     padding: 2.4rem;
   }
 
+  .box_inp.error {
+    input,
+    select,
+    textarea,
+    ${DateInputWrapper} {
+      border: 1px solid red;
+    }
+
+    ${DateInputWrapper} input {
+      border: none;
+    }
+  }
+
   .box_checkbox_group,
   .box_radio_group {
     display: flex;
@@ -523,6 +539,14 @@ export const FormWrap = styled.div`
 
 export default reset;
 
+export const IconViewArea = styled.span<{ size: number }>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: ${props => `${props.size / 10}rem`};
+  height: ${props => `${props.size / 10}rem`};
+`;
+
 export const TableWrap = styled.div`
   overflow: hidden;
   width: fit-content;
@@ -567,7 +591,7 @@ export const Table = styled.table`
       background: #f9fafb;
     }
     td {
-      height: 4.8rem;
+      padding: 1.2rem 2rem;
       color: var(--color-neutral10);
 
       &.code {
