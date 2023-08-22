@@ -131,7 +131,7 @@ ${line.fields
           <label htmlFor="${field.name}" className="${labelClass}">${
             field.label
           }</label>
-          <div className="box_inp">
+          <div className={\`box_inp \${errors.${field.name} ? 'error' : ''}\`}>
             <input type="${field.type}" id="${
               field.name
             }" className="inp" placeholder="${
@@ -147,7 +147,7 @@ ${line.fields
           <label htmlFor="${field.name}" className="${labelClass}">${
             field.label
           }</label>
-          <div className="box_inp">
+        <div className={\`box_inp \${errors.${field.name} ? 'error' : ''}\`}>
           <input type="${field.type}" id="${
             field.name
           }" className="inp"  disabled={isReadOnly} ${fieldOptions} />
@@ -161,7 +161,7 @@ ${line.fields
           <label htmlFor="${field.name}" className="${labelClass}">${
             field.label
           }</label>
-          <div className="box_inp">
+        <div className={\`box_inp \${errors.${field.name} ? 'error' : ''}\`}>
           <select id="${field.name}"  disabled={isReadOnly} ${fieldOptions}>
           {/*   {${field.data}.map(el => (
               <option key={el.value} value={el.value}>{el.label}</option> 
@@ -177,9 +177,9 @@ ${line.fields
           fieldIndex + 1
         }">   <label htmlFor="${field.name}" className="${labelClass}">${
           field.label
-        }</label>  <div className="box_inp"><Controller control={control} name="${
+        }</label><div className={\`box_inp \${errors.${
           field.name
-        }" 
+        } ? 'error' : ''}\`}><Controller control={control} name="${field.name}" 
         ${
           field.isRequired
             ? `rules={{ required: '필수 입력 항목입니다.' }}`
@@ -202,7 +202,7 @@ ${line.fields
           <label htmlFor="${field.name}" className="${labelClass}">${
             field.label
           }</label>
-          <div className="box_inp">
+        <div className={\`box_inp \${errors.${field.name} ? 'error' : ''}\`}>
           <textarea id="${field.name}" placeholder="${
             field.placeholder
           }"  disabled={isReadOnly} ${fieldOptions} />
@@ -235,7 +235,7 @@ ${line.fields
     <label htmlFor="${field.name}" className="${labelClass}">${
       field.label
     }</label>
-    <div className="box_inp">
+  <div className={\`box_inp \${errors.${field.name} ? 'error' : ''}\`}>
     <Controller
       name="${field.name}"
       control={control}
@@ -259,7 +259,7 @@ ${line.fields
     <label htmlFor="${field.name}" className="${labelClass}">${
       field.label
     }</label>
-    <div className="box_inp">
+  <div className={\`box_inp \${errors.${field.name} ? 'error' : ''}\`}>
     <Controller
       name="${field.name}"
       control={control}

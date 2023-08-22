@@ -49,11 +49,11 @@ type Props = React.SVGProps<SVGSVGElement> & {
   viewBoxSize?:number;
   customCss?: string;
 };
-export const ${componentNameWithoutSvgPrefix} = ({ size, viewBoxSize, ...props }: Props) => (
+const ${componentNameWithoutSvgPrefix} = ({ size, viewBoxSize, ...props }: Props) => (
 
     ${svgElement}
 );
-
+export default ${componentNameWithoutSvgPrefix};
 
   `;
 }

@@ -1,10 +1,11 @@
 import { css } from '@emotion/react';
+
 type Props = React.SVGProps<SVGSVGElement> & {
   size?: number;
   viewBoxSize?: number;
   customCss?: string;
 };
-export const Flag = ({ size, viewBoxSize, ...props }: Props) => (
+const Flag = ({ size, viewBoxSize, ...props }: Props) => (
   <svg
     css={css`
       ${props.customCss}
@@ -21,3 +22,4 @@ export const Flag = ({ size, viewBoxSize, ...props }: Props) => (
     />
   </svg>
 );
+export default Flag;

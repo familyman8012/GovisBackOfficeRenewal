@@ -96,11 +96,25 @@ export const dateConfig = [
     placeholder: '판매 종료일',
   },
   {
-    field: 'search_end_dt',
+    field: 'search_end2_dt',
     placeholder: '등록일',
   },
   {
-    field: 'search_end_dt',
+    field: 'search_end3_dt',
     placeholder: '수정일',
+  },
+];
+
+export const storeInfoSelectCofing = [
+  { label: '지역', field: 'search_status', options: searchStatus },
+  {
+    label: '매장 구분',
+    field: 'search_coupon_type',
+    options: searchCouponType,
+  },
+  {
+    label: '매장 상태',
+    field: 'search_notification_type',
+    options: searchNotificationType,
   },
 ];

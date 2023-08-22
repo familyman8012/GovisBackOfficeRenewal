@@ -47,6 +47,12 @@ const StoryModal: Story<Props> = (args, children) => {
     setIsOpen(false);
   };
 
+  // 팝업에서 확인 버튼을 클릭했을 때의 동작입니다.
+  const handleModalSubmit = () => {
+    console.log('Form Submitted!');
+    setIsOpen(false);
+  };
+
   return (
     <StoryLayout
       {...args}
@@ -58,10 +64,108 @@ const StoryModal: Story<Props> = (args, children) => {
         Open Modal
       </Button>
 
-      <Modal isOpen={isOpen} onClose={handlerClose}>
-        <p>This is my modal content.</p>
+      <Modal
+        isOpen={isOpen}
+        onClose={handlerClose}
+        title="제목입니다"
+        onFormSubmit={handleModalSubmit}
+      >
+        팝업 내용입니다.
       </Modal>
     </StoryLayout>
   );
 };
 export const Default = StoryModal.bind({});
+
+const StoryModal2: Story<Props> = (args, children) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+  }, [isOpen]);
+
+  const handlerClose = () => {
+    setIsOpen(false);
+  };
+
+  // 팝업에서 확인 버튼을 클릭했을 때의 동작입니다.
+  const handleModalSubmit = () => {
+    console.log('Form Submitted!');
+    setIsOpen(false);
+  };
+
+  return (
+    <StoryLayout
+      {...args}
+      customCss={css`
+        height: 500px;
+      `}
+    >
+      <Button variant="primary" onClick={() => setIsOpen(true)}>
+        Open Modal
+      </Button>
+
+      <Modal
+        isOpen={isOpen}
+        onClose={handlerClose}
+        title="제목입니다"
+        onFormSubmit={handleModalSubmit}
+        showCancelButton={false}
+      >
+        팝업 내용입니다.
+      </Modal>
+    </StoryLayout>
+  );
+};
+export const Default2 = StoryModal2.bind({});
+
+const StoryModal3: Story<Props> = (args, children) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+  }, [isOpen]);
+
+  const handlerClose = () => {
+    setIsOpen(false);
+  };
+
+  // 팝업에서 확인 버튼을 클릭했을 때의 동작입니다.
+  const handleModalSubmit = () => {
+    console.log('Form Submitted!');
+    setIsOpen(false);
+  };
+
+  return (
+    <StoryLayout
+      {...args}
+      customCss={css`
+        height: 500px;
+      `}
+    >
+      <Button variant="primary" onClick={() => setIsOpen(true)}>
+        Open Modal
+      </Button>
+
+      <Modal
+        isOpen={isOpen}
+        onClose={handlerClose}
+        title="제목입니다"
+        onFormSubmit={handleModalSubmit}
+        showCloseButton
+        showCancelButton
+      >
+        <div style={{ width: 600, height: 300 }}>dasfasdf</div>
+      </Modal>
+    </StoryLayout>
+  );
+};
+export const Default3 = StoryModal3.bind({});

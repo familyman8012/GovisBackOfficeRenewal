@@ -9,7 +9,7 @@
     "lint": "next lint",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "convert-svg": "npx @svgr/cli --out-dir ./component/atom/icons --icon --template ./util/svgrTemplate.tsx ./public/images/icons --typescript"
+    "convert-svg": "npx @svgr/cli --out-dir ./component/atom/icons --icon --template ./util/svgrTemplate.tsx ./public/images/icons --typescript && eslint ./component/atom/icons --fix"
   },
   "husky": {
     "hooks": {

@@ -1,12 +1,13 @@
 import styled from '@emotion/styled';
 
-export const LayoutWrap = styled.div`
-  display: flex;
-  height: 100%;
-`;
+export const LayoutWrap = styled.div``;
 
 export const LeftMenuWrap = styled.div`
   display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
 `;
 
 export const Depth1 = styled.div`
@@ -24,7 +25,8 @@ export const SubDepth = styled.div`
 `;
 
 export const Content = styled.main`
-  width: 100%;
+  width: calc(100% - 32rem);
+  margin-left: 32rem;
   padding: 3.2rem;
 `;
 
