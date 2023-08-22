@@ -137,7 +137,11 @@ const Modal: FC<ModalProps> = ({
           <div className="content">{children}</div>
         </HeaderContentContainer>
         <ButtonContainer>
-          {showCancelButton && <Button variant="gostSecondary">취소</Button>}
+          {showCancelButton && (
+            <Button variant="gostSecondary" onClick={onClose}>
+              취소
+            </Button>
+          )}
           <Button type="button" onClick={onFormSubmit}>
             확인
           </Button>
