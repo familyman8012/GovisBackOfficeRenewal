@@ -7,6 +7,7 @@ import { ToastContainer } from 'react-toastify';
 import { Global, ThemeProvider } from '@emotion/react';
 import 'react-toastify/dist/ReactToastify.css';
 import { ServerError } from '@InterfaceFarm/response';
+import ConfirmModal from '@ComponentFarm/modules/Modal/ConfirmModal';
 import reset from '@ComponentFarm/common';
 import { theme } from '@ComponentFarm/theme';
 import { errorHandler } from '@UtilFarm/error-handler';
@@ -55,6 +56,7 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
       <Global styles={reset} />
       <ThemeProvider theme={theme}>
         {getLayout(<Component {...pageProps} />)}
+        <ConfirmModal />
       </ThemeProvider>
       <ToastContainer
         pauseOnFocusLoss={false}

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { runInAction } from 'mobx';
 import Image from 'next/image';
 import { css } from '@emotion/react';
 import { Button } from '@ComponentFarm/atom/Button/Button';
@@ -6,6 +7,7 @@ import { Plus } from '@ComponentFarm/atom/icons';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import { FormWrap, Table, TableWrap } from '@ComponentFarm/common';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
+import { confirmModalStore } from '@MobxFarm/store';
 
 const pageStyle = css`
   &.basic tr:hover {
@@ -42,6 +44,22 @@ const pageStyle = css`
 `;
 
 const Channelimg = () => {
+  const confirmModal = () => {
+    runInAction(() => {
+      confirmModalStore.openModal({
+        title: '제품 이미지 등록 완료',
+        content: <p>채널별 제품 이미지 등록이 완료되었습니다.</p>,
+        onFormSubmit: () => {
+          console.log('Form submitted!');
+        },
+        onCancel: () => {
+          alert('aaa');
+        },
+        showCancelButton: false,
+      });
+    });
+  };
+
   const tabData = [
     {
       title: '제품등록',
@@ -67,7 +85,9 @@ const Channelimg = () => {
         BtnBox={
           <>
             <Button variant="gostSecondary">취소</Button>
-            <Button type="button">저장</Button>
+            <Button type="button" onClick={confirmModal}>
+              저장
+            </Button>
           </>
         }
       />
