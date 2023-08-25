@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Meta, Story } from '@storybook/react';
+import { runInAction } from 'mobx';
 import { css } from '@emotion/react';
 import StoryLayout from '@ComponentFarm/modules/story_layout/StoryLayout';
 import { Button } from '@ComponentFarm/atom/Button/Button';
+import { confirmModalStore } from '@MobxFarm/store';
+import ConfirmModal from './ConfirmModal';
 import Modal from './Modal';
 
 const meta: Meta = {
@@ -10,7 +13,33 @@ const meta: Meta = {
   tags: ['autodocs'],
   args: {
     Desc: {
-      usages: `labe에는 th에 들어갈 텍스트, renderCell에는 각 data 들을 연결해주면 됨, customStyle에는 전체 colwidth 를 배열의 첫번째요소, 두번째요소는 첫행, 마지막행을 제외한 stickyColoumn의 left 혹은 right 값, 세번째, 네번째는 그라데이션을 나타나게 할 열`,
+      usages: `confirmModal 사용시 content 내용에 커스텀 테그 사용하려면, 따로 컴포넌트화해서, 
+      예를 들어 <List /> 컴포넌트안에서 confirmModal 사용시 <List /> 바깥에서 <ListContent /> 작성해서, 
+      content:<ListContent /> 로 사용해야됨
+
+      const ListItem = () => {
+        어쩌고 저쩌고.
+      }
+
+      const List = () => {
+        const confirmModal = () => {
+          runInAction(() => {
+            confirmModalStore.openModal({
+              title: '제품 이미지 등록 완료',
+              content: <ListItem />,
+              onFormSubmit: () => {
+                console.log('Form submitted!');
+              },
+              onCancel: () => {
+                alert('aaa');
+              },
+              showCancelButton: false,
+            });
+          });
+        };
+      }
+      
+      `,
     },
   },
   parameters: {
@@ -47,12 +76,6 @@ const StoryModal: Story<Props> = (args, children) => {
     setIsOpen(false);
   };
 
-  // 팝업에서 확인 버튼을 클릭했을 때의 동작입니다.
-  const handleModalSubmit = () => {
-    console.log('Form Submitted!');
-    setIsOpen(false);
-  };
-
   return (
     <StoryLayout
       {...args}
@@ -64,13 +87,8 @@ const StoryModal: Story<Props> = (args, children) => {
         Open Modal
       </Button>
 
-      <Modal
-        isOpen={isOpen}
-        onClose={handlerClose}
-        title="제목입니다"
-        onFormSubmit={handleModalSubmit}
-      >
-        팝업 내용입니다.
+      <Modal title="제목" isOpen={isOpen} onClose={handlerClose}>
+        <p>This is my modal content.</p>
       </Modal>
     </StoryLayout>
   );
@@ -92,12 +110,6 @@ const StoryModal2: Story<Props> = (args, children) => {
     setIsOpen(false);
   };
 
-  // 팝업에서 확인 버튼을 클릭했을 때의 동작입니다.
-  const handleModalSubmit = () => {
-    console.log('Form Submitted!');
-    setIsOpen(false);
-  };
-
   return (
     <StoryLayout
       {...args}
@@ -110,18 +122,17 @@ const StoryModal2: Story<Props> = (args, children) => {
       </Button>
 
       <Modal
+        title="제목"
         isOpen={isOpen}
         onClose={handlerClose}
-        title="제목입니다"
-        onFormSubmit={handleModalSubmit}
         showCancelButton={false}
       >
-        팝업 내용입니다.
+        <p>This is my modal content.</p>
       </Modal>
     </StoryLayout>
   );
 };
-export const Default2 = StoryModal2.bind({});
+export const notCancelButton = StoryModal2.bind({});
 
 const StoryModal3: Story<Props> = (args, children) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -138,12 +149,6 @@ const StoryModal3: Story<Props> = (args, children) => {
     setIsOpen(false);
   };
 
-  // 팝업에서 확인 버튼을 클릭했을 때의 동작입니다.
-  const handleModalSubmit = () => {
-    console.log('Form Submitted!');
-    setIsOpen(false);
-  };
-
   return (
     <StoryLayout
       {...args}
@@ -156,16 +161,75 @@ const StoryModal3: Story<Props> = (args, children) => {
       </Button>
 
       <Modal
+        title="제목"
         isOpen={isOpen}
         onClose={handlerClose}
-        title="제목입니다"
-        onFormSubmit={handleModalSubmit}
         showCloseButton
-        showCancelButton
       >
-        <div style={{ width: 600, height: 300 }}>dasfasdf</div>
+        <div style={{ width: 600 }}>This is my modal content.</div>
       </Modal>
     </StoryLayout>
   );
 };
-export const Default3 = StoryModal3.bind({});
+export const showCloseButton = StoryModal3.bind({});
+
+const StoryModal4: Story<Props> = (args, children) => {
+  const confirmModal = () => {
+    runInAction(() => {
+      confirmModalStore.openModal({
+        title: '제목',
+        content: <div>모달 내용</div>,
+      });
+    });
+  };
+
+  return (
+    <StoryLayout
+      {...args}
+      customCss={css`
+        height: 500px;
+      `}
+    >
+      <Button type="button" onClick={confirmModal}>
+        등록
+      </Button>
+      <ConfirmModal />
+    </StoryLayout>
+  );
+};
+export const confirmModal = StoryModal4.bind({});
+
+const StoryModal5: Story<Props> = (args, children) => {
+  const confirmModal2 = () => {
+    runInAction(() => {
+      confirmModalStore.openModal({
+        title: '제목',
+        content: <div>모달 내용</div>,
+        onFormSubmit: () => {
+          console.log('Form submitted!');
+        },
+        onCancel: () => {
+          alert('aaa');
+        },
+        showCloseButton: true,
+        submitButtonText: '등록',
+        cancelButtonText: '취소텍스트',
+      });
+    });
+  };
+
+  return (
+    <StoryLayout
+      {...args}
+      customCss={css`
+        height: 500px;
+      `}
+    >
+      <Button type="button" onClick={confirmModal2}>
+        등록
+      </Button>
+      <ConfirmModal />
+    </StoryLayout>
+  );
+};
+export const confirmModalButton = StoryModal5.bind({});

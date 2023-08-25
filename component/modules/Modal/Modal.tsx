@@ -12,6 +12,9 @@ interface ModalProps {
   onClose: () => void;
   title?: string;
   onFormSubmit?: () => void;
+  onCancel?: () => void;
+  submitButtonText?: string;
+  cancelButtonText?: string;
   showCloseButton?: boolean;
   showCancelButton?: boolean;
   children?: ReactNode;
@@ -61,9 +64,11 @@ const HeaderContentContainer = styled.div`
   }
 
   .content {
-    margin-top: 0.4rem;
-    font-size: var(--font-size4);
-    line-height: var(--font-size7);
+    p {
+      margin-top: 0.4rem;
+      font-size: var(--font-size4);
+      line-height: var(--font-size7);
+    }
   }
 `;
 
@@ -77,6 +82,7 @@ const ButtonContainer = styled.div`
     width: 100%;
     padding: 1rem 1.6rem;
     font-size: 1.6rem;
+    border-radius: 0.8rem;
   }
 `;
 
@@ -85,6 +91,9 @@ const Modal: FC<ModalProps> = ({
   onClose,
   title,
   onFormSubmit,
+  onCancel,
+  submitButtonText = '확인',
+  cancelButtonText = '취소',
   showCloseButton = false,
   showCancelButton = true,
   children,
@@ -107,7 +116,7 @@ const Modal: FC<ModalProps> = ({
           top: 50%;
           left: 50%;
           transform: translate(-50%, -50%);
-          min-width: 31.2rem;
+          min-width: 36rem;
           width: fit-width;
           background-color: white;
           border-radius: 12px;
@@ -140,12 +149,12 @@ const Modal: FC<ModalProps> = ({
         </HeaderContentContainer>
         <ButtonContainer>
           {showCancelButton && (
-            <Button variant="gostSecondary" onClick={onClose}>
-              취소
+            <Button variant="gostSecondary" onClick={onCancel}>
+              {cancelButtonText}
             </Button>
           )}
           <Button type="button" onClick={onFormSubmit}>
-            확인
+            {submitButtonText}
           </Button>
         </ButtonContainer>
       </motion.div>

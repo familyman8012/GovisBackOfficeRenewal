@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
+import { runInAction } from 'mobx';
 import { useRouter } from 'next/router';
 import { Controller, useForm } from 'react-hook-form';
 import { css } from '@emotion/react';
@@ -12,6 +13,7 @@ import ErrorTxt from '@ComponentFarm/atom/ErrorTxt/ErrorTxt';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import { FormWrap } from '@ComponentFarm/common';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
+import { confirmModalStore } from '@MobxFarm/store';
 
 type FormFields = {
   code: string; // TODO: replace with the actual value
@@ -84,6 +86,27 @@ const Form: React.FC<FormProps> = ({ initialData, loading, onSubmit }) => {
   const isReadOnly = !id?.includes('add') && !!id;
   const [activeTabIndex, setActiveTabIndex] = useState(0);
 
+  const confirmModal = () => {
+    runInAction(() => {
+      confirmModalStore.openModal({
+        title: '제품 정보 등록 완료',
+        content: (
+          <p>
+            채널별 이미지를 등록하시겠습니까?
+            <br /> (채널별 이미지는 추후 등록 가능합니다.)
+          </p>
+        ),
+        onFormSubmit: () => {
+          console.log('Form submitted!');
+        },
+        onCancel: () => {
+          alert('aaa');
+        },
+        submitButtonText: '다음',
+      });
+    });
+  };
+
   const tabData = [
     {
       title: '제품등록',
@@ -114,236 +137,238 @@ const Form: React.FC<FormProps> = ({ initialData, loading, onSubmit }) => {
     handleSubmit,
     formState: { errors },
   } = useForm<FormFields>({ defaultValues });
-  const onFormSubmit = handleSubmit(data => {
-    onSubmit(data);
-  });
+  // const onFormSubmit = handleSubmit(data => {
+  //   onSubmit(data);
+  // });
 
   return (
-    <FormWrap css={productStyles}>
-      <TitleArea
-        title="제품 상세 정보 수정"
-        BtnBox={
-          <>
-            <Button variant="gostSecondary">취소</Button>
-            <Button type="button" onClick={onFormSubmit}>
-              등록
-            </Button>
-          </>
-        }
-      />
-      <Tabs
-        tabs={tabData}
-        activeTabIndex={activeTabIndex}
-        onTabChange={index => setActiveTabIndex(index)}
-      />
-      <h2>제품 기본 정보</h2>
-      <div className="line line1">
-        <div className="field field1">
-          <div className="box_upload_image">
-            <h4>제품 이미지</h4>
-            <div className="thumb" />
-            <div className="box_btn">
-              <Button variant="primary">이미지 등록</Button>
-              <span className="txt_notice">※ 2 MB 이하만 업로드 가능</span>
+    <>
+      <FormWrap css={productStyles}>
+        <TitleArea
+          title="제품 상세 정보 수정"
+          BtnBox={
+            <>
+              <Button variant="gostSecondary">취소</Button>
+              <Button type="button" onClick={confirmModal}>
+                등록
+              </Button>
+            </>
+          }
+        />
+        <Tabs
+          tabs={tabData}
+          activeTabIndex={activeTabIndex}
+          onTabChange={index => setActiveTabIndex(index)}
+        />
+        <h2>제품 기본 정보</h2>
+        <div className="line line1">
+          <div className="field field1">
+            <div className="box_upload_image">
+              <h4>제품 이미지</h4>
+              <div className="thumb" />
+              <div className="box_btn">
+                <Button variant="primary">이미지 등록</Button>
+                <span className="txt_notice">※ 2 MB 이하만 업로드 가능</span>
+              </div>
+            </div>
+          </div>
+          <div className="field field2">
+            <div className="box box1">
+              <label htmlFor="code" className="">
+                제품 코드
+              </label>
+              <div className={`box_inp ${errors.code ? 'error' : ''}`}>
+                <input
+                  type="text"
+                  id="code"
+                  className="inp"
+                  placeholder="등록 시, 자동 생성 (입력불가)"
+                  disabled
+                  {...register('code')}
+                />
+                {errors.code && <ErrorTxt>{errors.code.message}</ErrorTxt>}
+              </div>
+            </div>
+            <div className="box box2">
+              <label htmlFor="status" className="req">
+                제품 상태
+              </label>
+              <div className={`box_inp ${errors.status ? 'error' : ''}`}>
+                <select
+                  id="status"
+                  disabled={isReadOnly}
+                  {...register('status', { required: '필수 입력항목입니다.' })}
+                >
+                  <option value="">전체</option>
+                  {/*   {data.status.map(el => (
+            <option key={el.value} value={el.value}>{el.label}</option> 
+          ))}   */}
+                </select>
+                {errors.status && <ErrorTxt>{errors.status.message}</ErrorTxt>}
+              </div>
             </div>
           </div>
         </div>
-        <div className="field field2">
-          <div className="box box1">
-            <label htmlFor="code" className="">
-              제품 코드
+        <Divider />
+        <div className="line line2">
+          <div className="field field1">
+            <label htmlFor="group" className="req">
+              제품 그룹
             </label>
-            <div className={`box_inp ${errors.code ? 'error' : ''}`}>
-              <input
-                type="text"
-                id="code"
-                className="inp"
-                placeholder="등록 시, 자동 생성 (입력불가)"
-                disabled
-                {...register('code')}
-              />
-              {errors.code && <ErrorTxt>{errors.code.message}</ErrorTxt>}
-            </div>
-          </div>
-          <div className="box box2">
-            <label htmlFor="status" className="req">
-              제품 상태
-            </label>
-            <div className={`box_inp ${errors.status ? 'error' : ''}`}>
+            <div className={`box_inp ${errors.group ? 'error' : ''}`}>
               <select
-                id="status"
+                id="group"
                 disabled={isReadOnly}
-                {...register('status', { required: '필수 입력항목입니다.' })}
+                {...register('group', { required: '필수 입력항목입니다.' })}
               >
-                <option value="">전체</option>
-                {/*   {data.status.map(el => (
+                {/*   {data.group.map(el => (
             <option key={el.value} value={el.value}>{el.label}</option> 
           ))}   */}
               </select>
-              {errors.status && <ErrorTxt>{errors.status.message}</ErrorTxt>}
+              {errors.group && <ErrorTxt>{errors.group.message}</ErrorTxt>}
+            </div>
+          </div>
+          <div className="field field2">
+            <label htmlFor="kind" className="req">
+              제품 분류
+            </label>
+            <div className={`box_inp ${errors.kind ? 'error' : ''}`}>
+              <select
+                id="kind"
+                disabled={isReadOnly}
+                {...register('kind', { required: '필수 입력항목입니다.' })}
+              >
+                {/*   {data.kind.map(el => (
+            <option key={el.value} value={el.value}>{el.label}</option> 
+          ))}   */}
+              </select>
+              {errors.kind && <ErrorTxt>{errors.kind.message}</ErrorTxt>}
+            </div>
+          </div>{' '}
+        </div>
+        <div className="line line3">
+          <div className="field field1">
+            <label htmlFor="paykind" className="req">
+              판매 분류 (중복 가능)
+            </label>
+            <div className={`box_inp ${errors.paykind ? 'error' : ''}`}>
+              <Controller
+                name="paykind"
+                control={control}
+                defaultValue={[]}
+                render={({ field: { value, ref, ...restField } }) => (
+                  <CheckBoxGroup
+                    {...restField}
+                    options={sampleData}
+                    allChechkHandler={sampleData}
+                    initialCheckedValues={value}
+                    disabled={isReadOnly}
+                  />
+                )}
+              />
             </div>
           </div>
         </div>
-      </div>
-      <Divider />
-      <div className="line line2">
-        <div className="field field1">
-          <label htmlFor="group" className="req">
-            제품 그룹
-          </label>
-          <div className={`box_inp ${errors.group ? 'error' : ''}`}>
-            <select
-              id="group"
-              disabled={isReadOnly}
-              {...register('group', { required: '필수 입력항목입니다.' })}
-            >
-              {/*   {data.group.map(el => (
-            <option key={el.value} value={el.value}>{el.label}</option> 
-          ))}   */}
-            </select>
-            {errors.group && <ErrorTxt>{errors.group.message}</ErrorTxt>}
+        <div className="line line4">
+          <div className="field field1">
+            <label htmlFor="name_ko" className="req">
+              제품명 (한글)
+            </label>
+            <div className={`box_inp ${errors.name_ko ? 'error' : ''}`}>
+              <input
+                type="text"
+                id="name_ko"
+                className="inp"
+                placeholder="한글 입력만 가능"
+                disabled={isReadOnly}
+                {...register('name_ko', { required: '필수 입력항목입니다.' })}
+              />
+              {errors.name_ko && <ErrorTxt>{errors.name_ko.message}</ErrorTxt>}
+            </div>
+          </div>
+          <div className="field field2">
+            <label htmlFor="name_en" className="req">
+              제품명 (영어)
+            </label>
+            <div className={`box_inp ${errors.name_en ? 'error' : ''}`}>
+              <input
+                type="text"
+                id="name_en"
+                className="inp"
+                placeholder="영문 입력만 가능"
+                disabled={isReadOnly}
+                {...register('name_en', { required: '필수 입력항목입니다.' })}
+              />
+              {errors.name_en && <ErrorTxt>{errors.name_en.message}</ErrorTxt>}
+            </div>
           </div>
         </div>
-        <div className="field field2">
-          <label htmlFor="kind" className="req">
-            제품 분류
-          </label>
-          <div className={`box_inp ${errors.kind ? 'error' : ''}`}>
-            <select
-              id="kind"
-              disabled={isReadOnly}
-              {...register('kind', { required: '필수 입력항목입니다.' })}
-            >
-              {/*   {data.kind.map(el => (
-            <option key={el.value} value={el.value}>{el.label}</option> 
-          ))}   */}
-            </select>
-            {errors.kind && <ErrorTxt>{errors.kind.message}</ErrorTxt>}
+        <div className="line line5">
+          <div className="field field1">
+            <label htmlFor="desc" className="">
+              제품 설명
+            </label>
+            <div className={`box_inp ${errors.desc ? 'error' : ''}`}>
+              <textarea
+                id="desc"
+                placeholder="제품에 대한 설명 입력"
+                disabled={isReadOnly}
+                {...register('desc')}
+              />
+              {errors.desc && <ErrorTxt>{errors.desc.message}</ErrorTxt>}
+            </div>
           </div>
-        </div>{' '}
-      </div>
-      <div className="line line3">
-        <div className="field field1">
-          <label htmlFor="paykind" className="req">
-            판매 분류 (중복 가능)
-          </label>
-          <div className={`box_inp ${errors.paykind ? 'error' : ''}`}>
-            <Controller
-              name="paykind"
-              control={control}
-              defaultValue={[]}
-              render={({ field: { value, ref, ...restField } }) => (
-                <CheckBoxGroup
-                  {...restField}
-                  options={sampleData}
-                  allChechkHandler={sampleData}
-                  initialCheckedValues={value}
-                  disabled={isReadOnly}
-                />
+        </div>
+        <h2>제품 판매 정보</h2>
+        <div className="line line6">
+          <div className="field field1">
+            <label htmlFor="startDate" className="req">
+              판매 시작일
+            </label>
+            <div className={`box_inp ${errors.startDate ? 'error' : ''}`}>
+              <Controller
+                control={control}
+                name="startDate"
+                rules={{ required: '필수 입력 항목입니다.' }}
+                render={({ field }) => (
+                  <DatePicker
+                    selectedDate={field.value}
+                    onChange={(newDate: NewDate) => {
+                      field.onChange(String(newDate));
+                    }}
+                    disabled={isReadOnly}
+                  />
+                )}
+              />
+              {errors.startDate && (
+                <ErrorTxt>{errors.startDate.message}</ErrorTxt>
               )}
-            />
+            </div>
           </div>
-        </div>
-      </div>
-      <div className="line line4">
-        <div className="field field1">
-          <label htmlFor="name_ko" className="req">
-            제품명 (한글)
-          </label>
-          <div className={`box_inp ${errors.name_ko ? 'error' : ''}`}>
-            <input
-              type="text"
-              id="name_ko"
-              className="inp"
-              placeholder="한글 입력만 가능"
-              disabled={isReadOnly}
-              {...register('name_ko', { required: '필수 입력항목입니다.' })}
-            />
-            {errors.name_ko && <ErrorTxt>{errors.name_ko.message}</ErrorTxt>}
-          </div>
-        </div>
-        <div className="field field2">
-          <label htmlFor="name_en" className="req">
-            제품명 (영어)
-          </label>
-          <div className={`box_inp ${errors.name_en ? 'error' : ''}`}>
-            <input
-              type="text"
-              id="name_en"
-              className="inp"
-              placeholder="영문 입력만 가능"
-              disabled={isReadOnly}
-              {...register('name_en', { required: '필수 입력항목입니다.' })}
-            />
-            {errors.name_en && <ErrorTxt>{errors.name_en.message}</ErrorTxt>}
-          </div>
-        </div>
-      </div>
-      <div className="line line5">
-        <div className="field field1">
-          <label htmlFor="desc" className="">
-            제품 설명
-          </label>
-          <div className={`box_inp ${errors.desc ? 'error' : ''}`}>
-            <textarea
-              id="desc"
-              placeholder="제품에 대한 설명 입력"
-              disabled={isReadOnly}
-              {...register('desc')}
-            />
-            {errors.desc && <ErrorTxt>{errors.desc.message}</ErrorTxt>}
-          </div>
-        </div>
-      </div>
-      <h2>제품 판매 정보</h2>
-      <div className="line line6">
-        <div className="field field1">
-          <label htmlFor="startDate" className="req">
-            판매 시작일
-          </label>
-          <div className={`box_inp ${errors.startDate ? 'error' : ''}`}>
-            <Controller
-              control={control}
-              name="startDate"
-              rules={{ required: '필수 입력 항목입니다.' }}
-              render={({ field }) => (
-                <DatePicker
-                  selectedDate={field.value}
-                  onChange={(newDate: NewDate) => {
-                    field.onChange(String(newDate));
-                  }}
-                  disabled={isReadOnly}
-                />
-              )}
-            />
-            {errors.startDate && (
-              <ErrorTxt>{errors.startDate.message}</ErrorTxt>
-            )}
-          </div>
-        </div>
 
-        <div className="field field2">
-          <label htmlFor="startDate" className="">
-            판매 종료일
-          </label>
-          <div className={`box_inp ${errors.endDate ? 'error' : ''}`}>
-            <Controller
-              control={control}
-              name="endDate"
-              render={({ field }) => (
-                <DatePicker
-                  selectedDate={field.value}
-                  onChange={(newDate: NewDate) => {
-                    field.onChange(String(newDate));
-                  }}
-                  disabled={isReadOnly}
-                />
-              )}
-            />
+          <div className="field field2">
+            <label htmlFor="startDate" className="">
+              판매 종료일
+            </label>
+            <div className={`box_inp ${errors.endDate ? 'error' : ''}`}>
+              <Controller
+                control={control}
+                name="endDate"
+                render={({ field }) => (
+                  <DatePicker
+                    selectedDate={field.value}
+                    onChange={(newDate: NewDate) => {
+                      field.onChange(String(newDate));
+                    }}
+                    disabled={isReadOnly}
+                  />
+                )}
+              />
+            </div>
           </div>
         </div>
-      </div>
-    </FormWrap>
+      </FormWrap>
+    </>
   );
 };
 

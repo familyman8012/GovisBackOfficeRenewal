@@ -93,3 +93,44 @@ export const authStore = observable<IAuthStore>({
     return !!this.user_info && !!this.token;
   },
 });
+
+interface ModalState {
+  isOpen: boolean;
+  title?: string;
+  content?: React.ReactNode;
+  onFormSubmit?: () => void;
+  onCancel?: () => void;
+  submitButtonText?: string;
+  cancelButtonText?: string;
+  showCloseButton?: boolean;
+  showCancelButton?: boolean;
+}
+
+interface ModalActions {
+  openModal: (options: Omit<ModalState, 'isOpen'>) => void;
+  closeModal: () => void;
+}
+
+export type ModalStore = ModalState & ModalActions;
+
+export const confirmModalStore = observable({
+  isOpen: false,
+  title: '',
+  content: null,
+  onFormSubmit: () => {},
+  onCancel() {
+    this.isOpen = false;
+  },
+  submitButtonText: '확인',
+  cancelButtonText: '취소',
+  onCancle: null,
+  showCloseButton: false,
+  showCancelButton: true,
+  openModal(options: Omit<ModalState, 'isOpen'>) {
+    this.isOpen = true;
+    Object.assign(this, options);
+  },
+  closeModal() {
+    this.isOpen = false;
+  },
+});
