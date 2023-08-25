@@ -81,12 +81,20 @@ export const RegisterRecipeWrap = styled.div`
   .recipe-steps {
     display: flex;
     flex-wrap: wrap;
-    gap: 0 10rem;
+
     > h3 {
       flex: none;
       width: 100%;
-      margin-bottom: 3.2rem;
       border-bottom: 1px solid var(--color-neutral90);
+    }
+
+    .left {
+      width: 28.4rem;
+    }
+
+    .right {
+      flex: 1;
+      width: calc(100% - 28.4rem);
     }
   }
 
@@ -94,28 +102,34 @@ export const RegisterRecipeWrap = styled.div`
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    padding: 0.4rem;
-    gap: 0.4rem;
     background-color: #f7f7fa;
-    border-radius: 0.8rem;
-    border: 1px solid var(--color-neutral90);
+    border-right: 1px solid var(--color-neutral90);
     box-sizing: border-box;
+    height: 100%;
 
     li {
-      width: 14.3rem;
-      height: 3.6rem;
-      padding: 0.8rem 1.2rem;
+      position: relative;
+      padding: 2rem 1.2rem;
       cursor: pointer;
-      font-size: 1.4rem;
-      border-radius: 0.6rem;
-      font-weight: 500;
+      font-size: 1.8rem;
+      font-weight: 700;
       color: var(--color-gray500);
 
       &.active {
-        color: var(--color-neutral30);
+        color: var(--color-blue);
         background: var(--color-gray1);
         border: 1px solid var(--color-neutral90);
-        box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.1);
+        border-left: 0;
+        border-right: 0;
+        &::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 100%;
+          width: 1px;
+          height: 100%;
+          background: var(--color-gray1);
+        }
       }
 
       & + li {
@@ -127,22 +141,27 @@ export const RegisterRecipeWrap = styled.div`
   .step-add {
     display: flex;
     width: 100%;
-    background-color: #fff;
-    border-radius: 0.6rem;
-    border: 1px solid var(--color-neutral90);
+    padding: 1.2rem;
 
     button {
       width: 100%;
+      background-color: var(--color-gray1);
+      border-radius: 0.6rem;
+      border: 1px solid var(--color-neutral90);
     }
   }
 
   .right {
     flex: 1;
   }
+
+  .steps ul {
+    width: 100%;
+  }
 `;
 
 export const RecipeStepWrap = styled(FormWrap)`
-  padding-bottom: 3.2rem;
+  padding: 3.2rem;
 
   h3 {
     padding-top: 0;
@@ -189,11 +208,98 @@ export const RecipeStepWrap = styled(FormWrap)`
 
   section:last-child table {
     text-align: center;
+
     table,
     td,
     th {
       text-align: center;
       border-top: 0;
     }
+  }
+`;
+
+export const Alert = styled.p`
+  display: flex;
+  padding: 1rem 1.2rem;
+  border-radius: 0.4rem;
+  background: var(--color-gray2);
+  align-items: center;
+  margin-bottom: 6.4rem;
+
+  svg {
+    width: 2rem;
+    height: 2rem;
+    margin-right: 0.4rem;
+  }
+
+  a,
+  button {
+    appearance: none;
+    background: transparent;
+    margin-left: 1.6rem;
+    font-size: 1.4rem;
+    line-height: 1.2;
+    text-decoration-line: underline;
+    color: var(--color-neutral50);
+    cursor: pointer;
+    padding: 0;
+  }
+`;
+
+export const RecipeListWrap = styled.div`
+  h3 {
+    font-weight: 700;
+    padding: 3.2rem 0;
+    margin: 0;
+    font-size: var(--font-size6);
+    border-bottom: 1px solid var(--color-neutral90);
+  }
+
+  .empty-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 2.4rem;
+    font-weight: 500;
+    line-height: 1.2;
+    gap: 1.6rem;
+    padding-top: 20rem;
+  }
+
+  .recipe-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.6rem;
+    margin-top: 3.2rem;
+  }
+
+  .recipe-item-info {
+    display: flex;
+    align-items: center;
+
+    input {
+      margin: 1.5rem;
+    }
+    label {
+      display: flex;
+      .txt_box {
+        display: none;
+      }
+    }
+  }
+
+  .recipe-item-action {
+    display: flex;
+    align-items: center;
+    gap: 1.6rem;
+  }
+
+  .recipe-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    border: 1px solid var(--color-neutral90);
+    border-radius: 0.4rem;
   }
 `;

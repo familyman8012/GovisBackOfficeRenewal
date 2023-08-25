@@ -111,6 +111,8 @@ const Modal: FC<ModalProps> = ({
           width: fit-width;
           background-color: white;
           border-radius: 12px;
+          max-height: 100%;
+          overflow-y: auto;
         `}
       >
         <HeaderContentContainer className={showCloseButton ? 'left' : 'center'}>

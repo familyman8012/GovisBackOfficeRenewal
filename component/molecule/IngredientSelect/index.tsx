@@ -4,7 +4,7 @@ import Modal from '@ComponentFarm/modules/Modal/Modal';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import Empty from '@ComponentFarm/atom/Empty/Empty';
 import { IcoInput } from '@ComponentFarm/atom/IcoInput/IcoInput';
-import { Search } from '@ComponentFarm/atom/icons/Search';
+import Search from '@ComponentFarm/atom/icons/Search';
 import { InnerTable } from '@ComponentFarm/common';
 
 interface Props {
@@ -87,11 +87,7 @@ const IngredientModalContent = styled.div`
     th {
       vertical-align: middle;
       font-weight: 400;
-
-      &:nth-of-type(4),
-      &:nth-of-type(5) {
-        text-align: center;
-      }
+      text-align: center;
 
       &:nth-of-type(1) > div {
         display: flex;
@@ -121,8 +117,7 @@ const IngredientRow = ({
           <span>포크토핑</span>
         </div>
       </td>
-      <td>8</td>
-      <td>EA</td>
+
       <td>
         <span>포크토핑</span>
       </td>
@@ -143,7 +138,12 @@ const IngredientSelect = ({ onSelect }: Props) => {
       <Button variant="gostSecondary" onClick={() => setOpen(true)}>
         등록하기
       </Button>
-      <Modal isOpen={open} onClose={() => setOpen(false)}>
+      <Modal
+        title="원재료 등록"
+        showCloseButton
+        isOpen={open}
+        onClose={() => setOpen(false)}
+      >
         <IngredientModalContent>
           <section className="search">
             <h3>원재료명</h3>
@@ -158,9 +158,7 @@ const IngredientSelect = ({ onSelect }: Props) => {
             <h3>검색 결과</h3>
             <InnerTable>
               <colgroup>
-                <col width={226} />
-                <col width={100} />
-                <col width={100} />
+                <col />
                 <col width={120} />
                 <col width={120} />
                 <col width={120} />
@@ -168,8 +166,7 @@ const IngredientSelect = ({ onSelect }: Props) => {
               <thead>
                 <tr>
                   <th>원재료명</th>
-                  <th>수량</th>
-                  <th>단위</th>
+
                   <th>제조사명</th>
                   <th>원산지명</th>
                   <th>설정</th>
@@ -177,7 +174,7 @@ const IngredientSelect = ({ onSelect }: Props) => {
               </thead>
               <tbody>
                 <tr>
-                  <td colSpan={6}>
+                  <td colSpan={4}>
                     <Empty>
                       {`검색된 목록이 없습니다.\n상단에서 '원재료명'을 검색해주세요.`}
                     </Empty>
@@ -190,9 +187,7 @@ const IngredientSelect = ({ onSelect }: Props) => {
             <h3>선택 항목</h3>
             <InnerTable>
               <colgroup>
-                <col width={226} />
-                <col width={100} />
-                <col width={100} />
+                <col />
                 <col width={120} />
                 <col width={120} />
                 <col width={120} />
@@ -200,8 +195,6 @@ const IngredientSelect = ({ onSelect }: Props) => {
               <thead>
                 <tr>
                   <th>원재료명</th>
-                  <th>수량</th>
-                  <th>단위</th>
                   <th>제조사명</th>
                   <th>원산지명</th>
                   <th>설정</th>
@@ -222,12 +215,12 @@ const IngredientSelect = ({ onSelect }: Props) => {
               </tbody>
             </InnerTable>
           </section>
-          <div className="btn-wrap">
+          {/* <div className="btn-wrap">
             <Button className="select-button" variant="gostSecondary">
               취소
             </Button>
             <Button className="select-button">등록</Button>
-          </div>
+          </div> */}
         </IngredientModalContent>
       </Modal>
     </>
