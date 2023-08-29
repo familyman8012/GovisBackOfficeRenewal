@@ -112,7 +112,7 @@ export const INPUT: Token = {
   small: '29rem',
   middle: '62rem',
   lage: '84rem',
-  height: '4rem',
+  height: '4.4rem',
   fontsize: '1.4rem',
   fontweight: '400',
   border: 'var(--color-neutral90)',

@@ -253,6 +253,8 @@ export const RecipeListWrap = styled.div`
     margin: 0;
     font-size: var(--font-size6);
     border-bottom: 1px solid var(--color-neutral90);
+    display: flex;
+    justify-content: space-between;
   }
 
   .empty-wrap {
@@ -267,10 +269,26 @@ export const RecipeListWrap = styled.div`
   }
 
   .recipe-list {
-    display: flex;
-    flex-direction: column;
-    gap: 1.6rem;
     margin-top: 3.2rem;
+    border-radius: 0.6rem;
+    border: 1px solid var(--color-neutral90);
+  }
+
+  table td,
+  table th {
+    text-align: left;
+    /* &:nth-of-type(1) {
+      text-align: center;
+    } */
+  }
+  table tbody tr td,
+  table tbody tr th {
+    border-top: 1px solid var(--color-neutral90);
+  }
+
+  .recipe-title {
+    color: var(--color-blue);
+    text-decoration: underline;
   }
 
   .recipe-item-info {
@@ -291,7 +309,12 @@ export const RecipeListWrap = styled.div`
   .recipe-item-action {
     display: flex;
     align-items: center;
-    gap: 1.6rem;
+    justify-content: space-between;
+
+    & > div {
+      display: flex;
+      gap: 1.6rem;
+    }
   }
 
   .recipe-item {

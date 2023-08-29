@@ -118,7 +118,7 @@ const RecipeDetailPage = () => {
 
       <section>
         <h3>레시피 기본 정보</h3>
-        <RecipeImport />
+        <RecipeImport onSelect={() => {}} />
         <FormWrap
           css={recipeFormStyles}
           onSubmit={handleSubmit(formData =>

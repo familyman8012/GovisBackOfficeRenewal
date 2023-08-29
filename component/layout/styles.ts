@@ -58,7 +58,7 @@ export const ListHandlerWrap = styled.div`
     }
     button.btn_reset {
       min-width: auto;
-      height: 4rem;
+      height: 4.4rem;
       padding: 0;
       color: var(--color-neutral60);
       svg {

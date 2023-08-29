@@ -342,14 +342,14 @@ const reset = css`
 
   textarea {
     width: 100%;
-    height: 20rem;
-    padding: 0.5rem;
-    border: 1px solid #c6c6c6;
-    border-radius: 2px;
-    border-radius: 2px;
+    height: 15.6rem;
+    padding: 1rem 1.4rem;
+    border: 1px solid var(--input-border);
+    border-radius: 0.6rem;
     box-sizing: border-box;
     overflow: auto;
-    padding: 2.4rem;
+    resize: none;
+    font: inherit;
   }
 
   .box_inp.error {

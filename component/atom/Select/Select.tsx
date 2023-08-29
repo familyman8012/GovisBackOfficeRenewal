@@ -73,8 +73,8 @@ export const Select: FC<SelectProps> = ({
     control: (provided, state) => ({
       ...provided,
       width,
-      minHeight: '4rem',
-      height: '4rem',
+      minHeight: '4.4rem',
+      height: '4.4rem',
       display: 'flex',
       border: state.menuIsOpen
         ? '1px solid var(--input-selectFoucsBorder) !important'
