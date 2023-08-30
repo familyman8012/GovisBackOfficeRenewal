@@ -1,25 +1,27 @@
-import React from 'react';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import Sync from '@ComponentFarm/atom/icons/Sync';
+import { ListFilterStyle } from '@ComponentFarm/common';
 import ListDatePickers from '@ComponentFarm/molecule/ListDatePickers/ListDatePickers';
-import ListFilterSelects from '@ComponentFarm/molecule/ListFilterSelects/ListFilterSelects';
 import SearchKeyword from '@ComponentFarm/molecule/SearchKeyword/SearchKeyword';
 import { QueryParams } from '@HookFarm/useQueryParams';
-import { dateConfig, searchOption, selectConfig } from './const';
-import { ListHandlerStyle } from './style';
+import { categoryDateConfig } from './const';
 
 export type keywordType = {
   search_type?: string;
   search_keyword: string;
 };
 
-interface IListHandler {
+interface ICategoryFilterProps {
   params: QueryParams;
   updateParams: (newParams: QueryParams) => void;
   resetParams: () => void;
 }
 
-const RecipeFilter = ({ params, updateParams, resetParams }: IListHandler) => {
+const CategoryFilter = ({
+  params,
+  updateParams,
+  resetParams,
+}: ICategoryFilterProps) => {
   const handlerKeyword = (keyword: keywordType) => {
     if (keyword.search_type) {
       updateParams({ ...keyword, page: 1 });
@@ -28,18 +30,11 @@ const RecipeFilter = ({ params, updateParams, resetParams }: IListHandler) => {
       updateParams({ search_keyword: keyword.search_keyword, page: 1 });
     }
   };
-
   return (
-    <ListHandlerStyle className="justify-between align-end">
+    <ListFilterStyle className="justify-between">
       <div className="group">
-        <ListFilterSelects
-          selectConfig={selectConfig}
-          params={params}
-          updateParams={updateParams}
-        />
-        <div className="divider" />
         <ListDatePickers
-          dateConfig={dateConfig}
+          dateConfig={categoryDateConfig}
           params={params}
           updateParams={updateParams}
         />
@@ -55,12 +50,12 @@ const RecipeFilter = ({ params, updateParams, resetParams }: IListHandler) => {
       <div className="group">
         <SearchKeyword
           params={params}
-          selOption={searchOption}
+          placeholder="카테고리명 검색"
           handler={handlerKeyword}
         />
       </div>
-    </ListHandlerStyle>
+    </ListFilterStyle>
   );
 };
 
-export default RecipeFilter;
+export default CategoryFilter;

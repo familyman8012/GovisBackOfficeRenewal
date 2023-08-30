@@ -1,6 +1,6 @@
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
-import PartnerForm from '@ComponentFarm/template/ingredient/PartnerForm';
+import PartnerForm from '@ComponentFarm/template/material-partner/PartnerForm';
 
 const tabData = [
   {

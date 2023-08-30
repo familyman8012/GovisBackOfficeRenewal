@@ -5,8 +5,7 @@ import { Plus } from '@ComponentFarm/atom/icons';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import { FormWrap } from '@ComponentFarm/common';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
-import RecipeImport from '@ComponentFarm/template/recipe/RecipeImport';
-import RecipeStep from '@ComponentFarm/template/recipe/RecipeStep';
+import RecipeStep from '@ComponentFarm/RecipeStep';
 import { RegisterRecipeWrap } from '@ComponentFarm/template/recipe/style';
 
 const recipeFormStyles = css`
@@ -118,7 +117,7 @@ const RecipeDetailPage = () => {
 
       <section>
         <h3>레시피 기본 정보</h3>
-        <RecipeImport onSelect={() => {}} />
+
         <FormWrap
           css={recipeFormStyles}
           onSubmit={handleSubmit(formData =>

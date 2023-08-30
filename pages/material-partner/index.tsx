@@ -5,11 +5,11 @@ import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Export, Plus } from '@ComponentFarm/atom/icons';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
-import ListFilter from '@ComponentFarm/template/ingredient/ListFilter';
-import ListTable from '@ComponentFarm/template/ingredient/ListTable';
+import ListFilter from '@ComponentFarm/template/material-partner/ListFilter';
+import ListTable from '@ComponentFarm/template/material-partner/ListTable';
 import useQueryParams from '@HookFarm/useQueryParams';
 
-const Manage = () => {
+const PartnerListPage = () => {
   const router = useRouter();
   const [pathname] = router.asPath.split('?');
 
@@ -22,7 +22,7 @@ const Manage = () => {
 
   const tabData = [
     {
-      title: '물류사 목록',
+      title: '제조사 목록',
     },
   ];
 
@@ -43,7 +43,7 @@ const Manage = () => {
               onClick={() => router.push(`${pathname}/add`)}
               LeadingIcon={<Plus />}
             >
-              물류사 등록
+              제조사 등록
             </Button>
           </>
         }
@@ -58,7 +58,10 @@ const Manage = () => {
         updateParams={updateParams}
         resetParams={resetParams}
       />
-      <ListTable toggleSort={toggleSort} />
+      <ListTable
+        toggleSort={toggleSort}
+        onClick={() => router.push(`${pathname}/1`)}
+      />
       <Pagination
         pageInfo={[Number(params.page), Number(params.size)]}
         totalCount={100}
@@ -68,4 +71,4 @@ const Manage = () => {
   );
 };
 
-export default Manage;
+export default PartnerListPage;

@@ -11,6 +11,7 @@ interface ISearchKeyword {
     label: string;
     value: string;
   }[];
+  placeholder?: string;
   handler: (keyword: { search_type?: string; search_keyword: string }) => void;
   defaultKeyword?: {
     search_type: string;
@@ -31,18 +32,19 @@ export const SearchKeywordWrap = styled.div`
   .select_library_control,
   .inp {
     min-height: auto;
-    height: 3.8rem;
+    height: 100%;
     border-radius: 0;
     border: none !important;
     border-radius: 0.4rem;
   }
   button {
-    height: 3.8rem;
+    height: 100%;
     padding: 0 1.2rem;
   }
   .select_library_control {
     border-right: 0 !important;
   }
+
   .inp {
     width: auto;
   }
@@ -51,6 +53,7 @@ export const SearchKeywordWrap = styled.div`
 const SearchKeyword = ({
   params,
   selOption,
+  placeholder,
   handler,
   defaultKeyword = { search_type: '0', search_keyword: '' },
 }: ISearchKeyword) => {
@@ -117,6 +120,7 @@ const SearchKeyword = ({
       <input
         type="text"
         className="inp"
+        placeholder={placeholder}
         value={keyword.search_keyword}
         onChange={e =>
           setKeyword({ ...keyword, search_keyword: e.target.value })

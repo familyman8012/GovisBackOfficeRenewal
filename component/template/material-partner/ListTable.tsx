@@ -20,102 +20,9 @@ interface TableData {
 interface TableProps {
   data?: { list: TableData[] };
   toggleSort: (sortField: string) => void;
+  onClick: () => void;
 }
 
-/**
- * create table data array
- * example data
- * 물류사 코드
-물류사명
-제품 수
-등록일
-수정일
-상태
-등록 레시피 수
-S0008
-CJ프레시웨이
-N
-97개
-2023-07-02
-2023-07-02
-운영
-S0007
-본사 택배 발송
-103개
-2023-07-02
-2023-07-02
-중단
-S0006
-업체 직납
-97개
-2023-07-02
-2023-07-02
-운영
-S0008
-CJ프레시웨이
-N
-97개
-2023-07-02
-2023-07-02
-운영
-S0007
-본사 택배 발송
-103개
-2023-07-02
-2023-07-02
-중단
-S0006
-업체 직납
-97개
-2023-07-02
-2023-07-02
-운영
-S0008
-CJ프레시웨이
-N
-97개
-2023-07-02
-2023-07-02
-운영
-S0007
-본사 택배 발송
-103개
-2023-07-02
-2023-07-02
-중단
-S0006
-업체 직납
-97개
-2023-07-02
-2023-07-02
-운영
-S0008
-CJ프레시웨이
-N
-97개
-2023-07-02
-2023-07-02
-운영
-S0007
-본사 택배 발송
-103개
-2023-07-02
-2023-07-02
-중단
-S0006
-업체 직납
-97개
-2023-07-02
-2023-07-02
-운영
-S0008
-CJ프레시웨이
-N
-97개
-2023-07-02
-2023-07-02
-운영
- */
 const TableArr = [
   {
     code: 'S0008',
@@ -234,7 +141,7 @@ const pageStyle = css`
   }
 `;
 
-const ListTable = ({ data, toggleSort }: TableProps) => {
+const ListTable = ({ data, toggleSort, onClick }: TableProps) => {
   return (
     <TableWrap>
       <Table className="basic" css={pageStyle}>
@@ -258,7 +165,7 @@ const ListTable = ({ data, toggleSort }: TableProps) => {
         </thead>
         <tbody>
           {TableArr.map((el, i) => (
-            <tr key={el.code}>
+            <tr key={el.code} onClick={() => onClick()}>
               <td className="code">{el.code}</td>
               <td>
                 {el.name}

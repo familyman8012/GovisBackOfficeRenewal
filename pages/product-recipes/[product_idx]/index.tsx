@@ -67,7 +67,7 @@ const RecipeListPage = () => {
                 <Toggle />
               </td>
               <td>
-                <Link className="recipe-title" href="/">
+                <Link className="recipe-title" href={`${pathname}/1`}>
                   오리지널 페퍼로니 피자 ver3.0
                 </Link>
               </td>

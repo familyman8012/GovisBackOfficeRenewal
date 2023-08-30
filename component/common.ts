@@ -43,6 +43,13 @@ const pretendard = pretendardTypes.map(
   `
 );
 
+const flexPositions = {
+  start: 'flex-start',
+  end: 'flex-end',
+  center: 'center',
+  between: 'space-between',
+} as const;
+
 // CSS Variables Setting
 
 const forVariables = (obj: any, fn: any) =>
@@ -652,4 +659,40 @@ export const InnerTable = styled.table<{
         border-left: 0;
       }
     `}
+`;
+
+export const ListFilterStyle = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 3.2rem 0;
+  gap: 1.6rem;
+
+  .group {
+    flex: none;
+    width: fit-content;
+    display: inline-flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0 1.6rem;
+
+    justify-content: flex-start;
+  }
+
+  .divider {
+    flex: none;
+    align-self: center;
+    display: flex;
+    width: 100%;
+    margin: 0.8rem 0;
+  }
+
+  ${Object.entries(flexPositions).map(
+    ([key, val]) => `&.justify-${key} { justify-content: ${val}; }`
+  )}
+
+  ${Object.entries(flexPositions).map(
+    ([key, val]) => `&.align-${key} { align-items: ${val}; }`
+  )}
 `;

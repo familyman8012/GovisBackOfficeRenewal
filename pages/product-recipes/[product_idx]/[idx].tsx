@@ -5,7 +5,7 @@ import { Plus } from '@ComponentFarm/atom/icons';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import { FormWrap } from '@ComponentFarm/common';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
-import RecipeStep from '@ComponentFarm/template/recipe/RecipeStep';
+import RecipeStep from '@ComponentFarm/RecipeStep';
 import { RegisterRecipeWrap } from '@ComponentFarm/template/recipe/style';
 
 const recipeFormStyles = css`
