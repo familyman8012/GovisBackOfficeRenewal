@@ -14,7 +14,12 @@ export interface AxiosUtilResponse<T> {
 
 // window location 에 따른 기본 url
 const getBaseUrl = () => {
-  let reVal = 'https://api.gopizza.kr';
+  let reVal;
+  if (process.env.DEVMODE === 'development') {
+    reVal = 'https://feature.api.gopizza.kr';
+  } else {
+    reVal = 'https://api.gopizza.kr';
+  }
 
   let host;
   if (typeof window !== 'undefined') {
@@ -30,8 +35,8 @@ const getBaseUrl = () => {
     (hostSplit && hostSplit[0].indexOf('localhost') >= 0) ||
     (hostSplit && hostSplit[0] === 'local')
   ) {
-    // reVal = "https://feature.api.gopizza.kr";
-    reVal = 'https://dev.api.gopizza.kr';
+    reVal = 'https://feature.api.gopizza.kr';
+    // reVal = 'https://dev.api.gopizza.kr';
     // reVal = "http://api.gopizza.kr";
     // reVal = "http://192.168.10.131:8000";
     // reVal = "http://192.168.10.130:8080";
@@ -103,12 +108,14 @@ const handleRequestFullfilled = async (request: InternalAxiosRequestConfig) => {
   //   // Authorization: `jwt Q/aupDRJRa1klgevswkLSClrCGzvtfwGL1xfq20t5fZzA2/87YvQm/cXSD4kYw8vzu7m7bd4nZX9oJyvQOIv3kJF5R3KAjIW5Rik2K3qrJXKgLMES/kt/LyVw08suRlZ77MfSanHyW5jh1uydTRTKEP3cfFfADjglnN+JPNnhJg0s+rxNTOzh3FJ+t+cdjhrXpza3u74i2dFejqayvDKORHC+I1F1BSzU8NNUO1K57tfIg+LUc8T4EJZrJ331RK+WVTzVos4aoZqgPn2L2n7sA==`,
   //   ...request.headers,
   // };
-  console.log('authStore.token', authStore.token);
   if (authStore.token) {
+    // @ts-ignore
     request.headers = {
       'GO-AUTH': `${String(authStore.token)}`,
       ...request.headers,
     };
+  } else {
+    authStore.init();
   }
 
   return request;

@@ -30,7 +30,10 @@ const Radio: React.FC<CheckBoxProps> = ({
   subText,
 }) => {
   return (
-    <Label className={subText ? 'contain_subtext' : ''} chksize={chksize}>
+    <Label
+      className={subText ? 'label_radio contain_subtext' : 'label_radio'}
+      chksize={chksize}
+    >
       <RadioWrap
         type="radio"
         value={value}

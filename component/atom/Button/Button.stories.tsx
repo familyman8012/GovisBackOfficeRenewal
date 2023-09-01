@@ -5,9 +5,7 @@ import { FiArrowRight } from 'react-icons/fi';
 import { css } from '@emotion/react';
 import StoryLayout from '@ComponentFarm/modules/story_layout/StoryLayout';
 import { Button, ButtonProps } from './Button';
-import { Export } from '../icons/Export';
-import { Plus } from '../icons/Plus';
-import { Right } from '../icons/Right';
+import { Export, Plus, Right } from '../icons';
 
 const meta: Meta = {
   title: 'Atoms/Button',

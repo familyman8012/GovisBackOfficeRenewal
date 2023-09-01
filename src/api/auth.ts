@@ -1,7 +1,14 @@
-import { CommonRequest } from '.';
+import { CommonRequest, BoRequest } from '.';
 
-export const login = async (params: any) => {
+export const fetchlogin = async (params: any) => {
   const response = await CommonRequest.post<any>(`/account/login/bo`, params);
+
+  return response.data.data;
+};
+
+// /bo/v1/perm
+export const fetchPerm = async () => {
+  const response = await BoRequest.get<any>(`/perm`);
 
   return response.data.data;
 };

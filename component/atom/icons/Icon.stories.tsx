@@ -12,12 +12,8 @@ const svgs = svgsContext
   .filter(filename => !filename.includes('stories.tsx')) // 스토리 파일 제외
   .reduce((acc, filename) => {
     const svgModule = svgsContext(filename);
-    Object.keys(svgModule).forEach(key => {
-      // default 내보내기 제외하고 모든 내보내기 가져오기
-      if (key !== 'default') {
-        acc[key] = svgModule[key];
-      }
-    });
+    const key = filename.replace('./', '').replace('.tsx', '');
+    acc[key] = svgModule.default;
     return acc;
   }, {});
 

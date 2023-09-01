@@ -1,6 +1,5 @@
 import React from 'react';
 import { Meta, Story } from '@storybook/react';
-import { useSort } from '@table-library/react-table-library/sort';
 import { css } from '@emotion/react';
 import StoryLayout from '@ComponentFarm/modules/story_layout/StoryLayout';
 import { customStyle, data } from './data';
@@ -40,26 +39,26 @@ const StoryDatePicker: Story<Props> = args => {
     nodes: DataType[] | null;
   }
 
-  function onSortChange(action, state) {
-    console.log(action, state);
-  }
+  // function onSortChange(action: any, state: any) {
+  //   console.log(action, state);
+  // }
 
-  const sort = useSort(
-    data,
-    {
-      onChange: onSortChange,
-    },
-    {
-      sortFns: {
-        TASK: array => array.sort((a, b) => a.name.localeCompare(b.name)),
-        DEADLINE: array => array.sort((a, b) => a.deadline - b.deadline),
-        TYPE: array => array.sort((a, b) => a.type.localeCompare(b.type)),
-        COMPLETE: array => array.sort((a, b) => a.isComplete - b.isComplete),
-        TASKS: array =>
-          array.sort((a, b) => (a.nodes || []).length - (b.nodes || []).length),
-      },
-    }
-  );
+  // const sort = useSort(
+  //   data,
+  //   {
+  //     onChange: onSortChange,
+  //   },
+  //   {
+  //     sortFns: {
+  //       TASK: array => array.sort((a, b) => a.name.localeCompare(b.name)),
+  //       DEADLINE: array => array.sort((a, b) => a.deadline - b.deadline),
+  //       TYPE: array => array.sort((a, b) => a.type.localeCompare(b.type)),
+  //       COMPLETE: array => array.sort((a, b) => a.isComplete - b.isComplete),
+  //       TASKS: array =>
+  //         array.sort((a, b) => (a.nodes || []).length - (b.nodes || []).length),
+  //     },
+  //   }
+  // );
 
   const COLUMNS = [
     {

@@ -3,7 +3,6 @@ import { FiLogOut } from 'react-icons/fi';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { images } from '@ComponentFarm/atom/Select/sampleData';
-import Typo from '@ComponentFarm/atom/Typo/Typo';
 import { theme } from '@ComponentFarm/theme';
 import { INavItem } from './interface';
 import { NavItem } from './NavItem';
@@ -107,13 +106,13 @@ export const SideNav: FC<ISideNavProps> = ({
   username,
   email,
 }) => {
-  const [searchString, setSearchString] = useState<string>('');
+  // const [searchString, setSearchString] = useState<string>('');
   const [activeNavItem, setActiveNavItem] = useState<string>('');
   const [activeSubNavItem, setActiveSubNavItem] = useState<string>('');
   const [openDropdowns, setOpenDropdowns] = useState<string[]>([]);
   const [dropDown, setDropDown] = useState({ name: '', haveDepth: false });
 
-  const handleSearch = (value: string) => setSearchString(value);
+  // const handleSearch = (value: string) => setSearchString(value);
 
   const onClickNavItem = (item: INavItem, subNavPath?: string) => {
     setDropDown({ name: String(item.path), haveDepth: !!item.subItems });
@@ -140,7 +139,7 @@ export const SideNav: FC<ISideNavProps> = ({
     <SidebarContainer open={open}>
       <LogoContainer>
         <Logo src={images.logo} alt="logo" />
-        <Typo
+        {/* <Typo
           variant="xl"
           css={css`
             margin-left: 0.625rem;
@@ -151,7 +150,7 @@ export const SideNav: FC<ISideNavProps> = ({
           weight="medium"
         >
           My Travel App
-        </Typo>
+        </Typo> */}
       </LogoContainer>
 
       <div
@@ -224,7 +223,7 @@ export const SideNav: FC<ISideNavProps> = ({
                 user-select: none;
               `}
             >
-              <Typo
+              {/* <Typo
                 variant="sm"
                 weight="medium"
                 color="text-gray-700 dark:text-white"
@@ -234,7 +233,7 @@ export const SideNav: FC<ISideNavProps> = ({
 
               <Typo variant="sm" color="text-gray-500">
                 {email}
-              </Typo>
+              </Typo> */}
             </div>
 
             <FiLogOut

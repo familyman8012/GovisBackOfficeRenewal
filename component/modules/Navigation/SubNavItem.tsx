@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import Typo from '@ComponentFarm/atom/Typo/Typo';
 import { theme } from '@ComponentFarm/theme';
 import { ISubNavItem } from './interface';
 
@@ -51,8 +50,8 @@ export const SubNavItem: React.FC<ISubNavItemProps> = ({
   onClick,
 }) => (
   <StyledLi inDropdown={inDropdown} isActive={isActive} onClick={onClick}>
-    <Typo variant="md" weight="medium" className="typography">
+    {/* <Typo variant="md" weight="medium" className="typography">
       {subItem.label}
-    </Typo>
+    </Typo> */}
   </StyledLi>
 );

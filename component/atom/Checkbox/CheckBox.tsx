@@ -30,7 +30,10 @@ const CheckBox: React.FC<CheckBoxProps> = ({
   subText,
 }) => {
   return (
-    <Label className={subText ? 'contain_subtext' : ''} chksize={chksize}>
+    <Label
+      className={subText ? 'label_checkbox contain_subtext' : 'label_checkbox'}
+      chksize={chksize}
+    >
       <CheckBoxWrap
         type="checkbox"
         value={value}

@@ -1,10 +1,11 @@
-import { useState, useEffect, SyntheticEvent } from 'react';
+import { useState, useEffect, SyntheticEvent, ReactElement } from 'react';
 import dayjs from 'dayjs';
 import { runInAction } from 'mobx';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
 import styled from '@emotion/styled';
-import { fetchMyInfo, fetchMyPermissions, login } from '@ApiFarm/auth';
+import { fetchMyInfo, fetchMyPermissions, fetchlogin } from '@ApiFarm/auth';
+import { fetchEnvironment } from '@ApiFarm/environment';
 import { authStore } from '@MobxFarm/store';
 
 const LoginWrap = styled.div``;
@@ -13,32 +14,20 @@ const Button = styled.button``;
 
 const Login = () => {
   const router = useRouter();
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoginState, setIsLoginState] = useState(-1);
   const [showGuideModal, setShowGuideModal] = useState(false);
 
-  useQuery(
-    ['my-permission', authStore.user_info?.user_idx],
-    () => fetchMyPermissions(),
-    {
-      // eslint-disable-next-line consistent-return
-      onSuccess: (data: any) => {
-        if (data.permission.length === 0) {
-          return authStore.logOut();
-        }
+  // 서버에서 메뉴 전체 데이터 제공하는 걸, 프론트에 맞게 변환 시키는 로직
+  //   const { data } = useQuery(['totalMenu'], () => fetchPerm());
+  // useEffect(() => {
+  //   if (data) {
+  //     transFormMenu(data);
+  //   }
+  // }, [data]);
 
-        runInAction(() => {
-          authStore.permission = data.permission;
-          authStore.is_staff = data.is_staff;
-        });
-      },
-      onError: () => authStore.logOut(),
-      enabled: !!authStore.isLoggedIn,
-    }
-  );
-
+  // 로그인에 따른 화면 전환
   useEffect(() => {
     if (authStore.isLoggedIn) {
       setIsLoginState(1);
@@ -47,21 +36,45 @@ const Login = () => {
     }
   }, [router]);
 
+  // 로그인 후 permission
+  useQuery(['my-permission'], () => fetchMyPermissions(), {
+    // eslint-disable-next-line consistent-return
+    onSuccess: (data: any) => {
+      if (data.permission.length === 0) {
+        return authStore.logOut();
+      }
+
+      runInAction(() => {
+        authStore.permissionList = data.permission;
+        authStore.is_staff = data.is_staff;
+      });
+    },
+    onError: () => authStore.logOut(),
+    enabled: !!authStore.isLoggedIn,
+  });
+
+  const handlerGetEnviroment = () => {
+    fetchEnvironment();
+  };
+
+  // 로그인 핸들링
   const handleLogin = async (e: SyntheticEvent) => {
     e.preventDefault();
 
     try {
-      const tokenData = await login({
+      const tokenData = await fetchlogin({
         email,
         password,
       });
 
-      const userInfo = await fetchMyInfo(tokenData['GO-AUTH']);
+      const authData = await fetchMyInfo(tokenData['GO-AUTH']);
+
+      console.log('authData', authData);
 
       runInAction(() => {
         authStore.login({
           token: tokenData['GO-AUTH'],
-          ...userInfo,
+          ...authData,
         });
 
         router.push('/fc/coupons');
@@ -126,6 +139,14 @@ const Login = () => {
                   <Button type="submit" color="primary-2">
                     로그인
                   </Button>
+
+                  <Button
+                    type="button"
+                    color="primary"
+                    onClick={handlerGetEnviroment}
+                  >
+                    전체메뉴가져오기
+                  </Button>
                 </div>
               </form>
               <p
@@ -150,3 +171,11 @@ const Login = () => {
 };
 
 export default Login;
+
+Login.getLayout = function getLayout(page: ReactElement) {
+  return (
+    <>
+      <div className="app__wrapper">{page}</div>
+    </>
+  );
+};

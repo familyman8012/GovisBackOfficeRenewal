@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { runInAction } from 'mobx';
 import { useRouter } from 'next/router';
 import { Controller, useForm } from 'react-hook-form';
 import { css } from '@emotion/react';
@@ -13,7 +12,6 @@ import ErrorTxt from '@ComponentFarm/atom/ErrorTxt/ErrorTxt';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import { FormWrap } from '@ComponentFarm/common';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
-import { confirmModalStore } from '@MobxFarm/store';
 
 type FormFields = {
   code: string; // TODO: replace with the actual value
@@ -86,26 +84,26 @@ const Form: React.FC<FormProps> = ({ initialData, loading, onSubmit }) => {
   const isReadOnly = !id?.includes('add') && !!id;
   const [activeTabIndex, setActiveTabIndex] = useState(0);
 
-  const confirmModal = () => {
-    runInAction(() => {
-      confirmModalStore.openModal({
-        title: '제품 정보 등록 완료',
-        content: (
-          <p>
-            채널별 이미지를 등록하시겠습니까?
-            <br /> (채널별 이미지는 추후 등록 가능합니다.)
-          </p>
-        ),
-        onFormSubmit: () => {
-          console.log('Form submitted!');
-        },
-        onCancel: () => {
-          alert('aaa');
-        },
-        submitButtonText: '다음',
-      });
-    });
-  };
+  // const confirmModal = () => {
+  //   runInAction(() => {
+  //     confirmModalStore.openModal({
+  //       title: '제품 정보 등록 완료',
+  //       content: (
+  //         <p>
+  //           채널별 이미지를 등록하시겠습니까?
+  //           <br /> (채널별 이미지는 추후 등록 가능합니다.)
+  //         </p>
+  //       ),
+  //       onFormSubmit: () => {
+  //         console.log('Form submitted!');
+  //       },
+  //       onCancel: () => {
+  //         alert('aaa');
+  //       },
+  //       submitButtonText: '다음',
+  //     });
+  //   });
+  // };
 
   const tabData = [
     {
@@ -137,9 +135,9 @@ const Form: React.FC<FormProps> = ({ initialData, loading, onSubmit }) => {
     handleSubmit,
     formState: { errors },
   } = useForm<FormFields>({ defaultValues });
-  // const onFormSubmit = handleSubmit(data => {
-  //   onSubmit(data);
-  // });
+  const onFormSubmit = handleSubmit(data => {
+    onSubmit(data);
+  });
 
   return (
     <>
@@ -149,7 +147,7 @@ const Form: React.FC<FormProps> = ({ initialData, loading, onSubmit }) => {
           BtnBox={
             <>
               <Button variant="gostSecondary">취소</Button>
-              <Button type="button" onClick={confirmModal}>
+              <Button type="button" onClick={onFormSubmit}>
                 등록
               </Button>
             </>

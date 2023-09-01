@@ -13,6 +13,7 @@ export interface ILoginParams {
 }
 
 export interface ILoginUserResponse {
+  token?: string;
   user_idx: number; //	사용자 고유식별 번호
   selected_store_idx: number; //	선택한 매장 고유식별 번호
   selected_store_name: string; //	선택한 매장명

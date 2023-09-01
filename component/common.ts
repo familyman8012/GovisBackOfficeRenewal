@@ -271,11 +271,11 @@ const reset = css`
     }
   }
 
-  svg {
+  /* svg {
     path:not([fill='none']) {
       fill: currentColor;
     }
-  }
+  } */
 
   input[type='checkbox'] {
     margin: 0;
@@ -502,20 +502,22 @@ export const FormWrap = styled.div`
     padding-right: 5.6rem;
   }
   label {
-    flex: none;
-    width: 31.2rem;
-    font-size: 1.4rem;
-    font-style: normal;
-    font-weight: 600;
-    line-height: 2rem;
+    &:not(.label_radio):not(.label_check) {
+      flex: none;
+      width: 31.2rem;
+      font-size: 1.4rem;
+      font-style: normal;
+      font-weight: 600;
+      line-height: 2rem;
 
-    &.req {
-      &:after {
-        display: inline-block;
-        content: '*';
-        color: red;
-        vertical-align: middle;
-        margin-left: 0.4rem;
+      &.req {
+        &:after {
+          display: inline-block;
+          content: '*';
+          color: red;
+          vertical-align: middle;
+          margin-left: 0.4rem;
+        }
       }
     }
   }
@@ -523,7 +525,16 @@ export const FormWrap = styled.div`
     width: auto;
   }
   .box_inp {
+    align-items: center;
     width: 100%;
+
+    .wrap_txt_inp {
+      display: flex;
+      align-items: center;
+      .txt_addition {
+        margin-left: 0.4rem;
+      }
+    }
   }
   .box_upload_image {
     width: 324px;
@@ -605,6 +616,9 @@ export const Table = styled.table`
         color: var(--color-blue);
       }
     }
+  }
+
+  &.horizon {
   }
 `;
 

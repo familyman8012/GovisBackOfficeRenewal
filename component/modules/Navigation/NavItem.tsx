@@ -1,7 +1,6 @@
 import React from 'react';
 import { FiChevronDown } from 'react-icons/fi';
 import styled from '@emotion/styled';
-import Typo from '@ComponentFarm/atom/Typo/Typo';
 import { INavItem } from './interface';
 import { SubNavItem } from './SubNavItem';
 
@@ -85,7 +84,7 @@ export const NavItem = ({
         >
           <item.icon.type size={24} {...item.icon.props} />
         </IconWrapper>
-        <Typo
+        {/* <Typo
           variant="md"
           weight="medium"
           css={`
@@ -100,7 +99,7 @@ export const NavItem = ({
           `}
         >
           {item.label}
-        </Typo>
+        </Typo> */}
         {item.subItems && item.subItems.length > 0 && (
           <FiChevronDown
             size={20}

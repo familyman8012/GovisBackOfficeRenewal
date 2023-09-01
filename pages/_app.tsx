@@ -9,11 +9,11 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ServerError } from '@InterfaceFarm/response';
 import ConfirmModal from '@ComponentFarm/modules/Modal/ConfirmModal';
 import reset from '@ComponentFarm/common';
+import Layout from '@ComponentFarm/layout';
 import { theme } from '@ComponentFarm/theme';
 import { errorHandler } from '@UtilFarm/error-handler';
 import 'react-datepicker/dist/react-datepicker.css';
 import { authStore } from '@MobxFarm/store';
-import Layout from '@ComponentFarm/layout';
 
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -28,7 +28,6 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   useEffect(() => {
     authStore.init();
   }, []);
-
   const getLayout = Component.getLayout ?? (page => <Layout>{page}</Layout>);
 
   const queryClient = new QueryClient({

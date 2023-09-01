@@ -69,6 +69,7 @@ const Channelimg = () => {
     },
   ];
   const [activeTabIndex, setActiveTabIndex] = useState(0);
+  // eslint-disable-next-line no-unused-vars
   const [channelImg, setChannelImg] = useState([
     { id: 1, url: '', Name: 'POS', Resolution: '201 x 120' },
     { id: 2, url: '', Name: 'KIOSK', Resolution: '201 x 120' },

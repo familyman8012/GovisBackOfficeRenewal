@@ -57,7 +57,7 @@ const Channelimg = () => {
     },
   ];
   const [activeTabIndex, setActiveTabIndex] = useState(0);
-  const [channelImg, setChannelImg] = useState([
+  const [channelImg, setChannelImg] = useState<any>([
     {
       id: 1,
       url: '',
@@ -108,11 +108,25 @@ const Channelimg = () => {
     },
   ]);
 
+  const handlerTemp = () => {
+    setChannelImg({
+      url: '',
+      Name: 'POS',
+      Resolution: '201 x 120',
+      regDate: '2023-07-23',
+      modDate: '2023-07-23',
+    });
+  };
+
   return (
     <FormWrap>
       <TitleArea
         title="제품 등록"
-        BtnBox={<Button variant="gostSecondary">이전</Button>}
+        BtnBox={
+          <Button variant="gostSecondary" onClick={handlerTemp}>
+            이전
+          </Button>
+        }
       />
       <Tabs
         tabs={tabData}
@@ -137,7 +151,7 @@ const Channelimg = () => {
             </tr>
           </thead>
           <tbody>
-            {channelImg.map(el => (
+            {channelImg.map((el: any) => (
               <tr key={el.id}>
                 <td>
                   <span className="thumb">

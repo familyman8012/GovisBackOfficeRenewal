@@ -239,7 +239,7 @@ ${line.fields
     <Controller
       name="${field.name}"
       control={control}
-      render={({ field: {  value, ref, ...restField } }) => (
+      render={({ field: {  onChange, value, ref, ...restField } }) => (
         <RadioGroup
           {...restField}
           defaultValue="1"

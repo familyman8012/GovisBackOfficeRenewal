@@ -6,6 +6,7 @@ export interface ErrorTxtProps {
 }
 
 const ErrorTxtWrap = styled.p`
+  width: max-content;
   margin-top: 10px;
   color: red;
 `;

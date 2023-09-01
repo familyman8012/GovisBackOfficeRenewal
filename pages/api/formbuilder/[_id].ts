@@ -22,6 +22,7 @@ formbuilderRouter.get(async (req: NextApiRequest, res: NextApiResponse) => {
 formbuilderRouter.put(async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const { _id } = req.query;
+    console.log('_id', _id, 'req.body', req.body);
     const formbuilders = await Formbuilder.findByIdAndUpdate(_id, req.body, {
       new: true,
     });

@@ -5,6 +5,7 @@ import Formbuilder from '../models/formbuilder';
 const formbuilderRouter = createHandler();
 
 formbuilderRouter.get(async (req: NextApiRequest, res: NextApiResponse) => {
+  console.log('req.body', req);
   const formbuilders = await Formbuilder.find({});
   return res.status(200).json({ data: formbuilders });
 });

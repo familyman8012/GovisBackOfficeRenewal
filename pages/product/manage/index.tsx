@@ -4,8 +4,8 @@ import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Export, Plus } from '@ComponentFarm/atom/icons';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
-import ListHandler from '@ComponentFarm/template/product/manage/ListHandler';
-import ListTable from '@ComponentFarm/template/product/manage/ListTable';
+import ManageListHandler from '@ComponentFarm/template/product/manage/ManageListHandler';
+import ManageListTable from '@ComponentFarm/template/product/manage/ManageListTable';
 import useQueryParams from '@HookFarm/useQueryParams';
 
 const Manage = () => {
@@ -55,12 +55,12 @@ const Manage = () => {
         activeTabIndex={activeTabIndex}
         onTabChange={index => setActiveTabIndex(index)}
       />
-      <ListHandler
+      <ManageListHandler
         params={params}
         updateParams={updateParams}
         resetParams={resetParams}
       />
-      <ListTable toggleSort={toggleSort} />
+      <ManageListTable toggleSort={toggleSort} />
       <Pagination
         pageInfo={[Number(params.page), Number(params.size)]}
         totalCount={100}

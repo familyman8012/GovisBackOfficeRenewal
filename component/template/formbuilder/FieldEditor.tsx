@@ -115,6 +115,9 @@ export const FieldEditor: React.FC<FieldEditorProps> = ({
           <option value={FieldTypes.CHECKBOX}>Checkbox</option>
           <option value={FieldTypes.DATEPICKER}>DatePicker</option>
           <option value={FieldTypes.TEXTAREA}>Textarea</option>
+          <option value={FieldTypes.CHECKBOXGROUP}>CHECKBOXGROUP</option>
+          <option value={FieldTypes.RADIOGROUP}>RADIOGROUP</option>
+          <option value={FieldTypes.WYSIWYG}>WYSIWYG</option>
         </select>
         <input
           type="checkbox"

@@ -1,5 +1,3 @@
-import { IFindAll } from './parameters';
-
 export interface IGetStoreList {
   store_id?: number;
   store_name?: string;
@@ -48,7 +46,7 @@ export interface IUserStore {
   name: string;
 }
 
-export interface IUserFetchParams extends IFindAll {
+export interface IUserFetchParams {
   is_staff?: string;
   is_active?: string;
   perm_group_info_idx?: string;

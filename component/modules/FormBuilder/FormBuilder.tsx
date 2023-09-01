@@ -130,7 +130,12 @@ const FormBuilder = () => {
   });
 
   const modifyMutation = useMutation(
-    (form: { id: string }) => axios.put(`/api/formbuilder/${form.id}`, form),
+    id => {
+      return axios.put(`/api/formbuilder/${id}`, {
+        name: formName,
+        state: lines,
+      });
+    },
     {
       onSuccess: () => {
         queryClient.invalidateQueries('form-list');
@@ -267,20 +272,14 @@ const FormBuilder = () => {
                 value={formName}
                 onChange={e => setformName(e.target.value)}
               />
-              <Button variant="outline" onClick={() => saveMutation.mutate()}>
-                저장
-              </Button>
+              <Button onClick={() => saveMutation.mutate()}>저장</Button>
             </div>
           )}
           <div className="form_list">
             <div className="box_tit">
               <h2>폼 리스트</h2>
               {isModify && (
-                <Button
-                  variant="primary"
-                  size="sm"
-                  onClick={() => router.reload()}
-                >
+                <Button variant="primary" onClick={() => router.reload()}>
                   등록화면으로 전환
                 </Button>
               )}
@@ -295,23 +294,17 @@ const FormBuilder = () => {
                         <div className="btn_box">
                           <Button
                             variant="secondary"
-                            size="sm"
                             onClick={() => modifyMutation.mutate(el._id)}
                           >
                             수정
                           </Button>
-                          <Button
-                            variant="black"
-                            size="sm"
-                            onClick={() => deleteMutation.mutate(el._id)}
-                          >
+                          <Button onClick={() => deleteMutation.mutate(el._id)}>
                             삭제
                           </Button>
                         </div>
                       ) : (
                         <Button
                           variant="secondary"
-                          size="sm"
                           onClick={() => loadMutation.mutate(el._id)}
                         >
                           불러오기
@@ -330,7 +323,6 @@ const FormBuilder = () => {
         <CodePreview lines={lines} />
 
         <Button
-          variant="white"
           LeadingIcon={<AiOutlineCopy />}
           onClick={() => copyHandler('code')}
         >
@@ -343,7 +335,6 @@ const FormBuilder = () => {
         <h2>보기 코드</h2>
         <CodePreview2 lines={lines} />
         <Button
-          variant="white"
           LeadingIcon={<AiOutlineCopy />}
           onClick={() => copyHandler('code2')}
         >
