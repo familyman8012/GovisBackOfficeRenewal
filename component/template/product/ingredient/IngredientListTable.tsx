@@ -282,7 +282,7 @@ const ManageListTable = ({ data, toggleSort }: TableProps) => {
               <td>{el.startDate}</td>
               <td>{el.endDate}</td>
               <td>
-                {el.registerDate}{' '}
+                <span>{el.registerDate}</span>
                 <Badge color="orange" size="circle">
                   N
                 </Badge>

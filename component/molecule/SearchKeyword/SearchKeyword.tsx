@@ -22,6 +22,7 @@ interface ISearchKeyword {
 export const SearchKeywordWrap = styled.div`
   display: flex;
   width: fit-content;
+  height: 3.8rem;
   border: 1px solid var(--color-neutral90);
   border-radius: 0.4rem;
 

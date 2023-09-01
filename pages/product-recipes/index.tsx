@@ -1,5 +1,5 @@
 import { useRouter } from 'next/router';
-import { Pagination } from '@ComponentFarm/modules/Paginate/Pagination';
+import Pagination from '@ComponentFarm/modules/Paginate/Pagination';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import Export from '@ComponentFarm/atom/icons/Export';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';

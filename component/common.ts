@@ -382,6 +382,15 @@ const reset = css`
     -webkit-box-shadow: 0 0 0px 100rem white inset;
   }
 
+  .select_library_control {
+    .css-14kasqh-indicatorContainer {
+      svg {
+        width: 2rem;
+        height: 2rem;
+      }
+    }
+  }
+
   /* input.inp,
   select,
   textarea {
@@ -459,14 +468,19 @@ const reset = css`
       font-size: 7px;
     }
   }
-  @media (min-width: 800px) and (max-width: 1000px) {
+  @media (min-width: 900px) and (max-width: 1000px) {
     html {
       font-size: 6px;
     }
   }
-  @media (min-width: 768px) and (max-width: 800px) {
+  @media (min-width: 768px) and (max-width: 900px) {
     html {
       font-size: 5px;
+    }
+  }
+  @media (min-width: 700px) and (max-width: 768px) {
+    html {
+      font-size: 4px;
     }
   }
 
@@ -606,10 +620,11 @@ export const Table = styled.table`
       font-size: var(--font-size4);
       font-weight: 500;
       letter-spacing: 0.42px;
+      word-break: keep-all;
       background: #f9fafb;
     }
     td {
-      padding: 1.2rem 2rem;
+      padding: 1.2rem 0 1.2rem 2rem;
       color: var(--color-neutral10);
 
       &.code {

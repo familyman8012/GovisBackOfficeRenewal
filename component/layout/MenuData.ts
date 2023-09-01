@@ -80,19 +80,19 @@ export const TotalMenu = [
       },
       {
         name: '원재료 관리',
-        path: '/404',
+        path: '/ingredient',
         perm_code: 'material',
         perm_info_idx: 22,
       },
       {
         name: '메뉴 관리',
-        path: '/404',
+        path: '/menu',
         perm_code: 'order_product_mapping',
         perm_info_idx: 20,
       },
       {
         name: '레시피 관리',
-        path: '/404',
+        path: '/product-recipes',
         perm_code: 'product_group',
         perm_info_idx: 21,
       },

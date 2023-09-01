@@ -77,7 +77,7 @@ const Login = () => {
           ...authData,
         });
 
-        router.push('/fc/coupons');
+        router.push('/product');
       });
     } catch (error: any) {
       console.log('e', error);

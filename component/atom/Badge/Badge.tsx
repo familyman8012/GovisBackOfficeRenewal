@@ -28,7 +28,7 @@ export interface BadgeProps {
 const badgeBase = css`
   display: inline-flex;
   align-items: center;
-  width: fit-content;
+  width: max-content;
   font-weight: 500;
   border-radius: 1.6rem;
 `;

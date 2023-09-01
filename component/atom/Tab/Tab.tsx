@@ -54,7 +54,7 @@ export const Tab: FC<TabProps> = ({
       {isActive ? (
         <motion.div
           className="underline"
-          layoutId="underline"
+          layoutId=""
           transition={{ duration: 0.2 }}
         />
       ) : null}
