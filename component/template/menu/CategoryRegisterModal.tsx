@@ -15,7 +15,7 @@ interface Props {
 
  */
 const RegisterModal = ({ show, onClose, onRegister }: Props) => {
-  const { register } = useForm<any>({
+  const {} = useForm<any>({
     defaultValues: {},
   });
 

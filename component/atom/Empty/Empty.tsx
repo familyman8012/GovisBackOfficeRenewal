@@ -29,6 +29,11 @@ const EmptyWrap = styled.div`
   &.no-icon p {
     margin-top: 0;
   }
+
+  .sub {
+    font-size: 1.2rem;
+    margin-top: 0.8rem;
+  }
 `;
 
 const Empty: FC<React.PropsWithChildren<EmptyProps>> = ({ Icon, children }) => {

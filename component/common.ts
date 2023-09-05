@@ -496,7 +496,7 @@ export const FormWrap = styled.div`
   h2 {
     margin-bottom: 3.2rem;
     padding: 3.2rem 0;
-    font-size: 18px;
+    font-size: 1.8rem;
     font-weight: bold;
     border-bottom: 1px solid var(--color-neutral90);
   }
@@ -652,6 +652,11 @@ export const InnerTable = styled.table<{
     vertical-align: middle;
   }
 
+  label {
+    margin-bottom: 0;
+    color: var(--color-gray500);
+    width: auto;
+  }
   thead th,
   thead td {
     background: var(--table-headerBackground);

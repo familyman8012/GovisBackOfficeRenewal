@@ -28,6 +28,7 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   useEffect(() => {
     authStore.init();
   }, []);
+
   const getLayout = Component.getLayout ?? (page => <Layout>{page}</Layout>);
 
   const queryClient = new QueryClient({

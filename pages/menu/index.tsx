@@ -1,4 +1,6 @@
 import { useRouter } from 'next/router';
+import { GetStaticProps, NextPage } from 'next';
+import { fetchEnvironmentByNames, EnvRow } from '@ApiFarm/environment';
 import Pagination from '@ComponentFarm/modules/Paginate/Pagination';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Plus } from '@ComponentFarm/atom/icons';
@@ -18,7 +20,11 @@ const tabs = [
   },
 ];
 
-const MenuListPage = () => {
+const loadEnvNams = ['menu_group', 'menu_type', 'menu_status'] as const;
+
+const MenuListPage: NextPage<
+  Record<(typeof loadEnvNams)[number], EnvRow[]>
+> = props => {
   const router = useRouter();
   const [pathname] = router.asPath.split('?');
   const [params, updateParams, resetParams, toggleSort] = useQueryParams({
@@ -33,6 +39,7 @@ const MenuListPage = () => {
 
   return (
     <>
+      {JSON.stringify(props)}
       <TitleArea
         title="메뉴 관리"
         BtnBox={
@@ -64,6 +71,17 @@ const MenuListPage = () => {
       />
     </>
   );
+};
+
+export const getStaticProps: GetStaticProps = async () => {
+  const props = await fetchEnvironmentByNames<(typeof loadEnvNams)[number]>(
+    loadEnvNams
+  );
+
+  return {
+    props,
+    revalidate: 1,
+  };
 };
 
 export default MenuListPage;

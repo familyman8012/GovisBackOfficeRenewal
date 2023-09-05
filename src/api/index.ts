@@ -2,6 +2,7 @@ import axios, {
   AxiosError,
   InternalAxiosRequestConfig,
   AxiosResponse,
+  AxiosInstance,
 } from 'axios';
 import { IResponse } from '../interface/response';
 import { authStore } from '../mobx/store';
@@ -45,21 +46,6 @@ const getBaseUrl = () => {
   return reVal;
 };
 
-// ApiRequest 생성
-const ApiRequest = axios.create({
-  baseURL: `${getBaseUrl()}/runway/v2`,
-});
-
-// BoRequest 생성
-const VERSION = 'v1';
-const BoRequest = axios.create({ baseURL: `${getBaseUrl()}/bo/${VERSION}/` });
-
-// Common Request 생성
-export const CommonRequest = axios.create({
-  baseURL: `${getBaseUrl()}/com/v2/`,
-  // timeout: 3000,
-});
-
 export const getToolBaseUrl = () => {
   let reVal = 'http://tools.gopizza.kr';
 
@@ -86,6 +72,21 @@ export const getToolBaseUrl = () => {
   return reVal;
 };
 
+// ApiRequest 생성
+export const ApiRequest = axios.create({
+  baseURL: `${getBaseUrl()}/runway/v2`,
+});
+
+// BoRequest 생성
+export const BoRequest = axios.create({ baseURL: `${getBaseUrl()}/bo/v1` });
+export const BoV2Request = axios.create({ baseURL: `${getBaseUrl()}/bo/v2` });
+
+// Common Request 생성
+export const CommonRequest = axios.create({
+  baseURL: `${getBaseUrl()}/com/v2/`,
+  // timeout: 3000,
+});
+
 export const FqsToolsRequest = axios.create({
   baseURL: getToolBaseUrl(),
 });
@@ -96,18 +97,6 @@ export const FqsApiRequest = axios.create({
 
 // 공통 Request
 const handleRequestFullfilled = async (request: InternalAxiosRequestConfig) => {
-  // if (
-  //   localStorage.getItem('token') !== null &&
-  //   localStorage.getItem('user_info') !== null &&
-  //   authStore.user_info === null
-  // ) {
-  //   authStore.init();
-  // }
-  // (request.headers as unknown) = {
-  //   Authorization: `jwt ${String(authStore.token)}`,
-  //   // Authorization: `jwt Q/aupDRJRa1klgevswkLSClrCGzvtfwGL1xfq20t5fZzA2/87YvQm/cXSD4kYw8vzu7m7bd4nZX9oJyvQOIv3kJF5R3KAjIW5Rik2K3qrJXKgLMES/kt/LyVw08suRlZ77MfSanHyW5jh1uydTRTKEP3cfFfADjglnN+JPNnhJg0s+rxNTOzh3FJ+t+cdjhrXpza3u74i2dFejqayvDKORHC+I1F1BSzU8NNUO1K57tfIg+LUc8T4EJZrJ331RK+WVTzVos4aoZqgPn2L2n7sA==`,
-  //   ...request.headers,
-  // };
   if (authStore.token) {
     // @ts-ignore
     request.headers = {
@@ -159,45 +148,21 @@ export const handleResponseReject = (error: AxiosError) => {
   return Promise.reject(error);
 };
 
-// 공통 Request 적용
-ApiRequest.interceptors.request.use(
-  handleRequestFullfilled,
-  handleRequestReject
-);
-ApiRequest.interceptors.response.use(
-  handleResponseFullfilled,
-  handleResponseReject
-);
-BoRequest.interceptors.request.use(
-  handleRequestFullfilled,
-  handleRequestReject
-);
-BoRequest.interceptors.response.use(
-  handleResponseFullfilled,
-  handleResponseReject
-);
-CommonRequest.interceptors.request.use(
-  handleRequestFullfilled,
-  handleRequestReject
-);
-CommonRequest.interceptors.response.use(
-  handleResponseFullfilled,
-  handleResponseReject
-);
-FqsApiRequest.interceptors.request.use(
-  handleRequestFullfilled,
-  handleRequestReject
-);
-FqsApiRequest.interceptors.response.use(
-  handleResponseFullfilled,
-  handleResponseReject
-);
-FqsToolsRequest.interceptors.request.use(
-  handleRequestFullfilled,
-  handleRequestReject
-);
-FqsToolsRequest.interceptors.response.use(
-  handleResponseFullfilled,
-  handleResponseReject
-);
-export { ApiRequest, BoRequest };
+const registerInterceptors = (instance: AxiosInstance) => {
+  instance.interceptors.request.use(
+    handleRequestFullfilled,
+    handleRequestReject
+  );
+  instance.interceptors.response.use(
+    handleResponseFullfilled,
+    handleResponseReject
+  );
+};
+
+// 공통 Interceptor 적용
+registerInterceptors(ApiRequest);
+registerInterceptors(BoRequest);
+registerInterceptors(BoV2Request);
+registerInterceptors(CommonRequest);
+registerInterceptors(FqsApiRequest);
+registerInterceptors(FqsToolsRequest);
