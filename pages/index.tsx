@@ -5,21 +5,18 @@ import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
 import styled from '@emotion/styled';
 import { fetchMyInfo, fetchMyPermissions, fetchlogin } from '@ApiFarm/auth';
-import { fetchEnvironment } from '@ApiFarm/environment';
 import { authStore } from '@MobxFarm/store';
 
 const LoginWrap = styled.div``;
 const FormInput = styled.input``;
 const Button = styled.button``;
 
-const Login = ({ environment }: any) => {
+const Login = () => {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoginState, setIsLoginState] = useState(-1);
   const [showGuideModal, setShowGuideModal] = useState(false);
-
-  console.log(environment);
 
   // 서버에서 메뉴 전체 데이터 제공하는 걸, 프론트에 맞게 변환 시키는 로직
   //   const { data } = useQuery(['totalMenu'], () => fetchPerm());
@@ -54,10 +51,6 @@ const Login = ({ environment }: any) => {
     onError: () => authStore.logOut(),
     enabled: !!authStore.isLoggedIn,
   });
-
-  const handlerGetEnviroment = () => {
-    fetchEnvironment();
-  };
 
   // 로그인 핸들링
   const handleLogin = async (e: SyntheticEvent) => {
@@ -142,11 +135,7 @@ const Login = ({ environment }: any) => {
                     로그인
                   </Button>
 
-                  <Button
-                    type="button"
-                    color="primary"
-                    onClick={handlerGetEnviroment}
-                  >
+                  <Button type="button" color="primary">
                     전체메뉴가져오기
                   </Button>
                 </div>
@@ -180,15 +169,4 @@ Login.getLayout = function getLayout(page: ReactElement) {
       <div className="app__wrapper">{page}</div>
     </>
   );
-};
-
-export const getStaticProps = async () => {
-  const environment = await fetchEnvironment({ name: 'country' });
-
-  return {
-    props: {
-      environment,
-    },
-    revalidate: 10,
-  };
 };

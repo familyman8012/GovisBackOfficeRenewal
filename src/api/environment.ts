@@ -1,13 +1,7 @@
+import { IEnvironmentReq } from '@InterfaceFarm/environment';
 import { CommonRequest } from '.';
 
-interface IEnvvironment {
-  name?: string;
-  environment_variable_idx?: string;
-  code?: string;
-  value?: string;
-}
-
-export const fetchEnvironment = async (params: IEnvvironment) => {
+export const fetchEnvironment = async (params: IEnvironmentReq) => {
   const response = await CommonRequest.get('/environment_variable/list', {
     params,
   });

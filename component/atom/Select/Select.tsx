@@ -8,7 +8,7 @@ import {
 } from 'react-select';
 
 export interface IOption {
-  value: string;
+  value: string | number;
   label: string | React.ReactNode;
   status?: string;
 }

@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { css } from '@emotion/react';
+import { IEnvironmentRes } from '@InterfaceFarm/environment';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Sync } from '@ComponentFarm/atom/icons';
 import { ListHandlerWrap } from '@ComponentFarm/layout/styles';
@@ -7,7 +8,8 @@ import ListDatePickers from '@ComponentFarm/molecule/ListDatePickers/ListDatePic
 import ListFilterSelects from '@ComponentFarm/molecule/ListFilterSelects/ListFilterSelects';
 import SearchKeyword from '@ComponentFarm/molecule/SearchKeyword/SearchKeyword';
 import { QueryParams } from '@HookFarm/useQueryParams';
-import { dateConfig, searchOption, selectConfig } from './const';
+import { selectConfigGeneration } from '@UtilFarm/convertEnvironment';
+import { dateConfig, searchOption } from './const';
 
 export type keywordType = {
   search_type?: string;
@@ -15,6 +17,7 @@ export type keywordType = {
 };
 
 interface IListHandler {
+  environment: IEnvironmentRes;
   params: QueryParams;
   updateParams: (newParams: QueryParams) => void;
   resetParams: () => void;
@@ -40,6 +43,7 @@ const pageListSetting = css`
 `;
 
 const ManageListHandler = ({
+  environment,
   params,
   updateParams,
   resetParams,
@@ -52,6 +56,27 @@ const ManageListHandler = ({
       updateParams({ search_keyword: keyword.search_keyword, page: 1 });
     }
   };
+
+  const selectConfig = useMemo(
+    () =>
+      selectConfigGeneration(
+        [
+          ['제품 분류', 'product_category'],
+          ['판매 분류', 'sale_type'],
+          ['제품 상태', 'product_status'],
+          [
+            '레시피',
+            'is_recipe_registration',
+            [
+              { label: '미사용', value: 0 },
+              { label: '사용', value: 1 },
+            ],
+          ],
+        ],
+        environment.list
+      ),
+    [environment.list]
+  );
 
   return (
     <ListHandlerWrap css={pageListSetting}>

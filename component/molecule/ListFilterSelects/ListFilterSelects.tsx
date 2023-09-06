@@ -6,8 +6,8 @@ type selectConfigType = {
   label: string;
   field: string;
   options: {
-    value: string;
-    label: string;
+    value: string | number;
+    label: string | number;
   }[];
 }[];
 

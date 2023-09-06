@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { fetchEnvironment } from '@ApiFarm/environment';
+import { IEnvironmentRes } from '@InterfaceFarm/environment';
 import Pagination from '@ComponentFarm/modules/Paginate/Pagination';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Export, Plus } from '@ComponentFarm/atom/icons';
@@ -8,7 +10,7 @@ import ManageListHandler from '@ComponentFarm/template/product/manage/ManageList
 import ManageListTable from '@ComponentFarm/template/product/manage/ManageListTable';
 import useQueryParams from '@HookFarm/useQueryParams';
 
-const Manage = () => {
+const Manage = ({ environment }: { environment: IEnvironmentRes }) => {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const [params, updateParams, resetParams, toggleSort] = useQueryParams({
     page: 1,
@@ -28,10 +30,6 @@ const Manage = () => {
       title: '부서정보',
     },
   ];
-
-  // const { data } = useQuery(['couponList', params], () =>
-  //   fetchCouponFindAll(params)
-  // );
 
   const handlePageChange = (pageNumber: number) => {
     updateParams({ page: pageNumber });
@@ -57,6 +55,7 @@ const Manage = () => {
         onTabChange={index => setActiveTabIndex(index)}
       />
       <ManageListHandler
+        environment={environment}
         params={params}
         updateParams={updateParams}
         resetParams={resetParams}
@@ -72,3 +71,16 @@ const Manage = () => {
 };
 
 export default Manage;
+
+export const getStaticProps = async () => {
+  const environment = await fetchEnvironment({
+    name: 'product_category,sale_type,product_status,recipe_status',
+  });
+
+  return {
+    props: {
+      environment,
+    },
+    revalidate: 10,
+  };
+};
