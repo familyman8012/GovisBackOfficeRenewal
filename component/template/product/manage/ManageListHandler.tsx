@@ -9,10 +9,10 @@ import ListFilterSelects from '@ComponentFarm/molecule/ListFilterSelects/ListFil
 import SearchKeyword from '@ComponentFarm/molecule/SearchKeyword/SearchKeyword';
 import { QueryParams } from '@HookFarm/useQueryParams';
 import { selectConfigGeneration } from '@UtilFarm/convertEnvironment';
-import { dateConfig, searchOption } from './const';
+import { dateConfig, searchOption, selectConfigSet } from './const';
 
 export type keywordType = {
-  search_type?: string;
+  search_target?: string;
   search_keyword: string;
 };
 
@@ -49,34 +49,20 @@ const ManageListHandler = ({
   resetParams,
 }: IListHandler) => {
   const handlerKeyword = (keyword: keywordType) => {
-    if (keyword.search_type) {
+    if (keyword.search_target) {
       updateParams({ ...keyword, page: 1 });
     } else {
-      // search_type이 없을 경우, search_keyword만 사용
+      // search_target이 없을 경우, search_keyword만 사용
       updateParams({ search_keyword: keyword.search_keyword, page: 1 });
     }
   };
 
   const selectConfig = useMemo(
-    () =>
-      selectConfigGeneration(
-        [
-          ['제품 분류', 'product_category'],
-          ['판매 분류', 'sale_type'],
-          ['제품 상태', 'product_status'],
-          [
-            '레시피',
-            'is_recipe_registration',
-            [
-              { label: '미사용', value: 0 },
-              { label: '사용', value: 1 },
-            ],
-          ],
-        ],
-        environment.list
-      ),
+    () => selectConfigGeneration(selectConfigSet, environment.list),
     [environment.list]
   );
+
+  console.log('environment', environment);
 
   return (
     <ListHandlerWrap css={pageListSetting}>

@@ -41,7 +41,7 @@ export function convertEnv(
   // 필터링된 데이터를 label, value 형태로 변환
   return filteredData.map(item => ({
     label: item.value,
-    value: item.code ?? item.value,
+    value: item.environment_variable_idx,
   }));
 }
 

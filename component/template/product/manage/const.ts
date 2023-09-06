@@ -1,3 +1,53 @@
+type SelectConfigEntry =
+  | [string, string]
+  | [string, string, { label: string | number; value: string | number }[]];
+
+export const selectConfigSet: SelectConfigEntry[] = [
+  ['제품 분류', 'product_category'],
+  ['판매 분류', 'sale_type'],
+  ['제품 상태', 'product_status'],
+  [
+    '레시피',
+    'is_recipe_registration',
+    [
+      { label: '미사용', value: 0 },
+      { label: '사용', value: 1 },
+    ],
+  ],
+];
+
+export const dateConfig = [
+  {
+    field: 'sale_start_date',
+    placeholder: '판매 시작일',
+  },
+  {
+    field: 'sale_end_date',
+    placeholder: '판매 종료일',
+    minDate: 'sale_start_date',
+  },
+  {
+    field: 'created_date',
+    placeholder: '등록일',
+  },
+  {
+    field: 'updated_date',
+    placeholder: '수정일',
+    minDate: 'created_date',
+  },
+];
+
+export const searchOption = [
+  {
+    label: '제품 코드',
+    value: 'product_code',
+  },
+  {
+    label: '제품명',
+    value: 'product_name_ko',
+  },
+];
+
 export const searchStatus = [
   {
     value: '',
@@ -48,60 +98,6 @@ export const searchNotificationType = [
   {
     value: '1',
     label: '알림톡',
-  },
-];
-
-export const searchOption = [
-  {
-    label: '쿠폰명',
-    value: '0',
-  },
-  {
-    label: '태그',
-    value: '1',
-  },
-];
-
-export const selectConfig = [
-  { label: '제품 분류', field: 'search_status', options: searchStatus },
-  {
-    label: '판매 분류',
-    field: 'search_coupon_type',
-    options: searchCouponType,
-  },
-  {
-    label: '제품 상태',
-    field: 'search_notification_type',
-    options: searchNotificationType,
-  },
-  {
-    label: '레시피',
-    field: 'search_notification_type',
-    options: searchNotificationType,
-  },
-  {
-    label: '원재료',
-    field: 'search_notification_type',
-    options: searchNotificationType,
-  },
-];
-
-export const dateConfig = [
-  {
-    field: 'search_use_dt',
-    placeholder: '판매 시작일',
-  },
-  {
-    field: 'search_end_dt',
-    placeholder: '판매 종료일',
-  },
-  {
-    field: 'search_end2_dt',
-    placeholder: '등록일',
-  },
-  {
-    field: 'search_end3_dt',
-    placeholder: '수정일',
   },
 ];
 

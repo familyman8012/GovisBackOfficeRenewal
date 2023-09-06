@@ -15,7 +15,6 @@ const Manage = ({ environment }: { environment: IEnvironmentRes }) => {
   const [params, updateParams, resetParams, toggleSort] = useQueryParams({
     page: 1,
     size: 10,
-    search_type: 0,
   });
 
   const tabData = [
