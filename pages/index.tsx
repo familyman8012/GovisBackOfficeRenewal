@@ -12,12 +12,14 @@ const LoginWrap = styled.div``;
 const FormInput = styled.input``;
 const Button = styled.button``;
 
-const Login = () => {
+const Login = ({ environment }: any) => {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoginState, setIsLoginState] = useState(-1);
   const [showGuideModal, setShowGuideModal] = useState(false);
+
+  console.log(environment);
 
   // 서버에서 메뉴 전체 데이터 제공하는 걸, 프론트에 맞게 변환 시키는 로직
   //   const { data } = useQuery(['totalMenu'], () => fetchPerm());
@@ -178,4 +180,15 @@ Login.getLayout = function getLayout(page: ReactElement) {
       <div className="app__wrapper">{page}</div>
     </>
   );
+};
+
+export const getStaticProps = async () => {
+  const environment = await fetchEnvironment({ name: 'country' });
+
+  return {
+    props: {
+      environment,
+    },
+    revalidate: 10,
+  };
 };
