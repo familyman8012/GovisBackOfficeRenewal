@@ -51,6 +51,7 @@ const Manage = () => {
         }
       />
       <Tabs
+        id="product"
         tabs={tabData}
         activeTabIndex={activeTabIndex}
         onTabChange={index => setActiveTabIndex(index)}

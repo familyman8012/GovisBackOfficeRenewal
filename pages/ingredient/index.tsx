@@ -61,6 +61,7 @@ const Manage = () => {
         }
       />
       <Tabs
+        id="ingredient"
         tabs={tabData}
         activeTabIndex={activeTabIndex}
         onTabChange={index => setActiveTabIndex(index)}
