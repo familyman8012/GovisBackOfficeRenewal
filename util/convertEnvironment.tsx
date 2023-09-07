@@ -63,7 +63,11 @@ export const selectConfigGeneration = (
   dataList: SourceObj[]
 ): SelectConfig[] => {
   return categoryPairs.map(([label, category, customOptions]) => {
-    const options = customOptions || convertEnv(category, dataList);
+    const optionsFromData = customOptions || convertEnv(category, dataList);
+
+    // {label: "전체", value: ""}를 각 options 배열의 시작 부분에 추가
+    const options = [{ label: '전체', value: '' }, ...optionsFromData];
+
     const field = customOptions ? category : `evi_${category}`;
 
     return {

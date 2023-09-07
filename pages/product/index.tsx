@@ -1,5 +1,7 @@
 import { useState } from 'react';
+import { useQuery } from 'react-query';
 import { fetchEnvironment } from '@ApiFarm/environment';
+import { fetchProductList } from '@ApiFarm/product';
 import { IEnvironmentRes } from '@InterfaceFarm/environment';
 import Pagination from '@ComponentFarm/modules/Paginate/Pagination';
 import { Button } from '@ComponentFarm/atom/Button/Button';
@@ -13,14 +15,18 @@ import useQueryParams from '@HookFarm/useQueryParams';
 const Manage = ({ environment }: { environment: IEnvironmentRes }) => {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const [params, updateParams, resetParams, toggleSort] = useQueryParams({
-    page: 1,
-    size: 10,
+    current_num: 1,
+    per_num: 10,
   });
+
+  const { data } = useQuery(['productList', params], () =>
+    fetchProductList(params)
+  );
 
   const tabData = [
     {
       title: '제품 목록',
-      label: '164',
+      // label: '164',
     },
     {
       title: '통계',
@@ -31,7 +37,7 @@ const Manage = ({ environment }: { environment: IEnvironmentRes }) => {
   ];
 
   const handlePageChange = (pageNumber: number) => {
-    updateParams({ page: pageNumber });
+    updateParams({ current_num: pageNumber });
   };
 
   return (
@@ -59,10 +65,10 @@ const Manage = ({ environment }: { environment: IEnvironmentRes }) => {
         updateParams={updateParams}
         resetParams={resetParams}
       />
-      <ManageListTable toggleSort={toggleSort} />
+      <ManageListTable data={data} toggleSort={toggleSort} />
       <Pagination
-        pageInfo={[Number(params.page), Number(params.size)]}
-        totalCount={100}
+        pageInfo={[Number(params.current_num), Number(params.per_num)]}
+        totalCount={data?.total_count}
         handlePageChange={handlePageChange}
       />
     </>
@@ -80,6 +86,6 @@ export const getStaticProps = async () => {
     props: {
       environment,
     },
-    revalidate: 10,
+    revalidate: 60,
   };
 };

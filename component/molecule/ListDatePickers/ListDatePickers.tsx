@@ -35,7 +35,7 @@ const ListDatePickers = ({
           <DatePicker
             selectedDate={String(params[item.field] ?? '')}
             onChange={(value: string) =>
-              updateParams({ [item.field]: value, page: 1 })
+              updateParams({ [item.field]: value, current_num: 1 })
             }
             placeholderText={item.placeholder}
             minDate={getMinDateForField(item.field)}

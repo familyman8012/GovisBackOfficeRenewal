@@ -30,7 +30,7 @@ const ListFilterSelects = ({
             options={item.options}
             selectedOption={String(params[item.field] ?? '')}
             setSelectedOption={({ value }: { value: string }) =>
-              updateParams({ [item.field]: value, page: 1 })
+              updateParams({ [item.field]: value, current_num: 1 })
             }
             placeholder="전체"
             prefixLabel={item.label}

@@ -51,7 +51,7 @@ const ApiRequest = axios.create({
 });
 
 // BoRequest 생성
-const VERSION = 'v1';
+const VERSION = 'v2';
 const BoRequest = axios.create({ baseURL: `${getBaseUrl()}/bo/${VERSION}/` });
 
 // Common Request 생성

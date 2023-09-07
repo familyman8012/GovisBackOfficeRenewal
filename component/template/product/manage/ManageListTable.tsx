@@ -1,198 +1,14 @@
 /* eslint-disable camelcase */
 import React from 'react';
 import { css } from '@emotion/react';
-import { Badge } from '@ComponentFarm/atom/Badge/Badge';
+import { IProductRes } from '@InterfaceFarm/product';
+import { Badge, BadgeColor } from '@ComponentFarm/atom/Badge/Badge';
 import { Table, TableWrap } from '@ComponentFarm/common';
 
-interface TableData {
-  idx: number;
-  status: number;
-  coupon_name: string;
-  notification_type: number;
-  coupon_type: number;
-  used_qty: number;
-  coupon_qty: number;
-  use_start_dt: string;
-  use_end_dt: string;
-  coupon_idx: number;
-}
-
 interface TableProps {
-  data?: { list: TableData[] };
+  data?: IProductRes;
   toggleSort: (sortField: string) => void;
 }
-
-const TableArr = [
-  {
-    code: 'H_000012',
-    category: '피자',
-    name: '오리지널 페페로니 피자',
-    kind: '배달/내점/포장',
-    startDate: '2023-06-23',
-    endDate: '2023-07-02',
-    registerDate: '2023-07-02',
-    modifyDate: '2023-07-02',
-    status: '운영',
-    recipe: '등록',
-    storeCount: '97개',
-  },
-  {
-    code: 'H_000012',
-    category: '피자',
-    name: '오리지널 페페로니 피자',
-    kind: '배달/내점/포장',
-    startDate: '2023-06-23',
-    endDate: '2023-07-02',
-    registerDate: '2023-07-02',
-    modifyDate: '2023-07-02',
-    status: '운영',
-    recipe: '등록',
-    storeCount: '97개',
-  },
-  {
-    code: 'H_000012',
-    category: '피자',
-    name: '오리지널 페페로니 피자',
-    kind: '배달/내점/포장',
-    startDate: '2023-06-23',
-    endDate: '2023-07-02',
-    registerDate: '2023-07-02',
-    modifyDate: '2023-07-02',
-    status: '운영',
-    recipe: '등록',
-    storeCount: '97개',
-  },
-  {
-    code: 'H_000012',
-    category: '피자',
-    name: '오리지널 페페로니 피자',
-    kind: '배달/내점/포장',
-    startDate: '2023-06-23',
-    endDate: '2023-07-02',
-    registerDate: '2023-07-02',
-    modifyDate: '2023-07-02',
-    status: '운영',
-    recipe: '등록',
-    storeCount: '97개',
-  },
-  {
-    code: 'H_000012',
-    category: '피자',
-    name: '오리지널 페페로니 피자',
-    kind: '배달/내점/포장',
-    startDate: '2023-06-23',
-    endDate: '2023-07-02',
-    registerDate: '2023-07-02',
-    modifyDate: '2023-07-02',
-    status: '운영',
-    recipe: '등록',
-    storeCount: '97개',
-  },
-  {
-    code: 'H_000012',
-    category: '피자',
-    name: '오리지널 페페로니 피자',
-    kind: '배달/내점/포장',
-    startDate: '2023-06-23',
-    endDate: '2023-07-02',
-    registerDate: '2023-07-02',
-    modifyDate: '2023-07-02',
-    status: '운영',
-    recipe: '등록',
-    storeCount: '97개',
-  },
-  {
-    code: 'H_000012',
-    category: '피자',
-    name: '오리지널 페페로니 피자',
-    kind: '배달/내점/포장',
-    startDate: '2023-06-23',
-    endDate: '2023-07-02',
-    registerDate: '2023-07-02',
-    modifyDate: '2023-07-02',
-    status: '운영',
-    recipe: '등록',
-    storeCount: '97개',
-  },
-  {
-    code: 'H_000012',
-    category: '피자',
-    name: '오리지널 페페로니 피자',
-    kind: '배달/내점/포장',
-    startDate: '2023-06-23',
-    endDate: '2023-07-02',
-    registerDate: '2023-07-02',
-    modifyDate: '2023-07-02',
-    status: '운영',
-    recipe: '등록',
-    storeCount: '97개',
-  },
-  {
-    code: 'H_000012',
-    category: '피자',
-    name: '오리지널 페페로니 피자',
-    kind: '배달/내점/포장',
-    startDate: '2023-06-23',
-    endDate: '2023-07-02',
-    registerDate: '2023-07-02',
-    modifyDate: '2023-07-02',
-    status: '운영',
-    recipe: '등록',
-    storeCount: '97개',
-  },
-  {
-    code: 'H_000012',
-    category: '피자',
-    name: '오리지널 페페로니 피자',
-    kind: '배달/내점/포장',
-    startDate: '2023-06-23',
-    endDate: '2023-07-02',
-    registerDate: '2023-07-02',
-    modifyDate: '2023-07-02',
-    status: '운영',
-    recipe: '등록',
-    storeCount: '97개',
-  },
-  {
-    code: 'H_000012',
-    category: '피자',
-    name: '오리지널 페페로니 피자',
-    kind: '배달/내점/포장',
-    startDate: '2023-06-23',
-    endDate: '2023-07-02',
-    registerDate: '2023-07-02',
-    modifyDate: '2023-07-02',
-    status: '운영',
-    recipe: '등록',
-    storeCount: '97개',
-  },
-  {
-    code: 'H_000012',
-    category: '피자',
-    name: '오리지널 페페로니 피자',
-    kind: '배달/내점/포장',
-    startDate: '2023-06-23',
-    endDate: '2023-07-02',
-    registerDate: '2023-07-02',
-    modifyDate: '2023-07-02',
-    status: '운영',
-    recipe: '등록',
-    storeCount: '97개',
-  },
-  {
-    code: 'H_000012',
-    category: '피자',
-    name: '오리지널 페페로니 피자',
-    kind: '배달/내점/포장',
-    startDate: '2023-06-23',
-    endDate: '2023-07-02',
-    registerDate: '2023-07-02',
-    modifyDate: '2023-07-02',
-    status: '운영',
-    recipe: '등록',
-    storeCount: '97개',
-  },
-];
 
 const pageStyle = css`
   th {
@@ -203,10 +19,10 @@ const pageStyle = css`
       width: calc((102 / 1536) * 100%);
     }
     &:nth-of-type(3) {
-      width: calc((243 / 1536) * 100%);
+      width: calc((293 / 1536) * 100%);
     }
     &:nth-of-type(4) {
-      width: calc((130 / 1536) * 100%);
+      width: calc((180 / 1536) * 100%);
     }
     &:nth-of-type(5) {
       width: calc((150 / 1536) * 100%);
@@ -221,13 +37,19 @@ const pageStyle = css`
       width: calc((150 / 1536) * 100%);
     }
     &:nth-of-type(9) {
-      width: calc((130 / 1536) * 100%);
+      width: calc((110 / 1536) * 100%);
     }
     &:nth-of-type(10) {
-      width: calc((100 / 1536) * 100%);
+      width: calc((120 / 1536) * 100%);
     }
   }
 `;
+
+const prdouctStatusBadge: Record<string, BadgeColor> = {
+  '282': 'green',
+  '283': 'yellow',
+  '284': 'red',
+};
 
 const ManageListTable = ({ data, toggleSort }: TableProps) => {
   return (
@@ -245,36 +67,38 @@ const ManageListTable = ({ data, toggleSort }: TableProps) => {
             <th>수정일</th>
             <th>제품상태</th>
             <th>레시피</th>
-            <th>매장수</th>
           </tr>
         </thead>
         <tbody>
-          {TableArr.map(el => (
-            <tr key={el.code}>
-              <td className="code">{el.code}</td>
-              <td>{el.category}</td>
+          {data?.list.map(product => (
+            <tr key={product.product_code}>
+              <td className="code">{product.product_code}</td>
+              <td>{product.evi_product_category_str}</td>
+              <td>{product.product_name_ko}</td>
+              <td>{product.evi_sale_type_str}</td>
+              <td>{product.sale_start_date}</td>
+              <td>{product.sale_end_date}</td>
+              <td>{product.created_date}</td>
+              <td>{product.updated_date}</td>
               <td>
-                {el.name}{' '}
-                <Badge color="orange" size="circle">
-                  N
+                <Badge
+                  color={prdouctStatusBadge[product.evi_product_status]}
+                  size="sm"
+                  dot
+                >
+                  {product.evi_product_status_str}
                 </Badge>
               </td>
-              <td>{el.kind}</td>
-              <td>{el.startDate}</td>
-              <td>{el.endDate}</td>
-              <td>{el.registerDate}</td>
-              <td>{el.modifyDate}</td>
               <td>
-                <Badge color="green" size="sm" dot>
-                  {el.status}
+                <Badge
+                  color={product.is_recipe_registration === 1 ? 'green' : 'red'}
+                  fill="transparent"
+                  size="sm"
+                  dot
+                >
+                  {product.is_recipe_registration === 1 ? '등록' : '미등록'}
                 </Badge>
               </td>
-              <td>
-                <Badge color="green" fill="transparent" size="sm" dot>
-                  {el.recipe}
-                </Badge>
-              </td>
-              <td>{el.storeCount}</td>
             </tr>
           ))}
         </tbody>

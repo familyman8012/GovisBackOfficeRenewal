@@ -24,17 +24,6 @@ interface IListHandler {
 }
 
 const pageListSetting = css`
-  .line1 {
-    .field1,
-    .field2,
-    .field3 {
-      width: 15.3rem;
-    }
-    .field4,
-    .field5 {
-      width: 13.5rem;
-    }
-  }
   .line2 {
     .left .field {
       width: 15.3rem;
@@ -50,10 +39,10 @@ const ManageListHandler = ({
 }: IListHandler) => {
   const handlerKeyword = (keyword: keywordType) => {
     if (keyword.search_target) {
-      updateParams({ ...keyword, page: 1 });
+      updateParams({ ...keyword, current_num: 1 });
     } else {
       // search_target이 없을 경우, search_keyword만 사용
-      updateParams({ search_keyword: keyword.search_keyword, page: 1 });
+      updateParams({ search_keyword: keyword.search_keyword, current_num: 1 });
     }
   };
 

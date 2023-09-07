@@ -2,6 +2,10 @@ import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/router';
 
 export type QueryParams = {
+  per_num?: number; // 페이지별 표시 아이템 갯수
+  current_num?: number; // 현재 페이지 번호
+  sort_target?: string; // 정렬 - 대상 항목
+  sort_type?: 'asc' | 'desc'; // 정렬 - 방법
   [key: string]: number | string | string[] | undefined;
 };
 
@@ -55,11 +59,29 @@ function useQueryParams(
   }, [router.query]);
 
   const updateParams = (newParams: QueryParams) => {
+    // 빈 문자열("") 값을 가진 키는 undefined로 설정
+    Object.keys(newParams).forEach(key => {
+      if (newParams[key] === '') {
+        // eslint-disable-next-line no-param-reassign
+        newParams[key] = undefined;
+      }
+    });
+
+    // 현재의 router.query와 newParams를 병합
+    const updatedQuery = { ...router.query, ...newParams };
+
+    // undefined 값을 가진 키 제거
+    Object.keys(updatedQuery).forEach(key => {
+      if (updatedQuery[key] === undefined) {
+        delete updatedQuery[key];
+      }
+    });
+
     setParams(prevParams => ({ ...prevParams, ...newParams }));
     router.push(
       {
         pathname: router.pathname,
-        query: { ...router.query, ...newParams },
+        query: updatedQuery,
       },
       undefined,
       { shallow: true }
