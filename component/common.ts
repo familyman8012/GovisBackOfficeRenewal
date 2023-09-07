@@ -515,6 +515,14 @@ export const FormWrap = styled.div`
     display: flex;
     padding-right: 5.6rem;
   }
+  h4 {
+    flex: none;
+    width: 31.2rem;
+    font-size: 1.4rem;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 2rem;
+  }
   label {
     &:not(.label_radio):not(.label_check) {
       flex: none;
@@ -536,7 +544,7 @@ export const FormWrap = styled.div`
     }
   }
   .box_checkbox_group label {
-    width: auto;
+    width: auto !important;
   }
   .box_inp {
     align-items: center;
@@ -551,21 +559,7 @@ export const FormWrap = styled.div`
     }
   }
   .box_upload_image {
-    width: 324px;
-    .thumb {
-      height: 220px;
-      background: lightgray;
-    }
-    .box_btn {
-      display: flex;
-      align-items: center;
-      margin: 10px;
-
-      .txt_notice {
-        margin-left: 10px;
-        font-size: 14px;
-      }
-    }
+    display: flex;
   }
 `;
 

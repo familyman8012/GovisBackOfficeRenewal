@@ -8,6 +8,7 @@ import CheckBoxGroup from '@ComponentFarm/modules/CheckBoxGroup/CheckBoxGroup';
 import DatePicker, {
   NewDate,
 } from '@ComponentFarm/modules/DatePicker/DatePicker';
+import ImageUploader from '@ComponentFarm/modules/ImageUploader/ImageUploader';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Divider } from '@ComponentFarm/atom/Divider/Divider';
 import ErrorTxt from '@ComponentFarm/atom/ErrorTxt/ErrorTxt';
@@ -17,13 +18,14 @@ import TitleArea from '@ComponentFarm/layout/TitleArea';
 import useEnvironments, {
   EnvironmentKeyMapping,
 } from '@HookFarm/useEnviroments';
+import useImageUploader from '@HookFarm/useMediaUp';
 
 type FormFields = {
   product_code: string;
-  evi_product_status: number;
-  evi_product_group: number;
-  evi_product_category: number;
-  evi_sale_type: number[];
+  evi_product_status: string;
+  evi_product_group: string;
+  evi_product_category: string;
+  evi_sale_type: string[];
   product_name_ko: string;
   product_name_en: string;
   product_description: string;
@@ -79,6 +81,17 @@ const Form: React.FC<FormProps> = ({
   const { id } = router.query;
   const isReadOnly = !id?.includes('add') && !!id;
   const [activeTabIndex, setActiveTabIndex] = useState(0);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [data, status, errorMessage, handler] = useImageUploader();
+
+  const handleUpload = async () => {
+    if (selectedFile) {
+      const event = { target: { files: [selectedFile] } };
+      await handler(event as any);
+    }
+  };
+
+  console.log('data, status, errorMessage', data, status, errorMessage);
 
   // const confirmModal = () => {
   //   runInAction(() => {
@@ -156,7 +169,7 @@ const Form: React.FC<FormProps> = ({
           BtnBox={
             <>
               <Button variant="gostSecondary">취소</Button>
-              <Button type="button" onClick={onFormSubmit}>
+              <Button type="button" onClick={handleUpload}>
                 등록
               </Button>
             </>
@@ -173,10 +186,8 @@ const Form: React.FC<FormProps> = ({
           <div className="field field1">
             <div className="box_upload_image">
               <h4>제품 이미지</h4>
-              <div className="thumb" />
-              <div className="box_btn">
-                <Button variant="primary">이미지 등록</Button>
-                <span className="txt_notice">※ 2 MB 이하만 업로드 가능</span>
+              <div className="box_inp">
+                <ImageUploader onImageChange={setSelectedFile} />
               </div>
             </div>
           </div>
@@ -401,29 +412,31 @@ const Form: React.FC<FormProps> = ({
             </div>
           </div>
 
-          <div className="field field2">
-            <label htmlFor="sale_end_date" className="">
-              판매 종료일
-            </label>
-            <div className={`box_inp ${errors.sale_end_date ? 'error' : ''}`}>
-              <Controller
-                control={control}
-                name="sale_end_date"
-                render={({ field }) => (
-                  <DatePicker
-                    selectedDate={field.value}
-                    onChange={(newDate: NewDate) => {
-                      field.onChange(String(newDate));
-                    }}
-                    disabled={isReadOnly}
-                  />
+          {!id?.includes('add') && (
+            <div className="field field2">
+              <label htmlFor="sale_end_date" className="">
+                판매 종료일
+              </label>
+              <div className={`box_inp ${errors.sale_end_date ? 'error' : ''}`}>
+                <Controller
+                  control={control}
+                  name="sale_end_date"
+                  render={({ field }) => (
+                    <DatePicker
+                      selectedDate={field.value}
+                      onChange={(newDate: NewDate) => {
+                        field.onChange(String(newDate));
+                      }}
+                      disabled={isReadOnly}
+                    />
+                  )}
+                />
+                {errors.sale_end_date && (
+                  <ErrorTxt>{errors.sale_end_date.message}</ErrorTxt>
                 )}
-              />
-              {errors.sale_end_date && (
-                <ErrorTxt>{errors.sale_end_date.message}</ErrorTxt>
-              )}
+              </div>
             </div>
-          </div>
+          )}
         </div>
       </FormWrap>
     </>
@@ -442,7 +455,7 @@ export async function getStaticPaths() {
 
   return {
     paths: basePaths,
-    fallback: 'true',
+    fallback: 'blocking',
   };
 }
 
