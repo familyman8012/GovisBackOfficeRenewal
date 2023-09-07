@@ -18,7 +18,7 @@ import TitleArea from '@ComponentFarm/layout/TitleArea';
 import useEnvironments, {
   EnvironmentKeyMapping,
 } from '@HookFarm/useEnviroments';
-import useImageUploader from '@HookFarm/useMediaUp';
+import useImageUploader from '@HookFarm/useImageUploader';
 
 type FormFields = {
   product_code: string;
@@ -90,8 +90,6 @@ const Form: React.FC<FormProps> = ({
       await handler(event as any);
     }
   };
-
-  console.log('data, status, errorMessage', data, status, errorMessage);
 
   // const confirmModal = () => {
   //   runInAction(() => {

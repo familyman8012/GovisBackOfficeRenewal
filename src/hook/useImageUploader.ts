@@ -1,8 +1,14 @@
-import { useState, useCallback, ChangeEventHandler } from 'react';
+import { useState, useCallback, ChangeEventHandler, ChangeEvent } from 'react';
 import S3 from 'aws-sdk/clients/s3';
 import dayjs from 'dayjs';
 
 type UploadStatus = 'idle' | 'uploading' | 'success' | 'error';
+type FileInputChangeEvent = ChangeEvent<HTMLInputElement & { files: FileList }>;
+interface IS3UploadResponse {
+  Bucket: string;
+  Location: string;
+  Key: string;
+}
 
 const useImageUploader = (
   path = 'images'
@@ -32,7 +38,7 @@ const useImageUploader = (
     };
 
     return new Promise<string>((resolve, reject) => {
-      s3.upload(params, (err: any, s3data: any) => {
+      s3.upload(params, (err: Error | null, s3data: IS3UploadResponse) => {
         if (err) reject(err);
         resolve(s3data.Location);
       });
@@ -40,7 +46,7 @@ const useImageUploader = (
   };
 
   const handler = useCallback(
-    async (e: any) => {
+    async (e: FileInputChangeEvent) => {
       console.log('e', e);
 
       setStatus('uploading');
