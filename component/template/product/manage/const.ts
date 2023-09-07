@@ -1,8 +1,8 @@
-type SelectConfigEntry =
+type environmentConfigEntry =
   | [string, string]
-  | [string, string, { label: string | number; value: string | number }[]];
+  | [string, string, { label: string; value: string }[]];
 
-export const selectConfigSet: SelectConfigEntry[] = [
+export const selectConfigSet: environmentConfigEntry[] = [
   ['제품 분류', 'product_category'],
   ['판매 분류', 'sale_type'],
   ['제품 상태', 'product_status'],
@@ -10,8 +10,8 @@ export const selectConfigSet: SelectConfigEntry[] = [
     '레시피',
     'is_recipe_registration',
     [
-      { label: '미사용', value: 0 },
-      { label: '사용', value: 1 },
+      { label: '미사용', value: '0' },
+      { label: '사용', value: '1' },
     ],
   ],
 ];
@@ -35,6 +35,13 @@ export const dateConfig = [
     placeholder: '수정일',
     minDate: 'created_date',
   },
+];
+
+export const detailConfigSet: environmentConfigEntry[] = [
+  ['제품 상태', 'product_status'],
+  ['제품 그룹', 'product_group'],
+  ['제품 분류', 'product_category'],
+  ['판매 분류', 'product_category'],
 ];
 
 export const searchOption = [

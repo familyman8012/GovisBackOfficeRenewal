@@ -3,9 +3,9 @@
 /**
  * 원본 데이터 타입
  */
-type SourceObj = {
+export type SourceObj = {
   code: string | null;
-  environment_variable_idx: number;
+  environment_variable_idx: string;
   name: string;
   value: string;
 };
@@ -14,8 +14,8 @@ type SourceObj = {
  * 변환된 데이터 타입
  */
 export type convertEnvObj = {
-  label: string | number;
-  value: string | number;
+  label: string;
+  value: string;
 };
 
 /**
@@ -58,7 +58,7 @@ type SelectConfig = {
   options: convertEnvObj[];
 };
 
-export const selectConfigGeneration = (
+export const envConfigGeneration = (
   categoryPairs: [string, string, convertEnvObj[]?][],
   dataList: SourceObj[]
 ): SelectConfig[] => {

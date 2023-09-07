@@ -80,6 +80,9 @@ const ManageListTable = ({ data, toggleSort }: TableProps) => {
               <td>{product.sale_end_date}</td>
               <td>{product.created_date}</td>
               <td>{product.updated_date}</td>
+              <select>
+                <option data-code="dd">dds</option>
+              </select>
               <td>
                 <Badge
                   color={prdouctStatusBadge[product.evi_product_status]}

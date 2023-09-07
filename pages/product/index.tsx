@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
 import { fetchEnvironment } from '@ApiFarm/environment';
 import { fetchProductList } from '@ApiFarm/product';
@@ -13,6 +14,7 @@ import ManageListTable from '@ComponentFarm/template/product/manage/ManageListTa
 import useQueryParams from '@HookFarm/useQueryParams';
 
 const Manage = ({ environment }: { environment: IEnvironmentRes }) => {
+  const router = useRouter();
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const [params, updateParams, resetParams, toggleSort] = useQueryParams({
     current_num: 1,
@@ -40,6 +42,14 @@ const Manage = ({ environment }: { environment: IEnvironmentRes }) => {
     updateParams({ current_num: pageNumber });
   };
 
+  const handleAddClick = () => {
+    // 현재 쿼리 파라미터를 /add 경로에 추가
+    router.push({
+      pathname: '/product/add',
+      query: router.query,
+    });
+  };
+
   return (
     <>
       <TitleArea
@@ -49,7 +59,9 @@ const Manage = ({ environment }: { environment: IEnvironmentRes }) => {
             <Button variant="gostSecondary" LeadingIcon={<Export />}>
               내보내기
             </Button>
-            <Button LeadingIcon={<Plus />}>제품 등록</Button>
+            <Button LeadingIcon={<Plus />} onClick={handleAddClick}>
+              제품 등록
+            </Button>
           </>
         }
       />

@@ -6,7 +6,7 @@ export interface IEnvironmentReq {
 }
 
 export interface IEnvironmentResItem {
-  environment_variable_idx: number;
+  environment_variable_idx: string;
   name: string;
   code: string;
   value: string;

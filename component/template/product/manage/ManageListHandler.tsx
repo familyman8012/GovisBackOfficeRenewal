@@ -8,7 +8,7 @@ import ListDatePickers from '@ComponentFarm/molecule/ListDatePickers/ListDatePic
 import ListFilterSelects from '@ComponentFarm/molecule/ListFilterSelects/ListFilterSelects';
 import SearchKeyword from '@ComponentFarm/molecule/SearchKeyword/SearchKeyword';
 import { QueryParams } from '@HookFarm/useQueryParams';
-import { selectConfigGeneration } from '@UtilFarm/convertEnvironment';
+import { envConfigGeneration } from '@UtilFarm/convertEnvironment';
 import { dateConfig, searchOption, selectConfigSet } from './const';
 
 export type keywordType = {
@@ -47,7 +47,7 @@ const ManageListHandler = ({
   };
 
   const selectConfig = useMemo(
-    () => selectConfigGeneration(selectConfigSet, environment.list),
+    () => envConfigGeneration(selectConfigSet, environment.list),
     [environment.list]
   );
 
