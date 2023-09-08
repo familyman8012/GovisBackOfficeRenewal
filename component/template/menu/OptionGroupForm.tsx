@@ -1,15 +1,16 @@
 import React, { useEffect } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
+import { IMenuFormFields } from '@InterfaceFarm/menu';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import More from '@ComponentFarm/atom/icons/More';
 import Plus from '@ComponentFarm/atom/icons/Plus';
 import Up from '@ComponentFarm/atom/icons/Up';
-import type { FormFields } from './RegisterForm';
 import { MenuOptionGroupStyle } from './style';
 
 interface MenuOptionGroupProps {
   id: string;
   index: number;
+  editable?: boolean;
   selectView?: [number, number];
   onRemoveGroup: () => void;
   onSelectOption: (i: number, j: number) => void;
@@ -19,23 +20,29 @@ const MenuOptionGroup = ({
   id,
   index,
   selectView,
+  editable,
   onRemoveGroup,
   onSelectOption,
 }: MenuOptionGroupProps) => {
-  const { control, register, getValues } = useFormContext<FormFields>();
+  const { control, register, getValues, watch, getFieldState, formState } =
+    useFormContext<IMenuFormFields>();
 
-  const [editable, setEditable] = React.useState(true);
+  const [canEditName, setCanEditName] = React.useState(
+    !getValues(`menu_groups.${index}.menu_option_category_idx`)
+  );
   const [dropDown, setDropDown] = React.useState(false);
 
-  const groupFormData = getValues(`menu_groups.${index}`);
+  const groupFormData = watch(`menu_groups.${index}`);
 
   const { append, fields } = useFieldArray<
-    FormFields,
+    IMenuFormFields,
     `menu_groups.${number}.menu_options`
   >({
     control,
     name: `menu_groups.${index}.menu_options`,
-    shouldUnregister: true,
+    rules: {
+      required: true,
+    },
   });
 
   useEffect(() => {
@@ -55,14 +62,14 @@ const MenuOptionGroup = ({
   const handleEnterKeydown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       e.preventDefault();
-      setEditable(false);
+      setCanEditName(false);
     }
   };
 
   return (
     <MenuOptionGroupStyle>
       <div className="header">
-        {editable ? (
+        {canEditName ? (
           <input
             type="text"
             {...register(`menu_groups.${index}.menu_option_category_name`)}
@@ -70,7 +77,7 @@ const MenuOptionGroup = ({
             placeholder="옵션 분류명을 입력해 주세요."
             autoComplete="off"
             onKeyDown={handleEnterKeydown}
-            onBlur={() => setEditable(false)}
+            onBlur={() => setCanEditName(false)}
           />
         ) : (
           <span className="title">
@@ -91,7 +98,7 @@ const MenuOptionGroup = ({
               <button
                 type="button"
                 onClick={() => {
-                  setEditable(true);
+                  setCanEditName(true);
                   setDropDown(false);
                 }}
               >
@@ -121,37 +128,45 @@ const MenuOptionGroup = ({
             key={field.id}
             className={`option ${
               selectView?.[0] === index && selectView?.[1] === j ? 'active' : ''
-            }`}
+            }
+            ${
+              getFieldState(`menu_groups.${index}.menu_options.${j}`, formState)
+                ?.invalid
+                ? 'invalid'
+                : ''
+            }
+            `}
             type="button"
             onClick={() => onSelectOption(index, j)}
           >
-            {getValues(
-              `menu_groups.${index}.menu_options.${j}.menu_option_name`
-            )
+            {JSON.stringify(watch(`menu_groups.${index}.menu_options.${j}`))}
+            {groupFormData.menu_options[j]?.menu_option_name
               ? getValues(
                   `menu_groups.${index}.menu_options.${j}.menu_option_name`
                 )
               : '옵션 메뉴명을 입력해주세요'}
           </button>
         ))}
-        <Button
-          variant="transparent"
-          LeadingIcon={<Plus />}
-          onClick={() => {
-            append({
-              menu_option_name: undefined,
-              delivery_discount_price: 0,
-              delivery_normal_price: 0,
-              takeout_discount_price: 0,
-              takeout_normal_price: 0,
-              visit_discount_price: 0,
-              visit_normal_price: 0,
-            });
-            onSelectOption(index, fields.length);
-          }}
-        >
-          옵션 메뉴명 추가
-        </Button>
+        {editable && (
+          <Button
+            variant="transparent"
+            LeadingIcon={<Plus />}
+            onClick={() => {
+              append({
+                menu_option_name: undefined,
+                delivery_discount_price: 0,
+                delivery_normal_price: 0,
+                takeout_discount_price: 0,
+                takeout_normal_price: 0,
+                visit_discount_price: 0,
+                visit_normal_price: 0,
+              });
+              onSelectOption(index, fields.length);
+            }}
+          >
+            옵션 메뉴명 추가
+          </Button>
+        )}
       </div>
     </MenuOptionGroupStyle>
   );

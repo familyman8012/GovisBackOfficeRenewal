@@ -604,7 +604,7 @@ export const Table = styled.table`
 
   &.basic {
     width: 100%;
-    tr {
+    tr:not(.empty) {
       &:hover {
         cursor: pointer;
         background: #ededfc;
@@ -640,7 +640,8 @@ export const Table = styled.table`
 export const InnerTable = styled.table<{
   bordered?: boolean;
 }>`
-  width: 100%;
+  min-width: 100%;
+  width: auto;
   text-align: left;
   table-layout: fixed;
   border-spacing: 0;
@@ -650,13 +651,14 @@ export const InnerTable = styled.table<{
   td {
     padding: 2rem;
     vertical-align: middle;
+    white-space: nowrap;
   }
 
   label {
     margin-bottom: 0;
     color: var(--color-gray500);
-    width: auto;
   }
+
   thead th,
   thead td {
     background: var(--table-headerBackground);
@@ -688,8 +690,8 @@ export const InnerTable = styled.table<{
         }
       }
 
-      th:first-child,
-      td:first-child {
+      th:nth-child(1),
+      td:nth-child(1) {
         border-left: 0;
       }
     `}

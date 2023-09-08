@@ -152,7 +152,7 @@ export const Button: FC<ButtonProps> = ({
   return (
     <StyledButton
       {...buttonProps}
-      type={type}
+      type={type ?? 'button'}
       variant={variant}
       size={size}
       IconOnly={!!IconOnly}

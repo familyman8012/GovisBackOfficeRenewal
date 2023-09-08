@@ -12,12 +12,12 @@ export const categoryDateConfig = [
 export const menuSelectConfig = [
   {
     label: '분류 그룹',
-    field: 'category',
-    options: [
-      { value: '', label: '전체' },
-      { value: '1', label: '1' },
-      { value: '2', label: '2' },
-    ],
+    field: 'evi_menu_group',
+    options: [{ value: '', label: '전체' }],
   },
-  { label: '메뉴 분류 상태', field: 'search_status', options: [] },
+  {
+    label: '메뉴 분류 상태',
+    field: 'evi_menu_status',
+    options: [{ value: '', label: '전체' }],
+  },
 ];

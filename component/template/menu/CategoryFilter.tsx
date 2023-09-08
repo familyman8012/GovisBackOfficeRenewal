@@ -1,3 +1,4 @@
+import { EnvRow } from '@ApiFarm/environment';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import Sync from '@ComponentFarm/atom/icons/Sync';
 import { ListFilterStyle } from '@ComponentFarm/common';
@@ -12,12 +13,14 @@ export type keywordType = {
 };
 
 interface ICategoryFilterProps {
+  envs?: EnvRow[];
   params: QueryParams;
   updateParams: (newParams: QueryParams) => void;
   resetParams: () => void;
 }
 
 const CategoryFilter = ({
+  envs,
   params,
   updateParams,
   resetParams,

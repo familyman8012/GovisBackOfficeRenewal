@@ -3,7 +3,7 @@ import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { useQuery } from 'react-query';
 import { toast } from 'react-toastify';
 import { EnvRow } from '@ApiFarm/environment';
-import { fetchMenuCategories } from '@ApiFarm/menu';
+import { fetchMenu, fetchMenuCategories } from '@ApiFarm/menu';
 import { IMenuFormFields } from '@InterfaceFarm/menu';
 import RadioGroup from '@ComponentFarm/modules/RadioGroup/RadioGroup';
 import ErrorTxt from '@ComponentFarm/atom/ErrorTxt/ErrorTxt';
@@ -13,26 +13,32 @@ import useFormOptionsWithEnvs from '@HookFarm/useFormOptionsWithEnvs';
 import { MenuOptionForm } from './OptionForm';
 import { FormStyle } from './style';
 
-interface MenuRegisterFormProps {
+interface MenuUpdateFormProps {
+  id: number;
+  editable?: boolean;
   envs: EnvRow[];
   onSubmit: (formData: IMenuFormFields) => void;
 }
 
-export const MenuRegisterForm = React.forwardRef<
+export const MenuUpdateForm = React.forwardRef<
   HTMLFormElement,
-  MenuRegisterFormProps
->(({ envs, onSubmit }, formRef) => {
+  MenuUpdateFormProps
+>(({ id, envs, editable, onSubmit }, formRef) => {
   const optionFormRef = React.useRef<HTMLDivElement>(null);
   const options = useFormOptionsWithEnvs<
     'menu_group' | 'menu_type' | 'menu_status' | 'menu_category_status'
   >(['menu_group', 'menu_type', 'menu_status', 'menu_category_status'], envs);
 
   const methods = useForm<IMenuFormFields>({
-    defaultValues: {
-      evi_menu_group: options.menu_group[0].value,
-      evi_menu_status: options.menu_status[0].value,
-      evi_menu_type: options.menu_type[0].value,
-      is_menu_option: '1',
+    defaultValues: async () => {
+      const data = await fetchMenu(id);
+
+      return {
+        ...data,
+        is_menu_option: data.menu_option_category_list.length ? '1' : '0',
+        option_view: undefined,
+        menu_groups: data.menu_groups ?? [],
+      };
     },
   });
 
@@ -100,8 +106,10 @@ export const MenuRegisterForm = React.forwardRef<
               >
                 <select
                   className="error"
+                  disabled={!editable}
                   {...register('evi_menu_group', {
                     required: true,
+                    disabled: !editable,
                   })}
                 >
                   <option value="">메뉴 분류를 선택해주세요.</option>
@@ -115,6 +123,7 @@ export const MenuRegisterForm = React.forwardRef<
                   {...register('menu_name', {
                     required: true,
                   })}
+                  disabled={!editable}
                   className="inp"
                   type="text"
                   placeholder="메뉴명 입력"
@@ -135,6 +144,7 @@ export const MenuRegisterForm = React.forwardRef<
                 render={({ field: { onChange, value, ref, ...restField } }) => (
                   <RadioGroup
                     defaultValue={`${value}`}
+                    disabled={!editable}
                     onChange={onChange}
                     {...restField}
                     options={options.menu_type}
@@ -154,6 +164,7 @@ export const MenuRegisterForm = React.forwardRef<
                 <select
                   {...register('menu_category_idx', {
                     required: true,
+                    disabled: !editable,
                   })}
                 >
                   <option value="">카테고리를 선택해주세요.</option>
@@ -189,7 +200,7 @@ export const MenuRegisterForm = React.forwardRef<
                   render={({ field: { onChange, value, ref } }) => (
                     <ProductSelect
                       value={value ?? ''}
-                      disabled={isSetMenu}
+                      disabled={!editable || isSetMenu}
                       onSelect={item => {
                         setValue('product_info_idx', item.product_info_idx, {
                           shouldValidate: true,
@@ -222,6 +233,7 @@ export const MenuRegisterForm = React.forwardRef<
                   <input
                     {...register('visit_normal_price', {
                       required: true,
+                      disabled: !editable,
                     })}
                     className="inp"
                     type="text"
@@ -233,7 +245,7 @@ export const MenuRegisterForm = React.forwardRef<
                   <input
                     {...register('visit_discount_price', {
                       required: true,
-                      maxLength: 2,
+                      disabled: !editable,
                     })}
                     className="inp"
                     type="text"
@@ -265,6 +277,7 @@ export const MenuRegisterForm = React.forwardRef<
                   <input
                     {...register('takeout_normal_price', {
                       required: true,
+                      disabled: !editable,
                     })}
                     className="inp"
                     type="text"
@@ -276,6 +289,7 @@ export const MenuRegisterForm = React.forwardRef<
                   <input
                     {...register('takeout_discount_price', {
                       required: true,
+                      disabled: !editable,
                     })}
                     className="inp"
                     type="text"
@@ -307,6 +321,7 @@ export const MenuRegisterForm = React.forwardRef<
                   <input
                     {...register('delivery_normal_price', {
                       required: true,
+                      disabled: !editable,
                     })}
                     className="inp"
                     type="text"
@@ -318,6 +333,7 @@ export const MenuRegisterForm = React.forwardRef<
                   <input
                     {...register('delivery_discount_price', {
                       required: true,
+                      disabled: !editable,
                     })}
                     className="inp"
                     type="text"
@@ -346,6 +362,7 @@ export const MenuRegisterForm = React.forwardRef<
                   <RadioGroup
                     defaultValue={`${value}`}
                     onChange={onChange}
+                    disabled={!editable}
                     {...restField}
                     options={options.menu_status}
                   />
@@ -363,6 +380,7 @@ export const MenuRegisterForm = React.forwardRef<
                 control={control}
                 render={({ field: { onChange, value, ref, ...restField } }) => (
                   <RadioGroup
+                    disabled={!editable}
                     defaultValue={`${value}`}
                     onChange={onChange}
                     {...restField}
@@ -381,11 +399,13 @@ export const MenuRegisterForm = React.forwardRef<
               />
             </div>
           </div>
-          {useOption && <MenuOptionForm ref={optionFormRef} />}
+          {useOption && (
+            <MenuOptionForm editable={editable} ref={optionFormRef} />
+          )}
         </FormWrap>
       </form>
     </FormProvider>
   );
 });
 
-MenuRegisterForm.displayName = 'MenuRegisterForm';
+MenuUpdateForm.displayName = 'MenuUpdateForm';

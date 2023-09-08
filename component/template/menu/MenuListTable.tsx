@@ -2,73 +2,38 @@
 // create have 20 row data html table
 
 import { IoCopy } from 'react-icons/io5';
+import { IMenuListItem } from '@InterfaceFarm/menu';
 import { Badge } from '@ComponentFarm/atom/Badge/Badge';
 import { Button } from '@ComponentFarm/atom/Button/Button';
+import Empty from '@ComponentFarm/atom/Empty/Empty';
 import { Table, TableWrap } from '@ComponentFarm/common';
 
 // menu data format
-interface IMenuRowData {
-  menu_info_idx: number;
-  menu_code: string;
-  evi_menu_group: number;
-  evv_menu_group: string;
-  menu_category_idx: number;
-  menu_category_name: string;
-  menu_name: string;
-  evi_menu_status: number;
-  evv_menu_status: string;
-  created_date: string;
-  updated_date: string;
-}
 
 interface IMenuListTableProps {
-  //   menuList: IMenuRowData[];
+  list: IMenuListItem[];
   onClick: (menu_info_idx: number) => void;
   toggleSort?: (sort: string) => void;
 }
 
-// create mockdata 20row
-const mockData: IMenuRowData[] = Array.from({ length: 20 }, (_, i) => ({
-  menu_info_idx: i,
-  menu_code: `MC0010`,
-  evi_menu_group: i,
-  evv_menu_group: ['직영', '가맹', 'XGOPIZZA'][i % 3],
-  menu_category_idx: i,
-  menu_category_name: [
-    '직영 피자',
-    '직영 음료',
-    '직영 사이드',
-    '가맹 피자',
-    '가맹 사이드',
-    'CGV 피자',
-  ][i % 6],
-  menu_name: [
-    '직영 피자',
-    '직영 음료',
-    '직영 사이드',
-    '가맹 피자',
-    '가맹 사이드',
-    'CGV 피자',
-  ][i % 6],
-  evi_menu_status: i,
-  evv_menu_status: `${i % 2 === 0 ? '사용' : '미사용'}`,
-  created_date: '2021-01-01',
-  updated_date: '2021-01-01',
-}));
+const BASE_WIDTH = 1536;
 
-const MenuListTable = ({ onClick, toggleSort }: IMenuListTableProps) => {
+const getWidthPercentage = (width: number) => {
+  return `${Math.round((width / BASE_WIDTH) * 100)}%`;
+};
+const MenuListTable = ({ list, onClick, toggleSort }: IMenuListTableProps) => {
   return (
     <TableWrap>
       <Table className="basic">
         <colgroup>
-          <col width={120} />
-          <col width={180} />
-          <col />
-          <col width={180} />
-          <col width={180} />
-          <col width={140} />
-          <col width={140} />
-          <col width={150} />
+          <col width={getWidthPercentage(120)} />
+          <col width={getWidthPercentage(180)} />
+          <col width={getWidthPercentage(300)} />
+          <col width={getWidthPercentage(180)} />
+          <col width={getWidthPercentage(180)} />
+          <col width={getWidthPercentage(140)} />
+          <col width={getWidthPercentage(140)} />
+          <col width={getWidthPercentage(150)} />
         </colgroup>
         <thead>
           <tr>
@@ -83,7 +48,14 @@ const MenuListTable = ({ onClick, toggleSort }: IMenuListTableProps) => {
           </tr>
         </thead>
         <tbody>
-          {mockData.map((menuRowData, index) => (
+          {list.length === 0 && (
+            <tr className="empty">
+              <td colSpan={8}>
+                <Empty>데이터가 없습니다.</Empty>
+              </td>
+            </tr>
+          )}
+          {list.map((menuRowData, index) => (
             <tr
               key={menuRowData.menu_code}
               onClick={() => onClick(menuRowData.menu_info_idx)}

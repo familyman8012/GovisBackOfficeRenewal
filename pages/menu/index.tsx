@@ -1,6 +1,8 @@
 import { useRouter } from 'next/router';
-import { GetStaticProps, NextPage } from 'next';
+import { NextPage } from 'next';
+import { useQuery } from 'react-query';
 import { fetchEnvironmentByNames, EnvRow } from '@ApiFarm/environment';
+import { fetchMenuList } from '@ApiFarm/menu';
 import Pagination from '@ComponentFarm/modules/Paginate/Pagination';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Plus } from '@ComponentFarm/atom/icons';
@@ -20,26 +22,25 @@ const tabs = [
   },
 ];
 
-const loadEnvNams = ['menu_group', 'menu_type', 'menu_status'] as const;
+const loadEnvNames = ['menu_group', 'menu_type', 'menu_status'] as const;
 
 const MenuListPage: NextPage<
-  Record<(typeof loadEnvNams)[number], EnvRow[]>
+  Record<(typeof loadEnvNames)[number], EnvRow[]>
 > = props => {
   const router = useRouter();
   const [pathname] = router.asPath.split('?');
   const [params, updateParams, resetParams, toggleSort] = useQueryParams({
-    page: 1,
-    size: 10,
-    search_type: 0,
+    per_num: 10,
+    current_num: 1,
   });
 
-  const handlePageChange = (pageNumber: number) => {
+  const handlePageChange = (pageNumber: number) =>
     updateParams({ page: pageNumber });
-  };
+
+  const { data } = useQuery(['menu-list', params], () => fetchMenuList(params));
 
   return (
     <>
-      {JSON.stringify(props)}
       <TitleArea
         title="메뉴 관리"
         BtnBox={
@@ -47,7 +48,11 @@ const MenuListPage: NextPage<
             <Button variant="gostSecondary" LeadingIcon={<Export />}>
               내보내기
             </Button>
-            <Button variant="primary" LeadingIcon={<Plus />}>
+            <Button
+              variant="primary"
+              LeadingIcon={<Plus />}
+              onClick={() => router.push(`${pathname}/add`)}
+            >
               메뉴 생성
             </Button>
           </>
@@ -55,32 +60,33 @@ const MenuListPage: NextPage<
       />
       <Tabs tabs={tabs} activeTabIndex={1} onTabChange={() => {}} />
       <MenuFilter
+        envs={props}
         params={params}
         updateParams={updateParams}
         resetParams={resetParams}
       />
       <MenuListTable
-        onClick={() => router.push(`${pathname}/1`)}
+        list={data?.list ?? []}
+        onClick={id => router.push(`${pathname}/${id}`)}
         toggleSort={toggleSort}
       />
-
       <Pagination
-        pageInfo={[Number(params.page), Number(params.size)]}
-        totalCount={100}
+        pageInfo={[Number(params.current_num), Number(params.per_num)]}
+        totalCount={data?.total_count ?? 1}
         handlePageChange={handlePageChange}
       />
     </>
   );
 };
 
-export const getStaticProps: GetStaticProps = async () => {
-  const props = await fetchEnvironmentByNames<(typeof loadEnvNams)[number]>(
-    loadEnvNams
+export const getStaticProps = async () => {
+  const props = await fetchEnvironmentByNames<(typeof loadEnvNames)[number]>(
+    loadEnvNames
   );
 
   return {
     props,
-    revalidate: 1,
+    revalidate: 10,
   };
 };
 

@@ -1,34 +1,49 @@
 import React from 'react';
 import { Controller, useFormContext } from 'react-hook-form';
+import { IMenuFormFields } from '@InterfaceFarm/menu';
+import ErrorTxt from '@ComponentFarm/atom/ErrorTxt/ErrorTxt';
 import { InnerTable } from '@ComponentFarm/common';
 import { ProductSelect } from '@ComponentFarm/molecule/ProductSelect';
-import type { FormFields } from './RegisterForm';
 import { MenuOptionDetailStyle } from './style';
 
 interface MenuOptionGroupProps {
+  editable?: boolean;
+  currentView: [number, number];
   groupIndex: number;
   optionIndex: number;
 }
 
 const MenuOptionDetail = ({
+  editable,
+  currentView,
   groupIndex,
   optionIndex,
 }: MenuOptionGroupProps) => {
-  const { register, control, setValue } = useFormContext<FormFields>();
+  const { register, control, setValue, formState } =
+    useFormContext<IMenuFormFields>();
+
+  const isShow =
+    currentView[0] === groupIndex && currentView[1] === optionIndex;
+  const errors =
+    formState.errors.menu_groups?.[groupIndex]?.menu_options?.[optionIndex];
 
   return (
-    <MenuOptionDetailStyle>
+    <MenuOptionDetailStyle style={{ display: isShow ? '' : 'none' }}>
       <div className="header">
-        <input
-          {...register(
-            `menu_groups.${groupIndex}.menu_options.${optionIndex}.menu_option_name`,
-            {
-              required: true,
-            }
-          )}
-          className="inp"
-          placeholder="옵션 메뉴명을 입력해주세요"
-        />
+        <div className={`box_inp ${errors?.menu_option_name ? 'error' : ''}`}>
+          <input
+            {...register(
+              `menu_groups.${groupIndex}.menu_options.${optionIndex}.menu_option_name`,
+              {
+                required: true,
+                disabled: !editable,
+              }
+            )}
+            className="inp"
+            placeholder="옵션 메뉴명을 입력해주세요"
+          />
+          <ErrorTxt error={errors?.menu_option_name} />
+        </div>
       </div>
       <InnerTable bordered>
         <colgroup>
@@ -46,40 +61,52 @@ const MenuOptionDetail = ({
               </label>
             </td>
             <td>
-              <input
-                type="hidden"
-                {...register(
-                  `menu_groups.${groupIndex}.menu_options.${optionIndex}.product_info_idx`,
-                  {
-                    required: true,
-                  }
-                )}
-              />
               <div className="field4">
-                <Controller
-                  control={control}
-                  name={`menu_groups.${groupIndex}.menu_options.${optionIndex}.product_info_name`}
-                  render={({ field }) => (
-                    <ProductSelect
-                      value={field.value}
-                      placeholder="제품 선택"
-                      onSelect={item => {
-                        setValue(field.name, item.name);
-                        setValue(
-                          `menu_groups.${groupIndex}.menu_options.${optionIndex}.product_info_idx`,
-                          item.id
-                        );
-                      }}
-                    />
-                  )}
-                />
+                <div
+                  className={`box_inp ${
+                    errors?.product_info_idx ? 'error' : ''
+                  }`}
+                >
+                  <input
+                    type="hidden"
+                    {...register(
+                      `menu_groups.${groupIndex}.menu_options.${optionIndex}.product_info_idx`,
+                      {
+                        required: true,
+                        disabled: !editable,
+                      }
+                    )}
+                  />
+                  <Controller
+                    name={`menu_groups.${groupIndex}.menu_options.${optionIndex}.product_name_ko`}
+                    control={control}
+                    render={({ field: { onChange, value, ref } }) => (
+                      <ProductSelect
+                        disabled={!editable}
+                        value={value ?? ''}
+                        onSelect={item => {
+                          setValue(
+                            `menu_groups.${groupIndex}.menu_options.${optionIndex}.product_info_idx`,
+                            item.product_info_idx,
+                            {
+                              shouldValidate: true,
+                            }
+                          );
+                          onChange(item.product_name_ko);
+                        }}
+                        placeholder="제품 선택"
+                      />
+                    )}
+                  />
+                  <ErrorTxt error={errors?.product_info_idx} />
+                </div>
               </div>
             </td>
           </tr>
           <tr>
             <td>
               <label
-                htmlFor={`menu_groups.${groupIndex}.menu_options.${optionIndex}.product_info_idx`}
+                htmlFor={`menu_groups.${groupIndex}.menu_options.${optionIndex}.visit_normal_price`}
                 className="req"
               >
                 내점 가격
@@ -87,15 +114,35 @@ const MenuOptionDetail = ({
             </td>
             <td>
               <div className="field5">
-                <div className="combined">
+                <div className="box_inp">
                   <div className="price">
                     <span>정상가</span>
-                    <input className="inp" type="text" />
+                    <input
+                      {...register(
+                        `menu_groups.${groupIndex}.menu_options.${optionIndex}.visit_normal_price`,
+                        {
+                          required: true,
+                          disabled: !editable,
+                        }
+                      )}
+                      className="inp"
+                      type="text"
+                    />
                     <span>원(KRW)</span>
                   </div>
                   <div className="price">
                     <span>정상가</span>
-                    <input className="inp" type="text" />
+                    <input
+                      {...register(
+                        `menu_groups.${groupIndex}.menu_options.${optionIndex}.visit_discount_price`,
+                        {
+                          required: true,
+                          disabled: !editable,
+                        }
+                      )}
+                      className="inp"
+                      type="text"
+                    />
                     <span>원(KRW)</span>
                   </div>
                 </div>
@@ -105,7 +152,7 @@ const MenuOptionDetail = ({
           <tr>
             <td>
               <label
-                htmlFor={`menu_groups.${groupIndex}.menu_options.${optionIndex}.product_info_idx`}
+                htmlFor={`menu_groups.${groupIndex}.menu_options.${optionIndex}.takeout_normal_price`}
                 className="req"
               >
                 포장 가격
@@ -113,15 +160,35 @@ const MenuOptionDetail = ({
             </td>
             <td>
               <div className="field5">
-                <div className="combined">
+                <div className="box_inp">
                   <div className="price">
                     <span>정상가</span>
-                    <input className="inp" type="text" />
+                    <input
+                      {...register(
+                        `menu_groups.${groupIndex}.menu_options.${optionIndex}.takeout_normal_price`,
+                        {
+                          required: true,
+                          disabled: !editable,
+                        }
+                      )}
+                      className="inp"
+                      type="text"
+                    />
                     <span>원(KRW)</span>
                   </div>
                   <div className="price">
                     <span>정상가</span>
-                    <input className="inp" type="text" />
+                    <input
+                      {...register(
+                        `menu_groups.${groupIndex}.menu_options.${optionIndex}.takeout_discount_price`,
+                        {
+                          required: true,
+                          disabled: !editable,
+                        }
+                      )}
+                      className="inp"
+                      type="text"
+                    />
                     <span>원(KRW)</span>
                   </div>
                 </div>
@@ -131,7 +198,7 @@ const MenuOptionDetail = ({
           <tr>
             <td>
               <label
-                htmlFor={`menu_groups.${groupIndex}.menu_options.${optionIndex}.product_info_idx`}
+                htmlFor={`menu_groups.${groupIndex}.menu_options.${optionIndex}.delivery_normal_price`}
                 className="req"
               >
                 배달 가격
@@ -139,15 +206,35 @@ const MenuOptionDetail = ({
             </td>
             <td>
               <div className="field5">
-                <div className="combined">
+                <div className="box_inp">
                   <div className="price">
                     <span>정상가</span>
-                    <input className="inp" type="text" />
+                    <input
+                      {...register(
+                        `menu_groups.${groupIndex}.menu_options.${optionIndex}.delivery_normal_price`,
+                        {
+                          required: true,
+                          disabled: !editable,
+                        }
+                      )}
+                      className="inp"
+                      type="text"
+                    />
                     <span>원(KRW)</span>
                   </div>
                   <div className="price">
                     <span>정상가</span>
-                    <input className="inp" type="text" />
+                    <input
+                      {...register(
+                        `menu_groups.${groupIndex}.menu_options.${optionIndex}.delivery_discount_price`,
+                        {
+                          required: true,
+                          disabled: !editable,
+                        }
+                      )}
+                      className="inp"
+                      type="text"
+                    />
                     <span>원(KRW)</span>
                   </div>
                 </div>

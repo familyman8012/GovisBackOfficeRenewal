@@ -1,39 +1,60 @@
-import { useState } from 'react';
+/* eslint-disable react/no-array-index-key */
+import React, { useEffect } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
+import { IMenuFormFields } from '@InterfaceFarm/menu';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import Empty from '@ComponentFarm/atom/Empty/Empty';
 import Plus from '@ComponentFarm/atom/icons/Plus';
 import MenuOptionDetail from './OptionDetailForm';
 import MenuOptionGroup from './OptionGroupForm';
-import type { FormFields } from './RegisterForm';
 import { MenuOptionListStyle } from './style';
 
-export const MenuOptionForm = () => {
-  const { control } = useFormContext<FormFields>();
-  const { append, fields, remove } = useFieldArray<FormFields>({
+export const MenuOptionForm = React.forwardRef<
+  HTMLElement,
+  {
+    editable?: boolean;
+  }
+>(({ editable }, ref) => {
+  const { control, watch, setValue } = useFormContext<IMenuFormFields>();
+  const { append, fields, remove } = useFieldArray<
+    IMenuFormFields,
+    'menu_groups'
+  >({
     name: 'menu_groups',
     control,
+    shouldUnregister: true,
   });
 
-  const [view, setView] = useState<[number, number] | undefined>(undefined);
+  const groups = watch('menu_groups');
+  const view = watch('option_view');
+
+  useEffect(
+    () => () => {
+      setValue('option_view', undefined);
+    },
+    []
+  );
 
   return (
-    <MenuOptionListStyle>
+    <MenuOptionListStyle ref={ref}>
       <h2>옵션 메뉴 정보</h2>
       <div className="wrap">
         <div className="side">
-          <Button
-            size="lg"
-            LeadingIcon={<Plus />}
-            onClick={() =>
-              append({
-                menu_option_category_name: `${fields.length + 1}`,
-                menu_options: [],
-              })
-            }
-          >
-            옵션 추가하기
-          </Button>
+          {editable && (
+            <Button
+              disabled={!editable}
+              size="lg"
+              LeadingIcon={<Plus />}
+              onClick={() =>
+                append({
+                  menu_option_category_name: `${fields.length + 1}`,
+                  menu_options: [],
+                })
+              }
+            >
+              옵션 추가하기
+            </Button>
+          )}
           <div className="list">
             {fields.map(({ id }, index) => (
               <MenuOptionGroup
@@ -41,10 +62,11 @@ export const MenuOptionForm = () => {
                 id={id}
                 index={index}
                 selectView={view}
-                onSelectOption={(...args) => setView(args)}
+                editable={editable}
+                onSelectOption={(...args) => setValue('option_view', args)}
                 onRemoveGroup={() => {
                   remove(index);
-                  setView(undefined);
+                  setValue('option_view', undefined);
                 }}
               />
             ))}
@@ -58,14 +80,23 @@ export const MenuOptionForm = () => {
               <span className="sub">옵션을 추가해 주세요.</span>
             </Empty>
           ) : (
-            <MenuOptionDetail
-              key={`${view[0]}_${view[1]}`}
-              groupIndex={view[0]}
-              optionIndex={view[1]}
-            />
+            groups?.map((field, i) => {
+              watch(`menu_groups.${i}.menu_options`);
+              return field?.menu_options.map((field2, j) => (
+                <MenuOptionDetail
+                  editable={editable}
+                  key={`${i}_${j}`}
+                  currentView={view}
+                  groupIndex={i}
+                  optionIndex={j}
+                />
+              ));
+            })
           )}
         </div>
       </div>
     </MenuOptionListStyle>
   );
-};
+});
+
+MenuOptionForm.displayName = 'MenuOptionForm';
