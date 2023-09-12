@@ -13,6 +13,7 @@ interface ModalProps {
   title?: string;
   onFormSubmit?: () => void;
   onCancel?: () => void;
+  disabledFormSubmit?: boolean;
   submitButtonText?: string;
   cancelButtonText?: string;
   showCloseButton?: boolean;
@@ -34,7 +35,7 @@ const HeaderContentContainer = styled.div`
   flex-direction: column;
   align-items: center;
   padding: 2.4rem;
-  border-bottom: 1px solid var(--color-grayborder);
+  /* border-bottom: 1px solid var(--color-grayborder); */
 
   &.center {
     h2,
@@ -58,12 +59,15 @@ const HeaderContentContainer = styled.div`
   h2 {
     width: 100%;
     color: var(--color-neutral10);
-    font-size: var(--font-size6);
+    font-size: var(--font-size8);
     font-weight: bold;
-    line-height: var(--font-size9);
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
   }
 
   .content {
+    width: 100%;
+
     p {
       margin-top: 0.4rem;
       font-size: var(--font-size4);
@@ -73,16 +77,17 @@ const HeaderContentContainer = styled.div`
 `;
 
 const ButtonContainer = styled.div`
-  padding: 24px;
+  padding: 0 2.4rem 2.4rem;
   display: flex;
   gap: 1.2rem;
   justify-content: center;
 
   button {
     width: 100%;
-    padding: 1rem 1.6rem;
+    padding: 1.6rem 0;
     font-size: 1.6rem;
-    border-radius: 0.8rem;
+    line-height: 1.35;
+    border-radius: 0.4rem;
   }
 `;
 
@@ -92,6 +97,7 @@ const Modal: FC<ModalProps> = ({
   title,
   onFormSubmit,
   onCancel,
+  disabledFormSubmit,
   submitButtonText = '확인',
   cancelButtonText = '취소',
   showCloseButton = false,
@@ -135,7 +141,7 @@ const Modal: FC<ModalProps> = ({
                   onClick={onClose}
                   IconOnly={
                     <IconViewArea size={24}>
-                      <Cross />
+                      <Cross size={24} />
                     </IconViewArea>
                   }
                   className="btn_close"
@@ -153,7 +159,11 @@ const Modal: FC<ModalProps> = ({
               {cancelButtonText}
             </Button>
           )}
-          <Button type="button" onClick={onFormSubmit}>
+          <Button
+            type="button"
+            disabled={disabledFormSubmit}
+            onClick={onFormSubmit}
+          >
             {submitButtonText}
           </Button>
         </ButtonContainer>

@@ -21,3 +21,14 @@ export const menuSelectConfig = [
     options: [{ value: '', label: '전체' }],
   },
 ];
+
+export const menuListTabInfo = [
+  {
+    title: '카테고리 목록',
+    link: '/menu/categories',
+  },
+  {
+    title: '메뉴 목록',
+    link: '/menu',
+  },
+];

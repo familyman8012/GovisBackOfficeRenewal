@@ -1,17 +1,11 @@
 import React from 'react';
 import { EnvRow } from '@ApiFarm/environment';
 
-const useSelectConfigWithEnv = (
-  config: any,
-  envs: Record<string, EnvRow[]>
-) => {
+const useSelectConfigWithEnv = (config: any, envs: EnvRow[]) => {
   return React.useMemo(
     () =>
       config.map((select: any) => {
-        const matchEnvs =
-          Object.entries(envs).find(([key, value]) =>
-            select.field.endsWith(key)
-          )?.[1] ?? [];
+        const matchEnvs = envs.filter(env => select.field.endsWith(env.name));
 
         return {
           ...select,

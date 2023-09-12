@@ -39,7 +39,7 @@ const ProductSelectContent = styled.div`
   .search-field {
     display: flex;
     align-items: center;
-    margin: 1.5rem 0;
+    margin: 0 0 1.5rem;
 
     .box_searchkeyword {
       width: 100%;
@@ -119,8 +119,8 @@ export const ProductSelect = React.forwardRef<
     ['products', params],
     () =>
       fetchProducts({
-        // search_target: params.search_type,
-        // search_keyword: params.search_keyword,
+        search_target: params.search_type,
+        search_keyword: params.search_keyword,
         current_num: 1,
         per_num: 9999,
       }),

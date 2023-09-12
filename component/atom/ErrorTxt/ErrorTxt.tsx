@@ -16,6 +16,7 @@ const ErrorTxtWrap = styled.p`
   width: max-content;
   margin-top: 1rem;
   color: red;
+  font-weight: 500;
 `;
 
 const ErrorTxt = ({

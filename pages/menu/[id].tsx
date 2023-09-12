@@ -3,6 +3,7 @@ import { useRouter } from 'next/router';
 import { NextPage } from 'next';
 import { useMutation } from 'react-query';
 import { EnvRow, fetchEnvironment } from '@ApiFarm/environment';
+import { updateMenuInfo } from '@ApiFarm/menu';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
@@ -11,7 +12,10 @@ import { useGoMove } from '@HookFarm/useGoMove';
 
 const tabs = [
   {
-    title: '메뉴 등록',
+    title: '메뉴 상세 정보',
+  },
+  {
+    title: '변경내역',
   },
 ];
 
@@ -25,21 +29,12 @@ const MenuDetailPage: NextPage<{
   const id = useMemo(() => parseInt(router.query?.id as string, 10), [router]);
   const [editable, setEditable] = useState(false);
 
-  const updateMutate = useMutation(
-    () => {
-      // console.log(formData);
+  const updateMutate = useMutation(updateMenuInfo, {
+    onSuccess: () => {
+      onBack();
+      if (editable) setEditable(false);
     },
-    {
-      onSuccess: () => {
-        onBack();
-        if (editable) setEditable(false);
-      },
-    }
-  );
-
-  const handleSubmit = () => {
-    // updateMutate.mutate(formData);
-  };
+  });
 
   return (
     <>
@@ -68,7 +63,7 @@ const MenuDetailPage: NextPage<{
         editable={editable}
         ref={formRef}
         envs={envs}
-        onSubmit={handleSubmit}
+        onSubmit={updateMutate.mutate}
       />
     </>
   );
@@ -79,7 +74,7 @@ export const getStaticPaths = async () => {
     paths: [
       {
         params: {
-          id: [':id'],
+          id: ':id',
         },
       },
     ],

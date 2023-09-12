@@ -18,6 +18,17 @@ interface MenuRegisterFormProps {
   onSubmit: (formData: IMenuFormFields) => void;
 }
 
+const isMenuOptions = [
+  {
+    label: '사용',
+    value: '1',
+  },
+  {
+    label: '사용안함',
+    value: '0',
+  },
+];
+
 export const MenuRegisterForm = React.forwardRef<
   HTMLFormElement,
   MenuRegisterFormProps
@@ -80,7 +91,7 @@ export const MenuRegisterForm = React.forwardRef<
         ref={formRef}
         autoComplete="off"
         onSubmit={handleSubmit(onSubmit, error => {
-          if (Object.keys(error).length === 1 && error.menu_groups) {
+          if (Object.keys(error).length === 1 && error.menu_categories) {
             optionFormRef?.current?.scrollIntoView();
             toast.error('옵션 정보를 확인해주세요.');
           }
@@ -200,7 +211,6 @@ export const MenuRegisterForm = React.forwardRef<
                     />
                   )}
                 />
-
                 <ErrorTxt error={errors.product_info_idx} />
               </div>
             </div>
@@ -366,22 +376,13 @@ export const MenuRegisterForm = React.forwardRef<
                     defaultValue={`${value}`}
                     onChange={onChange}
                     {...restField}
-                    options={[
-                      {
-                        label: '사용',
-                        value: '1',
-                      },
-                      {
-                        label: '사용안함',
-                        value: '0',
-                      },
-                    ]}
+                    options={isMenuOptions}
                   />
                 )}
               />
             </div>
           </div>
-          {useOption && <MenuOptionForm ref={optionFormRef} />}
+          {useOption && <MenuOptionForm editable ref={optionFormRef} />}
         </FormWrap>
       </form>
     </FormProvider>

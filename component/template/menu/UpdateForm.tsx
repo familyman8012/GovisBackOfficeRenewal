@@ -37,7 +37,7 @@ export const MenuUpdateForm = React.forwardRef<
         ...data,
         is_menu_option: data.menu_option_category_list.length ? '1' : '0',
         option_view: undefined,
-        menu_groups: data.menu_groups ?? [],
+        menu_categories: data.menu_categories ?? [],
       };
     },
   });
@@ -86,7 +86,7 @@ export const MenuUpdateForm = React.forwardRef<
         ref={formRef}
         autoComplete="off"
         onSubmit={handleSubmit(onSubmit, error => {
-          if (Object.keys(error).length === 1 && error.menu_groups) {
+          if (Object.keys(error).length === 1 && error.menu_categories) {
             optionFormRef?.current?.scrollIntoView();
             toast.error('옵션 정보를 확인해주세요.');
           }
@@ -109,7 +109,6 @@ export const MenuUpdateForm = React.forwardRef<
                   disabled={!editable}
                   {...register('evi_menu_group', {
                     required: true,
-                    disabled: !editable,
                   })}
                 >
                   <option value="">메뉴 분류를 선택해주세요.</option>
@@ -164,8 +163,8 @@ export const MenuUpdateForm = React.forwardRef<
                 <select
                   {...register('menu_category_idx', {
                     required: true,
-                    disabled: !editable,
                   })}
+                  disabled={!editable}
                 >
                   <option value="">카테고리를 선택해주세요.</option>
                   {categoryQuery.data?.list.map(
@@ -233,8 +232,8 @@ export const MenuUpdateForm = React.forwardRef<
                   <input
                     {...register('visit_normal_price', {
                       required: true,
-                      disabled: !editable,
                     })}
+                    disabled={!editable}
                     className="inp"
                     type="text"
                   />
@@ -245,8 +244,8 @@ export const MenuUpdateForm = React.forwardRef<
                   <input
                     {...register('visit_discount_price', {
                       required: true,
-                      disabled: !editable,
                     })}
+                    disabled={!editable}
                     className="inp"
                     type="text"
                   />
@@ -277,8 +276,8 @@ export const MenuUpdateForm = React.forwardRef<
                   <input
                     {...register('takeout_normal_price', {
                       required: true,
-                      disabled: !editable,
                     })}
+                    disabled={!editable}
                     className="inp"
                     type="text"
                   />
@@ -289,8 +288,8 @@ export const MenuUpdateForm = React.forwardRef<
                   <input
                     {...register('takeout_discount_price', {
                       required: true,
-                      disabled: !editable,
                     })}
+                    disabled={!editable}
                     className="inp"
                     type="text"
                   />
@@ -321,8 +320,8 @@ export const MenuUpdateForm = React.forwardRef<
                   <input
                     {...register('delivery_normal_price', {
                       required: true,
-                      disabled: !editable,
                     })}
+                    disabled={!editable}
                     className="inp"
                     type="text"
                   />
@@ -333,8 +332,8 @@ export const MenuUpdateForm = React.forwardRef<
                   <input
                     {...register('delivery_discount_price', {
                       required: true,
-                      disabled: !editable,
                     })}
+                    disabled={!editable}
                     className="inp"
                     type="text"
                   />

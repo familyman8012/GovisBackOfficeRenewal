@@ -1,4 +1,4 @@
-import { BoV2Request } from './index';
+import { BoV2Request } from '../src/api/index';
 
 /**
  * @TODO type definition

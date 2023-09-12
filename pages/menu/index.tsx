@@ -1,7 +1,8 @@
+import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { NextPage } from 'next';
 import { useQuery } from 'react-query';
-import { fetchEnvironmentByNames, EnvRow } from '@ApiFarm/environment';
+import { EnvRow, fetchEnvironment } from '@ApiFarm/environment';
 import { fetchMenuList } from '@ApiFarm/menu';
 import Pagination from '@ComponentFarm/modules/Paginate/Pagination';
 import { Button } from '@ComponentFarm/atom/Button/Button';
@@ -9,24 +10,15 @@ import { Plus } from '@ComponentFarm/atom/icons';
 import Export from '@ComponentFarm/atom/icons/Export';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
+import { menuListTabInfo } from '@ComponentFarm/template/menu/const';
+import MenuCopyModal from '@ComponentFarm/template/menu/MenuCopyModal';
 import MenuFilter from '@ComponentFarm/template/menu/MenuFilter';
 import MenuListTable from '@ComponentFarm/template/menu/MenuListTable';
 import useQueryParams from '@HookFarm/useQueryParams';
 
-const tabs = [
-  {
-    title: '카테고리 목록',
-  },
-  {
-    title: '메뉴 목록',
-  },
-];
-
-const loadEnvNames = ['menu_group', 'menu_type', 'menu_status'] as const;
-
-const MenuListPage: NextPage<
-  Record<(typeof loadEnvNames)[number], EnvRow[]>
-> = props => {
+const MenuListPage: NextPage<{
+  envs: EnvRow[];
+}> = ({ envs }) => {
   const router = useRouter();
   const [pathname] = router.asPath.split('?');
   const [params, updateParams, resetParams, toggleSort] = useQueryParams({
@@ -34,8 +26,14 @@ const MenuListPage: NextPage<
     current_num: 1,
   });
 
-  const handlePageChange = (pageNumber: number) =>
-    updateParams({ page: pageNumber });
+  const [copyTargerId, setCopyTargetId] = useState<number | undefined>(
+    undefined
+  );
+
+  const handlePageChange = (current_num: number) =>
+    updateParams({ current_num });
+  const handleChangeTab = (tabIndex: number) =>
+    router.push(`${menuListTabInfo[tabIndex].link}`);
 
   const { data } = useQuery(['menu-list', params], () => fetchMenuList(params));
 
@@ -58,16 +56,22 @@ const MenuListPage: NextPage<
           </>
         }
       />
-      <Tabs tabs={tabs} activeTabIndex={1} onTabChange={() => {}} />
+
+      <Tabs
+        tabs={menuListTabInfo}
+        activeTabIndex={1}
+        onTabChange={handleChangeTab}
+      />
       <MenuFilter
-        envs={props}
+        envs={envs}
         params={params}
         updateParams={updateParams}
         resetParams={resetParams}
       />
       <MenuListTable
         list={data?.list ?? []}
-        onClick={id => router.push(`${pathname}/${id}`)}
+        onClick={item => router.push(`${pathname}/${item.menu_info_idx}`)}
+        onClickCopy={item => setCopyTargetId(item.menu_info_idx)}
         toggleSort={toggleSort}
       />
       <Pagination
@@ -75,17 +79,34 @@ const MenuListPage: NextPage<
         totalCount={data?.total_count ?? 1}
         handlePageChange={handlePageChange}
       />
+      <MenuCopyModal
+        envs={envs}
+        show={!!copyTargerId}
+        menu_info_idx={copyTargerId}
+        onClose={() => setCopyTargetId(undefined)}
+        onRegister={() => {
+          setCopyTargetId(undefined);
+          updateParams({ ...params, current_num: 1 });
+        }}
+      />
     </>
   );
 };
 
 export const getStaticProps = async () => {
-  const props = await fetchEnvironmentByNames<(typeof loadEnvNames)[number]>(
-    loadEnvNames
-  );
+  const props = await fetchEnvironment({
+    name: [
+      'menu_group',
+      'menu_type',
+      'menu_status',
+      'menu_category_status',
+    ].join(','),
+  });
 
   return {
-    props,
+    props: {
+      envs: props.list,
+    },
     revalidate: 10,
   };
 };

@@ -25,14 +25,12 @@ const CategoryFilter = ({
   updateParams,
   resetParams,
 }: ICategoryFilterProps) => {
-  const handlerKeyword = (keyword: keywordType) => {
-    if (keyword.search_type) {
-      updateParams({ ...keyword, page: 1 });
-    } else {
-      // search_type이 없을 경우, search_keyword만 사용
-      updateParams({ search_keyword: keyword.search_keyword, page: 1 });
-    }
-  };
+  const handlerKeyword = (keyword: keywordType) =>
+    updateParams({
+      search_target: 'menu_category_name',
+      search_keyword: keyword.search_keyword,
+      page: 1,
+    });
   return (
     <ListFilterStyle className="justify-between">
       <div className="group">

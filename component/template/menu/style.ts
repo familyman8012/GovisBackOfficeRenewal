@@ -1,9 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import Modal from '@ComponentFarm/modules/Modal/Modal';
 import { Button } from '@ComponentFarm/token';
-
-export const CategoryRegisterModalStyle = styled(Modal)``;
 
 export const MenuOptionListStyle = styled.section`
   border-radius: 0.4rem;
@@ -83,6 +80,9 @@ export const MenuOptionGroupStyle = styled.div`
       background: transparent;
       margin-left: 0.8rem;
       cursor: pointer;
+      &.expanded {
+        transform: rotate(180deg);
+      }
     }
 
     &:hover,
@@ -97,8 +97,8 @@ export const MenuOptionGroupStyle = styled.div`
 
     .dropdown-list {
       position: absolute;
-      top: calc(100% + 0.4rem);
-      left: -1.5rem;
+      top: calc(100% + 1rem);
+      left: -3.5rem;
       display: flex;
       flex-direction: column;
       width: 9rem;
@@ -107,7 +107,7 @@ export const MenuOptionGroupStyle = styled.div`
       border: 1px solid var(--color-neutral90);
       background: var(--color-gray1);
       color: var(--color-neutral10);
-
+      z-index: 2;
       button {
         font-size: 1.4rem;
         line-height: 1.2;
@@ -137,6 +137,7 @@ export const MenuOptionGroupStyle = styled.div`
     text-overflow: ellipsis;
     white-space: nowrap;
     box-sizing: border-box;
+    border: 1px solid transparent;
 
     &.active {
       background-color: ${Button.ghostPrimaryHoverBg};
@@ -145,8 +146,11 @@ export const MenuOptionGroupStyle = styled.div`
     }
 
     &.invalid {
-      color: var(--color-red50);
-      /* border: 1px solid var(--color-red50); */
+      border: 1px solid var(--color-red50);
+    }
+
+    & + .option {
+      margin-top: 0.4rem;
     }
   }
 
@@ -154,15 +158,68 @@ export const MenuOptionGroupStyle = styled.div`
     width: 100%;
     justify-content: flex-start;
   }
+
+  .content {
+    overflow: hidden;
+  }
 `;
 
 export const MenuOptionDetailStyle = styled.div`
   .header {
+    display: flex;
+
+    justify-content: space-between;
     margin-bottom: 12px;
     input {
       border-radius: 0.4rem;
       max-width: 74.6rem;
     }
+
+    .buttons {
+      display: flex;
+      gap: 0.8rem;
+      button {
+        width: 100%;
+        min-width: 0;
+      }
+    }
+  }
+`;
+
+export const MenuCopyInputStyle = styled.div`
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 5rem;
+  border-radius: 0.4rem;
+  border: 1px solid var(--input-border);
+
+  &:focus-within {
+    border-color: var(--color-neutral10);
+  }
+
+  select,
+  input.inp {
+    border: 0;
+    border-radius: 0;
+    height: 100%;
+  }
+
+  input.inp {
+    width: 100%;
+    border-top-right-radius: inherit;
+    border-bottom-right-radius: inherit;
+  }
+
+  select {
+    width: 25%;
+    min-width: 11.9rem;
+    border-top-left-radius: inherit;
+    border-bottom-left-radius: inherit;
+  }
+
+  &.error {
+    border-color: var(--color-red50);
   }
 `;
 

@@ -15,7 +15,7 @@ export type keywordType = {
 };
 
 interface IMenuFilterProps {
-  envs: Record<string, EnvRow[]>;
+  envs: EnvRow[];
   params: QueryParams;
   updateParams: (newParams: QueryParams) => void;
   resetParams: () => void;
@@ -28,12 +28,11 @@ const MenuFilter = ({
   resetParams,
 }: IMenuFilterProps) => {
   const handlerKeyword = (keyword: keywordType) => {
-    if (keyword.search_type) {
-      updateParams({ ...keyword, page: 1 });
-    } else {
-      // search_type이 없을 경우, search_keyword만 사용
-      updateParams({ search_keyword: keyword.search_keyword, page: 1 });
-    }
+    updateParams({
+      search_type: 'menu_name',
+      search_keyword: keyword.search_keyword,
+      page: 1,
+    });
   };
 
   const menuSelectConfigWithEnv = useSelectConfigWithEnv(

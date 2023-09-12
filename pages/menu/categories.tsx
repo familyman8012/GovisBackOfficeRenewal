@@ -1,4 +1,9 @@
 import { useState } from 'react';
+import { useRouter } from 'next/router';
+import { NextPage } from 'next';
+import { useQuery } from 'react-query';
+import { EnvRow, fetchEnvironment } from '@ApiFarm/environment';
+import { fetchMenuCategories } from '@ApiFarm/menu';
 import Pagination from '@ComponentFarm/modules/Paginate/Pagination';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Plus } from '@ComponentFarm/atom/icons';
@@ -8,29 +13,28 @@ import TitleArea from '@ComponentFarm/layout/TitleArea';
 import CategoryFilter from '@ComponentFarm/template/menu/CategoryFilter';
 import CategoryListTable from '@ComponentFarm/template/menu/CategoryListTable';
 import RegisterModal from '@ComponentFarm/template/menu/CategoryRegisterModal';
+import { menuListTabInfo } from '@ComponentFarm/template/menu/const';
 import useQueryParams from '@HookFarm/useQueryParams';
 
-const tabs = [
-  {
-    title: '메뉴 목록',
-  },
-  {
-    title: '카테고리 목록',
-  },
-];
+const CategoryListPage: NextPage<{ envs: EnvRow[] }> = ({ envs }) => {
+  const router = useRouter();
 
-const CategoryListPage = () => {
   const [showRegisterModal, setShowRegisterModal] = useState(false);
-
   const [params, updateParams, resetParams, toggleSort] = useQueryParams({
-    page: 1,
-    size: 10,
-    search_type: 0,
+    current_num: 1,
+    per_num: 10,
   });
 
-  const handlePageChange = (pageNumber: number) => {
-    updateParams({ page: pageNumber });
+  const handleChangeTab = (tabIndex: number) =>
+    router.push(`${menuListTabInfo[tabIndex].link}`);
+
+  const handlePageChange = (current_num: number) => {
+    updateParams({ current_num });
   };
+
+  const { data } = useQuery(['menu-categories', params], () =>
+    fetchMenuCategories(params)
+  );
 
   return (
     <>
@@ -51,26 +55,46 @@ const CategoryListPage = () => {
           </>
         }
       />
-      <Tabs tabs={tabs} activeTabIndex={1} onTabChange={() => {}} />
+      <Tabs
+        tabs={menuListTabInfo}
+        activeTabIndex={0}
+        onTabChange={handleChangeTab}
+      />
       <CategoryFilter
         params={params}
         updateParams={updateParams}
         resetParams={resetParams}
       />
-      <CategoryListTable toggleSort={toggleSort} onClick={() => {}} />
+      <CategoryListTable list={data?.list ?? []} toggleSort={toggleSort} />
       <Pagination
-        pageInfo={[Number(params.page), Number(params.size)]}
-        totalCount={100}
+        pageInfo={[Number(params.current_num), Number(params.per_num)]}
+        totalCount={data?.total_count ?? 1}
         handlePageChange={handlePageChange}
       />
-
       <RegisterModal
+        envs={envs}
         show={showRegisterModal}
         onClose={() => setShowRegisterModal(false)}
-        onRegister={() => {}}
+        onRegister={() => {
+          setShowRegisterModal(false);
+          updateParams({ ...params, current_num: 1 });
+        }}
       />
     </>
   );
+};
+
+export const getStaticProps = async () => {
+  const props = await fetchEnvironment({
+    name: ['menu_category_status'].join(','),
+  });
+
+  return {
+    props: {
+      envs: props.list,
+    },
+    revalidate: 10,
+  };
 };
 
 export default CategoryListPage;

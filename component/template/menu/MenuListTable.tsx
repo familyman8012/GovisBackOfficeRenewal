@@ -1,50 +1,47 @@
-// List Table Component for Menu List
-// create have 20 row data html table
-
-import { IoCopy } from 'react-icons/io5';
 import { IMenuListItem } from '@InterfaceFarm/menu';
 import { Badge } from '@ComponentFarm/atom/Badge/Badge';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import Empty from '@ComponentFarm/atom/Empty/Empty';
+import Copy from '@ComponentFarm/atom/icons/Copy';
 import { Table, TableWrap } from '@ComponentFarm/common';
-
-// menu data format
+import { getTableWidthPercentage } from '@UtilFarm/calcSize';
 
 interface IMenuListTableProps {
   list: IMenuListItem[];
-  onClick: (menu_info_idx: number) => void;
+  onClick: (item: IMenuListItem) => void;
+  onClickCopy?: (item: IMenuListItem) => void;
   toggleSort?: (sort: string) => void;
 }
 
-const BASE_WIDTH = 1536;
-
-const getWidthPercentage = (width: number) => {
-  return `${Math.round((width / BASE_WIDTH) * 100)}%`;
-};
-const MenuListTable = ({ list, onClick, toggleSort }: IMenuListTableProps) => {
+const MenuListTable = ({
+  list,
+  onClick,
+  onClickCopy,
+  toggleSort,
+}: IMenuListTableProps) => {
   return (
     <TableWrap>
       <Table className="basic">
         <colgroup>
-          <col width={getWidthPercentage(120)} />
-          <col width={getWidthPercentage(180)} />
-          <col width={getWidthPercentage(300)} />
-          <col width={getWidthPercentage(180)} />
-          <col width={getWidthPercentage(180)} />
-          <col width={getWidthPercentage(140)} />
-          <col width={getWidthPercentage(140)} />
-          <col width={getWidthPercentage(150)} />
+          <col width={getTableWidthPercentage(120)} />
+          <col width={getTableWidthPercentage(180)} />
+          <col width={getTableWidthPercentage(300)} />
+          {/* <col width={getWidthPercentage(180)} /> */}
+          <col width={getTableWidthPercentage(180)} />
+          <col width={getTableWidthPercentage(140)} />
+          <col width={getTableWidthPercentage(140)} />
+          <col width={getTableWidthPercentage(150)} />
         </colgroup>
         <thead>
           <tr>
             <th>메뉴 코드</th>
             <th>분류 그룹</th>
             <th>메뉴명</th>
-            <th>사용 매장 수 </th>
+            {/* <th>사용 매장 수 </th> */}
             <th>메뉴 분류 상태</th>
             <th>등록일</th>
             <th>수정일</th>
-            <th>-</th>
+            <th>&nbsp;</th>
           </tr>
         </thead>
         <tbody>
@@ -58,12 +55,12 @@ const MenuListTable = ({ list, onClick, toggleSort }: IMenuListTableProps) => {
           {list.map((menuRowData, index) => (
             <tr
               key={menuRowData.menu_code}
-              onClick={() => onClick(menuRowData.menu_info_idx)}
+              onClick={() => onClick?.(menuRowData)}
             >
               <td className="code">{menuRowData.menu_code}</td>
               <td>{menuRowData.evv_menu_group}</td>
               <td>{menuRowData.menu_name}</td>
-              <td>{index + 1}</td>
+              {/* <td>{index + 1}</td> */}
               <td>
                 <Badge
                   dot
@@ -79,9 +76,12 @@ const MenuListTable = ({ list, onClick, toggleSort }: IMenuListTableProps) => {
               <td>{menuRowData.created_date}</td>
               <td>
                 <Button
-                  size="md"
-                  variant="transparent"
-                  LeadingIcon={<IoCopy />}
+                  variant="gostPrimary"
+                  LeadingIcon={<Copy />}
+                  onClick={e => {
+                    e.stopPropagation();
+                    onClickCopy?.(menuRowData);
+                  }}
                 >
                   복사하기
                 </Button>

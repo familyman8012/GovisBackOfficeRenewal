@@ -3,7 +3,6 @@ import { NextPage } from 'next';
 import { useMutation } from 'react-query';
 import { EnvRow, fetchEnvironment } from '@ApiFarm/environment';
 import { createMenu } from '@ApiFarm/menu';
-import { IMenuFormFields } from '@InterfaceFarm/menu';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
@@ -28,10 +27,6 @@ const MenuAddPage: NextPage<{
     },
   });
 
-  const handleSubmit = (formData: IMenuFormFields) => {
-    createMutate.mutate(formData);
-  };
-
   return (
     <>
       <TitleArea
@@ -45,13 +40,17 @@ const MenuAddPage: NextPage<{
               disabled={createMutate.isLoading}
               onClick={() => formRef.current?.requestSubmit()}
             >
-              등록하기
+              저장
             </Button>
           </>
         }
       />
       <Tabs tabs={tabs} activeTabIndex={0} onTabChange={() => {}} />
-      <MenuRegisterForm ref={formRef} envs={envs} onSubmit={handleSubmit} />
+      <MenuRegisterForm
+        ref={formRef}
+        envs={envs}
+        onSubmit={createMutate.mutate}
+      />
     </>
   );
 };

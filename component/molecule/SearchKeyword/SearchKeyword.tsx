@@ -18,21 +18,20 @@ interface ISearchKeyword {
     search_keyword: string;
   };
 }
-
 export const SearchKeywordWrap = styled.div`
   display: flex;
   width: fit-content;
-  height: 3.8rem;
+  height: 4rem;
   border: 1px solid var(--color-neutral90);
   border-radius: 0.4rem;
 
-  &:focus {
+  /* &:focus {
     border: red;
-  }
-
-  /* &:focus-within {
-    border: 1px solid var(--color-neutral10);
   } */
+
+  &:focus-within {
+    border: 1px solid var(--color-neutral10);
+  }
 
   .select_library_control,
   .inp {
@@ -51,9 +50,15 @@ export const SearchKeywordWrap = styled.div`
     border-bottom-right-radius: inherit;
   }
 
-  & > div:nth-of-type(1) {
+  & > div:nth-of-type(1),
+  & > .inp {
     border-top-left-radius: inherit;
     border-bottom-left-radius: inherit;
+  }
+
+  & > div:nth-of-type(1) + .inp {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
   }
 
   .select_library_control {
@@ -136,6 +141,9 @@ const SearchKeyword = ({
         value={keyword.search_keyword}
         onChange={e =>
           setKeyword({ ...keyword, search_keyword: e.target.value })
+        }
+        onKeyDown={(e: React.KeyboardEvent) =>
+          e.key === 'Enter' && handleSearch()
         }
       />
       <Button
