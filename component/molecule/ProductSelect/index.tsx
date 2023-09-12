@@ -1,8 +1,8 @@
 import React, { HTMLAttributes, useState } from 'react';
 import { useQuery } from 'react-query';
 import styled from '@emotion/styled';
-import { fetchProducts } from '@ApiFarm/product';
-import { IProductListItem } from '@InterfaceFarm/product';
+import { fetchProductList } from '@ApiFarm/product';
+import { ProductInfo } from '@InterfaceFarm/product';
 import Modal from '@ComponentFarm/modules/Modal/Modal';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import Empty from '@ComponentFarm/atom/Empty/Empty';
@@ -16,7 +16,7 @@ interface ProductSelectProps
   className?: string;
   value?: string;
   disabled?: boolean;
-  onSelect?: (product: IProductListItem) => void;
+  onSelect?: (product: ProductInfo) => void;
 }
 
 const ProductSelectField = styled.div`
@@ -112,13 +112,14 @@ export const ProductSelect = React.forwardRef<
     search_keyword: '',
   });
 
-  const [selectedProduct, setSelectedProduct] =
-    useState<IProductListItem | null>(null);
+  const [selectedProduct, setSelectedProduct] = useState<ProductInfo | null>(
+    null
+  );
 
   const { data, isIdle, isFetching } = useQuery(
     ['products', params],
     () =>
-      fetchProducts({
+      fetchProductList({
         search_target: params.search_type,
         search_keyword: params.search_keyword,
         current_num: 1,
@@ -159,6 +160,7 @@ export const ProductSelect = React.forwardRef<
         showCloseButton
         title="제품 선택"
         onClose={handleClose}
+        disabledFormSubmit={!selectedProduct}
         onFormSubmit={() => {
           if (!selectedProduct) return;
           onSelect?.(selectedProduct);
