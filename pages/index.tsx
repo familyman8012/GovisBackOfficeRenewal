@@ -5,7 +5,6 @@ import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
 import styled from '@emotion/styled';
 import { fetchMyInfo, fetchMyPermissions, fetchlogin } from '@ApiFarm/auth';
-import { fetchEnvironment } from '@ApiFarm/environment';
 import { authStore } from '@MobxFarm/store';
 
 const LoginWrap = styled.div``;
@@ -52,10 +51,6 @@ const Login = () => {
     onError: () => authStore.logOut(),
     enabled: !!authStore.isLoggedIn,
   });
-
-  const handlerGetEnviroment = () => {
-    fetchEnvironment();
-  };
 
   // 로그인 핸들링
   const handleLogin = async (e: SyntheticEvent) => {
@@ -140,11 +135,7 @@ const Login = () => {
                     로그인
                   </Button>
 
-                  <Button
-                    type="button"
-                    color="primary"
-                    onClick={handlerGetEnviroment}
-                  >
+                  <Button type="button" color="primary">
                     전체메뉴가져오기
                   </Button>
                 </div>

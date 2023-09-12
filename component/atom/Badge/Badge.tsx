@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 type BadgeSize = 'sm' | 'md' | 'lg' | 'circle';
-type BadgeColor =
+export type BadgeColor =
   | 'green'
   | 'yellow'
   | 'indigo'

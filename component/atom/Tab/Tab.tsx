@@ -3,11 +3,22 @@ import { motion } from 'framer-motion';
 import styled from '@emotion/styled';
 import { Badge } from '../Badge/Badge';
 
-export interface TabProps {
+export interface BaseTabProps {
   title: string;
   label?: string;
   isActive?: boolean;
   onClick?: () => void;
+}
+
+export interface TabProps extends BaseTabProps {
+  layoutId: string;
+}
+
+export interface TabsProps {
+  id: string;
+  tabs: BaseTabProps[];
+  activeTabIndex: number;
+  onTabChange: (index: number) => void;
 }
 
 const TabWrapper = styled.div<{ isActive: boolean }>`
@@ -42,6 +53,7 @@ export const Tab: FC<TabProps> = ({
   label,
   isActive = false,
   onClick,
+  layoutId,
 }) => {
   return (
     <TabWrapper isActive={isActive} onClick={onClick}>
@@ -54,19 +66,13 @@ export const Tab: FC<TabProps> = ({
       {isActive ? (
         <motion.div
           className="underline"
-          layoutId=""
+          layoutId={layoutId}
           transition={{ duration: 0.2 }}
         />
       ) : null}
     </TabWrapper>
   );
 };
-
-export interface TabsProps {
-  tabs: TabProps[];
-  activeTabIndex: number;
-  onTabChange: (index: number) => void;
-}
 
 const TabsWrapper = styled.div`
   display: flex;
@@ -75,7 +81,12 @@ const TabsWrapper = styled.div`
   border-bottom: 1px solid var(--color-neutral90);
 `;
 
-export const Tabs: FC<TabsProps> = ({ tabs, activeTabIndex, onTabChange }) => {
+export const Tabs: FC<TabsProps> = ({
+  id,
+  tabs,
+  activeTabIndex,
+  onTabChange,
+}) => {
   const handleTabClick = (index: number) => {
     onTabChange(index);
   };
@@ -85,6 +96,7 @@ export const Tabs: FC<TabsProps> = ({ tabs, activeTabIndex, onTabChange }) => {
       {tabs.map((tab, index) => (
         <Tab
           key={tab.title}
+          layoutId={id}
           title={tab.title}
           label={tab.label}
           isActive={index === activeTabIndex}

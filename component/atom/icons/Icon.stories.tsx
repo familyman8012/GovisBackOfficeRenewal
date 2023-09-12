@@ -38,6 +38,7 @@ const SVGDisplay: Story<any> = ({ ...args }) => (
       grid-template-columns: repeat(7, 1fr);
       gap: 4rem;
       text-align: center;
+      background: darkseagreen;
       .box_icon {
         margin-right: 20px;
       }
@@ -56,5 +57,4 @@ export const Default = SVGDisplay.bind({});
 Default.args = {
   size: 24,
   viewBoxSize: 24,
-  customCss: 'fill: red;',
 };

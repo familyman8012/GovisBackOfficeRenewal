@@ -78,14 +78,18 @@ export const ApiRequest = axios.create({
 });
 
 // BoRequest 생성
-export const BoRequest = axios.create({ baseURL: `${getBaseUrl()}/bo/v1` });
-export const BoV2Request = axios.create({ baseURL: `${getBaseUrl()}/bo/v2` });
+const VERSION = 'v2';
+export const BoRequest = axios.create({
+  baseURL: `${getBaseUrl()}/bo/${VERSION}/`,
+});
 
 // Common Request 생성
 export const CommonRequest = axios.create({
   baseURL: `${getBaseUrl()}/com/v2/`,
   // timeout: 3000,
 });
+
+export const BoV2Request = axios.create({ baseURL: `${getBaseUrl()}/bo/v2` });
 
 export const FqsToolsRequest = axios.create({
   baseURL: getToolBaseUrl(),

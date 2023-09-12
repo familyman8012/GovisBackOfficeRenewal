@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect, useState } from 'react';
+import React, { ChangeEvent, ReactNode, useEffect, useState } from 'react';
 import CheckBox, { CheckBoxProps } from '@ComponentFarm/atom/Checkbox/CheckBox';
 
 export type CheckBoxSize = 'sm' | 'md';
@@ -12,7 +12,7 @@ export interface CheckBoxGroupProps {
   chksize?: CheckBoxSize;
   children?: React.ReactNode;
   options?: { label: string; subText?: string; value: string }[];
-  onChange?: (checkedValues: string[]) => void;
+  onChange?: (event: any[] | ChangeEvent<Element>) => void;
   allChechkHandler?: { label: string; value: string }[];
   name: string;
   control?: any;

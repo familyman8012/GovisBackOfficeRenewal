@@ -1,11 +1,10 @@
-import { IProductListItem } from '@InterfaceFarm/product';
-import { BoV2Request } from './index';
+import { IProductReq } from '@InterfaceFarm/product';
+import { BoRequest } from '.';
 
-export const fetchProducts = async (params: Record<string, any>) => {
-  return BoV2Request.get<
-    IResponse<{
-      total_count: number;
-      list: IProductListItem[];
-    }>
-  >('/product/info/list', { params }).then(res => res.data.data);
+export const fetchProductList = async (params?: IProductReq) => {
+  const response = await BoRequest.get('/product/info/list', {
+    params,
+  });
+
+  return response.data.data;
 };

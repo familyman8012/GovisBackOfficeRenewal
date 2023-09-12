@@ -12,9 +12,12 @@ interface ISearchKeyword {
     value: string;
   }[];
   placeholder?: string;
-  handler: (keyword: { search_type?: string; search_keyword: string }) => void;
+  handler: (keyword: {
+    search_target?: string;
+    search_keyword: string;
+  }) => void;
   defaultKeyword?: {
-    search_type: string;
+    search_target: string;
     search_keyword: string;
   };
 }
@@ -76,16 +79,19 @@ const SearchKeyword = ({
   selOption,
   placeholder,
   handler,
-  defaultKeyword = { search_type: '0', search_keyword: '' },
+  defaultKeyword = {
+    search_target: selOption?.[0]?.value ? String(selOption[0].value) : '',
+    search_keyword: '',
+  },
 }: ISearchKeyword) => {
   const [keyword, setKeyword] = useState(defaultKeyword);
 
   useEffect(() => {
     setKeyword({
-      search_type: String(params.search_type ?? ''),
+      search_target: String(params.search_target ?? keyword.search_target), // 수정된 부분
       search_keyword: String(params.search_keyword ?? ''),
     });
-  }, [params.search_keyword, params.search_type]);
+  }, [params.search_keyword, params.search_target]);
 
   const handleSearch = () => {
     if (selOption) {
@@ -128,9 +134,9 @@ const SearchKeyword = ({
       {selOption && ( // selOption이 있다면 Select 컴포넌트를 렌더링
         <Select
           options={selOption}
-          selectedOption={keyword.search_type}
+          selectedOption={keyword.search_target}
           setSelectedOption={({ value }: { value: string }) =>
-            setKeyword({ ...keyword, search_type: value })
+            setKeyword({ ...keyword, search_target: value })
           }
         />
       )}
