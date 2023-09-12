@@ -2,8 +2,9 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { NextPage } from 'next';
 import { useQuery } from 'react-query';
-import { EnvRow, fetchEnvironment } from '@ApiFarm/environment';
+import { fetchEnvironment } from '@ApiFarm/environment';
 import { fetchMenuCategories } from '@ApiFarm/menu';
+import { IEnvironmentResItem } from '@InterfaceFarm/environment';
 import Pagination from '@ComponentFarm/modules/Paginate/Pagination';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Plus } from '@ComponentFarm/atom/icons';
@@ -16,7 +17,9 @@ import RegisterModal from '@ComponentFarm/template/menu/CategoryRegisterModal';
 import { menuListTabInfo } from '@ComponentFarm/template/menu/const';
 import useQueryParams from '@HookFarm/useQueryParams';
 
-const CategoryListPage: NextPage<{ envs: EnvRow[] }> = ({ envs }) => {
+const CategoryListPage: NextPage<{ envs: IEnvironmentResItem[] }> = ({
+  envs,
+}) => {
   const router = useRouter();
 
   const [showRegisterModal, setShowRegisterModal] = useState(false);
@@ -56,6 +59,7 @@ const CategoryListPage: NextPage<{ envs: EnvRow[] }> = ({ envs }) => {
         }
       />
       <Tabs
+        id=""
         tabs={menuListTabInfo}
         activeTabIndex={0}
         onTabChange={handleChangeTab}

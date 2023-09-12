@@ -2,8 +2,8 @@ import React, { useEffect, useMemo } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { useQuery } from 'react-query';
 import { toast } from 'react-toastify';
-import { EnvRow } from '@ApiFarm/environment';
 import { fetchMenuCategories } from '@ApiFarm/menu';
+import { IEnvironmentResItem } from '@InterfaceFarm/environment';
 import { IMenuFormFields } from '@InterfaceFarm/menu';
 import RadioGroup from '@ComponentFarm/modules/RadioGroup/RadioGroup';
 import ErrorTxt from '@ComponentFarm/atom/ErrorTxt/ErrorTxt';
@@ -14,7 +14,7 @@ import { MenuOptionForm } from './OptionForm';
 import { FormStyle } from './style';
 
 interface MenuRegisterFormProps {
-  envs: EnvRow[];
+  envs: IEnvironmentResItem[];
   onSubmit: (formData: IMenuFormFields) => void;
 }
 

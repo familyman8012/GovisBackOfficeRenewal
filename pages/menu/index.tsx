@@ -2,8 +2,9 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { NextPage } from 'next';
 import { useQuery } from 'react-query';
-import { EnvRow, fetchEnvironment } from '@ApiFarm/environment';
+import { fetchEnvironment } from '@ApiFarm/environment';
 import { fetchMenuList } from '@ApiFarm/menu';
+import { IEnvironmentResItem } from '@InterfaceFarm/environment';
 import Pagination from '@ComponentFarm/modules/Paginate/Pagination';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Plus } from '@ComponentFarm/atom/icons';
@@ -17,7 +18,7 @@ import MenuListTable from '@ComponentFarm/template/menu/MenuListTable';
 import useQueryParams from '@HookFarm/useQueryParams';
 
 const MenuListPage: NextPage<{
-  envs: EnvRow[];
+  envs: IEnvironmentResItem[];
 }> = ({ envs }) => {
   const router = useRouter();
   const [pathname] = router.asPath.split('?');
@@ -58,6 +59,7 @@ const MenuListPage: NextPage<{
       />
 
       <Tabs
+        id=""
         tabs={menuListTabInfo}
         activeTabIndex={1}
         onTabChange={handleChangeTab}

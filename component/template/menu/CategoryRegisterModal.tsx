@@ -2,8 +2,8 @@ import React, { useEffect } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
 import { toast } from 'react-toastify';
-import { EnvRow } from '@ApiFarm/environment';
 import { createMenuCategory } from '@ApiFarm/menu';
+import { IEnvironmentResItem } from '@InterfaceFarm/environment';
 import Modal from '@ComponentFarm/modules/Modal/Modal';
 import RadioGroup from '@ComponentFarm/modules/RadioGroup/RadioGroup';
 import ErrorTxt from '@ComponentFarm/atom/ErrorTxt/ErrorTxt';
@@ -11,7 +11,7 @@ import { InnerTable } from '@ComponentFarm/common';
 import useFormOptionsWithEnvs from '@HookFarm/useFormOptionsWithEnvs';
 
 interface Props {
-  envs: EnvRow[];
+  envs: IEnvironmentResItem[];
   show: boolean;
   onClose: () => void;
   onRegister: (id: number) => void;

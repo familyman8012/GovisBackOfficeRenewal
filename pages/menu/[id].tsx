@@ -2,8 +2,9 @@ import { useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
 import { NextPage } from 'next';
 import { useMutation } from 'react-query';
-import { EnvRow, fetchEnvironment } from '@ApiFarm/environment';
+import { fetchEnvironment } from '@ApiFarm/environment';
 import { updateMenuInfo } from '@ApiFarm/menu';
+import { IEnvironmentResItem } from '@InterfaceFarm/environment';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
@@ -20,7 +21,7 @@ const tabs = [
 ];
 
 const MenuDetailPage: NextPage<{
-  envs: EnvRow[];
+  envs: IEnvironmentResItem[];
 }> = ({ envs }) => {
   const router = useRouter();
   const { onBack } = useGoMove();
@@ -57,7 +58,7 @@ const MenuDetailPage: NextPage<{
           </>
         }
       />
-      <Tabs tabs={tabs} activeTabIndex={0} onTabChange={() => {}} />
+      <Tabs id="" tabs={tabs} activeTabIndex={0} onTabChange={() => {}} />
       <MenuUpdateForm
         id={id}
         editable={editable}

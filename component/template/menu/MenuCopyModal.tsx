@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
-import { EnvRow } from '@ApiFarm/environment';
 import { copyMenu } from '@ApiFarm/menu';
+import { IEnvironmentResItem } from '@InterfaceFarm/environment';
 import Modal from '@ComponentFarm/modules/Modal/Modal';
 import ErrorTxt from '@ComponentFarm/atom/ErrorTxt/ErrorTxt';
 import useFormOptionsWithEnvs from '@HookFarm/useFormOptionsWithEnvs';
 import { MenuCopyInputStyle } from './style';
 
 interface Props {
-  envs: EnvRow[];
+  envs: IEnvironmentResItem[];
   show: boolean;
   menu_info_idx?: number;
   onClose: () => void;

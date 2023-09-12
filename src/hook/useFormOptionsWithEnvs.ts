@@ -1,9 +1,9 @@
 import React from 'react';
-import { EnvRow } from '@ApiFarm/environment';
+import { IEnvironmentResItem } from '@InterfaceFarm/environment';
 
 const useFormOptionsWithEnvs = <T extends string>(
   names: readonly T[],
-  envs: EnvRow[]
+  envs: IEnvironmentResItem[]
 ) => {
   return React.useMemo(
     () =>

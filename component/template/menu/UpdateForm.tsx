@@ -2,8 +2,8 @@ import React, { useEffect, useMemo } from 'react';
 import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { useQuery } from 'react-query';
 import { toast } from 'react-toastify';
-import { EnvRow } from '@ApiFarm/environment';
 import { fetchMenu, fetchMenuCategories } from '@ApiFarm/menu';
+import { IEnvironmentResItem } from '@InterfaceFarm/environment';
 import { IMenuFormFields } from '@InterfaceFarm/menu';
 import RadioGroup from '@ComponentFarm/modules/RadioGroup/RadioGroup';
 import ErrorTxt from '@ComponentFarm/atom/ErrorTxt/ErrorTxt';
@@ -16,7 +16,7 @@ import { FormStyle } from './style';
 interface MenuUpdateFormProps {
   id: number;
   editable?: boolean;
-  envs: EnvRow[];
+  envs: IEnvironmentResItem[];
   onSubmit: (formData: IMenuFormFields) => void;
 }
 

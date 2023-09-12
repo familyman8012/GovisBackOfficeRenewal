@@ -1,7 +1,7 @@
 import React from 'react';
-import { EnvRow } from '@ApiFarm/environment';
+import { IEnvironmentResItem } from '@InterfaceFarm/environment';
 
-const useSelectConfigWithEnv = (config: any, envs: EnvRow[]) => {
+const useSelectConfigWithEnv = (config: any, envs: IEnvironmentResItem[]) => {
   return React.useMemo(
     () =>
       config.map((select: any) => {

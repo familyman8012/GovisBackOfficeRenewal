@@ -1,8 +1,9 @@
 import { useRef } from 'react';
 import { NextPage } from 'next';
 import { useMutation } from 'react-query';
-import { EnvRow, fetchEnvironment } from '@ApiFarm/environment';
+import { fetchEnvironment } from '@ApiFarm/environment';
 import { createMenu } from '@ApiFarm/menu';
+import { IEnvironmentResItem } from '@InterfaceFarm/environment';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
@@ -16,7 +17,7 @@ const tabs = [
 ];
 
 const MenuAddPage: NextPage<{
-  envs: EnvRow[];
+  envs: IEnvironmentResItem[];
 }> = ({ envs }) => {
   const formRef = useRef<HTMLFormElement>(null);
   const { onBack } = useGoMove();
@@ -45,7 +46,7 @@ const MenuAddPage: NextPage<{
           </>
         }
       />
-      <Tabs tabs={tabs} activeTabIndex={0} onTabChange={() => {}} />
+      <Tabs id="" tabs={tabs} activeTabIndex={0} onTabChange={() => {}} />
       <MenuRegisterForm
         ref={formRef}
         envs={envs}

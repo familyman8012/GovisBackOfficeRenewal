@@ -1,4 +1,4 @@
-import { EnvRow } from '@ApiFarm/environment';
+import { IEnvironmentResItem } from '@InterfaceFarm/environment';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import Sync from '@ComponentFarm/atom/icons/Sync';
 import { ListFilterStyle } from '@ComponentFarm/common';
@@ -13,7 +13,7 @@ export type keywordType = {
 };
 
 interface ICategoryFilterProps {
-  envs?: EnvRow[];
+  envs?: IEnvironmentResItem[];
   params: QueryParams;
   updateParams: (newParams: QueryParams) => void;
   resetParams: () => void;
