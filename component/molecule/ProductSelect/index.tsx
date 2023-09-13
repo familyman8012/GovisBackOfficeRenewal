@@ -9,7 +9,9 @@ import Empty from '@ComponentFarm/atom/Empty/Empty';
 import { RadioBoxWrap } from '@ComponentFarm/atom/PlainRadio/style';
 import { InnerTable } from '@ComponentFarm/common';
 import useSyncedRef from '@HookFarm/useSyncedRef';
-import SearchKeyword from '../SearchKeyword/SearchKeyword';
+import SearchKeyword, {
+  SearchkeywordType,
+} from '../SearchKeyword/SearchKeyword';
 
 interface ProductSelectProps
   extends Omit<HTMLAttributes<HTMLInputElement>, 'onSelect'> {
@@ -104,11 +106,8 @@ export const ProductSelect = React.forwardRef<
 >(({ className, children, disabled, onSelect, ...formControlProps }, ref) => {
   const refs = useSyncedRef<HTMLInputElement>(ref);
   const [showSelectModal, setShowSelectModal] = useState(false);
-  const [params, setParams] = useState<{
-    search_type?: string;
-    search_keyword: string;
-  }>({
-    search_type: 'product_name_ko',
+  const [params, setParams] = useState<SearchkeywordType>({
+    search_target: 'product_name_ko',
     search_keyword: '',
   });
 
@@ -120,7 +119,7 @@ export const ProductSelect = React.forwardRef<
     ['products', params],
     () =>
       fetchProductList({
-        search_target: params.search_type,
+        search_target: params.search_target,
         search_keyword: params.search_keyword,
         current_num: 1,
         per_num: 9999,

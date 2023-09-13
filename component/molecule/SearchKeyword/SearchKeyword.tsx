@@ -74,6 +74,11 @@ export const SearchKeywordWrap = styled.div`
   }
 `;
 
+export type SearchkeywordType = {
+  search_target?: string;
+  search_keyword: string;
+};
+
 const SearchKeyword = ({
   params,
   selOption,

@@ -8,7 +8,7 @@ import { IEnvironmentResItem } from '@InterfaceFarm/environment';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
-import { MenuUpdateForm } from '@ComponentFarm/template/menu/UpdateForm';
+import { MenuForm } from '@ComponentFarm/template/menu/MenuForm';
 import { useGoMove } from '@HookFarm/useGoMove';
 
 const tabs = [
@@ -59,10 +59,10 @@ const MenuDetailPage: NextPage<{
         }
       />
       <Tabs id="" tabs={tabs} activeTabIndex={0} onTabChange={() => {}} />
-      <MenuUpdateForm
+      <MenuForm
+        ref={formRef}
         id={id}
         editable={editable}
-        ref={formRef}
         envs={envs}
         onSubmit={updateMutate.mutate}
       />

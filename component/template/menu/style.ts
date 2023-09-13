@@ -18,14 +18,15 @@ export const MenuOptionListStyle = styled.section`
     > .view {
       flex: 1;
       padding: 3.2rem;
+      border-left: 1px solid var(--color-neutral90);
     }
   }
+
   .side {
     flex: none;
     min-width: 30rem;
     width: 22.6%;
     padding: 1.6rem;
-    border-right: 1px solid var(--color-neutral90);
     max-height: 50rem;
     overflow-y: auto;
 
@@ -281,6 +282,14 @@ export const FormStyle = css`
     }
   }
 
+  .field5,
+  .field6,
+  .field7 {
+    .box_inp {
+      gap: 1rem 2.5%;
+    }
+  }
+
   .price {
     input {
       margin: 0 0.8rem;
@@ -290,10 +299,6 @@ export const FormStyle = css`
     span {
       font-weight: normal;
       color: var(--color-neutral10);
-    }
-
-    & + .price {
-      margin-left: 5%;
     }
   }
 `;

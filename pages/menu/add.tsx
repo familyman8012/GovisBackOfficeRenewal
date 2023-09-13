@@ -7,7 +7,7 @@ import { IEnvironmentResItem } from '@InterfaceFarm/environment';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
-import { MenuRegisterForm } from '@ComponentFarm/template/menu/RegisterForm';
+import { MenuForm } from '@ComponentFarm/template/menu/MenuForm';
 import { useGoMove } from '@HookFarm/useGoMove';
 
 const tabs = [
@@ -47,11 +47,7 @@ const MenuAddPage: NextPage<{
         }
       />
       <Tabs id="" tabs={tabs} activeTabIndex={0} onTabChange={() => {}} />
-      <MenuRegisterForm
-        ref={formRef}
-        envs={envs}
-        onSubmit={createMutate.mutate}
-      />
+      <MenuForm ref={formRef} envs={envs} onSubmit={createMutate.mutate} />
     </>
   );
 };
