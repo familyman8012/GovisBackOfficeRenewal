@@ -1,7 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
+import { GetStaticProps } from 'next';
+import { useQuery } from 'react-query';
 import { css } from '@emotion/react';
+import { fetchPartnerList } from '@ApiFarm/ material';
+import { fetchEnvironment } from '@ApiFarm/environment';
+import { IEnvironmentRes } from '@InterfaceFarm/environment';
+import { IPartnerRes } from '@InterfaceFarm/material';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import ErrorTxt from '@ComponentFarm/atom/ErrorTxt/ErrorTxt';
 import { Minus } from '@ComponentFarm/atom/icons';
@@ -17,6 +23,8 @@ type FormFields = {
 interface FormProps {
   initialData?: FormFields;
   loading?: boolean;
+  shippingListData: IPartnerRes;
+  area: IEnvironmentRes;
   //   onSubmit: (data: FormFields) => void;
 }
 
@@ -108,7 +116,12 @@ const tabData = [
   },
 ];
 
-const Form: React.FC<FormProps> = ({ initialData, loading }) => {
+const Form: React.FC<FormProps> = ({
+  initialData,
+  loading,
+  shippingListData,
+  area,
+}) => {
   const isEdit = !!initialData;
   const router = useRouter();
   const { id } = router.query;
@@ -116,6 +129,8 @@ const Form: React.FC<FormProps> = ({ initialData, loading }) => {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const [tables, setTables] = useState<Array<string>>([]);
   const [selValue, setSelValue] = useState<IOption | null>(null);
+
+  console.log('area', area, 'shippingListData', shippingListData);
 
   const regions = [
     { id: 'inp1', name: '서울' },
@@ -362,13 +377,62 @@ const Form: React.FC<FormProps> = ({ initialData, loading }) => {
 //   DirectDelivery_inp17: '17',
 // };
 
-const Shipping = () => {
+const Shipping = ({ environment }: { environment: IEnvironmentRes }) => {
+  const partnerCategory = useMemo(
+    () => environment?.list?.find(el => el.code === 'pct_shipping_company'),
+    [environment.list]
+  );
+
+  const area = useMemo(
+    () => environment?.list?.filter(el => el.name === 'area'),
+    [environment.list]
+  );
+
+  const { data: shippingListData } = useQuery(
+    ['shippingList'],
+    () => fetchPartnerList(String(partnerCategory?.environment_variable_idx)),
+    { enabled: !!partnerCategory }
+  );
+
   // Form 컴포넌트 사용 예시
   return (
     <>
-      <Form />
+      {environment && shippingListData && (
+        <Form
+          environment={environment}
+          shippingListData={shippingListData}
+          area={area}
+        />
+      )}
     </>
   );
 };
 
 export default Shipping;
+
+export async function getStaticPaths() {
+  // 기본 경로들
+  const basePaths = [
+    { params: { id: ['add'] } },
+    { params: { id: ['modify'] } },
+    { params: { id: ['view'] } },
+  ];
+
+  return {
+    paths: basePaths,
+    fallback: 'blocking',
+  };
+}
+
+export const getStaticProps: GetStaticProps = async context => {
+  const environment = await fetchEnvironment({
+    name: 'partner_company_type,area',
+  });
+
+  return {
+    props: {
+      environment,
+    },
+    revalidate: 10,
+  };
+};

@@ -72,10 +72,10 @@ const StorySelect2: Story<Props> = args => {
     fruitSelection: IOption | null;
   };
 
-  const defaultSelectedFruit: IOption = { value: 'banana', label: 'Banana' }; // Default value for the Select component
+  const defaultSelectedFruit: IOption = { value: 'banana', label: '셋팅됨' }; // Default value for the Select component
   const { control, handleSubmit, setValue } = useForm<FormData>({
     defaultValues: {
-      fruitSelection: defaultSelectedFruit,
+      fruitSelection: { value: 'banana', label: '셋팅됨' },
     },
   });
 
@@ -89,10 +89,6 @@ const StorySelect2: Story<Props> = args => {
     console.log(data);
   };
 
-  React.useEffect(() => {
-    setValue('fruitSelection', defaultSelectedFruit); // Set the default value on mount
-  }, [setValue]);
-
   return (
     <StoryLayout
       {...args}
@@ -104,7 +100,6 @@ const StorySelect2: Story<Props> = args => {
         <Controller
           name="fruitSelection"
           control={control}
-          defaultValue={defaultSelectedFruit}
           render={({ field }) => (
             <Select
               options={options}
@@ -125,7 +120,7 @@ const StorySelect3: Story<Props> = args => {
     fruitSelection: IOption | null;
   };
 
-  const defaultSelectedFruit: IOption = { value: 'banana', label: 'Banana' }; // Default value for the Select component
+  const defaultSelectedFruit: IOption = { value: 'banana', label: 'apple' }; // Default value for the Select component
   const { control, handleSubmit, setValue } = useForm<FormData>({
     defaultValues: {
       fruitSelection: defaultSelectedFruit,

@@ -1,110 +1,15 @@
 /* eslint-disable camelcase */
 import React from 'react';
+import { useRouter } from 'next/router';
 import { css } from '@emotion/react';
+import { IPartnerRes } from '@InterfaceFarm/material';
 import { Badge } from '@ComponentFarm/atom/Badge/Badge';
 import { Table, TableWrap } from '@ComponentFarm/common';
 
-interface TableData {
-  idx: number;
-  status: number;
-  coupon_name: string;
-  notification_type: number;
-  coupon_type: number;
-  used_qty: number;
-  coupon_qty: number;
-  use_start_dt: string;
-  use_end_dt: string;
-  coupon_idx: number;
-}
-
 interface TableProps {
-  data?: { list: TableData[] };
+  data?: IPartnerRes;
   toggleSort: (sortField: string) => void;
-  onClick: () => void;
 }
-
-const TableArr = [
-  {
-    code: 'S0008',
-    name: 'CJ프레시웨이',
-    count: '97개',
-    created_at: '2021-07-02',
-    updated_at: '2021-07-02',
-    status: '운영',
-  },
-  {
-    code: 'S0007',
-    name: '본사 택배 발송',
-    count: '103개',
-    created_at: '2021-07-02',
-    updated_at: '2021-07-02',
-    status: '중단',
-  },
-  {
-    code: 'S0006',
-    name: '업체 직납',
-    count: '97개',
-    created_at: '2021-07-02',
-    updated_at: '2021-07-02',
-    status: '운영',
-  },
-  {
-    code: 'S0008',
-    name: 'CJ프레시웨이',
-    count: '97개',
-    created_at: '2021-07-02',
-    updated_at: '2021-07-02',
-    status: '운영',
-  },
-  {
-    code: 'S0007',
-    name: '본사 택배 발송',
-    count: '103개',
-    created_at: '2021-07-02',
-    updated_at: '2021-07-02',
-    status: '중단',
-  },
-  {
-    code: 'S0006',
-    name: '업체 직납',
-    count: '97개',
-    created_at: '2021-07-02',
-    updated_at: '2021-07-02',
-    status: '운영',
-  },
-  {
-    code: 'S0008',
-    name: 'CJ프레시웨이',
-    count: '97개',
-    created_at: '2021-07-02',
-    updated_at: '2021-07-02',
-    status: '운영',
-  },
-  {
-    code: 'S0007',
-    name: '본사 택배 발송',
-    count: '103개',
-    created_at: '2021-07-02',
-    updated_at: '2021-07-02',
-    status: '중단',
-  },
-  {
-    code: 'S0006',
-    name: '업체 직납',
-    count: '97개',
-    created_at: '2021-07-02',
-    updated_at: '2021-07-02',
-    status: '운영',
-  },
-  {
-    code: 'S0008',
-    name: 'CJ프레시웨이',
-    count: '97개',
-    created_at: '2021-07-02',
-    updated_at: '2021-07-02',
-    status: '운영',
-  },
-];
 
 const pageStyle = css`
   th {
@@ -141,7 +46,17 @@ const pageStyle = css`
   }
 `;
 
-const ListTable = ({ data, toggleSort, onClick }: TableProps) => {
+const ListTable = ({ data, toggleSort }: TableProps) => {
+  const router = useRouter();
+
+  const handleGoIdxClick = (idx: string) => {
+    // 현재 쿼리 파라미터를 /add 경로에 추가
+    router.push({
+      pathname: `/material/partner/view/${idx}`,
+      query: router.query,
+    });
+  };
+
   return (
     <TableWrap>
       <Table className="basic" css={pageStyle}>
@@ -164,22 +79,20 @@ const ListTable = ({ data, toggleSort, onClick }: TableProps) => {
           </tr>
         </thead>
         <tbody>
-          {TableArr.map((el, i) => (
-            <tr key={el.code} onClick={() => onClick()}>
-              <td className="code">{el.code}</td>
+          {data?.list.map(partner => (
+            <tr
+              key={partner.partner_company_code}
+              onClick={() =>
+                handleGoIdxClick(String(partner.partner_company_idx))
+              }
+            >
+              <td className="code">{partner.partner_company_code}</td>
+              <td>{partner.partner_company_name}</td>
+              <td>{partner.material_count}개</td>
+              <td>{partner.created_date}</td>
+              <td>{partner.updated_date}</td>
               <td>
-                {el.name}
-                <Badge color="orange" size="circle">
-                  N
-                </Badge>
-              </td>
-              <td>{el.count}</td>
-              <td>{el.created_at}</td>
-              <td>{el.updated_at}</td>
-              <td>
-                <Badge dot color={i % 2 === 0 ? 'green' : 'red'}>
-                  {el.status}
-                </Badge>
+                <Badge dot>{partner.evv_partner_company_status}</Badge>
               </td>
             </tr>
           ))}

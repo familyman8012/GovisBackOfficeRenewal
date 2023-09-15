@@ -55,6 +55,30 @@ export const searchOption = [
   },
 ];
 
+type PageModeSettings = {
+  title: string;
+  firstButtonText: string;
+  secondButtonText: string;
+};
+
+export const settingsByMode: Record<string, PageModeSettings> = {
+  add: {
+    title: '제품 등록',
+    firstButtonText: '취소',
+    secondButtonText: '등록',
+  },
+  modify: {
+    title: '제품 상세 정보 수정',
+    firstButtonText: '취소',
+    secondButtonText: '저장',
+  },
+  view: {
+    title: '제품 상세 정보',
+    firstButtonText: '이전',
+    secondButtonText: '수정',
+  },
+};
+
 export const searchStatus = [
   {
     value: '',

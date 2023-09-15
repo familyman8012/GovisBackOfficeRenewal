@@ -15,7 +15,7 @@ export interface IOption {
 
 export interface SelectProps {
   options: IOption[];
-  selectedOption: IOption | string | null;
+  selectedOption: IOption | any | null;
   setSelectedOption: (option: any) => void;
   placeholder?: string;
   LeadingIcon?: React.ReactElement;

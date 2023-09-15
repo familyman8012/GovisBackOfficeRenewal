@@ -1,26 +1,25 @@
 /** 협력업체 Form */
+import { useState } from 'react';
+import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { css } from '@emotion/react';
+import { IEnvironmentRes } from '@InterfaceFarm/environment';
+import { IPartnerSaveReq } from '@InterfaceFarm/material';
 import { AddressSearch } from '@ComponentFarm/modules/AddressSearch/AddressSearch';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import ErrorTxt from '@ComponentFarm/atom/ErrorTxt/ErrorTxt';
+import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import { FormWrap } from '@ComponentFarm/common';
-import { useGoMove } from '@HookFarm/useGoMove';
-
-type FormFields = {
-  partner_company_code: string; // TODO: replace with the actual value
-  partner_company_name: string; // TODO: replace with the actual value
-  business_number: string; // TODO: replace with the actual value
-  business_address: string; // TODO: replace with the actual value
-  evi_partner_company_status: string; // TODO: replace with the actual value
-  partner_company_descriptionType: string; // TODO: replace with the actual value
-};
+import TitleArea from '@ComponentFarm/layout/TitleArea';
+import { convertEnv } from '@UtilFarm/convertEnvironment';
+import { settingsByMode } from './const';
 
 interface FormProps {
-  initialData?: FormFields;
-  loading?: boolean;
+  initialData?: IPartnerSaveReq;
+  environment: IEnvironmentRes;
+  pageMode: string;
   partnerLabel: string;
-  onSubmit: (data: FormFields) => void;
+  submitFunc: (data: IPartnerSaveReq) => void;
 }
 
 const FormStyles = css`
@@ -59,55 +58,98 @@ const FormStyles = css`
 
 const PartnerForm: React.FC<FormProps> = ({
   initialData,
-  loading,
-  onSubmit,
+  environment,
+  pageMode,
+  submitFunc,
   partnerLabel = '',
 }) => {
-  const { onBack } = useGoMove();
-  const isEdit = !!initialData;
-  const isReadOnly = !!initialData;
+  const router = useRouter();
+  const isReadOnly = pageMode === 'view';
+  const [activeTabIndex, setActiveTabIndex] = useState(0);
 
-  const defaultValues = isEdit
-    ? initialData
-    : {
-        partner_company_code: '', // TODO: replace with the actual value
-        partner_company_name: '', // TODO: replace with the actual value
-        business_number: '', // TODO: replace with the actual value
-        business_address: '', // TODO: replace with the actual value
-        evi_partner_company_status: '', // TODO: replace with the actual value
-        partner_company_descriptionType: '', // TODO: replace with the actual value
-      };
+  const tabData = [
+    {
+      title: `${partnerLabel} 등록`,
+    },
+    {
+      title: '변경내역',
+    },
+  ];
+
+  const defaultValues = {
+    ...initialData,
+  } || {
+    evi_partner_company_type: '',
+    partner_company_name: '',
+    business_number: '',
+    business_address: '',
+    evi_partner_company_status: '',
+    partner_company_description: '',
+  };
 
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FormFields>({ defaultValues });
+  } = useForm<IPartnerSaveReq>({ defaultValues });
 
-  const onFormSubmit = handleSubmit(onSubmit);
+  const onFormSubmit = handleSubmit((data: any) => {
+    console.log('submitFunc data', data);
+    submitFunc(data);
+  });
+
+  const onSubmit = () => {
+    if (pageMode !== 'view') {
+      onFormSubmit();
+    } else {
+      router.push({
+        pathname: `/material/partner/modify/${
+          router.query.id !== undefined && router.query.id[1]
+        }`,
+        query: router.query,
+      });
+    }
+  };
+
+  const settingsByModeObj = settingsByMode(partnerLabel);
+  // 현재 mode에 따른 설정 가져오기
+  const currentSettings = settingsByModeObj[pageMode];
 
   return (
-    <FormWrap onSubmit={onFormSubmit} css={FormStyles}>
+    <FormWrap css={FormStyles}>
+      <TitleArea
+        title={currentSettings?.title}
+        BtnBox={
+          <>
+            <Button variant="gostSecondary" onClick={() => router.back()}>
+              {currentSettings?.firstButtonText}
+            </Button>
+            <Button type="button" onClick={onSubmit}>
+              {currentSettings?.secondButtonText}
+            </Button>
+          </>
+        }
+      />
+      <Tabs
+        id="tab_product_detail"
+        tabs={tabData}
+        activeTabIndex={activeTabIndex}
+        onTabChange={index => setActiveTabIndex(index)}
+      />
       <h3>{partnerLabel} 기본 정보</h3>
       <div className="line line1">
         <div className="field field1">
-          <label htmlFor="partner_company_code" className="">
+          <label htmlFor="evi_partner_company_type" className="">
             {partnerLabel} 코드
           </label>
-          <div
-            className={`box_inp ${errors.partner_company_code ? 'error' : ''}`}
-          >
+          <div className="box_inp">
             <input
               type="text"
-              id="partner_company_code"
+              id="evi_partner_company_type"
               className="inp"
               placeholder={`${partnerLabel} 등록 시, 자동 생성`}
               disabled
-              {...register('partner_company_code')}
             />
-            {errors.partner_company_code && (
-              <ErrorTxt>{errors.partner_company_code.message}</ErrorTxt>
-            )}
           </div>
         </div>
         <div className="field field2">
@@ -192,6 +234,13 @@ const PartnerForm: React.FC<FormProps> = ({
               })}
             >
               <option value="">상태 전체</option>
+              {convertEnv('partner_company_status', environment.list).map(
+                el => (
+                  <option key={el.value} value={String(el.value)}>
+                    {el.label}
+                  </option>
+                )
+              )}
             </select>
             {errors.evi_partner_company_status && (
               <ErrorTxt>{errors.evi_partner_company_status.message}</ErrorTxt>
@@ -201,36 +250,34 @@ const PartnerForm: React.FC<FormProps> = ({
       </div>
       <div className="line line4">
         <div className="field field1">
-          <label htmlFor="partner_company_descriptionType" className="">
+          <label htmlFor="partner_company_description" className="">
             {partnerLabel} 설명
           </label>
           <div
             className={`box_inp ${
-              errors.partner_company_descriptionType ? 'error' : ''
+              errors.partner_company_description ? 'error' : ''
             }`}
           >
             <textarea
-              id="partner_company_descriptionType"
+              id="partner_company_description"
               placeholder={`${partnerLabel}에 대한 설명 입력`}
               disabled={isReadOnly}
-              {...register('partner_company_descriptionType')}
+              {...register('partner_company_description')}
             />
-            {errors.partner_company_descriptionType && (
-              <ErrorTxt>
-                {errors.partner_company_descriptionType.message}
-              </ErrorTxt>
+            {errors.partner_company_description && (
+              <ErrorTxt>{errors.partner_company_description.message}</ErrorTxt>
             )}
           </div>
         </div>
       </div>
-      <div className="btn-wrap">
+      {/* <div className="btn-wrap">
         <Button variant="gostSecondary" onClick={() => onBack()}>
           취소
         </Button>
         <Button type="submit" onClick={onFormSubmit}>
           {isEdit ? '수정' : '등록'}
         </Button>
-      </div>
+      </div> */}
     </FormWrap>
   );
 };

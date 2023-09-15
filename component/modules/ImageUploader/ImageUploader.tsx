@@ -10,7 +10,8 @@ const Container = styled.div`
 
 const GrayBox = styled.div`
   overflow: hidden;
-  width: 40rem;
+  width: 100%;
+  max-width: 40rem;
   height: 24.8rem;
   background: var(--color-neutral90);
   box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
@@ -65,24 +66,40 @@ const ImageInput = styled.input`
 `;
 
 export interface ImageUploaderProps {
+  pageMode: string;
+  product_image: string;
   onImageChange?: (file: File) => void;
 }
 
-const ImageUploader: FC<ImageUploaderProps> = ({ onImageChange }) => {
-  const [image, setImage] = useState<File | null>(null);
+const ImageUploader: FC<ImageUploaderProps> = ({
+  pageMode,
+  product_image,
+  onImageChange,
+}) => {
+  const [image, setImage] = useState<File | string | null>(
+    pageMode === 'add' ? null : product_image
+  );
   const imageInputRef = useRef<HTMLInputElement>(null);
 
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file && file.type.startsWith('image/')) {
-      setImage(file);
+      const imageUrl = URL.createObjectURL(file);
+      setImage(imageUrl);
       if (onImageChange) onImageChange(file);
     }
   };
 
+  const imgSelect = () => {
+    if (pageMode !== 'view') {
+      return imageInputRef.current?.click();
+    }
+    return null;
+  };
+
   return (
     <Container>
-      <GrayBox onClick={() => imageInputRef.current?.click()}>
+      <GrayBox onClick={imgSelect}>
         <ImageInput
           type="file"
           ref={imageInputRef}
@@ -93,7 +110,7 @@ const ImageUploader: FC<ImageUploaderProps> = ({ onImageChange }) => {
         {image ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
-            src={URL.createObjectURL(image)}
+            src={typeof image === 'string' ? image : URL.createObjectURL(image)}
             alt="Uploaded"
             style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           />
@@ -104,10 +121,12 @@ const ImageUploader: FC<ImageUploaderProps> = ({ onImageChange }) => {
           </>
         )}
       </GrayBox>
-      <ImageWrapper onClick={() => imageInputRef.current?.click()}>
-        {image ? <Edit /> : <Plus />}
-        <ImageText>{image ? '이미지 수정' : '이미지 추가'}</ImageText>
-      </ImageWrapper>
+      {pageMode !== 'view' && (
+        <ImageWrapper onClick={imgSelect}>
+          {image ? <Edit /> : <Plus />}
+          <ImageText>{image ? '이미지 수정' : '이미지 추가'}</ImageText>
+        </ImageWrapper>
+      )}
     </Container>
   );
 };

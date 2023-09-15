@@ -168,6 +168,18 @@ const reset = css`
     display: none;
   }
 
+  /* Chrome, Safari, Edge, Opera */
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox */
+  input[type='number'] {
+    -moz-appearance: textfield;
+  }
+
   a {
     border: 0;
     cursor: pointer;
@@ -560,6 +572,7 @@ export const FormWrap = styled.div`
   }
   .box_upload_image {
     display: flex;
+    width: 100%;
   }
 `;
 

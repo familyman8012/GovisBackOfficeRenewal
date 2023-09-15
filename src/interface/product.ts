@@ -40,3 +40,40 @@ export interface IProductRes {
   total_count: number;
   list: ProductInfo[];
 }
+
+export interface IProductForm {
+  product_info_idx: number;
+  product_code: string;
+  evi_product_status: string;
+  evi_product_group: string;
+  evi_product_category: string;
+  evi_sale_type: string[];
+  product_name_ko: string;
+  product_name_en: string;
+  product_description: string;
+  sale_start_date: string;
+  sale_end_date: string;
+  product_image: string;
+}
+
+export type IProductFormField = Omit<
+  IProductForm,
+  'product_info_idx' | 'product_code'
+>;
+
+export type IProductFormSaveReq = Omit<
+  IProductForm,
+  'product_info_idx' | 'product_code' | 'sale_end_date'
+>;
+
+export type IProductFormSaveRes = Pick<
+  IProductForm,
+  'product_info_idx' | 'product_code'
+>;
+export type IProductFormViewReq = Pick<IProductForm, 'product_info_idx'>;
+export type IProductFormViewRes = IProductForm;
+export type IProductFormModifyReq = Pick<IProductForm, 'product_info_idx'>;
+export type IProductFormModifyRes = Omit<
+  IProductForm,
+  'product_info_idx' | 'product_code'
+>;

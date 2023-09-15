@@ -1,20 +1,28 @@
 import { useState } from 'react';
+import { useRouter } from 'next/router';
+import { useQuery } from 'react-query';
+import { fetchMaterialList } from '@ApiFarm/ material';
 import Pagination from '@ComponentFarm/modules/Paginate/Pagination';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Export, Plus } from '@ComponentFarm/atom/icons';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
-import IngredientListHandler from '@ComponentFarm/template/product/ingredient/IngredientListHandler';
-import IngredientListTable from '@ComponentFarm/template/product/ingredient/IngredientListTable';
+import MaterialListTable from '@ComponentFarm/template/product/material/MaterialListTable';
 import useQueryParams from '@HookFarm/useQueryParams';
 
 const Manage = () => {
+  const router = useRouter();
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const [params, updateParams, resetParams, toggleSort] = useQueryParams({
-    page: 1,
-    size: 10,
-    search_type: 0,
+    current_num: 1,
+    per_num: 10,
   });
+
+  const { data } = useQuery(['materialList', router.asPath], () =>
+    fetchMaterialList(params)
+  );
+
+  console.log('data', data);
 
   const tabData = [
     {
@@ -47,6 +55,14 @@ const Manage = () => {
     updateParams({ page: pageNumber });
   };
 
+  const handleAddClick = () => {
+    // 현재 쿼리 파라미터를 /add 경로에 추가
+    router.push({
+      pathname: '/material/add',
+      query: router.query,
+    });
+  };
+
   return (
     <>
       <TitleArea
@@ -56,25 +72,27 @@ const Manage = () => {
             <Button variant="gostSecondary" LeadingIcon={<Export />}>
               내보내기
             </Button>
-            <Button LeadingIcon={<Plus />}>원재료 등록</Button>
+            <Button LeadingIcon={<Plus />} onClick={handleAddClick}>
+              원재료 등록
+            </Button>
           </>
         }
       />
       <Tabs
-        id="ingredient"
+        id="material"
         tabs={tabData}
         activeTabIndex={activeTabIndex}
         onTabChange={index => setActiveTabIndex(index)}
       />
-      <IngredientListHandler
+      {/* <MaterialListHandler
         params={params}
         updateParams={updateParams}
         resetParams={resetParams}
-      />
-      <IngredientListTable toggleSort={toggleSort} />
+      /> */}
+      <MaterialListTable data={data} toggleSort={toggleSort} />
       <Pagination
-        pageInfo={[Number(params.page), Number(params.size)]}
-        totalCount={100}
+        pageInfo={[Number(params.current_num), Number(params.per_num)]}
+        totalCount={Number(data?.total_count)}
         handlePageChange={handlePageChange}
       />
     </>

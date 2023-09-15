@@ -11,3 +11,25 @@ export const fetchProductList = async (params?: IProductReq) => {
 
   return response.data.data;
 };
+
+export const fetchProductFormSave = async (params: string) => {
+  const response = await BoRequest.post('/product/info/basic', params);
+  console.log('response', response);
+  return response.data.data;
+};
+
+export const fetchProductFormView = async (params: string) => {
+  const response = await BoRequest.get(`/product/info/basic/${params}`);
+  console.log('response', response);
+  return response.data.data;
+};
+
+export const fetchProductFormModify = async (data: any) => {
+  console.log('params', data);
+  const response = await BoRequest.put(
+    `/product/info/basic/${data.params}`,
+    data.data
+  );
+  console.log('fetchProductFormModify response', response);
+  return response.data.data;
+};

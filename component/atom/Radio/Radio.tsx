@@ -9,7 +9,7 @@ export const sizes = {
 };
 
 interface CheckBoxProps {
-  value?: string;
+  value?: string | number;
   checked?: boolean;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   chksize?: CheckBoxSize;
