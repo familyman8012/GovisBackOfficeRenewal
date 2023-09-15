@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 import React from 'react';
+import { useRouter } from 'next/router';
 import { css } from '@emotion/react';
 import { IProductRes } from '@InterfaceFarm/product';
 import { Badge, BadgeColor } from '@ComponentFarm/atom/Badge/Badge';
@@ -52,6 +53,17 @@ const prdouctStatusBadge: Record<string, BadgeColor> = {
 };
 
 const ManageListTable = ({ data, toggleSort }: TableProps) => {
+  const router = useRouter();
+
+  const handleGoIdxClick = (idx: string) => {
+    // 현재 쿼리 파라미터를 /add 경로에 추가
+    router.push({
+      pathname: `/product/view/${idx}`,
+      query: router.query,
+    });
+  };
+
+  console.log('table_data', data);
   return (
     <TableWrap>
       <Table className="basic" css={pageStyle}>
@@ -71,7 +83,10 @@ const ManageListTable = ({ data, toggleSort }: TableProps) => {
         </thead>
         <tbody>
           {data?.list.map(product => (
-            <tr key={product.product_code}>
+            <tr
+              key={product.product_code}
+              onClick={() => handleGoIdxClick(String(product.product_info_idx))}
+            >
               <td className="code">{product.product_code}</td>
               <td>{product.evi_product_category_str}</td>
               <td>{product.product_name_ko}</td>
@@ -80,9 +95,6 @@ const ManageListTable = ({ data, toggleSort }: TableProps) => {
               <td>{product.sale_end_date}</td>
               <td>{product.created_date}</td>
               <td>{product.updated_date}</td>
-              <select>
-                <option data-code="dd">dds</option>
-              </select>
               <td>
                 <Badge
                   color={prdouctStatusBadge[product.evi_product_status]}

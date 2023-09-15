@@ -83,6 +83,7 @@ export const authStore = observable<IAuthStore>({
       this.permissionCodes = undefined;
       this.permissionList = null;
     }
+    console.log(' this.token', this.token);
   },
   login(authData: ILoginUserResponse) {
     if (Object.keys(authData).length !== 0) {

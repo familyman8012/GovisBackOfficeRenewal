@@ -80,7 +80,7 @@ export const TotalMenu = [
       },
       {
         name: '원재료 관리',
-        path: '/ingredient',
+        path: '/material',
         perm_code: 'material',
         perm_info_idx: 22,
       },

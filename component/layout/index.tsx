@@ -11,7 +11,8 @@ const Fallback = ({ error }: { error: unknown }) => {
   console.log('error', error);
   useEffect(() => {
     if (error) {
-      alert(error);
+      // alert(error);
+      console.log(error);
     }
   }, [error]);
 

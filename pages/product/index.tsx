@@ -21,9 +21,11 @@ const Manage = ({ environment }: { environment: IEnvironmentRes }) => {
     per_num: 10,
   });
 
-  const { data } = useQuery(['productList', params], () =>
+  const { data } = useQuery(['productList', router.asPath], () =>
     fetchProductList(params)
   );
+
+  console.log('data', data);
 
   const tabData = [
     {
@@ -80,7 +82,7 @@ const Manage = ({ environment }: { environment: IEnvironmentRes }) => {
       <ManageListTable data={data} toggleSort={toggleSort} />
       <Pagination
         pageInfo={[Number(params.current_num), Number(params.per_num)]}
-        totalCount={data?.total_count}
+        totalCount={Number(data?.total_count)}
         handlePageChange={handlePageChange}
       />
     </>

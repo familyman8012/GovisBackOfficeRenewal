@@ -1,16 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { toast } from 'react-toastify';
-import { fetchEnvironment } from '@ApiFarm/environment';
 import {
-  fetchProductFormModify,
-  fetchProductFormSave,
-  fetchProductFormView,
-} from '@ApiFarm/product';
+  fetchMaterialCategory,
+  fetchMaterialFormModify,
+  fetchMaterialFormSave,
+  fetchMaterialFormView,
+  fetchPartnerList,
+} from '@ApiFarm/ material';
+import { fetchEnvironment } from '@ApiFarm/environment';
+import { IMaterial } from '@InterfaceFarm/material';
 import { IEnvironmentRes } from '@InterfaceFarm/environment';
-import { IProductForm } from '@InterfaceFarm/product';
-import ProductForm from '@ComponentFarm/template/product/manage/Form';
+import MaterialForm from '@ComponentFarm/template/product/material/Form';
 import useImageUploader from '@HookFarm/useImageUploader';
 
 const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
@@ -21,33 +23,55 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
   const [selectedImgFile, setSelectedImgFile] = useState<File | null>(null);
   const [sendData, setSendData] = useState<any | null>(null);
   const [imgData, status, errorMessage, handler] = useImageUploader();
+  const materialPatnerParams = useMemo(
+    () => environment.list.find(el => el.value === '제조사'),
+    [environment.list]
+  );
 
   // view 일때, 데이터 불러오기
   const { data: viewData } = useQuery(
-    ['productFormView', router.asPath],
-    () => fetchProductFormView(String(id && id[1])),
+    ['materialFormView', router.asPath],
+    () => fetchMaterialFormView(String(id && id[1])),
     {
       enabled: pageMode === 'view',
       cacheTime: 0,
     }
   );
 
+  console.log('viewData', viewData);
+
+  // 분류선택 데이터
+  const { data: materialCategory } = useQuery(
+    ['materialCategory', router.asPath],
+    () => fetchMaterialCategory()
+  );
+
+  // 제조사 데이터
+  const { data: materialPatner } = useQuery(
+    ['partnerList', router.asPath],
+    () =>
+      fetchPartnerList(String(materialPatnerParams?.environment_variable_idx)),
+    { enabled: !!materialPatnerParams }
+  );
+
+  console.log('materialPatner', materialPatner);
+
   // 등록일때, 데이터 저장
-  const saveSubmit = useMutation(fetchProductFormSave, {
+  const saveSubmit = useMutation(fetchMaterialFormSave, {
     onSuccess: () => {
       console.log('성공!');
-      queryClient.invalidateQueries(['productList']);
+      queryClient.invalidateQueries(['materialList']);
     },
   });
 
-  const modifySubmit = useMutation(fetchProductFormModify, {
+  const modifySubmit = useMutation(fetchMaterialFormModify, {
     onSuccess: () => {
       console.log('성공!');
-      queryClient.invalidateQueries(['productList']);
+      queryClient.invalidateQueries(['materialList']);
     },
   });
 
-  const saveFunc = async (submitData: IProductForm) => {
+  const saveFunc = async (submitData: IMaterial) => {
     if (selectedImgFile) {
       const event = { target: { files: [selectedImgFile] } };
       await handler(event as any);
@@ -55,7 +79,7 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
     } else if (
       pageMode === 'modify' &&
       !imgData &&
-      !!submitData.product_image
+      !!submitData.material_image
     ) {
       setSendData(submitData);
     } else {
@@ -67,27 +91,33 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
   // eslint-disable-next-line consistent-return
   useEffect(() => {
     if (pageMode === 'add' && status === 'success' && imgData) {
-      delete sendData.product_code;
-      delete sendData.sale_end_date;
-      sendData.product_image = imgData;
+      sendData.material_image = imgData;
       saveSubmit.mutate(sendData);
-      router.push('/product/');
+      router.push('/material/');
     }
     if (pageMode === 'modify' && status === 'success' && imgData) {
-      sendData.product_image = imgData;
-      delete sendData.product_code;
+      sendData.material_image = imgData;
+      delete sendData.material_code;
       modifySubmit.mutate({
-        params: sendData.product_info_idx,
-        data: sendData,
+        params: sendData.material_info_idx,
+        data: {
+          ...sendData,
+          evi_country: sendData.evi_country.value,
+          pci_manufacturer: sendData.pci_manufacturer.value,
+        },
       });
-      router.push('/product/');
+      router.push('/material/');
     }
-    if (pageMode === 'modify' && !imgData && !!sendData.product_image) {
+    if (pageMode === 'modify' && !imgData && !!sendData.material_image) {
       modifySubmit.mutate({
-        params: sendData.product_info_idx,
-        data: sendData,
+        params: sendData.material_info_idx,
+        data: {
+          ...sendData,
+          evi_country: sendData.evi_country.value,
+          pci_manufacturer: sendData.pci_manufacturer.value,
+        },
       });
-      router.push('/product/');
+      router.push('/material/');
     }
     if (status === 'error') {
       toast.error(errorMessage);
@@ -95,7 +125,7 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
   }, [sendData]);
 
   // onFormSubmit 에 전달할 함수.
-  const submitFunc = (data: IProductForm) => {
+  const submitFunc = (data: any) => {
     saveFunc(data);
   };
 
@@ -112,15 +142,19 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
     );
   }, [id]);
 
+  const isDataChk = !!materialCategory && !!materialPatner;
+
   return (
     <>
-      {(pageMode === 'add' ||
-        (pageMode === 'view' && viewData) ||
-        (pageMode === 'modify' && viewData)) && (
-        <ProductForm
+      {((pageMode === 'add' && isDataChk) ||
+        (pageMode === 'view' && viewData && isDataChk) ||
+        (pageMode === 'modify' && viewData && isDataChk)) && (
+        <MaterialForm
           initialData={pageMode !== 'add' ? viewData : undefined}
           pageMode={pageMode}
           environment={environment}
+          materialCategory={materialCategory}
+          materialPatner={materialPatner}
           setSelectedImgFile={setSelectedImgFile}
           submitFunc={submitFunc}
         />
@@ -147,7 +181,7 @@ export async function getStaticPaths() {
 
 export const getStaticProps = async () => {
   const environment = await fetchEnvironment({
-    name: 'product_status,product_group,product_category,sale_type',
+    name: 'material_product_type,material_storage_type,material_trade_unit,material_spec_unit,taxable,vat,country,material_sale_brand,partner_company_type',
   });
 
   return {

@@ -10,11 +10,11 @@ import { QueryParams } from '@HookFarm/useQueryParams';
 import { dateConfig, searchOption, selectConfig } from './const';
 
 export type keywordType = {
-  search_type?: string;
+  search_target?: string;
   search_keyword: string;
 };
-
 interface IListHandler {
+  category: string;
   params: QueryParams;
   updateParams: (newParams: QueryParams) => void;
   resetParams: () => void;
@@ -39,13 +39,21 @@ const pageListSetting = css`
   }
 `;
 
-const ListFilter = ({ params, updateParams, resetParams }: IListHandler) => {
+const ListFilter = ({
+  category,
+  params,
+  updateParams,
+  resetParams,
+}: IListHandler) => {
+  const selectConfigObj = selectConfig(category);
+  const searchOptionObj = searchOption(category);
+
   const handlerKeyword = (keyword: keywordType) => {
-    if (keyword.search_type) {
-      updateParams({ ...keyword, page: 1 });
+    if (keyword.search_target) {
+      updateParams({ ...keyword, current_num: 1 });
     } else {
-      // search_type이 없을 경우, search_keyword만 사용
-      updateParams({ search_keyword: keyword.search_keyword, page: 1 });
+      // search_target이 없을 경우, search_keyword만 사용
+      updateParams({ search_keyword: keyword.search_keyword, current_num: 1 });
     }
   };
 
@@ -53,7 +61,7 @@ const ListFilter = ({ params, updateParams, resetParams }: IListHandler) => {
     <ListHandlerWrap css={pageListSetting}>
       <div className="line line1">
         <ListFilterSelects
-          selectConfig={selectConfig}
+          selectConfig={selectConfigObj}
           params={params}
           updateParams={updateParams}
         />
@@ -77,7 +85,7 @@ const ListFilter = ({ params, updateParams, resetParams }: IListHandler) => {
         <div className="right">
           <SearchKeyword
             params={params}
-            selOption={searchOption}
+            selOption={searchOptionObj}
             handler={handlerKeyword}
           />
         </div>

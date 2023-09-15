@@ -18,7 +18,7 @@ const useImageUploader = (
   string | null,
   ChangeEventHandler<HTMLInputElement>,
 ] => {
-  const [data, setData] = useState<string>(''); // 업로드된 이미지 URL
+  const [imgData, setImgData] = useState<string>(''); // 업로드된 이미지 URL
   const [status, setStatus] = useState<UploadStatus>('idle'); // 업로드 상태
   const [errorMessage, setErrorMessage] = useState<string | null>(null); // 오류 메시지
 
@@ -66,7 +66,7 @@ const useImageUploader = (
 
       try {
         const imageUrl = await uploadToS3(file, fileName);
-        setData(imageUrl);
+        setImgData(imageUrl);
         setStatus('success');
       } catch (error: any) {
         console.error('Failed to upload image:', error);
@@ -77,7 +77,7 @@ const useImageUploader = (
     [path]
   );
 
-  return [data, status, errorMessage, handler];
+  return [imgData, status, errorMessage, handler];
 };
 
 export default useImageUploader;

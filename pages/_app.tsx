@@ -1,4 +1,4 @@
-import { ReactElement, ReactNode, useEffect } from 'react';
+import { ReactElement, ReactNode, useEffect, useMemo } from 'react';
 import type { AppProps } from 'next/app';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { NextPage } from 'next';
@@ -31,25 +31,29 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
 
   const getLayout = Component.getLayout ?? (page => <Layout>{page}</Layout>);
 
-  const queryClient = new QueryClient({
-    defaultOptions: {
-      queries: {
-        onError: (error: unknown) => {
-          const { code, message } = error as ServerError;
-          errorHandler(code, message);
-        },
-        refetchOnWindowFocus: false,
-        retry: false,
-      },
+  const queryClient = useMemo(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            onError: (error: unknown) => {
+              const { code, message } = error as ServerError;
+              errorHandler(code, message);
+            },
+            refetchOnWindowFocus: false,
+            retry: false,
+          },
 
-      mutations: {
-        onError: (error: unknown) => {
-          const { code, message } = error as ServerError;
-          errorHandler(code, message);
+          mutations: {
+            onError: (error: unknown) => {
+              const { code, message } = error as ServerError;
+              errorHandler(code, message);
+            },
+          },
         },
-      },
-    },
-  });
+      }),
+    []
+  );
 
   return (
     <QueryClientProvider client={queryClient}>

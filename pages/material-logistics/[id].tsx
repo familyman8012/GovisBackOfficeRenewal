@@ -12,7 +12,7 @@ const LogisticsDetailPage = () => {
   return (
     <>
       <TitleArea title="물류사 관리" BtnBox={<></>} />
-      <Tabs tabs={tabData} activeTabIndex={0} onTabChange={() => {}} />
+      <Tabs id="tab" tabs={tabData} activeTabIndex={0} onTabChange={() => {}} />
       <PartnerForm
         initialData={{
           partner_company_code: '123',
@@ -22,6 +22,7 @@ const LogisticsDetailPage = () => {
           partner_company_descriptionType: '1',
           evi_partner_company_status: '1',
         }}
+        pageMode="view"
         partnerLabel="물류사"
         onSubmit={data => console.log('submited Data: ', data)}
       />
