@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import { UseFormRegisterReturn } from 'react-hook-form';
 import styled from '@emotion/styled';
 import { theme } from '@ComponentFarm/theme';
+import { FONT } from '@ComponentFarm/token';
 
 export interface IcoInputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
@@ -36,33 +37,33 @@ const InputContainer = styled.div<{ leadingText?: string }>`
   align-items: ${props => (props.leadingText ? 'center' : '')};
 
   svg {
-    width: 17px;
-    height: 17px;
+    width: 1.7rem;
+    height: 1.7rem;
   }
 `;
 
 const IconContainer = styled.div`
   width: 100%;
-  height: 44px;
+  height: 4.4rem;
   position: absolute;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 14px;
+  padding: 0 1.4rem;
   pointer-events: none;
 `;
 
 const LeadingTextContainer = styled.div<{ disabled?: boolean }>`
   display: flex;
   align-items: center;
-  height: 44px;
+  height: 4.4rem;
   font-size: ${theme.fontSize.md[0]};
   color: ${theme.colors.gray500};
-  padding-left: 14px;
-  padding-right: 14px;
+  padding-left: 1.4rem;
+  padding-right: 1.4rem;
   border: 1px solid ${theme.colors.gray300};
-  border-top-left-radius: 8px;
-  border-bottom-left-radius: 8px;
+  border-top-left-radius: 0.8rem;
+  border-bottom-left-radius: 0.8rem;
   background-color: ${props =>
     props.disabled ? theme.colors.gray50 : theme.colors.white};
 `;
@@ -71,16 +72,16 @@ const IcoInputComponent = styled.input<IcoInputComponentProps>`
   width: 100%;
   cursor: text;
   color: ${theme.colors.gray900};
-  font-size: ${theme.fontSize.md[0]};
+  font-size: ${FONT.size4};
   border: 1px solid
     ${props => (props.error ? theme.colors.error300 : theme.colors.gray300)};
-  height: 44px;
+  height: 4.4rem;
   padding-left: ${props => (props.LeadingIcon ? '36px' : '0.75rem')};
   padding-right: ${props => (props.TrailingIcon ? '36px' : '0.75rem')};
-  border-top-left-radius: ${props => (props.leadingText ? '0px' : '8px')};
-  border-bottom-left-radius: ${props => (props.leadingText ? '0px' : '8px')};
-  border-top-right-radius: 8px;
-  border-bottom-right-radius: 8px;
+  border-top-left-radius: ${props => (props.leadingText ? '0px' : '0.8rem')};
+  border-bottom-left-radius: ${props => (props.leadingText ? '0px' : '0.8rem')};
+  border-top-right-radius: 0.8rem;
+  border-bottom-right-radius: 0.8rem;
   background-color: ${props =>
     props.disabled ? theme.colors.gray50 : theme.colors.white};
   transition:
@@ -91,8 +92,8 @@ const IcoInputComponent = styled.input<IcoInputComponentProps>`
     outline: none;
     box-shadow: ${props =>
       props.error
-        ? `0 0 0 3px ${theme.colors.error100}`
-        : `0 0 0 3px ${theme.colors.primary100}`};
+        ? `0 0 0 0.3rem ${theme.colors.error100}`
+        : `0 0 0 0.3rem ${theme.colors.primary100}`};
     border-color: ${props =>
       props.error ? theme.colors.error300 : theme.colors.primary300};
   }

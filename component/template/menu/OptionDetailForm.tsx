@@ -238,7 +238,7 @@ const MenuOptionDetail = ({
                     <span>원(KRW)</span>
                   </div>
                   <div className="price">
-                    <span>정상가</span>
+                    <span>할인가</span>
                     <input
                       {...register(`${formKey}.visit_discount_price`, {
                         required: true,
@@ -278,7 +278,7 @@ const MenuOptionDetail = ({
                     <span>원(KRW)</span>
                   </div>
                   <div className="price">
-                    <span>정상가</span>
+                    <span>할인가</span>
                     <input
                       {...register(`${formKey}.takeout_discount_price`, {
                         required: true,
@@ -318,7 +318,7 @@ const MenuOptionDetail = ({
                     <span>원(KRW)</span>
                   </div>
                   <div className="price">
-                    <span>정상가</span>
+                    <span>할인가</span>
                     <input
                       {...register(`${formKey}.delivery_discount_price`, {
                         required: true,

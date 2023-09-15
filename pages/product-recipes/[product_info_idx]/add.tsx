@@ -1,92 +1,17 @@
-import { useForm } from 'react-hook-form';
-import { css } from '@emotion/react';
+import { useRef } from 'react';
+import { NextPage } from 'next';
+import { fetchEnvironment } from '@ApiFarm/environment';
+import { IEnvironmentResItem } from '@InterfaceFarm/environment';
 import { Button } from '@ComponentFarm/atom/Button/Button';
-import { Plus } from '@ComponentFarm/atom/icons';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
-import { FormWrap } from '@ComponentFarm/common';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
-import RecipeStep from '@ComponentFarm/RecipeStep';
+import RecipeForm from '@ComponentFarm/template/recipe/RecipeForm';
 import { RegisterRecipeWrap } from '@ComponentFarm/template/recipe/style';
 
-const recipeFormStyles = css`
-  width: 100%;
-  margin: 0;
-
-  [class^='field'] {
-    display: flex;
-    flex-wrap: wrap;
-
-    label {
-      margin-right: 3.2rem;
-      color: var(--color-gray500);
-      font-weight: 600;
-      font-size: 1.4rem;
-      max-width: 280px;
-    }
-
-    p {
-      flex: none;
-      width: 100%;
-    }
-  }
-
-  .line {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6.6rem;
-  }
-
-  .line1 {
-    .field1,
-    .group {
-      flex: 1;
-    }
-  }
-
-  .field1 {
-    justify-content: space-between;
-  }
-
-  .field1,
-  .field2,
-  .field3 {
-    .box_upload_image,
-    .inp {
-      flex: 1;
-    }
-  }
-
-  .field3 {
-    flex-wrap: nowrap;
-  }
-
-  .group {
-    flex: none;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    gap: 2.4rem 0;
-  }
-
-  h4 {
-    padding-bottom: 1rem;
-    border-bottom: 1px solid #ddd;
-  }
-`;
-
-const RecipeDetailPage = () => {
-  const defaultValues = {
-    name: '', // TODO: replace with the actual value
-    group: '', // TODO: replace with the actual value,
-    kind: '', // TODO: replace with the actual value,
-    product_name_ko: '', // TODO: replace with the actual value,
-    product_name_en: '', // TODO: replace with the actual value,
-    desc: '', // TODO: replace with the actual value
-  };
-
-  const { register, control, handleSubmit } = useForm({
-    defaultValues,
-  });
+const RecipeDetailPage: NextPage<{ envs: IEnvironmentResItem[] }> = ({
+  envs,
+}) => {
+  const formRef = useRef<HTMLFormElement>(null);
 
   return (
     <RegisterRecipeWrap>
@@ -95,11 +20,14 @@ const RecipeDetailPage = () => {
         BtnBox={
           <>
             <Button variant="gostSecondary">이전</Button>
-            <Button>저장</Button>
+            <Button onClick={() => formRef.current?.requestSubmit()}>
+              저장
+            </Button>
           </>
         }
       />
       <Tabs
+        id="recipe-detail-tab"
         tabs={[
           {
             title: '제품 상세',
@@ -114,8 +42,8 @@ const RecipeDetailPage = () => {
         activeTabIndex={1}
         onTabChange={index => {}}
       />
-
-      <section>
+      <RecipeForm ref={formRef} envs={envs} onSubmit={() => {}} />
+      {/* <section>
         <h3>레시피 기본 정보</h3>
 
         <FormWrap
@@ -167,24 +95,18 @@ const RecipeDetailPage = () => {
                 <label htmlFor="time-min" className="req">
                   총 제조 시간
                 </label>
-                <div className="time-input">
-                  <input
-                    type="text"
-                    id="time-min"
-                    className="inp"
-                    placeholder="예: 03"
-                    {...register('name', { required: '필수 입력항목입니다.' })}
-                  />
-                  <span>분</span>
-                  <input
-                    type="text"
-                    id="time-sec"
-                    className="inp"
-                    placeholder="예: 45"
-                    {...register('name', { required: '필수 입력항목입니다.' })}
-                  />
-                  <span>초</span>
-                </div>
+                <Controller
+                  name="asd"
+                  control={control}
+                  render={() => (
+                    <TimeSecondInput
+                      value={1}
+                      onChange={val => {
+                        console.log(val);
+                      }}
+                    />
+                  )}
+                />
               </div>
             </div>
           </div>
@@ -193,7 +115,6 @@ const RecipeDetailPage = () => {
       <section className="recipe-steps">
         <h3>레시피 단계별 레시피 정보</h3>
         <div className="left">
-          {/** TODO: tab component */}
           <div className="steps">
             <ul>
               <li>도우</li>
@@ -209,9 +130,43 @@ const RecipeDetailPage = () => {
         <div className="right">
           <RecipeStep control={control} />
         </div>
-      </section>
+      </section> */}
     </RegisterRecipeWrap>
   );
+};
+
+export const getStaticPaths = async () => {
+  return {
+    paths: [
+      {
+        params: {
+          product_info_idx: ':id',
+        },
+      },
+    ],
+    fallback: 'blocking',
+  };
+};
+
+export const getStaticProps = async () => {
+  const props = await fetchEnvironment({
+    name: [
+      'product_group',
+      'product_category',
+      'product_status',
+      'recipe_status',
+      'recipe_step_topping_type',
+      'recipe_material_meterage_unit',
+      'recipe_material_quantity_unit',
+    ].join(','),
+  });
+
+  return {
+    props: {
+      envs: props.list,
+    },
+    revalidate: 10,
+  };
 };
 
 export default RecipeDetailPage;

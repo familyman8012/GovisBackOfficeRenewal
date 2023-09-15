@@ -633,9 +633,13 @@ export const Table = styled.table`
 
 export const InnerTable = styled.table<{
   bordered?: boolean;
+  fullWidth?: boolean;
 }>`
-  min-width: 100%;
-  width: auto;
+  ${props => css`
+    width: ${props.fullWidth ? '100%' : 'auto'};
+    min-width: ${props.fullWidth ? '0' : '100%'};
+  `}
+
   text-align: left;
   table-layout: fixed;
   border-spacing: 0;

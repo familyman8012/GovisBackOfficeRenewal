@@ -5,7 +5,7 @@ import { Plus } from '@ComponentFarm/atom/icons';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import { FormWrap } from '@ComponentFarm/common';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
-import RecipeStep from '@ComponentFarm/RecipeStep';
+import RecipeStep from '@ComponentFarm/template/recipe/RecipeStep';
 import { RegisterRecipeWrap } from '@ComponentFarm/template/recipe/style';
 
 const recipeFormStyles = css`
@@ -100,10 +100,10 @@ const RecipeDetailPage = () => {
         }
       />
       <Tabs
+        id="recipe-detail-tab"
         tabs={[
           {
             title: '제품 상세',
-            label: '164',
           },
           {
             title: '레시피 정보',

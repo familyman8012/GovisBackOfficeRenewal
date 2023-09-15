@@ -22,7 +22,6 @@ export const MenuOptionForm = React.forwardRef<
   >({
     name: 'menu_categories',
     control,
-    shouldUnregister: true,
   });
 
   const groups = watch('menu_categories');

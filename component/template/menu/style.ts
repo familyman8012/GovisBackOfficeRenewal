@@ -7,6 +7,7 @@ export const MenuOptionListStyle = styled.section`
   h2 {
     margin-bottom: 0;
   }
+
   .wrap {
     border-radius: 0.4rem;
     min-height: 46.6rem;
@@ -29,6 +30,7 @@ export const MenuOptionListStyle = styled.section`
     padding: 1.6rem;
     max-height: 50rem;
     overflow-y: auto;
+    max-width: 40rem;
 
     > button {
       width: 100%;
@@ -90,6 +92,23 @@ export const MenuOptionGroupStyle = styled.div`
     &:active {
       background-color: var(--color-gray4);
     }
+  }
+
+  &.option + .option {
+    margin-top: 0.4rem;
+  }
+
+  &.option .header {
+    margin: 0;
+    padding: 0 0.8rem;
+    border-radius: 0.4rem;
+    cursor: pointer;
+    width: 100%;
+    background: transparent;
+  }
+
+  &.active .header {
+    background-color: var(--color-gray4);
   }
 
   .dropdown {
@@ -166,11 +185,16 @@ export const MenuOptionGroupStyle = styled.div`
 `;
 
 export const MenuOptionDetailStyle = styled.div`
+  h3 {
+    padding: 0;
+    margin-bottom: 1.2rem;
+  }
+
   .header {
     display: flex;
-
     justify-content: space-between;
     margin-bottom: 12px;
+    gap: 0 0.8rem;
     input {
       border-radius: 0.4rem;
       max-width: 74.6rem;

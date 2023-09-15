@@ -5,7 +5,7 @@ import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Select } from '@ComponentFarm/atom/Select/Select';
 import { InnerTable } from '@ComponentFarm/common';
 import IngredientSelect from '@ComponentFarm/molecule/IngredientSelect';
-import { RecipeStepWrap } from './template/recipe/style';
+import { RecipeStepWrap } from './style';
 
 interface Props {
   control: Control<any>;

@@ -101,36 +101,6 @@ const MenuOptionCategory = ({
   const isLoading =
     createMenuCategory.isLoading || updateMenuCategory.isLoading;
 
-  const checkSaveHandler = useCallback(() => {
-    if (isLoading) return;
-    if (!menu_info_idx) {
-      setCanEditName(false);
-      return;
-    }
-
-    if (categoryFormData.menu_option_category_idx) {
-      updateMenuCategory.mutate({
-        menu_option_category_idx: categoryFormData.menu_option_category_idx,
-        menu_option_category_name: categoryFormData.menu_option_category_name,
-      });
-    } else {
-      createMenuCategory.mutate({
-        menu_info_idx: menu_info_idx ?? -1,
-        menu_option_category_name: categoryFormData.menu_option_category_name,
-      });
-    }
-  }, [categoryFormData, menu_info_idx, isLoading]);
-
-  const checkRemoveHandler = useCallback(async () => {
-    if (isLoading) return;
-    if (!menu_info_idx || !categoryFormData.menu_option_category_idx) {
-      onRemoveCategory();
-      return;
-    }
-
-    removeMenuCategory.mutate(categoryFormData.menu_option_category_idx ?? -1);
-  }, [categoryFormData, menu_info_idx, isLoading, onRemoveCategory]);
-
   const checkCreateOptionInfoHandler = useCallback(async () => {
     const { menu_option_category_idx } = categoryFormData;
 
@@ -156,6 +126,44 @@ const MenuOptionCategory = ({
 
     onSelectOption([index, categoryFormData.menu_options.length - 1]);
   }, [onSelectOption, categoryFormData, index]);
+
+  const checkSaveHandler = useCallback(() => {
+    if (isLoading) return;
+    if (!menu_info_idx) {
+      setCanEditName(false);
+      checkCreateOptionInfoHandler();
+      return;
+    }
+
+    if (categoryFormData.menu_option_category_idx) {
+      updateMenuCategory.mutate({
+        menu_option_category_idx: categoryFormData.menu_option_category_idx,
+        menu_option_category_name: categoryFormData.menu_option_category_name,
+      });
+    } else {
+      createMenuCategory
+        .mutateAsync({
+          menu_info_idx: menu_info_idx ?? -1,
+          menu_option_category_name: categoryFormData.menu_option_category_name,
+        })
+        .then(checkCreateOptionInfoHandler);
+    }
+  }, [
+    categoryFormData,
+    menu_info_idx,
+    isLoading,
+    checkCreateOptionInfoHandler,
+  ]);
+
+  const checkRemoveHandler = useCallback(async () => {
+    if (isLoading) return;
+    if (!menu_info_idx || !categoryFormData.menu_option_category_idx) {
+      onRemoveCategory();
+      return;
+    }
+
+    removeMenuCategory.mutate(categoryFormData.menu_option_category_idx ?? -1);
+  }, [categoryFormData, menu_info_idx, isLoading, onRemoveCategory]);
 
   const handleEnterKeydown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {

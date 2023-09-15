@@ -16,9 +16,6 @@ interface Props {
   onRegister: (menu_info_idx: number) => void;
 }
 
-/**
- * @TODO type define
- */
 const MenuCopyModal = ({
   envs,
   show,
@@ -26,10 +23,7 @@ const MenuCopyModal = ({
   onClose,
   onRegister,
 }: Props) => {
-  const { menu_group } = useFormOptionsWithEnvs<'menu_group'>(
-    ['menu_group'],
-    envs
-  );
+  const { menu_group } = useFormOptionsWithEnvs(['menu_group'], envs);
 
   const {
     register,

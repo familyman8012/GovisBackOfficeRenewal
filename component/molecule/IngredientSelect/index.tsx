@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useQuery } from 'react-query';
 import styled from '@emotion/styled';
 import Modal from '@ComponentFarm/modules/Modal/Modal';
 import { Button } from '@ComponentFarm/atom/Button/Button';
@@ -12,12 +13,15 @@ interface Props {
 }
 
 const IngredientModalContent = styled.div`
-  margin: -1em;
-  padding: 2.4rem;
+  max-width: 87.4rem;
+  width: 100vh;
+  /* margin: -1em; */
+  /* padding: 2.4rem; */
 
   .search {
     display: flex;
     align-items: center;
+    height: 6.4rem;
 
     &:not(:first-child) {
       flex: 1;
@@ -35,12 +39,12 @@ const IngredientModalContent = styled.div`
       border-right: inherit;
       border-bottom: 0;
       background-color: var(--table-headerBackground);
-      height: 6.4rem;
+      height: 100%;
     }
 
     > div {
       flex: 1;
-      padding: 1rem;
+      margin: 1rem;
     }
   }
 
@@ -132,6 +136,35 @@ const IngredientRow = ({
 const IngredientSelect = ({ onSelect }: Props) => {
   const [open, setOpen] = useState(false);
   const [searchKeyword, setSearchKeyword] = useState('');
+
+  const [params, setParams] = useState<SearchkeywordType>({
+    search_target: 'product_name_ko',
+    search_keyword: '',
+  });
+
+  const [selectedIngredientList, setSelectedIngredientList] = useState<any[]>(
+    []
+  );
+
+  const { data, isIdle, isFetching } = useQuery(
+    ['ingredient-list', params],
+    () =>
+      fetchIngr({
+        search_target: params.search_target,
+        search_keyword: params.search_keyword,
+        current_num: 1,
+        per_num: 9999,
+      }),
+    {
+      enabled: showSelectModal && !!params.search_keyword,
+    }
+  );
+
+  const handleOpen = React.useCallback(() => setShowSelectModal(true), []);
+  const handleClose = React.useCallback(() => {
+    setOpen(false);
+    setSelectedProduct(null);
+  }, []);
 
   return (
     <>

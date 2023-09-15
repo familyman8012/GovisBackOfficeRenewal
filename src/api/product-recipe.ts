@@ -1,20 +1,32 @@
-import { BoV2Request } from '../src/api/index';
+import {
+  IRecipeListItem,
+  IRecipeProductListItem,
+} from '@InterfaceFarm/product-recipe';
+import { BoV2Request } from './index';
 
-/**
- * @TODO type definition
- */
 export const fetchRecipeProductList = async (params: any) => {
-  return BoV2Request.get(`/recipe/info/list`).then(res => res.data.data);
+  return BoV2Request.get<
+    IResponse<{
+      list: IRecipeProductListItem[];
+      total_count: number;
+    }>
+  >(`/recipe/info/list`, { params }).then(res => res.data.data);
 };
 
-export const fetchRecipeProduct = async (id: string) => {
-  return BoV2Request.get(`/recipe/info/detail/product/${id}`).then(
-    res => res.data.data
-  );
+export const fetchProductRecipeList = async (
+  product_info_idx: number | string
+) => {
+  return BoV2Request.get<
+    IResponse<{
+      list: IRecipeListItem[];
+    }>
+  >(`/recipe/info/detail/list/${product_info_idx}`).then(res => res.data.data);
 };
 
 export const fetchRecipeList = async (id: string) => {
-  BoV2Request.get(`/recipe/info/detail/list/${id}`).then(res => res.data.data);
+  return BoV2Request.get(`/recipe/info/detail/list/${id}`).then(
+    res => res.data.data
+  );
 };
 
 export const fetchRecipeBasicInfo = async ({
@@ -48,7 +60,7 @@ export const registerRecipeStep = async ({
   recipe_info_idx,
   ...formData
 }: any) => {
-  BoV2Request.post(
+  return BoV2Request.post(
     `/recipe/info/detail/${product_info_idx}/basic/${recipe_info_idx}/step`,
     formData
   ).then(res => res.data.data);
