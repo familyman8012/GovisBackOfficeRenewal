@@ -382,6 +382,10 @@ const reset = css`
     ${DateInputWrapper} input {
       border: none;
     }
+
+    .no-image {
+      border: 1px solid var(--color-red50);
+    }
   }
 
   .box_checkbox_group,
@@ -535,6 +539,9 @@ export const FormWrap = styled.div`
     font-weight: 600;
     line-height: 2rem;
   }
+
+  th,
+  td,
   label {
     &:not(.label_radio):not(.label_check) {
       flex: none;

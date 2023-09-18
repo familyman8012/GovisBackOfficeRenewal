@@ -18,10 +18,6 @@ const TimeInputStyle = styled.div`
   }
 `;
 
-/**
- * min, sec을 입력받아 time second string으로 변환 어떤 텍스트를 입력해도 숫자만 입력되도록 해야하고 min, sec을 입력받아 time second string으로 변환해서 onChange로 넘겨줘야함
- */
-
 interface Props {
   value: string | number;
   onChange: (value: string) => void;

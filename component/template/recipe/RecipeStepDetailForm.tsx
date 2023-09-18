@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { Controller, useFieldArray, useFormContext } from 'react-hook-form';
 import { IEnvironmentResItem } from '@InterfaceFarm/environment';
 import { IRecipeFormFields } from '@InterfaceFarm/product-recipe';
@@ -31,7 +31,7 @@ const RecipeStepDetail = ({
   stepIndex,
   onChangeView,
 }: RecipeStepDetailProps) => {
-  const { register, control, setValue, formState, watch } =
+  const { register, control, formState, watch } =
     useFormContext<IRecipeFormFields>();
 
   const options = useFormOptionsWithEnvs(
@@ -44,71 +44,26 @@ const RecipeStepDetail = ({
     envs
   );
 
-  const recipe_info_idx = watch('recipe_info_idx');
   const formKey = `recipe_steps.${stepIndex}` as `recipe_steps.${number}`;
-  const stepFormData = watch(formKey);
+  const recipe_info_idx = watch('recipe_info_idx');
+  // const stepFormData = watch(formKey);
 
-  const { append, fields } = useFieldArray<
+  const { append, remove, fields } = useFieldArray<
     IRecipeFormFields,
     `recipe_steps.${number}.recipe_material_list`
   >({
     name: `${formKey}.recipe_material_list`,
   });
 
-  const recipe_step_idx = useMemo(
-    () => stepFormData.recipe_step_idx,
-    [stepFormData]
-  );
-
   const isShow = useMemo(
     () => currentView === stepIndex,
     [currentView, stepIndex]
   );
 
-  // const canUpdateOptionInfo = useMemo(
-  //   () => !!(recipe_info_idx && recipe_step_idx),
-  //   [recipe_info_idx, recipe_step_idx]
-  // );
-
   const errors = useMemo(
-    () => formState.errors.recipe_steps?.[recipe_step_idx ?? -1],
-    [formState, recipe_step_idx]
+    () => formState.errors.recipe_steps?.[stepIndex ?? -1],
+    [formState, stepIndex]
   );
-
-  // useQuery(
-  //   ['menu-option-info', menu_option_info_idx],
-  //   () => fetchMenuOptionInfo(menu_option_info_idx ?? -1),
-  //   {
-  //     enabled: isShow && !!menu_option_info_idx,
-  //     onSuccess: data => setValue(formKey, data),
-  //   }
-  // );
-
-  // const updateOptionInfo = useMutation(updateMenuOptionInfo, {
-  //   onSuccess: () => {
-  //     toast.info('옵션 정보가 수정되었습니다.');
-  //   },
-  // });
-
-  // const createOptionInfo = useMutation(createMenuOptionInfo, {
-  //   onSuccess: data => {
-  //     toast.info('옵션 정보가 저장되었습니다.');
-  //     setValue(`${formKey}.menu_option_info_idx`, data.menu_option_info_idx);
-  //   },
-  // });
-
-  // const removeOptionInfo = useMutation(removeMenuOptionInfo, {
-  //   onSuccess: () => {
-  //     toast.info('옵션 정보가 삭제되었습니다.');
-  //   },
-  // });
-
-  const handleUpdateOptionInfo = useCallback(async () => {}, [stepFormData]);
-
-  const handleRemoveOptionInfo = useCallback(async () => {}, [
-    recipe_step_idx,
-    stepIndex,
-  ]);
 
   return (
     <MenuOptionDetailStyle style={{ display: isShow ? '' : 'none' }}>
@@ -121,6 +76,25 @@ const RecipeStepDetail = ({
               <col />
             </colgroup>
             <tbody>
+              <tr>
+                <th className="req">레시피 단계명</th>
+                <td>
+                  <div
+                    className={`box_inp ${
+                      errors?.recipe_step_name ? 'error' : ''
+                    }`}
+                  >
+                    <input
+                      type="text"
+                      className="inp"
+                      {...register(`${formKey}.recipe_step_name`, {
+                        required: true,
+                      })}
+                    />
+                    <ErrorTxt error={errors?.recipe_step_name} />
+                  </div>
+                </td>
+              </tr>
               <tr>
                 <th>토핑 종류</th>
                 <td>
@@ -140,10 +114,17 @@ const RecipeStepDetail = ({
               <tr>
                 <th>토핑 완성 이미지</th>
                 <td>
-                  <div className="box_inp">
+                  <div
+                    className={`box_inp ${
+                      errors?.topping_image ? 'error' : ''
+                    }`}
+                  >
                     <SelectFileButton
-                      {...register(`${formKey}.topping_image`)}
+                      {...register(`${formKey}.initial_topping_image`, {
+                        required: !!recipe_info_idx,
+                      })}
                     />
+                    <ErrorTxt error={errors?.topping_image} />
                   </div>
                 </td>
               </tr>
@@ -154,23 +135,31 @@ const RecipeStepDetail = ({
                   </label>
                 </th>
                 <td>
-                  <Controller
-                    control={control}
-                    name={`${formKey}.manufacturing_time`}
-                    rules={{
-                      validate: val =>
-                        !val ||
-                        (typeof val === 'string' ? parseInt(val, 10) : val) >
-                          0 ||
-                        '총 제조 시간은 0보다 커야합니다.',
-                    }}
-                    render={({ field: { value, onChange } }) => (
-                      <TimeSecondInput
-                        value={value ?? ''}
-                        onChange={onChange}
-                      />
-                    )}
-                  />
+                  <div
+                    className={`box_inp ${
+                      errors?.manufacturing_time ? 'error' : ''
+                    }`}
+                  >
+                    <Controller
+                      control={control}
+                      name={`${formKey}.manufacturing_time`}
+                      defaultValue={0}
+                      rules={{
+                        validate: val =>
+                          !val ||
+                          (typeof val === 'string' ? parseInt(val, 10) : val) >
+                            0 ||
+                          '총 제조 시간은 0보다 커야합니다.',
+                      }}
+                      render={({ field: { value, onChange } }) => (
+                        <TimeSecondInput
+                          value={value ?? ''}
+                          onChange={onChange}
+                        />
+                      )}
+                    />
+                    <ErrorTxt error={errors?.manufacturing_time} />
+                  </div>
                 </td>
               </tr>
             </tbody>
@@ -180,7 +169,26 @@ const RecipeStepDetail = ({
           <h3>원재료 정보</h3>
           <div className="ingredient-table-wrap">
             <div className="ingredient-buttons">
-              <IngredientSelect onSelect={() => {}} />
+              <IngredientSelect
+                onSelect={selectedItems => {
+                  append(
+                    selectedItems.map(item => ({
+                      material_image: item.material_image,
+                      material_name_ko: item.material_name_ko,
+                      material_info_idx: item.material_info_idx,
+                      evi_recipe_material_meterage_unit:
+                        options.recipe_material_meterage_unit[0].value,
+                      evi_recipe_material_quantity_unit:
+                        options.recipe_material_quantity_unit[0].value,
+                      evv_country: item.evv_country,
+                      pcn_manufacturer: item.pcn_manufacturer,
+                      recipe_material_meterage_value: 0,
+                      recipe_material_quantity_value: 0,
+                      recipe_material_note: '',
+                    }))
+                  );
+                }}
+              />
             </div>
             <InnerTable fullWidth>
               <colgroup>
@@ -210,12 +218,30 @@ const RecipeStepDetail = ({
                 {fields.map((field, i) => (
                   <tr key={field.id}>
                     <td>
-                      <Ellipse className="ingredient-remove" />
+                      <Ellipse
+                        className="ingredient-remove"
+                        onClick={() => remove(i)}
+                      />
                     </td>
                     <td>
-                      제품명
-                      <br />
-                      <span>제조사명 | 원산지명</span>
+                      <div className="ingredient-info">
+                        {field.material_image && (
+                          <div className="img">
+                            <img
+                              src={field.material_image}
+                              alt={field.material_name_ko}
+                            />
+                          </div>
+                        )}
+
+                        <div className="info">
+                          {field.material_name_ko}
+                          <br />
+                          <span>
+                            {field.pcn_manufacturer} | {field.evv_country}
+                          </span>
+                        </div>
+                      </div>
                     </td>
                     <td>
                       <div className="box_inp">

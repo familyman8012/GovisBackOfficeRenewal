@@ -20,26 +20,36 @@ export interface IRecipeListItem {
 }
 
 export interface IRecipeStepFormFields {
+  recipe_info_idx?: number;
+  product_info_idx?: number;
   recipe_step_idx?: number;
   recipe_step_name: string;
   evi_recipe_step_topping_type?: string;
   topping_image?: string;
+  initial_topping_image?: FileList | null;
   manufacturing_time: number | string;
   recipe_step_description?: string;
   recipe_material_list?: {
     material_info_idx: number;
+    readonly material_image?: string;
+    readonly material_name?: string;
+    readonly material_name_ko?: string;
+    readonly evv_country?: string;
+    readonly pcn_manufacturer?: string;
     recipe_material_meterage_value: number;
-    evi_recipe_material_meterage_unit: number;
+    evi_recipe_material_meterage_unit: number | string;
     recipe_material_quantity_value: number;
-    evi_recipe_material_quantity_unit: number;
+    evi_recipe_material_quantity_unit: number | string;
     recipe_material_note: string;
   }[];
 }
 
 export interface IRecipeFormFields {
   recipe_info_idx?: number;
+  product_info_idx?: number;
   recipe_name: string;
   recipe_image: string;
+  initial_recipe_image?: FileList | null;
   evi_recipe_step_topping_type: string;
   manufacturing_time: number | string;
   recipe_steps: IRecipeStepFormFields[];

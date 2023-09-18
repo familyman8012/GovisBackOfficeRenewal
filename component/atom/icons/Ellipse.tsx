@@ -16,6 +16,7 @@ const Ellipse = ({ size, viewBoxSize, ...props }: Props) => (
     height={size || 17}
     viewBox="0 0 16 17"
     fill="none"
+    {...props}
   >
     <circle cx="8" cy="8.25" r="8" fill="currentColor" />
 

@@ -1,6 +1,8 @@
 import {
+  IRecipeFormFields,
   IRecipeListItem,
   IRecipeProductListItem,
+  IRecipeStepFormFields,
 } from '@InterfaceFarm/product-recipe';
 import { BoV2Request } from './index';
 
@@ -55,18 +57,18 @@ export const fetchRecipeStepInfo = async ({
   ).then(response => response.data.data);
 };
 
-export const registerRecipeStep = async ({
+export const createRecipeStep = async ({
   product_info_idx,
   recipe_info_idx,
   ...formData
-}: any) => {
+}: IRecipeStepFormFields) => {
   return BoV2Request.post(
     `/recipe/info/detail/${product_info_idx}/basic/${recipe_info_idx}/step`,
     formData
   ).then(res => res.data.data);
 };
 
-export const registerRecipe = async (params: any) => {
+export const createRecipe = async (params: IRecipeFormFields) => {
   const { product_info_idx } = params;
 
   const { recipe_info_idx } = await BoV2Request.post<
@@ -78,8 +80,8 @@ export const registerRecipe = async (params: any) => {
   }).then(res => res.data.data);
 
   const steps = await Promise.all(
-    params.steps.map((step: any) =>
-      registerRecipeStep({
+    params.recipe_steps.map(step =>
+      createRecipeStep({
         product_info_idx,
         recipe_info_idx,
         ...step,

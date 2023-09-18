@@ -30,7 +30,6 @@ const RecipeForm = React.forwardRef<HTMLFormElement, RecipeFormProps>(
     const {
       control,
       register,
-      watch,
       handleSubmit,
       formState: { errors },
     } = methods;
@@ -70,8 +69,12 @@ const RecipeForm = React.forwardRef<HTMLFormElement, RecipeFormProps>(
                 <div
                   className={`box_inp ${errors.recipe_image ? 'error' : ''}`}
                 >
-                  <SelectFile {...register('recipe_image')} />
-                  {watch('recipe_image')?.toString()}
+                  <SelectFile
+                    {...register('initial_recipe_image', {
+                      required: !!id,
+                    })}
+                  />
+                  <ErrorTxt error={errors.initial_recipe_image} />
                 </div>
               </div>
               <div className="group">

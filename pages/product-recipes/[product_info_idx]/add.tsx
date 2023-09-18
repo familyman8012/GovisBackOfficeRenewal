@@ -1,18 +1,59 @@
 import { useRef } from 'react';
 import { NextPage } from 'next';
+import { useMutation } from 'react-query';
 import { fetchEnvironment } from '@ApiFarm/environment';
+import { createRecipe } from '@ApiFarm/product-recipe';
 import { IEnvironmentResItem } from '@InterfaceFarm/environment';
+import { IRecipeFormFields } from '@InterfaceFarm/product-recipe';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
 import RecipeForm from '@ComponentFarm/template/recipe/RecipeForm';
 import { RegisterRecipeWrap } from '@ComponentFarm/template/recipe/style';
+import { useGoMove } from '@HookFarm/useGoMove';
+import { uploadToS3 } from '@UtilFarm/uploads3';
 
 const RecipeDetailPage: NextPage<{ envs: IEnvironmentResItem[] }> = ({
   envs,
 }) => {
+  const { onBack } = useGoMove();
   const formRef = useRef<HTMLFormElement>(null);
 
+  const createRecipeTransaction = async (formData: IRecipeFormFields) => {
+    const { initial_recipe_image, ...params } = formData;
+    if (initial_recipe_image && initial_recipe_image.length > 0) {
+      const recipe_image = await uploadToS3(initial_recipe_image[0]);
+      params.recipe_image = recipe_image;
+    }
+
+    if (params.recipe_steps) {
+      params.recipe_steps = await Promise.all(
+        params.recipe_steps.map(async (step, idx) => {
+          const { initial_topping_image, ...stepParams } = step;
+
+          const hasImage =
+            initial_topping_image && initial_topping_image.length > 0;
+
+          const topping_image = hasImage
+            ? await uploadToS3(initial_topping_image[0])
+            : '';
+
+          return {
+            ...stepParams,
+            topping_image,
+          };
+        })
+      );
+    }
+
+    createRecipe(params);
+  };
+
+  const createMutate = useMutation(createRecipeTransaction, {
+    onSuccess: () => {
+      onBack();
+    },
+  });
   return (
     <RegisterRecipeWrap>
       <TitleArea
@@ -20,7 +61,10 @@ const RecipeDetailPage: NextPage<{ envs: IEnvironmentResItem[] }> = ({
         BtnBox={
           <>
             <Button variant="gostSecondary">이전</Button>
-            <Button onClick={() => formRef.current?.requestSubmit()}>
+            <Button
+              disabled={createMutate.isLoading}
+              onClick={() => formRef.current?.requestSubmit()}
+            >
               저장
             </Button>
           </>
@@ -42,95 +86,7 @@ const RecipeDetailPage: NextPage<{ envs: IEnvironmentResItem[] }> = ({
         activeTabIndex={1}
         onTabChange={index => {}}
       />
-      <RecipeForm ref={formRef} envs={envs} onSubmit={() => {}} />
-      {/* <section>
-        <h3>레시피 기본 정보</h3>
-
-        <FormWrap
-          css={recipeFormStyles}
-          onSubmit={handleSubmit(formData =>
-            console.log('submitted Data : ', formData)
-          )}
-        >
-          <div className="line line1">
-            <div className="group">
-              <div className="field1">
-                <label htmlFor="TODO" className="req">
-                  레시피명
-                </label>
-                <input
-                  type="text"
-                  className="inp"
-                  {...register('name', { required: '필수 입력항목입니다.' })}
-                />
-              </div>
-              <div className="field1">
-                <label htmlFor="TODO">레시피 완성 이미지</label>
-                <div className="box_upload_image">
-                  <div className="thumb" />
-                  <div className="box_btn">
-                    <Button variant="primary">이미지 등록</Button>
-                    <span className="txt_notice">
-                      ※ 2 MB 이하만 업로드 가능
-                    </span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="group">
-              <div className="field2">
-                <label htmlFor="name" className="req">
-                  레시피 코드
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  className="inp"
-                  placeholder="제품코드+_숫자"
-                  {...register('name', { required: '필수 입력항목입니다.' })}
-                />
-              </div>
-              <div className="field3">
-                <label htmlFor="time-min" className="req">
-                  총 제조 시간
-                </label>
-                <Controller
-                  name="asd"
-                  control={control}
-                  render={() => (
-                    <TimeSecondInput
-                      value={1}
-                      onChange={val => {
-                        console.log(val);
-                      }}
-                    />
-                  )}
-                />
-              </div>
-            </div>
-          </div>
-        </FormWrap>
-      </section>
-      <section className="recipe-steps">
-        <h3>레시피 단계별 레시피 정보</h3>
-        <div className="left">
-          <div className="steps">
-            <ul>
-              <li>도우</li>
-              <li className="active">치즈</li>
-            </ul>
-            <div className="step-add">
-              <Button variant="transparent" size="lg" LeadingIcon={<Plus />}>
-                단계 추가하기
-              </Button>
-            </div>
-          </div>
-        </div>
-        <div className="right">
-          <RecipeStep control={control} />
-        </div>
-      </section> */}
+      <RecipeForm ref={formRef} envs={envs} onSubmit={createMutate.mutate} />
     </RegisterRecipeWrap>
   );
 };

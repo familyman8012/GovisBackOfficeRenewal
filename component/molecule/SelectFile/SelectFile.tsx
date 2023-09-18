@@ -133,7 +133,7 @@ const SelectFile = React.forwardRef<HTMLInputElement, SelectFileProps>(
           LeadingIcon={<Plus />}
           onClick={() => refs.current?.click()}
         >
-          이미지 추가
+          {src ? '이미지 수정' : '이미지 추가'}
         </Button>
       </FileInputStyle>
     );

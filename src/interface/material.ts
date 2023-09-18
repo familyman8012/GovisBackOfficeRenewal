@@ -32,6 +32,7 @@ export interface IMaterialReq {
 export interface MaterialInfo {
   material_info_idx: number;
   material_code: string;
+  material_image: string;
   evi_material_product_type: number;
   evv_material_product_type: string;
   mci_large: number;
@@ -51,6 +52,8 @@ export interface MaterialInfo {
   updated_date: string;
   evi_material_status: number;
   evv_material_status: number;
+  evi_country: number;
+  evv_country: string;
 }
 
 export interface IMaterialRes {

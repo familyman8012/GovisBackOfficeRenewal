@@ -20,6 +20,7 @@ const SelectFileButtonStyle = styled.div`
       color: var(--color-neutral10);
       text-decoration: underline;
       line-height: 1;
+      font-weight: 400;
     }
 
     svg:nth-of-type(2) {
@@ -53,22 +54,21 @@ const SelectFileButtonStyle = styled.div`
 interface SelectFileProps
   extends Omit<
     React.HTMLProps<HTMLInputElement>,
-    'type' | 'onChange' | 'multiple'
+    'type' | 'onChange' | 'multiple' | 'src'
   > {
-  src?: string;
+  source?: string | File | null;
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onRemove?: () => void;
 }
 
 const SelectFileButton = React.forwardRef<HTMLInputElement, SelectFileProps>(
-  ({ onChange, accept = 'image/*', src, onRemove, ...otherProps }, ref) => {
+  ({ onChange, accept = 'image/*', source, onRemove, ...otherProps }, ref) => {
     const refs = useSyncedRef<HTMLInputElement>(ref);
     const [file, setFile] = React.useState<File | string | null>(null);
 
     const handleFileChange = React.useCallback(
       async (e: React.ChangeEvent<HTMLInputElement>) => {
         if (!e.target?.files || e.target?.files.length === 0) {
-          setFile(null);
           onChange?.(e);
           return;
         }
@@ -79,7 +79,7 @@ const SelectFileButton = React.forwardRef<HTMLInputElement, SelectFileProps>(
       [onChange]
     );
 
-    useEffect(() => setFile(src ?? ''), [src]);
+    useEffect(() => setFile(source ?? ''), [source]);
 
     const handleRemoveFile = React.useCallback(
       (e: React.MouseEvent<HTMLOrSVGElement>) => {
@@ -89,6 +89,7 @@ const SelectFileButton = React.forwardRef<HTMLInputElement, SelectFileProps>(
       },
       [onRemove]
     );
+
     return (
       <SelectFileButtonStyle>
         <div className="insert">

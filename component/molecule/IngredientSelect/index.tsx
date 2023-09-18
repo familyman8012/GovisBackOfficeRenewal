@@ -1,20 +1,23 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { useQuery } from 'react-query';
 import styled from '@emotion/styled';
+import { fetchMaterialList } from '@ApiFarm/ material';
+import { MaterialInfo } from '@InterfaceFarm/material';
 import Modal from '@ComponentFarm/modules/Modal/Modal';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import Empty from '@ComponentFarm/atom/Empty/Empty';
 import { IcoInput } from '@ComponentFarm/atom/IcoInput/IcoInput';
 import Search from '@ComponentFarm/atom/icons/Search';
 import { InnerTable } from '@ComponentFarm/common';
+import { SearchkeywordType } from '../SearchKeyword/SearchKeyword';
 
 interface Props {
-  onSelect: (value: string) => void;
+  onSelect: (selectedList: MaterialInfo[]) => void;
 }
 
 const IngredientModalContent = styled.div`
   max-width: 87.4rem;
-  width: 100vh;
+  width: 80vh;
   /* margin: -1em; */
   /* padding: 2.4rem; */
 
@@ -85,6 +88,7 @@ const IngredientModalContent = styled.div`
       border-radius: 0.8rem;
       width: 5.6rem;
       height: 5.6rem;
+      box-shadow: 0;
     }
 
     td,
@@ -110,23 +114,22 @@ const IngredientRow = ({
   data,
   action,
 }: {
-  data: any;
+  data: MaterialInfo;
   action: React.ReactNode;
 }) => {
   return (
     <tr>
       <td>
         <div className="">
-          <img src="/images/mock/ingredient-1.png" />
-          <span>포크토핑</span>
+          <img src={data.material_image ?? ''} />
+          <span>{data.material_name_ko}</span>
         </div>
       </td>
-
       <td>
-        <span>포크토핑</span>
+        <span>{data.pcn_manufacturer}</span>
       </td>
       <td>
-        <span>포크토핑</span>
+        <span>{data.evv_country}</span>
       </td>
       <td>{action}</td>
     </tr>
@@ -138,33 +141,48 @@ const IngredientSelect = ({ onSelect }: Props) => {
   const [searchKeyword, setSearchKeyword] = useState('');
 
   const [params, setParams] = useState<SearchkeywordType>({
-    search_target: 'product_name_ko',
+    search_target: 'material_name_ko',
     search_keyword: '',
   });
 
-  const [selectedIngredientList, setSelectedIngredientList] = useState<any[]>(
-    []
-  );
+  const [selectedIngredientList, setSelectedIngredientList] = useState<
+    MaterialInfo[]
+  >([]);
 
-  const { data, isIdle, isFetching } = useQuery(
+  const { data, isIdle } = useQuery(
     ['ingredient-list', params],
     () =>
-      fetchIngr({
+      fetchMaterialList({
         search_target: params.search_target,
         search_keyword: params.search_keyword,
         current_num: 1,
         per_num: 9999,
       }),
     {
-      enabled: showSelectModal && !!params.search_keyword,
+      enabled: open && !!params.search_keyword,
     }
   );
 
-  const handleOpen = React.useCallback(() => setShowSelectModal(true), []);
   const handleClose = React.useCallback(() => {
     setOpen(false);
-    setSelectedProduct(null);
+    setSelectedIngredientList([]);
+    setParams({
+      search_target: 'material_name_ko',
+      search_keyword: '',
+    });
   }, []);
+
+  const handleSelect = React.useCallback(() => {
+    onSelect(selectedIngredientList);
+    handleClose();
+  }, [selectedIngredientList, onSelect]);
+  const isSelectedIngredient = React.useCallback(
+    (row: MaterialInfo) =>
+      !!selectedIngredientList.find(
+        selectedRow => selectedRow.material_info_idx === row.material_info_idx
+      ),
+    [selectedIngredientList]
+  );
 
   return (
     <>
@@ -174,8 +192,10 @@ const IngredientSelect = ({ onSelect }: Props) => {
       <Modal
         title="원재료 등록"
         showCloseButton
+        disabledFormSubmit={selectedIngredientList.length === 0}
         isOpen={open}
-        onClose={() => setOpen(false)}
+        onFormSubmit={handleSelect}
+        onClose={handleClose}
       >
         <IngredientModalContent>
           <section className="search">
@@ -185,6 +205,14 @@ const IngredientSelect = ({ onSelect }: Props) => {
               placeholder="검색"
               TrailingIcon={<Search />}
               onChange={e => setSearchKeyword(e.target.value)}
+              onKeyDown={e => {
+                if (e.key === 'Enter') {
+                  setParams({
+                    ...params,
+                    search_keyword: searchKeyword,
+                  });
+                }
+              }}
             />
           </section>
           <section>
@@ -199,20 +227,42 @@ const IngredientSelect = ({ onSelect }: Props) => {
               <thead>
                 <tr>
                   <th>원재료명</th>
-
                   <th>제조사명</th>
                   <th>원산지명</th>
                   <th>설정</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td colSpan={4}>
-                    <Empty>
-                      {`검색된 목록이 없습니다.\n상단에서 '원재료명'을 검색해주세요.`}
-                    </Empty>
-                  </td>
-                </tr>
+                {(data?.list.length === 0 || isIdle) && (
+                  <tr>
+                    <td colSpan={4}>
+                      <Empty>
+                        {`검색된 목록이 없습니다.\n상단에서 '원재료명'을 검색해주세요.`}
+                      </Empty>
+                    </td>
+                  </tr>
+                )}
+                {data?.list.map((row: MaterialInfo) => (
+                  <IngredientRow
+                    key={data.material_info_idx}
+                    data={row}
+                    action={
+                      <Button
+                        variant="gostSecondary"
+                        disabled={isSelectedIngredient(row)}
+                        style={{ width: '100%', minWidth: 'auto' }}
+                        onClick={() =>
+                          setSelectedIngredientList([
+                            ...selectedIngredientList,
+                            row,
+                          ])
+                        }
+                      >
+                        추가
+                      </Button>
+                    }
+                  />
+                ))}
               </tbody>
             </InnerTable>
           </section>
@@ -234,26 +284,39 @@ const IngredientSelect = ({ onSelect }: Props) => {
                 </tr>
               </thead>
               <tbody>
-                <IngredientRow
-                  data={{}}
-                  action={
-                    <Button
-                      variant="gostSecondary"
-                      style={{ width: '100%', minWidth: 'auto' }}
-                    >
-                      삭제
-                    </Button>
-                  }
-                />
+                {selectedIngredientList.length === 0 && (
+                  <tr>
+                    <td colSpan={4}>
+                      <Empty>{`선택한 항목이 없습니다.\n‘검색 결과'에서 항목을 선택해주세요.`}</Empty>
+                    </td>
+                  </tr>
+                )}
+                {selectedIngredientList.map((row: MaterialInfo) => (
+                  <IngredientRow
+                    key={row.material_info_idx}
+                    data={row}
+                    action={
+                      <Button
+                        variant="gostSecondary"
+                        style={{ width: '100%', minWidth: 'auto' }}
+                        onClick={() =>
+                          setSelectedIngredientList(
+                            selectedIngredientList.filter(
+                              selectedRow =>
+                                selectedRow.material_info_idx !==
+                                row.material_info_idx
+                            )
+                          )
+                        }
+                      >
+                        삭제
+                      </Button>
+                    }
+                  />
+                ))}
               </tbody>
             </InnerTable>
           </section>
-          {/* <div className="btn-wrap">
-            <Button className="select-button" variant="gostSecondary">
-              취소
-            </Button>
-            <Button className="select-button">등록</Button>
-          </div> */}
         </IngredientModalContent>
       </Modal>
     </>
