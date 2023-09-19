@@ -8,13 +8,13 @@ import { getTableWidthPercentage } from '@UtilFarm/calcSize';
 interface TableProps {
   list: IRecipeProductListItem[];
   onClick: (item: IRecipeProductListItem) => void;
-  toggleSort: (sortField: string) => void;
+  updateParams?: (params: any) => void;
 }
 
 /**
  * @TODO 제품 환경변수 값 업데이트
  */
-const ListTable = ({ list, toggleSort, onClick }: TableProps) => {
+const ListTable = ({ list, updateParams, onClick }: TableProps) => {
   return (
     <TableWrap>
       <Table className="basic">
