@@ -7,7 +7,7 @@ const useFormOptionsWithEnvs = <T extends string>(
 ) => {
   return React.useMemo(
     () =>
-      envs.reduce(
+      envs?.reduce(
         (acc, cur) => {
           const name = cur.name as T;
           if (names.includes(name)) {

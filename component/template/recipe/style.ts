@@ -1,6 +1,5 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { FormWrap } from '@ComponentFarm/common';
 
 const flexPositions = {
   start: 'flex-start',
@@ -161,7 +160,7 @@ export const RegisterRecipeWrap = styled.div`
   }
 `;
 
-export const RecipeStepWrap = styled(FormWrap)`
+export const RecipeStepWrap = styled.div`
   h3 {
     font-weight: 600;
     font-size: var(--font-size6);
@@ -180,6 +179,7 @@ export const RecipeStepWrap = styled(FormWrap)`
     justify-content: space-between;
     padding: 1.2rem 1rem;
     background: var(--table-headerBackground);
+    border-bottom: 1px solid var(--color-neutral90);
   }
 
   .ingredient-table-wrap {
@@ -196,22 +196,19 @@ export const RecipeStepWrap = styled(FormWrap)`
       gap: 0 0.8rem;
     }
 
-    thead th,
-    thead td {
-      text-align: left;
+    .center {
+      text-align: center;
     }
 
-    tbody {
-      td:nth-of-type(1) {
-        text-align: center;
-      }
-    }
-  }
-
-  > section:nth-of-type(2) table {
     td,
     th {
       border-top: 1px solid var(--color-neutral90);
+    }
+
+    thead th,
+    thead td {
+      text-align: left;
+      border-top: 0;
     }
   }
 
@@ -223,9 +220,18 @@ export const RecipeStepWrap = styled(FormWrap)`
       border-top: 0;
     }
   }
+
   .quill .ql-editor,
   .quill .ql-container {
     min-height: 30rem;
+  }
+
+  .recipe-desc {
+    min-height: 30rem;
+  }
+
+  .computed-cost {
+    font-weight: 400;
   }
 
   .ingredient-info {
@@ -351,13 +357,9 @@ export const RecipeListWrap = styled.div`
 
   .recipe-item-action {
     display: flex;
+    gap: 1.6rem;
     align-items: center;
     justify-content: space-between;
-
-    & > div {
-      display: flex;
-      gap: 1.6rem;
-    }
   }
 
   .recipe-item {
@@ -368,6 +370,18 @@ export const RecipeListWrap = styled.div`
     border: 1px solid var(--color-neutral90);
     border-radius: 0.4rem;
   }
+
+  .icon-btn {
+    display: inline-flex;
+    width: 3.2rem;
+    height: 3.2rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: var(--color-gray1);
+    border: 1px solid var(--color-neutral90);
+    cursor: pointer;
+  }
 `;
 
 export const RecipeFormStyle = css`
@@ -376,6 +390,11 @@ export const RecipeFormStyle = css`
 
   h3 {
     font-size: 1.8rem;
+  }
+
+  .image-wrap img {
+    max-width: 22rem;
+    object-fit: contain;
   }
 
   [class^='field'] {
@@ -442,5 +461,30 @@ export const RecipeFormStyle = css`
   h4 {
     padding-bottom: 1rem;
     border-bottom: 1px solid #ddd;
+  }
+`;
+
+export const RecipeSwitchStyle = styled.section`
+  margin: 3.2rem 0;
+  h3 {
+    font-weight: 600;
+    font-size: var(--font-size6);
+    border-bottom: 0;
+    padding: 0;
+    margin-bottom: 2.8rem;
+    line-height: 1.5;
+  }
+
+  .switch-wrap {
+    display: flex;
+    gap: 0.8rem;
+    margin-bottom: 3.2rem;
+    select {
+      max-width: 37.2rem;
+      border-radius: 0.4rem;
+    }
+    button {
+      min-width: 0;
+    }
   }
 `;

@@ -20,11 +20,12 @@ const TimeInputStyle = styled.div`
 
 interface Props {
   value: string | number;
+  disabled?: boolean;
   onChange: (value: string) => void;
 }
 
 const TimeSecondInput = React.forwardRef<HTMLInputElement, Props>(
-  ({ value, onChange }, ref) => {
+  ({ value, disabled, onChange }, ref) => {
     const refs = useSyncedRef<HTMLInputElement>(ref);
     const [min, setMin] = useState('');
     const [sec, setSec] = useState('');
@@ -53,6 +54,7 @@ const TimeSecondInput = React.forwardRef<HTMLInputElement, Props>(
       <TimeInputStyle>
         <input
           ref={refs}
+          disabled={disabled}
           className="inp"
           value={min}
           placeholder="예: 03"
@@ -69,6 +71,7 @@ const TimeSecondInput = React.forwardRef<HTMLInputElement, Props>(
         <input
           className="inp"
           type="text"
+          disabled={disabled}
           placeholder="예: 45"
           inputMode="numeric"
           min={0}

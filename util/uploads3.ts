@@ -1,5 +1,6 @@
 import S3 from 'aws-sdk/clients/s3';
 import dayjs from 'dayjs';
+import { toHashString } from './hash';
 
 const s3 = new S3({
   region: 'ap-northeast-2',
@@ -18,9 +19,9 @@ interface IS3UploadResponse {
 const generateFileName = (file: File) => {
   const nowDate = dayjs().format('YYMMDD');
 
-  return `${nowDate}_${file.name.replace(/\.[^/.]+$/, '')}.${file.name
-    .split('.')
-    .pop()}`;
+  return `${nowDate}_${toHashString(
+    file.name.replace(/\.[^/.]+$/, '')
+  )}.${file.name.split('.').pop()}`;
 };
 
 export const uploadToS3 = async (file: File) => {

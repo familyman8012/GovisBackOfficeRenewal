@@ -1,5 +1,8 @@
 import React, { useCallback, useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
+import { useMutation } from 'react-query';
+import { toast } from 'react-toastify';
+import { removeRecipeStep } from '@ApiFarm/product-recipe';
 import { IRecipeFormFields } from '@InterfaceFarm/product-recipe';
 import More from '@ComponentFarm/atom/icons/More';
 import { MenuOptionGroupStyle } from '../menu/style';
@@ -8,7 +11,7 @@ interface RecipeStepCategoryProps {
   index: number;
   editable?: boolean;
   selectedView?: number;
-  onRemoveCategory: () => void;
+  onRemoveStep: () => void;
   onSelectStep: (view?: number) => void;
 }
 
@@ -16,18 +19,14 @@ const RecipeStepCategory = ({
   index,
   editable,
   selectedView,
-  onRemoveCategory,
+  onRemoveStep,
   onSelectStep,
 }: RecipeStepCategoryProps) => {
-  const {
-    register,
-    getValues,
-    watch,
-    setValue,
-    // formState: { errors },
-  } = useFormContext<IRecipeFormFields>();
+  const { register, getValues, watch, getFieldState, formState } =
+    useFormContext<IRecipeFormFields>();
 
   const recipe_info_idx = watch('recipe_info_idx');
+  const product_info_idx = watch('product_info_idx');
   const formKey = `recipe_steps.${index}` as `recipe_steps.${number}`;
 
   const [canEditName, setCanEditName] = React.useState(
@@ -52,61 +51,40 @@ const RecipeStepCategory = ({
     return () => document.removeEventListener('click', clickOutside);
   }, [dropDown]);
 
-  // const createMenuCategory = useMutation(() => {}, {
-  //   onSuccess: data => {
-  //     toast.info('옵션 그룹이 생성되었습니다.');
-  //     setValue(`${formKey}.recipe_step_idx`, undefined);
-  //     setCanEditName(false);
-  //   },
-  // });
+  const removeStepMutate = useMutation(removeRecipeStep, {
+    onSuccess: () => {
+      toast.info('레시피 단계가 삭제되었습니다.');
+    },
+  });
 
-  // const updateMenuCategory = useMutation(() => {}, {
-  //   onSuccess: () => {
-  //     toast.info('옵션 그룹이 수정되었습니다.');
-  //     setCanEditName(false);
-  //   },
-  // });
-
-  // const removeMenuCategory = useMutation(() => {}, {
-  //   onSuccess: () => {
-  //     toast.info('옵션 그룹이 삭제되었습니다.');
-  //     onRemoveCategory();
-  //   },
-  // });
-
-  // const isLoading =
-  //   createMenuCategory.isLoading || updateMenuCategory.isLoading;
-  const isLoading = false;
+  const { isLoading } = removeStepMutate;
 
   const checkSaveHandler = useCallback(() => {
-    if (isLoading) return;
-    if (!recipe_info_idx) {
-      setCanEditName(false);
-      onSelectStep(index);
-      return;
-    }
-
-    if (stepFormData.recipe_step_idx) {
-      // updateMenuCategory.mutate({
-      //   menu_option_category_idx: categoryFormData.menu_option_category_idx,
-      //   menu_option_category_name: categoryFormData.menu_option_category_name,
-      // });
-    } else {
-      // createMenuCategory.mutateAsync({
-      //   menu_info_idx: menu_info_idx ?? -1,
-      //   menu_option_category_name: categoryFormData.menu_option_category_name,
-      // });
-    }
-  }, [stepFormData, recipe_info_idx, isLoading, index]);
+    setCanEditName(false);
+    onSelectStep(index);
+  }, [index]);
 
   const checkRemoveHandler = useCallback(async () => {
     if (isLoading) return;
     if (!recipe_info_idx || !stepFormData.recipe_step_idx) {
-      onRemoveCategory();
+      onRemoveStep();
+      return;
     }
 
-    // removeMenuCategory.mutate(stepFormData.recipe_step_idx ?? -1);
-  }, [stepFormData, recipe_info_idx, isLoading, onRemoveCategory]);
+    removeStepMutate
+      .mutateAsync({
+        product_info_idx,
+        recipe_info_idx,
+        recipe_step_idx: stepFormData.recipe_step_idx,
+      })
+      .then(onRemoveStep);
+  }, [
+    product_info_idx,
+    recipe_info_idx,
+    stepFormData,
+    isLoading,
+    onRemoveStep,
+  ]);
 
   const handleEnterKeydown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
@@ -117,17 +95,23 @@ const RecipeStepCategory = ({
 
   return (
     <MenuOptionGroupStyle
-      className={`option ${selectedView === index ? 'active' : ''}`}
+      className={`option ${selectedView === index ? 'active' : ''} ${
+        getFieldState(`${formKey}`, formState)?.invalid ? 'invalid' : ''
+      }`}
     >
-      <button
-        type="button"
+      <div
         className="header"
-        onClick={() => onSelectStep(index)}
+        role="button"
+        tabIndex={0}
+        onKeyDown={e => !isLoading && e.key === 'Enter' && onSelectStep(index)}
+        onClick={() => !isLoading && onSelectStep(index)}
       >
         {canEditName ? (
           <input
+            {...register(`${formKey}.recipe_step_name`, {
+              required: true,
+            })}
             type="text"
-            {...register(`${formKey}.recipe_step_name`)}
             className="inp"
             placeholder="레시피 단계명을 입력해주세요."
             autoComplete="off"
@@ -137,13 +121,15 @@ const RecipeStepCategory = ({
         ) : (
           <span className="title">{stepFormData?.recipe_step_name}</span>
         )}
-
         <div className="dropdown">
           {editable && (
             <button
               type="button"
               className="icon-btn"
-              onClick={() => setDropDown(val => !val)}
+              onClick={e => {
+                e.stopPropagation();
+                setDropDown(val => !val);
+              }}
             >
               <More />
             </button>
@@ -173,7 +159,7 @@ const RecipeStepCategory = ({
             </div>
           )}
         </div>
-      </button>
+      </div>
     </MenuOptionGroupStyle>
   );
 };

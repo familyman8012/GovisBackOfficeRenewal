@@ -23,8 +23,8 @@ const Ellipse = ({ size, viewBoxSize, ...props }: Props) => (
     <path
       d="M2.66602 8.75H13.3327"
       stroke="white"
-      stroke-width="2"
-      stroke-linecap="round"
+      strokeWidth="2"
+      strokeLinecap="round"
     />
   </svg>
 );

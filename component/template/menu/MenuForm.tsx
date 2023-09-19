@@ -33,6 +33,7 @@ export const MenuForm = React.forwardRef<HTMLFormElement, MenuFormProps>(
     >(['menu_group', 'menu_type', 'menu_status', 'menu_category_status'], envs);
 
     const methods = useForm<IMenuFormFields>({
+      mode: 'onBlur',
       defaultValues: id
         ? async () => {
             const data = await fetchMenu(id);
@@ -253,6 +254,7 @@ export const MenuForm = React.forwardRef<HTMLFormElement, MenuFormProps>(
                     <input
                       {...register('visit_normal_price', {
                         required: true,
+                        valueAsNumber: true,
                       })}
                       disabled={!editable}
                       className="inp"

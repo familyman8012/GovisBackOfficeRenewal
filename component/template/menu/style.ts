@@ -111,6 +111,10 @@ export const MenuOptionGroupStyle = styled.div`
     background-color: var(--color-gray4);
   }
 
+  &.invalid .header {
+    border: 1px solid var(--color-red50);
+  }
+
   .dropdown {
     position: relative;
     display: inline-flex;
@@ -118,7 +122,7 @@ export const MenuOptionGroupStyle = styled.div`
     .dropdown-list {
       position: absolute;
       top: calc(100% + 1rem);
-      left: -3.5rem;
+      right: -1.5rem;
       display: flex;
       flex-direction: column;
       width: 9rem;

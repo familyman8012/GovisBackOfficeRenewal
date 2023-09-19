@@ -56,10 +56,10 @@ const ListTable = ({ list, toggleSort, onClick }: TableProps) => {
               onClick={() => onClick?.(recipeRowData)}
             >
               <td className="code">{recipeRowData.product_code}</td>
-              <td>{recipeRowData.evi_product_group}</td>
-              <td>{recipeRowData.evi_product_category}</td>
+              <td>{recipeRowData.evi_product_group_str}</td>
+              <td>{recipeRowData.evi_product_category_str}</td>
               <td>{recipeRowData.product_name_ko}</td>
-              <td>{recipeRowData.evi_product_status}</td>
+              <td>{recipeRowData.evi_product_status_str}</td>
               <td>{recipeRowData.recipe_count ?? 0}</td>
               <td>
                 <Badge

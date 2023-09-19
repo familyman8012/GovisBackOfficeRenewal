@@ -1,5 +1,12 @@
-import React from 'react';
-import { Controller, FormProvider, useForm } from 'react-hook-form';
+import React, { useEffect } from 'react';
+import {
+  Controller,
+  FieldErrors,
+  FormProvider,
+  useForm,
+} from 'react-hook-form';
+import { toast } from 'react-toastify';
+import { fetchRecipe } from '@ApiFarm/product-recipe';
 import { IEnvironmentResItem } from '@InterfaceFarm/environment';
 import { IRecipeFormFields } from '@InterfaceFarm/product-recipe';
 import ErrorTxt from '@ComponentFarm/atom/ErrorTxt/ErrorTxt';
@@ -10,20 +17,32 @@ import RecipeStepForm from './RecipeStepForm';
 import { RecipeFormStyle } from './style';
 
 interface RecipeFormProps {
-  id?: number; // 레시피 아이디
+  productId: number; // 제품 아이디
+  recipeId?: number; // 레시피 아이디
   editable?: boolean;
   envs: IEnvironmentResItem[];
   onSubmit: (formData: IRecipeFormFields) => void;
 }
 
 const RecipeForm = React.forwardRef<HTMLFormElement, RecipeFormProps>(
-  ({ id, envs, editable = true, onSubmit }, formRef) => {
+  ({ recipeId, productId, envs, editable = true, onSubmit }, formRef) => {
+    const stepRef = React.useRef<HTMLDivElement>(null);
     const methods = useForm<IRecipeFormFields>({
-      defaultValues: {
-        recipe_name: '',
-        recipe_image: '',
-        manufacturing_time: '',
-        recipe_steps: [],
+      defaultValues: recipeId
+        ? async () =>
+            fetchRecipe({
+              product_info_idx: productId,
+              recipe_info_idx: recipeId,
+            }).then(res => ({ ...res, product_info_idx: productId }))
+        : {
+            product_info_idx: productId,
+            recipe_name: '',
+            recipe_image: '',
+            recipe_manufacturing_time: '',
+            recipe_steps: [],
+          },
+      resetOptions: {
+        keepIsSubmitted: true,
       },
     });
 
@@ -31,15 +50,33 @@ const RecipeForm = React.forwardRef<HTMLFormElement, RecipeFormProps>(
       control,
       register,
       handleSubmit,
+      getValues,
+      reset,
       formState: { errors },
     } = methods;
+
+    useEffect(() => {
+      if (!editable && recipeId) {
+        fetchRecipe({
+          product_info_idx: productId,
+          recipe_info_idx: recipeId,
+        }).then(res => reset({ ...res, product_info_idx: productId }));
+      }
+    }, [editable]);
+
+    const handleValidateError = React.useCallback((error: FieldErrors) => {
+      if (Object.keys(error).length === 1 && error.recipe_steps) {
+        stepRef?.current?.scrollIntoView();
+        toast.error('레시피 단계 정보를 확인해주세요.');
+      }
+    }, []);
 
     return (
       <FormProvider {...methods}>
         <form
           ref={formRef}
           autoComplete="off"
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={handleSubmit(onSubmit, handleValidateError)}
         >
           <FormWrap css={RecipeFormStyle}>
             <h3>레시피 기본 정보</h3>
@@ -56,6 +93,7 @@ const RecipeForm = React.forwardRef<HTMLFormElement, RecipeFormProps>(
                     {...register('recipe_name', {
                       required: true,
                     })}
+                    disabled={!editable}
                   />
                   <ErrorTxt error={errors.recipe_name} />
                 </div>
@@ -66,42 +104,40 @@ const RecipeForm = React.forwardRef<HTMLFormElement, RecipeFormProps>(
                 <label htmlFor="reipce_image" className="req">
                   레시피 완성 이미지
                 </label>
-                <div
-                  className={`box_inp ${errors.recipe_image ? 'error' : ''}`}
-                >
-                  <SelectFile
-                    {...register('initial_recipe_image', {
-                      required: !!id,
-                    })}
-                  />
-                  <ErrorTxt error={errors.initial_recipe_image} />
-                </div>
-              </div>
-              <div className="group">
-                <div className="field3">
-                  <label htmlFor="recipe_code" className="req">
-                    레시피 코드
-                  </label>
-                  <div className="box_inp">
-                    <input
-                      id="recipe_code"
-                      className="inp"
-                      disabled
-                      placeholder="자동생성"
+                {editable ? (
+                  <div
+                    className={`box_inp ${
+                      errors.initial_recipe_image ? 'error' : ''
+                    }`}
+                  >
+                    <SelectFile
+                      {...register('initial_recipe_image', {
+                        required: !recipeId,
+                      })}
+                    />
+                    <ErrorTxt error={errors.initial_recipe_image} />
+                  </div>
+                ) : (
+                  <div className="image-wrap">
+                    <img
+                      src={getValues('recipe_image')}
+                      alt={getValues('recipe_name')}
                     />
                   </div>
-                </div>
+                )}
+              </div>
+              <div className="group">
                 <div className="field4">
                   <label htmlFor="time-min" className="req">
                     총 제조 시간
                   </label>
                   <div
                     className={`box_inp ${
-                      errors.manufacturing_time ? 'error' : ''
+                      errors.recipe_manufacturing_time ? 'error' : ''
                     }`}
                   >
                     <Controller
-                      name="manufacturing_time"
+                      name="recipe_manufacturing_time"
                       defaultValue={0}
                       rules={{
                         validate: val =>
@@ -113,17 +149,30 @@ const RecipeForm = React.forwardRef<HTMLFormElement, RecipeFormProps>(
                       control={control}
                       render={({ field: { value, onChange } }) => (
                         <TimeSecondInput
+                          disabled={!editable}
                           value={value ?? ''}
                           onChange={onChange}
                         />
                       )}
                     />
-                    <ErrorTxt error={errors.manufacturing_time} />
+                    <ErrorTxt error={errors.recipe_manufacturing_time} />
                   </div>
                 </div>
+                {!editable && (
+                  <>
+                    <div className="field">
+                      <label htmlFor="created_date">등록일</label>
+                      <span>{getValues('created_date') ?? '-'}</span>
+                    </div>
+                    <div className="field">
+                      <label htmlFor="updated_date">수정일</label>
+                      <span>{getValues('created_date') ?? '-'}</span>
+                    </div>
+                  </>
+                )}
               </div>
             </div>
-            <RecipeStepForm envs={envs} editable={editable} />
+            <RecipeStepForm ref={stepRef} envs={envs} editable={editable} />
           </FormWrap>
         </form>
       </FormProvider>

@@ -17,7 +17,7 @@ const Edit = ({ size, viewBoxSize, ...props }: Props) => (
     viewBox={`0 0 ${viewBoxSize || 24} ${viewBoxSize || 24}`}
   >
     <path
-      stroke="#747474"
+      stroke="currentColor"
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={2}

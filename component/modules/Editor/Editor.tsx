@@ -1,12 +1,22 @@
 // Editor.tsx
 import React, { useMemo } from 'react';
 import dynamic from 'next/dynamic';
+import type ReactQuillType from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import { uploadToS3 } from '@UtilFarm/uploads3';
 
-const QuillNoSSRWrapper = dynamic<any>(() => import('react-quill'), {
-  ssr: false,
-  loading: () => <p>Loading...</p>,
-});
+const ReactQuill = dynamic<
+  ReactQuillType.ReactQuillProps & { forwardedRef: any }
+>(
+  async () => {
+    const { default: RQ } = await import('react-quill');
+    // eslint-disable-next-line react/display-name
+    return function ({ forwardedRef, ...props }: any) {
+      return <RQ ref={forwardedRef} {...props} />;
+    };
+  },
+  { ssr: false, loading: () => <p>Loading...</p> }
+);
 
 export interface EditorProps {
   value: string;
@@ -20,42 +30,34 @@ const Editor: React.FC<EditorProps> = ({
   disabled = false,
 }) => {
   const quillRef = React.useRef<any | null>(null);
-  const imageHandler = () => {
-    const input = document.createElement('input');
 
+  const imageHandler = React.useCallback(async () => {
+    const input = document.createElement('input');
     input.setAttribute('type', 'file');
     input.setAttribute('accept', 'image/*');
+    input.className = 'sr-only';
+    document.body.append(input);
     input.click();
 
-    input.onchange = async () => {
-      if (!input.files || !quillRef.current) return;
-      const file = input.files[0];
-      const formData = new FormData();
+    input.addEventListener('change', async e => {
+      const file = input.files?.[0];
 
-      formData.append('image', file);
-      const quillEditor = quillRef.current.getEditor();
+      if (!file) return;
 
-      const range = quillEditor.getSelection(true);
+      const imagePath = await uploadToS3(file);
 
-      quillEditor.insertEmbed(
-        range.index,
-        'image',
-        `${window.location.origin}/images/loader.gif`
-      );
+      const editor = quillRef.current?.editor;
+      const range = editor.getSelection?.();
+      if (!range || !editor) {
+        console.error('not found quill editor ref object!', quillRef.current);
+        return;
+      }
 
-      quillEditor.setSelection(range.index + 1);
-
-      const res = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData,
-      });
-      const data = await res.json();
-
-      quillEditor.deleteText(range.index, 1);
-
-      quillEditor.insertEmbed(range.index, 'image', data.url);
-    };
-  };
+      editor.insertEmbed(range.index, 'image', imagePath);
+      editor.setSelection(range.index + 1, 1);
+      document.body.removeChild(input);
+    });
+  }, []);
 
   const quillModules = useMemo(
     () => ({
@@ -82,8 +84,8 @@ const Editor: React.FC<EditorProps> = ({
   };
 
   return (
-    <QuillNoSSRWrapper
-      ref={quillRef}
+    <ReactQuill
+      forwardedRef={quillRef}
       value={value}
       onChange={handleChange}
       modules={quillModules}

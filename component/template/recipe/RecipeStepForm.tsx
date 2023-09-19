@@ -45,7 +45,7 @@ const RecipeStepForm = React.forwardRef<
                 append({
                   recipe_step_name: '',
                   recipe_step_description: '',
-                  manufacturing_time: '',
+                  step_manufacturing_time: '0',
                   evi_recipe_step_topping_type:
                     options.recipe_step_topping_type[0].value,
                 })
@@ -62,7 +62,7 @@ const RecipeStepForm = React.forwardRef<
                 selectedView={view}
                 editable={editable}
                 onSelectStep={setView}
-                onRemoveCategory={() => {
+                onRemoveStep={() => {
                   remove(i);
                   setView(undefined);
                 }}
@@ -71,8 +71,8 @@ const RecipeStepForm = React.forwardRef<
           </div>
         </div>
         <div className="view">
-          {view === undefined ? (
-            steps.length === 0 ? (
+          {view === undefined &&
+            (steps.length === 0 ? (
               <Empty>
                 <b>등록된 정보가 없습니다.</b>
                 <br />
@@ -82,19 +82,17 @@ const RecipeStepForm = React.forwardRef<
               <Empty>
                 <span className="sub">레시피 단계를 선택해주세요.</span>
               </Empty>
-            )
-          ) : (
-            fields.map((field, i) => (
-              <RecipeStepDetail
-                envs={envs}
-                key={field.id}
-                editable={editable}
-                stepIndex={i}
-                currentView={view}
-                onChangeView={setView}
-              />
-            ))
-          )}
+            ))}
+          {fields?.map((field, i) => (
+            <RecipeStepDetail
+              envs={envs}
+              key={field.id}
+              editable={editable}
+              stepIndex={i}
+              currentView={view}
+              onChangeView={setView}
+            />
+          ))}
         </div>
       </div>
     </MenuOptionListStyle>

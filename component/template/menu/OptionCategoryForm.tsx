@@ -198,7 +198,7 @@ const MenuOptionCategory = ({
           {editable && (
             <button
               type="button"
-              className={`icon-btn `}
+              className="icon-btn"
               onClick={() => setDropDown(val => !val)}
             >
               <More />

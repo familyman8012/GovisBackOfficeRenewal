@@ -540,8 +540,6 @@ export const FormWrap = styled.div`
     line-height: 2rem;
   }
 
-  th,
-  td,
   label {
     &:not(.label_radio):not(.label_check) {
       flex: none;
