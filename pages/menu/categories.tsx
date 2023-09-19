@@ -23,7 +23,7 @@ const CategoryListPage: NextPage<{ envs: IEnvironmentResItem[] }> = ({
   const router = useRouter();
 
   const [showRegisterModal, setShowRegisterModal] = useState(false);
-  const [params, updateParams, resetParams, toggleSort] = useQueryParams({
+  const [params, updateParams, resetParams] = useQueryParams({
     current_num: 1,
     per_num: 10,
   });
@@ -69,7 +69,7 @@ const CategoryListPage: NextPage<{ envs: IEnvironmentResItem[] }> = ({
         updateParams={updateParams}
         resetParams={resetParams}
       />
-      <CategoryListTable list={data?.list ?? []} toggleSort={toggleSort} />
+      <CategoryListTable list={data?.list ?? []} />
       <Pagination
         pageInfo={[Number(params.current_num), Number(params.per_num)]}
         totalCount={data?.total_count ?? 1}

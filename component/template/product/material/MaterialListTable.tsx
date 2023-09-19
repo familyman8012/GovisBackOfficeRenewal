@@ -8,7 +8,7 @@ import { Table, TableWrap } from '@ComponentFarm/common';
 
 interface TableProps {
   data?: IMaterialRes;
-  toggleSort: (sortField: string) => void;
+  onSort: (sortField: string, sortOrder: 'asc' | 'desc') => void;
 }
 
 const pageStyle = css`
@@ -55,7 +55,7 @@ const pageStyle = css`
   }
 `;
 
-const ManageListTable = ({ data, toggleSort }: TableProps) => {
+const ManageListTable = ({ data, onSort }: TableProps) => {
   const router = useRouter();
 
   const handleGoIdxClick = (idx: string) => {

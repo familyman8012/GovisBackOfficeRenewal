@@ -17,7 +17,7 @@ const tabs = [
 const RecipeListPage = () => {
   const router = useRouter();
   const [pathname] = router.asPath.split('?');
-  const [params, updateParams, resetParams, toggleSort] = useQueryParams({
+  const [params, updateParams, resetParams] = useQueryParams({
     page: 1,
     size: 10,
     search_type: 0,
@@ -48,7 +48,6 @@ const RecipeListPage = () => {
       <ListTable
         data={{ list: [] }}
         onClick={() => router.push(`${pathname}/1`)}
-        toggleSort={toggleSort}
       />
       <Pagination
         pageInfo={[Number(params.page), Number(params.size)]}

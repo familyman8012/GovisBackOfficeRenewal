@@ -8,7 +8,7 @@ import { Table, TableWrap } from '@ComponentFarm/common';
 
 interface TableProps {
   data?: IPartnerRes;
-  toggleSort: (sortField: string) => void;
+  onSort: (sortField: string, sortOrder: 'asc' | 'desc') => void;
 }
 
 const pageStyle = css`
@@ -46,7 +46,7 @@ const pageStyle = css`
   }
 `;
 
-const ListTable = ({ data, toggleSort }: TableProps) => {
+const ListTable = ({ data, onSort }: TableProps) => {
   const router = useRouter();
 
   const handleGoIdxClick = (idx: string) => {

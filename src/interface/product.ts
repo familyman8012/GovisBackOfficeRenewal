@@ -26,7 +26,7 @@ export interface ProductInfo {
   product_name_ko: string;
   product_name_en: string;
   evi_sale_type: number[];
-  evi_sale_type_str: string;
+  evi_sale_type_str: string[];
   sale_start_date: string;
   sale_end_date: string;
   created_date: string;
@@ -77,3 +77,15 @@ export type IProductFormModifyRes = Omit<
   IProductForm,
   'product_info_idx' | 'product_code'
 >;
+
+// 채널 이미지
+export interface IProductChannelImg {
+  evi_sale_channel_str?: string;
+  product_image_channel_idx: number;
+  product_image: string;
+  evi_sale_channel: number;
+}
+
+export interface IProductChannelImgView {
+  list: IProductChannelImg[];
+}

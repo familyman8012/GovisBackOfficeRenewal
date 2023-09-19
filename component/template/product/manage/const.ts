@@ -1,4 +1,4 @@
-type environmentConfigEntry =
+export type environmentConfigEntry =
   | [string, string]
   | [string, string, { label: string; value: string }[]];
 
@@ -143,5 +143,56 @@ export const storeInfoSelectCofing = [
     label: '매장 상태',
     field: 'search_notification_type',
     options: searchNotificationType,
+  },
+];
+
+export const ChannelImg = [
+  {
+    id: 1,
+    url: '',
+    Name: 'POS',
+    Resolution: '201 x 120',
+    regDate: '2023-07-23',
+    modDate: '2023-07-23',
+  },
+  {
+    id: 2,
+    url: '',
+    Name: 'KIOSK',
+    Resolution: '201 x 120',
+    regDate: '2023-07-23',
+    modDate: '2023-07-23',
+  },
+  {
+    id: 3,
+    url: '',
+    Name: '배달의 민족',
+    Resolution: '201 x 120',
+    regDate: '2023-07-23',
+    modDate: '2023-07-23',
+  },
+  {
+    id: 4,
+    url: '',
+    Name: '요기요',
+    Resolution: '201 x 120',
+    regDate: '2023-07-23',
+    modDate: '2023-07-23',
+  },
+  {
+    id: 5,
+    url: '',
+    Name: '쿠팡이즈',
+    Resolution: '201 x 120',
+    regDate: '2023-07-23',
+    modDate: '2023-07-23',
+  },
+  {
+    id: 6,
+    url: '',
+    Name: '땡겨요',
+    Resolution: '201 x 120',
+    regDate: '2023-07-23',
+    modDate: '2023-07-23',
   },
 ];

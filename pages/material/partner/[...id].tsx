@@ -9,7 +9,7 @@ import {
 import { fetchEnvironment } from '@ApiFarm/environment';
 import { IEnvironmentRes } from '@InterfaceFarm/environment';
 import { IPartnerSaveReq } from '@InterfaceFarm/material';
-import PartnerForm from '@ComponentFarm/template/material-partner/PartnerForm';
+import PartnerForm from '@ComponentFarm/template/product/material/partner/PartnerForm';
 
 const LogisticsDetailPage = ({
   environment,

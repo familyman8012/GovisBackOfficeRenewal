@@ -16,7 +16,7 @@ import useQueryParams from '@HookFarm/useQueryParams';
 const Manage = ({ environment }: { environment: IEnvironmentRes }) => {
   const router = useRouter();
   const [activeTabIndex, setActiveTabIndex] = useState(0);
-  const [params, updateParams, resetParams, toggleSort] = useQueryParams({
+  const [params, updateParams, resetParams] = useQueryParams({
     current_num: 1,
     per_num: 10,
   });
@@ -24,8 +24,6 @@ const Manage = ({ environment }: { environment: IEnvironmentRes }) => {
   const { data } = useQuery(['productList', router.asPath], () =>
     fetchProductList(params)
   );
-
-  console.log('data', data);
 
   const tabData = [
     {
@@ -45,7 +43,6 @@ const Manage = ({ environment }: { environment: IEnvironmentRes }) => {
   };
 
   const handleAddClick = () => {
-    // 현재 쿼리 파라미터를 /add 경로에 추가
     router.push({
       pathname: '/product/add',
       query: router.query,
@@ -79,7 +76,7 @@ const Manage = ({ environment }: { environment: IEnvironmentRes }) => {
         updateParams={updateParams}
         resetParams={resetParams}
       />
-      <ManageListTable data={data} toggleSort={toggleSort} />
+      <ManageListTable data={data} updateParams={updateParams} />
       <Pagination
         pageInfo={[Number(params.current_num), Number(params.per_num)]}
         totalCount={Number(data?.total_count)}

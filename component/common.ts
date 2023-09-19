@@ -605,6 +605,11 @@ export const Table = styled.table`
     border-bottom: 1px solid var(--color-neutral90);
   }
 
+  .th_title {
+    display: flex;
+    align-items: center;
+  }
+
   td {
     border-top: 1px solid var(--color-neutral90);
   }

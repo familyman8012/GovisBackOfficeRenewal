@@ -51,8 +51,6 @@ const ManageListHandler = ({
     [environment.list]
   );
 
-  console.log('environment', environment);
-
   return (
     <ListHandlerWrap css={pageListSetting}>
       <div className="line line1">

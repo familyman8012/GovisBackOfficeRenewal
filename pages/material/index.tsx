@@ -2,18 +2,21 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
 import { fetchMaterialList } from '@ApiFarm/ material';
+import { fetchEnvironment } from '@ApiFarm/environment';
+import { IEnvironmentRes } from '@InterfaceFarm/environment';
 import Pagination from '@ComponentFarm/modules/Paginate/Pagination';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Export, Plus } from '@ComponentFarm/atom/icons';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
+import MaterialListHandler from '@ComponentFarm/template/product/material/MaterialListHandler';
 import MaterialListTable from '@ComponentFarm/template/product/material/MaterialListTable';
 import useQueryParams from '@HookFarm/useQueryParams';
 
-const Manage = () => {
+const Manage = ({ environment }: { environment: IEnvironmentRes }) => {
   const router = useRouter();
   const [activeTabIndex, setActiveTabIndex] = useState(0);
-  const [params, updateParams, resetParams, toggleSort] = useQueryParams({
+  const [params, updateParams, resetParams] = useQueryParams({
     current_num: 1,
     per_num: 10,
   });
@@ -27,29 +30,21 @@ const Manage = () => {
   const tabData = [
     {
       title: '제품 목록',
-      label: '1025',
     },
     {
       title: '제조사 목록',
-      label: '13',
     },
     {
       title: '물류사 목록',
-      label: '5',
     },
     {
       title: '원산지 목록',
-      label: '20',
     },
     {
       title: '통계',
     },
     { title: '부서정보' },
   ];
-
-  // const { data } = useQuery(['couponList', params], () =>
-  //   fetchCouponFindAll(params)
-  // );
 
   const handlePageChange = (pageNumber: number) => {
     updateParams({ page: pageNumber });
@@ -62,6 +57,8 @@ const Manage = () => {
       query: router.query,
     });
   };
+
+  console.log('environment', environment);
 
   return (
     <>
@@ -84,12 +81,13 @@ const Manage = () => {
         activeTabIndex={activeTabIndex}
         onTabChange={index => setActiveTabIndex(index)}
       />
-      {/* <MaterialListHandler
+      <MaterialListHandler
+        environment={environment}
         params={params}
         updateParams={updateParams}
         resetParams={resetParams}
-      /> */}
-      <MaterialListTable data={data} toggleSort={toggleSort} />
+      />
+      <MaterialListTable data={data} />
       <Pagination
         pageInfo={[Number(params.current_num), Number(params.per_num)]}
         totalCount={Number(data?.total_count)}
@@ -100,3 +98,16 @@ const Manage = () => {
 };
 
 export default Manage;
+
+export const getStaticProps = async () => {
+  const environment = await fetchEnvironment({
+    name: 'material_storage_type,material_status',
+  });
+
+  return {
+    props: {
+      environment,
+    },
+    revalidate: 60,
+  };
+};
