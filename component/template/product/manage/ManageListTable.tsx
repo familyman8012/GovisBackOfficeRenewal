@@ -3,12 +3,14 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import { css } from '@emotion/react';
 import { IProductRes } from '@InterfaceFarm/product';
-import { Badge, BadgeColor } from '@ComponentFarm/atom/Badge/Badge';
+import { Badge } from '@ComponentFarm/atom/Badge/Badge';
+import Sort from '@ComponentFarm/atom/Sort/Sort';
 import { Table, TableWrap } from '@ComponentFarm/common';
+import { QueryParams } from '@HookFarm/useQueryParams';
 
 interface TableProps {
   data?: IProductRes;
-  toggleSort: (sortField: string) => void;
+  updateParams: (newParams: QueryParams) => void;
 }
 
 const pageStyle = css`
@@ -46,13 +48,7 @@ const pageStyle = css`
   }
 `;
 
-const prdouctStatusBadge: Record<string, BadgeColor> = {
-  '282': 'green',
-  '283': 'yellow',
-  '284': 'red',
-};
-
-const ManageListTable = ({ data, toggleSort }: TableProps) => {
+const ManageListTable = ({ data, updateParams }: TableProps) => {
   const router = useRouter();
 
   const handleGoIdxClick = (idx: string) => {
@@ -63,41 +59,65 @@ const ManageListTable = ({ data, toggleSort }: TableProps) => {
     });
   };
 
-  console.log('table_data', data);
+  const TableThItem = [
+    { id: 1, label: '제품코드', sort: 'product_code' },
+    { id: 2, label: '제품분류', sort: '' },
+    { id: 3, label: '제품명', sort: 'product_name_ko' },
+    { id: 4, label: '판매분류', sort: '' },
+    { id: 5, label: '판매 시작일', sort: 'sale_start_date' },
+    { id: 6, label: '판매 종료일', sort: 'sale_end_date' },
+    { id: 7, label: '등록일', sort: 'created_date' },
+    { id: 8, label: '수정일', sort: 'updated_date' },
+    { id: 9, label: '제품상태', sort: '' },
+    { id: 10, label: '레시피', sort: '' },
+  ];
+
   return (
     <TableWrap>
       <Table className="basic" css={pageStyle}>
         <thead>
           <tr>
-            <th>제품코드</th>
-            <th>제품분류</th>
-            <th>제품명</th>
-            <th>판매분류</th>
-            <th>판매 시작일</th>
-            <th>판매 종료일</th>
-            <th>등록일</th>
-            <th>수정일</th>
-            <th>제품상태</th>
-            <th>레시피</th>
+            {TableThItem.map(el => (
+              <th key={el.id}>
+                <span className="th_title">
+                  {el.label}{' '}
+                  {el.sort !== '' && (
+                    <Sort updateParams={updateParams} field={el.sort} />
+                  )}{' '}
+                </span>
+              </th>
+            ))}
           </tr>
         </thead>
         <tbody>
           {data?.list.map(product => (
             <tr
-              key={product.product_code}
+              key={product.product_info_idx}
               onClick={() => handleGoIdxClick(String(product.product_info_idx))}
             >
               <td className="code">{product.product_code}</td>
               <td>{product.evi_product_category_str}</td>
               <td>{product.product_name_ko}</td>
-              <td>{product.evi_sale_type_str}</td>
+              <td>{product.evi_sale_type_str.join('/')}</td>
               <td>{product.sale_start_date}</td>
-              <td>{product.sale_end_date}</td>
+              <td>
+                {product.sale_end_date !== '0000-00-00' ? (
+                  product.sale_end_date
+                ) : (
+                  <span style={{ paddingLeft: '3.5rem' }}>-</span>
+                )}
+              </td>
               <td>{product.created_date}</td>
               <td>{product.updated_date}</td>
               <td>
                 <Badge
-                  color={prdouctStatusBadge[product.evi_product_status]}
+                  color={
+                    product.evi_product_status_str === '운영'
+                      ? 'green'
+                      : product.evi_product_status_str === '중단'
+                      ? 'yellow'
+                      : 'red'
+                  }
                   size="sm"
                   dot
                 >

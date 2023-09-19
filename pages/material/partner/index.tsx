@@ -10,15 +10,15 @@ import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Export, Plus } from '@ComponentFarm/atom/icons';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
-import ListFilter from '@ComponentFarm/template/material-partner/ListFilter';
-import ListTable from '@ComponentFarm/template/material-partner/ListTable';
+import ListFilter from '@ComponentFarm/template/product/material/partner/ListFilter';
+import ListTable from '@ComponentFarm/template/product/material/partner/ListTable';
 import useQueryParams from '@HookFarm/useQueryParams';
 
 const PartnerListPage = ({ environment }: { environment: IEnvironmentRes }) => {
   const router = useRouter();
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const category = router.asPath.match(/category=([^&]*)/);
-  const [params, updateParams, resetParams, toggleSort] = useQueryParams({
+  const [params, updateParams, resetParams] = useQueryParams({
     category: category ? category[1] : undefined,
     current_num: 1,
     per_num: 10,
@@ -108,7 +108,7 @@ const PartnerListPage = ({ environment }: { environment: IEnvironmentRes }) => {
             updateParams={updateParams}
             resetParams={resetParams}
           />
-          <ListTable data={data} toggleSort={toggleSort} />
+          <ListTable data={data} />
           <Pagination
             pageInfo={[Number(params.current_num), Number(params.per_num)]}
             totalCount={Number(data?.total_count)}

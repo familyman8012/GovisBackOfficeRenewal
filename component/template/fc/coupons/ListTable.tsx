@@ -18,7 +18,7 @@ interface TableData {
 
 interface TableProps {
   data: { list: TableData[] };
-  toggleSort: (sortField: string) => void;
+  onSort: (sortField: string, sortOrder: 'asc' | 'desc') => void;
 }
 
 interface CouponType {
@@ -44,39 +44,21 @@ const coupon: CouponType = {
   },
 };
 
-const ListTable = ({ data, toggleSort }: TableProps) => {
+const ListTable = ({ data, onSort }: TableProps) => {
   const router = useRouter();
   const { query } = router;
-  const handleSortChange = (field: keyof TableData) => () => {
-    toggleSort(field);
-  };
 
   return (
     <table>
       <thead>
         <tr>
-          <th>
-            NO.
-            <button type="button" onClick={handleSortChange('idx')}>
-              Sort
-            </button>
-          </th>
+          <th>NO.</th>
           <th>시행 상태</th>
-          <th>
-            쿠폰명
-            <button type="button" onClick={handleSortChange('coupon_name')}>
-              Sort
-            </button>
-          </th>
+          <th>쿠폰명</th>
           <th>알림 유형</th>
           <th>쿠폰 유형</th>
           <th>쿠폰현황</th>
-          <th>
-            시행기간
-            <button type="button" onClick={handleSortChange('use_start_dt')}>
-              Sort
-            </button>
-          </th>
+          <th>시행기간</th>
         </tr>
       </thead>
       <tbody>

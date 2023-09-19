@@ -2,13 +2,12 @@ import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 import { Controller, useForm } from 'react-hook-form';
 import { css } from '@emotion/react';
+import { IEnvironmentRes } from '@InterfaceFarm/environment';
 import {
   IMaterial,
-  IMaterialCategoryItem,
   IMaterialCategoryRes,
   IPartnerRes,
 } from '@InterfaceFarm/material';
-import { IEnvironmentRes } from '@InterfaceFarm/environment';
 import ImageUploader from '@ComponentFarm/modules/ImageUploader/ImageUploader';
 import RadioGroup from '@ComponentFarm/modules/RadioGroup/RadioGroup';
 import { Button } from '@ComponentFarm/atom/Button/Button';
@@ -20,6 +19,7 @@ import TitleArea from '@ComponentFarm/layout/TitleArea';
 import useEnvironments, {
   EnvironmentKeyMapping,
 } from '@HookFarm/useEnviroments';
+import { transformCategoryByDepth } from '@UtilFarm/transformCategoryDepth';
 import { settingsByMode } from './const';
 
 interface FormProps {
@@ -31,17 +31,6 @@ interface FormProps {
   setSelectedImgFile: React.Dispatch<React.SetStateAction<File | null>>;
   submitFunc: (data: any) => void;
 }
-
-const data0 = [
-  {
-    label: '운영',
-    value: '1',
-  },
-  {
-    label: '중단',
-    value: '2',
-  },
-];
 
 const productStyles = css`
   .label_radio {
@@ -120,6 +109,7 @@ const MaterialForm: React.FC<FormProps> = ({
   const [activeTabIndex, setActiveTabIndex] = useState(0);
 
   const envKeys: EnvironmentKeyMapping[] = [
+    ['material_status', 'MATERIAL_STATUS'],
     ['material_product_type', 'PRODUCT_TYPE'],
     ['material_storage_type', 'STORAGE_TYPE'],
     ['material_trade_unit', 'TRADE_UNIT'],
@@ -131,6 +121,7 @@ const MaterialForm: React.FC<FormProps> = ({
   ];
 
   const {
+    MATERIAL_STATUS,
     PRODUCT_TYPE,
     STORAGE_TYPE,
     TRADE_UNIT,
@@ -181,7 +172,7 @@ const MaterialForm: React.FC<FormProps> = ({
     [materialPatner]
   );
 
-  const PartnerDefaultValue = useMemo(
+  const PartnerInitialValue = useMemo(
     () =>
       PARTNER.find(
         el => String(el.value) === String(initialData?.pci_manufacturer)
@@ -189,16 +180,29 @@ const MaterialForm: React.FC<FormProps> = ({
     [PARTNER, initialData?.pci_manufacturer]
   );
 
-  const CountryDefaultValue = useMemo(
+  const CountryInitialValue = useMemo(
     () =>
       COUNTRY.find(el => String(el.value) === String(initialData?.evi_country)),
     [COUNTRY, initialData?.evi_country]
   );
 
+  const CATEGORY1 = useMemo(
+    () => transformCategoryByDepth(materialCategory?.list, 1),
+    [materialCategory?.list]
+  );
+  const CATEGORY2 = useMemo(
+    () => transformCategoryByDepth(materialCategory?.list, 2),
+    [materialCategory?.list]
+  );
+  const CATEGORY3 = useMemo(
+    () => transformCategoryByDepth(materialCategory?.list, 3),
+    [materialCategory?.list]
+  );
+
   const defaultValues = {
     ...initialData,
-    pci_manufacturer: PartnerDefaultValue,
-    evi_country: CountryDefaultValue,
+    pci_manufacturer: PartnerInitialValue,
+    evi_country: CountryInitialValue,
   } || {
     external_code: '', // replaced innercode
     evi_material_status: '', // replaced status
@@ -227,15 +231,6 @@ const MaterialForm: React.FC<FormProps> = ({
     evi_material_sale_brand: '',
   };
 
-  // useEffect(() => {
-  //   if (initialData?.pci_manufacturer) {
-  //     console.log(
-  //       PARTNER.find(el => el.value === initialData.pci_manufacturer)
-  //     );
-  //     setValue('pci_manufacturer', { label: '테스트 제조사-03', value: 5 });
-  //   } // Set the default value on mount
-  // }, [PARTNER, initialData?.pci_manufacturer, setValue]);
-
   const {
     control,
     register,
@@ -245,39 +240,12 @@ const MaterialForm: React.FC<FormProps> = ({
     formState: { errors },
   } = useForm<IMaterial>({ defaultValues });
 
-  // 카테고리 변환
-  const transformCategoryByDepth = (
-    list: IMaterialCategoryItem[],
-    depth: number
-  ) => {
-    return list
-      ?.filter(el => el.depth === depth)
-      .map(item => ({
-        label: item.material_category_name,
-        value: item.material_category_idx,
-      }));
-  };
-
-  const CATEGORY1 = useMemo(
-    () => transformCategoryByDepth(materialCategory?.list, 1),
-    [materialCategory?.list]
-  );
-  const CATEGORY2 = useMemo(
-    () => transformCategoryByDepth(materialCategory?.list, 2),
-    [materialCategory?.list]
-  );
-  const CATEGORY3 = useMemo(
-    () => transformCategoryByDepth(materialCategory?.list, 3),
-    [materialCategory?.list]
-  );
-
   // 원재료 규격 (단위)
   const materialSpecUnitWatch = watch('evi_material_spec_unit');
   const materialSpecUnit = environment?.list?.find(
     el => String(el?.environment_variable_idx) === String(materialSpecUnitWatch)
   )?.value;
 
-  console.log('enviroment', environment);
   // 원재료 규격 (양)
   const materialSpecQty = watch('material_spec_qty');
 
@@ -430,7 +398,7 @@ const MaterialForm: React.FC<FormProps> = ({
                 })}
               >
                 <option value="">전체</option>
-                {data0.map(el => (
+                {MATERIAL_STATUS?.map(el => (
                   <option key={el.value} value={el.value}>
                     {el.label}
                   </option>
@@ -949,17 +917,6 @@ const MaterialForm: React.FC<FormProps> = ({
                 );
               }}
             />
-            {/* <Controller
-              name="pci_manufacturer"
-              control={control}
-              render={({ field }) => (
-                <Select
-                  options={PARTNER}
-                  selectedOption={field.value}
-                  setSelectedOption={field.onChange}
-                />
-              )}
-            /> */}
             {errors.pci_manufacturer && (
               <ErrorTxt>{String(errors.pci_manufacturer.message)}</ErrorTxt>
             )}

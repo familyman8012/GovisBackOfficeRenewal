@@ -78,45 +78,21 @@ export const searchNotificationType = [
 export const searchOption = [
   {
     label: '원재료 코드',
-    value: '0',
+    value: 'material_code',
   },
   {
-    label: '태그',
-    value: '1',
-  },
-];
-
-export const selectConfig = [
-  { label: '대분류', field: 'search_status', options: searchStatus },
-  {
-    label: '중분류',
-    field: 'search_coupon_type',
-    options: searchCouponType,
-  },
-  {
-    label: '소분류',
-    field: 'search_notification_type',
-    options: searchNotificationType,
-  },
-  {
-    label: '구분',
-    field: 'search_notification_type',
-    options: searchNotificationType,
-  },
-  {
-    label: '원재료 상태',
-    field: 'search_notification_type',
-    options: searchNotificationType,
+    label: '원재료 명',
+    value: 'material_name_ko',
   },
 ];
 
 export const dateConfig = [
   {
-    field: 'search_use_dt',
+    field: 'created_date',
     placeholder: '등록일',
   },
   {
-    field: 'search_end_dt',
+    field: 'updated_date',
     placeholder: '수정일',
   },
 ];

@@ -10,14 +10,14 @@ interface IMenuListTableProps {
   list: IMenuListItem[];
   onClick: (item: IMenuListItem) => void;
   onClickCopy?: (item: IMenuListItem) => void;
-  toggleSort?: (sort: string) => void;
+  onSort?: (sort: string) => void;
 }
 
 const MenuListTable = ({
   list,
   onClick,
   onClickCopy,
-  toggleSort,
+  onSort,
 }: IMenuListTableProps) => {
   return (
     <TableWrap>

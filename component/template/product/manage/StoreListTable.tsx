@@ -19,7 +19,7 @@ interface TableData {
 
 interface TableProps {
   data?: { list: TableData[] };
-  toggleSort: (sortField: string) => void;
+  onSort: (sortField: string, sortOrder: 'asc' | 'desc') => void;
 }
 
 const TableArr = [
@@ -111,7 +111,7 @@ const pageStyle = css`
   }
 `;
 
-const StoreListTable = ({ data, toggleSort }: TableProps) => {
+const StoreListTable = ({ data, onSort }: TableProps) => {
   return (
     <TableWrap>
       <Table className="basic" css={pageStyle}>

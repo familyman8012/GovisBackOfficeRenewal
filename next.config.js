@@ -1,6 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  images: {
+    domains: ['dev-govis.s3.ap-northeast-2.amazonaws.com'],
+    unoptimized: true,
+  },
   compiler: {
     emotion: true,
   },

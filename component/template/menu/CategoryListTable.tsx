@@ -5,10 +5,10 @@ import { getTableWidthPercentage } from '@UtilFarm/calcSize';
 
 interface ICategoryListTableProps {
   list: IMenuCategoryItem[];
-  toggleSort?: (sort: string) => void;
+  onSort?: (sort: string) => void;
 }
 
-const CategoryListTable = ({ toggleSort, list }: ICategoryListTableProps) => {
+const CategoryListTable = ({ onSort, list }: ICategoryListTableProps) => {
   return (
     <TableWrap>
       <Table className="basic">

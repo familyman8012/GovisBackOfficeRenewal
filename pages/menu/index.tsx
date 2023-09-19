@@ -22,7 +22,7 @@ const MenuListPage: NextPage<{
 }> = ({ envs }) => {
   const router = useRouter();
   const [pathname] = router.asPath.split('?');
-  const [params, updateParams, resetParams, toggleSort] = useQueryParams({
+  const [params, updateParams, resetParams] = useQueryParams({
     per_num: 10,
     current_num: 1,
   });
@@ -74,7 +74,6 @@ const MenuListPage: NextPage<{
         list={data?.list ?? []}
         onClick={item => router.push(`${pathname}/${item.menu_info_idx}`)}
         onClickCopy={item => setCopyTargetId(item.menu_info_idx)}
-        toggleSort={toggleSort}
       />
       <Pagination
         pageInfo={[Number(params.current_num), Number(params.per_num)]}

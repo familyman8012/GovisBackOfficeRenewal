@@ -19,9 +19,10 @@ const RecipeListPage: NextPage<{ envs: IEnvironmentResItem[] }> = ({
 }) => {
   const router = useRouter();
   const [pathname] = router.asPath.split('?');
-  const [params, updateParams, resetParams, toggleSort] = useQueryParams({
-    current_num: 1,
-    per_num: 10,
+  const [params, updateParams, resetParams] = useQueryParams({
+    page: 1,
+    size: 10,
+    search_type: 0,
   });
 
   const handlePageChange = (current_num: number) =>
@@ -60,7 +61,7 @@ const RecipeListPage: NextPage<{ envs: IEnvironmentResItem[] }> = ({
       <RecipeListTable
         list={data?.list ?? []}
         onClick={item => router.push(`${pathname}/${item.product_info_idx}`)}
-        toggleSort={toggleSort}
+        // toggleSort={toggleSort}
       />
       <Pagination
         pageInfo={[Number(params.current_num), Number(params.per_num)]}

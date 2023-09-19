@@ -2,75 +2,58 @@ import { useEffect, useState, useRef } from 'react';
 import { useRouter } from 'next/router';
 
 export type QueryParams = {
-  per_num?: number; // 페이지별 표시 아이템 갯수
-  current_num?: number; // 현재 페이지 번호
-  sort_target?: string; // 정렬 - 대상 항목
-  sort_type?: 'asc' | 'desc'; // 정렬 - 방법
+  per_num?: number;
+  current_num?: number;
+  sort_target?: string;
+  sort_type?: 'asc' | 'desc';
   [key: string]: number | string | string[] | undefined;
 };
 
 function useQueryParams(
   initialParams: QueryParams = {}
-): [
-  QueryParams,
-  (newParams: QueryParams) => void,
-  () => void,
-  (sortField: string) => void,
-] {
+): [QueryParams, (newParams: QueryParams) => void, () => void] {
   const router = useRouter();
   const isInitialMount = useRef(true);
 
-  const [params, setParams] = useState<QueryParams>(() => {
-    // Merge the query parameters with the initial parameters.
-    return { ...initialParams, ...router.query };
-  });
+  const getMergedParams = () => {
+    const queryParamsString = router.asPath.split('?')[1] || '';
+    const urlParams = new URLSearchParams(queryParamsString);
+    const queryParams: { [key: string]: string } = {};
+    urlParams.forEach((value, key) => {
+      queryParams[key] = value;
+    });
+    return { ...initialParams, ...queryParams };
+  };
+
+  const [params, setParams] = useState<QueryParams>(getMergedParams);
 
   useEffect(() => {
     if (isInitialMount.current) {
       isInitialMount.current = false;
-
-      const queryStringIndex = router.asPath.indexOf('?');
-      const hasQueryParams = queryStringIndex !== -1;
-
-      if (!hasQueryParams) {
-        // If there are no query parameters in the URL, set the initial parameters.
-        router.replace(
-          {
-            pathname: router.pathname,
-            query: { ...initialParams },
-          },
-          undefined,
-          { shallow: true }
-        );
-      } else {
-        // Parse the query string and merge with initialParams
-        const queryParamsString = router.asPath.slice(queryStringIndex + 1);
-        const urlParams = new URLSearchParams(queryParamsString);
-        const queryParams: { [key: string]: string } = {};
-        urlParams.forEach((value, key) => {
-          queryParams[key] = value;
-        });
-        setParams({ ...initialParams, ...queryParams });
-      }
+      const mergedParams = getMergedParams();
+      setParams(mergedParams);
+      router.replace(
+        {
+          pathname: router.pathname,
+          query: mergedParams,
+        },
+        undefined,
+        { shallow: true }
+      );
       return;
     }
-
     setParams(prevParams => ({ ...prevParams, ...router.query }));
   }, [router.query]);
 
   const updateParams = (newParams: QueryParams) => {
-    // 빈 문자열("") 값을 가진 키는 undefined로 설정
     Object.keys(newParams).forEach(key => {
       if (newParams[key] === '') {
-        // eslint-disable-next-line no-param-reassign
         newParams[key] = undefined;
       }
     });
 
-    // 현재의 router.query와 newParams를 병합
     const updatedQuery = { ...router.query, ...newParams };
 
-    // undefined 값을 가진 키 제거
     Object.keys(updatedQuery).forEach(key => {
       if (updatedQuery[key] === undefined) {
         delete updatedQuery[key];
@@ -100,24 +83,7 @@ function useQueryParams(
     );
   };
 
-  const toggleSort = (sortField: string) => {
-    const currentSortField = params.sort_field;
-    const currentSortType = params.sort_type;
-
-    if (currentSortField === sortField) {
-      updateParams({
-        sort_field: sortField,
-        sort_type: currentSortType === 'asc' ? 'desc' : 'asc',
-      });
-    } else {
-      updateParams({
-        sort_field: sortField,
-        sort_type: 'asc',
-      });
-    }
-  };
-
-  return [params, updateParams, resetParams, toggleSort];
+  return [params, updateParams, resetParams];
 }
 
 export default useQueryParams;

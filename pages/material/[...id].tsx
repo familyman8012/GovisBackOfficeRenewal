@@ -10,8 +10,8 @@ import {
   fetchPartnerList,
 } from '@ApiFarm/ material';
 import { fetchEnvironment } from '@ApiFarm/environment';
-import { IMaterial } from '@InterfaceFarm/material';
 import { IEnvironmentRes } from '@InterfaceFarm/environment';
+import { IMaterial } from '@InterfaceFarm/material';
 import MaterialForm from '@ComponentFarm/template/product/material/Form';
 import useImageUploader from '@HookFarm/useImageUploader';
 
@@ -181,7 +181,7 @@ export async function getStaticPaths() {
 
 export const getStaticProps = async () => {
   const environment = await fetchEnvironment({
-    name: 'material_product_type,material_storage_type,material_trade_unit,material_spec_unit,taxable,vat,country,material_sale_brand,partner_company_type',
+    name: 'material_status,material_product_type,material_storage_type,material_trade_unit,material_spec_unit,taxable,vat,country,material_sale_brand,partner_company_type',
   });
 
   return {

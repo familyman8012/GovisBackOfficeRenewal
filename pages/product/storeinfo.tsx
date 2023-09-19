@@ -10,7 +10,7 @@ import useQueryParams from '@HookFarm/useQueryParams';
 
 const StoreInfo = () => {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
-  const [params, updateParams, resetParams, toggleSort] = useQueryParams({
+  const [params, updateParams, resetParams] = useQueryParams({
     page: 1,
     size: 10,
     search_type: 0,
@@ -78,7 +78,7 @@ const StoreInfo = () => {
         updateParams={updateParams}
         resetParams={resetParams}
       />
-      <StoreListTable toggleSort={toggleSort} />
+      <StoreListTable />
       <Pagination
         pageInfo={[Number(params.page), Number(params.size)]}
         totalCount={100}
