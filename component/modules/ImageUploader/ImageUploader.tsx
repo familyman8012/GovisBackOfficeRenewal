@@ -66,13 +66,15 @@ const ImageInput = styled.input`
 `;
 
 export interface ImageUploaderProps {
-  pageMode: string;
+  pageMode?: string;
+  isReadOnly?: boolean;
   product_image: string;
   onImageChange?: (file: File) => void;
 }
 
 const ImageUploader: FC<ImageUploaderProps> = ({
   pageMode,
+  isReadOnly,
   product_image,
   onImageChange,
 }) => {
@@ -91,7 +93,7 @@ const ImageUploader: FC<ImageUploaderProps> = ({
   };
 
   const imgSelect = () => {
-    if (pageMode !== 'view') {
+    if (!isReadOnly) {
       return imageInputRef.current?.click();
     }
     return null;
@@ -121,7 +123,7 @@ const ImageUploader: FC<ImageUploaderProps> = ({
           </>
         )}
       </GrayBox>
-      {pageMode !== 'view' && (
+      {!isReadOnly && (
         <ImageWrapper onClick={imgSelect}>
           {image ? <Edit /> : <Plus />}
           <ImageText>{image ? '이미지 수정' : '이미지 추가'}</ImageText>

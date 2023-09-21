@@ -9,9 +9,9 @@ import { IEnvironmentRes } from '@InterfaceFarm/environment';
 import { IProductChannelImg } from '@InterfaceFarm/product';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Edit, Export, Plus } from '@ComponentFarm/atom/icons';
-import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import { FormWrap, Table, TableWrap } from '@ComponentFarm/common';
-import TitleArea from '@ComponentFarm/layout/TitleArea';
+import DetailPageLayout from '@ComponentFarm/layout/Product/DetailPageLayout';
+import { tabDataFunc } from '@ComponentFarm/template/product/manage/const';
 import useImageUploader from '@HookFarm/useImageUploader';
 
 const pageStyle = css`
@@ -66,6 +66,7 @@ const Channelimg = ({ environment }: { environment: IEnvironmentRes }) => {
   const router = useRouter();
   const { id } = router.query;
   const queryClient = useQueryClient();
+  const tabData = tabDataFunc('view', router?.query);
   const [imgData, status, errorMessage, handler] = useImageUploader(
     'images/product/channelimg'
   );
@@ -89,16 +90,6 @@ const Channelimg = ({ environment }: { environment: IEnvironmentRes }) => {
     쿠팡이츠: { width: 360, height: 230 },
     땡겨요: { width: 360, height: 230 },
   };
-
-  const tabData = [
-    {
-      title: '제품등록',
-    },
-    {
-      title: '채널별 제품 이미지',
-    },
-  ];
-  const [activeTabIndex, setActiveTabIndex] = useState(0);
 
   const { data: ChannelImg } = useQuery(
     ['channelImgList'],
@@ -200,85 +191,76 @@ const Channelimg = ({ environment }: { environment: IEnvironmentRes }) => {
     link.href = fileName;
     link.click();
   }
-
   return (
     <FormWrap>
-      <TitleArea
-        title="제품 등록"
-        BtnBox={<Button variant="gostSecondary">이전</Button>}
-      />
-      <Tabs
-        id="tab_channelimg"
-        tabs={tabData}
-        activeTabIndex={activeTabIndex}
-        onTabChange={index => setActiveTabIndex(index)}
-      />
-      <h2>채널별 제품 이미지 목록</h2>
-      <TableWrap>
-        <Table className="basic" css={pageStyle}>
-          <thead>
-            <tr>
-              <th>
-                <span className="hiddenZoneV">썸네일 이미지</span>
-              </th>
-              <th>채널명</th>
-              <th>해상도</th>
-              <th>
-                <span className="hiddenZoneV">이미지 다운로드</span>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {ChannelImg?.list?.map((el: IProductChannelImg) => (
-              <tr key={el.evi_sale_channel}>
-                <td>
-                  <span className="thumb">
-                    <Image
-                      src={
-                        el.product_image === ''
-                          ? '/images/product/manage/channel/thumb_default.svg'
-                          : el.product_image
-                      }
-                      fill
-                      alt="기본 이미지"
-                    />
-                  </span>
-                </td>
-                <td>{el.evi_sale_channel_str}</td>
-                <td>
-                  {imgResolution[String(el.evi_sale_channel_str)].width} x
-                  {imgResolution[String(el.evi_sale_channel_str)].height}
-                </td>
-                <td>
-                  <div className="btn_box">
-                    <Button
-                      variant="gostSecondary"
-                      LeadingIcon={el.product_image ? <Edit /> : <Plus />}
-                      onClick={() =>
-                        handleImageUpload(
-                          String(el.evi_sale_channel_str),
-                          el.product_image === ''
-                            ? 0
-                            : el.product_image_channel_idx
-                        )
-                      }
-                    >
-                      {el.product_image ? '이미지 변경' : '이미지 추가'}
-                    </Button>
-                    <Button
-                      variant="gostSecondary"
-                      LeadingIcon={<Export />}
-                      onClick={() => downloadFile(el.product_image)}
-                    >
-                      다운로드
-                    </Button>
-                  </div>
-                </td>
+      <DetailPageLayout tabData={tabData} title="제품 상세 정보">
+        <h2>채널별 제품 이미지 목록</h2>
+        <TableWrap>
+          <Table className="basic" css={pageStyle}>
+            <thead>
+              <tr>
+                <th>
+                  <span className="hiddenZoneV">썸네일 이미지</span>
+                </th>
+                <th>채널명</th>
+                <th>해상도</th>
+                <th>
+                  <span className="hiddenZoneV">이미지 다운로드</span>
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </Table>
-      </TableWrap>
+            </thead>
+            <tbody>
+              {ChannelImg?.list?.map((el: IProductChannelImg) => (
+                <tr key={el.evi_sale_channel}>
+                  <td>
+                    <span className="thumb">
+                      <Image
+                        src={
+                          el.product_image === ''
+                            ? '/images/product/manage/channel/thumb_default.svg'
+                            : el.product_image
+                        }
+                        fill
+                        alt="기본 이미지"
+                      />
+                    </span>
+                  </td>
+                  <td>{el.evi_sale_channel_str}</td>
+                  <td>
+                    {imgResolution[String(el.evi_sale_channel_str)].width} x
+                    {imgResolution[String(el.evi_sale_channel_str)].height}
+                  </td>
+                  <td>
+                    <div className="btn_box">
+                      <Button
+                        variant="gostSecondary"
+                        LeadingIcon={el.product_image ? <Edit /> : <Plus />}
+                        onClick={() =>
+                          handleImageUpload(
+                            String(el.evi_sale_channel_str),
+                            el.product_image === ''
+                              ? 0
+                              : el.product_image_channel_idx
+                          )
+                        }
+                      >
+                        {el.product_image ? '이미지 변경' : '이미지 추가'}
+                      </Button>
+                      <Button
+                        variant="gostSecondary"
+                        LeadingIcon={<Export />}
+                        onClick={() => downloadFile(el.product_image)}
+                      >
+                        다운로드
+                      </Button>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </TableWrap>
+      </DetailPageLayout>
     </FormWrap>
   );
 };

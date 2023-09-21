@@ -18,7 +18,6 @@ interface TableData {
 
 interface TableProps {
   data: { list: TableData[] };
-  onSort: (sortField: string, sortOrder: 'asc' | 'desc') => void;
 }
 
 interface CouponType {
@@ -44,7 +43,7 @@ const coupon: CouponType = {
   },
 };
 
-const ListTable = ({ data, onSort }: TableProps) => {
+const ListTable = ({ data }: TableProps) => {
   const router = useRouter();
   const { query } = router;
 

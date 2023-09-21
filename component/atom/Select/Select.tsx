@@ -22,6 +22,7 @@ export interface SelectProps {
   width?: string;
   height?: string;
   isSearchable?: boolean;
+  isDisabled?: boolean;
   formatOptionLabel?: (option: IOption) => React.ReactNode;
   formatStatus?: (status: string) => React.ReactNode;
   prefixLabel?: string;
@@ -64,6 +65,7 @@ export const Select: FC<SelectProps> = ({
   width,
   height,
   isSearchable,
+  isDisabled,
   formatOptionLabel,
   formatStatus,
   prefixLabel,
@@ -154,6 +156,7 @@ export const Select: FC<SelectProps> = ({
       placeholder={placeholder || 'Select...'}
       isClearable={false}
       isSearchable
+      isDisabled={isDisabled}
       formatOptionLabel={customFormatOptionLabel}
     />
   );

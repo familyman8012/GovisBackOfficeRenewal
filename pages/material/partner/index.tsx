@@ -10,14 +10,17 @@ import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Export, Plus } from '@ComponentFarm/atom/icons';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
+import { materialListTabData } from '@ComponentFarm/template/product/material/const';
 import ListFilter from '@ComponentFarm/template/product/material/partner/ListFilter';
 import ListTable from '@ComponentFarm/template/product/material/partner/ListTable';
 import useQueryParams from '@HookFarm/useQueryParams';
 
 const PartnerListPage = ({ environment }: { environment: IEnvironmentRes }) => {
   const router = useRouter();
-  const [activeTabIndex, setActiveTabIndex] = useState(0);
   const category = router.asPath.match(/category=([^&]*)/);
+  const [activeTabIndex, setActiveTabIndex] = useState(
+    category && category[1] === 'pct_manufacturer' ? 1 : 2
+  );
   const [params, updateParams, resetParams] = useQueryParams({
     category: category ? category[1] : undefined,
     current_num: 1,
@@ -39,8 +42,6 @@ const PartnerListPage = ({ environment }: { environment: IEnvironmentRes }) => {
     [environment.list, router.query.partner_company_status]
   );
 
-  console.log('router', router);
-
   const { data } = useQuery(
     ['partnerList', router.asPath],
     () =>
@@ -59,14 +60,6 @@ const PartnerListPage = ({ environment }: { environment: IEnvironmentRes }) => {
     }
   }, [category]);
 
-  console.log('environment', environment);
-
-  const tabData = [
-    {
-      title: '물류사 목록',
-    },
-  ];
-
   const handlePageChange = (pageNumber: number) => {
     updateParams({ current_num: pageNumber });
   };
@@ -77,6 +70,11 @@ const PartnerListPage = ({ environment }: { environment: IEnvironmentRes }) => {
       pathname: '/material/partner/add',
       query: router.query,
     });
+  };
+
+  const hanldeTabMove = (index: number) => {
+    setActiveTabIndex(index);
+    router.push(materialListTabData[index].url);
   };
 
   return (
@@ -98,9 +96,9 @@ const PartnerListPage = ({ environment }: { environment: IEnvironmentRes }) => {
           />
           <Tabs
             id="tab_material_partner"
-            tabs={tabData}
+            tabs={materialListTabData}
             activeTabIndex={activeTabIndex}
-            onTabChange={index => setActiveTabIndex(index)}
+            onTabChange={index => hanldeTabMove(index)}
           />
           <ListFilter
             category={String(partnerCategory?.value)}

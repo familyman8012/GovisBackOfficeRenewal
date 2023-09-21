@@ -51,9 +51,13 @@ export interface MaterialInfo {
   created_date: string;
   updated_date: string;
   evi_material_status: number;
+<<<<<<< Updated upstream
   evv_material_status: number;
   evi_country: number;
   evv_country: string;
+=======
+  evv_material_status: string;
+>>>>>>> Stashed changes
 }
 
 export interface IMaterialRes {
@@ -71,7 +75,7 @@ export interface IMaterial {
   material_info_idx: number; // 고유식별 번호 for 원재료 정보
   material_code?: string; // 원재료 코드
   external_code?: string; // 내부 코드 (외주사 코드 / 발주고 코드)
-  evi_material_status: number; // 원재료 상태 (환경 변수 - 고유식별 번호)
+  evi_material_status: string; // 원재료 상태 (환경 변수 - 고유식별 번호)
   evv_material_status?: string; // 원재료 상태 (환경 변수 값)
   material_image?: string; // 원재료 이미지 URL
   evi_material_product_type: number; // 원재료 상품 구분 (환경 변수 - 고유식별 번호)
@@ -295,6 +299,16 @@ export interface IPartnerCountryItem {
   origin_code: string; // 원산지 코드
   origin_name: string; // 원산지명
   created_date: string; // 등록일 ( yyyy-mm-dd )
+}
+
+export interface IPartnerCountryReq {
+  per_num?: number;
+  current_num?: number;
+  search_target?: string;
+  search_keyword?: string;
+  sort_target?: string;
+  sort_type?: string;
+  is_export?: string;
 }
 
 export interface IPartnerCountryRes {

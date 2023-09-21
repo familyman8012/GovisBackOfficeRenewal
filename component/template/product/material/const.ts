@@ -1,3 +1,5 @@
+import { tabGetQueryId } from '@UtilFarm/tabGetQueryId';
+
 type PageModeSettings = {
   title: string;
   firstButtonText: string;
@@ -8,10 +10,10 @@ export const settingsByMode: Record<string, PageModeSettings> = {
   add: {
     title: '원재료 등록',
     firstButtonText: '취소',
-    secondButtonText: '등록',
+    secondButtonText: '다음',
   },
   modify: {
-    title: '원재료 상세 정보 수정',
+    title: '원재료 수정',
     firstButtonText: '취소',
     secondButtonText: '저장',
   },
@@ -41,40 +43,6 @@ export const searchStatus = [
   },
 ];
 
-export const searchCouponType = [
-  {
-    value: '',
-    label: '전체',
-  },
-  {
-    value: '0',
-    label: '상품',
-  },
-  {
-    value: '1',
-    label: '할인율',
-  },
-  {
-    value: '2',
-    label: '할인액',
-  },
-];
-
-export const searchNotificationType = [
-  {
-    value: '',
-    label: '전체',
-  },
-  {
-    value: '0',
-    label: '일반',
-  },
-  {
-    value: '1',
-    label: '알림톡',
-  },
-];
-
 export const searchOption = [
   {
     label: '원재료 코드',
@@ -97,16 +65,69 @@ export const dateConfig = [
   },
 ];
 
-export const storeInfoSelectCofing = [
-  { label: '지역', field: 'search_status', options: searchStatus },
+export const materialListTabData = [
   {
-    label: '매장 구분',
-    field: 'search_coupon_type',
-    options: searchCouponType,
+    title: '원재료 목록',
+    url: '/material',
   },
   {
-    label: '매장 상태',
-    field: 'search_notification_type',
-    options: searchNotificationType,
+    title: '제조사 목록',
+    url: '/material/partner?category=pct_manufacturer&current_num=1&per_num=10',
   },
+  {
+    title: '물류사 목록',
+    url: '/material/partner?category=pct_shipping_company&current_num=1&per_num=10',
+  },
+  {
+    title: '원산지 목록',
+    url: '/material/country?current_num=1&per_num=10',
+  },
+  {
+    title: '통계',
+    url: '',
+  },
+  { title: '부서정보', url: '' },
 ];
+
+export const tabDataFunc = (pageMode: string, query?: any) => {
+  const getIdFromQuery = tabGetQueryId(query);
+  const baseUrl = '/material';
+
+  return pageMode === 'add'
+    ? [
+        {
+          title: '원재료 상세 정보',
+          url: `${baseUrl}/add`,
+        },
+        {
+          title: '원재료 배송 정보',
+          url: `${baseUrl}/shipping/add`,
+        },
+      ]
+    : pageMode === 'modify'
+    ? [
+        {
+          title: '원재료 상세 정보',
+          url: `${baseUrl}/modify/${getIdFromQuery}`,
+        },
+        {
+          title: '원재료 배송 정보',
+          url: `${baseUrl}/shipping/modify/${getIdFromQuery}`,
+        },
+      ]
+    : [
+        {
+          title: '원재료 상세 정보',
+          url: `${baseUrl}/view/${getIdFromQuery}`,
+        },
+        {
+          title: '원재료 배송 정보',
+          url: `${baseUrl}/shipping/view/${getIdFromQuery}`,
+        },
+        {
+          title: '변경내역',
+          url: `${baseUrl}/history`,
+          query: { id: getIdFromQuery },
+        },
+      ];
+};

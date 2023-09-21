@@ -1,3 +1,5 @@
+import { tabGetQueryId } from '@UtilFarm/tabGetQueryId';
+
 export type environmentConfigEntry =
   | [string, string]
   | [string, string, { label: string; value: string }[]];
@@ -55,7 +57,7 @@ export const searchOption = [
   },
 ];
 
-type PageModeSettings = {
+export type PageModeSettings = {
   title: string;
   firstButtonText: string;
   secondButtonText: string;
@@ -98,101 +100,48 @@ export const searchStatus = [
   },
 ];
 
-export const searchCouponType = [
-  {
-    value: '',
-    label: '전체',
-  },
-  {
-    value: '0',
-    label: '상품',
-  },
-  {
-    value: '1',
-    label: '할인율',
-  },
-  {
-    value: '2',
-    label: '할인액',
-  },
-];
+export interface Tab {
+  title: string;
+  url: string;
+  query?: { id?: string | string[] };
+}
 
-export const searchNotificationType = [
-  {
-    value: '',
-    label: '전체',
-  },
-  {
-    value: '0',
-    label: '일반',
-  },
-  {
-    value: '1',
-    label: '알림톡',
-  },
-];
+export const tabDataFunc = (pageMode: string, query?: any) => {
+  const getIdFromQuery = tabGetQueryId(query);
+  const baseUrl = '/product';
 
-export const storeInfoSelectCofing = [
-  { label: '지역', field: 'search_status', options: searchStatus },
-  {
-    label: '매장 구분',
-    field: 'search_coupon_type',
-    options: searchCouponType,
-  },
-  {
-    label: '매장 상태',
-    field: 'search_notification_type',
-    options: searchNotificationType,
-  },
-];
-
-export const ChannelImg = [
-  {
-    id: 1,
-    url: '',
-    Name: 'POS',
-    Resolution: '201 x 120',
-    regDate: '2023-07-23',
-    modDate: '2023-07-23',
-  },
-  {
-    id: 2,
-    url: '',
-    Name: 'KIOSK',
-    Resolution: '201 x 120',
-    regDate: '2023-07-23',
-    modDate: '2023-07-23',
-  },
-  {
-    id: 3,
-    url: '',
-    Name: '배달의 민족',
-    Resolution: '201 x 120',
-    regDate: '2023-07-23',
-    modDate: '2023-07-23',
-  },
-  {
-    id: 4,
-    url: '',
-    Name: '요기요',
-    Resolution: '201 x 120',
-    regDate: '2023-07-23',
-    modDate: '2023-07-23',
-  },
-  {
-    id: 5,
-    url: '',
-    Name: '쿠팡이즈',
-    Resolution: '201 x 120',
-    regDate: '2023-07-23',
-    modDate: '2023-07-23',
-  },
-  {
-    id: 6,
-    url: '',
-    Name: '땡겨요',
-    Resolution: '201 x 120',
-    regDate: '2023-07-23',
-    modDate: '2023-07-23',
-  },
-];
+  return pageMode === 'add'
+    ? [
+        {
+          title: '제품등록',
+          url: `${baseUrl}/add`,
+        },
+      ]
+    : pageMode === 'modify'
+    ? [
+        {
+          title: '제품수정',
+          url: `${baseUrl}/modify`,
+        },
+      ]
+    : [
+        {
+          title: '제품상세',
+          url: `${baseUrl}/view/${getIdFromQuery}`,
+        },
+        {
+          title: '채널별 이미지 정보',
+          url: `${baseUrl}/channelimg/${getIdFromQuery}`,
+        },
+        {
+          title: '원재료 정보',
+          url: `${baseUrl}/materialinfo`,
+          query: { id: getIdFromQuery },
+        },
+        {
+          title: '변경내역',
+          url: `${baseUrl}/history`,
+          query: { id: getIdFromQuery },
+        },
+      ];
+};

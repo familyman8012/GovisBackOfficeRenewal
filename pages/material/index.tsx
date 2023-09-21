@@ -9,6 +9,7 @@ import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Export, Plus } from '@ComponentFarm/atom/icons';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
+import { materialListTabData } from '@ComponentFarm/template/product/material/const';
 import MaterialListHandler from '@ComponentFarm/template/product/material/MaterialListHandler';
 import MaterialListTable from '@ComponentFarm/template/product/material/MaterialListTable';
 import useQueryParams from '@HookFarm/useQueryParams';
@@ -25,27 +26,6 @@ const Manage = ({ environment }: { environment: IEnvironmentRes }) => {
     fetchMaterialList(params)
   );
 
-  console.log('data', data);
-
-  const tabData = [
-    {
-      title: '제품 목록',
-    },
-    {
-      title: '제조사 목록',
-    },
-    {
-      title: '물류사 목록',
-    },
-    {
-      title: '원산지 목록',
-    },
-    {
-      title: '통계',
-    },
-    { title: '부서정보' },
-  ];
-
   const handlePageChange = (pageNumber: number) => {
     updateParams({ page: pageNumber });
   };
@@ -58,7 +38,10 @@ const Manage = ({ environment }: { environment: IEnvironmentRes }) => {
     });
   };
 
-  console.log('environment', environment);
+  const hanldeTabMove = (index: number) => {
+    setActiveTabIndex(index);
+    router.push(materialListTabData[index].url);
+  };
 
   return (
     <>
@@ -77,9 +60,9 @@ const Manage = ({ environment }: { environment: IEnvironmentRes }) => {
       />
       <Tabs
         id="material"
-        tabs={tabData}
+        tabs={materialListTabData}
         activeTabIndex={activeTabIndex}
-        onTabChange={index => setActiveTabIndex(index)}
+        onTabChange={index => hanldeTabMove(index)}
       />
       <MaterialListHandler
         environment={environment}
@@ -87,7 +70,7 @@ const Manage = ({ environment }: { environment: IEnvironmentRes }) => {
         updateParams={updateParams}
         resetParams={resetParams}
       />
-      <MaterialListTable data={data} />
+      <MaterialListTable data={data} updateParams={updateParams} />
       <Pagination
         pageInfo={[Number(params.current_num), Number(params.per_num)]}
         totalCount={Number(data?.total_count)}

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { runInAction } from 'mobx';
 import { useRouter } from 'next/router';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { toast } from 'react-toastify';
@@ -12,6 +13,7 @@ import { IEnvironmentRes } from '@InterfaceFarm/environment';
 import { IProductForm } from '@InterfaceFarm/product';
 import ProductForm from '@ComponentFarm/template/product/manage/Form';
 import useImageUploader from '@HookFarm/useImageUploader';
+import { confirmModalStore } from '@MobxFarm/store';
 
 const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
   const router = useRouter();
@@ -27,16 +29,46 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
     ['productFormView', router.asPath],
     () => fetchProductFormView(String(id && id[1])),
     {
-      enabled: pageMode === 'view',
+      enabled: pageMode === 'view' || pageMode === 'modify',
       cacheTime: 0,
     }
   );
 
+  const channelModal = (product_info_idx: number) => {
+    runInAction(() => {
+      confirmModalStore.openModal({
+        title: '제품 정보 등록 완료',
+        content: (
+          <p>
+            채널별 이미지를 등록하시겠습니까?
+            <br />
+            (채널별 이미지는 추후 등록 가능합니다.)
+          </p>
+        ),
+        onFormSubmit: () => {
+          // eslint-disable-next-line no-unused-vars
+          const { routerId, ...newObj } = router.query;
+          router.push({
+            pathname: `/product/channelimg/${product_info_idx}`,
+            query: { ...newObj },
+          });
+          confirmModalStore.isOpen = false;
+        },
+        onCancel: () => {
+          confirmModalStore.isOpen = false;
+          router.back();
+        },
+        submitButtonText: '다음',
+      });
+    });
+  };
+
   // 등록일때, 데이터 저장
   const saveSubmit = useMutation(fetchProductFormSave, {
-    onSuccess: () => {
-      console.log('성공!');
+    onSuccess: data => {
+      console.log('성공!', data);
       queryClient.invalidateQueries(['productList']);
+      channelModal(data.product_info_idx);
     },
   });
 
@@ -44,6 +76,7 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
     onSuccess: () => {
       console.log('성공!');
       queryClient.invalidateQueries(['productList']);
+      router.push('/product/');
     },
   });
 
@@ -63,7 +96,6 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
     }
   };
 
-  // 이 부분을 useImageUploader 훅 바깥에 추가합니다.
   // eslint-disable-next-line consistent-return
   useEffect(() => {
     if (pageMode === 'add' && status === 'success' && imgData) {
@@ -71,23 +103,16 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
       delete sendData.sale_end_date;
       sendData.product_image = imgData;
       saveSubmit.mutate(sendData);
-      router.push('/product/');
     }
-    if (pageMode === 'modify' && status === 'success' && imgData) {
-      sendData.product_image = imgData;
+    if (pageMode === 'modify') {
+      if (status === 'success' && imgData) {
+        sendData.product_image = imgData;
+      }
       delete sendData.product_code;
       modifySubmit.mutate({
         params: sendData.product_info_idx,
         data: sendData,
       });
-      router.push('/product/');
-    }
-    if (pageMode === 'modify' && !imgData && !!sendData.product_image) {
-      modifySubmit.mutate({
-        params: sendData.product_info_idx,
-        data: sendData,
-      });
-      router.push('/product/');
     }
     if (status === 'error') {
       toast.error(errorMessage);
@@ -111,6 +136,8 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
         : ''
     );
   }, [id]);
+
+  console.log('');
 
   return (
     <>

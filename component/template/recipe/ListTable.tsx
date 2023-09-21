@@ -320,11 +320,10 @@ const tableArr = [
 
 interface TableProps {
   data: { list: TableData[] };
-  onSort: (sortField: string, sortOrder: 'asc' | 'desc') => void;
   onClick?: () => void;
 }
 
-const ListTable = ({ data, onSort, onClick }: TableProps) => {
+const ListTable = ({ data, onClick }: TableProps) => {
   //   const router = useRouter();
 
   //   const handleSortChange = (field: keyof TableData) => () => {
