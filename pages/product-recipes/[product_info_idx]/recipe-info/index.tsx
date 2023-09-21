@@ -1,4 +1,5 @@
 import React, { useMemo } from 'react';
+import { runInAction } from 'mobx';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
@@ -23,6 +24,7 @@ import { recipeInfoListLayoutConfig } from '@ComponentFarm/template/recipe/const
 import { RecipeListWrap } from '@ComponentFarm/template/recipe/style';
 import useFormOptionsWithEnvs from '@HookFarm/useFormOptionsWithEnvs';
 import { useGoMove } from '@HookFarm/useGoMove';
+import { confirmModalStore } from '@MobxFarm/store';
 import { getTableWidthPercentage } from '@UtilFarm/calcSize';
 
 const RecipeListPage = ({ envs }: { envs: IEnvironmentResItem[] }) => {
@@ -83,6 +85,44 @@ const RecipeListPage = ({ envs }: { envs: IEnvironmentResItem[] }) => {
   const actionLoading = updateUsedMutate.isLoading || removeMutate.isLoading;
   const listData = data?.list || [];
 
+  const handleChangeUsedStatus = React.useCallback(
+    (item: IRecipeListItem) => {
+      const used = isUsed(item);
+
+      if (used) {
+        updateUsedMutate.mutate({
+          product_info_idx,
+          recipe_info_idx: item.recipe_info_idx,
+          evi_recipe_status: getStatusUpdateValue(item, used),
+        });
+        return;
+      }
+
+      runInAction(() => {
+        confirmModalStore.openModal({
+          title: '레시피 변경',
+          content: (
+            <p>
+              해당 레시피를 사용 상태로 <br /> 변경하시겠습니까?
+            </p>
+          ),
+          onFormSubmit: () => {
+            updateUsedMutate.mutate({
+              product_info_idx,
+              recipe_info_idx: item.recipe_info_idx,
+              evi_recipe_status: getStatusUpdateValue(item, used),
+            });
+            confirmModalStore.isOpen = false;
+          },
+          onCancel: () => {
+            confirmModalStore.isOpen = false;
+          },
+        });
+      });
+    },
+    [product_info_idx]
+  );
+
   return (
     <RecipeListWrap>
       <LayoutTitleBoxWithTab
@@ -135,13 +175,7 @@ const RecipeListPage = ({ envs }: { envs: IEnvironmentResItem[] }) => {
                       <Toggle
                         checked={used}
                         disabled={actionLoading}
-                        onChange={() =>
-                          updateUsedMutate.mutate({
-                            product_info_idx,
-                            recipe_info_idx: item.recipe_info_idx,
-                            evi_recipe_status: getStatusUpdateValue(item, used),
-                          })
-                        }
+                        onChange={() => handleChangeUsedStatus(item)}
                       />
                     </td>
                     <td>

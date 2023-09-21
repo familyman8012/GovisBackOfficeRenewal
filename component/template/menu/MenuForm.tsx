@@ -7,7 +7,7 @@ import {
 } from 'react-hook-form';
 import { useQuery } from 'react-query';
 import { toast } from 'react-toastify';
-import { fetchMenu, fetchMenuCategories } from '@ApiFarm/menu';
+import { fetchMenu, fetchMenuCategoryList } from '@ApiFarm/menu';
 import { IEnvironmentResItem } from '@InterfaceFarm/environment';
 import { IMenuFormFields } from '@InterfaceFarm/menu';
 import RadioGroup from '@ComponentFarm/modules/RadioGroup/RadioGroup';
@@ -28,9 +28,16 @@ interface MenuFormProps {
 export const MenuForm = React.forwardRef<HTMLFormElement, MenuFormProps>(
   ({ id, envs, editable = true, onSubmit }, formRef) => {
     const optionFormRef = React.useRef<HTMLDivElement>(null);
-    const options = useFormOptionsWithEnvs<
-      'menu_group' | 'menu_type' | 'menu_status' | 'menu_category_status'
-    >(['menu_group', 'menu_type', 'menu_status', 'menu_category_status'], envs);
+    const options = useFormOptionsWithEnvs(
+      [
+        'menu_group',
+        'menu_type',
+        'menu_status',
+        'menu_category_status',
+        'menu_classification',
+      ],
+      envs
+    );
 
     const fetchDefaultValue = React.useCallback(async () => {
       const data = await fetchMenu(id ?? -1);
@@ -51,6 +58,7 @@ export const MenuForm = React.forwardRef<HTMLFormElement, MenuFormProps>(
             evi_menu_group: options.menu_group[0].value,
             evi_menu_status: options.menu_status[0].value,
             evi_menu_type: options.menu_type[0].value,
+            evi_menu_classification: options.menu_classification[0].value,
             is_menu_option: '1',
           },
     });
@@ -63,7 +71,7 @@ export const MenuForm = React.forwardRef<HTMLFormElement, MenuFormProps>(
     );
 
     const categoryQuery = useQuery(['menu-categories'], () =>
-      fetchMenuCategories({
+      fetchMenuCategoryList({
         per_num: 9999,
         current_num: 1,
         evi_menu_category_status: useCategoryValue
@@ -83,16 +91,16 @@ export const MenuForm = React.forwardRef<HTMLFormElement, MenuFormProps>(
     } = methods;
 
     const useOption = watch('is_menu_option') === '1';
-    const isSetMenu =
+    const isSingleMenu =
       options.menu_type.find(type => type.value === watch('evi_menu_type'))
-        ?.code === 'mt_set';
+        ?.code === 'mt_item';
 
     useEffect(() => {
-      if (isSetMenu) {
+      if (!isSingleMenu) {
         setValue('product_info_idx', undefined);
         setValue('product_name_ko', undefined);
       }
-    }, [isSetMenu]);
+    }, [isSingleMenu]);
 
     useEffect(() => {
       if (submitCount > 0 && !editable && id) {
@@ -176,6 +184,28 @@ export const MenuForm = React.forwardRef<HTMLFormElement, MenuFormProps>(
                 />
               </div>
             </div>
+            <div className="line2">
+              <div className="field2">
+                <label htmlFor="1" className="req">
+                  메뉴 구분
+                </label>
+                <Controller
+                  name="evi_menu_classification"
+                  control={control}
+                  render={({
+                    field: { onChange, value, ref, ...restField },
+                  }) => (
+                    <RadioGroup
+                      defaultValue={`${value}`}
+                      disabled={!editable}
+                      onChange={onChange}
+                      {...restField}
+                      options={options.menu_classification}
+                    />
+                  )}
+                />
+              </div>
+            </div>
             <div className="line3">
               <div className="field3">
                 <label htmlFor="2" className="req">
@@ -221,7 +251,7 @@ export const MenuForm = React.forwardRef<HTMLFormElement, MenuFormProps>(
                   <input
                     type="hidden"
                     {...register('product_info_idx', {
-                      required: !isSetMenu,
+                      required: isSingleMenu,
                     })}
                   />
                   <Controller
@@ -230,7 +260,7 @@ export const MenuForm = React.forwardRef<HTMLFormElement, MenuFormProps>(
                     render={({ field: { onChange, value, ref } }) => (
                       <ProductSelect
                         value={value ?? ''}
-                        disabled={!editable || isSetMenu}
+                        disabled={!editable || !isSingleMenu}
                         onSelect={item => {
                           setValue('product_info_idx', item.product_info_idx, {
                             shouldValidate: true,

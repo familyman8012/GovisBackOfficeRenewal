@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useQuery } from 'react-query';
 import { fetchEnvironment } from '@ApiFarm/environment';
-import { fetchMenuCategories } from '@ApiFarm/menu';
+import { downloadMenuCategoryList, fetchMenuCategoryList } from '@ApiFarm/menu';
 import { IEnvironmentResItem } from '@InterfaceFarm/environment';
 import Pagination from '@ComponentFarm/modules/Paginate/Pagination';
 import { Button } from '@ComponentFarm/atom/Button/Button';
@@ -26,7 +26,7 @@ const CategoryListPage = ({ envs }: { envs: IEnvironmentResItem[] }) => {
   };
 
   const { data } = useQuery(['menu-categories', params], () =>
-    fetchMenuCategories(params)
+    fetchMenuCategoryList(params)
   );
 
   return (
@@ -35,7 +35,11 @@ const CategoryListPage = ({ envs }: { envs: IEnvironmentResItem[] }) => {
         {...menuListLayoutConfig}
         actionButtons={
           <>
-            <Button variant="gostSecondary" LeadingIcon={<Export />}>
+            <Button
+              variant="gostSecondary"
+              LeadingIcon={<Export />}
+              onClick={() => downloadMenuCategoryList(params)}
+            >
               내보내기
             </Button>
             <Button
@@ -53,7 +57,7 @@ const CategoryListPage = ({ envs }: { envs: IEnvironmentResItem[] }) => {
         updateParams={updateParams}
         resetParams={resetParams}
       />
-      <CategoryListTable list={data?.list ?? []} />
+      <CategoryListTable list={data?.list ?? []} updateParams={updateParams} />
       <Pagination
         pageInfo={[Number(params.current_num), Number(params.per_num)]}
         totalCount={data?.total_count ?? 1}

@@ -704,11 +704,14 @@ export const InnerTable = styled.table<{
       th,
       td {
         border: 1px solid var(--color-neutral90);
-        border-right: 0;
       }
 
-      tr > *:first-of-type {
+      tr > *:first-child {
         border-left: 0;
+      }
+
+      tr > *:last-child {
+        border-right: 0;
       }
     `}
 `;

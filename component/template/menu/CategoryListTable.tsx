@@ -1,14 +1,23 @@
 import { IMenuCategoryItem } from '@InterfaceFarm/menu';
 import Empty from '@ComponentFarm/atom/Empty/Empty';
+import Sort from '@ComponentFarm/atom/Sort/Sort';
 import { Table, TableWrap } from '@ComponentFarm/common';
+import { QueryParams } from '@HookFarm/useQueryParams';
 import { getTableWidthPercentage } from '@UtilFarm/calcSize';
 
 interface ICategoryListTableProps {
   list: IMenuCategoryItem[];
-  onSort?: (sort: string) => void;
+  updateParams: (sort: QueryParams) => void;
 }
 
-const CategoryListTable = ({ onSort, list }: ICategoryListTableProps) => {
+const categorySortItems = [
+  { id: 1, label: '카테고리 코드', sort: 'menu_category_code' },
+  { id: 2, label: '카테고리 명', sort: 'menu_category_name' },
+  { id: 3, label: '등록일', sort: 'created_date' },
+  { id: 4, label: '수정일', sort: 'updated_date' },
+];
+
+const CategoryListTable = ({ updateParams, list }: ICategoryListTableProps) => {
   return (
     <TableWrap>
       <Table className="basic">
@@ -20,10 +29,16 @@ const CategoryListTable = ({ onSort, list }: ICategoryListTableProps) => {
         </colgroup>
         <thead>
           <tr>
-            <th>카테고리 코드</th>
-            <th>카테고리 명</th>
-            <th>등록일</th>
-            <th>수정일</th>
+            {categorySortItems.map((item, i) => (
+              <th key={item.id}>
+                <span className="th_title">
+                  {item.label}
+                  {item.sort && (
+                    <Sort field={item.sort} updateParams={updateParams} />
+                  )}
+                </span>
+              </th>
+            ))}
           </tr>
         </thead>
         <tbody>
@@ -34,7 +49,7 @@ const CategoryListTable = ({ onSort, list }: ICategoryListTableProps) => {
               </td>
             </tr>
           )}
-          {list.map((categoryData, index) => (
+          {list.map(categoryData => (
             <tr key={categoryData.menu_category_code}>
               <td className="code">{categoryData.menu_category_code}</td>
               <td>{categoryData.menu_category_name}</td>

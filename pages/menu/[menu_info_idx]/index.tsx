@@ -92,6 +92,7 @@ export const getStaticProps = async () => {
       'menu_type',
       'menu_status',
       'menu_category_status',
+      'menu_classification',
     ].join(','),
   });
 

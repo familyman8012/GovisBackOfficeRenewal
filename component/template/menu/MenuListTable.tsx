@@ -3,21 +3,33 @@ import { Badge } from '@ComponentFarm/atom/Badge/Badge';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import Empty from '@ComponentFarm/atom/Empty/Empty';
 import Copy from '@ComponentFarm/atom/icons/Copy';
+import Sort from '@ComponentFarm/atom/Sort/Sort';
 import { Table, TableWrap } from '@ComponentFarm/common';
+import { QueryParams } from '@HookFarm/useQueryParams';
 import { getTableWidthPercentage } from '@UtilFarm/calcSize';
 
 interface IMenuListTableProps {
   list: IMenuListItem[];
   onClick: (item: IMenuListItem) => void;
   onClickCopy?: (item: IMenuListItem) => void;
-  onSort?: (sort: string) => void;
+  updateParams: (sort: QueryParams) => void;
 }
+
+const menuSortItems = [
+  { id: 1, label: '메뉴 코드', sort: 'menu_category_code' },
+  { id: 2, label: '분류 그룹', sort: '' },
+  { id: 3, label: '메뉴명', sort: 'menu_name' },
+  { id: 4, label: '메뉴 분류 상태', sort: '' },
+  { id: 5, label: '등록일', sort: 'created_date' },
+  { id: 6, label: '수정일', sort: 'updated_date' },
+  { id: 7, label: '-', sort: '' },
+];
 
 const MenuListTable = ({
   list,
   onClick,
   onClickCopy,
-  onSort,
+  updateParams,
 }: IMenuListTableProps) => {
   return (
     <TableWrap>
@@ -26,7 +38,6 @@ const MenuListTable = ({
           <col width={getTableWidthPercentage(120)} />
           <col width={getTableWidthPercentage(180)} />
           <col width={getTableWidthPercentage(300)} />
-          {/* <col width={getWidthPercentage(180)} /> */}
           <col width={getTableWidthPercentage(180)} />
           <col width={getTableWidthPercentage(140)} />
           <col width={getTableWidthPercentage(140)} />
@@ -34,14 +45,16 @@ const MenuListTable = ({
         </colgroup>
         <thead>
           <tr>
-            <th>메뉴 코드</th>
-            <th>분류 그룹</th>
-            <th>메뉴명</th>
-            {/* <th>사용 매장 수 </th> */}
-            <th>메뉴 분류 상태</th>
-            <th>등록일</th>
-            <th>수정일</th>
-            <th>&nbsp;</th>
+            {menuSortItems.map((item, i) => (
+              <th key={item.id}>
+                <span className="th_title">
+                  {item.label}
+                  {item.sort && (
+                    <Sort field={item.sort} updateParams={updateParams} />
+                  )}
+                </span>
+              </th>
+            ))}
           </tr>
         </thead>
         <tbody>
@@ -66,7 +79,7 @@ const MenuListTable = ({
                   dot
                   fill="transparent"
                   color={
-                    menuRowData.evv_menu_status === '미사용' ? 'red' : undefined
+                    menuRowData.evv_menu_status === '중단' ? 'red' : undefined
                   }
                 >
                   {menuRowData.evv_menu_status}

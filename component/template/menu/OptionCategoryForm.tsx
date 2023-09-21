@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import { runInAction } from 'mobx';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { useMutation } from 'react-query';
 import { toast } from 'react-toastify';
@@ -13,6 +14,7 @@ import { Button } from '@ComponentFarm/atom/Button/Button';
 import More from '@ComponentFarm/atom/icons/More';
 import Plus from '@ComponentFarm/atom/icons/Plus';
 import Up from '@ComponentFarm/atom/icons/Up';
+import { confirmModalStore } from '@MobxFarm/store';
 import { MenuOptionGroupStyle } from './style';
 
 interface MenuOptionGroupProps {
@@ -221,7 +223,19 @@ const MenuOptionCategory = ({
                 disabled={isLoading}
                 onClick={() => {
                   setDropDown(false);
-                  checkRemoveHandler();
+                  runInAction(() => {
+                    confirmModalStore.openModal({
+                      title: '옵션 삭제',
+                      content: <p>옵션 항목을 삭제하시겠습니까?</p>,
+                      onFormSubmit: () => {
+                        checkRemoveHandler();
+                        confirmModalStore.isOpen = false;
+                      },
+                      onCancel: () => {
+                        confirmModalStore.isOpen = false;
+                      },
+                    });
+                  });
                 }}
               >
                 삭제

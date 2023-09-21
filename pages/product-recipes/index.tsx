@@ -2,7 +2,10 @@ import { useRouter } from 'next/router';
 import { NextPage } from 'next';
 import { useQuery } from 'react-query';
 import { fetchEnvironment } from '@ApiFarm/environment';
-import { fetchRecipeProductList } from '@ApiFarm/product-recipe';
+import {
+  downloadRecipeProductList,
+  fetchRecipeProductList,
+} from '@ApiFarm/product-recipe';
 import { IEnvironmentResItem } from '@InterfaceFarm/environment';
 import Pagination from '@ComponentFarm/modules/Paginate/Pagination';
 import { Button } from '@ComponentFarm/atom/Button/Button';
@@ -21,8 +24,7 @@ const RecipeListPage: NextPage<{ envs: IEnvironmentResItem[] }> = ({
   const [pathname] = router.asPath.split('?');
   const [params, updateParams, resetParams] = useQueryParams({
     current_num: 1,
-    size: 10,
-    search_type: 0,
+    per_num: 10,
   });
 
   const handlePageChange = (current_num: number) =>
@@ -39,7 +41,11 @@ const RecipeListPage: NextPage<{ envs: IEnvironmentResItem[] }> = ({
         title="레시피 관리"
         tabs={[{ title: '레시피 목록', path: pathname }]}
         actionButtons={
-          <Button variant="gostSecondary" LeadingIcon={<Export />}>
+          <Button
+            variant="gostSecondary"
+            LeadingIcon={<Export />}
+            onClick={() => downloadRecipeProductList(params)}
+          >
             내보내기
           </Button>
         }
@@ -53,6 +59,7 @@ const RecipeListPage: NextPage<{ envs: IEnvironmentResItem[] }> = ({
       <RecipeListTable
         list={data?.list ?? []}
         onClick={item => router.push(`${pathname}/${item.product_info_idx}`)}
+        updateParams={updateParams}
       />
       <Pagination
         pageInfo={[Number(params.current_num), Number(params.per_num)]}

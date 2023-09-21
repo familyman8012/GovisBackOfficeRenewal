@@ -1,17 +1,32 @@
-import React, { ReactElement } from 'react';
-import { NextPage } from 'next';
+import React, { useMemo } from 'react';
+import { useRouter } from 'next/router';
+import { useQuery } from 'react-query';
 import { fetchEnvironment } from '@ApiFarm/environment';
-import { IEnvironmentResItem } from '@InterfaceFarm/environment';
+import { fetchProductFormView } from '@ApiFarm/product';
+import { IEnvironmentRes } from '@InterfaceFarm/environment';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import LayoutTitleBoxWithTab from '@ComponentFarm/template/layout/LayoutWithTitleBoxAndTab';
+import ProductForm from '@ComponentFarm/template/product/manage/Form';
 import { recipeInfoListLayoutConfig } from '@ComponentFarm/template/recipe/const';
 import { RecipeListWrap } from '@ComponentFarm/template/recipe/style';
 import { useGoMove } from '@HookFarm/useGoMove';
 
-const RecipeProductPage: NextPage<{ envs: IEnvironmentResItem[] }> & {
-  getLayout?: (page: ReactElement) => React.ReactNode;
-} = ({ envs }) => {
+const RecipeProductPage = ({ envs }: { envs: IEnvironmentRes }) => {
   const { onBack } = useGoMove();
+  const router = useRouter();
+
+  const product_info_idx = useMemo(
+    () => parseInt(router.query?.product_info_idx as string, 10),
+    [router]
+  );
+
+  const { data } = useQuery(
+    ['productView', product_info_idx],
+    () => fetchProductFormView(product_info_idx?.toString() ?? ''),
+    {
+      enabled: !!product_info_idx,
+    }
+  );
 
   return (
     <RecipeListWrap>
@@ -23,7 +38,15 @@ const RecipeProductPage: NextPage<{ envs: IEnvironmentResItem[] }> & {
           </Button>
         }
       />
-      <h3>@TODO 제품 정보</h3>
+      {data && (
+        <ProductForm
+          initialData={data}
+          environment={envs}
+          pageMode="view"
+          setSelectedImgFile={() => {}}
+          submitFunc={() => {}}
+        />
+      )}
     </RecipeListWrap>
   );
 };
@@ -43,12 +66,17 @@ export const getStaticPaths = async () => {
 
 export const getStaticProps = async () => {
   const props = await fetchEnvironment({
-    name: ['recipe_status'].join(','),
+    name: [
+      'product_status',
+      'product_group',
+      'product_category',
+      'sale_type',
+    ].join(','),
   });
 
   return {
     props: {
-      envs: props.list,
+      envs: props,
     },
     revalidate: 10,
   };

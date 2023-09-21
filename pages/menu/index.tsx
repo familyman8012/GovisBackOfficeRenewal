@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
 import { fetchEnvironment } from '@ApiFarm/environment';
-import { fetchMenuList } from '@ApiFarm/menu';
+import { downloadMenuList, fetchMenuList } from '@ApiFarm/menu';
 import { IEnvironmentResItem } from '@InterfaceFarm/environment';
 import Pagination from '@ComponentFarm/modules/Paginate/Pagination';
 import { Button } from '@ComponentFarm/atom/Button/Button';
@@ -38,7 +38,11 @@ const MenuListPage = ({ envs }: { envs: IEnvironmentResItem[] }) => {
         {...menuListLayoutConfig}
         actionButtons={
           <>
-            <Button variant="gostSecondary" LeadingIcon={<Export />}>
+            <Button
+              variant="gostSecondary"
+              LeadingIcon={<Export />}
+              onClick={() => downloadMenuList(params)}
+            >
               내보내기
             </Button>
             <Button
@@ -61,6 +65,7 @@ const MenuListPage = ({ envs }: { envs: IEnvironmentResItem[] }) => {
         list={data?.list ?? []}
         onClick={item => router.push(`${pathname}/${item.menu_info_idx}`)}
         onClickCopy={item => setCopyTargetId(item.menu_info_idx)}
+        updateParams={updateParams}
       />
       <Pagination
         pageInfo={[Number(params.current_num), Number(params.per_num)]}

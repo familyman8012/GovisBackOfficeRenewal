@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import {
   IRecipeFormFields,
   IRecipeListItem,
@@ -6,6 +7,7 @@ import {
   RecipeInfo,
   RecipeStepInfo,
 } from '@InterfaceFarm/product-recipe';
+import { downloadAxiosResponse } from '@UtilFarm/download';
 import { BoV2Request } from './index';
 
 export const fetchRecipeProductList = async (params: any) => {
@@ -15,6 +17,22 @@ export const fetchRecipeProductList = async (params: any) => {
       total_count: number;
     }>
   >(`/recipe/info/list`, { params }).then(res => res.data.data);
+};
+
+export const downloadRecipeProductList = async (params: any) => {
+  return BoV2Request.get(`/recipe/info/list`, {
+    params: {
+      ...params,
+      is_export: '1',
+    },
+    responseType: 'blob',
+  })
+    .then(
+      downloadAxiosResponse(
+        `제품 레시피 목록_${dayjs().format('YYYY-MM-DD HH:mm:ss')}.xlsx`
+      )
+    )
+    .catch(() => new Error('다운로드에 실패하였습니다.'));
 };
 
 export const fetchProductRecipeList = async (

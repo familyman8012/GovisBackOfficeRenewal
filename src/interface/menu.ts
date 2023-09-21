@@ -33,6 +33,7 @@ export interface IMenuFormFields {
   evi_menu_type: number | string;
   evi_menu_group: number | string;
   evi_menu_status: number | string;
+  evi_menu_classification: number | string;
   menu_category_idx: number;
   product_info_idx?: number;
   product_name_ko?: string;

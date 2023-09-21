@@ -48,7 +48,10 @@ const generateHistoryPage = (config: Config) => {
         }),
       {
         getNextPageParam: (response, allPages) => {
-          const maxPageNumber = response.total_count / params.per_num;
+          const maxPageNumber = Math.ceil(
+            response.total_count / params.per_num
+          );
+          console.log(maxPageNumber);
           if (maxPageNumber < allPages.length + 1) return undefined;
           return allPages.length + 1;
         },

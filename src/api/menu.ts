@@ -1,3 +1,4 @@
+import dayjs from 'dayjs';
 import {
   IMenuCategoryItem,
   MenuCreateParams,
@@ -10,6 +11,7 @@ import {
   MenuUpdateParams,
   MenuCategoryCreateParams,
 } from '@InterfaceFarm/menu';
+import { downloadAxiosResponse } from '@UtilFarm/download';
 import { BoV2Request } from './index';
 
 const fetchMenuData = async <T>(endpoint: string, params?: any) => {
@@ -18,7 +20,23 @@ const fetchMenuData = async <T>(endpoint: string, params?: any) => {
   );
 };
 
-export const fetchMenuCategories = (params: IMenuCategoryFetchParams) => {
+const downloadMenuData = async (
+  endpoint: string,
+  filename: string,
+  params?: any
+) => {
+  return BoV2Request.get(endpoint, {
+    params: {
+      ...params,
+      is_export: '1',
+    },
+    responseType: 'blob',
+  })
+    .then(downloadAxiosResponse(filename))
+    .catch(() => new Error('다운로드에 실패하였습니다.'));
+};
+
+export const fetchMenuCategoryList = (params: IMenuCategoryFetchParams) => {
   return fetchMenuData<{
     total_count: number;
     list: IMenuCategoryItem[];
@@ -30,6 +48,22 @@ export const fetchMenuList = (params: any) => {
     total_count: number;
     list: IMenuListItem[];
   }>(`/menu/info/list`, params);
+};
+
+export const downloadMenuCategoryList = (params: IMenuCategoryFetchParams) => {
+  return downloadMenuData(
+    `/menu/category/list`,
+    `메뉴 카테고리 목록_${dayjs().format('YYYY-MM-DD HH:mm:ss')}.xlsx`,
+    params
+  );
+};
+
+export const downloadMenuList = (params: any) => {
+  return downloadMenuData(
+    `/menu/info/list`,
+    `메뉴 목록_${dayjs().format('YYYY-MM-DD HH:mm:ss')}.xlsx`,
+    params
+  );
 };
 
 export const fetchMenuOptionList = async (menu_option_category_idx: number) => {

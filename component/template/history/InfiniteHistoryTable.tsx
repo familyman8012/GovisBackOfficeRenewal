@@ -58,14 +58,13 @@ const InfiniteHistoryTable = ({
 }: InfiniteTableProps) => {
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  // bind scroll event to scrollRef element
   useEffect(() => {
     const scrollEl = scrollRef.current;
     if (!scrollEl) return () => {};
     const onScroll = () => {
       if (
         scrollEl.scrollTop + scrollEl.clientHeight >=
-        scrollEl.scrollHeight - 100
+        scrollEl.scrollHeight - 200
       ) {
         onBottomScroll?.();
       }

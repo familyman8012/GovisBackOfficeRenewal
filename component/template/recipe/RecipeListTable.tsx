@@ -2,19 +2,30 @@ import React from 'react';
 import { IRecipeProductListItem } from '@InterfaceFarm/product-recipe';
 import { Badge } from '@ComponentFarm/atom/Badge/Badge';
 import Empty from '@ComponentFarm/atom/Empty/Empty';
+import Sort from '@ComponentFarm/atom/Sort/Sort';
 import { Table, TableWrap } from '@ComponentFarm/common';
+import { QueryParams } from '@HookFarm/useQueryParams';
 import { getTableWidthPercentage } from '@UtilFarm/calcSize';
 
 interface TableProps {
   list: IRecipeProductListItem[];
   onClick: (item: IRecipeProductListItem) => void;
-  updateParams?: (params: any) => void;
+  updateParams: (params: QueryParams) => void;
 }
 
-/**
- * @TODO 제품 환경변수 값 업데이트
- */
-const ListTable = ({ list, updateParams, onClick }: TableProps) => {
+const recipeSortItems = [
+  { id: 1, label: '제품코드', sort: 'product_code' },
+  { id: 2, label: '제품 그룹', sort: '' },
+  { id: 3, label: '제품 그룹', sort: '' },
+  { id: 4, label: '제품명', sort: 'product_name_ko' },
+  { id: 5, label: '제품 상태', sort: '' },
+  { id: 6, label: '등록 수', sort: 'recipe_count' },
+  { id: 7, label: '레시피 상태', sort: '' },
+  { id: 8, label: '레시피 등록일', sort: 'created_date' },
+  { id: 9, label: '레시피 수정일', sort: 'updated_date' },
+];
+
+const RecipeListTable = ({ list, updateParams, onClick }: TableProps) => {
   return (
     <TableWrap>
       <Table className="basic">
@@ -31,15 +42,16 @@ const ListTable = ({ list, updateParams, onClick }: TableProps) => {
         </colgroup>
         <thead>
           <tr>
-            <th>제품코드</th>
-            <th>제품 그룹</th>
-            <th>제품 분류</th>
-            <th>제품명</th>
-            <th>제품 상태</th>
-            <th>등록 수</th>
-            <th>레시피 상태</th>
-            <th>레시피 등록일</th>
-            <th>레시피 수정일</th>
+            {recipeSortItems.map((item, i) => (
+              <th key={item.id}>
+                <span className="th_title">
+                  {item.label}
+                  {item.sort && (
+                    <Sort field={item.sort} updateParams={updateParams} />
+                  )}
+                </span>
+              </th>
+            ))}
           </tr>
         </thead>
         <tbody>
@@ -84,4 +96,4 @@ const ListTable = ({ list, updateParams, onClick }: TableProps) => {
   );
 };
 
-export default ListTable;
+export default RecipeListTable;
