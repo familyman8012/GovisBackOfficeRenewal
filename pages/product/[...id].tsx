@@ -21,7 +21,7 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
   const queryClient = useQueryClient();
   const [pageMode, setPageMode] = useState('');
   const [selectedImgFile, setSelectedImgFile] = useState<File | null>(null);
-  const [sendData, setSendData] = useState<any | null>(null);
+  const [submitData, setSubmitData] = useState<any | null>(null);
   const [imgData, status, errorMessage, handler] = useImageUploader();
 
   // view 일때, 데이터 불러오기
@@ -80,17 +80,13 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
     },
   });
 
-  const saveFunc = async (submitData: IProductForm) => {
+  const submitFunc = async (data: IProductForm) => {
     if (selectedImgFile) {
       const event = { target: { files: [selectedImgFile] } };
       await handler(event as any);
-      setSendData(submitData);
-    } else if (
-      pageMode === 'modify' &&
-      !imgData &&
-      !!submitData.product_image
-    ) {
-      setSendData(submitData);
+      setSubmitData(data);
+    } else if (pageMode === 'modify' && !imgData && !!viewData.product_image) {
+      setSubmitData(data);
     } else {
       toast.error('대표 이미지를 등록하셔야 합니다.234');
     }
@@ -99,30 +95,30 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
   // eslint-disable-next-line consistent-return
   useEffect(() => {
     if (pageMode === 'add' && status === 'success' && imgData) {
-      delete sendData.product_code;
-      delete sendData.sale_end_date;
-      sendData.product_image = imgData;
+      submitData.product_image = imgData;
+      const { sale_end_date, ...sendData } = submitData;
       saveSubmit.mutate(sendData);
     }
     if (pageMode === 'modify') {
       if (status === 'success' && imgData) {
-        sendData.product_image = imgData;
+        submitData.product_image = imgData;
+      } else {
+        submitData.product_image = viewData.product_image;
       }
-      delete sendData.product_code;
+
+      const { evi_product_group, ...sendData } = submitData;
       modifySubmit.mutate({
-        params: sendData.product_info_idx,
-        data: sendData,
+        params: viewData.product_info_idx,
+        data: {
+          ...sendData,
+          is_recipe_registration: viewData?.is_recipe_registration,
+        },
       });
     }
     if (status === 'error') {
       toast.error(errorMessage);
     }
-  }, [sendData]);
-
-  // onFormSubmit 에 전달할 함수.
-  const submitFunc = (data: IProductForm) => {
-    saveFunc(data);
-  };
+  }, [submitData]);
 
   // Form 상태 변화.
   useEffect(() => {

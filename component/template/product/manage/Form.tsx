@@ -83,23 +83,38 @@ const ProductForm: React.FC<FormProps> = ({
     envKeys
   );
 
+  // const defaultValues = {
+  //   ...initialData,
+  //   sale_end_date:
+  //     initialData?.sale_end_date === '0000-00-00'
+  //       ? ''
+  //       : initialData?.sale_end_date,
+  // } || {
+  //   product_code: '',
+  //   evi_product_status: '',
+  //   evi_product_group: '',
+  //   evi_product_category: '',
+  //   evi_sale_type: [],
+  //   product_name_ko: '',
+  //   product_name_en: '',
+  //   product_description: '',
+  //   sale_start_date: '',
+  //   sale_end_date: '',
+  // };
+
   const defaultValues = {
-    ...initialData,
+    evi_product_status: initialData?.evi_product_status ?? '',
+    evi_product_group: initialData?.evi_product_group ?? '',
+    evi_product_category: initialData?.evi_product_category ?? '',
+    evi_sale_type: initialData?.evi_sale_type ?? [],
+    product_name_ko: initialData?.product_name_ko ?? '',
+    product_name_en: initialData?.product_name_en ?? '',
+    product_description: initialData?.product_description ?? '',
+    sale_start_date: initialData?.sale_start_date ?? '',
     sale_end_date:
       initialData?.sale_end_date === '0000-00-00'
         ? ''
-        : initialData?.sale_end_date,
-  } || {
-    product_code: '',
-    evi_product_status: '',
-    evi_product_group: '',
-    evi_product_category: '',
-    evi_sale_type: [],
-    product_name_ko: '',
-    product_name_en: '',
-    product_description: '',
-    sale_start_date: '',
-    sale_end_date: '',
+        : initialData?.sale_end_date ?? '',
   };
 
   const {
@@ -219,13 +234,10 @@ const ProductForm: React.FC<FormProps> = ({
           </div>
           <div className="field field2">
             <div className="box box1">
-              <label htmlFor="product_code" className="">
-                제품 코드
-              </label>
+              <label className="">제품 코드</label>
               <div className="box_inp">
                 <input
                   type="text"
-                  id="product_code"
                   className="inp"
                   placeholder="등록 시, 자동 생성 (입력불가)"
                   disabled

@@ -43,7 +43,7 @@ export interface IProductRes {
 
 export interface IProductForm {
   product_info_idx: number;
-  product_code: string;
+  product_code?: string;
   evi_product_status: string;
   evi_product_group: string;
   evi_product_category: string;
@@ -56,10 +56,7 @@ export interface IProductForm {
   product_image: string;
 }
 
-export type IProductFormField = Omit<
-  IProductForm,
-  'product_info_idx' | 'product_code'
->;
+export type IProductFormField = Omit<IProductForm, 'product_info_idx'>;
 
 export type IProductFormSaveReq = Omit<
   IProductForm,
