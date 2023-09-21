@@ -11,12 +11,12 @@ export const settingsByMode: Record<string, PageModeSettings> = {
     secondButtonText: '등록',
   },
   modify: {
-    title: '원재료 등록',
+    title: '원재료 수정',
     firstButtonText: '취소',
     secondButtonText: '저장',
   },
   view: {
-    title: '원재료 등록',
+    title: '원재료 상세 정보',
     firstButtonText: '이전',
     secondButtonText: '수정',
   },

@@ -8,7 +8,6 @@ import { Table, TableWrap } from '@ComponentFarm/common';
 
 interface TableProps {
   data?: IPartnerRes;
-  onSort: (sortField: string, sortOrder: 'asc' | 'desc') => void;
 }
 
 const pageStyle = css`
@@ -46,7 +45,7 @@ const pageStyle = css`
   }
 `;
 
-const ListTable = ({ data, onSort }: TableProps) => {
+const ListTable = ({ data }: TableProps) => {
   const router = useRouter();
 
   const handleGoIdxClick = (idx: string) => {
@@ -56,6 +55,8 @@ const ListTable = ({ data, onSort }: TableProps) => {
       query: router.query,
     });
   };
+
+  console.log('data', data);
 
   return (
     <TableWrap>
@@ -92,7 +93,16 @@ const ListTable = ({ data, onSort }: TableProps) => {
               <td>{partner.created_date}</td>
               <td>{partner.updated_date}</td>
               <td>
-                <Badge dot>{partner.evv_partner_company_status}</Badge>
+                <Badge
+                  dot
+                  color={
+                    partner.evv_partner_company_status === '운영'
+                      ? 'green'
+                      : 'red'
+                  }
+                >
+                  {partner.evv_partner_company_status}
+                </Badge>
               </td>
             </tr>
           ))}

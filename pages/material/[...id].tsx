@@ -33,7 +33,7 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
     ['materialFormView', router.asPath],
     () => fetchMaterialFormView(String(id && id[1])),
     {
-      enabled: pageMode === 'view',
+      enabled: pageMode === 'view' || pageMode === 'modify',
       cacheTime: 0,
     }
   );
@@ -58,9 +58,10 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
 
   // 등록일때, 데이터 저장
   const saveSubmit = useMutation(fetchMaterialFormSave, {
-    onSuccess: () => {
-      console.log('성공!');
+    onSuccess: data => {
+      console.log('성공!', data);
       queryClient.invalidateQueries(['materialList']);
+      router.push(`/material/shipping/add/${data.material_info_idx}`);
     },
   });
 
@@ -68,6 +69,7 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
     onSuccess: () => {
       console.log('성공!');
       queryClient.invalidateQueries(['materialList']);
+      router.push('/material/');
     },
   });
 
@@ -87,16 +89,19 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
     }
   };
 
-  // 이 부분을 useImageUploader 훅 바깥에 추가합니다.
-  // eslint-disable-next-line consistent-return
   useEffect(() => {
     if (pageMode === 'add' && status === 'success' && imgData) {
       sendData.material_image = imgData;
-      saveSubmit.mutate(sendData);
-      router.push('/material/');
+      saveSubmit.mutate({
+        ...sendData,
+        evi_country: sendData.evi_country.value,
+        pci_manufacturer: sendData.pci_manufacturer.value,
+      });
     }
-    if (pageMode === 'modify' && status === 'success' && imgData) {
-      sendData.material_image = imgData;
+    if (pageMode === 'modify') {
+      if (status === 'success' && imgData) {
+        sendData.material_image = imgData;
+      }
       delete sendData.material_code;
       modifySubmit.mutate({
         params: sendData.material_info_idx,
@@ -106,18 +111,6 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
           pci_manufacturer: sendData.pci_manufacturer.value,
         },
       });
-      router.push('/material/');
-    }
-    if (pageMode === 'modify' && !imgData && !!sendData.material_image) {
-      modifySubmit.mutate({
-        params: sendData.material_info_idx,
-        data: {
-          ...sendData,
-          evi_country: sendData.evi_country.value,
-          pci_manufacturer: sendData.pci_manufacturer.value,
-        },
-      });
-      router.push('/material/');
     }
     if (status === 'error') {
       toast.error(errorMessage);

@@ -7,6 +7,12 @@ import { MenuWrap } from './styles';
 
 const Menu = ({ permissionList }: { permissionList: PermissionList }) => {
   const router = useRouter();
+  const currentUrl = `/${router.asPath.split('/')[1].split('?')[0]}`;
+
+  const isPathActive = (path: string) => {
+    return currentUrl === path;
+  };
+
   return (
     <MenuWrap>
       <h2>{menuStore.groupMap[menuStore.currentGroup].menuName}</h2>
@@ -20,8 +26,8 @@ const Menu = ({ permissionList }: { permissionList: PermissionList }) => {
           .map(menu => {
             const { depth1, depth2, path } = menu;
             const isActive =
-              router.asPath.startsWith(String(path)) ||
-              depth2?.some(subMenu => router.asPath.startsWith(subMenu.path));
+              isPathActive(String(path)) ||
+              (depth2 && depth2.some(subMenu => isPathActive(subMenu.path)));
             return (
               <li key={depth1}>
                 <Link
@@ -42,7 +48,7 @@ const Menu = ({ permissionList }: { permissionList: PermissionList }) => {
                           <Link
                             href={subMenu.path}
                             className={`link_depth2 ${
-                              router.asPath.startsWith(subMenu.path) ? 'on' : ''
+                              isPathActive(subMenu.path) ? 'on' : ''
                             }`}
                           >
                             {subMenu.name}

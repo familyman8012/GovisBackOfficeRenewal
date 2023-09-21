@@ -4,11 +4,13 @@ import { useRouter } from 'next/router';
 import { css } from '@emotion/react';
 import { IMaterialRes } from '@InterfaceFarm/material';
 import { Badge } from '@ComponentFarm/atom/Badge/Badge';
+import Sort from '@ComponentFarm/atom/Sort/Sort';
 import { Table, TableWrap } from '@ComponentFarm/common';
+import { QueryParams } from '@HookFarm/useQueryParams';
 
 interface TableProps {
   data?: IMaterialRes;
-  onSort: (sortField: string, sortOrder: 'asc' | 'desc') => void;
+  updateParams: (newParams: QueryParams) => void;
 }
 
 const pageStyle = css`
@@ -55,7 +57,7 @@ const pageStyle = css`
   }
 `;
 
-const ManageListTable = ({ data, onSort }: TableProps) => {
+const ManageListTable = ({ data, updateParams }: TableProps) => {
   const router = useRouter();
 
   const handleGoIdxClick = (idx: string) => {
@@ -65,24 +67,40 @@ const ManageListTable = ({ data, onSort }: TableProps) => {
       query: router.query,
     });
   };
+
+  const TableThItem = [
+    { id: 1, label: '원재료 코드', sort: 'material_code' },
+    { id: 2, label: '상품 구분', sort: '' },
+    { id: 3, label: '대분류', sort: '' },
+    { id: 4, label: '중분류', sort: '' },
+    { id: 5, label: '소분류', sort: '' },
+    { id: 6, label: '구분', sort: 'evi_material_storage_type' },
+    { id: 7, label: '원재료명', sort: 'material_name_ko' },
+    { id: 8, label: '매입가', sort: 'purchase_price' },
+    { id: 9, label: '판매가', sort: 'sale_price' },
+    { id: 10, label: '제조사', sort: '' },
+    { id: 11, label: '레시피 등록일', sort: 'created_date' },
+    { id: 12, label: '레시피 수정일', sort: 'updated_date' },
+    { id: 13, label: '상태', sort: '' },
+  ];
+
+  console.log();
+
   return (
     <TableWrap>
       <Table className="basic" css={pageStyle}>
         <thead>
           <tr>
-            <th>원재료 코드</th>
-            <th>상품 구분</th>
-            <th>대분류</th>
-            <th>중분류</th>
-            <th>소분류</th>
-            <th>구분</th>
-            <th>원재료명</th>
-            <th>매입가</th>
-            <th>판매가</th>
-            <th>제조사</th>
-            <th>레시피 등록일</th>
-            <th>레시피 수정일</th>
-            <th>상태</th>
+            {TableThItem.map(el => (
+              <th key={el.id}>
+                <span className="th_title">
+                  {el.label}{' '}
+                  {el.sort !== '' && (
+                    <Sort updateParams={updateParams} field={el.sort} />
+                  )}
+                </span>
+              </th>
+            ))}
           </tr>
         </thead>
         <tbody>
@@ -107,7 +125,9 @@ const ManageListTable = ({ data, onSort }: TableProps) => {
               <td>{material.updated_date}</td>
               <td>
                 <Badge
-                  color={material.evv_material_status === 1 ? 'green' : 'red'}
+                  color={
+                    material.evv_material_status === '운영' ? 'green' : 'red'
+                  }
                   size="sm"
                   dot
                 >

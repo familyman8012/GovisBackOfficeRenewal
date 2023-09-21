@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo } from 'react';
+import { runInAction } from 'mobx';
 import { useRouter } from 'next/router';
 import { Controller, useForm } from 'react-hook-form';
 import { css } from '@emotion/react';
@@ -9,16 +10,18 @@ import DatePicker, {
   NewDate,
 } from '@ComponentFarm/modules/DatePicker/DatePicker';
 import ImageUploader from '@ComponentFarm/modules/ImageUploader/ImageUploader';
-import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Divider } from '@ComponentFarm/atom/Divider/Divider';
 import ErrorTxt from '@ComponentFarm/atom/ErrorTxt/ErrorTxt';
-import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import { FormWrap } from '@ComponentFarm/common';
-import TitleArea from '@ComponentFarm/layout/TitleArea';
-import { settingsByMode } from '@ComponentFarm/template/product/manage/const';
+import DetailPageLayout from '@ComponentFarm/layout/Product/DetailPageLayout';
+import {
+  settingsByMode,
+  tabDataFunc,
+} from '@ComponentFarm/template/product/manage/const';
 import useEnvironments, {
   EnvironmentKeyMapping,
 } from '@HookFarm/useEnviroments';
+import { confirmModalStore } from '@MobxFarm/store';
 
 interface FormProps {
   initialData?: IProductFormField;
@@ -66,9 +69,7 @@ const ProductForm: React.FC<FormProps> = ({
   submitFunc,
 }) => {
   const router = useRouter();
-
-  const isReadOnly = pageMode === 'view';
-  const [activeTabIndex, setActiveTabIndex] = useState(0);
+  const tabData = tabDataFunc(pageMode, router?.query);
 
   const envKeys: EnvironmentKeyMapping[] = [
     ['product_status', 'STATUS'],
@@ -81,15 +82,6 @@ const ProductForm: React.FC<FormProps> = ({
     environment.list,
     envKeys
   );
-
-  const tabData = [
-    {
-      title: '제품등록',
-    },
-    {
-      title: '채널별 제품 이미지',
-    },
-  ];
 
   const defaultValues = {
     ...initialData,
@@ -114,20 +106,76 @@ const ProductForm: React.FC<FormProps> = ({
     control,
     register,
     watch,
+    setValue,
     handleSubmit,
     formState: { errors },
   } = useForm<IProductFormField>({ defaultValues });
+
+  const envList = environment?.list;
+
+  const initialWatch = useMemo(
+    () =>
+      envList.find(
+        el =>
+          String(el.environment_variable_idx) ===
+          String(initialData?.evi_product_status)
+      ),
+    [envList, initialData?.evi_product_status]
+  );
+
+  const statusWatch = envList.find(
+    el =>
+      String(el.environment_variable_idx) ===
+      String(watch('evi_product_status'))
+  );
+
+  const isReadOnly =
+    pageMode === 'view' ||
+    statusWatch?.code === 'ps_discontinuation' ||
+    statusWatch?.code === 'ps_disposal';
 
   const onFormSubmit = handleSubmit((data: any) => {
     console.log('submitFunc data', data);
     submitFunc(data);
   });
 
-  const statusWatch = environment?.list?.find(
-    el =>
-      String(el.environment_variable_idx) ===
-      String(watch('evi_product_status'))
-  );
+  const changeAlertModal = () => {
+    runInAction(() => {
+      confirmModalStore.openModal({
+        title: '변경 전 주의사항',
+        content: (
+          <p>
+            제품 상태를 중단 및 폐기로 변경하실 경우,
+            <br />
+            추후 복구가 불가능합니다.
+            <br />
+            변경하시겠습니까?
+          </p>
+        ),
+        onFormSubmit: () => {
+          confirmModalStore.isOpen = false;
+        },
+        onCancel: () => {
+          setValue(
+            'evi_product_status',
+            String(initialData?.evi_product_status)
+          );
+          confirmModalStore.isOpen = false;
+        },
+        submitButtonText: '확인',
+      });
+    });
+  };
+
+  useEffect(() => {
+    if (
+      initialWatch?.code === 'ps_operation' &&
+      (statusWatch?.code === 'ps_discontinuation' ||
+        statusWatch?.code === 'ps_disposal')
+    ) {
+      changeAlertModal();
+    }
+  }, [initialWatch?.code, statusWatch]);
 
   const onSubmit = () => {
     if (pageMode !== 'view') {
@@ -146,27 +194,12 @@ const ProductForm: React.FC<FormProps> = ({
   const currentSettings = settingsByMode[pageMode];
 
   return (
-    <>
+    <DetailPageLayout
+      tabData={tabData}
+      currentSettings={currentSettings}
+      onSubmit={onSubmit}
+    >
       <FormWrap css={productStyles}>
-        <TitleArea
-          title={currentSettings?.title}
-          BtnBox={
-            <>
-              <Button variant="gostSecondary" onClick={() => router.back()}>
-                {currentSettings?.firstButtonText}
-              </Button>
-              <Button type="button" onClick={onSubmit}>
-                {currentSettings?.secondButtonText}
-              </Button>
-            </>
-          }
-        />
-        <Tabs
-          id="tab_product_detail"
-          tabs={tabData}
-          activeTabIndex={activeTabIndex}
-          onTabChange={index => setActiveTabIndex(index)}
-        />
         <h2>제품 기본 정보</h2>
         <div className="line line1">
           <div className="field field1">
@@ -176,6 +209,7 @@ const ProductForm: React.FC<FormProps> = ({
               </label>
               <div className="box_inp">
                 <ImageUploader
+                  isReadOnly={isReadOnly}
                   pageMode={pageMode}
                   product_image={String(initialData?.product_image)}
                   onImageChange={setSelectedImgFile}
@@ -426,7 +460,8 @@ const ProductForm: React.FC<FormProps> = ({
                         field.onChange(String(newDate));
                       }}
                       disabled={
-                        isReadOnly || statusWatch?.code === 'ps_operation'
+                        pageMode === 'view' ||
+                        statusWatch?.code === 'ps_operation'
                       }
                       placeholderText="‘중단’ 또는 ‘폐기’ 상태일 때, 입력 가능"
                     />
@@ -440,7 +475,7 @@ const ProductForm: React.FC<FormProps> = ({
           )}
         </div>
       </FormWrap>
-    </>
+    </DetailPageLayout>
   );
 };
 export default ProductForm;

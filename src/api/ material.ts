@@ -1,7 +1,7 @@
 import {
   IMaterialReq,
   IMaterialShippingSaveReq,
-  IPartnerCountryRes,
+  IPartnerCountryReq,
   IPartnerSaveReq,
 } from '@InterfaceFarm/material';
 import { BoRequest } from '.';
@@ -118,7 +118,7 @@ export const fetchPartnerHistory = async (params: any) => {
   return response.data.data;
 };
 
-export const fetchCountry = async (params?: IPartnerCountryRes) => {
+export const fetchCountryList = async (params?: IPartnerCountryReq) => {
   const response = await BoRequest.get('/origin/list', {
     params,
   });

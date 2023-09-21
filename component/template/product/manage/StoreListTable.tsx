@@ -19,7 +19,6 @@ interface TableData {
 
 interface TableProps {
   data?: { list: TableData[] };
-  onSort: (sortField: string, sortOrder: 'asc' | 'desc') => void;
 }
 
 const TableArr = [
@@ -111,7 +110,7 @@ const pageStyle = css`
   }
 `;
 
-const StoreListTable = ({ data, onSort }: TableProps) => {
+const StoreListTable = ({ data }: TableProps) => {
   return (
     <TableWrap>
       <Table className="basic" css={pageStyle}>

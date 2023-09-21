@@ -49,6 +49,7 @@ const StoryTab: Story<Props> = args => {
     <StoryLayout {...args}>
       <div>
         <Tabs
+          id="ddd"
           tabs={tabData}
           activeTabIndex={activeTabIndex}
           onTabChange={index => setActiveTabIndex(index)}

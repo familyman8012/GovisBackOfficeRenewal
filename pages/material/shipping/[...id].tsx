@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
+import { runInAction } from 'mobx';
 import { useRouter } from 'next/router';
 import { GetStaticProps } from 'next';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
@@ -16,44 +17,7 @@ import {
 } from '@InterfaceFarm/material';
 import { convertInitialFormat } from '@ComponentFarm/template/product/material/shipping/convertShipping';
 import ShippingForm from '@ComponentFarm/template/product/material/shipping/ShippingForm';
-
-// 임의의 initialData 생성
-// const mockInitialData: FormFields = {
-//   CJ_inp1: '5',
-//   CJ_inp2: '7',
-//   CJ_inp3: '3',
-//   CJ_inp4: '8',
-//   CJ_inp5: '2',
-//   CJ_inp6: '4',
-//   CJ_inp7: '6',
-//   CJ_inp8: '9',
-//   CJ_inp9: '1',
-//   CJ_inp10: '10',
-//   CJ_inp11: '11',
-//   CJ_inp12: '12',
-//   CJ_inp13: '13',
-//   CJ_inp14: '14',
-//   CJ_inp15: '15',
-//   CJ_inp16: '16',
-//   CJ_inp17: '17',
-//   DirectDelivery_inp1: '6',
-//   DirectDelivery_inp2: '9',
-//   DirectDelivery_inp3: '8',
-//   DirectDelivery_inp4: '7',
-//   DirectDelivery_inp5: '5',
-//   DirectDelivery_inp6: '4',
-//   DirectDelivery_inp7: '3',
-//   DirectDelivery_inp8: '2',
-//   DirectDelivery_inp9: '1',
-//   DirectDelivery_inp10: '10',
-//   DirectDelivery_inp11: '11',
-//   DirectDelivery_inp12: '12',
-//   DirectDelivery_inp13: '13',
-//   DirectDelivery_inp14: '14',
-//   DirectDelivery_inp15: '15',
-//   DirectDelivery_inp16: '16',
-//   DirectDelivery_inp17: '17',
-// };
+import { confirmModalStore } from '@MobxFarm/store';
 
 const Shipping = ({ environment }: { environment: IEnvironmentRes }) => {
   const router = useRouter();
@@ -79,7 +43,7 @@ const Shipping = ({ environment }: { environment: IEnvironmentRes }) => {
     ['shippingView', router.asPath],
     () => fetchShippingView(String(id && id[1])),
     {
-      enabled: pageMode === 'view',
+      enabled: pageMode === 'view' || pageMode === 'modify',
       cacheTime: 0,
     }
   );
@@ -101,11 +65,27 @@ const Shipping = ({ environment }: { environment: IEnvironmentRes }) => {
     { enabled: !!partnerCategory }
   );
 
+  const confirmModal = () => {
+    runInAction(() => {
+      confirmModalStore.openModal({
+        title: '원재료 등록',
+        content: <p>원재료 정보가 등록 완료되었습니다.</p>,
+        onFormSubmit: () => {
+          confirmModalStore.isOpen = false;
+          router.push(`/material/`);
+        },
+        submitButtonText: '확인',
+        showCancelButton: false,
+      });
+    });
+  };
+
   const saveSubmit = useMutation(fetchShippingSave, {
     onSuccess: (data: IMaterialShippingSaveRes) => {
       console.log('데이터 저장 성공!', data);
       queryClient.invalidateQueries(['shippingView']);
-      router.push(`/material/shipping/view/${id && id[1]}`);
+      // router.push(`/material/shipping/view/${id && id[1]}`);
+      confirmModal();
     },
   });
 
@@ -125,8 +105,6 @@ const Shipping = ({ environment }: { environment: IEnvironmentRes }) => {
       saveSubmit.mutate(submitData);
     }
     if (pageMode === 'modify') {
-      // console.log('Partner modifyData', submitData);
-      // delete submitData.partner_company_code;
       modifySubmit.mutate(submitData);
     }
   };
@@ -139,13 +117,6 @@ const Shipping = ({ environment }: { environment: IEnvironmentRes }) => {
   };
 
   const isDataChk = !!environment && !!shippingListData;
-
-  console.log(
-    'viewData',
-    viewData,
-    'convertInitialFormat(viewData)',
-    convertInitialFormat(viewData?.list)
-  );
 
   return (
     <>
