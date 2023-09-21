@@ -5,43 +5,40 @@ import { useMutation } from 'react-query';
 import { fetchEnvironment } from '@ApiFarm/environment';
 import { updateMenuInfo } from '@ApiFarm/menu';
 import { IEnvironmentResItem } from '@InterfaceFarm/environment';
+import AlertModal from '@ComponentFarm/modules/Modal/AlertModal';
 import { Button } from '@ComponentFarm/atom/Button/Button';
-import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
-import TitleArea from '@ComponentFarm/layout/TitleArea';
+import LayoutTitleBoxWithTab from '@ComponentFarm/template/layout/LayoutWithTitleBoxAndTab';
+import { menuDetailLayoutConfig } from '@ComponentFarm/template/menu/const';
 import { MenuForm } from '@ComponentFarm/template/menu/MenuForm';
 import { useGoMove } from '@HookFarm/useGoMove';
-
-const tabs = [
-  {
-    title: '메뉴 상세 정보',
-  },
-  {
-    title: '변경내역',
-  },
-];
 
 const MenuDetailPage: NextPage<{
   envs: IEnvironmentResItem[];
 }> = ({ envs }) => {
   const router = useRouter();
   const { onBack } = useGoMove();
+  const [showAlert, setShowAlert] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
 
-  const id = useMemo(() => parseInt(router.query?.id as string, 10), [router]);
+  const id = useMemo(
+    () => parseInt(router.query?.menu_info_idx as string, 10),
+    [router]
+  );
+
   const [editable, setEditable] = useState(false);
 
   const updateMutate = useMutation(updateMenuInfo, {
     onSuccess: () => {
-      onBack();
+      setShowAlert(true);
       if (editable) setEditable(false);
     },
   });
 
   return (
-    <>
-      <TitleArea
-        title="메뉴 관리"
-        BtnBox={
+    <div>
+      <LayoutTitleBoxWithTab
+        {...menuDetailLayoutConfig}
+        actionButtons={
           <>
             <Button variant="gostSecondary" onClick={() => onBack()}>
               이전
@@ -58,7 +55,6 @@ const MenuDetailPage: NextPage<{
           </>
         }
       />
-      <Tabs id="" tabs={tabs} activeTabIndex={0} onTabChange={() => {}} />
       <MenuForm
         ref={formRef}
         id={id}
@@ -66,7 +62,13 @@ const MenuDetailPage: NextPage<{
         envs={envs}
         onSubmit={updateMutate.mutate}
       />
-    </>
+      <AlertModal
+        isOpen={showAlert}
+        title="메뉴 수정"
+        content="메뉴 정보가 수정 완료되었습니다."
+        onClose={() => setShowAlert(false)}
+      />
+    </div>
   );
 };
 
@@ -75,7 +77,7 @@ export const getStaticPaths = async () => {
     paths: [
       {
         params: {
-          id: ':id',
+          menu_info_idx: ':menu_info_idx',
         },
       },
     ],

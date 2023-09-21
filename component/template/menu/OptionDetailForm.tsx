@@ -13,6 +13,7 @@ import { Button } from '@ComponentFarm/atom/Button/Button';
 import ErrorTxt from '@ComponentFarm/atom/ErrorTxt/ErrorTxt';
 import { InnerTable } from '@ComponentFarm/common';
 import { ProductSelect } from '@ComponentFarm/molecule/ProductSelect';
+import { getTableWidthPercentage } from '@UtilFarm/calcSize';
 import { MenuOptionDetailStyle } from './style';
 
 interface MenuOptionGroupProps {
@@ -164,9 +165,9 @@ const MenuOptionDetail = ({
           </div>
         )}
       </div>
-      <InnerTable bordered>
+      <InnerTable fullWidth bordered>
         <colgroup>
-          <col width={140} />
+          <col width={getTableWidthPercentage(220, 1181)} />
           <col />
         </colgroup>
         <tbody>

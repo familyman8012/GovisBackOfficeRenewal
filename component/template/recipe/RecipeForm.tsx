@@ -27,13 +27,18 @@ interface RecipeFormProps {
 const RecipeForm = React.forwardRef<HTMLFormElement, RecipeFormProps>(
   ({ recipeId, productId, envs, editable = true, onSubmit }, formRef) => {
     const stepRef = React.useRef<HTMLDivElement>(null);
+    const fetchDefaultValue = React.useCallback(
+      () =>
+        fetchRecipe({
+          product_info_idx: productId,
+          recipe_info_idx: recipeId ?? -1,
+        }).then(res => ({ ...res, product_info_idx: productId })),
+      []
+    );
+
     const methods = useForm<IRecipeFormFields>({
       defaultValues: recipeId
-        ? async () =>
-            fetchRecipe({
-              product_info_idx: productId,
-              recipe_info_idx: recipeId,
-            }).then(res => ({ ...res, product_info_idx: productId }))
+        ? fetchDefaultValue
         : {
             product_info_idx: productId,
             recipe_name: '',
@@ -41,9 +46,6 @@ const RecipeForm = React.forwardRef<HTMLFormElement, RecipeFormProps>(
             recipe_manufacturing_time: '',
             recipe_steps: [],
           },
-      resetOptions: {
-        keepIsSubmitted: true,
-      },
     });
 
     const {
@@ -52,15 +54,12 @@ const RecipeForm = React.forwardRef<HTMLFormElement, RecipeFormProps>(
       handleSubmit,
       getValues,
       reset,
-      formState: { errors },
+      formState: { errors, submitCount },
     } = methods;
 
     useEffect(() => {
-      if (!editable && recipeId) {
-        fetchRecipe({
-          product_info_idx: productId,
-          recipe_info_idx: recipeId,
-        }).then(res => reset({ ...res, product_info_idx: productId }));
+      if (submitCount > 0 && !editable && recipeId) {
+        fetchDefaultValue().then(res => reset(res));
       }
     }, [editable]);
 

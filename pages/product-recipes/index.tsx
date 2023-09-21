@@ -7,28 +7,26 @@ import { IEnvironmentResItem } from '@InterfaceFarm/environment';
 import Pagination from '@ComponentFarm/modules/Paginate/Pagination';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import Export from '@ComponentFarm/atom/icons/Export';
-import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
-import TitleArea from '@ComponentFarm/layout/TitleArea';
-import { recipeListTabInfo } from '@ComponentFarm/template/recipe/const';
+import LayoutTitleBoxWithTab from '@ComponentFarm/template/layout/LayoutWithTitleBoxAndTab';
 import RecipeFilter from '@ComponentFarm/template/recipe/RecipeFilter';
 import RecipeListTable from '@ComponentFarm/template/recipe/RecipeListTable';
 import useQueryParams from '@HookFarm/useQueryParams';
 
 const RecipeListPage: NextPage<{ envs: IEnvironmentResItem[] }> = ({
   envs,
+}: {
+  envs: IEnvironmentResItem[];
 }) => {
   const router = useRouter();
   const [pathname] = router.asPath.split('?');
   const [params, updateParams, resetParams] = useQueryParams({
-    page: 1,
+    current_num: 1,
     size: 10,
     search_type: 0,
   });
 
   const handlePageChange = (current_num: number) =>
     updateParams({ current_num });
-  const handleChangeTab = (tabIndex: number) =>
-    router.push(`${recipeListTabInfo[tabIndex].link}`);
 
   const { data } = useQuery(['recipe-product-list', params], () =>
     fetchRecipeProductList(params)
@@ -36,21 +34,15 @@ const RecipeListPage: NextPage<{ envs: IEnvironmentResItem[] }> = ({
 
   return (
     <>
-      <TitleArea
+      <LayoutTitleBoxWithTab
+        id="recipeListLayout"
         title="레시피 관리"
-        BtnBox={
-          <>
-            <Button variant="gostSecondary" LeadingIcon={<Export />}>
-              내보내기
-            </Button>
-          </>
+        tabs={[{ title: '레시피 목록', path: pathname }]}
+        actionButtons={
+          <Button variant="gostSecondary" LeadingIcon={<Export />}>
+            내보내기
+          </Button>
         }
-      />
-      <Tabs
-        id="recipes"
-        tabs={recipeListTabInfo}
-        activeTabIndex={0}
-        onTabChange={handleChangeTab}
       />
       <RecipeFilter
         envs={envs}
@@ -61,7 +53,6 @@ const RecipeListPage: NextPage<{ envs: IEnvironmentResItem[] }> = ({
       <RecipeListTable
         list={data?.list ?? []}
         onClick={item => router.push(`${pathname}/${item.product_info_idx}`)}
-        // toggleSort={toggleSort}
       />
       <Pagination
         pageInfo={[Number(params.current_num), Number(params.per_num)]}

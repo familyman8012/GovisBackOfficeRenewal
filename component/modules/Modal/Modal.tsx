@@ -1,11 +1,11 @@
 import React, { FC, ReactNode } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { createPortal } from 'react-dom';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Cross } from '@ComponentFarm/atom/icons';
 import { IconViewArea } from '@ComponentFarm/common';
+import Portal from './Portal';
 
 interface ModalProps {
   isOpen: boolean;
@@ -171,12 +171,11 @@ const Modal: FC<ModalProps> = ({
     </>
   );
 
-  return typeof window !== 'undefined'
-    ? createPortal(
-        <AnimatePresence>{isOpen && modalContent}</AnimatePresence>,
-        document.body
-      )
-    : null;
+  return (
+    <Portal>
+      <AnimatePresence>{isOpen && modalContent}</AnimatePresence>
+    </Portal>
+  );
 };
 
 export default Modal;

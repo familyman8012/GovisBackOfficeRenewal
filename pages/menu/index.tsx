@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import { NextPage } from 'next';
 import { useQuery } from 'react-query';
 import { fetchEnvironment } from '@ApiFarm/environment';
 import { fetchMenuList } from '@ApiFarm/menu';
@@ -9,17 +8,14 @@ import Pagination from '@ComponentFarm/modules/Paginate/Pagination';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Plus } from '@ComponentFarm/atom/icons';
 import Export from '@ComponentFarm/atom/icons/Export';
-import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
-import TitleArea from '@ComponentFarm/layout/TitleArea';
-import { menuListTabInfo } from '@ComponentFarm/template/menu/const';
+import LayoutTitleBoxWithTab from '@ComponentFarm/template/layout/LayoutWithTitleBoxAndTab';
+import { menuListLayoutConfig } from '@ComponentFarm/template/menu/const';
 import MenuCopyModal from '@ComponentFarm/template/menu/MenuCopyModal';
 import MenuFilter from '@ComponentFarm/template/menu/MenuFilter';
 import MenuListTable from '@ComponentFarm/template/menu/MenuListTable';
 import useQueryParams from '@HookFarm/useQueryParams';
 
-const MenuListPage: NextPage<{
-  envs: IEnvironmentResItem[];
-}> = ({ envs }) => {
+const MenuListPage = ({ envs }: { envs: IEnvironmentResItem[] }) => {
   const router = useRouter();
   const [pathname] = router.asPath.split('?');
   const [params, updateParams, resetParams] = useQueryParams({
@@ -33,16 +29,14 @@ const MenuListPage: NextPage<{
 
   const handlePageChange = (current_num: number) =>
     updateParams({ current_num });
-  const handleChangeTab = (tabIndex: number) =>
-    router.push(`${menuListTabInfo[tabIndex].link}`);
 
   const { data } = useQuery(['menu-list', params], () => fetchMenuList(params));
 
   return (
-    <>
-      <TitleArea
-        title="메뉴 관리"
-        BtnBox={
+    <div>
+      <LayoutTitleBoxWithTab
+        {...menuListLayoutConfig}
+        actionButtons={
           <>
             <Button variant="gostSecondary" LeadingIcon={<Export />}>
               내보내기
@@ -56,13 +50,6 @@ const MenuListPage: NextPage<{
             </Button>
           </>
         }
-      />
-
-      <Tabs
-        id=""
-        tabs={menuListTabInfo}
-        activeTabIndex={1}
-        onTabChange={handleChangeTab}
       />
       <MenuFilter
         envs={envs}
@@ -90,7 +77,7 @@ const MenuListPage: NextPage<{
           updateParams({ ...params, current_num: 1 });
         }}
       />
-    </>
+    </div>
   );
 };
 

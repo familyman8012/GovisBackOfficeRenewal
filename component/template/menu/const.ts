@@ -22,13 +22,32 @@ export const menuSelectConfig = [
   },
 ];
 
-export const menuListTabInfo = [
-  {
-    title: '카테고리 목록',
-    link: '/menu/categories',
-  },
-  {
-    title: '메뉴 목록',
-    link: '/menu',
-  },
-];
+export const menuListLayoutConfig = {
+  id: 'menuListLayout',
+  title: '메뉴 관리',
+  tabs: [
+    {
+      title: '카테고리 목록',
+      path: '/menu/categories',
+    },
+    {
+      title: '메뉴 목록',
+      path: '/menu',
+    },
+  ],
+};
+
+export const menuDetailLayoutConfig = {
+  id: 'menuDetailLayout',
+  title: '메뉴 관리',
+  tabs: [
+    {
+      title: '메뉴 상세 정보',
+      path: '/menu/[menu_info_idx]',
+    },
+    {
+      title: '변경 내역',
+      path: '/menu/[menu_info_idx]/history',
+    },
+  ],
+};

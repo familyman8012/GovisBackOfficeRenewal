@@ -573,7 +573,7 @@ export const HtmlViewerStyle = styled.div`
     content: '';
   }
 
-  .markdown-body > *:first-child {
+  .markdown-body > *:first-of-type {
     margin-top: 0 !important;
   }
 
@@ -616,7 +616,7 @@ export const HtmlViewerStyle = styled.div`
     margin-bottom: 0.5em;
   }
 
-  blockquote > :first-child {
+  blockquote > :first-of-type {
     margin-top: 0;
   }
 
@@ -747,7 +747,7 @@ export const HtmlViewerStyle = styled.div`
     border-top: 1px solid hsla(210, 18%, 87%, 1);
   }
 
-  table tr:nth-child(2n) {
+  table tr:nth-of-type(2n) {
     background-color: #f6f8fa;
   }
 

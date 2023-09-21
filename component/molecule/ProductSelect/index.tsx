@@ -47,9 +47,10 @@ const ProductSelectContent = styled.div`
       width: 100%;
       height: 5rem;
 
-      > *:nth-child(1) {
+      > *:first-of-type {
         width: 11.9rem;
       }
+
       .inp {
         width: 100%;
       }
@@ -81,11 +82,11 @@ const ProductSelectContent = styled.div`
       vertical-align: middle;
       font-weight: 400;
       text-align: left;
+    }
 
-      &:nth-child(1) {
-        padding: 0;
-        text-align: center;
-      }
+    tr > *:nth-of-type(1) {
+      padding: 0;
+      text-align: center;
     }
 
     thead {

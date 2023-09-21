@@ -132,6 +132,8 @@ export const MenuOptionGroupStyle = styled.div`
       background: var(--color-gray1);
       color: var(--color-neutral10);
       z-index: 2;
+      box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.05);
+
       button {
         font-size: 1.4rem;
         line-height: 1.2;

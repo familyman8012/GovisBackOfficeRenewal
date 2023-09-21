@@ -159,6 +159,7 @@ export const TitleAreaWrap = styled.div`
   .btn_box {
     display: flex;
     margin-left: auto;
+    min-height: 4.4rem;
 
     button {
       &:not(&:last-of-type) {

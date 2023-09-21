@@ -71,9 +71,51 @@ export const dateConfig = [
   },
 ];
 
-export const recipeListTabInfo = [
-  {
-    title: '레시피 목록',
-    link: '/product-recipes',
-  },
-];
+export const recipeInfoDetailLayoutConfig = {
+  id: 'recipeDetailLayout',
+  title: '레시피 상세 정보',
+  tabs: [
+    {
+      title: '제품 상세',
+      path: '/product-recipes/[product_info_idx]',
+    },
+    {
+      title: '레시피 정보',
+      path: '/product-recipes/[product_info_idx]/recipe-info/[recipe_info_idx]',
+    },
+    {
+      title: '변경내역',
+      path: '/product-recipes/[product_info_idx]/recipe-info/[recipe_info_idx]/history',
+    },
+  ],
+};
+
+export const recipeInfoListLayoutConfig = {
+  id: 'recipeDetailLayout',
+  title: '레시피 상세 정보',
+  tabs: [
+    {
+      title: '제품 상세',
+      path: '/product-recipes/[product_info_idx]',
+    },
+    {
+      title: '레시피 정보',
+      path: '/product-recipes/[product_info_idx]/recipe-info',
+    },
+  ],
+};
+
+export const recipeAddLayoutConfig = {
+  id: 'recipeDetailLayout',
+  title: '레시피 상세 정보',
+  tabs: [
+    {
+      title: '제품 상세',
+      path: '/product-recipes/[product_info_idx]',
+    },
+    {
+      title: '레시피 정보',
+      path: '/product-recipes/[product_info_idx]/recipe-info/add',
+    },
+  ],
+};

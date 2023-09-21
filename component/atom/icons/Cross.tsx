@@ -15,6 +15,7 @@ const Cross = ({ size, viewBoxSize, ...props }: Props) => (
     height={size || 16}
     fill="none"
     viewBox={`0 0 ${viewBoxSize || 24} ${viewBoxSize || 24}`}
+    {...props}
   >
     <g clipPath="url(#cross_svg__a)">
       <path

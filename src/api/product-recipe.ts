@@ -66,8 +66,6 @@ export const fetchRecipe = async ({
   product_info_idx: number;
   recipe_info_idx: number;
 }) => {
-  console.log('fetch Recipe : ', product_info_idx, recipe_info_idx);
-
   const basicInfo = await fetchRecipeBasicInfo({
     product_info_idx,
     recipe_info_idx,

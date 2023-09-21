@@ -1,35 +1,25 @@
 import { useState } from 'react';
-import { useRouter } from 'next/router';
-import { NextPage } from 'next';
 import { useQuery } from 'react-query';
 import { fetchEnvironment } from '@ApiFarm/environment';
 import { fetchMenuCategories } from '@ApiFarm/menu';
 import { IEnvironmentResItem } from '@InterfaceFarm/environment';
 import Pagination from '@ComponentFarm/modules/Paginate/Pagination';
 import { Button } from '@ComponentFarm/atom/Button/Button';
-import { Plus } from '@ComponentFarm/atom/icons';
 import Export from '@ComponentFarm/atom/icons/Export';
-import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
-import TitleArea from '@ComponentFarm/layout/TitleArea';
+import Plus from '@ComponentFarm/atom/icons/Plus';
+import LayoutTitleBoxWithTab from '@ComponentFarm/template/layout/LayoutWithTitleBoxAndTab';
 import CategoryFilter from '@ComponentFarm/template/menu/CategoryFilter';
 import CategoryListTable from '@ComponentFarm/template/menu/CategoryListTable';
 import RegisterModal from '@ComponentFarm/template/menu/CategoryRegisterModal';
-import { menuListTabInfo } from '@ComponentFarm/template/menu/const';
+import { menuListLayoutConfig } from '@ComponentFarm/template/menu/const';
 import useQueryParams from '@HookFarm/useQueryParams';
 
-const CategoryListPage: NextPage<{ envs: IEnvironmentResItem[] }> = ({
-  envs,
-}) => {
-  const router = useRouter();
-
+const CategoryListPage = ({ envs }: { envs: IEnvironmentResItem[] }) => {
   const [showRegisterModal, setShowRegisterModal] = useState(false);
   const [params, updateParams, resetParams] = useQueryParams({
     current_num: 1,
     per_num: 10,
   });
-
-  const handleChangeTab = (tabIndex: number) =>
-    router.push(`${menuListTabInfo[tabIndex].link}`);
 
   const handlePageChange = (current_num: number) => {
     updateParams({ current_num });
@@ -40,10 +30,10 @@ const CategoryListPage: NextPage<{ envs: IEnvironmentResItem[] }> = ({
   );
 
   return (
-    <>
-      <TitleArea
-        title="메뉴 관리"
-        BtnBox={
+    <div>
+      <LayoutTitleBoxWithTab
+        {...menuListLayoutConfig}
+        actionButtons={
           <>
             <Button variant="gostSecondary" LeadingIcon={<Export />}>
               내보내기
@@ -57,12 +47,6 @@ const CategoryListPage: NextPage<{ envs: IEnvironmentResItem[] }> = ({
             </Button>
           </>
         }
-      />
-      <Tabs
-        id=""
-        tabs={menuListTabInfo}
-        activeTabIndex={0}
-        onTabChange={handleChangeTab}
       />
       <CategoryFilter
         params={params}
@@ -84,7 +68,7 @@ const CategoryListPage: NextPage<{ envs: IEnvironmentResItem[] }> = ({
           updateParams({ ...params, current_num: 1 });
         }}
       />
-    </>
+    </div>
   );
 };
 

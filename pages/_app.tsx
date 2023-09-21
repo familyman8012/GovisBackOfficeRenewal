@@ -29,7 +29,8 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
     authStore.init();
   }, []);
 
-  const getLayout = Component.getLayout ?? (page => <Layout>{page}</Layout>);
+  const getLayout =
+    Component.getLayout ?? ((page: any) => <Layout>{page}</Layout>);
 
   const queryClient = useMemo(
     () =>

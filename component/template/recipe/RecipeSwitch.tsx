@@ -56,7 +56,7 @@ const RecipeSwitch = () => {
           disabled={!selectedRecipeIdx || isLoading}
           onClick={() =>
             router.push(
-              `/product-recipes/${product_info_idx}/${selectedRecipeIdx}`
+              `/product-recipes/${product_info_idx}/recipe-info/${selectedRecipeIdx}`
             )
           }
         >

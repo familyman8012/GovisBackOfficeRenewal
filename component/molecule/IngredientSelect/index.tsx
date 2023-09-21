@@ -18,15 +18,13 @@ interface Props {
 const IngredientModalContent = styled.div`
   max-width: 87.4rem;
   width: 80vh;
-  /* margin: -1em; */
-  /* padding: 2.4rem; */
 
   .search {
     display: flex;
     align-items: center;
     height: 6.4rem;
 
-    &:not(:first-child) {
+    &:not(:first-of-type) {
       flex: 1;
       margin-bottom: 2.4rem;
     }

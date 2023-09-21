@@ -6,9 +6,10 @@ interface HtmlViewerProps extends React.HTMLAttributes<HTMLDivElement> {
   html?: string;
 }
 const HtmlViewer = React.forwardRef<HTMLDivElement, HtmlViewerProps>(
-  ({ html, ...otherProps }) => {
+  ({ html, ...otherProps }, ref) => {
     return (
       <HtmlViewerStyle
+        ref={ref}
         {...otherProps}
         dangerouslySetInnerHTML={{
           __html: sanitizeHtml(html ?? '', {

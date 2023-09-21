@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { ChangeEvent, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Cross } from '@ComponentFarm/atom/icons';
@@ -57,7 +57,7 @@ interface SelectFileProps
     'type' | 'onChange' | 'multiple' | 'src'
   > {
   source?: string | File | null;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   onRemove?: () => void;
 }
 
@@ -83,11 +83,19 @@ const SelectFileButton = React.forwardRef<HTMLInputElement, SelectFileProps>(
 
     const handleRemoveFile = React.useCallback(
       (e: React.MouseEvent<HTMLOrSVGElement>) => {
-        e.preventDefault();
-        e.stopPropagation();
-        onRemove?.();
+        if (!refs.current) return;
+
+        if (refs.current?.files) {
+          refs.current.value = '';
+        }
+
+        const changeEvent = new Event('change', {
+          bubbles: true,
+        }) as any;
+        refs.current.dispatchEvent(changeEvent);
+        setFile(null);
       },
-      [onRemove]
+      [onChange]
     );
 
     return (

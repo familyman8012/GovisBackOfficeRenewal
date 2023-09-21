@@ -32,19 +32,21 @@ export const MenuForm = React.forwardRef<HTMLFormElement, MenuFormProps>(
       'menu_group' | 'menu_type' | 'menu_status' | 'menu_category_status'
     >(['menu_group', 'menu_type', 'menu_status', 'menu_category_status'], envs);
 
+    const fetchDefaultValue = React.useCallback(async () => {
+      const data = await fetchMenu(id ?? -1);
+
+      return {
+        ...data,
+        is_menu_option: data.menu_option_category_list.length ? '1' : '0',
+        option_view: undefined,
+        menu_categories: data.menu_categories ?? [],
+      };
+    }, [id]);
+
     const methods = useForm<IMenuFormFields>({
       mode: 'onBlur',
       defaultValues: id
-        ? async () => {
-            const data = await fetchMenu(id);
-
-            return {
-              ...data,
-              is_menu_option: data.menu_option_category_list.length ? '1' : '0',
-              option_view: undefined,
-              menu_categories: data.menu_categories ?? [],
-            };
-          }
+        ? fetchDefaultValue
         : {
             evi_menu_group: options.menu_group[0].value,
             evi_menu_status: options.menu_status[0].value,
@@ -76,7 +78,8 @@ export const MenuForm = React.forwardRef<HTMLFormElement, MenuFormProps>(
       handleSubmit,
       watch,
       setValue,
-      formState: { errors },
+      reset,
+      formState: { errors, submitCount },
     } = methods;
 
     const useOption = watch('is_menu_option') === '1';
@@ -90,6 +93,12 @@ export const MenuForm = React.forwardRef<HTMLFormElement, MenuFormProps>(
         setValue('product_name_ko', undefined);
       }
     }, [isSetMenu]);
+
+    useEffect(() => {
+      if (submitCount > 0 && !editable && id) {
+        fetchDefaultValue().then(res => reset(res));
+      }
+    }, [editable]);
 
     const handleValidateError = React.useCallback((error: FieldErrors) => {
       if (Object.keys(error).length === 1 && error.menu_categories) {

@@ -359,7 +359,7 @@ export const RecipeListWrap = styled.div`
     display: flex;
     gap: 1.6rem;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
   }
 
   .recipe-item {
