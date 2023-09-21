@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
 import { fetchCountryList } from '@ApiFarm/ material';
-import { IEnvironmentRes } from '@InterfaceFarm/environment';
 import Pagination from '@ComponentFarm/modules/Paginate/Pagination';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Export } from '@ComponentFarm/atom/icons';
@@ -13,7 +12,7 @@ import ListFilter from '@ComponentFarm/template/product/material/country/ListFil
 import ListTable from '@ComponentFarm/template/product/material/country/ListTable';
 import useQueryParams from '@HookFarm/useQueryParams';
 
-const CountryListPage = ({ environment }: { environment: IEnvironmentRes }) => {
+const CountryListPage = () => {
   const router = useRouter();
   const [activeTabIndex, setActiveTabIndex] = useState(3);
   const [params, updateParams] = useQueryParams({

@@ -51,13 +51,9 @@ export interface MaterialInfo {
   created_date: string;
   updated_date: string;
   evi_material_status: number;
-<<<<<<< Updated upstream
-  evv_material_status: number;
+  evv_material_status: string;
   evi_country: number;
   evv_country: string;
-=======
-  evv_material_status: string;
->>>>>>> Stashed changes
 }
 
 export interface IMaterialRes {

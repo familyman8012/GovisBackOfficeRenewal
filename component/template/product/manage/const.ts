@@ -134,6 +134,11 @@ export const tabDataFunc = (pageMode: string, query?: any) => {
           url: `${baseUrl}/channelimg/${getIdFromQuery}`,
         },
         {
+          title: '레시피 정보',
+          url: `${baseUrl}/recipeinfo`,
+          query: { id: getIdFromQuery },
+        },
+        {
           title: '원재료 정보',
           url: `${baseUrl}/materialinfo`,
           query: { id: getIdFromQuery },

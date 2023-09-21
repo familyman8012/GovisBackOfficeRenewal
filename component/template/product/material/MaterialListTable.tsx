@@ -84,6 +84,8 @@ const ManageListTable = ({ data, updateParams }: TableProps) => {
     { id: 13, label: '상태', sort: '' },
   ];
 
+  console.log();
+
   return (
     <TableWrap>
       <Table className="basic" css={pageStyle}>
