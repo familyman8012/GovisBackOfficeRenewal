@@ -146,7 +146,8 @@ export const tabDataFunc = (pageMode: string, query?: any) => {
         },
         {
           title: '변경내역',
-          url: `${baseUrl}/history/${getIdFromQuery}`,
+          url: `${baseUrl}/history`,
+          query: { id: getIdFromQuery },
         },
       ];
 };
