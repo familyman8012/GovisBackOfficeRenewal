@@ -90,7 +90,7 @@ const RecipeStepDetail = ({
             </colgroup>
             <tbody>
               <tr>
-                <th>토핑 종류</th>
+                <th className="req">토핑 종류</th>
                 <td>
                   <Controller
                     name={`${formKey}.evi_recipe_step_topping_type`}

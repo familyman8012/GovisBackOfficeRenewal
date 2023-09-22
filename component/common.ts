@@ -560,6 +560,20 @@ export const FormWrap = styled.div`
       }
     }
   }
+
+  td,
+  th {
+    &.req {
+      &:after {
+        display: inline-block;
+        content: '*';
+        color: red;
+        vertical-align: middle;
+        margin-left: 0.4rem;
+      }
+    }
+  }
+
   .box_checkbox_group label {
     width: auto !important;
   }

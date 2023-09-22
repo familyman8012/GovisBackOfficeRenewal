@@ -87,7 +87,7 @@ export const MenuForm = React.forwardRef<HTMLFormElement, MenuFormProps>(
       watch,
       setValue,
       reset,
-      formState: { errors, submitCount },
+      formState: { errors },
     } = methods;
 
     const useOption = watch('is_menu_option') === '1';
@@ -103,7 +103,7 @@ export const MenuForm = React.forwardRef<HTMLFormElement, MenuFormProps>(
     }, [isSingleMenu]);
 
     useEffect(() => {
-      if (submitCount > 0 && !editable && id) {
+      if (!editable && id) {
         fetchDefaultValue().then(res => reset(res));
       }
     }, [editable]);

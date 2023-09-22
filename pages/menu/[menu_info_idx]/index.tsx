@@ -39,20 +39,36 @@ const MenuDetailPage: NextPage<{
       <LayoutTitleBoxWithTab
         {...menuDetailLayoutConfig}
         actionButtons={
-          <>
-            <Button variant="gostSecondary" onClick={() => onBack()}>
-              이전
-            </Button>
-            <Button
-              disabled={updateMutate.isLoading}
-              onClick={() => {
-                if (!editable) setEditable(true);
-                else formRef.current?.requestSubmit();
-              }}
-            >
-              {editable ? '저장' : '수정'}
-            </Button>
-          </>
+          editable ? (
+            <>
+              <Button
+                variant="gostSecondary"
+                onClick={() => setEditable(false)}
+              >
+                취소
+              </Button>
+              <Button
+                disabled={updateMutate.isLoading}
+                onClick={() => formRef.current?.requestSubmit()}
+              >
+                저장
+              </Button>
+            </>
+          ) : (
+            <>
+              <Button variant="gostSecondary" onClick={() => onBack()}>
+                이전
+              </Button>
+              <Button
+                disabled={updateMutate.isLoading}
+                onClick={() => {
+                  if (!editable) setEditable(true);
+                }}
+              >
+                수정
+              </Button>
+            </>
+          )
         }
       />
       <MenuForm

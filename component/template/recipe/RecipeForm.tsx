@@ -54,14 +54,14 @@ const RecipeForm = React.forwardRef<HTMLFormElement, RecipeFormProps>(
       handleSubmit,
       getValues,
       reset,
-      formState: { errors, submitCount },
+      formState: { errors },
     } = methods;
 
     useEffect(() => {
-      if (submitCount > 0 && !editable && recipeId) {
+      if (!editable && recipeId) {
         fetchDefaultValue().then(res => reset(res));
       }
-    }, [editable]);
+    }, [editable, recipeId]);
 
     const handleValidateError = React.useCallback((error: FieldErrors) => {
       if (Object.keys(error).length === 1 && error.recipe_steps) {
