@@ -91,7 +91,10 @@ const ProductForm: React.FC<FormProps> = ({
     product_name_ko: initialData?.product_name_ko ?? '',
     product_name_en: initialData?.product_name_en ?? '',
     product_description: initialData?.product_description ?? '',
-    sale_start_date: initialData?.sale_start_date ?? '',
+    sale_start_date:
+      initialData?.sale_start_date === '0000-00-00'
+        ? ''
+        : initialData?.sale_end_date ?? '',
     sale_end_date:
       initialData?.sale_end_date === '0000-00-00'
         ? ''
@@ -174,6 +177,7 @@ const ProductForm: React.FC<FormProps> = ({
     }
   }, [initialWatch?.code, statusWatch]);
 
+  // 한글, 영어 막기
   const onSubmit = () => {
     if (pageMode !== 'view') {
       onFormSubmit();
@@ -244,7 +248,7 @@ const ProductForm: React.FC<FormProps> = ({
                     required: '필수 입력항목입니다.',
                   })}
                 >
-                  <option value="">전체</option>
+                  <option value="">--- 선택 ---</option>
                   {STATUS.map(el => (
                     <option key={el.value} value={el.value}>
                       {el.label}
@@ -274,7 +278,7 @@ const ProductForm: React.FC<FormProps> = ({
                   required: true,
                 })}
               >
-                <option value="">전체</option>
+                <option value="">--- 선택 ---</option>
                 {GROUP.map(el => (
                   <option key={el.value} value={el.value}>
                     {el.label}
@@ -302,7 +306,7 @@ const ProductForm: React.FC<FormProps> = ({
                   required: '필수 입력항목입니다.',
                 })}
               >
-                <option value="">전체</option>
+                <option value="">--- 선택 ---</option>
                 {CATEGORY.map(el => (
                   <option key={el.value} value={el.value}>
                     {el.label}
@@ -356,11 +360,11 @@ const ProductForm: React.FC<FormProps> = ({
                 disabled={isReadOnly}
                 {...register('product_name_ko', {
                   required: '필수 입력항목입니다.',
-                  pattern: {
-                    value: /^[가-힣0-9\s]+$/,
-                    message: '한글만 입력 가능합니다.',
-                  },
                 })}
+                onChange={e => {
+                  e.target.value = e.target.value.replace(/[a-zA-Z]/g, '');
+                  register('product_name_ko').onChange(e);
+                }}
               />
               {errors.product_name_ko && (
                 <ErrorTxt>{errors.product_name_ko.message}</ErrorTxt>
@@ -380,11 +384,14 @@ const ProductForm: React.FC<FormProps> = ({
                 disabled={isReadOnly}
                 {...register('product_name_en', {
                   required: '필수 입력항목입니다.',
-                  pattern: {
-                    value: /^[A-Za-z0-9\s]+$/,
-                    message: '영문만 입력 가능합니다.',
-                  },
                 })}
+                onChange={e => {
+                  e.target.value = e.target.value.replace(
+                    /[ㄱ-ㅎㅏ-ㅣ가-힣]/g,
+                    ''
+                  );
+                  register('product_name_en').onChange(e);
+                }}
               />
               {errors.product_name_en && (
                 <ErrorTxt>{errors.product_name_en.message}</ErrorTxt>
@@ -431,6 +438,7 @@ const ProductForm: React.FC<FormProps> = ({
                       field.onChange(String(newDate));
                     }}
                     disabled={isReadOnly}
+                    placeholderText="날짜를 선택해주세요."
                   />
                 )}
               />

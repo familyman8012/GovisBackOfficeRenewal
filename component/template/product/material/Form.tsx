@@ -401,7 +401,7 @@ const MaterialForm: React.FC<FormProps> = ({
                     required: '필수 입력항목입니다.',
                   })}
                 >
-                  <option value="">전체</option>
+                  <option value="">--- 선택 ---</option>
                   {MATERIAL_STATUS?.map(el => (
                     <option key={el.value} value={el.value}>
                       {el.label}
@@ -427,7 +427,7 @@ const MaterialForm: React.FC<FormProps> = ({
                 disabled={isReadOnly}
                 {...register('mci_large', { required: '필수 입력항목입니다.' })}
               >
-                <option value="">대분류 전체</option>
+                <option value="">대분류 선택</option>
                 {CATEGORY1?.map(el => (
                   <option key={el.value} value={el.value}>
                     {el.label}
@@ -446,7 +446,7 @@ const MaterialForm: React.FC<FormProps> = ({
                   required: '필수 입력항목입니다.',
                 })}
               >
-                <option value="">중분류 전체</option>
+                <option value="">중분류 선택</option>
                 {CATEGORY2?.map(el => (
                   <option key={el.value} value={el.value}>
                     {el.label}
@@ -463,7 +463,7 @@ const MaterialForm: React.FC<FormProps> = ({
                 disabled={isReadOnly}
                 {...register('mci_small', { required: '필수 입력항목입니다.' })}
               >
-                <option value="">소분류 전체</option>
+                <option value="">소분류 선택</option>
                 {CATEGORY3?.map(el => (
                   <option key={el.value} value={el.value}>
                     {el.label}
@@ -493,7 +493,7 @@ const MaterialForm: React.FC<FormProps> = ({
                   required: '필수 입력항목입니다.',
                 })}
               >
-                <option value="">전체</option>
+                <option value="">--- 선택 ---</option>
                 {PRODUCT_TYPE.map(el => (
                   <option key={el.value} value={el.value}>
                     {el.label}
@@ -525,7 +525,7 @@ const MaterialForm: React.FC<FormProps> = ({
                   required: '필수 입력항목입니다.',
                 })}
               >
-                <option value="">전체</option>
+                <option value="">--- 선택 ---</option>
                 {STORAGE_TYPE.map(el => (
                   <option key={el.value} value={el.value}>
                     {el.label}
@@ -557,7 +557,7 @@ const MaterialForm: React.FC<FormProps> = ({
               >
                 {SALE_BRAND.map(el => (
                   <option key={el.value} value={el.value}>
-                    {el.label}
+                    {el.label === '전체' ? '--- 선택 ---' : el.label}
                   </option>
                 ))}
               </select>
@@ -584,6 +584,10 @@ const MaterialForm: React.FC<FormProps> = ({
                 {...register('material_name_ko', {
                   required: '필수 입력항목입니다.',
                 })}
+                onChange={e => {
+                  e.target.value = e.target.value.replace(/[a-zA-Z]/g, '');
+                  register('material_name_ko').onChange(e);
+                }}
               />
               {errors.material_name_ko && (
                 <ErrorTxt>{errors.material_name_ko.message}</ErrorTxt>
@@ -604,6 +608,13 @@ const MaterialForm: React.FC<FormProps> = ({
                 placeholder="영문 입력만 가능"
                 disabled={isReadOnly}
                 {...register('material_name_en')}
+                onChange={e => {
+                  e.target.value = e.target.value.replace(
+                    /[ㄱ-ㅎㅏ-ㅣ가-힣]/g,
+                    ''
+                  );
+                  register('material_name_en').onChange(e);
+                }}
               />
               {errors.material_name_en && (
                 <ErrorTxt>{errors.material_name_en.message}</ErrorTxt>
@@ -677,7 +688,7 @@ const MaterialForm: React.FC<FormProps> = ({
                   required: '필수 입력항목입니다.',
                 })}
               >
-                <option value="">전체</option>
+                <option value="">--- 선택 ---</option>
                 {SPEC_UNIT.map(el => (
                   <option key={el.value} value={el.value}>
                     {el.label}

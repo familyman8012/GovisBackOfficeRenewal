@@ -295,7 +295,7 @@ const PartnerForm: React.FC<FormProps> = ({
                 required: '필수 입력항목입니다.',
               })}
             >
-              <option value="">상태 전체</option>
+              <option value="">상태 선택</option>
               {convertEnv('partner_company_status', environment.list).map(
                 el => (
                   <option key={el.value} value={String(el.value)}>
