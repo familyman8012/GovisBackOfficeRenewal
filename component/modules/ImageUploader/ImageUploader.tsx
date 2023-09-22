@@ -79,9 +79,11 @@ const ImageUploader: FC<ImageUploaderProps> = ({
   onImageChange,
 }) => {
   const [image, setImage] = useState<File | string | null>(
-    pageMode === 'add' ? null : product_image
+    pageMode === 'add' || product_image === null ? null : product_image
   );
   const imageInputRef = useRef<HTMLInputElement>(null);
+
+  console.log('product_image', product_image);
 
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -99,6 +101,8 @@ const ImageUploader: FC<ImageUploaderProps> = ({
     return null;
   };
 
+  console.log('image', image);
+
   return (
     <Container>
       <GrayBox onClick={imgSelect}>
@@ -109,7 +113,7 @@ const ImageUploader: FC<ImageUploaderProps> = ({
           accept="image/*"
           onChange={handleImageChange}
         />
-        {image ? (
+        {image && String(image) !== 'null' ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={typeof image === 'string' ? image : URL.createObjectURL(image)}
