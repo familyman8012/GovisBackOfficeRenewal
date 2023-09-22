@@ -1,15 +1,29 @@
 import { useState, useEffect, SyntheticEvent, ReactElement } from 'react';
-import dayjs from 'dayjs';
 import { runInAction } from 'mobx';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
 import styled from '@emotion/styled';
 import { fetchMyInfo, fetchMyPermissions, fetchlogin } from '@ApiFarm/auth';
+import { Button } from '@ComponentFarm/atom/Button/Button';
 import { authStore } from '@MobxFarm/store';
 
-const LoginWrap = styled.div``;
-const FormInput = styled.input``;
-const Button = styled.button``;
+const LoginWrap = styled.div`
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+
+  .login__content {
+    width: 50rem;
+    height: 50rem;
+  }
+
+  .login__input-wrapper:nth-of-type(2) {
+    display: block;
+    margin: 30px 0;
+  }
+`;
 
 const Login = () => {
   const router = useRouter();
@@ -97,11 +111,11 @@ const Login = () => {
                   <label className="login__label" htmlFor="email">
                     아이디
                   </label>
-                  <FormInput
-                    id="email"
-                    className="mb-2"
-                    placeholder="발급받은 이메일 계정을 입력해 주세요."
+                  <input
                     type="email"
+                    id="email"
+                    className="inp"
+                    placeholder="발급받은 이메일 계정을 입력해 주세요."
                     value={String(email)}
                     autoComplete="username"
                     onChange={event => setEmail(event.target.value)}
@@ -111,10 +125,10 @@ const Login = () => {
                   <label className="login__label" htmlFor="pw">
                     비밀번호
                   </label>
-                  <FormInput
-                    id="pw"
-                    className="mb-2"
+                  <input
+                    className="inp"
                     type="password"
+                    id="pw"
                     value={password}
                     placeholder="비밀번호를 입력해 주세요."
                     autoComplete="current-password"
@@ -122,30 +136,28 @@ const Login = () => {
                   />
                 </div>
                 <div className="login__action">
-                  <Button
+                  {/* <Button
                     // leftIcon={<QuestionCircle />}
                     type="button"
                     // clear
-                    color="add"
+
                     onClick={() => setShowGuideModal(true)}
                   >
                     이용 안내
-                  </Button>
-                  <Button type="submit" color="primary-2">
+                  </Button> */}
+                  <Button type="submit" variant="primary">
                     로그인
                   </Button>
 
-                  <Button type="button" color="primary">
-                    전체메뉴가져오기
-                  </Button>
+                  {/* <Button type="button">전체메뉴가져오기</Button> */}
                 </div>
               </form>
-              <p
+              {/* <p
                 id="copyright"
                 className="text-typo-3 gv-text-center gv-typo-body-2 gv-font-kr"
               >
                 Copyright {dayjs().year()}. GOPIZZA. All rights reserved.
-              </p>
+              </p> */}
             </div>
           </div>
           {showGuideModal && 1}
