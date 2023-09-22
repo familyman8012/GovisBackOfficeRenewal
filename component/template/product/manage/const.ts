@@ -131,7 +131,8 @@ export const tabDataFunc = (pageMode: string, query?: any) => {
         },
         {
           title: '채널별 이미지 정보',
-          url: `${baseUrl}/channelimg/${getIdFromQuery}`,
+          url: `${baseUrl}/channelimg`,
+          query: { id: getIdFromQuery },
         },
         {
           title: '레시피 정보',
@@ -145,8 +146,7 @@ export const tabDataFunc = (pageMode: string, query?: any) => {
         },
         {
           title: '변경내역',
-          url: `${baseUrl}/history`,
-          query: { id: getIdFromQuery },
+          url: `${baseUrl}/history/${getIdFromQuery}`,
         },
       ];
 };
