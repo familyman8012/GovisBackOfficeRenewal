@@ -30,7 +30,7 @@ const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoginState, setIsLoginState] = useState(-1);
-  const [showGuideModal, setShowGuideModal] = useState(false);
+  const [showGuideModal] = useState(false);
 
   // 서버에서 메뉴 전체 데이터 제공하는 걸, 프론트에 맞게 변환 시키는 로직
   //   const { data } = useQuery(['totalMenu'], () => fetchPerm());
@@ -95,6 +95,10 @@ const Login = () => {
 
   if (isLoginState === -1) {
     return <div />;
+  }
+
+  if (isLoginState === -1 && isLoginState === 0) {
+    router.push('/product');
   }
 
   return (
