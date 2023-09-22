@@ -216,6 +216,10 @@ export const RecipeStepWrap = styled.div`
     }
   }
 
+  .image-wrap {
+    max-width: 22rem;
+  }
+
   section + section {
     margin-top: 6.4rem;
     table,
@@ -331,9 +335,6 @@ export const RecipeListWrap = styled.div`
   table td,
   table th {
     text-align: left;
-    /* &:nth-of-type(1) {
-      text-align: center;
-    } */
   }
 
   table thead tr td,
@@ -403,9 +404,27 @@ export const RecipeFormStyle = css`
     font-size: 1.8rem;
   }
 
+  .image-wrap {
+    position: relative;
+    width: 100%;
+    max-width: 40rem;
+    border-radius: 0.4rem;
+    overflow: hidden;
+    &::before {
+      content: '';
+      display: block;
+      padding-bottom: 56.25%;
+    }
+  }
+
   .image-wrap img {
-    max-width: 22rem;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
     object-fit: contain;
+    border-radius: 0.4rem;
   }
 
   [class^='field'] {

@@ -35,7 +35,7 @@ const RecipeStepDetail = ({
   stepIndex,
   inView,
 }: RecipeStepDetailProps) => {
-  const { register, control, formState, watch, getValues } =
+  const { register, control, formState, watch, getValues, setValue } =
     useFormContext<IRecipeFormFields>();
 
   const options = useFormOptionsWithEnvs(
@@ -123,6 +123,10 @@ const RecipeStepDetail = ({
                         {...register(`${formKey}.initial_topping_image`, {
                           required: !recipe_info_idx,
                         })}
+                        src={stepFormData.topping_image}
+                        onRemove={() =>
+                          setValue(`${formKey}.topping_image`, '')
+                        }
                       />
                       <ErrorTxt error={errors?.initial_topping_image} />
                     </div>

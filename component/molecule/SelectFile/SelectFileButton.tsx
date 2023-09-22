@@ -13,14 +13,21 @@ const SelectFileButtonStyle = styled.div`
     display: inline-flex;
     position: relative;
     align-items: center;
+    justify-content: flex-start;
     margin-top: 1rem;
     gap: 0 0.4rem;
-
+    max-width: 100%;
+    overflow: hidden;
     a {
       color: var(--color-neutral10);
       text-decoration: underline;
       line-height: 1;
       font-weight: 400;
+      max-width: 100%;
+      overflow: hidden;
+      max-width: 22rem;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
 
     svg:nth-of-type(2) {
@@ -56,13 +63,13 @@ interface SelectFileProps
     React.HTMLProps<HTMLInputElement>,
     'type' | 'onChange' | 'multiple' | 'src'
   > {
-  source?: string | File | null;
+  src?: string | File | null;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   onRemove?: () => void;
 }
 
 const SelectFileButton = React.forwardRef<HTMLInputElement, SelectFileProps>(
-  ({ onChange, accept = 'image/*', source, onRemove, ...otherProps }, ref) => {
+  ({ onChange, accept = 'image/*', src, onRemove, ...otherProps }, ref) => {
     const refs = useSyncedRef<HTMLInputElement>(ref);
     const [file, setFile] = React.useState<File | string | null>(null);
 
@@ -79,7 +86,7 @@ const SelectFileButton = React.forwardRef<HTMLInputElement, SelectFileProps>(
       [onChange]
     );
 
-    useEffect(() => setFile(source ?? ''), [source]);
+    useEffect(() => setFile(src ?? ''), [src]);
 
     const handleRemoveFile = React.useCallback(
       (e: React.MouseEvent<HTMLOrSVGElement>) => {
@@ -92,8 +99,11 @@ const SelectFileButton = React.forwardRef<HTMLInputElement, SelectFileProps>(
         const changeEvent = new Event('change', {
           bubbles: true,
         }) as any;
+
         refs.current.dispatchEvent(changeEvent);
+
         setFile(null);
+        onRemove?.();
       },
       [onChange]
     );
@@ -117,7 +127,7 @@ const SelectFileButton = React.forwardRef<HTMLInputElement, SelectFileProps>(
           (typeof file === 'string' ? (
             <div className="thumb">
               <LinkIcon />
-              <a className="thumb" href={file} target="_blank">
+              <a href={file} target="_blank">
                 {file}
               </a>
               <Cross className="close" onClick={handleRemoveFile} />

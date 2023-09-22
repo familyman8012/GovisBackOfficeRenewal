@@ -62,7 +62,7 @@ const RecipeListTable = ({ list, updateParams, onClick }: TableProps) => {
               </td>
             </tr>
           )}
-          {list.map((recipeRowData, index) => (
+          {list.map(recipeRowData => (
             <tr
               key={recipeRowData.product_info_idx}
               onClick={() => onClick?.(recipeRowData)}

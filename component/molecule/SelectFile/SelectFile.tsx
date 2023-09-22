@@ -20,7 +20,7 @@ const FileInputStyle = styled.div`
     &::before {
       content: '';
       display: block;
-      padding-top: 62%;
+      padding-top: 56.25%;
     }
     overflow: hidden;
     img {

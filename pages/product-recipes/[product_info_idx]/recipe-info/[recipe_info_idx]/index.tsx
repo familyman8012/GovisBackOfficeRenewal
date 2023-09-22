@@ -85,21 +85,29 @@ const RecipeDetailPage: NextPage<{ envs: IEnvironmentResItem[] }> & {
       <LayoutTitleBoxWithTab
         {...recipeInfoDetailLayoutConfig}
         actionButtons={
-          <>
-            <Button variant="gostSecondary" onClick={() => onBack()}>
-              이전
-            </Button>
-            {!editable ? (
-              <Button onClick={() => setEditable(true)}>수정</Button>
-            ) : (
+          editable ? (
+            <>
+              <Button
+                variant="gostSecondary"
+                onClick={() => setEditable(false)}
+              >
+                취소
+              </Button>
               <Button
                 disabled={updateMutate.isLoading}
                 onClick={() => formRef.current?.requestSubmit()}
               >
                 저장
               </Button>
-            )}
-          </>
+            </>
+          ) : (
+            <>
+              <Button variant="gostSecondary" onClick={() => onBack()}>
+                이전
+              </Button>
+              <Button onClick={() => setEditable(true)}>수정</Button>
+            </>
+          )
         }
       />
       <RecipeSwitch />

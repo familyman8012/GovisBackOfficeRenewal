@@ -113,6 +113,7 @@ const RecipeForm = React.forwardRef<HTMLFormElement, RecipeFormProps>(
                       {...register('initial_recipe_image', {
                         required: !recipeId,
                       })}
+                      src={getValues('recipe_image')}
                     />
                     <ErrorTxt error={errors.initial_recipe_image} />
                   </div>
