@@ -4,9 +4,10 @@ import { useQuery } from 'react-query';
 import { fetchMaterialList } from '@ApiFarm/ material';
 import { fetchEnvironment } from '@ApiFarm/environment';
 import { IEnvironmentRes } from '@InterfaceFarm/environment';
+import ExportButton from '@ComponentFarm/modules/ExportButton/ExportButton';
 import Pagination from '@ComponentFarm/modules/Paginate/Pagination';
 import { Button } from '@ComponentFarm/atom/Button/Button';
-import { Export, Plus } from '@ComponentFarm/atom/icons';
+import { Plus } from '@ComponentFarm/atom/icons';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
 import { materialListTabData } from '@ComponentFarm/template/product/material/const';
@@ -49,9 +50,11 @@ const Manage = ({ environment }: { environment: IEnvironmentRes }) => {
         title="원재료 관리"
         BtnBox={
           <>
-            <Button variant="gostSecondary" LeadingIcon={<Export />}>
-              내보내기
-            </Button>
+            <ExportButton
+              params={params}
+              endPoint="/material/info/list"
+              title="원재료 목록"
+            />
             <Button LeadingIcon={<Plus />} onClick={handleAddClick}>
               원재료 등록
             </Button>

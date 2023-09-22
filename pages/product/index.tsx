@@ -4,9 +4,10 @@ import { useQuery } from 'react-query';
 import { fetchEnvironment } from '@ApiFarm/environment';
 import { fetchProductList } from '@ApiFarm/product';
 import { IEnvironmentRes } from '@InterfaceFarm/environment';
+import ExportButton from '@ComponentFarm/modules/ExportButton/ExportButton';
 import Pagination from '@ComponentFarm/modules/Paginate/Pagination';
 import { Button } from '@ComponentFarm/atom/Button/Button';
-import { Export, Plus } from '@ComponentFarm/atom/icons';
+import { Plus } from '@ComponentFarm/atom/icons';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
 import ManageListHandler from '@ComponentFarm/template/product/manage/ManageListHandler';
@@ -55,9 +56,11 @@ const Manage = ({ environment }: { environment: IEnvironmentRes }) => {
         title="제품관리"
         BtnBox={
           <>
-            <Button variant="gostSecondary" LeadingIcon={<Export />}>
-              내보내기
-            </Button>
+            <ExportButton
+              params={params}
+              endPoint="/product/info/list"
+              title="제품 목록"
+            />
             <Button LeadingIcon={<Plus />} onClick={handleAddClick}>
               제품 등록
             </Button>

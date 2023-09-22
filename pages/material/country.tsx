@@ -2,9 +2,8 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
 import { fetchCountryList } from '@ApiFarm/ material';
+import ExportButton from '@ComponentFarm/modules/ExportButton/ExportButton';
 import Pagination from '@ComponentFarm/modules/Paginate/Pagination';
-import { Button } from '@ComponentFarm/atom/Button/Button';
-import { Export } from '@ComponentFarm/atom/icons';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
 import { materialListTabData } from '@ComponentFarm/template/product/material/const';
@@ -39,9 +38,11 @@ const CountryListPage = () => {
         title="원재료 관리"
         BtnBox={
           <>
-            <Button variant="gostSecondary" LeadingIcon={<Export />}>
-              내보내기
-            </Button>
+            <ExportButton
+              params={params}
+              endPoint="/origin/list"
+              title="원산지 목록"
+            />
           </>
         }
       />

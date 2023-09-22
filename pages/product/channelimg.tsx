@@ -170,6 +170,7 @@ const Channelimg = ({ environment }: { environment: IEnvironmentRes }) => {
         );
         if (!isResolutionValid) {
           alert('해상도가 맞지 않습니다.');
+          setIsUploading(false);
           return;
         }
 
