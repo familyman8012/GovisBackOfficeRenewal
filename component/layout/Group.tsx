@@ -50,7 +50,7 @@ const Group = ({ permissionList }: { permissionList: PermissionList }) => {
         <span className="hiddenZoneV">GOPIZZA</span>
       </h1>
       <ul>
-        {permissionList?.iconMenus.map(el => {
+        {permissionList?.iconMenus?.map(el => {
           const { component: Icon, menuName } = menuStore.groupMap[el];
           return (
             <li key={el} className={menuStore.currentGroup === el ? 'on' : ''}>

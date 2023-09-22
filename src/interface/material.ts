@@ -86,17 +86,17 @@ export interface IMaterial {
   evv_material_storage_type?: string; // 원재료 보관 구분 (환경 변수 값)
   material_name_ko: string; // 원재료 명 (한글)
   material_name_en?: string; // 원재료 명 (영어)
-  material_trade_qty: number; // 거래 수량
-  evi_material_trade_unit: number; // 거래 수량의 단위 (환경 변수 - 고유식별 번호)
+  material_trade_qty: string; // 거래 수량
+  evi_material_trade_unit: string; // 거래 수량의 단위 (환경 변수 - 고유식별 번호)
   evv_material_trade_unit?: string; // 거래 수량의 단위 (환경 변수 값)
-  material_spec_qty: number; // 원재료 규격 수량
-  evi_material_spec_unit: number; // 원재료 규격 수량의 단위 (환경 변수 - 고유식별 번호)
+  material_spec_qty: string; // 원재료 규격 수량
+  evi_material_spec_unit: string; // 원재료 규격 수량의 단위 (환경 변수 - 고유식별 번호)
   evv_material_spec_unit?: string; // 원재료 규격 수량의 단위 (환경 변수 값)
-  material_config_qty: number; // 입수량
-  minimal_purchase_qty: number; // 최소 구매 수량
-  estimate_price: number; // 견적가
-  purchase_price: number; // 매입가
-  sale_price: number; // 판매가
+  material_config_qty: string; // 입수량
+  minimal_purchase_qty: string; // 최소 구매 수량
+  estimate_price: string; // 견적가
+  purchase_price: string; // 매입가
+  sale_price: string; // 판매가
   first_cost: number; // 원가
   evi_taxable: string; // 과세대상 (환경 변수 - 고유식별 번호)
   evv_taxable?: string; // 과세대상 (환경 변수 값)
@@ -107,7 +107,7 @@ export interface IMaterial {
   evi_country: any; // 원산지 (환경 변수 - 고유식별 번호)
   evv_country?: string; // 원산지 (환경 변수 값)
   ordering_place: string; // 발주처
-  evi_material_sale_brand: number; // 판매 브랜드 (환경 변수 - 고유식별 번호)
+  evi_material_sale_brand: string; // 판매 브랜드 (환경 변수 - 고유식별 번호)
   evv_material_sale_brand?: string; // 판매 브랜드 (환경 변수 값)
   material_description?: string; // 원재료 설명
 }

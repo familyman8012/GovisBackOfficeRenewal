@@ -21,7 +21,7 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
   const queryClient = useQueryClient();
   const [pageMode, setPageMode] = useState('');
   const [selectedImgFile, setSelectedImgFile] = useState<File | null>(null);
-  const [sendData, setSendData] = useState<any | null>(null);
+  const [submitData, setSubmitData] = useState<any | null>(null);
   const [imgData, status, errorMessage, handler] = useImageUploader();
   const materialPatnerParams = useMemo(
     () => environment.list.find(el => el.value === '제조사'),
@@ -73,17 +73,13 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
     },
   });
 
-  const saveFunc = async (submitData: IMaterial) => {
+  const submitFunc = async (data: IMaterial) => {
     if (selectedImgFile) {
       const event = { target: { files: [selectedImgFile] } };
       await handler(event as any);
-      setSendData(submitData);
-    } else if (
-      pageMode === 'modify' &&
-      !imgData &&
-      !!submitData.material_image
-    ) {
-      setSendData(submitData);
+      setSubmitData(data);
+    } else if (pageMode === 'modify' && !imgData && !!viewData.material_image) {
+      setSubmitData(data);
     } else {
       toast.error('대표 이미지를 등록하셔야 합니다.234');
     }
@@ -91,36 +87,33 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
 
   useEffect(() => {
     if (pageMode === 'add' && status === 'success' && imgData) {
-      sendData.material_image = imgData;
+      submitData.material_image = imgData;
       saveSubmit.mutate({
-        ...sendData,
-        evi_country: sendData.evi_country.value,
-        pci_manufacturer: sendData.pci_manufacturer.value,
+        ...submitData,
+        evi_country: submitData.evi_country.value,
+        pci_manufacturer: submitData.pci_manufacturer.value,
       });
     }
     if (pageMode === 'modify') {
       if (status === 'success' && imgData) {
-        sendData.material_image = imgData;
+        submitData.material_image = imgData;
+      } else {
+        submitData.material_image = viewData.material_image;
       }
-      delete sendData.material_code;
+
       modifySubmit.mutate({
-        params: sendData.material_info_idx,
+        params: viewData.material_info_idx,
         data: {
-          ...sendData,
-          evi_country: sendData.evi_country.value,
-          pci_manufacturer: sendData.pci_manufacturer.value,
+          ...submitData,
+          evi_country: submitData.evi_country.value,
+          pci_manufacturer: submitData.pci_manufacturer.value,
         },
       });
     }
     if (status === 'error') {
       toast.error(errorMessage);
     }
-  }, [sendData]);
-
-  // onFormSubmit 에 전달할 함수.
-  const submitFunc = (data: any) => {
-    saveFunc(data);
-  };
+  }, [submitData]);
 
   // Form 상태 변화.
   useEffect(() => {

@@ -167,36 +167,66 @@ const MaterialForm: React.FC<FormProps> = ({
     [materialCategory?.list]
   );
 
+  // const defaultValues = {
+  //   ...initialData,
+  //   pci_manufacturer: PartnerInitialValue,
+  //   evi_country: CountryInitialValue,
+  // } || {
+  //   external_code: '', // replaced innercode
+  //   evi_material_status: '', // replaced status
+  //   evi_material_product_type: '', // replaced product_category
+  //   mci_large: '', // replaced sel_category1
+  //   mci_middle: '', // replaced sel_category2
+  //   mci_small: '', // replaced sel_category3
+  //   evi_material_storage_type: '', // replaced save_dd
+  //   material_name_ko: '', // replaced name_ko
+  //   material_name_en: '', // replaced name_en
+  //   material_trade_qty: '', // replaced quanity
+  //   evi_material_trade_unit: '', // replaced quanity2
+  //   material_spec_qty: '', // replaced spec
+  //   evi_material_spec_unit: '', // replaced spec2
+  //   material_config_qty: '', // replaced amount
+  //   minimal_purchase_qty: '', // replaced lessAmount
+  //   estimate_price: '', // replaced price1
+  //   purchase_price: '', // replaced price2
+  //   sale_price: '', // replaced price3
+  //   evi_taxable: '', // replaced taxable
+  //   evi_vat: '', // replaced vat
+  //   pci_manufacturer: { value: '', label: '' }, // replaced company
+  //   evi_country: { value: '', label: '' }, // replaced country
+  //   ordering_place: '', // replaced client
+  //   material_description: '', // replaced desc
+  //   evi_material_sale_brand: '',
+  // };
+
   const defaultValues = {
-    ...initialData,
-    pci_manufacturer: PartnerInitialValue,
-    evi_country: CountryInitialValue,
-  } || {
-    external_code: '', // replaced innercode
-    evi_material_status: '', // replaced status
-    evi_material_product_type: '', // replaced product_category
-    mci_large: '', // replaced sel_category1
-    mci_middle: '', // replaced sel_category2
-    mci_small: '', // replaced sel_category3
-    evi_material_storage_type: '', // replaced save_dd
-    material_name_ko: '', // replaced name_ko
-    material_name_en: '', // replaced name_en
-    material_trade_qty: '', // replaced quanity
-    evi_material_trade_unit: '', // replaced quanity2
-    material_spec_qty: '', // replaced spec
-    evi_material_spec_unit: '', // replaced spec2
-    material_config_qty: '', // replaced amount
-    minimal_purchase_qty: '', // replaced lessAmount
-    estimate_price: '', // replaced price1
-    purchase_price: '', // replaced price2
-    sale_price: '', // replaced price3
-    evi_taxable: '', // replaced taxable
-    evi_vat: '', // replaced vat
-    pci_manufacturer: { value: '', label: '' }, // replaced company
-    evi_country: { value: '', label: '' }, // replaced country
-    ordering_place: '', // replaced client
-    material_description: '', // replaced desc
-    evi_material_sale_brand: '',
+    external_code: initialData?.external_code ?? '', // replaced innercode
+    evi_material_status: initialData?.evi_material_status ?? '', // replaced status
+    evi_material_product_type: initialData?.evi_material_product_type ?? '', // replaced product_category
+    mci_large: initialData?.mci_large ?? '', // replaced sel_category1
+    mci_middle: initialData?.mci_middle ?? '', // replaced sel_category2
+    mci_small: initialData?.mci_small ?? '', // replaced sel_category3
+    evi_material_storage_type: initialData?.evi_material_storage_type ?? '', // replaced save_dd
+    material_name_ko: initialData?.material_name_ko ?? '', // replaced name_ko
+    material_name_en: initialData?.material_name_en ?? '', // replaced name_en
+    material_trade_qty: initialData?.material_trade_qty ?? '', // replaced quanity
+    evi_material_trade_unit: initialData?.evi_material_trade_unit ?? '', // replaced quanity2
+    material_spec_qty: initialData?.material_spec_qty ?? '', // replaced spec
+    evi_material_spec_unit: initialData?.evi_material_spec_unit ?? '', // replaced spec2
+    material_config_qty: initialData?.material_config_qty ?? '', // replaced amount
+    minimal_purchase_qty: initialData?.minimal_purchase_qty ?? '', // replaced lessAmount
+    estimate_price: initialData?.estimate_price ?? '', // replaced price1
+    purchase_price: initialData?.purchase_price ?? '', // replaced price2
+    sale_price: initialData?.sale_price ?? '', // replaced price3
+    evi_taxable: initialData?.evi_taxable ?? '', // replaced taxable
+    evi_vat: initialData?.evi_vat ?? '', // replaced vat
+    pci_manufacturer: initialData?.pci_manufacturer
+      ? PartnerInitialValue
+      : undefined, // replaced company
+    evi_country: initialData?.evi_country ? CountryInitialValue : undefined, // replaced country
+    ordering_place: initialData?.ordering_place ?? '', // replaced client
+    material_description: initialData?.material_description ?? '', // replaced desc
+    evi_material_sale_brand: initialData?.evi_material_sale_brand ?? '',
   };
 
   const {
@@ -272,13 +302,13 @@ const MaterialForm: React.FC<FormProps> = ({
   )?.value;
 
   // 원재료 규격 (양)
-  const materialSpecQty = watch('material_spec_qty');
+  const materialSpecQty = Number(watch('material_spec_qty'));
 
   // 입수량
-  const materialConfigQty = watch('material_config_qty');
+  const materialConfigQty = Number(watch('material_config_qty'));
 
   // 판매가
-  const salePrice = watch('sale_price');
+  const salePrice = Number(watch('sale_price'));
 
   const isCostDisable =
     !materialSpecUnit || !materialSpecQty || !materialConfigQty || !salePrice;
@@ -555,9 +585,10 @@ const MaterialForm: React.FC<FormProps> = ({
                   required: '필수 입력항목입니다.',
                 })}
               >
+                <option value="">--- 선택 ---</option>
                 {SALE_BRAND.map(el => (
                   <option key={el.value} value={el.value}>
-                    {el.label === '전체' ? '--- 선택 ---' : el.label}
+                    {el.label}
                   </option>
                 ))}
               </select>
@@ -641,6 +672,7 @@ const MaterialForm: React.FC<FormProps> = ({
                   required: '필수 입력항목입니다.',
                 })}
               >
+                <option value="">--- 선택 ---</option>
                 {TRADE_UNIT.map(el => (
                   <option key={el.value} value={el.value}>
                     {el.label}
