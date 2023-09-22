@@ -93,3 +93,11 @@ export const fetchProductRecipe = async (product_info_idx: string | number) => {
     recipe_steps,
   };
 };
+
+// 원재료 정보 보기
+export const fetchMaterialInfoView = async (params: string) => {
+  console.log('fetchMaterialInfoView', params);
+  const response = await BoRequest.get(`/product/info/manufacture/${params}`);
+  console.log('response', response);
+  return response.data.data;
+};

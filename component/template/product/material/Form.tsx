@@ -258,7 +258,7 @@ const MaterialForm: React.FC<FormProps> = ({
 
   useEffect(() => {
     if (
-      initialWatch?.code === 'ms_operation' &&
+      initialWatch?.code !== 'ms_discontinuation' &&
       statusWatch?.code === 'ms_discontinuation'
     ) {
       changeAlertModal();

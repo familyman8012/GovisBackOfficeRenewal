@@ -34,7 +34,11 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
     }
   );
 
+  console.log('router', router);
+
   const channelModal = (product_info_idx: number) => {
+    console.log('product_info_idx', product_info_idx);
+
     runInAction(() => {
       confirmModalStore.openModal({
         title: '제품 정보 등록 완료',
@@ -47,10 +51,11 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
         ),
         onFormSubmit: () => {
           // eslint-disable-next-line no-unused-vars
-          const { routerId, ...newObj } = router.query;
+          const { id: routerId, ...newObj } = router.query;
+          console.log('newObj', newObj);
           router.push({
-            pathname: `/product/channelimg/${product_info_idx}`,
-            query: { ...newObj },
+            pathname: `/product/channelimg`,
+            query: { id: product_info_idx, ...newObj },
           });
           confirmModalStore.isOpen = false;
         },
@@ -96,6 +101,7 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
   useEffect(() => {
     if (pageMode === 'add' && status === 'success' && imgData) {
       submitData.product_image = imgData;
+      // eslint-disable-next-line no-unused-vars
       const { sale_end_date, ...sendData } = submitData;
       saveSubmit.mutate(sendData);
     }
@@ -106,6 +112,7 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
         submitData.product_image = viewData.product_image;
       }
 
+      // eslint-disable-next-line no-unused-vars
       const { evi_product_group, ...sendData } = submitData;
       modifySubmit.mutate({
         params: viewData.product_info_idx,
@@ -132,8 +139,6 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
         : ''
     );
   }, [id]);
-
-  console.log('');
 
   return (
     <>

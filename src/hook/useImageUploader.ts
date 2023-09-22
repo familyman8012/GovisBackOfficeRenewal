@@ -11,6 +11,7 @@ const useImageUploader = (
   UploadStatus,
   string | null,
   ChangeEventHandler<HTMLInputElement>,
+  any,
 ] => {
   const [imgData, setImgData] = useState<string>(''); // 업로드된 이미지 URL
   const [status, setStatus] = useState<UploadStatus>('idle'); // 업로드 상태
@@ -38,7 +39,7 @@ const useImageUploader = (
     [path]
   );
 
-  return [imgData, status, errorMessage, handler];
+  return [imgData, status, errorMessage, handler, setStatus];
 };
 
 export default useImageUploader;

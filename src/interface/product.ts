@@ -86,3 +86,27 @@ export interface IProductChannelImg {
 export interface IProductChannelImgView {
   list: IProductChannelImg[];
 }
+
+// 원재료 정보 보기
+export interface IMaterialInfoViewItem {
+  recipe_material_idx: number;
+  material_info_idx: number;
+  material_image: string;
+  material_name_ko: string;
+  material_name_en: string;
+  recipe_material_quantity_value: number;
+  evi_recipe_material_quantity_unit: number;
+  evi_recipe_material_quantity_unit_str: string;
+  recipe_material_note: string;
+  first_cost: number;
+  evi_country: number;
+  evi_country_str: string;
+  partner_company_idx: number;
+  partner_company_name: string;
+  recipe_step_idx: number;
+}
+
+export interface IMaterialInfoViewRes {
+  recipe_info_material_cost: number;
+  recipe_material_list: IMaterialInfoViewItem[];
+}

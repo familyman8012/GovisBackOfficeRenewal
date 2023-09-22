@@ -199,6 +199,7 @@ const ShippingForm: React.FC<FormProps> = ({
           confirmModalStore.isOpen = false;
         },
         submitButtonText: '확인',
+        cancelButtonText: '취소',
       });
     });
   };

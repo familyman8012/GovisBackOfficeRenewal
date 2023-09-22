@@ -67,7 +67,7 @@ const Channelimg = ({ environment }: { environment: IEnvironmentRes }) => {
   const { id } = router.query;
   const queryClient = useQueryClient();
   const tabData = tabDataFunc('view', router?.query);
-  const [imgData, status, errorMessage, handler] = useImageUploader(
+  const [imgData, status, errorMessage, handler, setStatus] = useImageUploader(
     'images/product/channelimg'
   );
   const [isUploading, setIsUploading] = useState(false);
@@ -93,7 +93,7 @@ const Channelimg = ({ environment }: { environment: IEnvironmentRes }) => {
 
   const { data: ChannelImg } = useQuery(
     ['channelImgList'],
-    () => fetchChannelImgView(String(id && id[0])),
+    () => fetchChannelImgView(String(id && id)),
     {
       enabled: !!router.query.id,
       cacheTime: 0,
@@ -143,10 +143,11 @@ const Channelimg = ({ environment }: { environment: IEnvironmentRes }) => {
       };
       console.log('submitData', submitData);
       saveSubmit.mutate({
-        params: String(id && id[0]),
+        params: String(id && id),
         data: submitData,
       });
       setIsUploading(false);
+      setStatus('');
     } else if (status === 'error') {
       console.log(errorMessage);
       setIsUploading(false);
@@ -266,20 +267,6 @@ const Channelimg = ({ environment }: { environment: IEnvironmentRes }) => {
 };
 
 export default Channelimg;
-
-export async function getStaticPaths() {
-  // 기본 경로들
-  const basePaths = [
-    { params: { id: ['add'] } },
-    { params: { id: ['modify'] } },
-    { params: { id: ['view'] } },
-  ];
-
-  return {
-    paths: basePaths,
-    fallback: 'blocking',
-  };
-}
 
 export const getStaticProps = async () => {
   const environment = await fetchEnvironment({

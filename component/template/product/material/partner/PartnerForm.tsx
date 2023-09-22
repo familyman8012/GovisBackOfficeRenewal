@@ -147,7 +147,7 @@ const PartnerForm: React.FC<FormProps> = ({
 
   useEffect(() => {
     if (
-      initialWatch?.code === 'pcs_operation' &&
+      initialWatch?.code !== 'pcs_discontinuation' &&
       statusWatch?.code === 'pcs_discontinuation'
     ) {
       changeAlertModal();

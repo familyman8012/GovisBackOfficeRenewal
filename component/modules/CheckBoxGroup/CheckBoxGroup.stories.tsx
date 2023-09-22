@@ -51,8 +51,8 @@ const StoryCheckboxGroup: Story<Props> = args => {
     { label: 'Orange', value: '3', subText: 'subText' },
   ];
 
-  const [selectedFruits, setSelectedFruits] = useState<string[]>([]);
-  const [selectedLetters, setSelectedLetters] = useState<string[]>([]);
+  const [selectedFruits, setSelectedFruits] = useState<any>([]);
+  const [selectedLetters, setSelectedLetters] = useState<any>([]);
   return (
     <StoryLayout
       {...args}
@@ -153,7 +153,7 @@ const StoryCheckboxGroup: Story<Props> = args => {
         <div>
           <h3>Selected Fruits:</h3>
           <ul>
-            {selectedFruits.map((fruit, index) => (
+            {selectedFruits.map((fruit: any, index: any) => (
               <li key={fruit}>{fruit}</li>
             ))}
           </ul>
@@ -161,7 +161,7 @@ const StoryCheckboxGroup: Story<Props> = args => {
         <div>
           <h3>Selected Letters:</h3>
           <ul>
-            {selectedLetters.map((letter, index) => (
+            {selectedLetters.map((letter: any, index: any) => (
               <li key={letter}>{letter}</li>
             ))}
           </ul>

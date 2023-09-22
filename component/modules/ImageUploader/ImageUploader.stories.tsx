@@ -30,7 +30,7 @@ interface Props {
 const StoryPagination: Story<Props> = args => {
   return (
     <StoryLayout {...args}>
-      <ImageUploader />
+      <ImageUploader product_image="" />
     </StoryLayout>
   );
 };

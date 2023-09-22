@@ -3,10 +3,9 @@ import { css } from '@emotion/react';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Sync } from '@ComponentFarm/atom/icons';
 import { ListHandlerWrap } from '@ComponentFarm/layout/styles';
-import ListFilterSelects from '@ComponentFarm/molecule/ListFilterSelects/ListFilterSelects';
 import SearchKeyword from '@ComponentFarm/molecule/SearchKeyword/SearchKeyword';
 import { QueryParams } from '@HookFarm/useQueryParams';
-import { searchOption, storeInfoSelectCofing } from './const';
+import { searchOption } from './const';
 
 export type keywordType = {
   search_type?: string;
@@ -46,11 +45,11 @@ const StoreListHandler = ({
     <ListHandlerWrap css={pageListSetting}>
       <div className="line line1">
         <div className="left">
-          <ListFilterSelects
+          {/* <ListFilterSelects
             selectConfig={storeInfoSelectCofing}
             params={params}
             updateParams={updateParams}
-          />
+          /> */}
           <Button
             className="btn_reset"
             variant="transparent"
