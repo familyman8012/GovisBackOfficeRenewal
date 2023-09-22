@@ -16,8 +16,9 @@ const RecipeStepForm = React.forwardRef<
   {
     envs: IEnvironmentResItem[];
     editable?: boolean;
+    inView?: boolean;
   }
->(({ envs, editable }, ref) => {
+>(({ envs, editable, inView }, ref) => {
   const { control, watch } = useFormContext<IRecipeFormFields>();
   const { append, fields, remove } = useFieldArray<
     IRecipeFormFields,
@@ -90,6 +91,7 @@ const RecipeStepForm = React.forwardRef<
               editable={editable}
               stepIndex={i}
               currentView={view}
+              inView={inView}
               onChangeView={setView}
             />
           ))}
@@ -99,6 +101,6 @@ const RecipeStepForm = React.forwardRef<
   );
 });
 
-RecipeStepForm.displayName = 'MenuOptionForm';
+RecipeStepForm.displayName = 'RecipeStepForm';
 
 export default RecipeStepForm;

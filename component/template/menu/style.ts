@@ -14,19 +14,19 @@ export const MenuOptionListStyle = styled.section`
     border: 1px solid var(--color-neutral90);
     display: flex;
     flex-direction: row;
-    align-items: stretch;
+    align-items: flex-start;
 
     > .view {
       flex: 1;
       padding: 3.2rem;
+      width: calc(100% - 30rem);
       border-left: 1px solid var(--color-neutral90);
     }
   }
 
   .side {
     flex: none;
-    min-width: 30rem;
-    width: 22.6%;
+    width: 30rem;
     padding: 1.6rem;
     max-height: 50rem;
     overflow-y: auto;

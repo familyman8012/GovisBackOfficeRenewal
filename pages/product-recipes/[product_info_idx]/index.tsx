@@ -8,7 +8,7 @@ import { Button } from '@ComponentFarm/atom/Button/Button';
 import LayoutTitleBoxWithTab from '@ComponentFarm/template/layout/LayoutWithTitleBoxAndTab';
 import ProductForm from '@ComponentFarm/template/product/manage/Form';
 import { recipeInfoListLayoutConfig } from '@ComponentFarm/template/recipe/const';
-import { RecipeListWrap } from '@ComponentFarm/template/recipe/style';
+import { RecipeDetailWrap } from '@ComponentFarm/template/recipe/style';
 import { useGoMove } from '@HookFarm/useGoMove';
 
 const RecipeProductPage = ({ envs }: { envs: IEnvironmentRes }) => {
@@ -29,7 +29,7 @@ const RecipeProductPage = ({ envs }: { envs: IEnvironmentRes }) => {
   );
 
   return (
-    <RecipeListWrap>
+    <RecipeDetailWrap>
       <LayoutTitleBoxWithTab
         {...recipeInfoListLayoutConfig}
         actionButtons={
@@ -47,7 +47,7 @@ const RecipeProductPage = ({ envs }: { envs: IEnvironmentRes }) => {
           submitFunc={() => {}}
         />
       )}
-    </RecipeListWrap>
+    </RecipeDetailWrap>
   );
 };
 

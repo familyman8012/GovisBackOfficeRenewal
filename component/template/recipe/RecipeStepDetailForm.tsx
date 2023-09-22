@@ -15,12 +15,14 @@ import TimeSecondInput from '@ComponentFarm/molecule/TimeSecondInput/TimeSecondI
 import useFormOptionsWithEnvs from '@HookFarm/useFormOptionsWithEnvs';
 import { getTableWidthPercentage } from '@UtilFarm/calcSize';
 import { toPrice } from '@UtilFarm/number';
+import RecipeIngredientList from './RecipeIngredientList';
 import { RecipeStepWrap } from './style';
 import { MenuOptionDetailStyle } from '../menu/style';
 
 interface RecipeStepDetailProps {
   envs: IEnvironmentResItem[];
   editable?: boolean;
+  inView?: boolean;
   stepIndex: number;
   currentView?: number;
   onChangeView: (view?: number) => void;
@@ -31,6 +33,7 @@ const RecipeStepDetail = ({
   editable,
   currentView,
   stepIndex,
+  inView,
 }: RecipeStepDetailProps) => {
   const { register, control, formState, watch, getValues } =
     useFormContext<IRecipeFormFields>();
@@ -171,7 +174,7 @@ const RecipeStepDetail = ({
         </section>
         <section>
           <h3>원재료 정보</h3>
-          <div className="ingredient-table-wrap">
+          <div className={`ingredient-table-wrap ${inView ? 'in-view' : ''}`}>
             {editable && (
               <div className="ingredient-buttons">
                 <IngredientSelect
@@ -198,151 +201,157 @@ const RecipeStepDetail = ({
               </div>
             )}
 
-            <InnerTable fullWidth>
-              <colgroup>
-                {editable && <col width={getTableWidthPercentage(48, 1181)} />}
-                <col width={getTableWidthPercentage(345, 1181)} />
-                {!editable && (
-                  <col width={getTableWidthPercentage(140, 1181)} />
-                )}
-                <col width={getTableWidthPercentage(248, 1181)} />
-                <col width={getTableWidthPercentage(248, 1181)} />
-                <col width={getTableWidthPercentage(200, 1181)} />
-              </colgroup>
-              <thead>
-                <tr>
-                  {editable && <td>&nbsp;</td>}
-
-                  <td>원재료명</td>
-                  {!editable && <td>원가</td>}
-                  <td>투입량</td>
-                  <td>계량 정보</td>
-                  <td>비고</td>
-                </tr>
-              </thead>
-              <tbody>
-                {fields.length === 0 && (
+            {inView ? (
+              <RecipeIngredientList ingredients={fields} />
+            ) : (
+              <InnerTable fullWidth>
+                <colgroup>
+                  {editable && (
+                    <col width={getTableWidthPercentage(48, 1181)} />
+                  )}
+                  <col width={getTableWidthPercentage(345, 1181)} />
+                  {!editable && (
+                    <col width={getTableWidthPercentage(140, 1181)} />
+                  )}
+                  <col width={getTableWidthPercentage(248, 1181)} />
+                  <col width={getTableWidthPercentage(248, 1181)} />
+                  <col width={getTableWidthPercentage(200, 1181)} />
+                </colgroup>
+                <thead>
                   <tr>
-                    <td colSpan={5}>
-                      <Empty>원재료를 선택해주세요.</Empty>
-                    </td>
-                  </tr>
-                )}
-                {fields.map((field, i) => (
-                  <tr key={field.id}>
-                    {editable && (
-                      <td className="center">
-                        <Ellipse
-                          className="ingredient-remove"
-                          onClick={() => remove(i)}
-                        />
+                    {editable && <td>&nbsp;</td>}
 
-                        <input
-                          type="hidden"
-                          {...register(
-                            `${formKey}.recipe_material_list.${i}.recipe_material_idx`
-                          )}
-                        />
-                      </td>
-                    )}
-                    <td>
-                      <div className="ingredient-info">
-                        {field.material_image && (
-                          <div className="img">
-                            <img
-                              src={field.material_image}
-                              alt={field.material_name_ko}
-                            />
-                          </div>
-                        )}
-                        <div className="info">
-                          {field.material_name_ko}
-                          <br />
-                          <span>
-                            {field.pcn_manufacturer} | {field.evv_country}
-                          </span>
-                        </div>
-                      </div>
-                    </td>
-                    {!editable && (
-                      <td className="computed-cost">
-                        {getComputedCost(
-                          field.first_cost,
-                          getValues(
-                            `${formKey}.recipe_material_list.${i}.recipe_material_quantity_value`
-                          )
-                        )}
-                      </td>
-                    )}
-                    <td>
-                      <div className="box_inp">
-                        <select
-                          {...register(
-                            `${formKey}.recipe_material_list.${i}.evi_recipe_material_quantity_unit`,
-                            { valueAsNumber: true }
-                          )}
-                          disabled={!editable}
-                        >
-                          {options.recipe_material_quantity_unit.map(item => (
-                            <option key={item.value} value={item.value}>
-                              {item.label}
-                            </option>
-                          ))}
-                        </select>
-                        <input
-                          {...register(
-                            `${formKey}.recipe_material_list.${i}.recipe_material_quantity_value`,
-                            { valueAsNumber: true }
-                          )}
-                          disabled={!editable}
-                          className="inp"
-                          placeholder="수량"
-                        />
-                      </div>
-                      <ErrorTxt />
-                    </td>
-                    <td>
-                      <div className="box_inp">
-                        <select
-                          {...register(
-                            `${formKey}.recipe_material_list.${i}.evi_recipe_material_meterage_unit`,
-                            { valueAsNumber: true }
-                          )}
-                          disabled={!editable}
-                        >
-                          {options.recipe_material_meterage_unit.map(item => (
-                            <option key={item.value} value={item.value}>
-                              {item.label}
-                            </option>
-                          ))}
-                        </select>
-                        <input
-                          {...register(
-                            `${formKey}.recipe_material_list.${i}.recipe_material_meterage_value`,
-                            { valueAsNumber: true }
-                          )}
-                          disabled={!editable}
-                          className="inp"
-                          placeholder="수량"
-                        />
-                      </div>
-                    </td>
-                    <td>
-                      <div className="box_inp">
-                        <input
-                          {...register(
-                            `${formKey}.recipe_material_list.${i}.recipe_material_note`
-                          )}
-                          disabled={!editable}
-                          className="inp"
-                          placeholder="비고"
-                        />
-                      </div>
-                    </td>
+                    <td>원재료명</td>
+                    {!editable && <td>원가</td>}
+                    <td>투입량</td>
+                    <td>계량 정보</td>
+                    <td>비고</td>
                   </tr>
-                ))}
-              </tbody>
-            </InnerTable>
+                </thead>
+                <tbody>
+                  {fields.length === 0 && (
+                    <tr>
+                      <td colSpan={5}>
+                        <Empty>원재료를 선택해주세요.</Empty>
+                      </td>
+                    </tr>
+                  )}
+                  {fields.map((field, i) => (
+                    <tr key={field.id}>
+                      {editable && (
+                        <td className="center">
+                          <Ellipse
+                            className="ingredient-remove"
+                            onClick={() => remove(i)}
+                          />
+
+                          <input
+                            type="hidden"
+                            {...register(
+                              `${formKey}.recipe_material_list.${i}.recipe_material_idx`
+                            )}
+                          />
+                        </td>
+                      )}
+                      <td>
+                        <div className="ingredient-info">
+                          {field.material_image && (
+                            <div className="img">
+                              <img
+                                src={field.material_image}
+                                alt={field.material_name_ko}
+                              />
+                            </div>
+                          )}
+                          <div className="info">
+                            {field.material_name_ko}
+                            <br />
+                            <span>
+                              {field.pcn_manufacturer} | {field.evv_country}
+                            </span>
+                          </div>
+                        </div>
+                      </td>
+                      {!editable && (
+                        <td className="computed-cost">
+                          {getComputedCost(
+                            field.first_cost,
+                            getValues(
+                              `${formKey}.recipe_material_list.${i}.recipe_material_quantity_value`
+                            )
+                          )}
+                        </td>
+                      )}
+                      <td>
+                        <div className="box_inp">
+                          <select
+                            {...register(
+                              `${formKey}.recipe_material_list.${i}.evi_recipe_material_quantity_unit`,
+                              { valueAsNumber: true }
+                            )}
+                            disabled={!editable}
+                          >
+                            {options.recipe_material_quantity_unit.map(item => (
+                              <option key={item.value} value={item.value}>
+                                {item.label}
+                              </option>
+                            ))}
+                          </select>
+                          <input
+                            {...register(
+                              `${formKey}.recipe_material_list.${i}.recipe_material_quantity_value`,
+                              { valueAsNumber: true }
+                            )}
+                            disabled={!editable}
+                            className="inp"
+                            placeholder="수량"
+                          />
+                        </div>
+                        <ErrorTxt />
+                      </td>
+                      <td>
+                        <div className="box_inp">
+                          <select
+                            {...register(
+                              `${formKey}.recipe_material_list.${i}.evi_recipe_material_meterage_unit`,
+                              { valueAsNumber: true }
+                            )}
+                            disabled={!editable}
+                          >
+                            {options.recipe_material_meterage_unit.map(item => (
+                              <option key={item.value} value={item.value}>
+                                {item.label}
+                              </option>
+                            ))}
+                          </select>
+                          <input
+                            {...register(
+                              `${formKey}.recipe_material_list.${i}.recipe_material_meterage_value`,
+                              { valueAsNumber: true }
+                            )}
+                            disabled={!editable}
+                            className="inp"
+                            placeholder="수량"
+                          />
+                        </div>
+                      </td>
+                      <td>
+                        <div className="box_inp">
+                          <input
+                            {...register(
+                              `${formKey}.recipe_material_list.${i}.recipe_material_note`
+                            )}
+                            disabled={!editable}
+                            className="inp"
+                            placeholder="비고"
+                          />
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </InnerTable>
+            )}
           </div>
         </section>
         <section>

@@ -3,6 +3,7 @@ import {
   IProductReq,
   IProductRes,
 } from '@InterfaceFarm/product';
+import { RecipeInfo, RecipeStepInfo } from '@InterfaceFarm/product-recipe';
 import { BoRequest } from '.';
 
 export const fetchProductList = async (params?: IProductReq) => {
@@ -57,4 +58,38 @@ export const fetchChannelImgSave = async (data: {
   );
   console.log('response', response);
   return response.data.data;
+};
+
+const fetchProductRecipeStepList = async ({
+  product_info_idx,
+  recipe_info_idx,
+  recipe_step_idx,
+}: {
+  product_info_idx: string | number;
+  recipe_info_idx?: string | number;
+  recipe_step_idx?: string | number;
+}) =>
+  BoRequest.get<IResponse<RecipeStepInfo>>(
+    `/product/info/recipe/${product_info_idx}/basic/${recipe_info_idx}/step/${recipe_step_idx}`
+  ).then(response => response.data.data);
+
+export const fetchProductRecipe = async (product_info_idx: string | number) => {
+  const basicInfo = await BoRequest.get<IResponse<RecipeInfo>>(
+    `/product/info/recipe/${product_info_idx}`
+  ).then(response => response.data.data);
+
+  const recipe_steps = await Promise.all(
+    basicInfo.recipe_step_list.map(({ recipe_step_idx }) =>
+      fetchProductRecipeStepList({
+        product_info_idx,
+        recipe_info_idx: basicInfo.recipe_info_idx,
+        recipe_step_idx,
+      })
+    )
+  );
+
+  return {
+    ...basicInfo,
+    recipe_steps,
+  };
 };

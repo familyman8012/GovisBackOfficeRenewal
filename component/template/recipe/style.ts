@@ -210,6 +210,10 @@ export const RecipeStepWrap = styled.div`
       text-align: left;
       border-top: 0;
     }
+
+    &.in-view {
+      border: 0;
+    }
   }
 
   section + section {
@@ -286,6 +290,13 @@ export const Alert = styled.p`
     color: var(--color-neutral50);
     cursor: pointer;
     padding: 0;
+  }
+`;
+
+export const RecipeDetailWrap = styled.div`
+  & > div:nth-of-type(2),
+  & > div:nth-of-type(3) {
+    display: none;
   }
 `;
 
@@ -485,6 +496,58 @@ export const RecipeSwitchStyle = styled.section`
     }
     button {
       min-width: 0;
+    }
+  }
+`;
+
+export const RecipeIngreientListStyle = styled.ul`
+  display: flex;
+  width: 100%;
+  overflow-x: auto;
+  gap: 0 1.6rem;
+
+  li {
+    flex: none;
+    display: flex;
+    width: 27rem;
+    padding: 1.2rem;
+    border-radius: 0.6rem;
+    border: 1px solid var(--color-neutral90);
+    align-items: center;
+
+    .image {
+      width: 7.2rem;
+      height: 7.2rem;
+      object-fit: contain;
+      margin-right: 2.4rem;
+    }
+
+    .info .name {
+      font-size: 1.6rem;
+      font-weight: 500;
+      line-height: 1.25;
+      margin-bottom: 0.8rem;
+    }
+
+    .amount {
+      font-size: 1.4rem;
+      font-weight: 500;
+      color: var(--color-neutral60);
+      margin-bottom: 0.8rem;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .price {
+      font-size: 1.2rem;
+      font-weight: 400;
+      color: var(--color-neutral50);
+    }
+    .amount .note {
+      font-weight: 400;
+      font-size: 1.2rem;
+      margin-left: 0.9rem;
+      vertical-align: middle;
     }
   }
 `;

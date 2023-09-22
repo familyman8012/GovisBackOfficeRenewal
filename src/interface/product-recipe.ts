@@ -45,8 +45,10 @@ export interface IRecipeStepFormFields {
     first_cost?: number;
     recipe_material_meterage_value: number;
     evi_recipe_material_meterage_unit: number | string;
+    evi_recipe_material_meterage_unit_str?: string;
     recipe_material_quantity_value: number;
     evi_recipe_material_quantity_unit: number | string;
+    evi_recipe_material_quantity_unit_str?: string;
     recipe_material_note: string;
   }[];
 }
