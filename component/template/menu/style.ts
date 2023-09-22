@@ -14,7 +14,7 @@ export const MenuOptionListStyle = styled.section`
     border: 1px solid var(--color-neutral90);
     display: flex;
     flex-direction: row;
-    align-items: flex-start;
+    align-items: stretch;
 
     > .view {
       flex: 1;

@@ -29,9 +29,9 @@ const MenuFilter = ({
 }: IMenuFilterProps) => {
   const handlerKeyword = (keyword: keywordType) => {
     updateParams({
-      search_type: 'menu_name',
+      search_target: 'menu_name',
       search_keyword: keyword.search_keyword,
-      page: 1,
+      current_num: 1,
     });
   };
 

@@ -86,8 +86,16 @@ const RecipeListTable = ({ list, updateParams, onClick }: TableProps) => {
                     : '등록'}
                 </Badge>
               </td>
-              <td>{recipeRowData.recipe_created_date ?? '-'}</td>
-              <td>{recipeRowData.recipe_updated_date ?? '-'}</td>
+              <td>
+                {recipeRowData.is_recipe_registration === 0
+                  ? '-'
+                  : recipeRowData.recipe_created_date ?? '-'}
+              </td>
+              <td>
+                {recipeRowData.is_recipe_registration === 0
+                  ? '-'
+                  : recipeRowData.recipe_updated_date ?? '-'}
+              </td>
             </tr>
           ))}
         </tbody>
