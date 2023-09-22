@@ -97,7 +97,7 @@ const Login = () => {
     return <div />;
   }
 
-  if (isLoginState === -1 && isLoginState === 0) {
+  if (isLoginState === -1 || isLoginState === 0) {
     router.push('/product');
   }
 
