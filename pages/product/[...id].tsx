@@ -159,21 +159,21 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
 
 export default ProductDetail;
 
-export async function getStaticPaths() {
-  // 기본 경로들
-  const basePaths = [
-    { params: { id: ['add'] } },
-    { params: { id: ['modify'] } },
-    { params: { id: ['view'] } },
-  ];
+// export async function getStaticPaths() {
+//   // 기본 경로들
+//   const basePaths = [
+//     { params: { id: ['add'] } },
+//     { params: { id: ['modify'] } },
+//     { params: { id: ['view'] } },
+//   ];
 
-  return {
-    paths: basePaths,
-    fallback: 'blocking',
-  };
-}
+//   return {
+//     paths: basePaths,
+//     fallback: 'blocking',
+//   };
+// }
 
-export const getStaticProps = async () => {
+export const getServerSideProps = async () => {
   const environment = await fetchEnvironment({
     name: 'product_status,product_group,product_category,sale_type',
   });
@@ -182,6 +182,6 @@ export const getStaticProps = async () => {
     props: {
       environment,
     },
-    revalidate: 10,
+    // revalidate: 10,
   };
 };

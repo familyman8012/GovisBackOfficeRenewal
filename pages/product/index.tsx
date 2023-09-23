@@ -91,7 +91,7 @@ const Manage = ({ environment }: { environment: IEnvironmentRes }) => {
 
 export default Manage;
 
-export const getStaticProps = async () => {
+export const getServerSideProps = async () => {
   const environment = await fetchEnvironment({
     name: 'product_category,sale_type,product_status,recipe_status',
   });
@@ -100,6 +100,6 @@ export const getStaticProps = async () => {
     props: {
       environment,
     },
-    revalidate: 60,
+    // revalidate: 60,
   };
 };

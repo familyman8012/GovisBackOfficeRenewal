@@ -18,7 +18,7 @@ const Menu = ({ permissionList }: { permissionList: PermissionList }) => {
       <h2>{menuStore.groupMap[menuStore.currentGroup].menuName}</h2>
       <ul>
         {permissionList?.menus
-          .filter(
+          ?.filter(
             menu =>
               menuStore.currentGroup === 'Home' ||
               menu.group === menuStore.currentGroup

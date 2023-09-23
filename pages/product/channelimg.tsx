@@ -269,7 +269,7 @@ const Channelimg = ({ environment }: { environment: IEnvironmentRes }) => {
 
 export default Channelimg;
 
-export const getStaticProps = async () => {
+export const getServerSideProps = async () => {
   const environment = await fetchEnvironment({
     name: 'sale_channel',
   });
@@ -278,6 +278,6 @@ export const getStaticProps = async () => {
     props: {
       environment,
     },
-    revalidate: 10,
+    // revalidate: 10,
   };
 };

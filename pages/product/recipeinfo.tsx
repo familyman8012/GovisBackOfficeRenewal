@@ -49,7 +49,7 @@ const ProductRecipeInfoPage = ({ envs }: { envs: IEnvironmentResItem[] }) => {
   );
 };
 
-export const getStaticProps = async () => {
+export const getServerSideProps = async () => {
   const props = await fetchEnvironment({
     name: [
       'product_group',
