@@ -184,7 +184,7 @@ export const getServerSideProps = async () => {
     },
     // revalidate: 10,
     headers: {
-      'Cache-Control': 's-maxage=60 * 20, stale-while-revalidate',
+      'Cache-Control': 's-maxage=6000, stale-while-revalidate',
     },
   };
 };
