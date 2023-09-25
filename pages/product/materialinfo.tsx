@@ -1,9 +1,11 @@
 import React from 'react';
 import { useRouter } from 'next/router';
+import { IoAlertCircleOutline } from 'react-icons/io5';
 import { useQuery } from 'react-query';
 import { css } from '@emotion/react';
 import { fetchMaterialInfoView } from '@ApiFarm/product';
 import { IMaterialInfoViewItem } from '@InterfaceFarm/product';
+import Empty from '@ComponentFarm/atom/Empty/Empty';
 import { Pic } from '@ComponentFarm/atom/icons';
 import { FormWrap, Table, TableWrap } from '@ComponentFarm/common';
 import DetailPageLayout from '@ComponentFarm/layout/Product/DetailPageLayout';
@@ -96,6 +98,8 @@ const MaterialInfo = () => {
     }
   );
 
+  console.log('MaterialInfoData', MaterialInfoData);
+
   return (
     <FormWrap>
       <DetailPageLayout tabData={tabData} title="제품 상세 정보">
@@ -127,34 +131,46 @@ const MaterialInfo = () => {
                   </span>
                 </td>
               </tr>
-              {MaterialInfoData?.recipe_material_list?.map(
-                (materialInfo: IMaterialInfoViewItem) => (
-                  <tr key={materialInfo.material_info_idx}>
-                    <td>
-                      <span className="box_material_info_name">
-                        <span className="thumb">
-                          {materialInfo.material_image ? (
-                            // eslint-disable-next-line @next/next/no-img-element
-                            <img
-                              src={String(materialInfo.material_image)}
-                              alt=""
-                            />
-                          ) : (
-                            <Pic size={20} />
-                          )}
+              {MaterialInfoData?.recipe_material_list.length > 0 ? (
+                MaterialInfoData?.recipe_material_list?.map(
+                  (materialInfo: IMaterialInfoViewItem) => (
+                    <tr key={materialInfo.material_info_idx}>
+                      <td>
+                        <span className="box_material_info_name">
+                          <span className="thumb">
+                            {materialInfo.material_image ? (
+                              // eslint-disable-next-line @next/next/no-img-element
+                              <img
+                                src={String(materialInfo.material_image)}
+                                alt=""
+                              />
+                            ) : (
+                              <Pic size={20} />
+                            )}
+                          </span>
+                          {materialInfo.material_name_ko}
                         </span>
-                        {materialInfo.material_name_ko}
-                      </span>
-                    </td>
-                    <td>
-                      {materialInfo.recipe_material_quantity_value}
-                      {materialInfo.evi_recipe_material_quantity_unit_str}
-                    </td>
-                    <td>{materialInfo.partner_company_name}</td>
-                    <td>{materialInfo.evi_country_str}</td>
-                    <td>{materialInfo.first_cost}</td>
-                  </tr>
+                      </td>
+                      <td>
+                        {materialInfo.recipe_material_quantity_value}
+                        {materialInfo.evi_recipe_material_quantity_unit_str}
+                      </td>
+                      <td>{materialInfo.partner_company_name}</td>
+                      <td>{materialInfo.evi_country_str}</td>
+                      <td>{materialInfo.first_cost}</td>
+                    </tr>
+                  )
                 )
+              ) : (
+                <tr>
+                  <td colSpan={5}>
+                    <Empty Icon={<IoAlertCircleOutline size={42} />}>
+                      원재료가 등록되지 않았습니다.
+                      <br />
+                      원재료를 등록해주세요.
+                    </Empty>
+                  </td>
+                </tr>
               )}
             </tbody>
           </Table>

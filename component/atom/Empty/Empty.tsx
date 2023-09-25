@@ -24,6 +24,7 @@ const EmptyWrap = styled.div`
     font-size: 1.4rem;
     text-align: center;
     white-space: pre;
+    line-height: 1.5;
   }
 
   &.no-icon p {

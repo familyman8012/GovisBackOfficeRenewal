@@ -31,12 +31,12 @@ const Manage = ({ environment }: { environment: IEnvironmentRes }) => {
       title: '제품 목록',
       // label: '164',
     },
-    {
-      title: '통계',
-    },
-    {
-      title: '부서정보',
-    },
+    // {
+    //   title: '통계',
+    // },
+    // {
+    //   title: '부서정보',
+    // },
   ];
 
   const handlePageChange = (pageNumber: number) => {

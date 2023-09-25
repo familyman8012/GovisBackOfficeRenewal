@@ -82,11 +82,11 @@ export const materialListTabData = [
     title: '원산지 목록',
     url: '/material/country?current_num=1&per_num=10',
   },
-  {
-    title: '통계',
-    url: '',
-  },
-  { title: '부서정보', url: '' },
+  // {
+  //   title: '통계',
+  //   url: '',
+  // },
+  // { title: '부서정보', url: '' },
 ];
 
 export const tabDataFunc = (pageMode: string, query?: any) => {
