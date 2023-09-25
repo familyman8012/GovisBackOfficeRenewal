@@ -92,11 +92,10 @@ const Channelimg = ({ environment }: { environment: IEnvironmentRes }) => {
   };
 
   const { data: ChannelImg } = useQuery(
-    ['channelImgList'],
+    ['channelImgList', id],
     () => fetchChannelImgView(String(id && id)),
     {
       enabled: !!router.query.id,
-      cacheTime: 0,
     }
   );
 

@@ -89,11 +89,10 @@ const MaterialInfo = () => {
   const tabData = tabDataFunc('view', router?.query);
 
   const { data: MaterialInfoData } = useQuery(
-    ['materialInfoList'],
+    ['materialInfoList', id],
     () => fetchMaterialInfoView(String(id && id)),
     {
       enabled: !!router.query.id,
-      cacheTime: 0,
     }
   );
 

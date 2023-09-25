@@ -24,17 +24,16 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
   const [submitData, setSubmitData] = useState<any | null>(null);
   const [imgData, status, errorMessage, handler] = useImageUploader();
 
+  console.log('id', id);
+
   // view 일때, 데이터 불러오기
   const { data: viewData } = useQuery(
-    ['productFormView', router.asPath],
+    ['productFormView', id && id[1]],
     () => fetchProductFormView(String(id && id[1])),
     {
       enabled: pageMode === 'view' || pageMode === 'modify',
-      cacheTime: 0,
     }
   );
-
-  console.log('router', router);
 
   const channelModal = (product_info_idx: number) => {
     console.log('product_info_idx', product_info_idx);
