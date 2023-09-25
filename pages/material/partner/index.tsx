@@ -111,7 +111,11 @@ const PartnerListPage = ({ environment }: { environment: IEnvironmentRes }) => {
             updateParams={updateParams}
             resetParams={resetParams}
           />
-          <ListTable data={data} />
+          <ListTable
+            data={data}
+            title={partnerCategory?.value}
+            updateParams={updateParams}
+          />
           <Pagination
             pageInfo={[Number(params.current_num), Number(params.per_num)]}
             totalCount={Number(data?.total_count)}

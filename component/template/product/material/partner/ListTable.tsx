@@ -4,10 +4,14 @@ import { useRouter } from 'next/router';
 import { css } from '@emotion/react';
 import { IPartnerRes } from '@InterfaceFarm/material';
 import { Badge } from '@ComponentFarm/atom/Badge/Badge';
+import Sort from '@ComponentFarm/atom/Sort/Sort';
 import { Table, TableWrap } from '@ComponentFarm/common';
+import { QueryParams } from '@HookFarm/useQueryParams';
 
 interface TableProps {
   data?: IPartnerRes;
+  title: string;
+  updateParams: (newParams: QueryParams) => void;
 }
 
 const pageStyle = css`
@@ -45,8 +49,17 @@ const pageStyle = css`
   }
 `;
 
-const ListTable = ({ data }: TableProps) => {
+const ListTable = ({ data, title, updateParams }: TableProps) => {
   const router = useRouter();
+
+  const TableThItem = [
+    { id: 1, label: `${title} 코드`, sort: 'partner_company_code' },
+    { id: 2, label: `${title}명`, sort: 'partner_company_name' },
+    { id: 3, label: '제품 수', sort: 'material_count' },
+    { id: 4, label: '등록일', sort: 'created_date' },
+    { id: 5, label: '수정일', sort: 'updated_date' },
+    { id: 6, label: '상태', sort: '' },
+  ];
 
   const handleGoIdxClick = (idx: string) => {
     // 현재 쿼리 파라미터를 /add 경로에 추가
@@ -55,8 +68,6 @@ const ListTable = ({ data }: TableProps) => {
       query: router.query,
     });
   };
-
-  console.log('data', data);
 
   return (
     <TableWrap>
@@ -70,14 +81,16 @@ const ListTable = ({ data }: TableProps) => {
           <col width={160} />
         </colgroup>
         <thead>
-          <tr>
-            <th>물류사 코드</th>
-            <th>물류사명</th>
-            <th>제품 수</th>
-            <th>등록일</th>
-            <th>수정일</th>
-            <th>상태</th>
-          </tr>
+          {TableThItem.map(el => (
+            <th key={el.id}>
+              <span className="th_title">
+                {el.label}{' '}
+                {el.sort !== '' && (
+                  <Sort updateParams={updateParams} field={el.sort} />
+                )}{' '}
+              </span>
+            </th>
+          ))}
         </thead>
         <tbody>
           {data?.list.map(partner => (

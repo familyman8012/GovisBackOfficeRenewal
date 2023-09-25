@@ -133,7 +133,6 @@ const ShippingForm: React.FC<FormProps> = ({
   const selOption = convertToLabelValueFormat(shippingListData.list);
 
   const {
-    register,
     handleSubmit,
     unregister,
     setValue,
@@ -316,11 +315,11 @@ const ShippingForm: React.FC<FormProps> = ({
                                     className="inp"
                                     placeholder="0"
                                     disabled={isReadOnly}
-                                    {...register(`${method}_${region.value}`, {
-                                      required: '필수 입력항목입니다.',
-                                    })}
+                                    // {...register(`${method}_${region.value}`, {
+                                    //   required: '필수 입력항목입니다.',
+                                    // })}
                                   />
-                                  명
+                                  일
                                   {errors[`${method}_${region.value}`] && (
                                     <ErrorTxt>
                                       {String(

@@ -105,7 +105,7 @@ const ManageListTable = ({ data, updateParams }: TableProps) => {
                   passHref
                   prefetch
                 >
-                  {product.product_code}{' '}
+                  {product.product_code}
                 </Link>
               </td>
               <td>{product.evi_product_category_str}</td>
