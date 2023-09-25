@@ -87,21 +87,7 @@ const RecipeAddPage = ({ envs }: { envs: IEnvironmentResItem[] }) => {
   );
 };
 
-export const getStaticPaths = async () => {
-  return {
-    paths: [
-      {
-        params: {
-          product_info_idx: 'add',
-          recipe_info_idx: 'add',
-        },
-      },
-    ],
-    fallback: 'blocking',
-  };
-};
-
-export const getStaticProps = async () => {
+export const getServerSideProps = async () => {
   const props = await fetchEnvironment({
     name: [
       'product_group',
@@ -117,8 +103,8 @@ export const getStaticProps = async () => {
   return {
     props: {
       envs: props.list,
+      cacheTime: 3600,
     },
-    revalidate: 10,
   };
 };
 

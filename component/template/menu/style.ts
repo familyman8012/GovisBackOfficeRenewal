@@ -183,6 +183,9 @@ export const MenuOptionGroupStyle = styled.div`
   > .content button {
     width: 100%;
     justify-content: flex-start;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .content {

@@ -235,20 +235,7 @@ const RecipeListPage = ({ envs }: { envs: IEnvironmentResItem[] }) => {
   );
 };
 
-export const getStaticPaths = async () => {
-  return {
-    paths: [
-      {
-        params: {
-          product_info_idx: ':product_info_idx',
-        },
-      },
-    ],
-    fallback: 'blocking',
-  };
-};
-
-export const getStaticProps = async () => {
+export const getServerSideProps = async () => {
   const props = await fetchEnvironment({
     name: ['recipe_status'].join(','),
   });
@@ -256,8 +243,8 @@ export const getStaticProps = async () => {
   return {
     props: {
       envs: props.list,
+      cacheTime: 3600,
     },
-    revalidate: 10,
   };
 };
 

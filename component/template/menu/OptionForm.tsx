@@ -9,6 +9,39 @@ import MenuOptionCategory from './OptionCategoryForm';
 import MenuOptionDetail from './OptionDetailForm';
 import { MenuOptionListStyle } from './style';
 
+interface MenuOptionDetailRenderProps {
+  currentView?: [number, number];
+  groupIndex: number;
+  editable?: boolean;
+  onChangeView: (view: [number, number] | undefined) => void;
+}
+const MenuOptionListRender = ({
+  editable,
+  groupIndex,
+  currentView = [-1, -1],
+  onChangeView,
+}: MenuOptionDetailRenderProps) => {
+  const { watch } = useFormContext<IMenuFormFields>();
+
+  const formKey = `menu_categories.${groupIndex}.menu_options` as const;
+  const menu_options = watch(`${formKey}`);
+
+  return (
+    <>
+      {menu_options.map((field, j) => (
+        <MenuOptionDetail
+          key={field.menu_option_info_idx ? field.menu_option_info_idx : j}
+          editable={editable}
+          currentView={currentView}
+          groupIndex={groupIndex}
+          optionIndex={j}
+          onChangeView={onChangeView}
+        />
+      ))}
+    </>
+  );
+};
+
 export const MenuOptionForm = React.forwardRef<
   HTMLElement,
   {
@@ -24,7 +57,7 @@ export const MenuOptionForm = React.forwardRef<
     control,
   });
 
-  const groups = watch('menu_categories');
+  watch('menu_categories');
   const [view, setView] = useState<[number, number] | undefined>(undefined);
 
   return (
@@ -64,8 +97,8 @@ export const MenuOptionForm = React.forwardRef<
           </div>
         </div>
         <div className="view">
-          {!view ? (
-            fields.length === 0 ? (
+          {!view &&
+            (fields.length === 0 ? (
               <Empty>
                 <b>등록된 정보가 없습니다.</b>
                 <br />
@@ -75,21 +108,16 @@ export const MenuOptionForm = React.forwardRef<
               <Empty>
                 <span className="sub">옵션을 선택해주세요.</span>
               </Empty>
-            )
-          ) : (
-            groups?.map((field, i) => {
-              return field?.menu_options.map((field2, j) => (
-                <MenuOptionDetail
-                  editable={editable}
-                  key={`${i}_${j}`}
-                  currentView={view}
-                  groupIndex={i}
-                  optionIndex={j}
-                  onChangeView={setView}
-                />
-              ));
-            })
-          )}
+            ))}
+          {fields?.map((field, i) => (
+            <MenuOptionListRender
+              key={field.id}
+              editable={editable}
+              groupIndex={i}
+              currentView={view}
+              onChangeView={setView}
+            />
+          ))}
         </div>
       </div>
     </MenuOptionListStyle>

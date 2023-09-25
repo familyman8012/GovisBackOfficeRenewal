@@ -52,15 +52,13 @@ export const MenuForm = React.forwardRef<HTMLFormElement, MenuFormProps>(
 
     const methods = useForm<IMenuFormFields>({
       mode: 'onBlur',
-      defaultValues: id
-        ? fetchDefaultValue
-        : {
-            evi_menu_group: options.menu_group[0].value,
-            evi_menu_status: options.menu_status[0].value,
-            evi_menu_type: options.menu_type[0].value,
-            evi_menu_classification: options.menu_classification[0].value,
-            is_menu_option: '1',
-          },
+      defaultValues: {
+        evi_menu_group: options.menu_group[0].value,
+        evi_menu_status: options.menu_status[0].value,
+        evi_menu_type: options.menu_type[0].value,
+        evi_menu_classification: options.menu_classification[0].value,
+        is_menu_option: '1',
+      },
     });
 
     const useCategoryValue = useMemo(
@@ -92,15 +90,8 @@ export const MenuForm = React.forwardRef<HTMLFormElement, MenuFormProps>(
 
     const useOption = watch('is_menu_option') === '1';
     const isSingleMenu =
-      options.menu_type.find(type => type.value === watch('evi_menu_type'))
+      options.menu_type.find(type => type.value === `${watch('evi_menu_type')}`)
         ?.code === 'mt_item';
-
-    useEffect(() => {
-      if (!isSingleMenu) {
-        setValue('product_info_idx', undefined);
-        setValue('product_name_ko', undefined);
-      }
-    }, [isSingleMenu]);
 
     useEffect(() => {
       if (!editable && id) {
@@ -176,7 +167,22 @@ export const MenuForm = React.forwardRef<HTMLFormElement, MenuFormProps>(
                     <RadioGroup
                       defaultValue={`${value}`}
                       disabled={!editable}
-                      onChange={onChange}
+                      onChange={val => {
+                        if (
+                          !(
+                            options.menu_type.find(
+                              type => type.value === `${val}`
+                            )?.code === 'mt_item'
+                          )
+                        ) {
+                          setValue('product_info_idx', undefined);
+                          setValue('product_name_ko', undefined, {
+                            shouldTouch: true,
+                          });
+                        }
+
+                        onChange(val);
+                      }}
                       {...restField}
                       options={options.menu_type}
                     />

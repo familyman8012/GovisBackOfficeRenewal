@@ -85,7 +85,7 @@ export const getStaticProps = async () => {
     props: {
       envs: props.list,
     },
-    revalidate: 10,
+    revalidate: 60,
   };
 };
 

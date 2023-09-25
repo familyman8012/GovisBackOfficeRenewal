@@ -16,7 +16,7 @@ interface TableProps {
 const recipeSortItems = [
   { id: 1, label: '제품코드', sort: 'product_code' },
   { id: 2, label: '제품 그룹', sort: '' },
-  { id: 3, label: '제품 그룹', sort: '' },
+  { id: 3, label: '제품 분류', sort: '' },
   { id: 4, label: '제품명', sort: 'product_name_ko' },
   { id: 5, label: '제품 상태', sort: '' },
   { id: 6, label: '등록 수', sort: 'recipe_count' },

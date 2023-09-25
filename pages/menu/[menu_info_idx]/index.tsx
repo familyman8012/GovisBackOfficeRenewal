@@ -88,20 +88,7 @@ const MenuDetailPage: NextPage<{
   );
 };
 
-export const getStaticPaths = async () => {
-  return {
-    paths: [
-      {
-        params: {
-          menu_info_idx: ':menu_info_idx',
-        },
-      },
-    ],
-    fallback: 'blocking',
-  };
-};
-
-export const getStaticProps = async () => {
+export const getServerSideProps = async () => {
   const props = await fetchEnvironment({
     name: [
       'menu_group',
@@ -115,8 +102,8 @@ export const getStaticProps = async () => {
   return {
     props: {
       envs: props.list,
+      cacheTime: 3600,
     },
-    revalidate: 10,
   };
 };
 

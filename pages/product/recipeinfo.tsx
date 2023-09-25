@@ -33,7 +33,7 @@ const ProductRecipeInfoPage = ({ envs }: { envs: IEnvironmentResItem[] }) => {
     );
   }
 
-  if (isError || !data?.evi_recipe_status_str) {
+  if (isError || !data || data?.recipe_info_idx === 0) {
     return (
       <DetailPageLayout title="제품 관리 상세 정보" tabData={tabData}>
         <Empty>

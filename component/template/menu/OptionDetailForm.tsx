@@ -85,7 +85,9 @@ const MenuOptionDetail = ({
   const createOptionInfo = useMutation(createMenuOptionInfo, {
     onSuccess: data => {
       toast.info('옵션 정보가 저장되었습니다.');
-      setValue(`${formKey}.menu_option_info_idx`, data.menu_option_info_idx);
+      setValue(`${formKey}.menu_option_info_idx`, data.menu_option_info_idx, {
+        shouldValidate: true,
+      });
     },
   });
 
@@ -96,12 +98,16 @@ const MenuOptionDetail = ({
   });
 
   const handleUpdateOptionInfo = useCallback(async () => {
-    const isValid = await trigger(formKey);
+    const isValid = await trigger([
+      `${formKey}.menu_option_name`,
+      `${formKey}.product_info_idx`,
+    ]);
+
     if (!isValid) return;
 
     const { menu_option_info_idx: idx } = infoFormData;
 
-    if (isValid && idx) {
+    if (idx) {
       updateOptionInfo.mutate({
         menu_option_info_idx: idx,
         ...infoFormData,
@@ -130,7 +136,13 @@ const MenuOptionDetail = ({
   return (
     <MenuOptionDetailStyle style={{ display: isShow ? '' : 'none' }}>
       <div className="header">
-        <div className={`box_inp ${errors?.menu_option_name ? 'error' : ''}`}>
+        <div
+          className={`box_inp ${
+            errors?.menu_option_name || errors?.menu_option_info_idx
+              ? 'error'
+              : ''
+          }`}
+        >
           <input
             {...register(`${formKey}.menu_option_name`, {
               required: true,
@@ -139,7 +151,20 @@ const MenuOptionDetail = ({
             className="inp"
             placeholder="옵션 메뉴명을 입력해주세요"
           />
-          <ErrorTxt error={errors?.menu_option_name} />
+          <input
+            type="hidden"
+            {...register(`${formKey}.menu_option_info_idx`, {
+              validate: value => {
+                if (!value && canUpdateOptionInfo) {
+                  return '저장 버튼을 눌러 옵션 정보를 저장해주세요.';
+                }
+                return true;
+              },
+            })}
+          />
+          <ErrorTxt
+            error={errors?.menu_option_name || errors?.menu_option_info_idx}
+          />
         </div>
 
         {!!editable && (
@@ -187,14 +212,14 @@ const MenuOptionDetail = ({
                   <input
                     type="hidden"
                     {...register(`${formKey}.product_info_idx`, {
-                      required: true,
+                      required: !infoFormData.menu_option_info_idx,
                     })}
                     disabled={!editable}
                   />
                   <Controller
                     name={`${formKey}.product_name_ko`}
                     control={control}
-                    render={({ field: { onChange, value, ref } }) => (
+                    render={({ field: { onChange, value } }) => (
                       <ProductSelect
                         disabled={!editable}
                         value={value ?? ''}
@@ -230,7 +255,7 @@ const MenuOptionDetail = ({
                     <span>정상가</span>
                     <input
                       {...register(`${formKey}.visit_normal_price`, {
-                        required: true,
+                        required: !infoFormData.menu_option_info_idx,
                       })}
                       disabled={!editable}
                       className="inp"
@@ -242,7 +267,7 @@ const MenuOptionDetail = ({
                     <span>할인가</span>
                     <input
                       {...register(`${formKey}.visit_discount_price`, {
-                        required: true,
+                        required: !infoFormData.menu_option_info_idx,
                       })}
                       disabled={!editable}
                       className="inp"
@@ -270,7 +295,7 @@ const MenuOptionDetail = ({
                     <span>정상가</span>
                     <input
                       {...register(`${formKey}.takeout_normal_price`, {
-                        required: true,
+                        required: !infoFormData.menu_option_info_idx,
                       })}
                       disabled={!editable}
                       className="inp"
@@ -282,7 +307,7 @@ const MenuOptionDetail = ({
                     <span>할인가</span>
                     <input
                       {...register(`${formKey}.takeout_discount_price`, {
-                        required: true,
+                        required: !infoFormData.menu_option_info_idx,
                       })}
                       disabled={!editable}
                       className="inp"
@@ -310,7 +335,7 @@ const MenuOptionDetail = ({
                     <span>정상가</span>
                     <input
                       {...register(`${formKey}.delivery_normal_price`, {
-                        required: true,
+                        required: !infoFormData.menu_option_info_idx,
                       })}
                       disabled={!editable}
                       className="inp"
@@ -322,7 +347,7 @@ const MenuOptionDetail = ({
                     <span>할인가</span>
                     <input
                       {...register(`${formKey}.delivery_discount_price`, {
-                        required: true,
+                        required: !infoFormData.menu_option_info_idx,
                       })}
                       disabled={!editable}
                       className="inp"

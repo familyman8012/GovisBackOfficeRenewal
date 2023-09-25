@@ -47,7 +47,7 @@ const ProductSelectContent = styled.div`
       width: 100%;
       height: 5rem;
 
-      > *:first-of-type {
+      > div:first-of-type {
         width: 11.9rem;
       }
 
@@ -198,7 +198,7 @@ export const ProductSelect = React.forwardRef<
                   <th>&nbsp;</th>
                   <th>제품코드</th>
                   <th>제품명</th>
-                  <th>제조사명</th>
+                  <th>제품분류</th>
                   <th>등록일</th>
                 </tr>
               </thead>
@@ -235,7 +235,6 @@ export const ProductSelect = React.forwardRef<
                           checked={item === selectedProduct}
                           readOnly
                         />
-                        {/* <Radio /> */}
                       </td>
                       <td>{item.product_code}</td>
                       <td>{item.product_name_ko}</td>

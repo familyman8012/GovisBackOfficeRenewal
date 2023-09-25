@@ -2,8 +2,6 @@
 =                  Colors                     =
 ============================================= */
 
-import { rgba } from 'polished';
-
 export interface Token {
   [key: string]: string;
 }
@@ -178,6 +176,6 @@ export const Button: Token = {
 };
 
 export const TABLE: Token = {
-  headerBackground: rgba(COLOR.gray0, 0.8),
+  headerBackground: COLOR.gray0,
   border: 'rgba(247, 249, 252, 0.80)',
 };

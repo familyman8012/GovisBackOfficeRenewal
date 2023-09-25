@@ -1,11 +1,11 @@
 export const searchOption = [
   {
-    label: '제품코드',
-    value: 'product_code',
-  },
-  {
     label: '제품명',
     value: 'product_name_ko',
+  },
+  {
+    label: '제품코드',
+    value: 'product_code',
   },
 ];
 
