@@ -46,7 +46,7 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
           <p>
             채널별 이미지를 등록하시겠습니까?
             <br />
-            (채널별 이미지는 추후 등록 가능합니다1.)
+            (채널별 이미지는 추후 등록 가능합니다.)
           </p>
         ),
         onFormSubmit: () => {
