@@ -72,6 +72,7 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
     onSuccess: data => {
       console.log('성공!', data);
       queryClient.invalidateQueries(['productList']);
+      queryClient.invalidateQueries(['productFormView']);
       channelModal(data.product_info_idx);
     },
   });
@@ -80,6 +81,7 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
     onSuccess: () => {
       console.log('성공!');
       queryClient.invalidateQueries(['productList']);
+      queryClient.invalidateQueries(['productFormView']);
       router.push('/product/');
     },
   });
@@ -92,7 +94,7 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
     } else if (pageMode === 'modify' && !imgData && !!viewData.product_image) {
       setSubmitData(data);
     } else {
-      toast.error('대표 이미지를 등록하셔야 합니다.234');
+      toast.error('대표 이미지를 등록하셔야 합니다.');
     }
   };
 
@@ -100,6 +102,9 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
   useEffect(() => {
     if (pageMode === 'add' && status === 'success' && imgData) {
       submitData.product_image = imgData;
+
+      console.log('Product submitData', submitData);
+
       // eslint-disable-next-line no-unused-vars
       const { sale_end_date, ...sendData } = submitData;
       saveSubmit.mutate(sendData);

@@ -60,6 +60,7 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
     onSuccess: data => {
       console.log('성공!', data);
       queryClient.invalidateQueries(['materialList']);
+      queryClient.invalidateQueries(['materialFormView']);
       router.push(`/material/shipping/add/${data.material_info_idx}`);
     },
   });
@@ -68,6 +69,7 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
     onSuccess: () => {
       console.log('성공!');
       queryClient.invalidateQueries(['materialList']);
+      queryClient.invalidateQueries(['materialFormView']);
       router.push('/material/');
     },
   });

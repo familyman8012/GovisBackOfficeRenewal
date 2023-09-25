@@ -83,6 +83,8 @@ const ProductForm: React.FC<FormProps> = ({
     envKeys
   );
 
+  console.log('initialData', initialData);
+
   const defaultValues = {
     evi_product_status: initialData?.evi_product_status ?? '',
     evi_product_group: initialData?.evi_product_group ?? '',
@@ -94,7 +96,7 @@ const ProductForm: React.FC<FormProps> = ({
     sale_start_date:
       initialData?.sale_start_date === '0000-00-00'
         ? ''
-        : initialData?.sale_end_date ?? '',
+        : initialData?.sale_start_date ?? '',
     sale_end_date:
       initialData?.sale_end_date === '0000-00-00'
         ? ''

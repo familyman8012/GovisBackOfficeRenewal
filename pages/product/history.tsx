@@ -1,77 +1,23 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import { css } from '@emotion/react';
-import { FormWrap, Table, TableWrap } from '@ComponentFarm/common';
 import DetailPageLayout from '@ComponentFarm/layout/Product/DetailPageLayout';
+import generateHistoryPage2 from '@ComponentFarm/template/history/generateHistoryPage2';
 import { tabDataFunc } from '@ComponentFarm/template/product/manage/const';
-
-const pageStyle = css`
-  &.basic tr:hover {
-    background: none;
-  }
-  th {
-    &:nth-of-type(1) {
-      width: calc((320 / 1536) * 100%);
-    }
-    &:nth-of-type(2) {
-      width: calc((150 / 1536) * 100%);
-    }
-    &:nth-of-type(3) {
-      width: calc((250 / 1536) * 100%);
-    }
-    &:nth-of-type(4) {
-      width: calc((200 / 1536) * 100%);
-    }
-    &:nth-of-type(5) {
-      width: calc((596 / 1536) * 100%);
-    }
-  }
-`;
 
 const History = () => {
   const router = useRouter();
   const tabData = tabDataFunc('view', router?.query);
-  const history = [
-    {
-      id: 1,
-      date: '2023-07-26',
-      people: '고피자',
-      item: '판매 종료일',
-      classification: '등록',
-      detail: '없음 > 2023년 8월 31일',
-    },
-  ];
+
+  const test = generateHistoryPage2({
+    idx: String(router?.query?.id),
+    endpoint: `/product/info/history`,
+    subTitle: '제품 변경 내역',
+  });
 
   return (
-    <FormWrap>
-      <DetailPageLayout tabData={tabData} title="제품 상세 정보">
-        <h2>제품 정보 변경 내역</h2>
-        <TableWrap>
-          <Table className="basic" css={pageStyle}>
-            <thead>
-              <tr>
-                <th>변경일자</th>
-                <th>처리자</th>
-                <th>변경항목</th>
-                <th>변경구분</th>
-                <th>변경내용</th>
-              </tr>
-            </thead>
-            <tbody>
-              {history.map(el => (
-                <tr key={el.id}>
-                  <td>{el.date}</td>
-                  <td>{el.people}</td>
-                  <td>{el.item}</td>
-                  <td>{el.classification}</td>
-                  <td>{el.detail}</td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-        </TableWrap>
-      </DetailPageLayout>
-    </FormWrap>
+    <DetailPageLayout tabData={tabData} title="제품 상세 정보">
+      {test()}
+    </DetailPageLayout>
   );
 };
 

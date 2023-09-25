@@ -71,6 +71,8 @@ const DatePicker: React.FC<DatePickerProps> = ({
     selectedDate ? dayjs(selectedDate).toDate() : null
   );
 
+  console.log('selectedDate', selectedDate);
+
   useEffect(() => {
     setSelectedDateState(selectedDate ? dayjs(selectedDate).toDate() : null);
   }, [selectedDate]);
