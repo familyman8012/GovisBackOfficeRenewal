@@ -78,14 +78,12 @@ const PartnerForm: React.FC<FormProps> = ({
   ];
 
   const defaultValues = {
-    ...initialData,
-  } || {
-    evi_partner_company_type: '',
-    partner_company_name: '',
-    business_number: '',
-    business_address: '',
-    evi_partner_company_status: '',
-    partner_company_description: '',
+    evi_partner_company_type: initialData?.evi_partner_company_type ?? '',
+    partner_company_name: initialData?.partner_company_name ?? '',
+    business_number: initialData?.business_number ?? '',
+    business_address: initialData?.business_address ?? '',
+    evi_partner_company_status: initialData?.evi_partner_company_status ?? '',
+    partner_company_description: initialData?.partner_company_description ?? '',
   };
 
   const {

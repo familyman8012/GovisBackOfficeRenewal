@@ -59,7 +59,7 @@ const LogisticsDetailPage = ({
     },
   });
 
-  const saveFunc = async (submitData: IPartnerSaveReq) => {
+  const submitFunc = async (submitData: IPartnerSaveReq) => {
     console.log('Partner submitData', submitData);
     if (pageMode === 'add') {
       submitData.evi_partner_company_type = String(
@@ -69,20 +69,15 @@ const LogisticsDetailPage = ({
       saveSubmit.mutate(submitData);
     }
     if (pageMode === 'modify') {
-      console.log('Partner modifyData', submitData);
-      delete submitData.partner_company_code;
+      // eslint-disable-next-line no-unused-vars
+      const { evi_partner_company_type, ...sendData } = submitData;
       modifySubmit.mutate({
         params: viewData.partner_company_idx,
         data: {
-          ...submitData,
+          ...sendData,
         },
       });
     }
-  };
-
-  // onFormSubmit 에 전달할 함수.
-  const submitFunc = (data: any) => {
-    saveFunc(data);
   };
 
   // Form 상태 변화.
