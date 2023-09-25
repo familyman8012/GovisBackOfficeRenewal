@@ -117,19 +117,19 @@ const LogisticsDetailPage = ({
 
 export default LogisticsDetailPage;
 
-export async function getStaticPaths() {
-  // 기본 경로들
-  const basePaths = [
-    { params: { id: ['add'] } },
-    { params: { id: ['modify'] } },
-    { params: { id: ['view'] } },
-  ];
+// export async function getStaticPaths() {
+//   // 기본 경로들
+//   const basePaths = [
+//     { params: { id: ['add'] } },
+//     { params: { id: ['modify'] } },
+//     { params: { id: ['view'] } },
+//   ];
 
-  return {
-    paths: basePaths,
-    fallback: 'blocking',
-  };
-}
+//   return {
+//     paths: basePaths,
+//     fallback: 'blocking',
+//   };
+// }
 
 export const getServerSideProps = async () => {
   const environment = await fetchEnvironment({
