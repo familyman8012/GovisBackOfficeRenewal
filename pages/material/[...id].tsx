@@ -30,11 +30,10 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
 
   // view 일때, 데이터 불러오기
   const { data: viewData } = useQuery(
-    ['materialFormView', router.asPath],
+    ['materialFormView', id && id[1]],
     () => fetchMaterialFormView(String(id && id[1])),
     {
       enabled: pageMode === 'view' || pageMode === 'modify',
-      cacheTime: 0,
     }
   );
 
@@ -173,6 +172,7 @@ export const getServerSideProps = async () => {
   return {
     props: {
       environment,
+      cacheTime: 3600,
     },
     // revalidate: 10,
   };

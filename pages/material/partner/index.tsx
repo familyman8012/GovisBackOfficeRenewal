@@ -134,6 +134,6 @@ export const getStaticProps = async () => {
     props: {
       environment,
     },
-    revalidate: 10,
+    revalidate: 60,
   };
 };

@@ -23,11 +23,10 @@ const LogisticsDetailPage = ({
 
   // view 일때, 데이터 불러오기
   const { data: viewData } = useQuery(
-    ['partnerFormView', router.asPath],
+    ['partnerFormView', id && id[1]],
     () => fetchPartnerFormView(String(id && id[1])),
     {
       enabled: pageMode === 'view',
-      cacheTime: 0,
     }
   );
   /// /pct_manufacturer : 제조사
@@ -132,7 +131,7 @@ export async function getStaticPaths() {
   };
 }
 
-export const getStaticProps = async () => {
+export const getServerSideProps = async () => {
   const environment = await fetchEnvironment({
     name: 'partner_company_type,partner_company_status',
   });
@@ -140,7 +139,7 @@ export const getStaticProps = async () => {
   return {
     props: {
       environment,
+      cacheTime: 3600,
     },
-    revalidate: 10,
   };
 };

@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { runInAction } from 'mobx';
 import { useRouter } from 'next/router';
-import { GetStaticProps } from 'next';
+import { GetServerSideProps } from 'next';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import {
   fetchPartnerList,
@@ -40,11 +40,10 @@ const Shipping = ({ environment }: { environment: IEnvironmentRes }) => {
 
   // view 일때, 데이터 불러오기
   const { data: viewData } = useQuery(
-    ['shippingView', router.asPath],
+    ['shippingView', id && id[1]],
     () => fetchShippingView(String(id && id[1])),
     {
       enabled: pageMode === 'view' || pageMode === 'modify',
-      cacheTime: 0,
     }
   );
 
@@ -155,7 +154,7 @@ export async function getStaticPaths() {
   };
 }
 
-export const getStaticProps: GetStaticProps = async context => {
+export const getServerSideProps: GetServerSideProps = async context => {
   const environment = await fetchEnvironment({
     name: 'partner_company_type,area',
   });
@@ -163,7 +162,7 @@ export const getStaticProps: GetStaticProps = async context => {
   return {
     props: {
       environment,
+      cacheTime: 3600,
     },
-    revalidate: 10,
   };
 };
