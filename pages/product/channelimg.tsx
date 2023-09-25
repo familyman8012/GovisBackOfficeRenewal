@@ -156,10 +156,16 @@ const Channelimg = ({ environment }: { environment: IEnvironmentRes }) => {
   const handleImageUpload = async (channel: string, channel_idx: number) => {
     if (isUploading) return;
     setCurrentChannel({ channel, channel_idx });
-    setIsUploading(true); // 업로드 시작 상태 설정
     const input = document.createElement('input');
     input.type = 'file';
+
+    let fileSelected = false; // 파일이 선택되었는지 여부를 나타내는 변수
+
     input.onchange = async (e: Event) => {
+      fileSelected = true; // 파일이 선택되었음을 표시
+
+      setIsUploading(true); // 업로드 시작 상태 설정
+
       const fileInput = e.target as HTMLInputElement;
       if (fileInput.files && fileInput.files.length > 0) {
         const file = fileInput.files[0];
@@ -185,6 +191,13 @@ const Channelimg = ({ environment }: { environment: IEnvironmentRes }) => {
       }
     };
     input.click();
+
+    // 파일 선택 창이 닫힌 후 파일 선택 여부를 확인하고 isUploading 상태 업데이트
+    setTimeout(() => {
+      if (!fileSelected) {
+        setIsUploading(false);
+      }
+    }, 100);
   };
 
   function downloadFile(fileName: string) {
