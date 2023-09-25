@@ -57,7 +57,7 @@ const RecipeListTable = ({ list, updateParams, onClick }: TableProps) => {
         <tbody>
           {list.length === 0 && (
             <tr className="empty">
-              <td colSpan={9}>
+              <td colSpan={recipeSortItems.length}>
                 <Empty>데이터가 없습니다.</Empty>
               </td>
             </tr>

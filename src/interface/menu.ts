@@ -122,6 +122,10 @@ export interface IMenuListItem {
   menu_name: string;
   evi_menu_status: number;
   evv_menu_status: string;
+  evi_menu_type: number;
+  evv_menu_type: string;
+  evi_menu_classification: number;
+  evv_menu_classification: string;
   created_date: string;
   updated_date: string;
 }

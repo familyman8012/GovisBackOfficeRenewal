@@ -77,7 +77,7 @@ export const MenuOptionForm = React.forwardRef<
                 })
               }
             >
-              옵션 추가하기
+              옵션 분류 추가하기
             </Button>
           )}
           <div className="list">

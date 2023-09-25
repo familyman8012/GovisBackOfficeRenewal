@@ -149,7 +149,7 @@ const MenuOptionDetail = ({
             })}
             disabled={!editable}
             className="inp"
-            placeholder="옵션 메뉴명을 입력해주세요"
+            placeholder="메뉴명을 입력해주세요"
           />
           <input
             type="hidden"

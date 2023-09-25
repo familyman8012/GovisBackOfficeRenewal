@@ -10,30 +10,26 @@ const flexPositions = {
 
 export const ListHandlerStyle = styled.div`
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
+  flex-direction: column;
   padding: 3.2rem 0;
   gap: 1.6rem;
 
   .group {
     display: flex;
-    flex-wrap: wrap;
     gap: 0 1.6rem;
   }
 
-  .divider {
-    flex: none;
-    width: 100%;
-    height: 0;
-    margin: 0.8rem 0;
+  .line {
+    display: flex;
   }
 
   ${Object.entries(flexPositions).map(
-    ([key, val]) => `&.justify-${key} { justify-content: ${val}; }`
+    ([key, val]) =>
+      `.justify-${key}, &.justify-${key} { justify-content: ${val}; } `
   )}
 
   ${Object.entries(flexPositions).map(
-    ([key, val]) => `&.align-${key} { align-items: ${val}; }`
+    ([key, val]) => `.align-${key}, &.align-${key} { align-items: ${val}; }`
   )}
 `;
 
@@ -180,6 +176,11 @@ export const RecipeStepWrap = styled.div`
     padding: 1.2rem 1rem;
     background: var(--table-headerBackground);
     border-bottom: 1px solid var(--color-neutral90);
+
+    button {
+      border: 1px solid var(--color-neutral90);
+      background: var(--color-gray1);
+    }
   }
 
   .ingredient-table-wrap {

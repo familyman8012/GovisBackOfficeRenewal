@@ -25,6 +25,16 @@ export const menuSelectConfig = [
     field: 'evi_menu_type',
     options: [{ value: '', label: '전체' }],
   },
+  {
+    label: '메뉴 구분',
+    field: 'evi_menu_classification',
+    options: [{ value: '', label: '전체' }],
+  },
+  {
+    label: '카테고리',
+    field: 'menu_category_idx',
+    options: [{ value: '', label: '전체' }],
+  },
 ];
 
 export const menuListLayoutConfig = {

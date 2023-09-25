@@ -17,12 +17,15 @@ interface IMenuListTableProps {
 
 const menuSortItems = [
   { id: 1, label: '메뉴 코드', sort: 'menu_category_code' },
-  { id: 2, label: '분류 그룹', sort: '' },
-  { id: 3, label: '메뉴명', sort: 'menu_name' },
-  { id: 4, label: '메뉴 분류 상태', sort: '' },
-  { id: 5, label: '등록일', sort: 'created_date' },
-  { id: 6, label: '수정일', sort: 'updated_date' },
-  { id: 7, label: '-', sort: '' },
+  { id: 2, label: '메뉴 그룹', sort: '' },
+  { id: 3, label: '메뉴 종류', sort: '' },
+  { id: 4, label: '메뉴 구분', sort: '' },
+  { id: 5, label: '카테고리', sort: '' },
+  { id: 6, label: '메뉴명', sort: 'menu_name' },
+  { id: 7, label: '메뉴 분류 상태', sort: '' },
+  { id: 8, label: '등록일', sort: 'created_date' },
+  { id: 9, label: '수정일', sort: 'updated_date' },
+  { id: 10, label: '-', sort: '' },
 ];
 
 const MenuListTable = ({
@@ -36,12 +39,15 @@ const MenuListTable = ({
       <Table className="basic">
         <colgroup>
           <col width={getTableWidthPercentage(120)} />
-          <col width={getTableWidthPercentage(180)} />
-          <col width={getTableWidthPercentage(300)} />
-          <col width={getTableWidthPercentage(180)} />
+          <col width={getTableWidthPercentage(120)} />
+          <col width={getTableWidthPercentage(120)} />
+          <col width={getTableWidthPercentage(120)} />
+          <col width={getTableWidthPercentage(120)} />
+          <col width={getTableWidthPercentage(260)} />
+          <col width={getTableWidthPercentage(160)} />
           <col width={getTableWidthPercentage(140)} />
           <col width={getTableWidthPercentage(140)} />
-          <col width={getTableWidthPercentage(150)} />
+          <col width={getTableWidthPercentage(200)} />
         </colgroup>
         <thead>
           <tr>
@@ -60,7 +66,7 @@ const MenuListTable = ({
         <tbody>
           {list.length === 0 && (
             <tr className="empty">
-              <td colSpan={8}>
+              <td colSpan={menuSortItems.length}>
                 <Empty>데이터가 없습니다.</Empty>
               </td>
             </tr>
@@ -72,8 +78,11 @@ const MenuListTable = ({
             >
               <td className="code">{menuRowData.menu_code}</td>
               <td>{menuRowData.evv_menu_group}</td>
+              <td>{menuRowData.evv_menu_type}</td>
+              <td>{menuRowData.evv_menu_classification}</td>
+              <td>{menuRowData.menu_category_name}</td>
               <td>{menuRowData.menu_name}</td>
-              {/* <td>{index + 1}</td> */}
+
               <td>
                 <Badge
                   dot

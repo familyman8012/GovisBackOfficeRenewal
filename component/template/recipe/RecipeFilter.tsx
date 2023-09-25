@@ -45,34 +45,38 @@ const RecipeFilter = ({
   const recipeSelectConfigWithEnvs = useSelectConfigWithEnv(selectConfig, envs);
 
   return (
-    <ListHandlerStyle className="justify-between align-end">
-      <div className="group">
+    <ListHandlerStyle>
+      <div className="line group">
         <ListFilterSelects
           selectConfig={recipeSelectConfigWithEnvs}
           params={params}
           updateParams={updateParams}
         />
-        <div className="divider" />
-        <ListDatePickers
-          dateConfig={dateConfig}
-          params={params}
-          updateParams={updateParams}
-        />
-        <Button
-          className="btn_reset"
-          variant="transparent"
-          onClick={resetParams}
-          LeadingIcon={<Sync />}
-        >
-          초기화
-        </Button>
       </div>
-      <div className="group">
-        <SearchKeyword
-          params={params}
-          selOption={searchOption}
-          handler={handlerKeyword}
-        />
+
+      <div className="line justify-between">
+        <div className="group">
+          <ListDatePickers
+            dateConfig={dateConfig}
+            params={params}
+            updateParams={updateParams}
+          />
+          <Button
+            className="btn_reset"
+            variant="transparent"
+            onClick={resetParams}
+            LeadingIcon={<Sync />}
+          >
+            초기화
+          </Button>
+        </div>
+        <div className="group">
+          <SearchKeyword
+            params={params}
+            selOption={searchOption}
+            handler={handlerKeyword}
+          />
+        </div>
       </div>
     </ListHandlerStyle>
   );

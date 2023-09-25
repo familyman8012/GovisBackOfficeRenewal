@@ -285,7 +285,7 @@ const MenuOptionCategory = ({
               >
                 {categoryFormData.menu_options[j]?.menu_option_name
                   ? getValues(`${formKey}.menu_options.${j}.menu_option_name`)
-                  : '옵션 메뉴명을 입력해주세요'}
+                  : '메뉴명을 입력해주세요'}
               </button>
             ))}
             {editable && (
@@ -295,13 +295,12 @@ const MenuOptionCategory = ({
                 LeadingIcon={<Plus />}
                 onClick={() => checkCreateOptionInfoHandler()}
               >
-                옵션 메뉴명 추가
+                메뉴 추가하기
               </Button>
             )}
           </motion.div>
         )}
       </AnimatePresence>
-      {/* <div className="content" /> */}
     </MenuOptionGroupStyle>
   );
 };

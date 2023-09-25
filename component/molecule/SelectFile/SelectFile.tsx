@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
 import { Button } from '@ComponentFarm/atom/Button/Button';
-import { Pic } from '@ComponentFarm/atom/icons';
+import { Edit, Pic } from '@ComponentFarm/atom/icons';
 import Plus from '@ComponentFarm/atom/icons/Plus';
 import useSyncedRef from '@HookFarm/useSyncedRef';
 
@@ -16,13 +16,14 @@ const FileInputStyle = styled.div`
     margin-right: 0 !important;
     max-width: 100% !important;
     width: 100% !important;
+    overflow: hidden;
 
     &::before {
       content: '';
       display: block;
       padding-top: 56.25%;
     }
-    overflow: hidden;
+
     img {
       position: absolute;
       top: 0;
@@ -53,7 +54,6 @@ const FileInputStyle = styled.div`
     align-items: center;
     justify-content: center;
     border-radius: 0.8rem;
-    border: 1px solid var(--color-gray300);
     background: var(--color-neutral90);
     font-size: 1.2rem;
     line-height: 1.5;
@@ -64,6 +64,10 @@ const FileInputStyle = styled.div`
       height: 4rem;
       margin-bottom: 3%;
     }
+  }
+
+  button {
+    border-color: transparent !important;
   }
 `;
 
@@ -130,10 +134,10 @@ const SelectFile = React.forwardRef<HTMLInputElement, SelectFileProps>(
 
         <Button
           variant="gostPrimary"
-          LeadingIcon={<Plus />}
+          LeadingIcon={source ? <Edit /> : <Plus />}
           onClick={() => refs.current?.click()}
         >
-          {src ? '이미지 수정' : '이미지 추가'}
+          {source ? '이미지 수정' : '이미지 추가'}
         </Button>
       </FileInputStyle>
     );
