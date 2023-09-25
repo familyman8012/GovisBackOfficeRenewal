@@ -185,23 +185,23 @@ const reset = css`
     cursor: pointer;
   }
   a:link {
-    color: var(--textcolor-link);
+    color: var(--color-neutral10);
     text-decoration: none;
   }
   a:visited {
-    color: var(--textcolor-link);
+    color: var(--color-neutral10);
     text-decoration: none;
   }
   a:focus {
-    color: var(--textcolor-linkFocus);
+    color: var(--color-neutral10);
     text-decoration: none;
   }
   a:hover {
-    color: var(--textcolor-linkHover);
+    color: var(--color-neutral10);
     text-decoration: none;
   }
   a:active {
-    color: var(--textcolor-linkActive);
+    color: var(--color-neutral10);
     text-decoration: none;
   }
   em {
