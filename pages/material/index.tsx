@@ -28,7 +28,7 @@ const Manage = ({ environment }: { environment: IEnvironmentRes }) => {
   );
 
   const handlePageChange = (pageNumber: number) => {
-    updateParams({ page: pageNumber });
+    updateParams({ current_num: pageNumber });
   };
 
   const handleAddClick = () => {
