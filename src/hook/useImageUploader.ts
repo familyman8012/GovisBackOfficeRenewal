@@ -4,9 +4,7 @@ import { uploadToS3 } from '@UtilFarm/uploads3';
 type UploadStatus = 'idle' | 'uploading' | 'success' | 'error';
 type FileInputChangeEvent = ChangeEvent<HTMLInputElement & { files: FileList }>;
 
-const useImageUploader = (
-  path = 'images'
-): [
+const useImageUploader = ({ isAttach = false } = {}): [
   string,
   UploadStatus,
   string | null,
@@ -27,7 +25,7 @@ const useImageUploader = (
       const file = e.target.files[0];
 
       try {
-        const imageUrl = await uploadToS3(file);
+        const imageUrl = await uploadToS3(file, isAttach);
         setImgData(imageUrl);
         setStatus('success');
       } catch (error: any) {
@@ -36,7 +34,7 @@ const useImageUploader = (
         setErrorMessage(error.message || 'Failed to upload image.');
       }
     },
-    [path]
+    [isAttach]
   );
 
   return [imgData, status, errorMessage, handler, setStatus];

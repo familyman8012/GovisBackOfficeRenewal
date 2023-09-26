@@ -67,9 +67,9 @@ const Channelimg = ({ environment }: { environment: IEnvironmentRes }) => {
   const { id } = router.query;
   const queryClient = useQueryClient();
   const tabData = tabDataFunc('view', router?.query);
-  const [imgData, status, errorMessage, handler, setStatus] = useImageUploader(
-    'images/product/channelimg'
-  );
+  const [imgData, status, errorMessage, handler, setStatus] = useImageUploader({
+    isAttach: true,
+  });
   const [isUploading, setIsUploading] = useState(false);
 
   const [currentChannel, setCurrentChannel] = useState<{
@@ -206,7 +206,6 @@ const Channelimg = ({ environment }: { environment: IEnvironmentRes }) => {
     const link = document.createElement('a');
     link.href = fileName;
     link.download = '';
-    link.target = '_blank';
     link.click();
   }
 

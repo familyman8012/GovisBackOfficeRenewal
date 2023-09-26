@@ -24,14 +24,26 @@ const generateFileName = (file: File) => {
   )}.${file.name.split('.').pop()}`;
 };
 
-export const uploadToS3 = async (file: File) => {
-  const params = {
+export const uploadToS3 = async (file: File, isAttach?: boolean) => {
+  const params: {
+    Bucket: string;
+    Key: string;
+    Body: File;
+    ACL: string;
+    ContentType: string;
+    ContentDisposition?: string;
+  } = {
     Bucket: 'temp-govis',
     Key: `${PATH}/${generateFileName(file)}`,
     Body: file,
     ACL: 'public-read',
     ContentType: file.type,
   };
+
+  // 조건부로 ContentDisposition 설정
+  if (isAttach) {
+    params.ContentDisposition = 'attachment;';
+  }
 
   return new Promise<string>((resolve, reject) => {
     s3.upload(params, (err: Error | null, s3data: IS3UploadResponse) => {
