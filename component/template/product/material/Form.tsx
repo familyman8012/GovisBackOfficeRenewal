@@ -33,9 +33,6 @@ interface FormProps {
 }
 
 const productStyles = css`
-  .label_radio {
-    margin-right: 3.2rem !important;
-  }
   .box_inp + .box_inp {
     margin-left: 1.6rem;
   }
@@ -56,13 +53,18 @@ const productStyles = css`
   .line1,
   .line5,
   .line8,
+  .line9,
   .line12,
   .line13 {
+    .field {
+      padding-right: 0;
+    }
     .field1 {
       width: calc(50% - 25px);
     }
     .field2 {
       width: calc(50% - 25px);
+      margin-left: auto;
     }
   }
 
@@ -369,9 +371,7 @@ const MaterialForm: React.FC<FormProps> = ({
         <div className="line line1">
           <div className="field field1">
             <div className="box_upload_image">
-              <label className="req" htmlFor="product_img">
-                대표 이미지
-              </label>
+              <label htmlFor="product_img">대표 이미지</label>
               <div className="box_inp">
                 <ImageUploader
                   isReadOnly={isReadOnly}

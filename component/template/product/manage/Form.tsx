@@ -159,7 +159,9 @@ const ProductForm: React.FC<FormProps> = ({
         onCancel: () => {
           setValue(
             'evi_product_status',
-            String(initialData?.evi_product_status)
+            initialData?.evi_product_status
+              ? String(initialData?.evi_product_status)
+              : String(STATUS[0].value)
           );
           confirmModalStore.isOpen = false;
         },

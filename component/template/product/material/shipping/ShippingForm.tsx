@@ -2,10 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { runInAction } from 'mobx';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
+import { IoAlertCircleOutline } from 'react-icons/io5';
 import { css } from '@emotion/react';
 import { IEnvironmentResItem } from '@InterfaceFarm/environment';
 import { IMaterialShippingSaveReq, IPartnerRes } from '@InterfaceFarm/material';
 import { Button } from '@ComponentFarm/atom/Button/Button';
+import Empty from '@ComponentFarm/atom/Empty/Empty';
 import ErrorTxt from '@ComponentFarm/atom/ErrorTxt/ErrorTxt';
 import { Minus } from '@ComponentFarm/atom/icons';
 import { IOption, Select } from '@ComponentFarm/atom/Select/Select';
@@ -261,93 +263,107 @@ const ShippingForm: React.FC<FormProps> = ({
         ) : (
           <h2>배송 기간</h2>
         )}
-        {tables.map(method => (
-          <React.Fragment key={method}>
-            <TableWrap
-              css={css`
-                margin-bottom: 3.2rem;
-              `}
-            >
-              <Table>
-                <thead>
-                  <tr>
-                    <th colSpan={12}>
-                      {pageMode !== 'view' && (
-                        <Button
-                          className="btn_remove"
-                          onClick={() => removetTableModal(method)}
-                          variant="gostSecondary"
-                          IconOnly={<Minus />}
+        {tables.length === 0 && pageMode === 'view' ? (
+          <Empty Icon={<IoAlertCircleOutline size={42} />}>
+            배송정보가 등록되지 않았습니다.
+            <br />
+            배송정보를 등록해주세요.
+          </Empty>
+        ) : (
+          tables.map(method => (
+            <React.Fragment key={method}>
+              <TableWrap
+                css={css`
+                  margin-bottom: 3.2rem;
+                `}
+              >
+                <Table>
+                  <thead>
+                    <tr>
+                      <th colSpan={12}>
+                        {pageMode !== 'view' && (
+                          <Button
+                            className="btn_remove"
+                            onClick={() => removetTableModal(method)}
+                            variant="gostSecondary"
+                            IconOnly={<Minus />}
+                          >
+                            <span className="hiddenZoneV">삭제</span>
+                          </Button>
+                        )}
+                        {selOption?.find(
+                          item => String(item.value) === String(method)
+                        )?.label || ''}
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {Array.from({ length: Math.ceil(regions.length / 6) }).map(
+                      (_, rowIndex) => (
+                        <tr
+                          className={`line line${rowIndex + 2}`}
+                          // eslint-disable-next-line react/no-array-index-key
+                          key={rowIndex}
                         >
-                          <span className="hiddenZoneV">삭제</span>
-                        </Button>
-                      )}
-                      {selOption?.find(
-                        item => String(item.value) === String(method)
-                      )?.label || ''}
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {Array.from({ length: Math.ceil(regions.length / 6) }).map(
-                    (_, rowIndex) => (
-                      // eslint-disable-next-line react/no-array-index-key
-                      <tr className={`line line${rowIndex + 2}`} key={rowIndex}>
-                        {regions
-                          .slice(rowIndex * 6, rowIndex * 6 + 6)
-                          .map((region, colIndex) => (
-                            <React.Fragment key={region.label}>
-                              <td className="td_label">
-                                <label htmlFor={region.value} className="req">
-                                  {region.label}
-                                </label>
-                              </td>
-                              <td className="td_inp">
-                                <div
-                                  className={`box_inp ${
-                                    errors[`${method}_${region.value}`]
-                                      ? 'error'
-                                      : ''
-                                  }`}
-                                >
-                                  <input
-                                    type="text"
-                                    id={`${method}_${region.value}`}
-                                    className="inp"
-                                    placeholder="0"
-                                    disabled={isReadOnly}
-                                    {...register(`${method}_${region.value}`)}
-                                  />
-                                  일
-                                  {errors[`${method}_${region.value}`] && (
-                                    <ErrorTxt>
-                                      {String(
-                                        errors[`${method}_${region.value}`]
-                                          ?.message
-                                      )}
-                                    </ErrorTxt>
-                                  )}
-                                </div>
-                              </td>
-                              {rowIndex === Math.ceil(regions.length / 6) - 1 &&
-                                colIndex === 4 && (
-                                  <td
-                                    colSpan={2}
-                                    style={{ width: 'calc(253 / 1517 * 100%)' }}
+                          {regions
+                            .slice(rowIndex * 6, rowIndex * 6 + 6)
+                            .map((region, colIndex) => (
+                              <React.Fragment key={region.label}>
+                                <td className="td_label">
+                                  <label htmlFor={region.value} className="req">
+                                    {region.label}
+                                  </label>
+                                </td>
+                                <td className="td_inp">
+                                  <div
+                                    className={`box_inp ${
+                                      errors[`${method}_${region.value}`]
+                                        ? 'error'
+                                        : ''
+                                    }`}
                                   >
-                                    <span className="hiddenZoneV" />
-                                  </td>
-                                )}
-                            </React.Fragment>
-                          ))}
-                      </tr>
-                    )
-                  )}
-                </tbody>
-              </Table>
-            </TableWrap>
-          </React.Fragment>
-        ))}
+                                    <input
+                                      type="text"
+                                      id={`${method}_${region.value}`}
+                                      className="inp"
+                                      placeholder="0"
+                                      disabled={isReadOnly}
+                                      {...register(`${method}_${region.value}`)}
+                                    />
+                                    일
+                                    {errors[`${method}_${region.value}`] && (
+                                      <ErrorTxt>
+                                        {String(
+                                          errors[`${method}_${region.value}`]
+                                            ?.message
+                                        )}
+                                      </ErrorTxt>
+                                    )}
+                                  </div>
+                                </td>
+                                {rowIndex ===
+                                  Math.ceil(regions.length / 6) - 1 &&
+                                  colIndex === 4 && (
+                                    <td
+                                      colSpan={2}
+                                      style={{
+                                        width: 'calc(253 / 1517 * 100%)',
+                                      }}
+                                    >
+                                      <span className="hiddenZoneV" />
+                                    </td>
+                                  )}
+                              </React.Fragment>
+                            ))}
+                        </tr>
+                      )
+                    )}
+                  </tbody>
+                </Table>
+              </TableWrap>
+            </React.Fragment>
+          ))
+        )}
       </FormWrap>
     </DetailPageLayout>
   );

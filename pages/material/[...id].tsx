@@ -82,13 +82,16 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
     } else if (pageMode === 'modify' && !imgData && !!viewData.material_image) {
       setSubmitData(data);
     } else {
-      toast.error('대표 이미지를 등록하셔야 합니다.234');
+      // toast.error('대표 이미지를 등록하셔야 합니다.');
+      setSubmitData(data);
     }
   };
 
   useEffect(() => {
-    if (pageMode === 'add' && status === 'success' && imgData) {
-      submitData.material_image = imgData;
+    if (pageMode === 'add') {
+      if (status === 'success' && imgData) {
+        submitData.material_image = imgData;
+      }
       saveSubmit.mutate({
         ...submitData,
         evi_country: submitData.evi_country.value,
