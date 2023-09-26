@@ -9,7 +9,7 @@ const MenuDetailHistoryPage = generateHistoryPage({
 });
 
 export const getServerSideProps = async () => {
-  const props = await fetchEnvironment({
+  const environment = await fetchEnvironment({
     name: [
       'menu_group',
       'menu_type',
@@ -21,7 +21,7 @@ export const getServerSideProps = async () => {
 
   return {
     props: {
-      envs: props.list,
+      environment,
       cacheTime: 3600,
     },
   };
