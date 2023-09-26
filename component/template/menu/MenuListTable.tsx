@@ -7,6 +7,7 @@ import Sort from '@ComponentFarm/atom/Sort/Sort';
 import { Table, TableWrap } from '@ComponentFarm/common';
 import { QueryParams } from '@HookFarm/useQueryParams';
 import { getTableWidthPercentage } from '@UtilFarm/calcSize';
+import { toPrice } from '@UtilFarm/number';
 
 interface IMenuListTableProps {
   list: IMenuListItem[];
@@ -22,9 +23,9 @@ const menuSortItems = [
   { id: 4, label: '메뉴 구분', sort: '' },
   { id: 5, label: '카테고리', sort: '' },
   { id: 6, label: '메뉴명', sort: 'menu_name' },
-  { id: 7, label: '메뉴 분류 상태', sort: '' },
-  { id: 8, label: '등록일', sort: 'created_date' },
-  { id: 9, label: '수정일', sort: 'updated_date' },
+  { id: 7, label: '메뉴 상태', sort: '' },
+  { id: 8, label: '내점 정상가', sort: '' },
+  { id: 9, label: '등록일', sort: 'created_date' },
   { id: 10, label: '-', sort: '' },
 ];
 
@@ -46,7 +47,7 @@ const MenuListTable = ({
           <col width={getTableWidthPercentage(260)} />
           <col width={getTableWidthPercentage(160)} />
           <col width={getTableWidthPercentage(140)} />
-          <col width={getTableWidthPercentage(140)} />
+          <col width={getTableWidthPercentage(120)} />
           <col width={getTableWidthPercentage(200)} />
         </colgroup>
         <thead>
@@ -94,7 +95,7 @@ const MenuListTable = ({
                   {menuRowData.evv_menu_status}
                 </Badge>
               </td>
-              <td>{menuRowData.created_date}</td>
+              <td>{`${toPrice(menuRowData.visit_normal_price)}원`}</td>
               <td>{menuRowData.created_date}</td>
               <td>
                 <Button

@@ -126,6 +126,12 @@ export interface IMenuListItem {
   evv_menu_type: string;
   evi_menu_classification: number;
   evv_menu_classification: string;
+  visit_normal_price: number;
+  visit_discount_price: number;
+  takeout_normal_price: number;
+  takeout_discount_price: number;
+  delivery_normal_price: number;
+  delivery_discount_price: number;
   created_date: string;
   updated_date: string;
 }

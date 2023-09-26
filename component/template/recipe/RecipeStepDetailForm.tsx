@@ -49,7 +49,6 @@ const RecipeStepDetail = ({
   );
 
   const formKey = `recipe_steps.${stepIndex}` as `recipe_steps.${number}`;
-  const recipe_info_idx = watch('recipe_info_idx');
   const stepFormData = watch(formKey);
 
   const { append, remove, fields } = useFieldArray<
@@ -120,9 +119,7 @@ const RecipeStepDetail = ({
                         {...register(`${formKey}.topping_image`)}
                       />
                       <SelectFileButton
-                        {...register(`${formKey}.initial_topping_image`, {
-                          required: !recipe_info_idx,
-                        })}
+                        {...register(`${formKey}.initial_topping_image`)}
                         src={stepFormData.topping_image}
                         onRemove={() =>
                           setValue(`${formKey}.topping_image`, '')

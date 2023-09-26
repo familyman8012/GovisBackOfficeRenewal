@@ -69,7 +69,7 @@ const ManageListTable = ({ data, updateParams }: TableProps) => {
     { id: 7, label: '등록일', sort: 'created_date' },
     { id: 8, label: '수정일', sort: 'updated_date' },
     { id: 9, label: '제품상태', sort: '' },
-    { id: 10, label: '레시피', sort: '' },
+    { id: 10, label: '레시피 등록', sort: '' },
   ];
 
   return (

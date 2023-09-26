@@ -193,7 +193,7 @@ const RecipeListPage = ({ envs }: { envs: IEnvironmentResItem[] }) => {
                           dot
                           fill="transparent"
                         >
-                          {used ? '사용' : '미사용'}
+                          {used ? '등록' : '미등록'}
                         </Badge>
                       </span>
                     </td>

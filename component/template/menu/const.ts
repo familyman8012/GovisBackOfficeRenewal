@@ -3,10 +3,6 @@ export const categoryDateConfig = [
     field: 'created_date',
     placeholder: '등록일',
   },
-  {
-    field: 'updated_date',
-    placeholder: '수정일',
-  },
 ];
 
 export const menuSelectConfig = [

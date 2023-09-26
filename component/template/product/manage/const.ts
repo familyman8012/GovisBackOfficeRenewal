@@ -9,7 +9,7 @@ export const selectConfigSet: environmentConfigEntry[] = [
   ['판매 분류', 'sale_type'],
   ['제품 상태', 'product_status'],
   [
-    '레시피',
+    '레시피 등록',
     'is_recipe_registration',
     [
       { label: '미사용', value: '0' },
