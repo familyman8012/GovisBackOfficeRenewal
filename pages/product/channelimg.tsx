@@ -200,27 +200,28 @@ const Channelimg = ({ environment }: { environment: IEnvironmentRes }) => {
     }, 100);
   };
 
-  // function downloadFile(fileName: string) {
-  //   console.log('fileName', fileName);
-
-  //   const link = document.createElement('a');
-  //   link.href = fileName;
-  //   link.download = '';
-  //   link.click();
-  // }
-
-  async function downloadFile(url: string) {
-    const response = await fetch(url);
-    const blob = await response.blob();
-    const blobUrl = window.URL.createObjectURL(blob);
+  function downloadFile(fileName: string) {
+    console.log('fileName', fileName);
 
     const link = document.createElement('a');
-    link.href = blobUrl;
-    link.download = ''; // 원하는 파일 이름을 설정하거나 빈 문자열로 두어 원래의 파일 이름을 사용합니다.
-    document.body.appendChild(link); // 이 부분이 중요합니다. DOM에 링크를 임시로 추가합니다.
+    link.href = fileName;
+    link.download = '';
+    link.target = '_blank';
     link.click();
-    document.body.removeChild(link); // 다운로드 후 링크를 DOM에서 제거합니다.
   }
+
+  // async function downloadFile(url: string) {
+  //   const response = await fetch(url);
+  //   const blob = await response.blob();
+  //   const blobUrl = window.URL.createObjectURL(blob);
+
+  //   const link = document.createElement('a');
+  //   link.href = blobUrl;
+  //   link.download = ''; // 원하는 파일 이름을 설정하거나 빈 문자열로 두어 원래의 파일 이름을 사용합니다.
+  //   document.body.appendChild(link); // 이 부분이 중요합니다. DOM에 링크를 임시로 추가합니다.
+  //   link.click();
+  //   document.body.removeChild(link); // 다운로드 후 링크를 DOM에서 제거합니다.
+  // }
 
   return (
     <FormWrap>
