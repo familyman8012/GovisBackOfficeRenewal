@@ -1,6 +1,5 @@
 /* eslint-disable camelcase */
 import React from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { css } from '@emotion/react';
 import { IPartnerRes } from '@InterfaceFarm/material';
@@ -101,17 +100,7 @@ const ListTable = ({ data, title, updateParams }: TableProps) => {
                 handleGoIdxClick(String(partner.partner_company_idx))
               }
             >
-              <td className="code">
-                <Link
-                  href={{
-                    pathname: `/material/view/${partner.partner_company_code}`,
-                    query: router.query,
-                  }}
-                  passHref
-                >
-                  {partner.partner_company_code}
-                </Link>
-              </td>
+              <td className="code">{partner.partner_company_code}</td>
               <td>{partner.partner_company_name}</td>
               <td>{partner.material_count}개</td>
               <td>{partner.created_date}</td>
