@@ -2,6 +2,7 @@ import { useCallback, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useInfiniteQuery } from 'react-query';
 import { fetchDataHistoryList } from '@ApiFarm/history';
+import { IEnvironmentRes } from '@InterfaceFarm/environment';
 import { IHistoryResItem } from '@InterfaceFarm/history';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import type { LayoutWithTitleBoxAndTabProps } from '@ComponentFarm/template/layout/LayoutWithTitleBoxAndTab';
@@ -17,7 +18,11 @@ type Config = {
 };
 
 const generateHistoryPage = (config: Config) => {
-  return function HistoryPage() {
+  return function HistoryPage({
+    environment,
+  }: {
+    environment: IEnvironmentRes;
+  }) {
     const router = useRouter();
     const { onBack } = useGoMove();
     const [params] = useState({
@@ -60,9 +65,9 @@ const generateHistoryPage = (config: Config) => {
 
     const list = useMemo(
       () =>
-        ([] as IHistoryResItem[]).concat(
-          ...(data?.pages.map(res => res.list) ?? [])
-        ),
+        ([] as IHistoryResItem[])
+          .concat(...(data?.pages.map(res => res.list) ?? []))
+          .filter(item => !item.log_column?.endsWith('_idx')),
       [data]
     );
 
@@ -82,6 +87,7 @@ const generateHistoryPage = (config: Config) => {
         />
         {config.subTitle && <h2>{config.subTitle}</h2>}
         <InfiniteHistoryTable
+          envs={environment?.list ?? []}
           list={list}
           loading={isLoading}
           onBottomScroll={handleLoadData}

@@ -1,4 +1,5 @@
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { IEnvironmentResItem } from '@InterfaceFarm/environment';
 import { IHistoryResItem } from '@InterfaceFarm/history';
 import { Badge } from '@ComponentFarm/atom/Badge/Badge';
 import Empty from '@ComponentFarm/atom/Empty/Empty';
@@ -8,15 +9,56 @@ import { columnConfig } from './const';
 import { InfiniteTableWrap } from './style';
 
 interface InfiniteTableProps {
+  envs: IEnvironmentResItem[];
   list: IHistoryResItem[];
   loading?: boolean;
   onBottomScroll?: () => void;
 }
 
-const HistoryTableRow = ({ item }: { item: IHistoryResItem }) => {
+const HistoryTableRow = ({
+  envs,
+  item,
+}: {
+  envs: IEnvironmentResItem[];
+  item: IHistoryResItem;
+}) => {
+  const isArrayValue = useCallback(
+    (value: string) => /^\[(.*)\]$/.test(value),
+    []
+  );
+
+  const findEnvValue = useCallback(
+    (columnName: string, value: string) => {
+      if (isArrayValue(value)) {
+        return value
+          .replace(/^\[(.*)\]$/, '$1')
+          .replace(/\s+/g, '')
+          .split(',')
+          .map(
+            v =>
+              envs.find(
+                env =>
+                  env.name === columnName?.replace('evi_', '') &&
+                  `${env.environment_variable_idx}` === v
+              )?.value
+          )
+          .join(', ');
+      }
+
+      return (
+        envs.find(
+          env =>
+            env.name === columnName?.replace('evi_', '') &&
+            `${env.environment_variable_idx}` === value
+        )?.value ?? value
+      );
+    },
+    [envs]
+  );
+
   if (item.log_type === 1) {
     return (
-      <tr key={item.history_id}>
+      <tr>
         <td>{item.created_date}</td>
         <td>{item.user_name}</td>
         <td>
@@ -33,7 +75,7 @@ const HistoryTableRow = ({ item }: { item: IHistoryResItem }) => {
   }
 
   return (
-    <tr key={item.history_id}>
+    <tr>
       <td>{item.created_date}</td>
       <td>{item.user_name}</td>
       <td>
@@ -47,11 +89,15 @@ const HistoryTableRow = ({ item }: { item: IHistoryResItem }) => {
           변경
         </Badge>
       </td>
-      <td>{`${item.log_value_org} > ${item.log_value_ch}`}</td>
+      <td>{`${findEnvValue(
+        item.log_column,
+        item.log_value_org
+      )} > ${findEnvValue(item.log_column, item.log_value_ch)}`}</td>
     </tr>
   );
 };
 const InfiniteHistoryTable = ({
+  envs,
   list,
   loading,
   onBottomScroll,
@@ -72,6 +118,14 @@ const InfiniteHistoryTable = ({
     scrollEl.addEventListener('scroll', onScroll);
     return () => scrollEl.removeEventListener('scroll', onScroll);
   }, [scrollRef, onBottomScroll]);
+
+  const uniqueKey = useMemo(
+    () =>
+      list.length === 0
+        ? 'empty'
+        : Object.keys(list[0]).find(v => v.endsWith('log_idx')),
+    [list]
+  );
 
   return (
     <InfiniteTableWrap ref={scrollRef}>
@@ -101,7 +155,11 @@ const InfiniteHistoryTable = ({
             </tr>
           )}
           {list.map(item => (
-            <HistoryTableRow key={item.history_id} item={item} />
+            <HistoryTableRow
+              key={item[uniqueKey ?? 'empty']}
+              envs={envs}
+              item={item}
+            />
           ))}
         </tbody>
       </Table>

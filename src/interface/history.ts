@@ -1,4 +1,5 @@
 export interface IHistoryResItem {
+  [key: string]: any;
   user_idx: number;
   user_name: string;
   created_date: string;
