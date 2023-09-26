@@ -4,7 +4,7 @@ import { useRouter } from 'next/router';
 import { Controller, useForm } from 'react-hook-form';
 import { css } from '@emotion/react';
 import { IEnvironmentRes } from '@InterfaceFarm/environment';
-import { IProductForm, IProductFormField } from '@InterfaceFarm/product';
+import { IProductFormField, IProductFormSaveReq } from '@InterfaceFarm/product';
 import CheckBoxGroup from '@ComponentFarm/modules/CheckBoxGroup/CheckBoxGroup';
 import DatePicker, {
   NewDate,
@@ -28,7 +28,7 @@ interface FormProps {
   pageMode: string;
   environment: IEnvironmentRes;
   setSelectedImgFile: React.Dispatch<React.SetStateAction<File | null>>;
-  submitFunc: (data: IProductForm) => void;
+  submitFunc: (data: IProductFormSaveReq) => void;
 }
 
 const productStyles = css`
@@ -135,11 +135,6 @@ const ProductForm: React.FC<FormProps> = ({
     statusWatch?.code === 'ps_discontinuation' ||
     statusWatch?.code === 'ps_disposal';
 
-  const onFormSubmit = handleSubmit((data: any) => {
-    console.log('submitFunc data', data);
-    submitFunc(data);
-  });
-
   const changeAlertModal = () => {
     runInAction(() => {
       confirmModalStore.openModal({
@@ -181,10 +176,12 @@ const ProductForm: React.FC<FormProps> = ({
     }
   }, [initialWatch?.code, statusWatch]);
 
-  // 한글, 영어 막기
-  const onSubmit = () => {
+  // 현재 mode에 따른 설정 가져오기
+  const currentSettings = settingsByMode[pageMode];
+
+  const onFormSubmit = handleSubmit((data: IProductFormSaveReq) => {
     if (pageMode !== 'view') {
-      onFormSubmit();
+      submitFunc(data);
     } else {
       router.push({
         pathname: `/product/modify/${
@@ -193,16 +190,13 @@ const ProductForm: React.FC<FormProps> = ({
         query: router.query,
       });
     }
-  };
-
-  // 현재 mode에 따른 설정 가져오기
-  const currentSettings = settingsByMode[pageMode];
+  });
 
   return (
     <DetailPageLayout
       tabData={tabData}
       currentSettings={currentSettings}
-      onSubmit={onSubmit}
+      onSubmit={onFormSubmit}
     >
       <FormWrap css={productStyles}>
         <h2>제품 기본 정보</h2>

@@ -34,6 +34,7 @@ const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
       <DateInputWrapper className={disabled ? 'disabled' : ''}>
         <input
           type="text"
+          id="dateInput"
           onClick={onClick}
           value={value}
           onChange={onChange}

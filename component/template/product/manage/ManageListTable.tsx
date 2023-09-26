@@ -1,6 +1,5 @@
 /* eslint-disable camelcase */
 import React from 'react';
-import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { css } from '@emotion/react';
 import { IProductRes } from '@InterfaceFarm/product';
@@ -96,18 +95,7 @@ const ManageListTable = ({ data, updateParams }: TableProps) => {
               key={product.product_info_idx}
               onClick={() => handleGoIdxClick(String(product.product_info_idx))}
             >
-              <td className="code">
-                <Link
-                  href={{
-                    pathname: `/product/view/${product.product_info_idx}`,
-                    query: router.query,
-                  }}
-                  passHref
-                  prefetch
-                >
-                  {product.product_code}
-                </Link>
-              </td>
+              <td className="code">{product.product_code}</td>
               <td>{product.evi_product_category_str}</td>
               <td>{product.product_name_ko}</td>
               <td>{product.evi_sale_type_str.join('/')}</td>

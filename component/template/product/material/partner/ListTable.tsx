@@ -108,7 +108,6 @@ const ListTable = ({ data, title, updateParams }: TableProps) => {
                     query: router.query,
                   }}
                   passHref
-                  prefetch
                 >
                   {partner.partner_company_code}
                 </Link>

@@ -25,6 +25,8 @@ const Menu = ({ permissionList }: { permissionList: PermissionList }) => {
           )
           .map(menu => {
             const { depth1, depth2, path } = menu;
+
+            console.log(depth1);
             const isActive =
               isPathActive(String(path)) ||
               (depth2 && depth2.some(subMenu => isPathActive(subMenu.path)));

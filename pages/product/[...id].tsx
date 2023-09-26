@@ -10,7 +10,7 @@ import {
   fetchProductFormView,
 } from '@ApiFarm/product';
 import { IEnvironmentRes } from '@InterfaceFarm/environment';
-import { IProductForm } from '@InterfaceFarm/product';
+import { IProductFormSaveReq } from '@InterfaceFarm/product';
 import ProductForm from '@ComponentFarm/template/product/manage/Form';
 import useImageUploader from '@HookFarm/useImageUploader';
 import { confirmModalStore } from '@MobxFarm/store';
@@ -71,8 +71,7 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
   const saveSubmit = useMutation(fetchProductFormSave, {
     onSuccess: data => {
       console.log('성공!', data);
-      queryClient.invalidateQueries(['productList']);
-      queryClient.invalidateQueries(['productFormView']);
+      queryClient.invalidateQueries([['productList'], ['productFormView']]);
       channelModal(data.product_info_idx);
     },
   });
@@ -80,13 +79,12 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
   const modifySubmit = useMutation(fetchProductFormModify, {
     onSuccess: () => {
       console.log('성공!');
-      queryClient.invalidateQueries(['productList']);
-      queryClient.invalidateQueries(['productFormView']);
+      queryClient.invalidateQueries([['productList'], ['productFormView']]);
       router.push('/product/');
     },
   });
 
-  const submitFunc = async (data: IProductForm) => {
+  const submitFunc = async (data: IProductFormSaveReq) => {
     if (selectedImgFile) {
       const event = { target: { files: [selectedImgFile] } };
       await handler(event as any);

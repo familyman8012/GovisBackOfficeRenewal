@@ -58,10 +58,7 @@ export interface IProductForm {
 
 export type IProductFormField = Omit<IProductForm, 'product_info_idx'>;
 
-export type IProductFormSaveReq = Omit<
-  IProductForm,
-  'product_info_idx' | 'product_code' | 'sale_end_date'
->;
+export type IProductFormSaveReq = Omit<IProductForm, 'product_info_idx'>;
 
 export type IProductFormSaveRes = Pick<
   IProductForm,

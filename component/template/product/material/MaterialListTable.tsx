@@ -119,7 +119,6 @@ const ManageListTable = ({ data, updateParams }: TableProps) => {
                     query: router.query,
                   }}
                   passHref
-                  prefetch
                 >
                   {material.material_code}
                 </Link>
