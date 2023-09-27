@@ -28,7 +28,6 @@ const PartnerListPage = ({ environment }: { environment: IEnvironmentRes }) => {
     per_num: 10,
   });
 
-  /// /pct_manufacturer : 제조사
   // pct_shipping_company : 물류사
   const partnerCategory = useMemo(
     () => environment?.list?.find(el => el.code === router.query.category),

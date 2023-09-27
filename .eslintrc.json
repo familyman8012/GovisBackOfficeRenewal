@@ -52,6 +52,7 @@
     "react/jsx-pascal-case": "off",
     "camelcase": "off",
     "no-param-reassign": "warn",
+    "react/no-array-index-key": "warn",
     "react/function-component-definition": [
       2,
       {

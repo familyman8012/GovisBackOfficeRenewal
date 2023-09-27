@@ -1,8 +1,6 @@
-import React, { useEffect, useMemo } from 'react';
-import { runInAction } from 'mobx';
+import React from 'react';
 import { useRouter } from 'next/router';
 import { Controller, useForm } from 'react-hook-form';
-import { css } from '@emotion/react';
 import { IEnvironmentRes } from '@InterfaceFarm/environment';
 import { IProductFormField, IProductFormSaveReq } from '@InterfaceFarm/product';
 import CheckBoxGroup from '@ComponentFarm/modules/CheckBoxGroup/CheckBoxGroup';
@@ -15,13 +13,13 @@ import ErrorTxt from '@ComponentFarm/atom/ErrorTxt/ErrorTxt';
 import { FormWrap } from '@ComponentFarm/common';
 import DetailPageLayout from '@ComponentFarm/layout/Product/DetailPageLayout';
 import {
+  envKeys,
+  productStyles,
   settingsByMode,
   tabDataFunc,
 } from '@ComponentFarm/template/product/manage/const';
-import useEnvironments, {
-  EnvironmentKeyMapping,
-} from '@HookFarm/useEnviroments';
-import { confirmModalStore } from '@MobxFarm/store';
+import useEnvironments from '@HookFarm/useEnviroments';
+import useStatusStop from '@HookFarm/useStatusStop';
 
 interface FormProps {
   initialData?: IProductFormField;
@@ -30,36 +28,6 @@ interface FormProps {
   setSelectedImgFile: React.Dispatch<React.SetStateAction<File | null>>;
   submitFunc: (data: IProductFormSaveReq) => void;
 }
-
-const productStyles = css`
-  .line1 {
-    .field {
-      display: block;
-    }
-    .box {
-      display: flex;
-
-      &:first-of-type {
-        margin-bottom: 2.4rem;
-      }
-    }
-  }
-  .line1,
-  .line3,
-  .line5 {
-    .field {
-      width: 100%;
-    }
-  }
-  .line1,
-  .line2,
-  .line4,
-  .line6 {
-    .field {
-      width: 50%;
-    }
-  }
-`;
 
 const ProductForm: React.FC<FormProps> = ({
   initialData,
@@ -71,19 +39,10 @@ const ProductForm: React.FC<FormProps> = ({
   const router = useRouter();
   const tabData = tabDataFunc(pageMode, router?.query);
 
-  const envKeys: EnvironmentKeyMapping[] = [
-    ['product_status', 'STATUS'],
-    ['product_group', 'GROUP'],
-    ['product_category', 'CATEGORY'],
-    ['sale_type', 'SALETYPE'],
-  ];
-
   const { STATUS, GROUP, CATEGORY, SALETYPE } = useEnvironments(
     environment.list,
     envKeys
   );
-
-  console.log('initialData', initialData);
 
   const defaultValues = {
     evi_product_status: initialData?.evi_product_status ?? '',
@@ -110,71 +69,20 @@ const ProductForm: React.FC<FormProps> = ({
     setValue,
     handleSubmit,
     formState: { errors },
-  } = useForm<IProductFormField>({ defaultValues });
+  } = useForm<IProductFormSaveReq>({ defaultValues });
 
-  const envList = environment?.list;
-
-  const initialWatch = useMemo(
-    () =>
-      envList.find(
-        el =>
-          String(el.environment_variable_idx) ===
-          String(initialData?.evi_product_status)
-      ),
-    [envList, initialData?.evi_product_status]
-  );
-
-  const statusWatch = envList.find(
-    el =>
-      String(el.environment_variable_idx) ===
-      String(watch('evi_product_status'))
-  );
-
-  const isReadOnly =
-    pageMode === 'view' ||
-    statusWatch?.code === 'ps_discontinuation' ||
-    statusWatch?.code === 'ps_disposal';
-
-  const changeAlertModal = () => {
-    runInAction(() => {
-      confirmModalStore.openModal({
-        title: '변경 전 주의사항',
-        content: (
-          <p>
-            제품 상태를 중단 및 폐기로 변경하실 경우,
-            <br />
-            추후 복구가 불가능합니다.
-            <br />
-            변경하시겠습니까?
-          </p>
-        ),
-        onFormSubmit: () => {
-          confirmModalStore.isOpen = false;
-        },
-        onCancel: () => {
-          setValue(
-            'evi_product_status',
-            initialData?.evi_product_status
-              ? String(initialData?.evi_product_status)
-              : String(STATUS[0].value)
-          );
-          confirmModalStore.isOpen = false;
-        },
-        submitButtonText: '확인',
-      });
-    });
-  };
-
-  useEffect(() => {
-    if (
-      initialWatch?.code !== 'ps_discontinuation' &&
-      initialWatch?.code !== 'ps_disposal' &&
-      (statusWatch?.code === 'ps_discontinuation' ||
-        statusWatch?.code === 'ps_disposal')
-    ) {
-      changeAlertModal();
-    }
-  }, [initialWatch?.code, statusWatch]);
+  // 상태 - 중단, 폐기로 변경
+  const { isReadOnly, statusWatch } = useStatusStop({
+    environment,
+    initialDataKey: initialData?.evi_product_status,
+    watchKey: 'evi_product_status',
+    pageMode,
+    statusCodes: ['ps_discontinuation', 'ps_disposal'], // 배열로 전달
+    statusType: '제품',
+    setValue,
+    STATUS,
+    watch,
+  });
 
   // 현재 mode에 따른 설정 가져오기
   const currentSettings = settingsByMode[pageMode];
