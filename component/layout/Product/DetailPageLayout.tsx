@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
@@ -37,6 +37,7 @@ const DetailPageLayout: React.FC<ILayout> = ({
   );
 
   const handlerMoveTab = (index: number) => {
+    setActiveTabIndex(index);
     // eslint-disable-next-line no-unused-vars
     const { id, ...newObj } = router.query;
     router.push({
@@ -56,8 +57,10 @@ const DetailPageLayout: React.FC<ILayout> = ({
     });
   };
 
-  useEffect(() => {
-    if (tabIndex) {
+  const useIsomorphicLayoutEffect =
+    typeof window !== 'undefined' ? useLayoutEffect : useEffect;
+  useIsomorphicLayoutEffect(() => {
+    if (typeof tabIndex === 'number') {
       setActiveTabIndex(tabIndex);
     }
   }, [tabIndex]);
