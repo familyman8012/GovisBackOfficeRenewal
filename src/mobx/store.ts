@@ -56,6 +56,7 @@ const TOKEN_KEY = 'BO_AUTH_TOKEN';
 const USER_INFO = 'BO_USER_INFO';
 const STORE_INFO = 'BO_USER_STORE';
 const PERMISSION_LIST = 'BO_PERMISSION_STORE';
+const PERM_CODE = 'BO_PERM_CODE';
 
 export const authStore = observable<IAuthStore>({
   token: null,
@@ -75,6 +76,9 @@ export const authStore = observable<IAuthStore>({
       );
       this.permissionList = JSON.parse(
         String(secureLocalStorage.getItem(PERMISSION_LIST)) ?? 'null'
+      );
+      this.permissionCodes = JSON.parse(
+        String(secureLocalStorage.getItem(PERM_CODE)) ?? 'null'
       );
     } catch (e) {
       this.token = null;
@@ -100,6 +104,8 @@ export const authStore = observable<IAuthStore>({
       // eslint-disable-next-line no-unused-expressions
       authData.store &&
         secureLocalStorage.setItem(STORE_INFO, JSON.stringify(authData.store));
+
+      secureLocalStorage.setItem(PERM_CODE, JSON.stringify(permCodes));
       this.MenuGeneration();
     }
   },
@@ -114,6 +120,7 @@ export const authStore = observable<IAuthStore>({
     secureLocalStorage.removeItem(USER_INFO);
     secureLocalStorage.removeItem(STORE_INFO);
     secureLocalStorage.removeItem(PERMISSION_LIST);
+    secureLocalStorage.removeItem(PERM_CODE);
 
     // 마이그레이션 목적으로 이전에 사용 값 삭제
     if (

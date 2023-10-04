@@ -11,6 +11,7 @@ const LeftMenu = () => {
   useEffect(() => {
     if (permissionList?.menus === undefined) {
       runInAction(() => {
+        authStore.init();
         authStore.MenuGeneration();
       });
     }
