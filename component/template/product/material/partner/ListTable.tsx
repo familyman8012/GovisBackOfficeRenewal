@@ -62,7 +62,6 @@ const ListTable = ({ data, title, updateParams }: TableProps) => {
   ];
 
   const handleGoIdxClick = (idx: string) => {
-    // 현재 쿼리 파라미터를 /add 경로에 추가
     router.push({
       pathname: `/material/partner/view/${idx}`,
       query: router.query,

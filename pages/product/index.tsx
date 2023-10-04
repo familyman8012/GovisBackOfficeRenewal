@@ -10,6 +10,7 @@ import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Plus } from '@ComponentFarm/atom/icons';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
+import { tabData } from '@ComponentFarm/template/product/manage/const';
 import ManageListHandler from '@ComponentFarm/template/product/manage/ManageListHandler';
 import ManageListTable from '@ComponentFarm/template/product/manage/ManageListTable';
 import useQueryParams from '@HookFarm/useQueryParams';
@@ -25,19 +26,6 @@ const Manage = ({ environment }: { environment: IEnvironmentRes }) => {
   const { data } = useQuery(['productList', router.asPath], () =>
     fetchProductList(params)
   );
-
-  const tabData = [
-    {
-      title: '제품 목록',
-      // label: '164',
-    },
-    // {
-    //   title: '통계',
-    // },
-    // {
-    //   title: '부서정보',
-    // },
-  ];
 
   const handlePageChange = (pageNumber: number) => {
     updateParams({ current_num: pageNumber });
