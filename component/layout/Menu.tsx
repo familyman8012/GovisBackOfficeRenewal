@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { observer } from 'mobx-react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -8,20 +8,12 @@ import { MenuWrap } from './styles';
 const Menu = ({ permissionList }: { permissionList: PermissionList }) => {
   const router = useRouter();
   const currentUrl = `/${router.asPath.split('/')[1].split('?')[0]}`;
-  const [hostTxt, setHostTxt] = useState('');
 
   const isPathActive = (path: string) => {
     return currentUrl === path;
   };
 
   const Goivs2Menu = ['/product', '/material', '/menu', '/product-recipes'];
-
-  if (typeof window !== 'undefined') {
-    const { hostname } = window.location;
-    setHostTxt(hostname); // dev.govis.gopizza.kr 혹은 govis.gopizza.kr
-  }
-
-  console.log('hostTxt', hostTxt);
 
   return (
     <MenuWrap>
