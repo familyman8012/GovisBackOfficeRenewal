@@ -15,6 +15,12 @@ const Menu = ({ permissionList }: { permissionList: PermissionList }) => {
 
   const Goivs2Menu = ['/product', '/material', '/menu', '/product-recipes'];
 
+  const host =
+    window.location.host.includes('dev') ||
+    window.location.host.includes('localhost')
+      ? 'https://dev.govis.gopizza.kr'
+      : 'https://govis.gopizza.kr';
+
   return (
     <MenuWrap>
       <h2>{menuStore.groupMap[menuStore.currentGroup].menuName}</h2>
@@ -39,10 +45,10 @@ const Menu = ({ permissionList }: { permissionList: PermissionList }) => {
                     path
                       ? Goivs2Menu.some(el => el === path)
                         ? String(path)
-                        : `https://.gopizza.kr${path}`
+                        : `${host}${path}`
                       : Goivs2Menu.some(el => el === depth2?.[0]?.path)
                       ? String(depth2?.[0]?.path)
-                      : `https://govis.gopizza.kr${depth2?.[0]?.path}`
+                      : `${host}${depth2?.[0]?.path}`
                   }
                   className={`link_depth1 ${isActive ? 'on' : ''} ${
                     path ? 'depth1Only' : ''
@@ -61,7 +67,7 @@ const Menu = ({ permissionList }: { permissionList: PermissionList }) => {
                             href={
                               Goivs2Menu.some(el => el === currentUrl)
                                 ? subMenu.path
-                                : `https://govis.gopizza.kr${subMenu.path}`
+                                : `${host}${subMenu.path}`
                             }
                             className={`link_depth2 ${
                               isPathActive(subMenu.path) ? 'on' : ''
