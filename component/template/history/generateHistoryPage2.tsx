@@ -13,6 +13,9 @@ type Config = {
   subTitle?: string;
 };
 
+/**
+ * @TODO 구조 통일 generateHistoryPage, generateHistoryPage2
+ */
 const generateHistoryPage2 = (config: Config) => {
   return function HistoryPage({
     environment,

@@ -22,36 +22,24 @@ const HistoryTableRow = ({
   envs: IEnvironmentResItem[];
   item: IHistoryResItem;
 }) => {
-  const isArrayValue = useCallback(
-    (value: string) => /^\[(.*)\]$/.test(value),
-    []
-  );
+  const isArrayValue = (value: string) => /^\[(.*)\]$/.test(value);
 
   const findEnvValue = useCallback(
     (columnName: string, value: string) => {
-      if (isArrayValue(value)) {
-        return value
-          .replace(/^\[(.*)\]$/, '$1')
-          .replace(/\s+/g, '')
-          .split(',')
-          .map(
-            v =>
-              envs.find(
-                env =>
-                  env.name === columnName?.replace('evi_', '') &&
-                  `${env.environment_variable_idx}` === v
-              )?.value
-          )
-          .join(', ');
-      }
+      const val = isArrayValue(value)
+        ? value.replace(/^\[(.*)\]$/, '$1')
+        : value;
 
-      return (
-        envs.find(
-          env =>
-            env.name === columnName?.replace('evi_', '') &&
-            `${env.environment_variable_idx}` === value
-        )?.value ?? value
-      );
+      return val
+        .split(',')
+        .map(
+          v =>
+            envs.find(
+              env =>
+                env.name === columnName?.replace('evi_', '') &&
+                `${env.environment_variable_idx}` === v
+            )?.value ?? v
+        );
     },
     [envs]
   );

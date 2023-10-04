@@ -52,13 +52,16 @@ export const MenuForm = React.forwardRef<HTMLFormElement, MenuFormProps>(
 
     const methods = useForm<IMenuFormFields>({
       mode: 'onBlur',
-      defaultValues: {
-        evi_menu_group: options.menu_group[0].value,
-        evi_menu_status: options.menu_status[0].value,
-        evi_menu_type: options.menu_type[0].value,
-        evi_menu_classification: options.menu_classification[0].value,
-        is_menu_option: '1',
-      },
+      defaultValues: useMemo(
+        () => ({
+          evi_menu_group: options.menu_group[0].value,
+          evi_menu_status: options.menu_status[0].value,
+          evi_menu_type: options.menu_type[0].value,
+          evi_menu_classification: options.menu_classification[0].value,
+          is_menu_option: '1',
+        }),
+        []
+      ),
     });
 
     const useCategoryValue = useMemo(
@@ -95,7 +98,7 @@ export const MenuForm = React.forwardRef<HTMLFormElement, MenuFormProps>(
 
     useEffect(() => {
       if (!editable && id) {
-        fetchDefaultValue().then(res => reset(res));
+        fetchDefaultValue().then(reset);
       }
     }, [editable]);
 

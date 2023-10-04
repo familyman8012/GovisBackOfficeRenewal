@@ -17,6 +17,9 @@ type Config = {
   layoutProps: LayoutWithTitleBoxAndTabProps;
 };
 
+/**
+ * @TODO 구조 통일 generateHistoryPage, generateHistoryPage2
+ */
 const generateHistoryPage = (config: Config) => {
   return function HistoryPage({
     environment,

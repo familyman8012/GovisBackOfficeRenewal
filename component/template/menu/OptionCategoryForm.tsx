@@ -77,7 +77,7 @@ const MenuOptionCategory = ({
 
   const createMenuCategory = useMutation(createMenuOptionCategory, {
     onSuccess: data => {
-      toast.info('옵션 그룹이 생성되었습니다.');
+      toast.info('옵션 분류가 생성되었습니다.');
       setValue(
         `${formKey}.menu_option_category_idx`,
         data.menu_option_category_idx
@@ -88,14 +88,14 @@ const MenuOptionCategory = ({
 
   const updateMenuCategory = useMutation(updateMenuOptionCategory, {
     onSuccess: () => {
-      toast.info('옵션 그룹이 수정되었습니다.');
+      toast.info('옵션 분류가 수정되었습니다.');
       setCanEditName(false);
     },
   });
 
   const removeMenuCategory = useMutation(removeMenuOptionCategory, {
     onSuccess: () => {
-      toast.info('옵션 그룹이 삭제되었습니다.');
+      toast.info('옵션 분류가 삭제되었습니다.');
       onRemoveCategory();
     },
   });
@@ -288,10 +288,10 @@ const MenuOptionCategory = ({
                   : '메뉴명을 입력해주세요'}
               </button>
             ))}
-            {editable && (
+            {editable && !canEditName && (
               <Button
-                variant="transparent"
                 disabled={!canCreateOptionInfo}
+                variant="transparent"
                 LeadingIcon={<Plus />}
                 onClick={() => checkCreateOptionInfoHandler()}
               >

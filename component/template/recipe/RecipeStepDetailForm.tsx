@@ -268,7 +268,8 @@ const RecipeStepDetail = ({
                             {field.material_name_ko}
                             <br />
                             <span>
-                              {field.pcn_manufacturer} | {field.evv_country}
+                              {field.pcn_manufacturer} |{' '}
+                              {field.evv_country?.[0]}
                             </span>
                           </div>
                         </div>

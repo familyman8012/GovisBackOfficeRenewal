@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import {
   Controller,
   FieldErrors,
@@ -37,15 +37,16 @@ const RecipeForm = React.forwardRef<HTMLFormElement, RecipeFormProps>(
     );
 
     const methods = useForm<IRecipeFormFields>({
-      defaultValues: recipeId
-        ? fetchDefaultValue
-        : {
-            product_info_idx: productId,
-            recipe_name: '',
-            recipe_image: '',
-            recipe_manufacturing_time: '',
-            recipe_steps: [],
-          },
+      defaultValues: useMemo(
+        () => ({
+          product_info_idx: productId,
+          recipe_name: '',
+          recipe_image: '',
+          recipe_manufacturing_time: '',
+          recipe_steps: [],
+        }),
+        []
+      ),
     });
 
     const {
@@ -59,7 +60,7 @@ const RecipeForm = React.forwardRef<HTMLFormElement, RecipeFormProps>(
 
     useEffect(() => {
       if (!editable && recipeId) {
-        fetchDefaultValue().then(res => reset(res));
+        fetchDefaultValue().then(reset);
       }
     }, [editable, recipeId]);
 

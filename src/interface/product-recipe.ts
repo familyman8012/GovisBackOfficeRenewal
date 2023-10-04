@@ -40,7 +40,7 @@ export interface IRecipeStepFormFields {
     readonly material_image?: string;
     readonly material_name?: string;
     readonly material_name_ko?: string;
-    readonly evv_country?: string;
+    readonly evv_country?: string[];
     readonly pcn_manufacturer?: string;
     first_cost?: number;
     recipe_material_meterage_value: number;
