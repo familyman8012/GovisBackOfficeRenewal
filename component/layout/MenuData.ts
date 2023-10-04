@@ -3,7 +3,7 @@ export const TotalMenu = [
     depth1: '홈',
     group: 'Home',
     // path: '/dashboard',
-    path: '/test1',
+    path: '/dashboard',
     perm_info_idx: 0,
   },
   {
@@ -12,15 +12,13 @@ export const TotalMenu = [
     depth2: [
       {
         name: '매출 종합현황',
-        // path: '/sales/month-static',
-        path: '/test2',
+        path: '/sales/month-static',
         perm_code: 'sales_stores_report',
         perm_info_idx: 11,
       },
       {
         name: '매장별 통계',
-        path: '/test3',
-        // path: '/sales/store',
+        path: '/sales/store',
         perm_code: 'sales_stores',
         perm_info_idx: 12,
       },

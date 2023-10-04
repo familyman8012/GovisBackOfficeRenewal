@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { observer } from 'mobx-react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -8,10 +8,20 @@ import { MenuWrap } from './styles';
 const Menu = ({ permissionList }: { permissionList: PermissionList }) => {
   const router = useRouter();
   const currentUrl = `/${router.asPath.split('/')[1].split('?')[0]}`;
+  const [hostTxt, setHostTxt] = useState('');
 
   const isPathActive = (path: string) => {
     return currentUrl === path;
   };
+
+  const Goivs2Menu = ['/product', '/material', '/menu', '/product-recipes'];
+
+  if (typeof window !== 'undefined') {
+    const { hostname } = window.location;
+    setHostTxt(hostname); // dev.govis.gopizza.kr 혹은 govis.gopizza.kr
+  }
+
+  console.log('hostTxt', hostTxt);
 
   return (
     <MenuWrap>
@@ -26,14 +36,22 @@ const Menu = ({ permissionList }: { permissionList: PermissionList }) => {
           .map(menu => {
             const { depth1, depth2, path } = menu;
 
-            console.log(depth1);
             const isActive =
               isPathActive(String(path)) ||
               (depth2 && depth2.some(subMenu => isPathActive(subMenu.path)));
+
             return (
               <li key={depth1}>
                 <Link
-                  href={path ? String(path) : String(depth2?.[0]?.path)}
+                  href={
+                    path
+                      ? Goivs2Menu.some(el => el === path)
+                        ? String(path)
+                        : `https://.gopizza.kr${path}`
+                      : Goivs2Menu.some(el => el === depth2?.[0]?.path)
+                      ? String(depth2?.[0]?.path)
+                      : `https://govis.gopizza.kr${depth2?.[0]?.path}`
+                  }
                   className={`link_depth1 ${isActive ? 'on' : ''} ${
                     path ? 'depth1Only' : ''
                   }`}
@@ -48,7 +66,11 @@ const Menu = ({ permissionList }: { permissionList: PermissionList }) => {
                       return (
                         <li key={subMenu.name}>
                           <Link
-                            href={subMenu.path}
+                            href={
+                              Goivs2Menu.some(el => el === currentUrl)
+                                ? subMenu.path
+                                : `https://govis.gopizza.kr${subMenu.path}`
+                            }
                             className={`link_depth2 ${
                               isPathActive(subMenu.path) ? 'on' : ''
                             }`}
