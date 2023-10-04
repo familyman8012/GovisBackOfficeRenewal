@@ -13,7 +13,7 @@ const Group = ({ permissionList }: { permissionList: PermissionList }) => {
   useEffect(() => {
     const currentPath = router.asPath;
     // url 이 어느 그룹에 있는지 찾기
-    const currentGroup = permissionList?.menus.find(menu => {
+    const currentGroup = permissionList?.menus?.find(menu => {
       return (
         menu.path === currentPath ||
         menu.depth2?.some(subMenu => subMenu.path === currentPath)
