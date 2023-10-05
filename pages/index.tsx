@@ -60,9 +60,9 @@ const Login = () => {
   });
 
   // 2개의 싸이트 중 1곳만 로그인 되면 다른 곳은 자동로그인.
-  const chkhost = window.location.host;
+  const chkhost = typeof window !== 'undefined' ? window?.location?.host : null;
   const host =
-    chkhost.indexOf('localhost') !== -1
+    chkhost?.indexOf('localhost') !== -1
       ? chkhost === 'localhost:3000'
         ? 'http://localhost:3001'
         : 'http://localhost:3000'
@@ -71,14 +71,14 @@ const Login = () => {
       : chkhost.replace('govis', 'govis2');
 
   useEffect(() => {
-    if (chkhost.indexOf('localhost') === -1) {
+    if (chkhost?.indexOf('localhost') === -1) {
       document.domain = 'gopizza.kr';
     }
     setIframeSet(true);
 
     window.addEventListener(
       'message',
-      function (event) {
+      event => {
         if (event.origin !== host) return;
 
         const { token } = event.data;
