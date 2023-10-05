@@ -80,13 +80,33 @@ const Login = () => {
 
       console.log('authData', authData);
 
+      // const iframe = document.createElement('iframe');
+      // iframe.src = 'http://localhost:3001';
+      // document.body.prepend(iframe);
+
+      // // iframe이 로드된 후 메시지 전송
+      // iframe.onload = () => {
+      //   console.log('iframe onloaded');
+      //   const token = authData; // 로그인 토큰
+      //   iframe?.contentWindow?.postMessage({ token }, 'http://localhost:3001');
+      // };
+
+      const iframeElement = document.getElementById('authIframe');
+      if (iframeElement && (iframeElement as any).contentWindow) {
+        const token = authData; // 로그인 토큰
+        (iframeElement as any).contentWindow.postMessage(
+          { token },
+          'https://dev.govis.gopizza.kr'
+        );
+      }
+
       runInAction(() => {
         authStore.login({
           token: tokenData['GO-AUTH'],
           ...authData,
         });
 
-        router.push('/product');
+        // router.push('/product');
       });
     } catch (error: any) {
       console.log('e', error);
@@ -110,6 +130,12 @@ const Login = () => {
               <h1 className="login__logo">
                 {/* <img src="/images/main-logo.png" alt="GOVIS for Back-office" /> */}
               </h1>
+              <iframe
+                id="authIframe"
+                src="https://dev.govis.gopizza.kr"
+                title="auth-sync"
+                style={{ visibility: 'hidden' }} // 필요에 따라 숨기거나 다른 스타일 적용
+              />
               <form className="login__form" onSubmit={handleLogin}>
                 <div className="login__input-wrapper">
                   <label className="login__label" htmlFor="email">

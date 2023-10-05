@@ -18,6 +18,7 @@ interface UseStatusStopProps {
   statusType: string;
   setValue: any;
   STATUS: Array<{ label: string; value: string }>;
+  DatePickerRef?: React.RefObject<HTMLInputElement>;
   watch: (key: string) => string | undefined;
 }
 
@@ -30,6 +31,7 @@ const useStatusStop = ({
   statusType,
   setValue,
   STATUS,
+  DatePickerRef,
   watch,
 }: UseStatusStopProps) => {
   const envList = environment?.list;
@@ -66,6 +68,7 @@ const useStatusStop = ({
         ),
         onFormSubmit: () => {
           confirmModalStore.isOpen = false;
+          DatePickerRef?.current?.click();
         },
         onCancel: () => {
           setValue(

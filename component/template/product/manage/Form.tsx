@@ -38,6 +38,7 @@ const ProductForm: React.FC<FormProps> = ({
 }) => {
   const router = useRouter();
   const tabData = tabDataFunc(pageMode, router?.query);
+  const DatePickerRef = React.useRef<HTMLInputElement>(null);
 
   const { STATUS, GROUP, CATEGORY, SALETYPE } = useEnvironments(
     environment.list,
@@ -79,6 +80,7 @@ const ProductForm: React.FC<FormProps> = ({
     pageMode,
     statusCodes: ['ps_discontinuation', 'ps_disposal'], // 배열로 전달
     statusType: '제품',
+    DatePickerRef,
     setValue,
     STATUS,
     watch,
@@ -236,7 +238,11 @@ const ProductForm: React.FC<FormProps> = ({
                 name="evi_sale_type"
                 control={control}
                 defaultValue={[]}
-                rules={{ required: '필수 입력항목입니다.' }}
+                rules={{
+                  required: '필수 입력항목입니다.',
+                  validate: value =>
+                    value.length > 0 || '하나 이상 선택하세요.',
+                }}
                 render={({ field: { value, ref, ...restField } }) => (
                   <CheckBoxGroup
                     {...restField}
@@ -367,6 +373,7 @@ const ProductForm: React.FC<FormProps> = ({
                   name="sale_end_date"
                   render={({ field }) => (
                     <DatePicker
+                      DatePickerRef={DatePickerRef}
                       selectedDate={field.value}
                       onChange={(newDate: NewDate) => {
                         field.onChange(String(newDate));

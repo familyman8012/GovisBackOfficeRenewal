@@ -14,6 +14,7 @@ export type NewDate = string | ChangeEvent<Element> | null;
 
 export interface DatePickerProps extends Partial<ReactDatePickerProps> {
   className?: string;
+  DatePickerRef?: React.RefObject<HTMLInputElement>;
   selectedDate: string | null;
   onChange: any;
   disabled?: boolean;
@@ -25,11 +26,12 @@ interface DateInputProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   placeholder: string;
   disabled?: boolean;
+  DatePickerRef: React.RefObject<HTMLInputElement>;
 }
 
 // DateInput 컴포넌트 만들기  - 기존 IcoInput 컴포넌트를 활용
 const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
-  ({ onClick, value, onChange, placeholder, disabled }, ref) => {
+  ({ onClick, value, onChange, placeholder, disabled, DatePickerRef }, ref) => {
     return (
       <DateInputWrapper className={disabled ? 'disabled' : ''}>
         <input
@@ -38,9 +40,10 @@ const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
           onClick={onClick}
           value={value}
           onChange={onChange}
-          ref={ref}
+          ref={DatePickerRef ?? ref}
           placeholder={placeholder}
           disabled={disabled}
+          autoComplete="off"
         />
 
         <img
@@ -57,6 +60,7 @@ DateInput.displayName = 'DateInput';
 
 const DatePicker: React.FC<DatePickerProps> = ({
   className,
+  DatePickerRef,
   selectedDate,
   onChange,
   dateFormat = 'yyyy-MM-dd',
@@ -72,7 +76,7 @@ const DatePicker: React.FC<DatePickerProps> = ({
     selectedDate ? dayjs(selectedDate).toDate() : null
   );
 
-  console.log('selectedDate', selectedDate);
+  console.log('DatePickerRef', DatePickerRef);
 
   useEffect(() => {
     setSelectedDateState(selectedDate ? dayjs(selectedDate).toDate() : null);
@@ -94,8 +98,10 @@ const DatePicker: React.FC<DatePickerProps> = ({
     <DatepickerLibrary
       selected={selectedDateState}
       onChange={handleChange}
-      // @ts-ignore - customInput 의 props 가 DateInput에게 전달되도록
-      customInput={<DateInput disabled={disabled} />}
+      customInput={
+        // @ts-ignore - customInput 의 props 가 DateInput에게 전달되도록
+        <DateInput disabled={disabled} DatePickerRef={DatePickerRef} />
+      }
       dateFormat={dateFormat}
       minDate={minDate}
       maxDate={maxDate}
