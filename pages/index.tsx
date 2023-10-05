@@ -117,7 +117,7 @@ const Login = () => {
           ...authData,
         });
 
-        // router.push('/product');
+        router.push('/product');
       });
     } catch (error: any) {
       console.log('e', error);
