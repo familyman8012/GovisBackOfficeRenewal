@@ -134,6 +134,7 @@ const ProductForm: React.FC<FormProps> = ({
                   type="text"
                   className="inp"
                   placeholder="등록 시, 자동 생성 (입력불가)"
+                  value={initialData?.product_code ?? ''}
                   disabled
                 />
               </div>
@@ -235,6 +236,7 @@ const ProductForm: React.FC<FormProps> = ({
                 name="evi_sale_type"
                 control={control}
                 defaultValue={[]}
+                rules={{ required: '필수 입력항목입니다.' }}
                 render={({ field: { value, ref, ...restField } }) => (
                   <CheckBoxGroup
                     {...restField}

@@ -207,6 +207,7 @@ const PartnerForm: React.FC<FormProps> = ({
               id="evi_partner_company_type"
               className="inp"
               placeholder={`${partnerLabel} 등록 시, 자동 생성`}
+              value={initialData?.partner_company_code ?? ''}
               disabled
             />
           </div>

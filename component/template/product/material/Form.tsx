@@ -10,6 +10,7 @@ import {
   IPartnerRes,
 } from '@InterfaceFarm/material';
 import ImageUploader from '@ComponentFarm/modules/ImageUploader/ImageUploader';
+import MultiSelectWithBadges from '@ComponentFarm/modules/MultiSelectWithBadges/MultiSelectWithBadges';
 import RadioGroup from '@ComponentFarm/modules/RadioGroup/RadioGroup';
 import ErrorTxt from '@ComponentFarm/atom/ErrorTxt/ErrorTxt';
 import { Select } from '@ComponentFarm/atom/Select/Select';
@@ -88,6 +89,10 @@ const productStyles = css`
     }
   }
 
+  .line12 .txt_box .title {
+    width: max-content;
+  }
+
   .line14 {
     .inp {
       width: 40rem;
@@ -150,11 +155,11 @@ const MaterialForm: React.FC<FormProps> = ({
     [PARTNER, initialData?.pci_manufacturer]
   );
 
-  const CountryInitialValue = useMemo(
-    () =>
-      COUNTRY.find(el => String(el.value) === String(initialData?.evi_country)),
-    [COUNTRY, initialData?.evi_country]
-  );
+  // const CountryInitialValue = useMemo(
+  //   () =>
+  //     COUNTRY.find(el => String(el.value) === String(initialData?.evi_country)),
+  //   [COUNTRY, initialData?.evi_country]
+  // );
 
   const CATEGORY1 = useMemo(
     () => transformCategoryByDepth(materialCategory?.list, 1),
@@ -168,38 +173,6 @@ const MaterialForm: React.FC<FormProps> = ({
     () => transformCategoryByDepth(materialCategory?.list, 3),
     [materialCategory?.list]
   );
-
-  // const defaultValues = {
-  //   ...initialData,
-  //   pci_manufacturer: PartnerInitialValue,
-  //   evi_country: CountryInitialValue,
-  // } || {
-  //   external_code: '', // replaced innercode
-  //   evi_material_status: '', // replaced status
-  //   evi_material_product_type: '', // replaced product_category
-  //   mci_large: '', // replaced sel_category1
-  //   mci_middle: '', // replaced sel_category2
-  //   mci_small: '', // replaced sel_category3
-  //   evi_material_storage_type: '', // replaced save_dd
-  //   material_name_ko: '', // replaced name_ko
-  //   material_name_en: '', // replaced name_en
-  //   material_trade_qty: '', // replaced quanity
-  //   evi_material_trade_unit: '', // replaced quanity2
-  //   material_spec_qty: '', // replaced spec
-  //   evi_material_spec_unit: '', // replaced spec2
-  //   material_config_qty: '', // replaced amount
-  //   minimal_purchase_qty: '', // replaced lessAmount
-  //   estimate_price: '', // replaced price1
-  //   purchase_price: '', // replaced price2
-  //   sale_price: '', // replaced price3
-  //   evi_taxable: '', // replaced taxable
-  //   evi_vat: '', // replaced vat
-  //   pci_manufacturer: { value: '', label: '' }, // replaced company
-  //   evi_country: { value: '', label: '' }, // replaced country
-  //   ordering_place: '', // replaced client
-  //   material_description: '', // replaced desc
-  //   evi_material_sale_brand: '',
-  // };
 
   const defaultValues = {
     external_code: initialData?.external_code ?? '', // replaced innercode
@@ -225,10 +198,10 @@ const MaterialForm: React.FC<FormProps> = ({
     pci_manufacturer: initialData?.pci_manufacturer
       ? PartnerInitialValue
       : undefined, // replaced company
-    evi_country: initialData?.evi_country ? CountryInitialValue : undefined, // replaced country
+    evi_country: initialData?.evi_country ? initialData?.evi_country : [], // replaced country
     ordering_place: initialData?.ordering_place ?? '', // replaced client
     material_description: initialData?.material_description ?? '', // replaced desc
-    evi_material_sale_brand: initialData?.evi_material_sale_brand ?? '',
+    evi_material_sale_brand: initialData?.evi_material_sale_brand ?? [],
   };
 
   const {
@@ -393,6 +366,7 @@ const MaterialForm: React.FC<FormProps> = ({
                   id="code"
                   className="inp"
                   placeholder="등록 시, 자동 생성 (입력불가)"
+                  value={initialData?.material_code ?? ''}
                   disabled
                 />
               </div>
@@ -578,20 +552,24 @@ const MaterialForm: React.FC<FormProps> = ({
                 errors.evi_material_sale_brand ? 'error' : ''
               }`}
             >
-              <select
-                id="evi_material_sale_brand"
-                disabled={isReadOnly}
-                {...register('evi_material_sale_brand', {
-                  required: '필수 입력항목입니다.',
-                })}
-              >
-                <option value="">--- 선택 ---</option>
-                {SALE_BRAND.map(el => (
-                  <option key={el.value} value={el.value}>
-                    {el.label}
-                  </option>
-                ))}
-              </select>
+              <Controller
+                name="evi_material_sale_brand"
+                control={control}
+                defaultValue={[]}
+                rules={{ required: '필수 입력항목입니다.' }}
+                render={({ field }) => (
+                  <MultiSelectWithBadges
+                    options={SALE_BRAND}
+                    selectedOptions={SALE_BRAND.filter(opt =>
+                      field.value.includes(opt.value)
+                    )}
+                    onChange={selected =>
+                      field.onChange(selected.map(opt => opt.value))
+                    }
+                    isDisabled={isReadOnly}
+                  />
+                )}
+              />
               {errors.evi_material_sale_brand && (
                 <ErrorTxt>{errors.evi_material_sale_brand.message}</ErrorTxt>
               )}
@@ -991,13 +969,17 @@ const MaterialForm: React.FC<FormProps> = ({
               <Controller
                 name="evi_country"
                 control={control}
+                defaultValue={[]}
                 rules={{ required: '필수 입력항목입니다.' }}
                 render={({ field }) => (
-                  <Select
+                  <MultiSelectWithBadges
                     options={COUNTRY}
-                    selectedOption={field.value}
-                    setSelectedOption={field.onChange}
-                    placeholder="예 : 대한민국"
+                    selectedOptions={COUNTRY.filter(opt =>
+                      field.value.includes(opt.value)
+                    )}
+                    onChange={selected =>
+                      field.onChange(selected.map(opt => opt.value))
+                    }
                     isDisabled={isReadOnly}
                   />
                 )}

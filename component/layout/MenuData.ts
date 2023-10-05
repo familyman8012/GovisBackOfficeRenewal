@@ -402,3 +402,10 @@ export const TotalMenu = [
     perm_info_idx: 60,
   },
 ];
+
+export const Goivs2Menu = [
+  '/product',
+  '/material',
+  '/menu',
+  '/product-recipes',
+];

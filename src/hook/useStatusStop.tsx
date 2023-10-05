@@ -55,7 +55,9 @@ const useStatusStop = ({
         title: '변경 전 주의사항',
         content: (
           <p>
-            {statusType} 상태를 중단 및 폐기로 변경하실 경우,
+            {statusType} 상태를
+            {statusCodes.length === 2 ? '중단 및 폐기' : '중단으'}로 변경하실
+            경우,
             <br />
             추후 복구가 불가능합니다.
             <br />

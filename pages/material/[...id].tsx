@@ -75,6 +75,7 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
   });
 
   const submitFunc = async (data: IMaterial) => {
+    console.log('submitFunc data', data);
     if (selectedImgFile) {
       const event = { target: { files: [selectedImgFile] } };
       await handler(event as any);
@@ -109,7 +110,6 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
         params: viewData.material_info_idx,
         data: {
           ...submitData,
-          evi_country: submitData.evi_country.value,
           pci_manufacturer: submitData.pci_manufacturer.value,
         },
       });

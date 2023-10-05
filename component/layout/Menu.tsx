@@ -3,6 +3,7 @@ import { observer } from 'mobx-react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { PermissionList, menuStore } from '@MobxFarm/store';
+import { Goivs2Menu } from './MenuData';
 import { MenuWrap } from './styles';
 
 const Menu = ({ permissionList }: { permissionList: PermissionList }) => {
@@ -12,8 +13,6 @@ const Menu = ({ permissionList }: { permissionList: PermissionList }) => {
   const isPathActive = (path: string) => {
     return currentUrl === path;
   };
-
-  const Goivs2Menu = ['/product', '/material', '/menu', '/product-recipes'];
 
   const host =
     window.location.host.includes('dev') ||

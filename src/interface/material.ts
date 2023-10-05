@@ -104,10 +104,10 @@ export interface IMaterial {
   evv_vat?: string; // VAT (환경 변수 값)
   pci_manufacturer: IOption; // 제조사 (협력 업체 - 고유식별 번호)
   pcn_manufacturer?: IOption; // 제조사 (협력 업체명)
-  evi_country: any[]; // 원산지 (환경 변수 - 고유식별 번호)
-  evv_country?: string[]; // 원산지 (환경 변수 값)
+  evi_country: string[]; // 원산지 (환경 변수 - 고유식별 번호)
+  evv_country?: string; // 원산지 (환경 변수 값)
   ordering_place: string; // 발주처
-  evi_material_sale_brand: string; // 판매 브랜드 (환경 변수 - 고유식별 번호)
+  evi_material_sale_brand: string[]; // 판매 브랜드 (환경 변수 - 고유식별 번호)
   evv_material_sale_brand?: string; // 판매 브랜드 (환경 변수 값)
   material_description?: string; // 원재료 설명
 }

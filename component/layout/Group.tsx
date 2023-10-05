@@ -4,10 +4,17 @@ import { observer } from 'mobx-react';
 import { useRouter } from 'next/router';
 import { IconViewArea } from '@ComponentFarm/common';
 import { PermissionList, menuStore } from '@MobxFarm/store';
+import { Goivs2Menu } from './MenuData';
 import { GroupWrap } from './styles';
 
 const Group = ({ permissionList }: { permissionList: PermissionList }) => {
   const router = useRouter();
+
+  const host =
+    window.location.host.includes('dev') ||
+    window.location.host.includes('localhost')
+      ? 'https://dev.govis.gopizza.kr'
+      : 'https://govis.gopizza.kr';
 
   // url 에 따라 적절한 그룹탭을 보여준다.
   useEffect(() => {
@@ -35,8 +42,15 @@ const Group = ({ permissionList }: { permissionList: PermissionList }) => {
       // 첫번째 메뉴로 이동
       const firstMenu = permissionList.menus.find(menu => menu.group === group);
       if (firstMenu) {
-        const path =
-          firstMenu.path || (firstMenu.depth2 && firstMenu.depth2[0].path);
+        const path = Goivs2Menu.some(el => el === firstMenu.path)
+          ? firstMenu.path
+          : !firstMenu.depth2
+          ? `${host}/${firstMenu.path}`
+          : Goivs2Menu.some(
+              el => el === (firstMenu.depth2 && firstMenu.depth2[0].path)
+            )
+          ? firstMenu.depth2 && firstMenu.depth2[0].path
+          : firstMenu.depth2 && `${host}${firstMenu.depth2[0].path}`;
         if (path) {
           router.push(path);
         }

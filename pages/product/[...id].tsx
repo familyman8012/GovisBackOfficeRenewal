@@ -34,8 +34,6 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
   );
 
   const channelModal = (product_info_idx: number) => {
-    console.log('product_info_idx', product_info_idx);
-
     runInAction(() => {
       confirmModalStore.openModal({
         title: '제품 정보 등록 완료',
@@ -49,7 +47,6 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
         onFormSubmit: () => {
           // eslint-disable-next-line no-unused-vars
           const { id: routerId, ...newObj } = router.query;
-          console.log('newObj', newObj);
           router.push({
             pathname: `/product/channelimg`,
             query: { id: product_info_idx, ...newObj },
@@ -69,7 +66,8 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
   const saveSubmit = useMutation(fetchProductFormSave, {
     onSuccess: data => {
       console.log('성공!', data);
-      queryClient.invalidateQueries([['productList'], ['productFormView']]);
+      queryClient.invalidateQueries(['productList']);
+      queryClient.invalidateQueries(['productFormView']);
       channelModal(data.product_info_idx);
     },
   });
@@ -77,7 +75,8 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
   const modifySubmit = useMutation(fetchProductFormModify, {
     onSuccess: () => {
       console.log('성공!');
-      queryClient.invalidateQueries([['productList'], ['productFormView']]);
+      queryClient.invalidateQueries(['productList']);
+      queryClient.invalidateQueries(['productFormView']);
       router.push('/product/');
     },
   });
@@ -158,20 +157,6 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
 };
 
 export default ProductDetail;
-
-// export async function getStaticPaths() {
-//   // 기본 경로들
-//   const basePaths = [
-//     { params: { id: ['add'] } },
-//     { params: { id: ['modify'] } },
-//     { params: { id: ['view'] } },
-//   ];
-
-//   return {
-//     paths: basePaths,
-//     fallback: 'blocking',
-//   };
-// }
 
 export const getServerSideProps = async () => {
   const environment = await fetchEnvironment({
