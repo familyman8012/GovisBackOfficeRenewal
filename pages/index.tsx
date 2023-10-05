@@ -91,6 +91,7 @@ const Login = () => {
       //   iframe?.contentWindow?.postMessage({ token }, 'http://localhost:3001');
       // };
 
+      document.domain = 'gopizza.kr';
       const iframeElement = document.getElementById('authIframe');
       if (iframeElement && (iframeElement as any).contentWindow) {
         const token = authData; // 로그인 토큰
