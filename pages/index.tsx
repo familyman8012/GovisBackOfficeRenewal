@@ -94,7 +94,10 @@ const Login = () => {
       document.domain = 'gopizza.kr';
       const iframeElement = document.getElementById('authIframe');
       if (iframeElement && (iframeElement as any).contentWindow) {
-        const token = authData; // 로그인 토큰
+        const token = {
+          token: tokenData['GO-AUTH'],
+          ...authData,
+        }; // 로그인 토큰
         (iframeElement as any).contentWindow.postMessage(
           { token },
           'https://dev.govis.gopizza.kr'
