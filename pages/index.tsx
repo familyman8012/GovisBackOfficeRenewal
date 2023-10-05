@@ -67,8 +67,8 @@ const Login = () => {
         ? 'http://localhost:3001'
         : 'http://localhost:3000'
       : chkhost.indexOf('govis2') !== -1
-      ? chkhost.replace('govis2', 'govis')
-      : chkhost.replace('govis', 'govis2');
+      ? `https://${chkhost.replace('govis2', 'govis')}`
+      : `https://${chkhost.replace('govis', 'govis2')}`;
 
   useEffect(() => {
     if (chkhost?.indexOf('localhost') === -1) {
