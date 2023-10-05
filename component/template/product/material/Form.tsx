@@ -294,11 +294,11 @@ const MaterialForm: React.FC<FormProps> = ({
       let firstCost = 0;
 
       if (materialSpecUnit === 'kg' || materialSpecUnit === 'L') {
-        firstCost = salePrice / (materialSpecQty * 1000 * materialConfigQty);
+        firstCost = salePrice / (materialSpecQty * 1000);
       } else if (materialSpecUnit === 'g') {
-        firstCost = salePrice / (materialSpecQty * materialConfigQty);
+        firstCost = salePrice / materialSpecQty;
       } else {
-        firstCost = salePrice / (1 * materialConfigQty);
+        firstCost = salePrice / materialSpecQty;
       }
 
       // 원가 필드에 값을 설정
