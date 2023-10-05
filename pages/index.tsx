@@ -114,6 +114,33 @@ const Login = () => {
     }
   };
 
+  useEffect(() => {
+    console.log('iframe 콘솔');
+
+    document.domain = 'gopizza.kr';
+
+    window.addEventListener(
+      'message',
+      function (event) {
+        console.log('iframe 콘솔2222');
+
+        if (event.origin !== 'https://dev.govis.gopizza.kr') return;
+        console.log('iframe 콘솔333', event);
+
+        const { token } = event.data;
+        console.log('event.data.token', event.data.token);
+        if (token) {
+          // localStorage.setItem("auth-sync-store", "ㅁㅁㅁㅁ");
+          authStore.login(token);
+        }
+        // if (token) {
+        //   localStorage.setItem("BO_AUTH_TOKEN", token);
+        // }
+      },
+      false
+    );
+  }, []);
+
   if (isLoginState === -1) {
     return <div />;
   }
