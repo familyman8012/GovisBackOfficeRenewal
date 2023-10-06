@@ -97,6 +97,11 @@ const Login = () => {
     }
   };
 
+  useEffect(() => {
+    console.log('aaa');
+    console.log('Cookie', JSON.parse(Cookies.get('AUTH_DATA') || '{}'));
+  }, []);
+
   if (isLoginState === -1) {
     return <div />;
   }
