@@ -1,5 +1,4 @@
 import { useEffect, useMemo } from 'react';
-import { runInAction } from 'mobx';
 import { useRouter } from 'next/router';
 import { Controller, useForm } from 'react-hook-form';
 import { css } from '@emotion/react';
@@ -19,7 +18,6 @@ import DetailPageLayout from '@ComponentFarm/layout/Product/DetailPageLayout';
 import useEnvironments, {
   EnvironmentKeyMapping,
 } from '@HookFarm/useEnviroments';
-import { confirmModalStore } from '@MobxFarm/store';
 import { transformCategoryByDepth } from '@UtilFarm/transformCategoryDepth';
 import { settingsByMode, tabDataFunc } from './const';
 
@@ -199,7 +197,7 @@ const MaterialForm: React.FC<FormProps> = ({
       ? PartnerInitialValue
       : undefined, // replaced company
     evi_country: initialData?.evi_country ? initialData?.evi_country : [], // replaced country
-    ordering_place: initialData?.ordering_place ?? '', // replaced client
+    purchase_place: initialData?.purchase_place ?? '', // replaced client
     material_description: initialData?.material_description ?? '', // replaced desc
     evi_material_sale_brand: initialData?.evi_material_sale_brand ?? [],
   };
@@ -213,62 +211,7 @@ const MaterialForm: React.FC<FormProps> = ({
     formState: { errors },
   } = useForm<IMaterial>({ defaultValues });
 
-  const envList = environment?.list;
-
-  const initialWatch = useMemo(
-    () =>
-      envList.find(
-        el =>
-          String(el.environment_variable_idx) ===
-          String(initialData?.evi_material_status)
-      ),
-    [envList, initialData?.evi_material_status]
-  );
-
-  const statusWatch = envList.find(
-    el =>
-      String(el.environment_variable_idx) ===
-      String(watch('evi_material_status'))
-  );
-  const isReadOnly =
-    pageMode === 'view' || statusWatch?.code === 'ms_discontinuation';
-
-  const changeAlertModal = () => {
-    runInAction(() => {
-      confirmModalStore.openModal({
-        title: '변경 전 주의사항',
-        content: (
-          <p>
-            원재료 상태를 중단으로 변경하실 경우,
-            <br />
-            추후 복구가 불가능합니다.
-            <br />
-            변경하시겠습니까?
-          </p>
-        ),
-        onFormSubmit: () => {
-          confirmModalStore.isOpen = false;
-        },
-        onCancel: () => {
-          setValue(
-            'evi_material_status',
-            String(initialData?.evi_material_status)
-          );
-          confirmModalStore.isOpen = false;
-        },
-        submitButtonText: '확인',
-      });
-    });
-  };
-
-  useEffect(() => {
-    if (
-      initialWatch?.code !== 'ms_discontinuation' &&
-      statusWatch?.code === 'ms_discontinuation'
-    ) {
-      changeAlertModal();
-    }
-  }, [initialWatch?.code, statusWatch]);
+  const isReadOnly = pageMode === 'view';
 
   // 원재료 규격 (단위)
   const materialSpecUnitWatch = watch('evi_material_spec_unit');
@@ -283,37 +226,58 @@ const MaterialForm: React.FC<FormProps> = ({
   const materialConfigQty = Number(watch('material_config_qty'));
 
   // 판매가
+  const purchasePrice = Number(watch('purchase_price'));
   const salePrice = Number(watch('sale_price'));
 
-  const isCostDisable =
-    !materialSpecUnit || !materialSpecQty || !materialConfigQty || !salePrice;
+  const basicCostDisable = !materialSpecUnit || !materialSpecQty;
+  const isPurchaseCostDisable = basicCostDisable || !purchasePrice;
+  const isSaleCostDisable = basicCostDisable || !salePrice;
+
+  // Helper function to compute cost
+  const computeCost = (price: number, specUnit: string, specQty: number) => {
+    let cost = 0;
+
+    if (specUnit === 'kg' || specUnit === 'L') {
+      cost = price / (specQty * 1000);
+    } else {
+      cost = price / specQty;
+    }
+
+    return cost;
+  };
 
   useEffect(() => {
-    if (materialSpecUnit && materialSpecQty && materialConfigQty && salePrice) {
-      // 원재료 규격을 g로 변환
-      let firstCost = 0;
+    if (basicCostDisable) return;
 
-      if (materialSpecUnit === 'kg' || materialSpecUnit === 'L') {
-        firstCost = salePrice / (materialSpecQty * 1000);
-      } else if (materialSpecUnit === 'g') {
-        firstCost = salePrice / materialSpecQty;
-      } else {
-        firstCost = salePrice / materialSpecQty;
-      }
+    if (purchasePrice) {
+      const purchaseCost = computeCost(
+        purchasePrice,
+        materialSpecUnit,
+        materialSpecQty
+      );
+      setValue('purchase_cost', parseFloat(purchaseCost.toFixed(2)));
+    }
 
-      // 원가 필드에 값을 설정
-      setValue('first_cost', firstCost);
+    if (salePrice) {
+      const saleCost = computeCost(
+        salePrice,
+        materialSpecUnit,
+        materialSpecQty
+      );
+      setValue('sale_cost', parseFloat(saleCost.toFixed(2)));
     }
   }, [
     materialSpecUnit,
     materialSpecQty,
     materialConfigQty,
+    purchasePrice,
     salePrice,
     setValue,
+    basicCostDisable,
   ]);
 
   const onFormSubmit = handleSubmit(data => {
-    console.log('submitFunc data', data);
+    console.log('matrial save data', data);
     submitFunc(data);
   });
 
@@ -579,7 +543,7 @@ const MaterialForm: React.FC<FormProps> = ({
         <div className="line line5">
           <div className="field field1">
             <label htmlFor="material_name_ko" className="req">
-              원재료명 (한글)
+              원재료명 (국내)
             </label>
             <div
               className={`box_inp ${errors.material_name_ko ? 'error' : ''}`}
@@ -588,15 +552,11 @@ const MaterialForm: React.FC<FormProps> = ({
                 type="text"
                 id="material_name_ko"
                 className="inp"
-                placeholder="한글 입력만 가능"
+                placeholder=""
                 disabled={isReadOnly}
                 {...register('material_name_ko', {
                   required: '필수 입력항목입니다.',
                 })}
-                onChange={e => {
-                  e.target.value = e.target.value.replace(/[a-zA-Z]/g, '');
-                  register('material_name_ko').onChange(e);
-                }}
               />
               {errors.material_name_ko && (
                 <ErrorTxt>{errors.material_name_ko.message}</ErrorTxt>
@@ -605,7 +565,7 @@ const MaterialForm: React.FC<FormProps> = ({
           </div>
           <div className="field field2">
             <label htmlFor="material_name_en" className="">
-              원재료명 (영어)
+              원재료명 (국외)
             </label>
             <div
               className={`box_inp ${errors.material_name_en ? 'error' : ''}`}
@@ -614,16 +574,9 @@ const MaterialForm: React.FC<FormProps> = ({
                 type="text"
                 id="material_name_en"
                 className="inp"
-                placeholder="영문 입력만 가능"
+                placeholder=""
                 disabled={isReadOnly}
                 {...register('material_name_en')}
-                onChange={e => {
-                  e.target.value = e.target.value.replace(
-                    /[ㄱ-ㅎㅏ-ㅣ가-힣]/g,
-                    ''
-                  );
-                  register('material_name_en').onChange(e);
-                }}
               />
               {errors.material_name_en && (
                 <ErrorTxt>{errors.material_name_en.message}</ErrorTxt>
@@ -728,108 +681,7 @@ const MaterialForm: React.FC<FormProps> = ({
             </div>
           </div>
         </div>
-        <div className="line line8">
-          <div className="field field1">
-            <label htmlFor="material_config_qty" className="req">
-              입수량
-            </label>
-            <div
-              className={`box_inp ${errors.material_config_qty ? 'error' : ''}`}
-            >
-              <span className="wrap_txt_inp">
-                <input
-                  type="text"
-                  id="material_config_qty"
-                  className="inp"
-                  placeholder=""
-                  disabled={isReadOnly}
-                  {...register('material_config_qty', {
-                    required: '필수 입력항목입니다.',
-                  })}
-                />
-                <span className="txt_addition">개</span>
-              </span>
-              {errors.material_config_qty && (
-                <ErrorTxt>{errors.material_config_qty.message}</ErrorTxt>
-              )}
-            </div>
-          </div>
-          <div className="field field2">
-            <label htmlFor="minimal_purchase_qty" className="req">
-              최소 구매수량
-            </label>
-            <div
-              className={`box_inp ${
-                errors.minimal_purchase_qty ? 'error' : ''
-              }`}
-            >
-              <span className="wrap_txt_inp">
-                <input
-                  type="text"
-                  id="minimal_purchase_qty"
-                  className="inp"
-                  placeholder=""
-                  disabled={isReadOnly}
-                  {...register('minimal_purchase_qty', {
-                    required: '필수 입력항목입니다.',
-                  })}
-                />
-                <span className="txt_addition">BOX</span>
-              </span>
-              {errors.minimal_purchase_qty && (
-                <ErrorTxt>{errors.minimal_purchase_qty.message}</ErrorTxt>
-              )}
-            </div>
-          </div>
-        </div>
-        <div className="line line9">
-          <div className="field field1">
-            <label htmlFor="estimate_price" className="req">
-              견적가
-            </label>
-            <div className={`box_inp ${errors.estimate_price ? 'error' : ''}`}>
-              <span className="wrap_txt_inp">
-                <input
-                  type="text"
-                  id="estimate_price"
-                  className="inp"
-                  placeholder=""
-                  disabled={isReadOnly}
-                  {...register('estimate_price', {
-                    required: '필수 입력항목입니다.',
-                  })}
-                />
-                <span className="txt_addition">원(KRW)</span>
-              </span>
-              {errors.estimate_price && (
-                <ErrorTxt>{errors.estimate_price.message}</ErrorTxt>
-              )}
-            </div>
-          </div>
-          <div className="field field2">
-            <label htmlFor="first_cost" className="req">
-              원가
-            </label>
-            <div className={`box_inp ${errors.first_cost ? 'error' : ''}`}>
-              <span className="wrap_txt_inp">
-                <input
-                  type="text"
-                  id="first_cost"
-                  className="inp"
-                  placeholder=""
-                  disabled={pageMode === 'view' || isCostDisable}
-                  {...register('first_cost', {
-                    required: '필수 입력항목입니다.',
-                  })}
-                />
-                <span className="txt_addition">원(KRW)</span>
-              </span>
-              {errors.first_cost && (
-                <ErrorTxt>{errors.first_cost.message}</ErrorTxt>
-              )}
-            </div>
-          </div>
-        </div>
+
         <div className="line line10">
           <div className="field field1">
             <label htmlFor="purchase_price" className="req">
@@ -851,6 +703,29 @@ const MaterialForm: React.FC<FormProps> = ({
               </span>
               {errors.purchase_price && (
                 <ErrorTxt>{errors.purchase_price.message}</ErrorTxt>
+              )}
+            </div>
+          </div>
+          <div className="field field2">
+            <label htmlFor="purchase_cost" className="req">
+              매입 원가
+            </label>
+            <div className={`box_inp ${errors.purchase_cost ? 'error' : ''}`}>
+              <span className="wrap_txt_inp">
+                <input
+                  type="text"
+                  id="purchase_cost"
+                  className="inp"
+                  placeholder=""
+                  disabled={pageMode === 'view' || isPurchaseCostDisable}
+                  {...register('purchase_cost', {
+                    required: '필수 입력항목입니다.',
+                  })}
+                />
+                <span className="txt_addition">원(KRW)</span>
+              </span>
+              {errors.purchase_cost && (
+                <ErrorTxt>{errors.purchase_cost.message}</ErrorTxt>
               )}
             </div>
           </div>
@@ -876,6 +751,29 @@ const MaterialForm: React.FC<FormProps> = ({
               </span>
               {errors.sale_price && (
                 <ErrorTxt>{errors.sale_price.message}</ErrorTxt>
+              )}
+            </div>
+          </div>
+          <div className="field field2">
+            <label htmlFor="sale_cost" className="req">
+              판매 원가
+            </label>
+            <div className={`box_inp ${errors.sale_cost ? 'error' : ''}`}>
+              <span className="wrap_txt_inp">
+                <input
+                  type="text"
+                  id="sale_cost"
+                  className="inp"
+                  placeholder=""
+                  disabled={pageMode === 'view' || isSaleCostDisable}
+                  {...register('sale_cost', {
+                    required: '필수 입력항목입니다.',
+                  })}
+                />
+                <span className="txt_addition">원(KRW)</span>
+              </span>
+              {errors.sale_cost && (
+                <ErrorTxt>{errors.sale_cost.message}</ErrorTxt>
               )}
             </div>
           </div>
@@ -930,19 +828,83 @@ const MaterialForm: React.FC<FormProps> = ({
             </div>
           </div>
         </div>
-
+        <h2>추가 정보</h2>
+        <div className="line line8">
+          <div className="field field1">
+            <label htmlFor="material_config_qty">입수량</label>
+            <div
+              className={`box_inp ${errors.material_config_qty ? 'error' : ''}`}
+            >
+              <span className="wrap_txt_inp">
+                <input
+                  type="text"
+                  id="material_config_qty"
+                  className="inp"
+                  placeholder=""
+                  disabled={isReadOnly}
+                  {...register('material_config_qty')}
+                />
+                <span className="txt_addition">개</span>
+              </span>
+              {errors.material_config_qty && (
+                <ErrorTxt>{errors.material_config_qty.message}</ErrorTxt>
+              )}
+            </div>
+          </div>
+          <div className="field field2">
+            <label htmlFor="minimal_purchase_qty">최소 구매수량</label>
+            <div
+              className={`box_inp ${
+                errors.minimal_purchase_qty ? 'error' : ''
+              }`}
+            >
+              <span className="wrap_txt_inp">
+                <input
+                  type="text"
+                  id="minimal_purchase_qty"
+                  className="inp"
+                  placeholder=""
+                  disabled={isReadOnly}
+                  {...register('minimal_purchase_qty')}
+                />
+                <span className="txt_addition">BOX</span>
+              </span>
+              {errors.minimal_purchase_qty && (
+                <ErrorTxt>{errors.minimal_purchase_qty.message}</ErrorTxt>
+              )}
+            </div>
+          </div>
+        </div>
+        <div className="line line9">
+          <div className="field field1">
+            <label htmlFor="estimate_price">견적가</label>
+            <div className={`box_inp ${errors.estimate_price ? 'error' : ''}`}>
+              <span className="wrap_txt_inp">
+                <input
+                  type="text"
+                  id="estimate_price"
+                  className="inp"
+                  placeholder=""
+                  disabled={isReadOnly}
+                  {...register('estimate_price')}
+                />
+                <span className="txt_addition">원(KRW)</span>
+              </span>
+              {errors.estimate_price && (
+                <ErrorTxt>{errors.estimate_price.message}</ErrorTxt>
+              )}
+            </div>
+          </div>
+        </div>
         <div className="line line13">
           <div className="field field1">
-            <label htmlFor="pci_manufacturer" className="req">
-              제조사
-            </label>
+            <label htmlFor="pci_manufacturer">제조사</label>
             <div
               className={`box_inp ${errors.pci_manufacturer ? 'error' : ''}`}
             >
               <Controller
                 name="pci_manufacturer"
                 control={control}
-                rules={{ required: '필수 입력항목입니다.' }}
                 render={({ field }) => {
                   return (
                     <Select
@@ -962,15 +924,12 @@ const MaterialForm: React.FC<FormProps> = ({
           </div>
 
           <div className="field field2">
-            <label htmlFor="evi_country" className="req">
-              원산지
-            </label>
+            <label htmlFor="evi_country">원산지</label>
             <div className={`box_inp ${errors.evi_country ? 'error' : ''}`}>
               <Controller
                 name="evi_country"
                 control={control}
                 defaultValue={[]}
-                rules={{ required: '필수 입력항목입니다.' }}
                 render={({ field }) => (
                   <MultiSelectWithBadges
                     options={COUNTRY}
@@ -993,22 +952,18 @@ const MaterialForm: React.FC<FormProps> = ({
 
         <div className="line line14">
           <div className="field field1">
-            <label htmlFor="ordering_place" className="req">
-              발주처
-            </label>
-            <div className={`box_inp ${errors.ordering_place ? 'error' : ''}`}>
+            <label htmlFor="purchase_place">발주처</label>
+            <div className={`box_inp ${errors.purchase_place ? 'error' : ''}`}>
               <input
                 type="text"
-                id="ordering_place"
+                id="purchase_place"
                 className="inp"
-                placeholder="발주GO 입력"
+                placeholder=""
                 disabled={isReadOnly}
-                {...register('ordering_place', {
-                  required: '필수 입력항목입니다.',
-                })}
+                {...register('purchase_place')}
               />
-              {errors.ordering_place && (
-                <ErrorTxt>{errors.ordering_place.message}</ErrorTxt>
+              {errors.purchase_place && (
+                <ErrorTxt>{errors.purchase_place.message}</ErrorTxt>
               )}
             </div>
           </div>

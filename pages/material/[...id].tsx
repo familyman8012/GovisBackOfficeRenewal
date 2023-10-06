@@ -95,7 +95,6 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
       }
       saveSubmit.mutate({
         ...submitData,
-        evi_country: submitData.evi_country.value,
         pci_manufacturer: submitData.pci_manufacturer.value,
       });
     }

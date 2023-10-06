@@ -96,8 +96,9 @@ export interface IMaterial {
   minimal_purchase_qty: string; // 최소 구매 수량
   estimate_price: string; // 견적가
   purchase_price: string; // 매입가
+  purchase_cost: number; // 매입원가
   sale_price: string; // 판매가
-  first_cost: number; // 원가
+  sale_cost: number; // 원가
   evi_taxable: string; // 과세대상 (환경 변수 - 고유식별 번호)
   evv_taxable?: string; // 과세대상 (환경 변수 값)
   evi_vat: string; // VAT (환경 변수 - 고유식별 번호)
@@ -106,7 +107,7 @@ export interface IMaterial {
   pcn_manufacturer?: IOption; // 제조사 (협력 업체명)
   evi_country: string[]; // 원산지 (환경 변수 - 고유식별 번호)
   evv_country?: string; // 원산지 (환경 변수 값)
-  ordering_place: string; // 발주처
+  purchase_place: string; // 발주처
   evi_material_sale_brand: string[]; // 판매 브랜드 (환경 변수 - 고유식별 번호)
   evv_material_sale_brand?: string; // 판매 브랜드 (환경 변수 값)
   material_description?: string; // 원재료 설명

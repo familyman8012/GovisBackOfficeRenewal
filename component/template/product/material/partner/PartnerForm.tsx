@@ -1,6 +1,5 @@
 /** 협력업체 Form */
-import { useEffect, useMemo, useState } from 'react';
-import { runInAction } from 'mobx';
+import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useForm } from 'react-hook-form';
 import { css } from '@emotion/react';
@@ -12,7 +11,6 @@ import ErrorTxt from '@ComponentFarm/atom/ErrorTxt/ErrorTxt';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import { FormWrap } from '@ComponentFarm/common';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
-import { confirmModalStore } from '@MobxFarm/store';
 import { convertEnv } from '@UtilFarm/convertEnvironment';
 import { settingsByMode } from './const';
 
@@ -89,68 +87,10 @@ const PartnerForm: React.FC<FormProps> = ({
   const {
     register,
     handleSubmit,
-    watch,
-    setValue,
     formState: { errors },
   } = useForm<IPartnerSaveReq>({ defaultValues });
 
-  const envList = environment?.list;
-
-  const initialWatch = useMemo(
-    () =>
-      envList.find(
-        el =>
-          String(el.environment_variable_idx) ===
-          String(initialData?.evi_partner_company_status)
-      ),
-    [envList, initialData?.evi_partner_company_status]
-  );
-
-  const statusWatch = envList.find(
-    el =>
-      String(el.environment_variable_idx) ===
-      String(watch('evi_partner_company_status'))
-  );
-
-  const isReadOnly =
-    pageMode === 'view' || statusWatch?.code === 'pcs_discontinuation';
-
-  const changeAlertModal = () => {
-    runInAction(() => {
-      confirmModalStore.openModal({
-        title: '변경 전 주의사항',
-        content: (
-          <p>
-            운영 상태를 중단으로 변경하실 경우,
-            <br />
-            추후 복구가 불가능합니다.
-            <br />
-            변경하시겠습니까?
-          </p>
-        ),
-        onFormSubmit: () => {
-          confirmModalStore.isOpen = false;
-        },
-        onCancel: () => {
-          setValue(
-            'evi_partner_company_status',
-            String(initialData?.evi_partner_company_status)
-          );
-          confirmModalStore.isOpen = false;
-        },
-        submitButtonText: '확인',
-      });
-    });
-  };
-
-  useEffect(() => {
-    if (
-      initialWatch?.code !== 'pcs_discontinuation' &&
-      statusWatch?.code === 'pcs_discontinuation'
-    ) {
-      changeAlertModal();
-    }
-  }, [initialWatch?.code, statusWatch]);
+  const isReadOnly = pageMode === 'view';
 
   const onFormSubmit = handleSubmit((data: any) => {
     console.log('submitFunc data', data);
