@@ -1,3 +1,4 @@
+import Cookies from 'js-cookie';
 import { observable } from 'mobx';
 import router from 'next/router';
 import secureLocalStorage from 'react-secure-storage';
@@ -121,6 +122,12 @@ export const authStore = observable<IAuthStore>({
     secureLocalStorage.removeItem(STORE_INFO);
     secureLocalStorage.removeItem(PERMISSION_LIST);
     secureLocalStorage.removeItem(PERM_CODE);
+
+    const chkhost =
+      typeof window !== 'undefined' ? window?.location?.host : null;
+    Cookies.remove('AUTH_DATA', {
+      domain: chkhost?.indexOf('localhost') !== -1 ? undefined : '.gopizza.kr',
+    });
 
     // 마이그레이션 목적으로 이전에 사용 값 삭제
     if (
