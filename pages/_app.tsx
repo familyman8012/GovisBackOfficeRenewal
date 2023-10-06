@@ -30,6 +30,9 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
     if (!localStorage.getItem('BO_AUTH_TOKEN') && !!Cookies.get('AUTH_DATA')) {
       authStore.login(JSON.parse(Cookies.get('AUTH_DATA') || '{}'));
     }
+    if (!!localStorage.getItem('BO_AUTH_TOKEN') && !Cookies.get('AUTH_DATA')) {
+      authStore.logOut();
+    }
     authStore.init();
   }, []);
 
