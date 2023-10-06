@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { PermissionList, menuStore } from '@MobxFarm/store';
 import { Goivs2Menu } from './MenuData';
-import { MenuWrap } from './styles';
 
 const Menu = ({ permissionList }: { permissionList: PermissionList }) => {
   const router = useRouter();
@@ -21,7 +20,7 @@ const Menu = ({ permissionList }: { permissionList: PermissionList }) => {
       : 'https://govis.gopizza.kr';
 
   return (
-    <MenuWrap>
+    <>
       <h2>{menuStore.groupMap[menuStore.currentGroup].menuName}</h2>
       <ul>
         {permissionList?.menus
@@ -83,7 +82,7 @@ const Menu = ({ permissionList }: { permissionList: PermissionList }) => {
             );
           })}
       </ul>
-    </MenuWrap>
+    </>
   );
 };
 

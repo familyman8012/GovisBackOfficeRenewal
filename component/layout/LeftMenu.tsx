@@ -4,7 +4,7 @@ import { observer } from 'mobx-react';
 import { authStore } from '@MobxFarm/store';
 import Group from './Group';
 import Menu from './Menu';
-import { LeftMenuWrap } from './styles';
+import { GroupWrap, LeftMenuWrap, MenuWrap } from './styles';
 
 const LeftMenu = () => {
   const permissionList = toJS(authStore.permissionList);
@@ -18,12 +18,12 @@ const LeftMenu = () => {
   }, [permissionList?.menus]);
   return (
     <LeftMenuWrap>
-      {permissionList && (
-        <>
-          <Group permissionList={permissionList} />
-          <Menu permissionList={permissionList} />
-        </>
-      )}
+      <GroupWrap>
+        {permissionList && <Group permissionList={permissionList} />}
+      </GroupWrap>
+      <MenuWrap>
+        {permissionList && <Menu permissionList={permissionList} />}
+      </MenuWrap>
     </LeftMenuWrap>
   );
 };

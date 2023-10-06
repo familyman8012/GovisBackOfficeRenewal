@@ -105,7 +105,7 @@ const Login = () => {
           ...authData,
         });
 
-        // router.push('/product');
+        router.push('/product');
       });
     } catch (error: any) {
       console.log('e', error);
@@ -122,50 +122,50 @@ const Login = () => {
   }
 
   if (isLoginState !== -1 && isLoginState !== 0) {
-    // router.push('/product');
+    router.push('/product');
   }
 
   return (
     <>
-      {/* {isLoginState === 0 ? ( */}
-      <>
-        <LoginWrap>
-          <div className="login__content">
-            <div className="login__card">
-              <h1 className="login__logo">
-                {/* <img src="/images/main-logo.png" alt="GOVIS for Back-office" /> */}
-              </h1>
-              <form className="login__form" onSubmit={handleLogin}>
-                <div className="login__input-wrapper">
-                  <label className="login__label" htmlFor="email">
-                    아이디
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    className="inp"
-                    placeholder="발급받은 이메일 계정을 입력해 주세요."
-                    value={String(email)}
-                    autoComplete="username"
-                    onChange={event => setEmail(event.target.value)}
-                  />
-                </div>
-                <div className="login__input-wrapper">
-                  <label className="login__label" htmlFor="pw">
-                    비밀번호
-                  </label>
-                  <input
-                    className="inp"
-                    type="password"
-                    id="pw"
-                    value={password}
-                    placeholder="비밀번호를 입력해 주세요."
-                    autoComplete="current-password"
-                    onChange={event => setPassword(event.target.value)}
-                  />
-                </div>
-                <div className="login__action">
-                  {/* <Button
+      {isLoginState === 0 ? (
+        <>
+          <LoginWrap>
+            <div className="login__content">
+              <div className="login__card">
+                <h1 className="login__logo">
+                  {/* <img src="/images/main-logo.png" alt="GOVIS for Back-office" /> */}
+                </h1>
+                <form className="login__form" onSubmit={handleLogin}>
+                  <div className="login__input-wrapper">
+                    <label className="login__label" htmlFor="email">
+                      아이디
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      className="inp"
+                      placeholder="발급받은 이메일 계정을 입력해 주세요."
+                      value={String(email)}
+                      autoComplete="username"
+                      onChange={event => setEmail(event.target.value)}
+                    />
+                  </div>
+                  <div className="login__input-wrapper">
+                    <label className="login__label" htmlFor="pw">
+                      비밀번호
+                    </label>
+                    <input
+                      className="inp"
+                      type="password"
+                      id="pw"
+                      value={password}
+                      placeholder="비밀번호를 입력해 주세요."
+                      autoComplete="current-password"
+                      onChange={event => setPassword(event.target.value)}
+                    />
+                  </div>
+                  <div className="login__action">
+                    {/* <Button
                     // leftIcon={<QuestionCircle />}
                     type="button"
                     // clear
@@ -174,31 +174,31 @@ const Login = () => {
                   >
                     이용 안내
                   </Button> */}
-                  <Button type="submit" variant="primary">
-                    로그인
-                  </Button>
+                    <Button type="submit" variant="primary">
+                      로그인
+                    </Button>
 
-                  {/* <Button type="button">전체메뉴가져오기</Button> */}
-                </div>
-              </form>
-              {/* <p
+                    {/* <Button type="button">전체메뉴가져오기</Button> */}
+                  </div>
+                </form>
+                {/* <p
                 id="copyright"
                 className="text-typo-3 gv-text-center gv-typo-body-2 gv-font-kr"
               >
                 Copyright {dayjs().year()}. GOPIZZA. All rights reserved.
               </p> */}
+              </div>
             </div>
-          </div>
-          {showGuideModal && 1}
-          {/* <LoginGuideModal
+            {showGuideModal && 1}
+            {/* <LoginGuideModal
             show={showGuideModal}
             onClose={() => setShowGuideModal(false)}
           /> */}
-        </LoginWrap>
-      </>
-      {/* ) : (
+          </LoginWrap>
+        </>
+      ) : (
         <div />
-      )} */}
+      )}
     </>
   );
 };

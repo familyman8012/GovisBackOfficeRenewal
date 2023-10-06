@@ -5,7 +5,6 @@ import { useRouter } from 'next/router';
 import { IconViewArea } from '@ComponentFarm/common';
 import { PermissionList, menuStore } from '@MobxFarm/store';
 import { Goivs2Menu } from './MenuData';
-import { GroupWrap } from './styles';
 
 const Group = ({ permissionList }: { permissionList: PermissionList }) => {
   const router = useRouter();
@@ -59,7 +58,7 @@ const Group = ({ permissionList }: { permissionList: PermissionList }) => {
   };
 
   return (
-    <GroupWrap>
+    <>
       <h1>
         <span className="hiddenZoneV">GOPIZZA</span>
       </h1>
@@ -80,7 +79,7 @@ const Group = ({ permissionList }: { permissionList: PermissionList }) => {
           );
         })}
       </ul>
-    </GroupWrap>
+    </>
   );
 };
 
