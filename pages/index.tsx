@@ -81,6 +81,7 @@ const Login = () => {
           secure: true,
           domain: '.gopizza.kr',
           sameSite: 'none',
+          path: '/',
         }
       );
 
