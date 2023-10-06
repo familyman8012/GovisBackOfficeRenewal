@@ -59,10 +59,6 @@ const Login = () => {
     enabled: !!authStore.isLoggedIn,
   });
 
-  function getByteSize(s: any) {
-    return new Blob([s]).size;
-  }
-
   // 로그인 핸들링
   const handleLogin = async (e: SyntheticEvent) => {
     e.preventDefault();
