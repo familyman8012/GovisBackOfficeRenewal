@@ -1,4 +1,5 @@
 import { useState, useEffect, SyntheticEvent, ReactElement } from 'react';
+import Cookies from 'js-cookie';
 import { runInAction } from 'mobx';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
@@ -31,7 +32,6 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [isLoginState, setIsLoginState] = useState(-1);
   const [showGuideModal] = useState(false);
-  const [iframeSet, setIframeSet] = useState(false);
 
   // 로그인에 따른 화면 전환
   useEffect(() => {
@@ -59,38 +59,6 @@ const Login = () => {
     enabled: !!authStore.isLoggedIn,
   });
 
-  // 2개의 싸이트 중 1곳만 로그인 되면 다른 곳은 자동로그인.
-  const chkhost = typeof window !== 'undefined' ? window?.location?.host : null;
-
-  const host =
-    chkhost?.indexOf('localhost') !== -1
-      ? chkhost === 'localhost:3000'
-        ? 'http://localhost:3001'
-        : 'http://localhost:3000'
-      : chkhost.indexOf('govis2') !== -1
-      ? `https://${chkhost.replace('govis2', 'govis')}`
-      : `https://${chkhost.replace('govis', 'govis2')}`;
-
-  useEffect(() => {
-    if (chkhost?.indexOf('localhost') === -1) {
-      document.domain = 'gopizza.kr';
-    }
-    setIframeSet(true);
-
-    window.addEventListener(
-      'message',
-      event => {
-        if (event.origin !== host) return;
-
-        const { token } = event.data;
-        if (token) {
-          authStore.login(token);
-        }
-      },
-      false
-    );
-  }, [chkhost, host]);
-
   // 로그인 핸들링
   const handleLogin = async (e: SyntheticEvent) => {
     e.preventDefault();
@@ -103,16 +71,18 @@ const Login = () => {
 
       const authData = await fetchMyInfo(tokenData['GO-AUTH']);
 
-      console.log('login host', host);
-
-      const iframeElement = document.getElementById('authIframe');
-      if (iframeElement && (iframeElement as any).contentWindow) {
-        const token = {
+      Cookies.set(
+        'AUTH_DATA',
+        JSON.stringify({
           token: tokenData['GO-AUTH'],
           ...authData,
-        }; // 로그인 토큰
-        (iframeElement as any).contentWindow.postMessage({ token }, host);
-      }
+        }),
+        {
+          secure: true,
+          domain: '.gopizza.kr',
+          sameSite: 'none',
+        }
+      );
 
       runInAction(() => {
         authStore.login({
@@ -145,14 +115,6 @@ const Login = () => {
               <h1 className="login__logo">
                 {/* <img src="/images/main-logo.png" alt="GOVIS for Back-office" /> */}
               </h1>
-              {iframeSet && (
-                <iframe
-                  id="authIframe"
-                  src={host}
-                  title="auth-sync"
-                  style={{ visibility: 'hidden' }}
-                />
-              )}
               <form className="login__form" onSubmit={handleLogin}>
                 <div className="login__input-wrapper">
                   <label className="login__label" htmlFor="email">
