@@ -61,6 +61,7 @@ const Login = () => {
 
   // 2개의 싸이트 중 1곳만 로그인 되면 다른 곳은 자동로그인.
   const chkhost = typeof window !== 'undefined' ? window?.location?.host : null;
+
   const host =
     chkhost?.indexOf('localhost') !== -1
       ? chkhost === 'localhost:3000'
@@ -102,6 +103,8 @@ const Login = () => {
 
       const authData = await fetchMyInfo(tokenData['GO-AUTH']);
 
+      console.log('login host', host);
+
       const iframeElement = document.getElementById('authIframe');
       if (iframeElement && (iframeElement as any).contentWindow) {
         const token = {
@@ -117,62 +120,70 @@ const Login = () => {
           ...authData,
         });
 
-        router.push('/product');
+        // router.push('/product');
       });
     } catch (error: any) {
       console.log('e', error);
     }
   };
 
-  if (isLoginState === -1) {
-    return <div />;
-  }
+  // if (isLoginState === -1) {
+  //   return <div />;
+  // }
 
-  if (isLoginState !== -1 && isLoginState !== 0) {
-    router.push('/product');
-  }
+  // if (isLoginState !== -1 && isLoginState !== 0) {
+  //   router.push('/product');
+  // }
 
   return (
     <>
-      {isLoginState === 0 ? (
-        <>
-          <LoginWrap>
-            <div className="login__content">
-              <div className="login__card">
-                <h1 className="login__logo">
-                  {/* <img src="/images/main-logo.png" alt="GOVIS for Back-office" /> */}
-                </h1>
-                <form className="login__form" onSubmit={handleLogin}>
-                  <div className="login__input-wrapper">
-                    <label className="login__label" htmlFor="email">
-                      아이디
-                    </label>
-                    <input
-                      type="email"
-                      id="email"
-                      className="inp"
-                      placeholder="발급받은 이메일 계정을 입력해 주세요."
-                      value={String(email)}
-                      autoComplete="username"
-                      onChange={event => setEmail(event.target.value)}
-                    />
-                  </div>
-                  <div className="login__input-wrapper">
-                    <label className="login__label" htmlFor="pw">
-                      비밀번호
-                    </label>
-                    <input
-                      className="inp"
-                      type="password"
-                      id="pw"
-                      value={password}
-                      placeholder="비밀번호를 입력해 주세요."
-                      autoComplete="current-password"
-                      onChange={event => setPassword(event.target.value)}
-                    />
-                  </div>
-                  <div className="login__action">
-                    {/* <Button
+      {/* {isLoginState === 0 ? ( */}
+      <>
+        <LoginWrap>
+          <div className="login__content">
+            <div className="login__card">
+              <h1 className="login__logo">
+                {/* <img src="/images/main-logo.png" alt="GOVIS for Back-office" /> */}
+              </h1>
+              {iframeSet && (
+                <iframe
+                  id="authIframe"
+                  src={host}
+                  title="auth-sync"
+                  style={{ visibility: 'hidden' }}
+                />
+              )}
+              <form className="login__form" onSubmit={handleLogin}>
+                <div className="login__input-wrapper">
+                  <label className="login__label" htmlFor="email">
+                    아이디
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    className="inp"
+                    placeholder="발급받은 이메일 계정을 입력해 주세요."
+                    value={String(email)}
+                    autoComplete="username"
+                    onChange={event => setEmail(event.target.value)}
+                  />
+                </div>
+                <div className="login__input-wrapper">
+                  <label className="login__label" htmlFor="pw">
+                    비밀번호
+                  </label>
+                  <input
+                    className="inp"
+                    type="password"
+                    id="pw"
+                    value={password}
+                    placeholder="비밀번호를 입력해 주세요."
+                    autoComplete="current-password"
+                    onChange={event => setPassword(event.target.value)}
+                  />
+                </div>
+                <div className="login__action">
+                  {/* <Button
                     // leftIcon={<QuestionCircle />}
                     type="button"
                     // clear
@@ -181,39 +192,31 @@ const Login = () => {
                   >
                     이용 안내
                   </Button> */}
-                    <Button type="submit" variant="primary">
-                      로그인
-                    </Button>
+                  <Button type="submit" variant="primary">
+                    로그인
+                  </Button>
 
-                    {/* <Button type="button">전체메뉴가져오기</Button> */}
-                  </div>
-                </form>
-                {/* <p
+                  {/* <Button type="button">전체메뉴가져오기</Button> */}
+                </div>
+              </form>
+              {/* <p
                 id="copyright"
                 className="text-typo-3 gv-text-center gv-typo-body-2 gv-font-kr"
               >
                 Copyright {dayjs().year()}. GOPIZZA. All rights reserved.
               </p> */}
-              </div>
             </div>
-            {showGuideModal && 1}
-            {/* <LoginGuideModal
+          </div>
+          {showGuideModal && 1}
+          {/* <LoginGuideModal
             show={showGuideModal}
             onClose={() => setShowGuideModal(false)}
           /> */}
-          </LoginWrap>
-          {iframeSet && (
-            <iframe
-              id="authIframe"
-              src={host}
-              title="auth-sync"
-              style={{ visibility: 'hidden' }}
-            />
-          )}
-        </>
-      ) : (
+        </LoginWrap>
+      </>
+      {/* ) : (
         <div />
-      )}
+      )} */}
     </>
   );
 };
