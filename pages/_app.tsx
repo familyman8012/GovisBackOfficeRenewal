@@ -14,6 +14,7 @@ import { theme } from '@ComponentFarm/theme';
 import { errorHandler } from '@UtilFarm/error-handler';
 import 'react-datepicker/dist/react-datepicker.css';
 import { authStore } from '@MobxFarm/store';
+import Cookies from 'js-cookie';
 
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -26,6 +27,9 @@ type AppPropsWithLayout = AppProps & {
 
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   useEffect(() => {
+    if (!localStorage.getItem('BO_AUTH_TOKEN') && !!Cookies.get('AUTH_DATA')) {
+      authStore.login(JSON.parse(Cookies.get('AUTH_DATA') || '{}'));
+    }
     authStore.init();
   }, []);
 

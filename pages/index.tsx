@@ -59,6 +59,10 @@ const Login = () => {
     enabled: !!authStore.isLoggedIn,
   });
 
+  function getByteSize(s: any) {
+    return new Blob([s]).size;
+  }
+
   // 로그인 핸들링
   const handleLogin = async (e: SyntheticEvent) => {
     e.preventDefault();
@@ -71,15 +75,29 @@ const Login = () => {
 
       const authData = await fetchMyInfo(tokenData['GO-AUTH']);
 
+      const cookieData = { ...authData };
+      const chkhost =
+        typeof window !== 'undefined' ? window?.location?.host : null;
+
+      if (
+        cookieData.permission &&
+        Array.isArray(cookieData.permission.perm_list)
+      ) {
+        cookieData.permission.perm_list = cookieData.permission.perm_list.map(
+          (item: any) => ({ perm_code: item.perm_code })
+        );
+      }
+
       Cookies.set(
         'AUTH_DATA',
         JSON.stringify({
           token: tokenData['GO-AUTH'],
-          ...authData,
+          ...cookieData,
         }),
         {
           secure: true,
-          domain: '.gopizza.kr',
+          domain:
+            chkhost?.indexOf('localhost') !== -1 ? undefined : '.gopizza.kr',
           sameSite: 'none',
           path: '/',
         }

@@ -1,4 +1,3 @@
-import Cookies from 'js-cookie';
 import { observable } from 'mobx';
 import router from 'next/router';
 import secureLocalStorage from 'react-secure-storage';
@@ -69,28 +68,18 @@ export const authStore = observable<IAuthStore>({
   init() {
     try {
       this.token = String(secureLocalStorage.getItem(TOKEN_KEY)) ?? null;
-      if (!this.token) {
-        // 쿠키에서 AUTH_DATA 확인
-        const authDataFromCookie = JSON.parse(Cookies.get('AUTH_DATA') || '{}');
-
-        if (authDataFromCookie) {
-          this.login(authDataFromCookie);
-        }
-      } else {
-        // 로컬 스토리지에서 나머지 데이터를 로드
-        this.user_info = JSON.parse(
-          String(secureLocalStorage.getItem(USER_INFO))
-        );
-        this.store_info = JSON.parse(
-          String(secureLocalStorage.getItem(STORE_INFO)) ?? 'null'
-        );
-        this.permissionList = JSON.parse(
-          String(secureLocalStorage.getItem(PERMISSION_LIST)) ?? 'null'
-        );
-        this.permissionCodes = JSON.parse(
-          String(secureLocalStorage.getItem(PERM_CODE)) ?? 'null'
-        );
-      }
+      this.user_info = JSON.parse(
+        String(secureLocalStorage.getItem(USER_INFO))
+      );
+      this.store_info = JSON.parse(
+        String(secureLocalStorage.getItem(STORE_INFO)) ?? 'null'
+      );
+      this.permissionList = JSON.parse(
+        String(secureLocalStorage.getItem(PERMISSION_LIST)) ?? 'null'
+      );
+      this.permissionCodes = JSON.parse(
+        String(secureLocalStorage.getItem(PERM_CODE)) ?? 'null'
+      );
     } catch (e) {
       this.token = null;
       this.user_info = null;
