@@ -127,13 +127,13 @@ const Login = () => {
     }
   };
 
-  // if (isLoginState === -1) {
-  //   return <div />;
-  // }
+  if (isLoginState === -1) {
+    return <div />;
+  }
 
-  // if (isLoginState !== -1 && isLoginState !== 0) {
-  //   router.push('/product');
-  // }
+  if (isLoginState !== -1 && isLoginState !== 0) {
+    // router.push('/product');
+  }
 
   return (
     <>
