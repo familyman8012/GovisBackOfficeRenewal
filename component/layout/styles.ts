@@ -55,6 +55,35 @@ export const GroupWrap = styled.div`
       }
     }
   }
+
+  .area_user_setting {
+    position: absolute;
+    width: 2.2rem;
+    height: 2.2rem;
+    margin-left: 0.8rem;
+    bottom: 4.2rem;
+    button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      border-radius: 2px;
+      cursor: pointer;
+      background: #fff;
+    }
+    &:after {
+      content: '';
+      position: absolute;
+      right: -0.334rem;
+      bottom: -0.334rem;
+      width: 0.668rem;
+      height: 0.668rem;
+      border: 1px solid #192f64;
+      border-radius: 50%;
+      background: var(--color-orange60);
+    }
+  }
 `;
 
 export const MenuWrap = styled.div`

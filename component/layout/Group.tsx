@@ -79,6 +79,9 @@ const Group = ({ permissionList }: { permissionList: PermissionList }) => {
           );
         })}
       </ul>
+      <div className="area_user_setting">
+        <button type="button">G</button>
+      </div>
     </>
   );
 };
