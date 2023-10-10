@@ -13,6 +13,7 @@ export const LeftMenuWrap = styled.div`
 
 export const GroupWrap = styled.div`
   position: fixed;
+  z-index: 1;
   top: 0;
   left: 0;
   width: 9.2rem;
@@ -82,6 +83,38 @@ export const GroupWrap = styled.div`
       border: 1px solid #192f64;
       border-radius: 50%;
       background: var(--color-orange60);
+    }
+
+    .layer_set_account {
+      position: absolute;
+      bottom: 0;
+      left: 3.5rem;
+      width: 14rem;
+      height: 7.7rem;
+      border: 1px solid rgba(0, 0, 0, 0.15);
+      border-radius: 0.25rem;
+      background: #fff;
+
+      li {
+        width: 100%;
+        height: 50%;
+        margin-bottom: 0;
+        &:not(:last-of-type) {
+          border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+        }
+      }
+      button {
+        width: 100%;
+        height: 100%;
+        justify-content: left;
+        padding: 0 1.4rem;
+        font-size: 1.4rem;
+        font-weight: 400;
+
+        &:hover {
+          background: #e9ecef;
+        }
+      }
     }
   }
 `;

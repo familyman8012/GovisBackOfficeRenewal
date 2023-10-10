@@ -19,6 +19,7 @@ interface ModalProps {
   showCloseButton?: boolean;
   showCancelButton?: boolean;
   children?: ReactNode;
+  showButtons?: boolean;
 }
 
 const DimmedBackground = styled(motion.div)`
@@ -102,6 +103,7 @@ const Modal: FC<ModalProps> = ({
   cancelButtonText = '취소',
   showCloseButton = false,
   showCancelButton = true,
+  showButtons = true,
   children,
 }) => {
   const modalContent = (
@@ -153,20 +155,22 @@ const Modal: FC<ModalProps> = ({
           )}
           <div className="content">{children}</div>
         </HeaderContentContainer>
-        <ButtonContainer>
-          {showCancelButton && (
-            <Button variant="gostSecondary" onClick={onCancel}>
-              {cancelButtonText}
+        {showButtons && (
+          <ButtonContainer>
+            {showCancelButton && (
+              <Button variant="gostSecondary" onClick={onCancel}>
+                {cancelButtonText}
+              </Button>
+            )}
+            <Button
+              type="button"
+              disabled={disabledFormSubmit}
+              onClick={onFormSubmit}
+            >
+              {submitButtonText}
             </Button>
-          )}
-          <Button
-            type="button"
-            disabled={disabledFormSubmit}
-            onClick={onFormSubmit}
-          >
-            {submitButtonText}
-          </Button>
-        </ButtonContainer>
+          </ButtonContainer>
+        )}
       </motion.div>
     </>
   );

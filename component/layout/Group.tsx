@@ -1,13 +1,19 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { runInAction } from 'mobx';
 import { observer } from 'mobx-react';
 import { useRouter } from 'next/router';
+import { toast } from 'react-toastify';
+import Modal from '@ComponentFarm/modules/Modal/Modal';
 import { IconViewArea } from '@ComponentFarm/common';
-import { PermissionList, menuStore } from '@MobxFarm/store';
+import { PermissionList, authStore, menuStore } from '@MobxFarm/store';
+import ChangePasswordModal from './ChangePasswordModal';
 import { Goivs2Menu } from './MenuData';
 
 const Group = ({ permissionList }: { permissionList: PermissionList }) => {
   const router = useRouter();
+  const [layerAccountShow, setLayerAccountShow] = useState(false);
+  const layerRef = useRef<HTMLUListElement>(null);
+  const [isOpen, setIsOpen] = useState(false);
 
   const host =
     window.location.host.includes('dev') ||
@@ -57,6 +63,45 @@ const Group = ({ permissionList }: { permissionList: PermissionList }) => {
     });
   };
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        layerAccountShow &&
+        layerRef.current &&
+        !layerRef.current.contains(event.target as Node)
+      ) {
+        setLayerAccountShow(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+
+    return () => {
+      // 컴포넌트 언마운트 시, 이벤트 리스너 제거
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [layerAccountShow]);
+
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+  }, [isOpen]);
+  const handlerClose = () => {
+    setIsOpen(false);
+  };
+
+  const handlePasswordChanged = React.useCallback(() => {
+    toast.success('비밀번호가 변경되었습니다. 다시 로그인해 주세요.');
+    authStore.logOut();
+  }, []);
+
+  const handlePasswordCancel = React.useCallback(() => {
+    setIsOpen(false);
+  }, []);
+
   return (
     <>
       <h1>
@@ -80,8 +125,48 @@ const Group = ({ permissionList }: { permissionList: PermissionList }) => {
         })}
       </ul>
       <div className="area_user_setting">
-        <button type="button">G</button>
+        <button
+          type="button"
+          onClick={() => setLayerAccountShow(prev => !prev)}
+        >
+          {authStore.user_info?.user_name?.[0]}
+        </button>
+        {layerAccountShow && (
+          <ul className="layer_set_account" ref={layerRef}>
+            <li>
+              <button type="button" onClick={() => setIsOpen(true)}>
+                비밀번호 변경
+              </button>
+            </li>
+            <li>
+              <button
+                type="button"
+                onClick={() => {
+                  runInAction(() => {
+                    authStore.logOut();
+                  });
+                }}
+              >
+                로그아웃
+              </button>
+            </li>
+          </ul>
+        )}
       </div>
+      <Modal
+        title="비밀번호 변경"
+        isOpen={isOpen}
+        onClose={handlerClose}
+        showCloseButton
+        showButtons={false}
+      >
+        <ChangePasswordModal
+          show={isOpen}
+          userId={Number(authStore?.user_info?.user_idx)}
+          onComplete={handlePasswordChanged}
+          onClose={handlePasswordCancel}
+        />
+      </Modal>
     </>
   );
 };

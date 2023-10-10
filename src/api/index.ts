@@ -19,7 +19,7 @@ const getBaseUrl = () => {
   if (process.env.DEVMODE === 'development') {
     reVal = 'https://feature.api.gopizza.kr';
   } else {
-    reVal = 'https://feature.api.gopizza.kr';
+    reVal = 'https://dev.api.gopizza.kr';
   }
 
   let host;
@@ -30,17 +30,13 @@ const getBaseUrl = () => {
   const hostSplit = host?.split('.');
 
   if ((hostSplit && hostSplit[0] === 'dev') || host?.includes('vercel')) {
-    reVal = 'https://feature.api.gopizza.kr';
+    reVal = 'https://dev.api.gopizza.kr';
   } else if (
     (hostSplit && hostSplit[0] === '192') ||
     (hostSplit && hostSplit[0].indexOf('localhost') >= 0) ||
     (hostSplit && hostSplit[0] === 'local')
   ) {
     reVal = 'https://feature.api.gopizza.kr';
-    // reVal = 'https://dev.api.gopizza.kr';
-    // reVal = "http://api.gopizza.kr";
-    // reVal = "http://192.168.10.131:8000";
-    // reVal = "http://192.168.10.130:8080";
   }
 
   return reVal;
@@ -78,18 +74,17 @@ export const ApiRequest = axios.create({
 });
 
 // BoRequest 생성
-const VERSION = 'v2';
 export const BoRequest = axios.create({
-  baseURL: `${getBaseUrl()}/bo/${VERSION}/`,
+  baseURL: `${getBaseUrl()}/bo/v1/`,
 });
+
+export const BoV2Request = axios.create({ baseURL: `${getBaseUrl()}/bo/v2` });
 
 // Common Request 생성
 export const CommonRequest = axios.create({
   baseURL: `${getBaseUrl()}/com/v2/`,
   // timeout: 3000,
 });
-
-export const BoV2Request = axios.create({ baseURL: `${getBaseUrl()}/bo/v2` });
 
 export const FqsToolsRequest = axios.create({
   baseURL: getToolBaseUrl(),

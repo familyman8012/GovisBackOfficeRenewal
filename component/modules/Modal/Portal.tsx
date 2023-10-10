@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+/* eslint-disable unused-imports/no-unused-imports-ts */
+import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
 
 const Portal = ({ children }: React.PropsWithChildren) => {
