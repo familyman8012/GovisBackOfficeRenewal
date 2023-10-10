@@ -93,9 +93,12 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
       if (status === 'success' && imgData) {
         submitData.material_image = imgData;
       }
+
+      console.log('submitData.pci_manufacturer', submitData);
+
       saveSubmit.mutate({
         ...submitData,
-        pci_manufacturer: submitData.pci_manufacturer.value,
+        pci_manufacturer: submitData?.pci_manufacturer?.value ?? 0,
       });
     }
     if (pageMode === 'modify') {
@@ -109,7 +112,9 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
         params: viewData.material_info_idx,
         data: {
           ...submitData,
-          pci_manufacturer: submitData.pci_manufacturer.value,
+          pci_manufacturer: submitData?.pci_manufacturer
+            ? submitData?.pci_manufacturer?.value
+            : 0,
         },
       });
     }

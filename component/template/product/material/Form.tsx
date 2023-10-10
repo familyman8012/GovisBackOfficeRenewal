@@ -188,7 +188,7 @@ const MaterialForm: React.FC<FormProps> = ({
     evi_material_spec_unit: initialData?.evi_material_spec_unit ?? '', // replaced spec2
     material_config_qty: initialData?.material_config_qty ?? '', // replaced amount
     minimal_purchase_qty: initialData?.minimal_purchase_qty ?? '', // replaced lessAmount
-    estimate_price: initialData?.estimate_price ?? '', // replaced price1
+    estimate_price: initialData?.estimate_price ?? 0, // replaced price1
     purchase_price: initialData?.purchase_price ?? '', // replaced price2
     sale_price: initialData?.sale_price ?? '', // replaced price3
     evi_taxable: initialData?.evi_taxable ?? '', // replaced taxable

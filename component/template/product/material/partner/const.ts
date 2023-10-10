@@ -1,3 +1,5 @@
+import { tabGetQueryId } from '@UtilFarm/tabGetQueryId';
+
 export const selectConfig = (category: string) => [
   {
     label: `${category} 상태`,
@@ -73,8 +75,37 @@ export const settingsByMode: SettingsByModeFunction = (
   };
 };
 
-export const test = (testStr: string) => {
-  return {
-    a: '10',
-  };
+export const tabDataFunc = (
+  partnerLabel: string,
+  pageMode: string,
+  query?: any
+) => {
+  const getIdFromQuery = tabGetQueryId(query);
+  const baseUrl = '/material/partner';
+
+  return pageMode === 'add'
+    ? [
+        {
+          title: `${partnerLabel} 등록`,
+          url: `${baseUrl}/add`,
+        },
+      ]
+    : pageMode === 'modify'
+    ? [
+        {
+          title: `${partnerLabel} 수정`,
+          url: `${baseUrl}/modify`,
+        },
+      ]
+    : [
+        {
+          title: `${partnerLabel} 상세`,
+          url: `${baseUrl}/view/${getIdFromQuery}`,
+        },
+        {
+          title: '변경내역',
+          url: `${baseUrl}/history`,
+          query: { id: getIdFromQuery },
+        },
+      ];
 };
