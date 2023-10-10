@@ -91,12 +91,21 @@ const SearchKeyword = ({
 }: ISearchKeyword) => {
   const [keyword, setKeyword] = useState(defaultKeyword);
 
+  console.log('params', params);
+
   useEffect(() => {
-    setKeyword({
-      search_target: String(params.search_target ?? keyword.search_target), // 수정된 부분
-      search_keyword: String(params.search_keyword ?? ''),
-    });
-  }, [params.search_keyword, params.search_target]);
+    if ('search_keyword' in params || !keyword.search_keyword) {
+      setKeyword({
+        search_target: String(params.search_target ?? keyword.search_target), // 수정된 부분
+        search_keyword: String(params.search_keyword ?? keyword.search_keyword),
+      });
+    } else {
+      setKeyword({
+        search_target: selOption?.[0]?.value ? String(selOption[0].value) : '', // 수정된 부분
+        search_keyword: '',
+      });
+    }
+  }, [params]);
 
   const handleSearch = () => {
     if (selOption) {

@@ -32,7 +32,10 @@ const DetailPageLayout: React.FC<ILayout> = ({
   );
   const tabId = useMemo(() => router?.asPath?.split('?')[0], [router?.asPath]);
   const currentCategory = useMemo(
-    () => router?.asPath?.split('/')[1],
+    () =>
+      router?.asPath?.split('/').length === 4
+        ? router?.asPath?.split('/')[1]
+        : `${router?.asPath?.split('/')[1]}/${router?.asPath?.split('/')[2]}`,
     [router?.asPath]
   );
 
