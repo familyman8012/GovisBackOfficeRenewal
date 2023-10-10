@@ -228,8 +228,7 @@ const reset = css`
     display: none;
   }
 
-  caption,
-  legend {
+  caption {
     visibility: hidden;
     overflow: hidden;
     width: 0;
@@ -467,6 +466,15 @@ const reset = css`
     clip: rect(0, 0, 0, 0);
     border: 0;
     *visibility: hidden;
+  }
+
+  .txt_login {
+    width: 52rem;
+    font-size: 1.5rem !important;
+    color: #828282;
+    margin-top: 0.5rem;
+    text-align: left;
+    line-height: 1.5 !important;
   }
 
   @media (min-width: 1400px) and (max-width: 1530px) {

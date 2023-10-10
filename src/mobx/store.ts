@@ -190,6 +190,7 @@ interface ModalState {
   cancelButtonText?: string;
   showCloseButton?: boolean;
   showCancelButton?: boolean;
+  showButtons?: boolean;
 }
 
 interface ModalActions {
@@ -212,6 +213,7 @@ export const confirmModalStore = observable({
   onCancle: null,
   showCloseButton: false,
   showCancelButton: true,
+  showButtons: true,
   openModal(options: Omit<ModalState, 'isOpen'>) {
     this.isOpen = true;
     Object.assign(this, options);

@@ -40,6 +40,7 @@ const ConfirmModal = () => {
       cancelButtonText={confirmModalStore.cancelButtonText}
       showCloseButton={confirmModalStore.showCloseButton}
       showCancelButton={confirmModalStore.showCancelButton}
+      showButtons={confirmModalStore.showButtons}
     >
       {confirmModalStore.content}
     </Modal>
