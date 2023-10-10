@@ -94,7 +94,7 @@ export interface IMaterial {
   evv_material_spec_unit?: string; // 원재료 규격 수량의 단위 (환경 변수 값)
   material_config_qty: string; // 입수량
   minimal_purchase_qty: string; // 최소 구매 수량
-  estimate_price: string; // 견적가
+  estimate_price: number; // 견적가
   purchase_price: string; // 매입가
   purchase_cost: number; // 매입원가
   sale_price: string; // 판매가

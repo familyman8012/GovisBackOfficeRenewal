@@ -77,4 +77,11 @@ export const columnConfig = {
   mcn_large: '원재료 대분류',
   mcn_middle: '원재료 중분류',
   mcn_small: '원재료 소분류',
+
+  // 원재료 파트너사
+  business_address: '사업자 주소',
+  business_number: '사업자 번호',
+  partner_company_name: '협력 업체명',
+  evi_partner_company_status: '협력 업체 상태',
+  partner_company_description: '협력 업체 설명',
 } as const;
