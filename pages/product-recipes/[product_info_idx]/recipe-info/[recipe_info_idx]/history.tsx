@@ -1,3 +1,4 @@
+import { GetServerSideProps } from 'next';
 import { fetchEnvironment } from '@ApiFarm/environment';
 import generateHistoryPage from '@ComponentFarm/template/history/generateHistoryPage';
 import { recipeInfoDetailLayoutConfig } from '@ComponentFarm/template/recipe/const';
@@ -8,7 +9,12 @@ const RecipeDetailHistoryPage = generateHistoryPage({
   layoutProps: recipeInfoDetailLayoutConfig,
 });
 
-export const getServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  res.setHeader(
+    'Cache-Control',
+    `public, s-maxage=${60 * 60 * 24 * 2}, stale-while-revalidate=59`
+  );
+
   const environment = await fetchEnvironment({
     name: [
       'product_group',
@@ -24,7 +30,7 @@ export const getServerSideProps = async () => {
   return {
     props: {
       environment,
-      cacheTime: 3600,
+      // cacheTime: 3600,
     },
   };
 };

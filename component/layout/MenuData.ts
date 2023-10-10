@@ -404,6 +404,7 @@ export const TotalMenu = [
 ];
 
 export const Goivs2Menu = [
+  '/',
   '/product',
   '/material',
   '/menu',

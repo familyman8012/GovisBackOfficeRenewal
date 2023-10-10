@@ -1,6 +1,6 @@
 import { useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
-import { NextPage } from 'next';
+import { GetServerSideProps, NextPage } from 'next';
 import { useMutation } from 'react-query';
 import { fetchEnvironment } from '@ApiFarm/environment';
 import { updateMenuInfo } from '@ApiFarm/menu';
@@ -88,7 +88,12 @@ const MenuDetailPage: NextPage<{
   );
 };
 
-export const getServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  res.setHeader(
+    'Cache-Control',
+    `public, s-maxage=${60 * 60 * 24 * 2}, stale-while-revalidate=59`
+  );
+
   const props = await fetchEnvironment({
     name: [
       'menu_group',
@@ -102,7 +107,7 @@ export const getServerSideProps = async () => {
   return {
     props: {
       envs: props.list,
-      cacheTime: 3600,
+      // cacheTime: 3600,
     },
   };
 };

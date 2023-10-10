@@ -1,5 +1,6 @@
 import { useMemo, useRef } from 'react';
 import { useRouter } from 'next/router';
+import { GetServerSideProps } from 'next';
 import { useMutation } from 'react-query';
 import { fetchEnvironment } from '@ApiFarm/environment';
 import { createRecipe } from '@ApiFarm/product-recipe';
@@ -87,7 +88,12 @@ const RecipeAddPage = ({ envs }: { envs: IEnvironmentResItem[] }) => {
   );
 };
 
-export const getServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  res.setHeader(
+    'Cache-Control',
+    `public, s-maxage=${60 * 60 * 24 * 2}, stale-while-revalidate=59`
+  );
+
   const props = await fetchEnvironment({
     name: [
       'product_group',
@@ -103,7 +109,7 @@ export const getServerSideProps = async () => {
   return {
     props: {
       envs: props.list,
-      cacheTime: 3600,
+      // cacheTime: 3600,
     },
   };
 };

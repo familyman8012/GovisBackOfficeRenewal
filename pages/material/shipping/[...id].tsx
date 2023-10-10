@@ -156,7 +156,12 @@ export default Shipping;
 //   };
 // }
 
-export const getServerSideProps: GetServerSideProps = async context => {
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  res.setHeader(
+    'Cache-Control',
+    `public, s-maxage=${60 * 60 * 24 * 2}, stale-while-revalidate=59`
+  );
+
   const environment = await fetchEnvironment({
     name: 'partner_company_type,area',
   });
@@ -164,7 +169,6 @@ export const getServerSideProps: GetServerSideProps = async context => {
   return {
     props: {
       environment,
-      cacheTime: 3600,
     },
     // revalidate: 60,
   };

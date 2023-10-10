@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { runInAction } from 'mobx';
 import { useRouter } from 'next/router';
+import { GetServerSideProps } from 'next';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { toast } from 'react-toastify';
 import { fetchEnvironment } from '@ApiFarm/environment';
@@ -158,7 +159,12 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
 
 export default ProductDetail;
 
-export const getServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  res.setHeader(
+    'Cache-Control',
+    `public, s-maxage=${60 * 60 * 24 * 2}, stale-while-revalidate=59`
+  );
+
   const environment = await fetchEnvironment({
     name: 'product_status,product_group,product_category,sale_type',
   });
@@ -166,7 +172,7 @@ export const getServerSideProps = async () => {
   return {
     props: {
       environment,
-      cacheTime: 3600,
+      // cacheTime: 3600,
     },
   };
 };

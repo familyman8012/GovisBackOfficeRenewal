@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
+import { GetServerSideProps } from 'next';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import {
   fetchPartnerFormModify,
@@ -126,7 +127,12 @@ export default LogisticsDetailPage;
 //   };
 // }
 
-export const getServerSideProps = async () => {
+export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
+  res.setHeader(
+    'Cache-Control',
+    `public, s-maxage=${60 * 60 * 24 * 2}, stale-while-revalidate=59`
+  );
+
   const environment = await fetchEnvironment({
     name: 'partner_company_type,partner_company_status',
   });
@@ -134,8 +140,6 @@ export const getServerSideProps = async () => {
   return {
     props: {
       environment,
-      cacheTime: 3600,
     },
-    // revalidate: 60,
   };
 };
