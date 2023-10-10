@@ -179,7 +179,7 @@ const MenuOptionCategory = ({
 
   return (
     <MenuOptionGroupStyle>
-      <div className="header">
+      <div className={`header ${canEditName ? 'editable' : ''}`}>
         {canEditName ? (
           <input
             type="text"
@@ -188,69 +188,78 @@ const MenuOptionCategory = ({
             placeholder="옵션 분류명을 입력해 주세요."
             autoComplete="off"
             onKeyDown={handleEnterKeydown}
-            onBlur={checkSaveHandler}
           />
         ) : (
           <span className="title">
             {categoryFormData?.menu_option_category_name}
           </span>
         )}
-
-        <div className="dropdown">
-          {editable && (
+        {canEditName ? (
+          <button
+            className="save-button"
+            type="button"
+            onClick={checkSaveHandler}
+          >
+            저장
+          </button>
+        ) : (
+          <>
+            <div className="dropdown">
+              {editable && (
+                <button
+                  type="button"
+                  className="icon-btn"
+                  onClick={() => setDropDown(val => !val)}
+                >
+                  <More />
+                </button>
+              )}
+              {dropDown && (
+                <div className="dropdown-list">
+                  <button
+                    type="button"
+                    disabled={isLoading}
+                    onClick={() => {
+                      setDropDown(false);
+                      setCanEditName(true);
+                    }}
+                  >
+                    편집
+                  </button>
+                  <button
+                    type="button"
+                    disabled={isLoading}
+                    onClick={() => {
+                      setDropDown(false);
+                      runInAction(() => {
+                        confirmModalStore.openModal({
+                          title: '옵션 삭제',
+                          content: <p>옵션 항목을 삭제하시겠습니까?</p>,
+                          onFormSubmit: () => {
+                            checkRemoveHandler();
+                            confirmModalStore.isOpen = false;
+                          },
+                          onCancel: () => {
+                            confirmModalStore.isOpen = false;
+                          },
+                        });
+                      });
+                    }}
+                  >
+                    삭제
+                  </button>
+                </div>
+              )}
+            </div>
             <button
               type="button"
-              className="icon-btn"
-              onClick={() => setDropDown(val => !val)}
+              className={`icon-btn ${expanded ? 'expanded' : ''}`}
+              onClick={() => setExpanded(val => !val)}
             >
-              <More />
+              <Up />
             </button>
-          )}
-          {dropDown && (
-            <div className="dropdown-list">
-              <button
-                type="button"
-                disabled={isLoading}
-                onClick={() => {
-                  setDropDown(false);
-                  setCanEditName(true);
-                }}
-              >
-                편집
-              </button>
-              <button
-                type="button"
-                disabled={isLoading}
-                onClick={() => {
-                  setDropDown(false);
-                  runInAction(() => {
-                    confirmModalStore.openModal({
-                      title: '옵션 삭제',
-                      content: <p>옵션 항목을 삭제하시겠습니까?</p>,
-                      onFormSubmit: () => {
-                        checkRemoveHandler();
-                        confirmModalStore.isOpen = false;
-                      },
-                      onCancel: () => {
-                        confirmModalStore.isOpen = false;
-                      },
-                    });
-                  });
-                }}
-              >
-                삭제
-              </button>
-            </div>
-          )}
-        </div>
-        {/** @TODO Content dropdown */}
-        <button
-          type="button"
-          className={`icon-btn ${expanded ? 'expanded' : ''}`}
-          onClick={() => setExpanded(val => !val)}
-        >
-          <Up />
-        </button>
+          </>
+        )}
       </div>
       <AnimatePresence initial={false}>
         {expanded && (
@@ -290,6 +299,7 @@ const MenuOptionCategory = ({
             ))}
             {editable && !canEditName && (
               <Button
+                className="add-button"
                 disabled={!canCreateOptionInfo}
                 variant="transparent"
                 LeadingIcon={<Plus />}

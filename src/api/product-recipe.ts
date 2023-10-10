@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import { IMaterialInfoViewRes } from '@InterfaceFarm/product';
 import {
   IRecipeFormFields,
   IRecipeListItem,
@@ -103,6 +104,12 @@ export const fetchRecipe = async ({
     ...basicInfo,
     recipe_steps,
   };
+};
+
+export const fetchRecipeMaterialInfo = async (id: number) => {
+  return BoV2Request.get<IResponse<IMaterialInfoViewRes>>(
+    `/recipe/info/detail/material/${id}`
+  ).then(response => response.data.data);
 };
 
 export const createRecipeStep = async ({

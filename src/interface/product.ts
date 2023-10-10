@@ -95,15 +95,17 @@ export interface IMaterialInfoViewItem {
   evi_recipe_material_quantity_unit: number;
   evi_recipe_material_quantity_unit_str: string;
   recipe_material_note: string;
-  first_cost: number;
+  purchase_cost: number;
+  sale_cost: number;
   evi_country: number;
-  evi_country_str: string;
+  evi_country_str: string[];
   partner_company_idx: number;
   partner_company_name: string;
   recipe_step_idx: number;
 }
 
 export interface IMaterialInfoViewRes {
-  recipe_info_material_cost: number;
+  recipe_info_material_sale_cost?: number;
+  recipe_info_material_purchase_cost?: number;
   recipe_material_list: IMaterialInfoViewItem[];
 }

@@ -73,7 +73,7 @@ export const dateConfig = [
 
 export const recipeInfoDetailLayoutConfig = {
   id: 'recipeDetailLayout',
-  title: '레시피 상세 정보',
+  title: '레시피 관리',
   tabs: [
     {
       title: '제품 상세',
@@ -92,11 +92,15 @@ export const recipeInfoDetailLayoutConfig = {
 
 export const recipeInfoListLayoutConfig = {
   id: 'recipeDetailLayout',
-  title: '레시피 상세 정보',
+  title: '레시피 관리',
   tabs: [
     {
       title: '제품 상세',
       path: '/product-recipes/[product_info_idx]',
+    },
+    {
+      title: '원재료 정보',
+      path: '/product-recipes/[product_info_idx]/material-info',
     },
     {
       title: '레시피 정보',
@@ -107,7 +111,7 @@ export const recipeInfoListLayoutConfig = {
 
 export const recipeAddLayoutConfig = {
   id: 'recipeDetailLayout',
-  title: '레시피 상세 정보',
+  title: '레시피 관리',
   tabs: [
     {
       title: '제품 상세',

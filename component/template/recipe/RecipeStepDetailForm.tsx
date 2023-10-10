@@ -72,7 +72,7 @@ const RecipeStepDetail = ({
     (firstCost?: number, recipe_material_quantity_value?: number) => {
       const basePrice = firstCost ?? 0;
       const quantity = recipe_material_quantity_value ?? 0;
-      return toPrice(basePrice * quantity);
+      return toPrice((basePrice * quantity).toFixed(2));
     },
     []
   );
@@ -210,10 +210,7 @@ const RecipeStepDetail = ({
                   {editable && (
                     <col width={getTableWidthPercentage(48, 1181)} />
                   )}
-                  <col width={getTableWidthPercentage(345, 1181)} />
-                  {!editable && (
-                    <col width={getTableWidthPercentage(140, 1181)} />
-                  )}
+                  <col width={getTableWidthPercentage(502, 1181)} />
                   <col width={getTableWidthPercentage(248, 1181)} />
                   <col width={getTableWidthPercentage(248, 1181)} />
                   <col width={getTableWidthPercentage(200, 1181)} />
@@ -221,9 +218,7 @@ const RecipeStepDetail = ({
                 <thead>
                   <tr>
                     {editable && <td>&nbsp;</td>}
-
                     <td>원재료명</td>
-                    {!editable && <td>원가</td>}
                     <td>투입량</td>
                     <td>계량 정보</td>
                     <td>비고</td>
@@ -267,23 +262,53 @@ const RecipeStepDetail = ({
                           <div className="info">
                             {field.material_name_ko}
                             <br />
-                            <span>
-                              {field.pcn_manufacturer} |{' '}
+                            <span className="tag">
+                              {field.pcn_manufacturer}
+                            </span>
+                            <span className="tag">
                               {field.evv_country?.[0]}
                             </span>
+                            {!editable && (
+                              <>
+                                <br />
+                                <span>
+                                  {`매입 원가 ${getComputedCost(
+                                    field.purchase_cost,
+                                    getValues(
+                                      `${formKey}.recipe_material_list.${i}.recipe_material_quantity_value`
+                                    ) ?? 0
+                                  )}원 | 판매 원가 ${getComputedCost(
+                                    field.sale_cost,
+                                    getValues(
+                                      `${formKey}.recipe_material_list.${i}.recipe_material_quantity_value`
+                                    ) ?? 0
+                                  )}원`}
+                                </span>
+                              </>
+                            )}
                           </div>
                         </div>
                       </td>
-                      {!editable && (
-                        <td className="computed-cost">
-                          {getComputedCost(
-                            field.first_cost,
-                            getValues(
-                              `${formKey}.recipe_material_list.${i}.recipe_material_quantity_value`
-                            )
-                          )}
-                        </td>
-                      )}
+                      {/* {!editable && (
+                        <>
+                          <td className="computed-cost">
+                            {getComputedCost(
+                              field.purchase_cost,
+                              getValues(
+                                `${formKey}.recipe_material_list.${i}.recipe_material_quantity_value`
+                              )
+                            )}
+                          </td>
+                          <td className="computed-cost">
+                            {getComputedCost(
+                              field.sale_cost,
+                              getValues(
+                                `${formKey}.recipe_material_list.${i}.recipe_material_quantity_value`
+                              )
+                            )}
+                          </td>
+                        </>
+                      )} */}
                       <td>
                         <div className="box_inp">
                           <select

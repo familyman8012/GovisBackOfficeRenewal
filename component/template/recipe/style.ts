@@ -267,6 +267,24 @@ export const RecipeStepWrap = styled.div`
         color: var(--color-neutral50);
       }
     }
+
+    .tag {
+      display: inline-flex;
+      padding: 0.2rem 0.4rem;
+      background-color: var(--color-gray3);
+      border-radius: 0.2rem;
+      color: var(--color-neutral50);
+      border: 1px solid var(--color-gray3);
+      margin-top: 0.5rem;
+      margin-bottom: 0.5rem;
+      line-height: 1;
+    }
+
+    .tag + .tag {
+      margin-left: 0.5rem;
+      border: 1px solid var(--color-neutral90);
+      background-color: var(--color-gray1);
+    }
   }
 `;
 
@@ -562,12 +580,87 @@ export const RecipeIngreientListStyle = styled.ul`
       font-size: 1.2rem;
       font-weight: 400;
       color: var(--color-neutral50);
+      line-height: 1.6;
     }
     .amount .note {
       font-weight: 400;
       font-size: 1.2rem;
       margin-left: 0.9rem;
       vertical-align: middle;
+    }
+  }
+`;
+
+export const MaterialInfoStyle = styled.div`
+  h2 {
+    margin-bottom: 3.2rem;
+    padding: 3.2rem 0;
+    font-size: 1.8rem;
+    font-weight: bold;
+    border-bottom: 1px solid var(--color-neutral90);
+  }
+
+  table {
+    th {
+      border-top: 2px solid var(--color-neutral10);
+    }
+    tr {
+      &:nth-of-type(1) {
+        td {
+          border-bottom: 1px solid var(--color-neutral10);
+
+          .box_total_price {
+            display: flex;
+            padding-right: 4rem;
+            text-align: left;
+            span {
+              color: var(--color-neutral10);
+              font-weight: 600;
+            }
+          }
+
+          &:nth-of-type(1) {
+            text-align: right;
+            font-weight: 600;
+            padding: 0 1rem;
+          }
+        }
+      }
+    }
+    td {
+      &:nth-of-type(1) {
+        padding-left: 0;
+        .box_material_info_name {
+          display: flex;
+          align-items: center;
+        }
+        .thumb {
+          display: flex;
+          width: 5.6rem;
+          height: 5.6rem;
+          margin: 0 4rem;
+          align-items: center;
+          justify-content: center;
+          box-sizing: content-box;
+          background: var(--color-neutral90);
+          border-radius: 0.8rem;
+
+          img {
+            width: 5.6rem;
+            height: 5.6rem;
+            object-fit: fill;
+            border-radius: 0.8rem;
+          }
+        }
+      }
+      &:nth-of-type(5) {
+        text-align: left;
+        padding-right: 4rem;
+      }
+    }
+
+    tr:hover {
+      background: none;
     }
   }
 `;

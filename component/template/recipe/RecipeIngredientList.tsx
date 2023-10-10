@@ -13,7 +13,7 @@ const RecipeIngredientList = ({ ingredients }: RecipeIngredientListProps) => {
     (firstCost?: number, recipe_material_quantity_value?: number) => {
       const basePrice = firstCost ?? 0;
       const quantity = recipe_material_quantity_value ?? 0;
-      return toPrice(basePrice * quantity);
+      return toPrice((basePrice * quantity).toFixed(2));
     },
     []
   );
@@ -45,7 +45,7 @@ const RecipeIngredientList = ({ ingredients }: RecipeIngredientListProps) => {
                   </>
                 ) : (
                   <>
-                    <span className="value">{`${ingredient.recipe_material_quantity_value}${ingredient.evi_recipe_material_meterage_unit_str}`}</span>
+                    <span className="value">{`${ingredient.recipe_material_quantity_value}${ingredient.evi_recipe_material_quantity_unit_str}`}</span>
                     {ingredient.recipe_material_note && (
                       <span className="note">{`(${ingredient.recipe_material_note})`}</span>
                     )}
@@ -53,8 +53,13 @@ const RecipeIngredientList = ({ ingredients }: RecipeIngredientListProps) => {
                 )}
               </div>
               <p className="price">
-                {`${getComputedCost(
-                  ingredient.first_cost,
+                {`매입 원가 ${getComputedCost(
+                  ingredient.purchase_cost,
+                  ingredient.recipe_material_quantity_value
+                )}원`}
+                <br />
+                {`판매 원가 ${getComputedCost(
+                  ingredient.sale_cost,
                   ingredient.recipe_material_quantity_value
                 )}원`}
               </p>

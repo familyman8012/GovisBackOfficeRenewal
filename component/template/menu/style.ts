@@ -48,8 +48,13 @@ export const MenuOptionGroupStyle = styled.div`
   .header {
     display: flex;
     align-items: center;
-    margin: 0 -1.6rem;
-    padding: 0 1.6rem;
+    margin: 0;
+    padding: 0 1rem 0 1.6rem;
+    border-radius: 0.4rem;
+    border: 1px solid var(--color-grayborder);
+    background-color: var(--color-gray2);
+    margin-bottom: 1.2rem;
+    height: 4.5rem;
 
     .title {
       flex: 1;
@@ -69,9 +74,26 @@ export const MenuOptionGroupStyle = styled.div`
 
     input {
       flex: 1;
-      margin: 0.6rem 0;
-      height: 3rem;
+      background: transparent;
+      height: 100%;
+      padding: 0;
+      border: 0;
+
+      &::placeholder {
+        color: var(--color-neutral50);
+      }
+
+      &:focus {
+        border: 0;
+      }
+    }
+
+    & > .save-button {
+      padding: 0.4rem 0.8rem;
       border-radius: 0.2rem;
+      color: var(--color-gray1);
+      background: var(--color-blue);
+      cursor: pointer;
     }
 
     .icon-btn {
@@ -83,14 +105,17 @@ export const MenuOptionGroupStyle = styled.div`
       background: transparent;
       margin-left: 0.8rem;
       cursor: pointer;
+      color: var(--color-neutral10);
+
       &.expanded {
         transform: rotate(180deg);
       }
     }
 
-    &:hover,
-    &:active {
-      background-color: var(--color-gray4);
+    &.editable {
+      background-color: var(--color-gray1);
+      border: 1px solid var(--bage-blueLabel);
+      border-width: 2px;
     }
   }
 
@@ -112,7 +137,7 @@ export const MenuOptionGroupStyle = styled.div`
   }
 
   &.invalid .header {
-    border: 1px solid var(--color-red50);
+    border-color: var(--color-red50);
   }
 
   .dropdown {
@@ -153,43 +178,54 @@ export const MenuOptionGroupStyle = styled.div`
 
   .option {
     display: flex;
+    margin-left: 3.2rem;
     padding: 1rem 1.6rem;
     font-weight: 400;
     font-size: 1.6rem;
     border-radius: 0.4rem;
+    width: calc(100% - 3.2rem) !important;
     background-color: transparent;
     cursor: pointer;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
     box-sizing: border-box;
-    border: 1px solid transparent;
+    border: 1px solid var(--color-grayborder);
 
     &.active {
       background-color: ${Button.ghostPrimaryHoverBg};
-      color: var(--color-blue);
       font-weight: 600;
     }
 
     &.invalid {
-      border: 1px solid var(--color-red50);
+      border-color: var(--color-red50);
     }
 
     & + .option {
-      margin-top: 0.4rem;
+      margin-top: 1.2rem;
     }
   }
 
   > .content button {
-    width: 100%;
+    margin-left: 3.2rem;
+    width: calc(100% - 3.2rem);
     justify-content: flex-start;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
 
+  > .content button + button {
+    margin-top: 1.2rem;
+  }
+
   .content {
     overflow: hidden;
+  }
+
+  .add-button {
+    height: 4rem;
+    color: var(--color-blue);
   }
 `;
 

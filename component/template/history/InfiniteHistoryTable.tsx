@@ -30,6 +30,7 @@ const HistoryTableRow = ({
         ? value.replace(/^\[(.*)\]$/, '$1')
         : value;
 
+      console.log(val);
       return val
         .split(',')
         .map(
