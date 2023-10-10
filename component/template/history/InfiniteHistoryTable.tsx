@@ -29,10 +29,9 @@ const HistoryTableRow = ({
       console.log('value', value);
 
       const val = isArrayValue(value)
-        ? value.replace(/^\[(.*)\]$/, '$1')
+        ? value.replace(/^\[(.*)\]$/, '$1').replace(/\s+/g, '')
         : value;
 
-      console.log(val);
       return val
         .split(',')
         .map(
@@ -42,7 +41,8 @@ const HistoryTableRow = ({
                 env.name === columnName?.replace('evi_', '') &&
                 `${env.environment_variable_idx}` === v
             )?.value ?? v
-        );
+        )
+        .join(', ');
     },
     [envs]
   );
