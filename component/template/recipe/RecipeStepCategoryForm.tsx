@@ -100,7 +100,7 @@ const RecipeStepCategory = ({
       }`}
     >
       <div
-        className="header"
+        className={`header ${canEditName ? 'editable' : ''}`}
         role="button"
         tabIndex={0}
         onKeyDown={e => !isLoading && e.key === 'Enter' && onSelectStep(index)}
@@ -121,44 +121,54 @@ const RecipeStepCategory = ({
         ) : (
           <span className="title">{stepFormData?.recipe_step_name}</span>
         )}
-        <div className="dropdown">
-          {editable && (
-            <button
-              type="button"
-              className="icon-btn"
-              onClick={e => {
-                e.stopPropagation();
-                setDropDown(val => !val);
-              }}
-            >
-              <More />
-            </button>
-          )}
-          {dropDown && (
-            <div className="dropdown-list">
+        {canEditName ? (
+          <button
+            className="save-button"
+            type="button"
+            onClick={checkSaveHandler}
+          >
+            저장
+          </button>
+        ) : (
+          <div className="dropdown">
+            {editable && (
               <button
                 type="button"
-                disabled={isLoading}
-                onClick={() => {
-                  setDropDown(false);
-                  setCanEditName(true);
+                className="icon-btn"
+                onClick={e => {
+                  e.stopPropagation();
+                  setDropDown(val => !val);
                 }}
               >
-                편집
+                <More />
               </button>
-              <button
-                type="button"
-                disabled={isLoading}
-                onClick={() => {
-                  setDropDown(false);
-                  checkRemoveHandler();
-                }}
-              >
-                삭제
-              </button>
-            </div>
-          )}
-        </div>
+            )}
+            {dropDown && (
+              <div className="dropdown-list">
+                <button
+                  type="button"
+                  disabled={isLoading}
+                  onClick={() => {
+                    setDropDown(false);
+                    setCanEditName(true);
+                  }}
+                >
+                  편집
+                </button>
+                <button
+                  type="button"
+                  disabled={isLoading}
+                  onClick={() => {
+                    setDropDown(false);
+                    checkRemoveHandler();
+                  }}
+                >
+                  삭제
+                </button>
+              </div>
+            )}
+          </div>
+        )}
       </div>
     </MenuOptionGroupStyle>
   );

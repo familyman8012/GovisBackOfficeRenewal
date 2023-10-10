@@ -113,7 +113,7 @@ export const MenuOptionGroupStyle = styled.div`
     }
 
     &.editable {
-      background-color: var(--color-gray1);
+      background-color: var(--color-gray1) !important;
       border: 1px solid var(--bage-blueLabel);
       border-width: 2px;
     }
