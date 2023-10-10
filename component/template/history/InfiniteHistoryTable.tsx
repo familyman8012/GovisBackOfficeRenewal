@@ -26,6 +26,8 @@ const HistoryTableRow = ({
 
   const findEnvValue = useCallback(
     (columnName: string, value: string) => {
+      console.log('value', value);
+
       const val = isArrayValue(value)
         ? value.replace(/^\[(.*)\]$/, '$1')
         : value;

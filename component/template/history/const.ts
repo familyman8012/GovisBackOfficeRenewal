@@ -71,4 +71,10 @@ export const columnConfig = {
   ordering_place: '원재료 발주처',
   evi_material_sale_brand: '원재료 판매 브랜드',
   material_description: '원재료 설명',
+  sale_cost: '판매 원가',
+  purchase_place: '매입처',
+  purchase_cost: '매입 원가',
+  mcn_large: '원재료 대분류',
+  mcn_middle: '원재료 중분류',
+  mcn_small: '원재료 소분류',
 } as const;

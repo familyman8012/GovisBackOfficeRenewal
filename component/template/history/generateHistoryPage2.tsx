@@ -4,13 +4,16 @@ import { useInfiniteQuery } from 'react-query';
 import { fetchDataHistoryList } from '@ApiFarm/history';
 import { IEnvironmentRes } from '@InterfaceFarm/environment';
 import { IHistoryResItem } from '@InterfaceFarm/history';
+import DetailPageLayout from '@ComponentFarm/layout/Product/DetailPageLayout';
 import InfiniteHistoryTable from './InfiniteHistoryTable';
 import { HistoryPageLayout } from './style';
+import { Tab } from '../product/manage/const';
 
 type Config = {
   idx: string;
   endpoint: string;
   subTitle?: string;
+  tabData: Tab[];
 };
 
 /**
@@ -54,20 +57,24 @@ const generateHistoryPage2 = (config: Config) => {
       [data]
     );
 
+    console.log('data', data);
+
     const handleLoadData = useCallback(() => {
       if (hasNextPage) fetchNextPage();
     }, [hasNextPage, fetchNextPage]);
 
     return (
-      <HistoryPageLayout>
-        {config.subTitle && <h2>{config.subTitle}</h2>}
-        <InfiniteHistoryTable
-          envs={environment?.list ?? []}
-          list={list}
-          loading={isLoading}
-          onBottomScroll={handleLoadData}
-        />
-      </HistoryPageLayout>
+      <DetailPageLayout tabData={config.tabData} title={config.subTitle}>
+        <HistoryPageLayout>
+          {config.subTitle && <h2>{config.subTitle}</h2>}
+          <InfiniteHistoryTable
+            envs={environment?.list ?? []}
+            list={list}
+            loading={isLoading}
+            onBottomScroll={handleLoadData}
+          />
+        </HistoryPageLayout>
+      </DetailPageLayout>
     );
   };
 };

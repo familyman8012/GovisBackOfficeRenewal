@@ -83,12 +83,17 @@ const Channelimg = ({ environment }: { environment: IEnvironmentRes }) => {
   };
 
   const imgResolution: { [key: string]: Resolution } = {
-    POS: { width: 360, height: 230 },
-    KIOSK: { width: 360, height: 230 },
-    배달의민족: { width: 360, height: 230 },
-    요기요: { width: 360, height: 230 },
-    쿠팡이츠: { width: 360, height: 230 },
-    땡겨요: { width: 360, height: 230 },
+    우노스: { width: 480, height: 360 },
+    OTO: { width: 456, height: 300 },
+    IMU_메인: { width: 208, height: 124 },
+    IMU_옵션: { width: 146, height: 196 },
+    IMU_옵션메인: { width: 1080, height: 700 },
+    네이버주문: { width: 960, height: 960 },
+    위메프오: { width: 1280, height: 1280 },
+    배달의민족: { width: 1280, height: 1280 },
+    배달특급: { width: 500, height: 500 },
+    요기요: { width: 552, height: 327 },
+    쿠팡이츠: { width: 1080, height: 660 },
   };
 
   const { data: ChannelImg } = useQuery(
@@ -98,6 +103,8 @@ const Channelimg = ({ environment }: { environment: IEnvironmentRes }) => {
       enabled: !!router.query.id,
     }
   );
+
+  console.log('ChannelImg', ChannelImg);
 
   const saveSubmit = useMutation(fetchChannelImgSave, {
     onSuccess: (data: IProductChannelImg) => {
@@ -258,8 +265,8 @@ const Channelimg = ({ environment }: { environment: IEnvironmentRes }) => {
                   </td>
                   <td>{el.evi_sale_channel_str}</td>
                   <td>
-                    {imgResolution[String(el.evi_sale_channel_str)].width} x
-                    {imgResolution[String(el.evi_sale_channel_str)].height}
+                    {imgResolution[String(el.evi_sale_channel_str)]?.width} x
+                    {imgResolution[String(el.evi_sale_channel_str)]?.height}
                   </td>
                   <td>
                     <div className="btn_box">

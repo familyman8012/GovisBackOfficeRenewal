@@ -124,7 +124,7 @@ const MaterialInfo = () => {
                   <span className="box_total_price">
                     <span className="label">원가 총액</span>
                     <span className="price">
-                      {MaterialInfoData?.recipe_info_material_cost.toLocaleString(
+                      {MaterialInfoData?.recipe_info_material_cost?.toLocaleString(
                         'ko-KR'
                       )}
                     </span>

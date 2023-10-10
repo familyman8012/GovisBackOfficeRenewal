@@ -178,6 +178,5 @@ export const getServerSideProps = async () => {
       environment,
       cacheTime: 3600,
     },
-    // revalidate: 10,
   };
 };
