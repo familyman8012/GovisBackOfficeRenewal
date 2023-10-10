@@ -39,7 +39,7 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
 
   useEffect(() => {
     // 현재 URL이 Goivs2Menu에 없으면 리다이렉트
-    if (!Goivs2Menu.includes(currentUrl)) {
+    if (!Goivs2Menu.includes(currentUrl) && currentUrl !== '/') {
       window.location.href = `${host}${router.asPath}`;
     }
   }, [currentUrl, router.asPath]);

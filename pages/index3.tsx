@@ -112,6 +112,11 @@ const Login = () => {
     }
   };
 
+  useEffect(() => {
+    console.log('aaa');
+    console.log('Cookie', JSON.parse(Cookies.get('AUTH_DATA') || '{}'));
+  }, []);
+
   if (isLoginState === -1) {
     return <div />;
   }
@@ -125,39 +130,42 @@ const Login = () => {
       {isLoginState === 0 ? (
         <>
           <LoginWrap>
-            <h1 className="logo">
-              <img
-                src="/images/common/logo_govis_login.svg"
-                alt="GOVIS - GO BEYOND WITH OUR VISION"
-              />
-            </h1>
-            <form className="login_form" onSubmit={handleLogin}>
-              <div className="box_login">
-                <label htmlFor="email">아이디</label>
-                <input
-                  type="email"
-                  id="email"
-                  className="inp"
-                  placeholder="발급받은 이메일 계정을 입력해 주세요."
-                  value={String(email)}
-                  autoComplete="username"
-                  onChange={event => setEmail(event.target.value)}
-                />
-              </div>
-              <div className="box_login">
-                <label htmlFor="pw">비밀번호</label>
-                <input
-                  className="inp"
-                  type="password"
-                  id="pw"
-                  value={password}
-                  placeholder="비밀번호를 입력해 주세요."
-                  autoComplete="current-password"
-                  onChange={event => setPassword(event.target.value)}
-                />
-              </div>
-              <div className="login__action">
-                {/* <Button
+            <div className="login__content">
+              <div className="login__card">
+                <h1 className="login__logo">
+                  {/* <img src="/images/main-logo.png" alt="GOVIS for Back-office" /> */}
+                </h1>
+                <form className="login__form" onSubmit={handleLogin}>
+                  <div className="login__input-wrapper">
+                    <label className="login__label" htmlFor="email">
+                      아이디
+                    </label>
+                    <input
+                      type="email"
+                      id="email"
+                      className="inp"
+                      placeholder="발급받은 이메일 계정을 입력해 주세요."
+                      value={String(email)}
+                      autoComplete="username"
+                      onChange={event => setEmail(event.target.value)}
+                    />
+                  </div>
+                  <div className="login__input-wrapper">
+                    <label className="login__label" htmlFor="pw">
+                      비밀번호
+                    </label>
+                    <input
+                      className="inp"
+                      type="password"
+                      id="pw"
+                      value={password}
+                      placeholder="비밀번호를 입력해 주세요."
+                      autoComplete="current-password"
+                      onChange={event => setPassword(event.target.value)}
+                    />
+                  </div>
+                  <div className="login__action">
+                    {/* <Button
                     // leftIcon={<QuestionCircle />}
                     type="button"
                     // clear
@@ -166,19 +174,21 @@ const Login = () => {
                   >
                     이용 안내
                   </Button> */}
-                <Button type="submit" variant="primary">
-                  로그인
-                </Button>
+                    <Button type="submit" variant="primary">
+                      로그인
+                    </Button>
 
-                {/* <Button type="button">전체메뉴가져오기</Button> */}
-              </div>
-            </form>
-            {/* <p
+                    {/* <Button type="button">전체메뉴가져오기</Button> */}
+                  </div>
+                </form>
+                {/* <p
                 id="copyright"
                 className="text-typo-3 gv-text-center gv-typo-body-2 gv-font-kr"
               >
                 Copyright {dayjs().year()}. GOPIZZA. All rights reserved.
               </p> */}
+              </div>
+            </div>
             {showGuideModal && 1}
             {/* <LoginGuideModal
             show={showGuideModal}
