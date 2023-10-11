@@ -200,7 +200,7 @@ const Login = () => {
   }
 
   if (isLoginState !== -1 && isLoginState !== 0) {
-    router.push('/product');
+    router.push('/dashboard');
   }
 
   const confirmModal = () => {
