@@ -1,4 +1,10 @@
-import { ReactElement, ReactNode, useEffect, useMemo } from 'react';
+import {
+  ReactElement,
+  ReactNode,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+} from 'react';
 import Cookies from 'js-cookie';
 import type { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
@@ -36,14 +42,17 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
       ? 'https://dev.govis.gopizza.kr'
       : 'https://govis.gopizza.kr';
 
-  useEffect(() => {
+  const useIsomorphicLayoutEffect =
+    typeof window !== 'undefined' ? useLayoutEffect : useEffect;
+
+  useIsomorphicLayoutEffect(() => {
     // 현재 URL이 Goivs2Menu에 없으면 리다이렉트
     if (!Goivs2Menu.includes(currentUrl) && currentUrl !== '/') {
       window.location.href = `${host}${router.asPath}`;
     }
   }, [currentUrl, router.asPath]);
 
-  useEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (!localStorage.getItem('BO_AUTH_TOKEN') && !!Cookies.get('AUTH_DATA')) {
       authStore.login(JSON.parse(Cookies.get('AUTH_DATA') || '{}'));
     }
