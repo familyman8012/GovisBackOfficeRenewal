@@ -109,6 +109,7 @@ const Login = () => {
   useEffect(() => {
     if (authStore.isLoggedIn) {
       setIsLoginState(1);
+      router.push('/dashboard');
     } else {
       setIsLoginState(0);
     }
@@ -130,15 +131,6 @@ const Login = () => {
     onError: () => authStore.logOut(),
     enabled: !!authStore.isLoggedIn,
   });
-
-  useEffect(() => {
-    if (authStore.isLoggedIn) {
-      // setIsLoginState(1);
-      router.push('/dashboard');
-    } else {
-      setIsLoginState(0);
-    }
-  }, [router]);
 
   // 로그인 핸들링
   const handleLogin = async (e: SyntheticEvent) => {
