@@ -6,17 +6,16 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import { NextPage } from 'next';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { ToastContainer } from 'react-toastify';
-import { Global, ThemeProvider } from '@emotion/react';
+import { Global } from '@emotion/react';
 import 'react-toastify/dist/ReactToastify.css';
 import { ServerError } from '@InterfaceFarm/response';
 import ConfirmModal from '@ComponentFarm/modules/Modal/ConfirmModal';
 import reset from '@ComponentFarm/common';
 import Layout from '@ComponentFarm/layout';
-import { theme } from '@ComponentFarm/theme';
+import { Goivs2Menu } from '@ComponentFarm/layout/MenuData';
 import { authStore } from '@MobxFarm/store';
 import { errorHandler } from '@UtilFarm/error-handler';
 import 'react-datepicker/dist/react-datepicker.css';
-import { Goivs2Menu } from '@ComponentFarm/layout/MenuData';
 
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -43,16 +42,6 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
       window.location.href = `${host}${router.asPath}`;
     }
   }, [currentUrl, router.asPath]);
-
-  useEffect(() => {
-    if (!localStorage.getItem('BO_AUTH_TOKEN') && !!Cookies.get('AUTH_DATA')) {
-      authStore.login(JSON.parse(Cookies.get('AUTH_DATA') || '{}'));
-    }
-    if (!!localStorage.getItem('BO_AUTH_TOKEN') && !Cookies.get('AUTH_DATA')) {
-      authStore.logOut();
-    }
-    authStore.init();
-  }, []);
 
   useEffect(() => {
     if (!localStorage.getItem('BO_AUTH_TOKEN') && !!Cookies.get('AUTH_DATA')) {
@@ -94,10 +83,8 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   return (
     <QueryClientProvider client={queryClient}>
       <Global styles={reset} />
-      <ThemeProvider theme={theme}>
-        {getLayout(<Component {...pageProps} />)}
-        <ConfirmModal />
-      </ThemeProvider>
+      {getLayout(<Component {...pageProps} />)}
+      <ConfirmModal />
       <ToastContainer
         pauseOnFocusLoss={false}
         pauseOnHover={false}
