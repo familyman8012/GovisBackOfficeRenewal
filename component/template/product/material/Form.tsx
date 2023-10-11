@@ -281,8 +281,30 @@ const MaterialForm: React.FC<FormProps> = ({
   const onFormSubmit = handleSubmit(data => {
     if (isSubmitLoading) return;
 
+    // 주어진 필드들을 숫자로 변환
+    const fieldsToConvert = [
+      'material_trade_qty',
+      'material_spec_qty',
+      'purchase_price',
+      'purchase_cost',
+      'sale_price',
+      'sale_cost',
+      'material_config_qty',
+      'minimal_purchase_qty',
+      'estimate_price',
+    ];
+
+    const convertedData = { ...data };
+
+    fieldsToConvert.forEach(fieldName => {
+      const numberValue = Number((data as any)[fieldName]);
+      if (!Number.isNaN(numberValue)) {
+        (convertedData as any)[fieldName] = numberValue;
+      }
+    });
+
     if (pageMode !== 'view') {
-      submitFunc(data);
+      submitFunc(convertedData);
     } else {
       router.push({
         pathname: `/material/modify/${
