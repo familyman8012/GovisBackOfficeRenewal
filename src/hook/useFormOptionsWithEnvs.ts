@@ -7,23 +7,25 @@ const useFormOptionsWithEnvs = <T extends string>(
 ) => {
   return React.useMemo(
     () =>
-      envs?.reduce(
-        (acc, cur) => {
-          const name = cur.name as T;
-          if (names.includes(name)) {
-            if (!Array.isArray(acc[name])) {
-              acc[name] = [];
+      envs
+        ?.filter(env => env.is_hidden !== 1)
+        ?.reduce(
+          (acc, cur) => {
+            const name = cur.name as T;
+            if (names.includes(name)) {
+              if (!Array.isArray(acc[name])) {
+                acc[name] = [];
+              }
+              acc[name].push({
+                label: `${cur.value}`,
+                value: `${cur.environment_variable_idx}`,
+                code: cur.code,
+              });
             }
-            acc[name].push({
-              label: `${cur.value}`,
-              value: `${cur.environment_variable_idx}`,
-              code: cur.code,
-            });
-          }
-          return acc;
-        },
-        {} as Record<T, { label: string; value: string; code: string }[]>
-      ),
+            return acc;
+          },
+          {} as Record<T, { label: string; value: string; code: string }[]>
+        ),
     [envs]
   );
 };

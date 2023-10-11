@@ -10,6 +10,7 @@ export interface IEnvironmentResItem {
   name: string;
   code: string;
   value: string;
+  is_hidden: number;
 }
 
 export interface IEnvironmentRes {
