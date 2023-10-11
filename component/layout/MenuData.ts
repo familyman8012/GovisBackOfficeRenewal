@@ -70,14 +70,14 @@ export const TotalMenu = [
     depth1: '제품관리',
     group: 'HeadOffice',
     path: '/product',
-    perm_code: 'menu',
+    perm_code: 'product',
     perm_info_idx: 19,
   },
   {
     depth1: '원재료 관리',
     group: 'HeadOffice',
     path: '/material',
-    perm_code: 'menu',
+    perm_code: 'material',
     perm_info_idx: 22,
   },
   {
@@ -91,7 +91,7 @@ export const TotalMenu = [
     depth1: '레시피 관리',
     group: 'HeadOffice',
     path: '/product-recipes',
-    perm_code: 'menu',
+    perm_code: 'recipe',
     perm_info_idx: 21,
   },
   {
