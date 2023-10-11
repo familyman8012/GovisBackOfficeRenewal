@@ -630,6 +630,10 @@ export const Table = styled.table`
 
   th {
     border-bottom: 1px solid var(--color-neutral90);
+
+    &.on {
+      background: #ededed;
+    }
   }
 
   .th_title {

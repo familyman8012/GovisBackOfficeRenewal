@@ -2,9 +2,10 @@
 import React from 'react';
 import { css } from '@emotion/react';
 import { IPartnerCountryRes } from '@InterfaceFarm/material';
-import Sort from '@ComponentFarm/atom/Sort/Sort';
+import ToggleSort from '@ComponentFarm/atom/Sort/ToggleSort';
 import { Table, TableWrap } from '@ComponentFarm/common';
 import { QueryParams } from '@HookFarm/useQueryParams';
+import useSortable from '@HookFarm/useSortable';
 
 interface TableProps {
   data?: IPartnerCountryRes;
@@ -23,7 +24,9 @@ const pageStyle = css`
 `;
 
 const ListTable = ({ data, updateParams }: TableProps) => {
-  const TableThItem = [
+  const { sortState, toggleSort } = useSortable(updateParams);
+
+  const Th = [
     { id: 1, label: '원산지 코드', sort: 'origin_code' },
     { id: 2, label: '원산지명', sort: 'origin_name' },
     { id: 3, label: '등록일', sort: 'created_date' },
@@ -34,13 +37,11 @@ const ListTable = ({ data, updateParams }: TableProps) => {
       <Table className="basic" css={pageStyle}>
         <thead>
           <tr>
-            {TableThItem.map(el => (
-              <th key={el.id}>
+            {Th.map((el, i) => (
+              <th key={i} onClick={() => el.sort && toggleSort(el.sort)}>
                 <span className="th_title">
-                  {el.label}{' '}
-                  {el.sort !== '' && (
-                    <Sort updateParams={updateParams} field={el.sort} />
-                  )}
+                  {el.label}
+                  {el.sort && <ToggleSort el={el} sortState={sortState} />}
                 </span>
               </th>
             ))}

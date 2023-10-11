@@ -21,7 +21,7 @@ function useSortable(updateParams: any) {
     }
   };
 
-  return { sortState, toggleSort };
+  return { sortState, setSortState, toggleSort };
 }
 
 export default useSortable;

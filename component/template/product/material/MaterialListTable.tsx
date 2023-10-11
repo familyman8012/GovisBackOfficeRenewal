@@ -4,9 +4,10 @@ import { useRouter } from 'next/router';
 import { css } from '@emotion/react';
 import { IMaterialRes } from '@InterfaceFarm/material';
 import { Badge } from '@ComponentFarm/atom/Badge/Badge';
-import Sort from '@ComponentFarm/atom/Sort/Sort';
+import ToggleSort from '@ComponentFarm/atom/Sort/ToggleSort';
 import { Table, TableWrap } from '@ComponentFarm/common';
 import { QueryParams } from '@HookFarm/useQueryParams';
+import useSortable from '@HookFarm/useSortable';
 
 interface TableProps {
   data?: IMaterialRes;
@@ -59,6 +60,7 @@ const pageStyle = css`
 
 const ManageListTable = ({ data, updateParams }: TableProps) => {
   const router = useRouter();
+  const { sortState, toggleSort } = useSortable(updateParams);
 
   const handleGoIdxClick = (idx: string) => {
     // 현재 쿼리 파라미터를 /add 경로에 추가
@@ -68,7 +70,7 @@ const ManageListTable = ({ data, updateParams }: TableProps) => {
     });
   };
 
-  const TableThItem = [
+  const Th = [
     { id: 1, label: '원재료 코드', sort: 'material_code' },
     { id: 2, label: '상품 구분', sort: '' },
     { id: 3, label: '대분류', sort: '' },
@@ -84,20 +86,16 @@ const ManageListTable = ({ data, updateParams }: TableProps) => {
     { id: 13, label: '상태', sort: '' },
   ];
 
-  console.log();
-
   return (
     <TableWrap>
       <Table className="basic" css={pageStyle}>
         <thead>
           <tr>
-            {TableThItem.map(el => (
-              <th key={el.id}>
+            {Th.map((el, i) => (
+              <th key={i} onClick={() => el.sort && toggleSort(el.sort)}>
                 <span className="th_title">
-                  {el.label}{' '}
-                  {el.sort !== '' && (
-                    <Sort updateParams={updateParams} field={el.sort} />
-                  )}
+                  {el.label}
+                  {el.sort && <ToggleSort el={el} sortState={sortState} />}
                 </span>
               </th>
             ))}

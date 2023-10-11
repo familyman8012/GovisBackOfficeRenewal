@@ -1,12 +1,13 @@
 /* eslint-disable camelcase */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { css } from '@emotion/react';
 import { IPartnerRes } from '@InterfaceFarm/material';
 import { Badge } from '@ComponentFarm/atom/Badge/Badge';
-import Sort from '@ComponentFarm/atom/Sort/Sort';
+import ToggleSort from '@ComponentFarm/atom/Sort/ToggleSort';
 import { Table, TableWrap } from '@ComponentFarm/common';
 import { QueryParams } from '@HookFarm/useQueryParams';
+import useSortable from '@HookFarm/useSortable';
 
 interface TableProps {
   data?: IPartnerRes;
@@ -51,8 +52,9 @@ const pageStyle = css`
 
 const ListTable = ({ data, title, updateParams }: TableProps) => {
   const router = useRouter();
+  const { sortState, setSortState, toggleSort } = useSortable(updateParams);
 
-  const TableThItem = [
+  const Th = [
     { id: 1, label: `${title} 코드`, sort: 'partner_company_code' },
     { id: 2, label: `${title}명`, sort: 'partner_company_name' },
     { id: 3, label: '제품 수', sort: 'material_count' },
@@ -68,6 +70,10 @@ const ListTable = ({ data, title, updateParams }: TableProps) => {
     });
   };
 
+  useEffect(() => {
+    setSortState({});
+  }, [title]);
+
   return (
     <TableWrap>
       <Table className="basic" css={pageStyle}>
@@ -80,16 +86,16 @@ const ListTable = ({ data, title, updateParams }: TableProps) => {
           <col width={160} />
         </colgroup>
         <thead>
-          {TableThItem.map(el => (
-            <th key={el.id}>
-              <span className="th_title">
-                {el.label}{' '}
-                {el.sort !== '' && (
-                  <Sort updateParams={updateParams} field={el.sort} />
-                )}{' '}
-              </span>
-            </th>
-          ))}
+          <tr>
+            {Th.map((el, i) => (
+              <th key={i} onClick={() => el.sort && toggleSort(el.sort)}>
+                <span className="th_title">
+                  {el.label}
+                  {el.sort && <ToggleSort el={el} sortState={sortState} />}
+                </span>
+              </th>
+            ))}
+          </tr>
         </thead>
         <tbody>
           {data?.list.map(partner => (
