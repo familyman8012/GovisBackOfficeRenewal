@@ -130,7 +130,7 @@ export default LogisticsDetailPage;
 export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
   res.setHeader(
     'Cache-Control',
-    `public, s-maxage=${60 * 60 * 24 * 2}, stale-while-revalidate=59`
+    `public, s-maxage=${60 * 60 * 24}, stale-while-revalidate=59`
   );
 
   const environment = await fetchEnvironment({
