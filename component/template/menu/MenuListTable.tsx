@@ -3,9 +3,10 @@ import { Badge } from '@ComponentFarm/atom/Badge/Badge';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import Empty from '@ComponentFarm/atom/Empty/Empty';
 import Copy from '@ComponentFarm/atom/icons/Copy';
-import Sort from '@ComponentFarm/atom/Sort/Sort';
+import ToggleSort from '@ComponentFarm/atom/Sort/ToggleSort';
 import { Table, TableWrap } from '@ComponentFarm/common';
 import { QueryParams } from '@HookFarm/useQueryParams';
+import useSortable from '@HookFarm/useSortable';
 import { getTableWidthPercentage } from '@UtilFarm/calcSize';
 import { toPrice } from '@UtilFarm/number';
 
@@ -35,6 +36,8 @@ const MenuListTable = ({
   onClickCopy,
   updateParams,
 }: IMenuListTableProps) => {
+  const { sortState, toggleSort } = useSortable(updateParams);
+
   return (
     <TableWrap>
       <Table className="basic">
@@ -53,12 +56,13 @@ const MenuListTable = ({
         <thead>
           <tr>
             {menuSortItems.map((item, i) => (
-              <th key={item.id}>
+              <th
+                key={item.id}
+                onClick={() => item.sort && toggleSort(item.sort)}
+              >
                 <span className="th_title">
                   {item.label}
-                  {item.sort && (
-                    <Sort field={item.sort} updateParams={updateParams} />
-                  )}
+                  {item.sort && <ToggleSort el={item} sortState={sortState} />}
                 </span>
               </th>
             ))}

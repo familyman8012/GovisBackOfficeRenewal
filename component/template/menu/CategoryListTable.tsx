@@ -1,8 +1,9 @@
 import { IMenuCategoryItem } from '@InterfaceFarm/menu';
 import Empty from '@ComponentFarm/atom/Empty/Empty';
-import Sort from '@ComponentFarm/atom/Sort/Sort';
+import ToggleSort from '@ComponentFarm/atom/Sort/ToggleSort';
 import { Table, TableWrap } from '@ComponentFarm/common';
 import { QueryParams } from '@HookFarm/useQueryParams';
+import useSortable from '@HookFarm/useSortable';
 import { getTableWidthPercentage } from '@UtilFarm/calcSize';
 
 interface ICategoryListTableProps {
@@ -18,6 +19,8 @@ const categorySortItems = [
 ];
 
 const CategoryListTable = ({ updateParams, list }: ICategoryListTableProps) => {
+  const { sortState, toggleSort } = useSortable(updateParams);
+
   return (
     <TableWrap>
       <Table className="basic">
@@ -30,12 +33,13 @@ const CategoryListTable = ({ updateParams, list }: ICategoryListTableProps) => {
         <thead>
           <tr>
             {categorySortItems.map((item, i) => (
-              <th key={item.id}>
+              <th
+                key={item.id}
+                onClick={() => item.sort && toggleSort(item.sort)}
+              >
                 <span className="th_title">
                   {item.label}
-                  {item.sort && (
-                    <Sort field={item.sort} updateParams={updateParams} />
-                  )}
+                  {item.sort && <ToggleSort el={item} sortState={sortState} />}
                 </span>
               </th>
             ))}
