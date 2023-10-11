@@ -79,7 +79,12 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
   });
 
   const submitFunc = async (data: any) => {
-    if (pageMode === 'add' && selectedImgFile) {
+    if (
+      (pageMode === 'modify' && !selectedImgFile && !viewData.product_image) ||
+      (pageMode === 'add' && !selectedImgFile)
+    ) {
+      alert('대표 이미지를 등록하셔야 합니다.');
+    } else if (pageMode === 'add' && selectedImgFile) {
       const imgData = await uploadToS3(selectedImgFile);
       data.product_image = imgData;
       // eslint-disable-next-line no-unused-vars
