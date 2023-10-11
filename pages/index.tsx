@@ -2,6 +2,7 @@ import { useState, useEffect, SyntheticEvent, ReactElement } from 'react';
 import dayjs from 'dayjs';
 import Cookies from 'js-cookie';
 import { runInAction } from 'mobx';
+import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
 import styled from '@emotion/styled';
@@ -15,18 +16,24 @@ const LoginWrap = styled.div`
   display: flex;
   width: 100vw;
   height: 100vh;
-  padding-top: 19.1rem;
+  align-items: center;
   justify-content: center;
   background: #f7f7fe;
 
   h1 {
     width: 32.4rem;
     margin: 0 auto 4rem;
+
+    img {
+      display: inline-block;
+      width: 100%;
+      max-width: 306px;
+    }
   }
 
   form {
     width: 38rem;
-    padding: 6.4rem;
+    padding: 6.4rem 6.4rem 0;
     box-sizing: content-box;
 
     legend {
@@ -109,7 +116,7 @@ const Login = () => {
   useEffect(() => {
     if (authStore.isLoggedIn) {
       setIsLoginState(1);
-      router.push('/dashboard');
+      // router.push('/dashboard');
     } else {
       setIsLoginState(0);
     }
@@ -192,9 +199,9 @@ const Login = () => {
     return <div />;
   }
 
-  // if (isLoginState !== -1 && isLoginState !== 0) {
-  //   router.push('/dashboard');
-  // }
+  if (isLoginState !== -1 && isLoginState !== 0) {
+    router.push('/dashboard');
+  }
 
   const confirmModal = () => {
     runInAction(() => {
@@ -215,12 +222,15 @@ const Login = () => {
 
   return (
     <>
+      <Head>
+        <title>로그인 | GOVIS</title>
+      </Head>
       {isLoginState === 0 ? (
         <LoginWrap>
           <div className="inner">
             <h1 className="logo">
               <img
-                src="/images/common/logo_govis_login.svg"
+                src="/images/common/logo_govis_login.png"
                 alt="GOVIS - GO BEYOND WITH OUR VISION"
               />
             </h1>

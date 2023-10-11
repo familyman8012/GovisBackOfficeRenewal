@@ -1,5 +1,8 @@
 import React, { useEffect } from 'react';
+import Head from 'next/head';
+import { useRouter } from 'next/router';
 import { ErrorBoundary } from 'react-error-boundary';
+import { getUrlText } from '@UtilFarm/getUrlText';
 import LeftMenu from './LeftMenu';
 import { Content, LayoutWrap } from './styles';
 
@@ -32,13 +35,20 @@ const Fallback = ({ error }: { error: unknown }) => {
 // };
 
 const Layout: React.FC<ILayout> = ({ children }) => {
+  const router = useRouter();
+  const depth1Text = getUrlText(router.asPath);
   return (
-    <LayoutWrap>
-      <LeftMenu />
-      <ErrorBoundary FallbackComponent={Fallback}>
-        <Content>{children}</Content>
-      </ErrorBoundary>
-    </LayoutWrap>
+    <>
+      <Head>
+        <title>{`${depth1Text} | GOVIS`}</title>
+      </Head>
+      <LayoutWrap>
+        <LeftMenu />
+        <ErrorBoundary FallbackComponent={Fallback}>
+          <Content>{children}</Content>
+        </ErrorBoundary>
+      </LayoutWrap>
+    </>
   );
 };
 

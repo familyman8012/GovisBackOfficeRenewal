@@ -91,8 +91,6 @@ const SearchKeyword = ({
 }: ISearchKeyword) => {
   const [keyword, setKeyword] = useState(defaultKeyword);
 
-  console.log('params', params);
-
   useEffect(() => {
     if ('search_keyword' in params || !keyword.search_keyword) {
       setKeyword({

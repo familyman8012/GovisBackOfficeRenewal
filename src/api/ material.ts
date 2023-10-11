@@ -70,12 +70,10 @@ export const fetchShippingModify = async (data: {
   params: string;
   data: IMaterialShippingSaveReq;
 }) => {
-  console.log('params', data);
   const response = await BoV2Request.put(
     `/material/shipping/${data.params}`,
     data.data
   );
-  console.log('fetchProductFormModify response', response);
   return response.data.data;
 };
 
