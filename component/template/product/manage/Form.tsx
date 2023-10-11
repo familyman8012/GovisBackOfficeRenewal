@@ -23,7 +23,7 @@ import useStatusStop from '@HookFarm/useStatusStop';
 
 interface FormProps {
   initialData?: IProductFormField;
-  isSubmitLoading: boolean;
+  isSubmitLoading?: boolean;
   pageMode: string;
   environment: IEnvironmentRes;
   setSelectedImgFile: React.Dispatch<React.SetStateAction<File | null>>;
