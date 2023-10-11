@@ -72,9 +72,11 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
   });
 
   const submitFunc = async (data: any) => {
-    if (pageMode === 'add' && selectedImgFile) {
-      const imgData = await uploadToS3(selectedImgFile);
-      data.material_image = imgData;
+    if (pageMode === 'add') {
+      if (selectedImgFile) {
+        const imgData = await uploadToS3(selectedImgFile);
+        data.material_image = imgData;
+      }
       saveSubmit.mutate({
         ...data,
         pci_manufacturer: data?.pci_manufacturer?.value ?? 0,

@@ -184,15 +184,15 @@ const MaterialForm: React.FC<FormProps> = ({
     evi_material_storage_type: initialData?.evi_material_storage_type ?? '', // replaced save_dd
     material_name_ko: initialData?.material_name_ko ?? '', // replaced name_ko
     material_name_en: initialData?.material_name_en ?? '', // replaced name_en
-    material_trade_qty: initialData?.material_trade_qty ?? '', // replaced quanity
+    material_trade_qty: initialData?.material_trade_qty ?? 0, // replaced quanity
     evi_material_trade_unit: initialData?.evi_material_trade_unit ?? '', // replaced quanity2
-    material_spec_qty: initialData?.material_spec_qty ?? '', // replaced spec
+    material_spec_qty: initialData?.material_spec_qty ?? 0, // replaced spec
     evi_material_spec_unit: initialData?.evi_material_spec_unit ?? '', // replaced spec2
-    material_config_qty: initialData?.material_config_qty ?? '', // replaced amount
-    minimal_purchase_qty: initialData?.minimal_purchase_qty ?? '', // replaced lessAmount
+    material_config_qty: initialData?.material_config_qty ?? 0, // replaced amount
+    minimal_purchase_qty: initialData?.minimal_purchase_qty ?? 0, // replaced lessAmount
     estimate_price: initialData?.estimate_price ?? 0, // replaced price1
-    purchase_price: initialData?.purchase_price ?? '', // replaced price2
-    sale_price: initialData?.sale_price ?? '', // replaced price3
+    purchase_price: initialData?.purchase_price ?? 0, // replaced price2
+    sale_price: initialData?.sale_price ?? 0, // replaced price3
     evi_taxable: initialData?.evi_taxable ?? '', // replaced taxable
     evi_vat: initialData?.evi_vat ?? '', // replaced vat
     pci_manufacturer: initialData?.pci_manufacturer

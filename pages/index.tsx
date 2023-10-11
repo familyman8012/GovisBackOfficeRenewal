@@ -131,6 +131,14 @@ const Login = () => {
     enabled: !!authStore.isLoggedIn,
   });
 
+  useEffect(() => {
+    if (authStore.isLoggedIn) {
+      setIsLoginState(1);
+    } else {
+      setIsLoginState(0);
+    }
+  }, [router]);
+
   // 로그인 핸들링
   const handleLogin = async (e: SyntheticEvent) => {
     e.preventDefault();
