@@ -12,6 +12,7 @@ interface ILayout {
   tabData: Tab[];
   currentSettings?: PageModeSettings;
   title?: string;
+  isSubmitLoading?: boolean;
   onSubmit?: () => void;
   children: React.ReactNode;
 }
@@ -20,6 +21,7 @@ const DetailPageLayout: React.FC<ILayout> = ({
   tabData,
   currentSettings,
   title,
+  isSubmitLoading = false,
   onSubmit,
   children,
 }) => {
@@ -76,7 +78,11 @@ const DetailPageLayout: React.FC<ILayout> = ({
                 {currentSettings ? currentSettings?.firstButtonText : '이전'}
               </Button>
               {currentSettings && (
-                <Button type="button" onClick={onSubmit}>
+                <Button
+                  type="button"
+                  onClick={onSubmit}
+                  disabled={isSubmitLoading}
+                >
                   {currentSettings?.secondButtonText}
                 </Button>
               )}

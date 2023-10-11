@@ -13,6 +13,7 @@ import { settingsByMode, tabDataFunc } from './const';
 
 interface FormProps {
   initialData?: IPartnerSaveReq;
+  isSubmitLoading: boolean;
   environment: IEnvironmentRes;
   pageMode: string;
   partnerLabel: string;
@@ -55,6 +56,7 @@ const FormStyles = css`
 
 const PartnerForm: React.FC<FormProps> = ({
   initialData,
+  isSubmitLoading,
   environment,
   pageMode,
   submitFunc,
@@ -82,6 +84,8 @@ const PartnerForm: React.FC<FormProps> = ({
   const isReadOnly = pageMode === 'view';
 
   const onFormSubmit = handleSubmit((data: any) => {
+    if (isSubmitLoading) return;
+
     submitFunc(data);
   });
 
@@ -106,6 +110,7 @@ const PartnerForm: React.FC<FormProps> = ({
     <DetailPageLayout
       tabData={tabData}
       currentSettings={currentSettings}
+      isSubmitLoading={isSubmitLoading}
       onSubmit={onSubmit}
     >
       <FormWrap css={FormStyles}>

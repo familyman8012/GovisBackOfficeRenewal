@@ -101,6 +101,13 @@ const LogisticsDetailPage = ({
         (pageMode === 'modify' && viewData)) && (
         <PartnerForm
           initialData={pageMode !== 'add' ? viewData : undefined}
+          isSubmitLoading={
+            pageMode === 'add'
+              ? saveSubmit.isLoading
+              : pageMode === 'modify'
+              ? modifySubmit.isLoading
+              : false
+          }
           pageMode={pageMode}
           environment={environment}
           partnerLabel={String(partnerCategory?.value)}
