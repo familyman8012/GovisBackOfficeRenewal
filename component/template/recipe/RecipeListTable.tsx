@@ -19,7 +19,7 @@ const recipeSortItems = [
   { id: 3, label: '제품 분류', sort: '' },
   { id: 4, label: '제품명', sort: 'product_name_ko' },
   { id: 5, label: '제품 상태', sort: '' },
-  { id: 6, label: '등록 수', sort: 'recipe_count' },
+  { id: 6, label: '등록 수', sort: '' },
   { id: 7, label: '레시피 상태', sort: '' },
   { id: 8, label: '레시피 등록일', sort: 'created_date' },
   { id: 9, label: '레시피 수정일', sort: 'updated_date' },

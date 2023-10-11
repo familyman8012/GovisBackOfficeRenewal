@@ -118,10 +118,12 @@ const RecipeForm = React.forwardRef<HTMLFormElement, RecipeFormProps>(
                   </div>
                 ) : (
                   <div className="image-wrap">
-                    <img
-                      src={getValues('recipe_image')}
-                      alt={getValues('recipe_name')}
-                    />
+                    {getValues('recipe_image') && (
+                      <img
+                        src={getValues('recipe_image')}
+                        alt={getValues('recipe_name')}
+                      />
+                    )}
                   </div>
                 )}
               </div>

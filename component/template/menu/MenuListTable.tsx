@@ -17,7 +17,7 @@ interface IMenuListTableProps {
 }
 
 const menuSortItems = [
-  { id: 1, label: '메뉴 코드', sort: 'menu_category_code' },
+  { id: 1, label: '메뉴 코드', sort: 'menu_code' },
   { id: 2, label: '메뉴 그룹', sort: '' },
   { id: 3, label: '메뉴 종류', sort: '' },
   { id: 4, label: '메뉴 구분', sort: '' },
