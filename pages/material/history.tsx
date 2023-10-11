@@ -6,7 +6,7 @@ import { tabDataFunc } from '@ComponentFarm/template/product/material/const';
 
 const History = (props: any) => {
   const router = useRouter();
-  const tabData = tabDataFunc('view', router?.query);
+  const tabData = tabDataFunc('history', 'view', router?.query);
 
   const getHistory = generateHistoryPage2({
     idx: String(router?.query?.id),

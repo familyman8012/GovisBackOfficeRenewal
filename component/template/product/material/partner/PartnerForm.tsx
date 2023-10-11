@@ -108,6 +108,7 @@ const PartnerForm: React.FC<FormProps> = ({
 
   return (
     <DetailPageLayout
+      backUrl="/material/partner"
       tabData={tabData}
       currentSettings={currentSettings}
       isSubmitLoading={isSubmitLoading}

@@ -111,7 +111,7 @@ const MaterialForm: React.FC<FormProps> = ({
 }) => {
   const router = useRouter();
   // const { id } = router.query;
-  const tabData = tabDataFunc(pageMode, router?.query);
+  const tabData = tabDataFunc('material', pageMode, router?.query);
 
   const envKeys: EnvironmentKeyMapping[] = [
     ['material_status', 'MATERIAL_STATUS'],
@@ -974,7 +974,7 @@ const MaterialForm: React.FC<FormProps> = ({
 
         <div className="line line14">
           <div className="field field1">
-            <label htmlFor="purchase_place">발주처</label>
+            <label htmlFor="purchase_place">매입처</label>
             <div className={`box_inp ${errors.purchase_place ? 'error' : ''}`}>
               <input
                 type="text"

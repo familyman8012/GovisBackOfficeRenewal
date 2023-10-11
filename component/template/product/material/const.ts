@@ -89,21 +89,28 @@ export const materialListTabData = [
   // { title: '부서정보', url: '' },
 ];
 
-export const tabDataFunc = (pageMode: string, query?: any) => {
+export const tabDataFunc = (
+  currentNav: string,
+  pageMode: string,
+  query?: any
+) => {
   const getIdFromQuery = tabGetQueryId(query);
   const baseUrl = '/material';
 
   return pageMode === 'add'
-    ? [
-        {
-          title: '원재료 상세 정보',
-          url: `${baseUrl}/add`,
-        },
-        {
-          title: '원재료 배송 정보',
-          url: `${baseUrl}/shipping/add`,
-        },
-      ]
+    ? currentNav !== 'shipping'
+      ? [
+          {
+            title: '원재료 상세 정보',
+            url: `${baseUrl}/add`,
+          },
+        ]
+      : [
+          {
+            title: '원재료 배송 정보',
+            url: `${baseUrl}/shipping/add`,
+          },
+        ]
     : pageMode === 'modify'
     ? [
         {

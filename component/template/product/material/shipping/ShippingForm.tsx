@@ -128,7 +128,7 @@ const ShippingForm: React.FC<FormProps> = ({
 }) => {
   const router = useRouter();
   const { id } = router.query;
-  const tabData = tabDataFunc(pageMode, router?.query);
+  const tabData = tabDataFunc('shipping', pageMode, router?.query);
   const isReadOnly = pageMode === 'view';
   const [tables, setTables] = useState<Array<string>>([]);
   const [selValue, setSelValue] = useState<IOption | null>(null);

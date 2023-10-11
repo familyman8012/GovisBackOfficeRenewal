@@ -10,6 +10,7 @@ import TitleArea from '../TitleArea';
 
 interface ILayout {
   tabData: Tab[];
+  backUrl?: string;
   currentSettings?: PageModeSettings;
   title?: string;
   isSubmitLoading?: boolean;
@@ -19,6 +20,7 @@ interface ILayout {
 
 const DetailPageLayout: React.FC<ILayout> = ({
   tabData,
+  backUrl,
   currentSettings,
   title,
   isSubmitLoading = false,
@@ -54,7 +56,7 @@ const DetailPageLayout: React.FC<ILayout> = ({
     // eslint-disable-next-line no-unused-vars
     const { id, ...newObj } = router.query;
     router.push({
-      pathname: `/${currentCategory}`,
+      pathname: backUrl ? `/${backUrl}` : `/${currentCategory}`,
       query: { ...newObj },
     });
   };
