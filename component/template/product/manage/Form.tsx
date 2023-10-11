@@ -275,15 +275,10 @@ const ProductForm: React.FC<FormProps> = ({
                 type="text"
                 id="product_name_ko"
                 className="inp"
-                placeholder="한글 입력만 가능"
                 disabled={isReadOnly}
                 {...register('product_name_ko', {
                   required: '필수 입력항목입니다.',
                 })}
-                onChange={e => {
-                  e.target.value = e.target.value.replace(/[a-zA-Z]/g, '');
-                  register('product_name_ko').onChange(e);
-                }}
               />
               {errors.product_name_ko && (
                 <ErrorTxt>{errors.product_name_ko.message}</ErrorTxt>
@@ -299,18 +294,10 @@ const ProductForm: React.FC<FormProps> = ({
                 type="text"
                 id="product_name_en"
                 className="inp"
-                placeholder="영문 입력만 가능"
                 disabled={isReadOnly}
                 {...register('product_name_en', {
                   required: '필수 입력항목입니다.',
                 })}
-                onChange={e => {
-                  e.target.value = e.target.value.replace(
-                    /[ㄱ-ㅎㅏ-ㅣ가-힣]/g,
-                    ''
-                  );
-                  register('product_name_en').onChange(e);
-                }}
               />
               {errors.product_name_en && (
                 <ErrorTxt>{errors.product_name_en.message}</ErrorTxt>

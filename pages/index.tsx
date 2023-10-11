@@ -133,7 +133,8 @@ const Login = () => {
 
   useEffect(() => {
     if (authStore.isLoggedIn) {
-      setIsLoginState(1);
+      // setIsLoginState(1);
+      router.push('/dashboard');
     } else {
       setIsLoginState(0);
     }
@@ -185,7 +186,7 @@ const Login = () => {
           ...authData,
         });
 
-        router.push('/product');
+        router.push('/dashboard');
       });
     } catch (error: unknown) {
       const { code, message } = error as ServerError;
@@ -199,9 +200,9 @@ const Login = () => {
     return <div />;
   }
 
-  if (isLoginState !== -1 && isLoginState !== 0) {
-    router.push('/product');
-  }
+  // if (isLoginState !== -1 && isLoginState !== 0) {
+  //   router.push('/dashboard');
+  // }
 
   const confirmModal = () => {
     runInAction(() => {
