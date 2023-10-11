@@ -150,6 +150,7 @@ export const MenuWrap = styled.div`
     align-items: center;
     padding: 0.2rem 0;
     border-radius: 0.4rem;
+    cursor: pointer;
     .txt {
       padding: 0.8rem;
       font-size: 1.6rem;

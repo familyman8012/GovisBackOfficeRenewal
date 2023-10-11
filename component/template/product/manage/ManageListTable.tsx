@@ -3,9 +3,10 @@ import React from 'react';
 import { useRouter } from 'next/router';
 import { IProductRes } from '@InterfaceFarm/product';
 import { Badge } from '@ComponentFarm/atom/Badge/Badge';
-import Sort from '@ComponentFarm/atom/Sort/Sort';
+import ToggleSort from '@ComponentFarm/atom/Sort/ToggleSort';
 import { Table, TableWrap } from '@ComponentFarm/common';
 import { QueryParams } from '@HookFarm/useQueryParams';
+import useSortable from '@HookFarm/useSortable';
 import { getTableWidthPercentage } from '@UtilFarm/calcSize';
 
 interface TableProps {
@@ -15,6 +16,7 @@ interface TableProps {
 
 const ManageListTable = ({ data, updateParams }: TableProps) => {
   const router = useRouter();
+  const { sortState, toggleSort } = useSortable(updateParams);
 
   const handleGoIdxClick = (idx: string) => {
     router.push({
@@ -47,12 +49,10 @@ const ManageListTable = ({ data, updateParams }: TableProps) => {
         <thead>
           <tr>
             {Th.map((el, i) => (
-              <th key={i}>
+              <th key={i} onClick={() => el.sort && toggleSort(el.sort)}>
                 <span className="th_title">
                   {el.label}
-                  {el.sort !== '' && (
-                    <Sort updateParams={updateParams} field={el.sort} />
-                  )}
+                  {el.sort && <ToggleSort el={el} sortState={sortState} />}
                 </span>
               </th>
             ))}
