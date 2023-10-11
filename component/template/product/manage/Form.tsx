@@ -23,6 +23,7 @@ import useStatusStop from '@HookFarm/useStatusStop';
 
 interface FormProps {
   initialData?: IProductFormField;
+  isSubmitLoading?: boolean;
   pageMode: string;
   environment: IEnvironmentRes;
   setSelectedImgFile: React.Dispatch<React.SetStateAction<File | null>>;
@@ -31,6 +32,7 @@ interface FormProps {
 
 const ProductForm: React.FC<FormProps> = ({
   initialData,
+  isSubmitLoading,
   environment,
   pageMode,
   setSelectedImgFile,
@@ -90,6 +92,8 @@ const ProductForm: React.FC<FormProps> = ({
   const currentSettings = settingsByMode[pageMode];
 
   const onFormSubmit = handleSubmit((data: IProductFormSaveReq) => {
+    if (isSubmitLoading) return;
+
     if (pageMode !== 'view') {
       submitFunc(data);
     } else {
@@ -106,6 +110,7 @@ const ProductForm: React.FC<FormProps> = ({
     <DetailPageLayout
       tabData={tabData}
       currentSettings={currentSettings}
+      isSubmitLoading={isSubmitLoading}
       onSubmit={onFormSubmit}
     >
       <FormWrap css={productStyles}>

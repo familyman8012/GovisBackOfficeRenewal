@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { toast } from 'react-toastify';
 import {
   fetchMaterialCategory,
   fetchMaterialFormModify,
@@ -12,9 +11,8 @@ import {
 } from '@ApiFarm/ material';
 import { fetchEnvironment } from '@ApiFarm/environment';
 import { IEnvironmentRes } from '@InterfaceFarm/environment';
-import { IMaterial } from '@InterfaceFarm/material';
 import MaterialForm from '@ComponentFarm/template/product/material/Form';
-import useImageUploader from '@HookFarm/useImageUploader';
+import { uploadToS3 } from '@UtilFarm/uploads3';
 
 const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
   const router = useRouter();
@@ -22,8 +20,6 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
   const queryClient = useQueryClient();
   const [pageMode, setPageMode] = useState('');
   const [selectedImgFile, setSelectedImgFile] = useState<File | null>(null);
-  const [submitData, setSubmitData] = useState<any | null>(null);
-  const [imgData, status, errorMessage, handler] = useImageUploader();
   const materialPatnerParams = useMemo(
     () => environment.list.find(el => el.value === '제조사'),
     [environment.list]
@@ -75,54 +71,32 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
     },
   });
 
-  const submitFunc = async (data: IMaterial) => {
-    console.log('submitFunc data', data);
-    if (selectedImgFile) {
-      const event = { target: { files: [selectedImgFile] } };
-      await handler(event as any);
-      setSubmitData(data);
-    } else if (pageMode === 'modify' && !imgData && !!viewData.material_image) {
-      setSubmitData(data);
-    } else {
-      // toast.error('대표 이미지를 등록하셔야 합니다.');
-      setSubmitData(data);
-    }
-  };
-
-  useEffect(() => {
-    if (pageMode === 'add') {
-      if (status === 'success' && imgData) {
-        submitData.material_image = imgData;
-      }
-
-      console.log('submitData.pci_manufacturer', submitData);
-
+  const submitFunc = async (data: any) => {
+    if (pageMode === 'add' && selectedImgFile) {
+      const imgData = await uploadToS3(selectedImgFile);
+      data.material_image = imgData;
       saveSubmit.mutate({
-        ...submitData,
-        pci_manufacturer: submitData?.pci_manufacturer?.value ?? 0,
+        ...data,
+        pci_manufacturer: data?.pci_manufacturer?.value ?? 0,
       });
-    }
-    if (pageMode === 'modify') {
-      if (status === 'success' && imgData) {
-        submitData.material_image = imgData;
+    } else if (pageMode === 'modify') {
+      if (selectedImgFile) {
+        const imgData = await uploadToS3(selectedImgFile);
+        data.material_image = imgData;
       } else {
-        submitData.material_image = viewData.material_image;
+        data.material_image = viewData.material_image;
       }
-
       modifySubmit.mutate({
         params: viewData.material_info_idx,
         data: {
-          ...submitData,
-          pci_manufacturer: submitData?.pci_manufacturer
-            ? submitData?.pci_manufacturer?.value
+          ...data,
+          pci_manufacturer: data?.pci_manufacturer
+            ? data?.pci_manufacturer?.value
             : 0,
         },
       });
     }
-    if (status === 'error') {
-      toast.error(errorMessage);
-    }
-  }, [submitData]);
+  };
 
   // Form 상태 변화.
   useEffect(() => {
@@ -146,6 +120,13 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
         (pageMode === 'modify' && viewData && isDataChk)) && (
         <MaterialForm
           initialData={pageMode !== 'add' ? viewData : undefined}
+          isSubmitLoading={
+            pageMode === 'add'
+              ? saveSubmit.isLoading
+              : pageMode === 'modify'
+              ? modifySubmit.isLoading
+              : false
+          }
           pageMode={pageMode}
           environment={environment}
           materialCategory={materialCategory}

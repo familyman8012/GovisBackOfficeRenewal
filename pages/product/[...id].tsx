@@ -3,7 +3,6 @@ import { runInAction } from 'mobx';
 import { useRouter } from 'next/router';
 import { GetServerSideProps } from 'next';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { toast } from 'react-toastify';
 import { fetchEnvironment } from '@ApiFarm/environment';
 import {
   fetchProductFormModify,
@@ -11,10 +10,9 @@ import {
   fetchProductFormView,
 } from '@ApiFarm/product';
 import { IEnvironmentRes } from '@InterfaceFarm/environment';
-import { IProductFormSaveReq } from '@InterfaceFarm/product';
 import ProductForm from '@ComponentFarm/template/product/manage/Form';
-import useImageUploader from '@HookFarm/useImageUploader';
 import { confirmModalStore } from '@MobxFarm/store';
+import { uploadToS3 } from '@UtilFarm/uploads3';
 
 const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
   const router = useRouter();
@@ -22,8 +20,6 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
   const queryClient = useQueryClient();
   const [pageMode, setPageMode] = useState('');
   const [selectedImgFile, setSelectedImgFile] = useState<File | null>(null);
-  const [submitData, setSubmitData] = useState<any | null>(null);
-  const [imgData, status, errorMessage, handler] = useImageUploader();
 
   // view 일때, 데이터 불러오기
   const { data: viewData } = useQuery(
@@ -82,38 +78,22 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
     },
   });
 
-  const submitFunc = async (data: IProductFormSaveReq) => {
-    if (selectedImgFile) {
-      const event = { target: { files: [selectedImgFile] } };
-      await handler(event as any);
-      setSubmitData(data);
-    } else if (pageMode === 'modify' && !imgData && !!viewData.product_image) {
-      setSubmitData(data);
-    } else {
-      toast.error('대표 이미지를 등록하셔야 합니다.');
-    }
-  };
-
-  // eslint-disable-next-line consistent-return
-  useEffect(() => {
-    if (pageMode === 'add' && status === 'success' && imgData) {
-      submitData.product_image = imgData;
-
-      console.log('Product submitData', submitData);
-
+  const submitFunc = async (data: any) => {
+    if (pageMode === 'add' && selectedImgFile) {
+      const imgData = await uploadToS3(selectedImgFile);
+      data.product_image = imgData;
       // eslint-disable-next-line no-unused-vars
-      const { sale_end_date, ...sendData } = submitData;
+      const { sale_end_date, ...sendData } = data;
       saveSubmit.mutate(sendData);
-    }
-    if (pageMode === 'modify') {
-      if (status === 'success' && imgData) {
-        submitData.product_image = imgData;
+    } else if (pageMode === 'modify') {
+      if (selectedImgFile) {
+        const imgData = await uploadToS3(selectedImgFile);
+        data.product_image = imgData;
       } else {
-        submitData.product_image = viewData.product_image;
+        data.product_image = viewData.product_image;
       }
-
       // eslint-disable-next-line no-unused-vars
-      const { evi_product_group, ...sendData } = submitData;
+      const { evi_product_group, ...sendData } = data;
       modifySubmit.mutate({
         params: viewData.product_info_idx,
         data: {
@@ -122,10 +102,7 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
         },
       });
     }
-    if (status === 'error') {
-      toast.error(errorMessage);
-    }
-  }, [submitData]);
+  };
 
   // Form 상태 변화.
   useEffect(() => {
@@ -147,6 +124,13 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
         (pageMode === 'modify' && viewData)) && (
         <ProductForm
           initialData={pageMode !== 'add' ? viewData : undefined}
+          isSubmitLoading={
+            pageMode === 'add'
+              ? saveSubmit.isLoading
+              : pageMode === 'modify'
+              ? modifySubmit.isLoading
+              : false
+          }
           pageMode={pageMode}
           environment={environment}
           setSelectedImgFile={setSelectedImgFile}

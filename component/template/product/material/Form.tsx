@@ -23,6 +23,7 @@ import { settingsByMode, tabDataFunc } from './const';
 
 interface FormProps {
   initialData?: IMaterial;
+  isSubmitLoading: boolean;
   pageMode: string;
   environment: IEnvironmentRes;
   materialCategory: IMaterialCategoryRes;
@@ -100,6 +101,7 @@ const productStyles = css`
 
 const MaterialForm: React.FC<FormProps> = ({
   initialData,
+  isSubmitLoading,
   environment,
   materialCategory,
   materialPatner,
@@ -277,13 +279,10 @@ const MaterialForm: React.FC<FormProps> = ({
   ]);
 
   const onFormSubmit = handleSubmit(data => {
-    console.log('matrial save data', data);
-    submitFunc(data);
-  });
+    if (isSubmitLoading) return;
 
-  const onSubmit = () => {
     if (pageMode !== 'view') {
-      onFormSubmit();
+      submitFunc(data);
     } else {
       router.push({
         pathname: `/material/modify/${
@@ -292,7 +291,7 @@ const MaterialForm: React.FC<FormProps> = ({
         query: router.query,
       });
     }
-  };
+  });
 
   // 현재 mode에 따른 설정 가져오기
   const currentSettings = settingsByMode[pageMode];
@@ -301,7 +300,8 @@ const MaterialForm: React.FC<FormProps> = ({
     <DetailPageLayout
       tabData={tabData}
       currentSettings={currentSettings}
-      onSubmit={onSubmit}
+      isSubmitLoading={isSubmitLoading}
+      onSubmit={onFormSubmit}
     >
       <FormWrap css={productStyles}>
         <h2>원재료 기본 정보</h2>

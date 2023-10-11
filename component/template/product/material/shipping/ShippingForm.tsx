@@ -28,6 +28,7 @@ type FormFields = {
 
 interface FormProps {
   initialData?: FormFields;
+  isSubmitLoading: boolean;
   pageMode: string;
   shippingListData: IPartnerRes;
   area: IEnvironmentResItem[];
@@ -119,6 +120,7 @@ const productStyles = css`
 
 const ShippingForm: React.FC<FormProps> = ({
   initialData,
+  isSubmitLoading,
   pageMode,
   shippingListData,
   area,
@@ -207,6 +209,8 @@ const ShippingForm: React.FC<FormProps> = ({
   };
 
   const onFormSubmit = handleSubmit(data => {
+    if (isSubmitLoading) return;
+
     submitFunc({
       params: String(id && id[1]),
       data: convertServerFormat(data, selOption),
@@ -233,6 +237,7 @@ const ShippingForm: React.FC<FormProps> = ({
     <DetailPageLayout
       tabData={tabData}
       currentSettings={currentSettings}
+      isSubmitLoading={isSubmitLoading}
       onSubmit={onSubmit}
     >
       <FormWrap onSubmit={onFormSubmit} css={productStyles}>

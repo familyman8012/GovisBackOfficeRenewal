@@ -130,6 +130,13 @@ const Shipping = ({ environment }: { environment: IEnvironmentRes }) => {
               ? convertInitialFormat(viewData?.list)
               : undefined
           }
+          isSubmitLoading={
+            pageMode === 'add'
+              ? saveSubmit.isLoading
+              : pageMode === 'modify'
+              ? modifySubmit.isLoading
+              : false
+          }
           pageMode={pageMode}
           shippingListData={shippingListData}
           area={area}
