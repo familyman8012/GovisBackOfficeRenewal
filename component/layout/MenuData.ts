@@ -1,4 +1,18 @@
-export const TotalMenu = [
+type MenuType = {
+  depth1: string;
+  group: string;
+  depth2?: {
+    name: string;
+    path: string;
+    perm_code: string;
+    perm_info_idx: number;
+  }[];
+  path?: string;
+  perm_code?: string;
+  perm_info_idx?: number;
+};
+
+export const TotalMenu: MenuType[] = [
   {
     depth1: '홈',
     group: 'Home',

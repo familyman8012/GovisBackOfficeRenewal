@@ -159,7 +159,11 @@ export const authStore = observable<IAuthStore>({
 
     // 2depth 항목이 모두 삭제된 1depth 항목 삭제
     customizedMenu = customizedMenu.filter(
-      menu => !menu.depth2 || menu.depth2.length > 0
+      menu =>
+        (!menu.depth2 &&
+          (!menu.perm_code ||
+            this.permissionCodes?.includes(menu.perm_code))) ||
+        (menu.depth2?.length ?? 0) > 0
     );
 
     const iconMenus = customizedMenu
