@@ -17,13 +17,13 @@ export interface AxiosUtilResponse<T> {
 // 테스트
 const getBaseUrl = () => {
   let reVal;
-  // if (process.env.DEVMODE === 'development') {
-  //   reVal = 'https://dev.api.gopizza.kr';
-  // } else {
-  //   reVal = 'https://api.gopizza.kr';
-  // }
+  if (process.env.DEVMODE === 'development') {
+    reVal = 'https://dev.api.gopizza.kr';
+  } else {
+    reVal = 'https://api.gopizza.kr';
+  }
 
-  reVal = 'https://api.gopizza.kr';
+  // reVal = 'https://api.gopizza.kr';
 
   let host;
   if (typeof window !== 'undefined') {
