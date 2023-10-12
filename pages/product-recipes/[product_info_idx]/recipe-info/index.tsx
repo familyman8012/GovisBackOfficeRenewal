@@ -51,7 +51,7 @@ const RecipeListPage = ({ envs }: { envs: IEnvironmentResItem[] }) => {
 
   const isUsed = React.useCallback(
     (item: IRecipeListItem) =>
-      recipe_status.find(v => v.label === '사용')?.value ===
+      recipe_status.find(v => v.code === 'rs_use')?.value ===
       `${item.evi_recipe_status}`,
     [recipe_status]
   );
