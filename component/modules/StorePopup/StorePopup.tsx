@@ -69,10 +69,6 @@ const StorePopup = ({
     key: 'name',
   });
 
-  useEffect(() => {
-    console.log(sortState.order);
-  }, []);
-
   const handleSort = (key: SortKey) => {
     if (key === sortState.key) {
       setSortState({

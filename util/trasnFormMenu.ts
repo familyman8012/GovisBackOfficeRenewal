@@ -22,5 +22,4 @@ export const transFormMenu = (data: any) => {
       });
     }
   });
-  console.log(JSON.stringify(transformedData));
 };

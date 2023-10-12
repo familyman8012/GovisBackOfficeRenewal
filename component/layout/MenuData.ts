@@ -16,7 +16,6 @@ export const TotalMenu: MenuType[] = [
   {
     depth1: '홈',
     group: 'Home',
-    // path: '/dashboard',
     path: '/dashboard',
     perm_info_idx: 0,
   },

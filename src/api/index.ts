@@ -14,6 +14,7 @@ export interface AxiosUtilResponse<T> {
 }
 
 // window location 에 따른 기본 url
+// 테스트
 const getBaseUrl = () => {
   let reVal;
   if (process.env.DEVMODE === 'development') {
@@ -105,7 +106,6 @@ const handleRequestFullfilled = async (request: InternalAxiosRequestConfig) => {
   //   // Authorization: `jwt Q/aupDRJRa1klgevswkLSClrCGzvtfwGL1xfq20t5fZzA2/87YvQm/cXSD4kYw8vzu7m7bd4nZX9oJyvQOIv3kJF5R3KAjIW5Rik2K3qrJXKgLMES/kt/LyVw08suRlZ77MfSanHyW5jh1uydTRTKEP3cfFfADjglnN+JPNnhJg0s+rxNTOzh3FJ+t+cdjhrXpza3u74i2dFejqayvDKORHC+I1F1BSzU8NNUO1K57tfIg+LUc8T4EJZrJ331RK+WVTzVos4aoZqgPn2L2n7sA==`,
   //   ...request.headers,
   // };
-  console.log('authStore.token', authStore.token);
   if (authStore.token) {
     // @ts-ignore
     request.headers = {

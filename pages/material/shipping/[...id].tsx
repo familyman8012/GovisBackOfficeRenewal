@@ -81,7 +81,6 @@ const Shipping = ({ environment }: { environment: IEnvironmentRes }) => {
 
   const saveSubmit = useMutation(fetchShippingSave, {
     onSuccess: (data: IMaterialShippingSaveRes) => {
-      console.log('데이터 저장 성공!', data);
       queryClient.invalidateQueries(['shippingList']);
       queryClient.invalidateQueries(['shippingView']);
       // router.push(`/material/shipping/view/${id && id[1]}`);
@@ -91,7 +90,6 @@ const Shipping = ({ environment }: { environment: IEnvironmentRes }) => {
 
   const modifySubmit = useMutation(fetchShippingModify, {
     onSuccess: () => {
-      console.log('성공!');
       queryClient.invalidateQueries(['shippingList']);
       queryClient.invalidateQueries(['shippingView']);
       router.back();

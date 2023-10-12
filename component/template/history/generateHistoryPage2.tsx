@@ -57,8 +57,6 @@ const generateHistoryPage2 = (config: Config) => {
       [data]
     );
 
-    console.log('data', data);
-
     const handleLoadData = useCallback(() => {
       if (hasNextPage) fetchNextPage();
     }, [hasNextPage, fetchNextPage]);

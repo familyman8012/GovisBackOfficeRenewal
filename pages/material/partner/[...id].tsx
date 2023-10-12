@@ -42,7 +42,6 @@ const LogisticsDetailPage = ({
     pageMode === 'add' ? fetchPartnerFormSave : fetchPartnerFormModify,
     {
       onSuccess: () => {
-        console.log('성공!');
         queryClient.invalidateQueries(['materialList']);
         router.push({
           pathname: '/material/partner',
@@ -54,19 +53,16 @@ const LogisticsDetailPage = ({
 
   const modifySubmit = useMutation(fetchPartnerFormModify, {
     onSuccess: () => {
-      console.log('성공!');
       queryClient.invalidateQueries(['materialList']);
       router.back();
     },
   });
 
   const submitFunc = async (submitData: IPartnerSaveReq) => {
-    console.log('Partner submitData', submitData);
     if (pageMode === 'add') {
       submitData.evi_partner_company_type = String(
         partnerCategory?.environment_variable_idx
       );
-      console.log('submitData', submitData);
       saveSubmit.mutate(submitData);
     }
     if (pageMode === 'modify') {

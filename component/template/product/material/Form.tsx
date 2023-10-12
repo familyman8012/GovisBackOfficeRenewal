@@ -210,6 +210,7 @@ const MaterialForm: React.FC<FormProps> = ({
     handleSubmit,
     watch,
     setValue,
+    clearErrors,
     formState: { errors },
   } = useForm<IMaterial>({ defaultValues });
 
@@ -258,6 +259,7 @@ const MaterialForm: React.FC<FormProps> = ({
         materialSpecQty
       );
       setValue('purchase_cost', parseFloat(purchaseCost.toFixed(2)));
+      clearErrors('purchase_cost');
     }
 
     if (salePrice) {
@@ -267,6 +269,7 @@ const MaterialForm: React.FC<FormProps> = ({
         materialSpecQty
       );
       setValue('sale_cost', parseFloat(saleCost.toFixed(2)));
+      clearErrors('sale_cost');
     }
   }, [
     materialSpecUnit,
@@ -276,6 +279,7 @@ const MaterialForm: React.FC<FormProps> = ({
     salePrice,
     setValue,
     basicCostDisable,
+    clearErrors,
   ]);
 
   const onFormSubmit = handleSubmit(data => {
@@ -719,6 +723,8 @@ const MaterialForm: React.FC<FormProps> = ({
                   disabled={isReadOnly}
                   {...register('purchase_price', {
                     required: '필수 입력항목입니다.',
+                    validate: value =>
+                      Number(value) !== 0 || '필수 입력항목입니다.',
                   })}
                 />
                 <span className="txt_addition">원(KRW)</span>
@@ -767,6 +773,8 @@ const MaterialForm: React.FC<FormProps> = ({
                   disabled={isReadOnly}
                   {...register('sale_price', {
                     required: '필수 입력항목입니다.',
+                    validate: value =>
+                      Number(value) !== 0 || '필수 입력항목입니다.',
                   })}
                 />
                 <span className="txt_addition">원(KRW)</span>

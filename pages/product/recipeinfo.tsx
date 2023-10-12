@@ -23,8 +23,6 @@ const ProductRecipeInfoPage = ({ envs }: { envs: IEnvironmentResItem[] }) => {
     }
   );
 
-  console.log('productRecipeView', data);
-
   if (isLoading) {
     return (
       <DetailPageLayout title="제품 관리 상세 정보" tabData={tabData}>

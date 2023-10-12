@@ -9,11 +9,9 @@ formbuilderRouter.get(async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const { _id } = req.query;
 
-    console.log('id', _id);
     const formbuilders = await Formbuilder.findOne({ _id });
     return res.send(formbuilders);
   } catch (err) {
-    console.log(`message : ${err}`);
     res.status(500).send({ err: (err as Error)?.message });
   }
 });
@@ -22,13 +20,11 @@ formbuilderRouter.get(async (req: NextApiRequest, res: NextApiResponse) => {
 formbuilderRouter.put(async (req: NextApiRequest, res: NextApiResponse) => {
   try {
     const { _id } = req.query;
-    console.log('_id', _id, 'req.body', req.body);
     const formbuilders = await Formbuilder.findByIdAndUpdate(_id, req.body, {
       new: true,
     });
     return res.send(formbuilders);
   } catch (err) {
-    console.log(err);
     res.status(500).send(err);
   }
 });
@@ -40,7 +36,6 @@ formbuilderRouter.delete(async (req: NextApiRequest, res: NextApiResponse) => {
     const formbuilders = await Formbuilder.findByIdAndDelete(_id);
     return res.send(formbuilders);
   } catch (err) {
-    console.log(err);
     res.status(500).send(err);
   }
 });
