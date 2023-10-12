@@ -1,4 +1,5 @@
 import React from 'react';
+import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import { Controller, useForm } from 'react-hook-form';
 import { IEnvironmentRes } from '@InterfaceFarm/environment';
@@ -53,11 +54,11 @@ const ProductForm: React.FC<FormProps> = ({
     evi_product_category: initialData?.evi_product_category ?? '',
     evi_sale_type: initialData?.evi_sale_type ?? [],
     product_name_ko: initialData?.product_name_ko ?? '',
-    product_name_en: initialData?.product_name_en ?? '',
+    product_name_en: initialData?.product_name_en ?? '-',
     product_description: initialData?.product_description ?? '',
     sale_start_date:
       initialData?.sale_start_date === '0000-00-00'
-        ? ''
+        ? dayjs().format('YYYY-MM-DD')
         : initialData?.sale_start_date ?? '',
     sale_end_date:
       initialData?.sale_end_date === '0000-00-00'
