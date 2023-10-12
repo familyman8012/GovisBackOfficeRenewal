@@ -12,6 +12,7 @@ import { recipeAddLayoutConfig } from '@ComponentFarm/template/recipe/const';
 import RecipeForm from '@ComponentFarm/template/recipe/RecipeForm';
 import { RegisterRecipeWrap } from '@ComponentFarm/template/recipe/style';
 import { useGoMove } from '@HookFarm/useGoMove';
+import { formRequestSubmit } from '@UtilFarm/form';
 import { uploadToS3 } from '@UtilFarm/uploads3';
 
 const RecipeAddPage = ({ envs }: { envs: IEnvironmentResItem[] }) => {
@@ -71,7 +72,7 @@ const RecipeAddPage = ({ envs }: { envs: IEnvironmentResItem[] }) => {
             </Button>
             <Button
               disabled={createMutate.isLoading}
-              onClick={() => formRef.current?.requestSubmit()}
+              onClick={() => formRequestSubmit(formRef.current)}
             >
               저장
             </Button>

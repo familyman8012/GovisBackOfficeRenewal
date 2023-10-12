@@ -49,7 +49,7 @@ const MenuDetailPage: NextPage<{
               </Button>
               <Button
                 disabled={updateMutate.isLoading}
-                onClick={() => formRef.current?.requestSubmit()}
+                onClick={() => formRef.current?.submit()}
               >
                 저장
               </Button>

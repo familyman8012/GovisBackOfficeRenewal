@@ -9,6 +9,7 @@ import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
 import { MenuForm } from '@ComponentFarm/template/menu/MenuForm';
 import { useGoMove } from '@HookFarm/useGoMove';
+import { formRequestSubmit } from '@UtilFarm/form';
 
 const tabs = [
   {
@@ -39,7 +40,7 @@ const MenuAddPage: NextPage<{
             </Button>
             <Button
               disabled={createMutate.isLoading}
-              onClick={() => formRef.current?.requestSubmit()}
+              onClick={() => formRequestSubmit(formRef.current)}
             >
               저장
             </Button>
