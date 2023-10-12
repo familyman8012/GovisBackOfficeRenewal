@@ -507,6 +507,16 @@ const reset = css`
       font-size: 4px;
     }
   }
+  @media (min-width: 600px) and (max-width: 700px) {
+    html {
+      font-size: 3px;
+    }
+  }
+  @media (max-width: 500px) {
+    html {
+      font-size: 2px;
+    }
+  }
 
   ${pretendard}
   ${datepickerGlobalStyle}
