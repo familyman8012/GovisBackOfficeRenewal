@@ -14,6 +14,7 @@ export interface AxiosUtilResponse<T> {
 }
 
 // window location 에 따른 기본 url
+// 테스트
 const getBaseUrl = () => {
   let reVal;
   if (process.env.DEVMODE === 'development') {
