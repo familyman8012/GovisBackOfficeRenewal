@@ -21,8 +21,8 @@ export const selectConfigSet: environmentConfigEntry[] = [
     '레시피 등록',
     'is_recipe_registration',
     [
-      { label: '미사용', value: '0' },
-      { label: '사용', value: '1' },
+      { label: '등록', value: '1' },
+      { label: '미등록', value: '0' },
     ],
   ],
 ];

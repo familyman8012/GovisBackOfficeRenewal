@@ -282,6 +282,12 @@ const MaterialForm: React.FC<FormProps> = ({
     clearErrors,
   ]);
 
+  const handleFocus = (event: any) => {
+    if (event.target.value === '0') {
+      setValue(event.target.name, '');
+    }
+  };
+
   const onFormSubmit = handleSubmit(data => {
     if (isSubmitLoading) return;
 
@@ -301,6 +307,9 @@ const MaterialForm: React.FC<FormProps> = ({
     const convertedData = { ...data };
 
     fieldsToConvert.forEach(fieldName => {
+      if (!(data as any)[fieldName]) {
+        setValue(fieldName as any, 0);
+      }
       const numberValue = Number((data as any)[fieldName]);
       if (!Number.isNaN(numberValue)) {
         (convertedData as any)[fieldName] = numberValue;
@@ -649,6 +658,7 @@ const MaterialForm: React.FC<FormProps> = ({
                 className="inp"
                 placeholder="0"
                 disabled={isReadOnly}
+                onFocus={handleFocus}
                 {...register('material_trade_qty', {
                   required: '필수 입력항목입니다.',
                 })}
@@ -697,6 +707,7 @@ const MaterialForm: React.FC<FormProps> = ({
                 className="inp"
                 placeholder="0"
                 disabled={isReadOnly}
+                onFocus={handleFocus}
                 {...register('material_spec_qty', {
                   required: '필수 입력항목입니다.',
                 })}
@@ -719,8 +730,9 @@ const MaterialForm: React.FC<FormProps> = ({
                   type="text"
                   id="purchase_price"
                   className="inp"
-                  placeholder=""
+                  placeholder="0"
                   disabled={isReadOnly}
+                  onFocus={handleFocus}
                   {...register('purchase_price', {
                     required: '필수 입력항목입니다.',
                     validate: value =>
@@ -769,8 +781,9 @@ const MaterialForm: React.FC<FormProps> = ({
                   type="text"
                   id="sale_price"
                   className="inp"
-                  placeholder=""
+                  placeholder="0"
                   disabled={isReadOnly}
+                  onFocus={handleFocus}
                   {...register('sale_price', {
                     required: '필수 입력항목입니다.',
                     validate: value =>
@@ -870,8 +883,9 @@ const MaterialForm: React.FC<FormProps> = ({
                   type="text"
                   id="material_config_qty"
                   className="inp"
-                  placeholder=""
+                  placeholder="0"
                   disabled={isReadOnly}
+                  onFocus={handleFocus}
                   {...register('material_config_qty')}
                 />
                 <span className="txt_addition">개</span>
@@ -893,8 +907,9 @@ const MaterialForm: React.FC<FormProps> = ({
                   type="text"
                   id="minimal_purchase_qty"
                   className="inp"
-                  placeholder=""
+                  placeholder="0"
                   disabled={isReadOnly}
+                  onFocus={handleFocus}
                   {...register('minimal_purchase_qty')}
                 />
                 <span className="txt_addition">BOX</span>
@@ -914,8 +929,9 @@ const MaterialForm: React.FC<FormProps> = ({
                   type="text"
                   id="estimate_price"
                   className="inp"
-                  placeholder=""
+                  placeholder="0"
                   disabled={isReadOnly}
+                  onFocus={handleFocus}
                   {...register('estimate_price')}
                 />
                 <span className="txt_addition">원(KRW)</span>

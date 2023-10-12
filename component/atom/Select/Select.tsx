@@ -135,9 +135,13 @@ export const Select: FC<SelectProps> = ({
   };
 
   const computedSelectedOption = useMemo(() => {
-    return typeof selectedOption === 'string'
-      ? options.find(el => el.value === selectedOption)
-      : selectedOption;
+    if (typeof selectedOption === 'string') {
+      return options.find(el => String(el.value) === selectedOption);
+    }
+    if (typeof selectedOption === 'number') {
+      return options.find(el => el.value === selectedOption);
+    }
+    return selectedOption;
   }, [selectedOption, options]);
 
   return (

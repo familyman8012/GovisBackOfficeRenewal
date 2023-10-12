@@ -148,6 +148,7 @@ export const MenuWrap = styled.div`
   .link_depth1 {
     display: flex;
     align-items: center;
+    width: 100%;
     padding: 0.2rem 0;
     border-radius: 0.4rem;
     cursor: pointer;
