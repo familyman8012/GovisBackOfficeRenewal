@@ -19,8 +19,6 @@ const Menu = ({ permissionList }: { permissionList: PermissionList }) => {
       ? 'https://dev.govis.gopizza.kr'
       : 'https://govis.gopizza.kr';
 
-  console.log('currentUrl', currentUrl);
-
   return (
     <>
       <h2>{menuStore.groupMap[menuStore.currentGroup].menuName}</h2>

@@ -54,6 +54,10 @@ const PartnerListPage = ({ environment }: { environment: IEnvironmentRes }) => {
   );
 
   useEffect(() => {
+    resetParams();
+  }, [activeTabIndex]);
+
+  useEffect(() => {
     if (category === undefined) {
       toast.error('잘못된 경로입니다.');
       router.back();
@@ -74,7 +78,7 @@ const PartnerListPage = ({ environment }: { environment: IEnvironmentRes }) => {
 
   const hanldeTabMove = (index: number) => {
     setActiveTabIndex(index);
-    router.push(materialListTabData[index].url);
+    router.push(materialListTabData[index].url, undefined);
   };
 
   return (
