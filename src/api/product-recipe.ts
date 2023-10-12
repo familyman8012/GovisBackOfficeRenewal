@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import { IMaterialReq } from '@InterfaceFarm/material';
 import { IMaterialInfoViewRes } from '@InterfaceFarm/product';
 import {
   IRecipeFormFields,
@@ -34,6 +35,20 @@ export const downloadRecipeProductList = async (params: any) => {
       )
     )
     .catch(() => new Error('다운로드에 실패하였습니다.'));
+};
+
+export const fetchRecipeProductView = async (id: number) => {
+  return BoV2Request.get<IResponse<any>>(
+    `/recipe/info/detail/product/${id}`
+  ).then(res => res.data.data);
+};
+
+export const fetchRecipeMaterialList = async (params?: IMaterialReq) => {
+  const response = await BoV2Request.get('/recipe/material/info/list', {
+    params,
+  });
+
+  return response.data.data;
 };
 
 export const fetchProductRecipeList = async (

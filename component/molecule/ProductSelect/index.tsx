@@ -1,7 +1,7 @@
 import React, { HTMLAttributes, useState } from 'react';
 import { useQuery } from 'react-query';
 import styled from '@emotion/styled';
-import { fetchProductList } from '@ApiFarm/product';
+import { fetchMenuProductList } from '@ApiFarm/menu';
 import { ProductInfo } from '@InterfaceFarm/product';
 import Modal from '@ComponentFarm/modules/Modal/Modal';
 import { Button } from '@ComponentFarm/atom/Button/Button';
@@ -119,7 +119,7 @@ export const ProductSelect = React.forwardRef<
   const { data, isIdle, isFetching } = useQuery(
     ['products', params],
     () =>
-      fetchProductList({
+      fetchMenuProductList({
         search_target: params.search_target,
         search_keyword: params.search_keyword,
         current_num: 1,

@@ -11,6 +11,7 @@ import {
   MenuUpdateParams,
   MenuCategoryCreateParams,
 } from '@InterfaceFarm/menu';
+import { IProductReq, IProductRes } from '@InterfaceFarm/product';
 import { downloadAxiosResponse } from '@UtilFarm/download';
 import { BoV2Request } from './index';
 
@@ -48,6 +49,17 @@ export const fetchMenuList = (params: any) => {
     total_count: number;
     list: IMenuListItem[];
   }>(`/menu/info/list`, params);
+};
+
+export const fetchMenuProductList = async (params?: IProductReq) => {
+  const response = await BoV2Request.get<IResponse<IProductRes>>(
+    '/menu/product/info/list',
+    {
+      params,
+    }
+  );
+
+  return response.data.data;
 };
 
 export const downloadMenuCategoryList = (params: IMenuCategoryFetchParams) => {

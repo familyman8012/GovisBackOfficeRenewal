@@ -1,3 +1,4 @@
+import { useCallback } from 'react';
 import { IoAlertCircleOutline } from 'react-icons/io5';
 import { IMaterialInfoViewItem } from '@InterfaceFarm/product';
 import Empty from '@ComponentFarm/atom/Empty/Empty';
@@ -18,6 +19,14 @@ interface Props {
 }
 
 const RecipeMaterialInfo = ({ materialInfo }: Props) => {
+  const getComputedCost = useCallback(
+    (firstCost?: number, recipe_material_quantity_value?: number) => {
+      const basePrice = firstCost ?? 0;
+      const quantity = recipe_material_quantity_value ?? 0;
+      return toPrice((basePrice * quantity).toFixed(2));
+    },
+    []
+  );
   return (
     <MaterialInfoStyle>
       <h2>원재료 목록</h2>
@@ -49,22 +58,22 @@ const RecipeMaterialInfo = ({ materialInfo }: Props) => {
               <td>
                 <span className="box_total_price">
                   <span className="price">
-                    {toPrice(
+                    {`${toPrice(
                       (
                         materialInfo?.recipe_info_material_purchase_cost ?? 0
                       ).toFixed(2)
-                    )}
+                    )}원`}
                   </span>
                 </span>
               </td>
               <td>
                 <span className="box_total_price">
                   <span className="price">
-                    {toPrice(
+                    {`${toPrice(
                       (
                         materialInfo?.recipe_info_material_sale_cost ?? 0
                       ).toFixed(2)
-                    )}
+                    )}원`}
                   </span>
                 </span>
               </td>
@@ -94,8 +103,20 @@ const RecipeMaterialInfo = ({ materialInfo }: Props) => {
                   </td>
                   <td>{materialInfoItem.partner_company_name}</td>
                   <td>{materialInfoItem.evi_country_str?.[0]}</td>
-                  <td>{materialInfoItem.purchase_cost}</td>
-                  <td>{materialInfoItem.sale_cost}</td>
+                  <td>
+                    {`${getComputedCost(
+                      materialInfoItem.purchase_cost,
+                      materialInfoItem.recipe_material_quantity_value
+                    )}원`}
+                    ({`${materialInfoItem.purchase_cost}원`})
+                  </td>
+                  <td>
+                    {`${getComputedCost(
+                      materialInfoItem.sale_cost,
+                      materialInfoItem.recipe_material_quantity_value
+                    )}원`}
+                    ({`${materialInfoItem.sale_cost}원`})
+                  </td>
                 </tr>
               ))
             ) : (

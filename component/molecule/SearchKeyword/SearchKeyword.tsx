@@ -160,9 +160,12 @@ const SearchKeyword = ({
         onChange={e =>
           setKeyword({ ...keyword, search_keyword: e.target.value })
         }
-        onKeyDown={(e: React.KeyboardEvent) =>
-          e.key === 'Enter' && handleSearch()
-        }
+        onKeyDown={(e: React.KeyboardEvent) => {
+          if (e.key === 'Enter') {
+            e.preventDefault();
+            handleSearch();
+          }
+        }}
       />
       <Button
         type="button"

@@ -82,8 +82,8 @@ const RecipeListTable = ({ list, updateParams, onClick }: TableProps) => {
                     recipeRowData.evi_product_status_str === '운영'
                       ? 'green'
                       : recipeRowData.evi_product_status_str === '중단'
-                      ? 'yellow'
-                      : 'red'
+                      ? 'red'
+                      : 'yellow'
                   }
                   size="sm"
                 >
