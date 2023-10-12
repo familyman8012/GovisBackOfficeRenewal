@@ -75,7 +75,21 @@ const RecipeListTable = ({ list, updateParams, onClick }: TableProps) => {
               <td>{recipeRowData.evi_product_group_str}</td>
               <td>{recipeRowData.evi_product_category_str}</td>
               <td>{recipeRowData.product_name_ko}</td>
-              <td>{recipeRowData.evi_product_status_str}</td>
+              <td>
+                <Badge
+                  dot
+                  color={
+                    recipeRowData.evi_product_status_str === '운영'
+                      ? 'green'
+                      : recipeRowData.evi_product_status_str === '중단'
+                      ? 'yellow'
+                      : 'red'
+                  }
+                  size="sm"
+                >
+                  {recipeRowData.evi_product_status_str}
+                </Badge>
+              </td>
               <td>{recipeRowData.recipe_count ?? 0}</td>
               <td>
                 <Badge
