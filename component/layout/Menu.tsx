@@ -8,8 +8,7 @@ import { Goivs2Menu } from './MenuData';
 const Menu = ({ permissionList }: { permissionList: PermissionList }) => {
   const router = useRouter();
   const currentUrl = `/${router.asPath.split('/')[1].split('?')[0]}`;
-
-  console.log('router', router);
+  const chkRouterIndex = router.asPath.split('/').length === 2;
 
   const isPathActive = (path: string) => {
     return currentUrl === path;
@@ -40,15 +39,8 @@ const Menu = ({ permissionList }: { permissionList: PermissionList }) => {
 
             return (
               <li key={depth1}>
-                {isPathActive(String(path)) ? (
-                  <button
-                    type="button"
-                    onClick={() => {
-                      router.push({
-                        pathname: currentUrl,
-                        query: router.query,
-                      });
-                    }}
+                {isPathActive(String(path)) && chkRouterIndex ? (
+                  <span
                     className={`link_depth1 ${isActive ? 'on' : ''} ${
                       path ? 'depth1Only' : ''
                     }`}
@@ -56,7 +48,7 @@ const Menu = ({ permissionList }: { permissionList: PermissionList }) => {
                     <span className="txt">
                       {depth1 === '홈' ? '대시보드' : depth1}
                     </span>
-                  </button>
+                  </span>
                 ) : (
                   <Link
                     href={
