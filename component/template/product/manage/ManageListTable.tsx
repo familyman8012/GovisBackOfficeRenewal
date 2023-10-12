@@ -84,8 +84,8 @@ const ManageListTable = ({ data, updateParams }: TableProps) => {
                     product.evi_product_status_str === '운영'
                       ? 'green'
                       : product.evi_product_status_str === '중단'
-                      ? 'yellow'
-                      : 'red'
+                      ? 'red'
+                      : 'yellow'
                   }
                   size="sm"
                   dot
