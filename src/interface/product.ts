@@ -80,6 +80,14 @@ export interface IProductChannelImg {
   evi_sale_channel: number;
 }
 
+export interface IProductChannelImgList {
+  evi_sale_channel_str?: string;
+  product_image_channel_idx: number;
+  product_image: string;
+  evi_sale_channel: number;
+  evi_sale_channel_code: string;
+}
+
 export interface IProductChannelImgView {
   list: IProductChannelImg[];
 }
