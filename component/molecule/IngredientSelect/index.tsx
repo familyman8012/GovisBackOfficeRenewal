@@ -6,10 +6,10 @@ import { MaterialInfo } from '@InterfaceFarm/material';
 import Modal from '@ComponentFarm/modules/Modal/Modal';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import Empty from '@ComponentFarm/atom/Empty/Empty';
-import { IcoInput } from '@ComponentFarm/atom/IcoInput/IcoInput';
-import Search from '@ComponentFarm/atom/icons/Search';
 import { InnerTable } from '@ComponentFarm/common';
-import { SearchkeywordType } from '../SearchKeyword/SearchKeyword';
+import SearchKeyword, {
+  SearchkeywordType,
+} from '../SearchKeyword/SearchKeyword';
 
 interface Props {
   onSelect: (selectedList: MaterialInfo[]) => void;
@@ -23,7 +23,9 @@ const IngredientModalContent = styled.div`
     display: flex;
     align-items: center;
     height: 6.4rem;
-
+    input {
+      width: 100%;
+    }
     &:not(:first-of-type) {
       flex: 1;
       margin-bottom: 2.4rem;
@@ -136,8 +138,6 @@ const IngredientRow = ({
 
 const IngredientSelect = ({ onSelect }: Props) => {
   const [open, setOpen] = useState(false);
-  const [searchKeyword, setSearchKeyword] = useState('');
-
   const [params, setParams] = useState<SearchkeywordType>({
     search_target: 'material_name_ko',
     search_keyword: '',
@@ -198,19 +198,11 @@ const IngredientSelect = ({ onSelect }: Props) => {
         <IngredientModalContent>
           <section className="search">
             <h3>원재료명</h3>
-            <IcoInput
-              className="search-input"
-              placeholder="검색"
-              TrailingIcon={<Search />}
-              onChange={e => setSearchKeyword(e.target.value)}
-              onKeyDown={e => {
-                if (e.key === 'Enter') {
-                  setParams({
-                    ...params,
-                    search_keyword: searchKeyword,
-                  });
-                }
-              }}
+            <SearchKeyword
+              params={params}
+              handler={({ search_keyword }) =>
+                setParams({ ...params, search_keyword })
+              }
             />
           </section>
           <section>
@@ -295,6 +287,7 @@ const IngredientSelect = ({ onSelect }: Props) => {
                     data={row}
                     action={
                       <Button
+                        type="button"
                         variant="gostSecondary"
                         style={{ width: '100%', minWidth: 'auto' }}
                         onClick={() =>
