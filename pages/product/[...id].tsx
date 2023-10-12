@@ -62,7 +62,6 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
   // 등록일때, 데이터 저장
   const saveSubmit = useMutation(fetchProductFormSave, {
     onSuccess: data => {
-      console.log('성공!', data);
       queryClient.invalidateQueries(['productList']);
       queryClient.invalidateQueries(['productFormView']);
       channelModal(data.product_info_idx);
@@ -71,7 +70,6 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
 
   const modifySubmit = useMutation(fetchProductFormModify, {
     onSuccess: () => {
-      console.log('성공!');
       queryClient.invalidateQueries(['productList']);
       queryClient.invalidateQueries(['productFormView']);
       router.push('/product/');

@@ -104,11 +104,8 @@ const Channelimg = ({ environment }: { environment: IEnvironmentRes }) => {
     }
   );
 
-  console.log('ChannelImg', ChannelImg);
-
   const saveSubmit = useMutation(fetchChannelImgSave, {
     onSuccess: (data: IProductChannelImg) => {
-      console.log('성공!', data);
       queryClient.invalidateQueries(['channelImgList']);
     },
   });
@@ -147,7 +144,6 @@ const Channelimg = ({ environment }: { environment: IEnvironmentRes }) => {
         ),
         product_image_channel_idx: currentChannel.channel_idx,
       };
-      console.log('submitData', submitData);
       saveSubmit.mutate({
         params: String(id && id),
         data: submitData,
@@ -208,8 +204,6 @@ const Channelimg = ({ environment }: { environment: IEnvironmentRes }) => {
   };
 
   function downloadFile(fileName: string) {
-    console.log('fileName', fileName);
-
     const link = document.createElement('a');
     link.href = fileName;
     link.download = '';

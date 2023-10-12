@@ -33,7 +33,6 @@ const FormBuilder = () => {
   const router = useRouter();
 
   const addLine = () => {
-    console.log(lines);
     setLines([...lines, { fields: [] }]);
     setSelectedLineIndex(lines.length);
   };

@@ -20,8 +20,6 @@ const MaterialInfo = () => {
     }
   );
 
-  console.log('MaterialInfoData', MaterialInfoData);
-
   return (
     <FormWrap>
       <DetailPageLayout tabData={tabData} title="제품 상세 정보">

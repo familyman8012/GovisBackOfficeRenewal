@@ -82,7 +82,7 @@ const MenuFilter = ({
           <Button
             className="btn_reset"
             variant="transparent"
-            onClick={resetParams}
+            onClick={}
             LeadingIcon={<Sync />}
           >
             초기화

@@ -83,8 +83,6 @@ const ImageUploader: FC<ImageUploaderProps> = ({
   );
   const imageInputRef = useRef<HTMLInputElement>(null);
 
-  console.log('product_image', product_image);
-
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file && file.type.startsWith('image/')) {
@@ -100,8 +98,6 @@ const ImageUploader: FC<ImageUploaderProps> = ({
     }
     return null;
   };
-
-  console.log('image', image);
 
   return (
     <Container>

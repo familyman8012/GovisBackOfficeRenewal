@@ -17,8 +17,6 @@ const useImageUploader = ({ isAttach = false } = {}): [
 
   const handler = useCallback(
     async (e: FileInputChangeEvent) => {
-      console.log('e', e);
-
       setStatus('uploading');
       setErrorMessage(null);
 

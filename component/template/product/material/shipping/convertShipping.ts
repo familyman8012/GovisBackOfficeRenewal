@@ -5,8 +5,6 @@ export const convertServerFormat = (
   flatData: { [key: string]: string },
   selOption: IOption[]
 ) => {
-  console.log('convertServerFormat convertServerFormat', selOption);
-
   const result: any = { material_shipping_data: [] };
 
   const companiesMap: { [key: string]: any } = {};
