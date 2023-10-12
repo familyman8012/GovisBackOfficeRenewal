@@ -44,7 +44,10 @@ const Menu = ({ permissionList }: { permissionList: PermissionList }) => {
                   <button
                     type="button"
                     onClick={() => {
-                      window.location.href = router.pathname;
+                      router.push({
+                        pathname: currentUrl,
+                        query: router.query,
+                      });
                     }}
                     className={`link_depth1 ${isActive ? 'on' : ''} ${
                       path ? 'depth1Only' : ''

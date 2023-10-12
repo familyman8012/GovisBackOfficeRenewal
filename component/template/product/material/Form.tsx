@@ -97,6 +97,20 @@ const productStyles = css`
       width: 40rem;
     }
   }
+
+  #material_trade_qty,
+  #material_spec_qty,
+  #purchase_price,
+  #purchase_cost,
+  #sale_price,
+  #sale_cost,
+  #material_config_qty,
+  #minimal_purchase_qty,
+  #estimate_price {
+    &:focus::placeholder {
+      opacity: 0;
+    }
+  }
 `;
 
 const MaterialForm: React.FC<FormProps> = ({
