@@ -11,6 +11,7 @@ import LayoutTitleBoxWithTab from '@ComponentFarm/template/layout/LayoutWithTitl
 import { menuDetailLayoutConfig } from '@ComponentFarm/template/menu/const';
 import { MenuForm } from '@ComponentFarm/template/menu/MenuForm';
 import { useGoMove } from '@HookFarm/useGoMove';
+import { formRequestSubmit } from '@UtilFarm/form';
 
 const MenuDetailPage: NextPage<{
   envs: IEnvironmentResItem[];
@@ -49,7 +50,7 @@ const MenuDetailPage: NextPage<{
               </Button>
               <Button
                 disabled={updateMutate.isLoading}
-                onClick={() => formRef.current?.submit()}
+                onClick={() => formRequestSubmit(formRef.current)}
               >
                 저장
               </Button>

@@ -55,7 +55,7 @@ const MenuFilter = ({
             value: item.menu_category_name,
           }) as IEnvironmentResItem
       ),
-    []
+    [categoryQuery.data]
   );
 
   const menuSelectConfigWithEnv = useSelectConfigWithEnv(menuSelectConfig, [
