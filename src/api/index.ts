@@ -30,9 +30,7 @@ const getBaseUrl = () => {
 
   const hostSplit = host?.split('.');
 
-  if ((hostSplit && hostSplit[0] === 'dev') || host?.includes('vercel')) {
-    reVal = 'https://dev.api.gopizza.kr';
-  } else if (
+  if (
     (hostSplit && hostSplit[0] === '192') ||
     (hostSplit && hostSplit[0].indexOf('localhost') >= 0) ||
     (hostSplit && hostSplit[0] === 'local')
