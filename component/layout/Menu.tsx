@@ -9,6 +9,8 @@ const Menu = ({ permissionList }: { permissionList: PermissionList }) => {
   const router = useRouter();
   const currentUrl = `/${router.asPath.split('/')[1].split('?')[0]}`;
 
+  console.log('router', router);
+
   const isPathActive = (path: string) => {
     return currentUrl === path;
   };
@@ -38,24 +40,40 @@ const Menu = ({ permissionList }: { permissionList: PermissionList }) => {
 
             return (
               <li key={depth1}>
-                <Link
-                  href={
-                    path
-                      ? Goivs2Menu.some(el => el === path)
-                        ? String(path)
-                        : `${host}${path}`
-                      : Goivs2Menu.some(el => el === depth2?.[0]?.path)
-                      ? String(depth2?.[0]?.path)
-                      : `${host}${depth2?.[0]?.path}`
-                  }
-                  className={`link_depth1 ${isActive ? 'on' : ''} ${
-                    path ? 'depth1Only' : ''
-                  }`}
-                >
-                  <span className="txt">
-                    {depth1 === '홈' ? '대시보드' : depth1}
-                  </span>
-                </Link>
+                {isPathActive(String(path)) ? (
+                  <button
+                    type="button"
+                    onClick={() => {
+                      window.location.href = router.pathname;
+                    }}
+                    className={`link_depth1 ${isActive ? 'on' : ''} ${
+                      path ? 'depth1Only' : ''
+                    }`}
+                  >
+                    <span className="txt">
+                      {depth1 === '홈' ? '대시보드' : depth1}
+                    </span>
+                  </button>
+                ) : (
+                  <Link
+                    href={
+                      path
+                        ? Goivs2Menu.some(el => el === path)
+                          ? String(path)
+                          : `${host}${path}`
+                        : Goivs2Menu.some(el => el === depth2?.[0]?.path)
+                        ? String(depth2?.[0]?.path)
+                        : `${host}${depth2?.[0]?.path}`
+                    }
+                    className={`link_depth1 ${isActive ? 'on' : ''} ${
+                      path ? 'depth1Only' : ''
+                    }`}
+                  >
+                    <span className="txt">
+                      {depth1 === '홈' ? '대시보드' : depth1}
+                    </span>
+                  </Link>
+                )}
 
                 {depth2 && (
                   <ul className={`depth2 ${isActive ? 'on' : ''}`}>
