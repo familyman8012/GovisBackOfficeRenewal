@@ -6,7 +6,7 @@ import { css } from '@emotion/react';
 import { fetchEnvironment } from '@ApiFarm/environment';
 import { fetchChannelImgSave, fetchChannelImgView } from '@ApiFarm/product';
 import { IEnvironmentRes } from '@InterfaceFarm/environment';
-import { IProductChannelImg } from '@InterfaceFarm/product';
+import { IProductChannelImgList } from '@InterfaceFarm/product';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Edit, Export, Plus } from '@ComponentFarm/atom/icons';
 import { FormWrap, Table, TableWrap } from '@ComponentFarm/common';
@@ -73,9 +73,9 @@ const Channelimg = ({ environment }: { environment: IEnvironmentRes }) => {
   const [isUploading, setIsUploading] = useState(false);
 
   const [currentChannel, setCurrentChannel] = useState<{
-    channel: string;
+    channel_code: string;
     channel_idx: number;
-  }>({ channel: '', channel_idx: 0 });
+  }>({ channel_code: '', channel_idx: 0 });
 
   type Resolution = {
     width: number;
@@ -83,17 +83,16 @@ const Channelimg = ({ environment }: { environment: IEnvironmentRes }) => {
   };
 
   const imgResolution: { [key: string]: Resolution } = {
-    우노스: { width: 480, height: 360 },
+    UNOS: { width: 480, height: 360 },
     OTO: { width: 456, height: 300 },
-    IMU_메인: { width: 208, height: 124 },
-    IMU_옵션: { width: 146, height: 196 },
-    IMU_옵션메인: { width: 1080, height: 700 },
-    네이버주문: { width: 960, height: 960 },
-    위메프오: { width: 1280, height: 1280 },
-    배달의민족: { width: 1280, height: 1280 },
-    배달특급: { width: 500, height: 500 },
-    요기요: { width: 552, height: 327 },
-    쿠팡이츠: { width: 1080, height: 660 },
+    IMU_MAIN: { width: 208, height: 124 },
+    IMU_OPTION: { width: 146, height: 196 },
+    IMU_OPTION_MAIN: { width: 1080, height: 700 },
+    NAVER: { width: 960, height: 960 },
+    WMPO: { width: 1280, height: 1280 },
+    BAEMIN: { width: 1280, height: 1280 },
+    SDELIVERY: { width: 500, height: 500 },
+    YOGIYO: { width: 552, height: 327 },
   };
 
   const { data: ChannelImg } = useQuery(
@@ -104,8 +103,10 @@ const Channelimg = ({ environment }: { environment: IEnvironmentRes }) => {
     }
   );
 
+  console.log('ChannelImg', ChannelImg);
+
   const saveSubmit = useMutation(fetchChannelImgSave, {
-    onSuccess: (data: IProductChannelImg) => {
+    onSuccess: (data: any) => {
       queryClient.invalidateQueries(['channelImgList']);
     },
   });
@@ -139,7 +140,7 @@ const Channelimg = ({ environment }: { environment: IEnvironmentRes }) => {
       const submitData = {
         product_image: imgData,
         evi_sale_channel: Number(
-          environment.list.find(el => el.value === currentChannel.channel)
+          environment.list.find(el => el.code === currentChannel.channel_code)
             ?.environment_variable_idx
         ),
         product_image_channel_idx: currentChannel.channel_idx,
@@ -156,9 +157,13 @@ const Channelimg = ({ environment }: { environment: IEnvironmentRes }) => {
     }
   }, [status, isUploading]);
 
-  const handleImageUpload = async (channel: string, channel_idx: number) => {
+  const handleImageUpload = async (
+    channel_code: string,
+    channel_idx: number
+  ) => {
+    console.log('channel_code', channel_code, 'environment', environment);
     if (isUploading) return;
-    setCurrentChannel({ channel, channel_idx });
+    setCurrentChannel({ channel_code, channel_idx });
     const input = document.createElement('input');
     input.type = 'file';
 
@@ -174,7 +179,7 @@ const Channelimg = ({ environment }: { environment: IEnvironmentRes }) => {
         const file = fileInput.files[0];
         const isResolutionValid = await checkImageResolution(
           file,
-          imgResolution[channel]
+          imgResolution[channel_code]
         );
         if (!isResolutionValid) {
           alert('해상도가 맞지 않습니다');
@@ -210,19 +215,6 @@ const Channelimg = ({ environment }: { environment: IEnvironmentRes }) => {
     link.click();
   }
 
-  // async function downloadFile(url: string) {
-  //   const response = await fetch(url);
-  //   const blob = await response.blob();
-  //   const blobUrl = window.URL.createObjectURL(blob);
-
-  //   const link = document.createElement('a');
-  //   link.href = blobUrl;
-  //   link.download = ''; // 원하는 파일 이름을 설정하거나 빈 문자열로 두어 원래의 파일 이름을 사용합니다.
-  //   document.body.appendChild(link); // 이 부분이 중요합니다. DOM에 링크를 임시로 추가합니다.
-  //   link.click();
-  //   document.body.removeChild(link); // 다운로드 후 링크를 DOM에서 제거합니다.
-  // }
-
   return (
     <FormWrap>
       <DetailPageLayout tabData={tabData} title="제품 상세 정보">
@@ -242,7 +234,7 @@ const Channelimg = ({ environment }: { environment: IEnvironmentRes }) => {
               </tr>
             </thead>
             <tbody>
-              {ChannelImg?.list?.map((el: IProductChannelImg) => (
+              {ChannelImg?.list?.map((el: IProductChannelImgList) => (
                 <tr key={el.evi_sale_channel}>
                   <td>
                     <span className="thumb">
@@ -259,8 +251,8 @@ const Channelimg = ({ environment }: { environment: IEnvironmentRes }) => {
                   </td>
                   <td>{el.evi_sale_channel_str}</td>
                   <td>
-                    {imgResolution[String(el.evi_sale_channel_str)]?.width} x
-                    {imgResolution[String(el.evi_sale_channel_str)]?.height}
+                    {imgResolution[el.evi_sale_channel_code]?.width} x
+                    {imgResolution[el.evi_sale_channel_code]?.height}
                   </td>
                   <td>
                     <div className="btn_box">
@@ -269,7 +261,7 @@ const Channelimg = ({ environment }: { environment: IEnvironmentRes }) => {
                         LeadingIcon={el.product_image ? <Edit /> : <Plus />}
                         onClick={() =>
                           handleImageUpload(
-                            String(el.evi_sale_channel_str),
+                            el.evi_sale_channel_code,
                             el.product_image === ''
                               ? 0
                               : el.product_image_channel_idx
