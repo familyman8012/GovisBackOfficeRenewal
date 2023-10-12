@@ -171,7 +171,11 @@ const SearchKeyword = ({
         type="button"
         variant="transparent"
         IconOnly={<Search />}
-        onClick={handleSearch}
+        onClick={e => {
+          e.preventDefault();
+          e.stopPropagation();
+          handleSearch();
+        }}
       >
         <span className="hiddenZoneV">검색</span>
       </Button>
