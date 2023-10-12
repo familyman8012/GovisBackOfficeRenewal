@@ -59,7 +59,7 @@ const RecipeListPage = ({ envs }: { envs: IEnvironmentResItem[] }) => {
   const getStatusUpdateValue = React.useCallback(
     (item: IRecipeListItem, used: boolean) => {
       const val = parseInt(
-        recipe_status.find(v => v.label === (used ? '미사용' : '사용'))
+        recipe_status.find(v => v.code === (used ? 'rs_unused' : 'rs_use'))
           ?.value ?? '',
         10
       );
