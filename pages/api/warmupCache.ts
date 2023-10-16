@@ -13,13 +13,11 @@ const pages = [
 ];
 
 const getBaseURL = () => {
-  switch (process.env.NODE_ENV) {
-    case 'development':
-      return 'http://localhost:3000';
-    case 'production':
-      return process.env.VERCEL_URL?.includes('dev')
-        ? 'https://dev.govis2.gopizza.kr'
-        : 'https://govis2.gopizza.kr';
+  switch (process.env.NEXT_PUBLIC_DEPLOYMENT_ENV) {
+    case 'dev':
+      return 'https://dev.govis2.gopizza.kr';
+    case 'prod':
+      return 'https://govis2.gopizza.kr';
     default:
       return 'http://localhost:3000';
   }
