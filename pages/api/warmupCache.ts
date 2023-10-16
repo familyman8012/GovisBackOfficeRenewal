@@ -3,6 +3,13 @@ import fs from 'fs';
 import path from 'path';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
+const DynamicFolderRoute = [
+  '/menu/1',
+  '/menu/1/history',
+  '/product-recipes/1/recipe-info',
+  '/product-recipes/1/recipe-info/add',
+];
+
 // baseURL을 가져오는 함수
 const getBaseURL = () => {
   switch (process.env.NEXT_PUBLIC_DEPLOYMENT_ENV) {
@@ -33,7 +40,7 @@ function scanDynamicRoutes(directory: string) {
     if (stat.isDirectory()) {
       // 디렉터리인 경우 재귀적으로 스캔
       if (file.includes('[') && file.includes(']')) {
-        // 디렉터리 이름에 대괄호가 포함되어 있으면 동적 폴더로 간주..
+        // 디렉터리 이름에 대괄호가 포함되어 있으면 동적 폴더로 간주
         const dynamicFolder = `/${path
           .relative('pages', directory)
           .replace(/\\/g, '/')}/${file}`;
@@ -82,11 +89,11 @@ async function warmupCacheForDynamicRoutes() {
 
   // 동적 라우트의 동적 부분을 '1'로 대체
   const staticRoutes = dynamicRoutes.map(route =>
-    route.replace(/\[.*?\]/g, '1')
+    route.replace(/\[.*?\]/g, 'view/1')
   );
 
   // 동적 라우트와 사용자 지정 라우트 병합
-  const allRoutes = [...staticRoutes];
+  const allRoutes = [...staticRoutes, ...DynamicFolderRoute];
 
   // 정적 라우트를 사용하여 캐시 워밍업 작업 수행
   for (let i = 0; i < allRoutes.length; i += BATCH_SIZE) {
@@ -97,7 +104,7 @@ async function warmupCacheForDynamicRoutes() {
 }
 
 const handleRequest = async (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method === 'POST') {
+  if (req.method === 'GET') {
     await warmupCacheForDynamicRoutes(); // 이 부분 수정
     res.status(200).send('Cache warmup complete');
   } else {
