@@ -33,7 +33,7 @@ function scanDynamicRoutes(directory: string) {
     if (stat.isDirectory()) {
       // 디렉터리인 경우 재귀적으로 스캔
       if (file.includes('[') && file.includes(']')) {
-        // 디렉터리 이름에 대괄호가 포함되어 있으면 동적 폴더로 간주
+        // 디렉터리 이름에 대괄호가 포함되어 있으면 동적 폴더로 간주..
         const dynamicFolder = `/${path
           .relative('pages', directory)
           .replace(/\\/g, '/')}/${file}`;
