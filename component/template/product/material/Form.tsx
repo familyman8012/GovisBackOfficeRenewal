@@ -151,7 +151,7 @@ const MaterialForm: React.FC<FormProps> = ({
     SALE_BRAND,
   } = useEnvironments(environment.list, envKeys);
 
-  // // 제조사 변환
+  // // 거래처 변환
   const PARTNER = useMemo(
     () =>
       materialPatner.list.map(item => ({
@@ -958,7 +958,7 @@ const MaterialForm: React.FC<FormProps> = ({
         </div>
         <div className="line line13">
           <div className="field field1">
-            <label htmlFor="pci_manufacturer">제조사</label>
+            <label htmlFor="pci_manufacturer">거래처</label>
             <div
               className={`box_inp ${errors.pci_manufacturer ? 'error' : ''}`}
             >

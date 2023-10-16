@@ -80,7 +80,7 @@ const ManageListTable = ({ data, updateParams }: TableProps) => {
     { id: 7, label: '원재료명', sort: 'material_name_ko' },
     { id: 8, label: '매입가', sort: 'purchase_price' },
     { id: 9, label: '판매가', sort: 'sale_price' },
-    { id: 10, label: '제조사', sort: '' },
+    { id: 10, label: '거래처', sort: '' },
     { id: 11, label: '등록일', sort: 'created_date' },
     { id: 12, label: '수정일', sort: 'updated_date' },
     { id: 13, label: '상태', sort: '' },

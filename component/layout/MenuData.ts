@@ -422,4 +422,5 @@ export const Goivs2Menu = [
   '/material',
   '/menu',
   '/product-recipes',
+  '/test',
 ];
