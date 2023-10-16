@@ -97,7 +97,7 @@ async function warmupCacheForDynamicRoutes() {
 }
 
 const handleRequest = async (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method === 'GET') {
+  if (req.method === 'POST') {
     await warmupCacheForDynamicRoutes(); // 이 부분 수정
     res.status(200).send('Cache warmup complete');
   } else {
