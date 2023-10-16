@@ -44,7 +44,7 @@ const RecipeMaterialInfo = ({ materialInfo }: Props) => {
             <tr>
               <th>원재료명</th>
               <th>수량</th>
-              <th>제조사명</th>
+              <th>거래처명</th>
               <th>원산지명</th>
               <th>매입 원가</th>
               <th>판매 원가</th>

@@ -21,7 +21,7 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
   const [pageMode, setPageMode] = useState('');
   const [selectedImgFile, setSelectedImgFile] = useState<File | null>(null);
   const materialPatnerParams = useMemo(
-    () => environment.list.find(el => el.value === '제조사'),
+    () => environment.list.find(el => el.value === '거래처'),
     [environment.list]
   );
 
@@ -40,7 +40,7 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
     () => fetchMaterialCategory()
   );
 
-  // 제조사 데이터
+  // 거래처 데이터
   const { data: materialPatner } = useQuery(
     ['partnerList', router.asPath],
     () =>

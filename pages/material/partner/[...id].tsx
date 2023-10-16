@@ -30,7 +30,7 @@ const LogisticsDetailPage = ({
       enabled: pageMode === 'view',
     }
   );
-  /// /pct_manufacturer : 제조사
+  /// /pct_manufacturer : 거래처
   // pct_shipping_company : 물류사
   const partnerCategory = useMemo(
     () => environment?.list?.find(el => el.code === router.query.category),
