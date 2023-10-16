@@ -93,6 +93,7 @@ const Channelimg = ({ environment }: { environment: IEnvironmentRes }) => {
     BAEMIN: { width: 1280, height: 1280 },
     SDELIVERY: { width: 500, height: 500 },
     YOGIYO: { width: 552, height: 327 },
+    COUPANG: { width: 1080, height: 660 },
   };
 
   const { data: ChannelImg } = useQuery(

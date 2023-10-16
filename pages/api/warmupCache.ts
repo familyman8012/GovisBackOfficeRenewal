@@ -55,8 +55,12 @@ const warmupCache = async () => {
 };
 
 const handleRequest = async (req: NextApiRequest, res: NextApiResponse) => {
-  await warmupCache();
-  res.status(200).send('Cache warmup complete');
+  if (req.method === 'POST') {
+    await warmupCache();
+    res.status(200).send('Cache warmup complete');
+  } else {
+    res.status(405).send('Method Not Allowed'); // 405 Method Not Allowed 응답을 반환
+  }
 };
 
 export default handleRequest;
