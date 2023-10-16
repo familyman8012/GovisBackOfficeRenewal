@@ -40,8 +40,9 @@ const DetailPageLayout: React.FC<ILayout> = ({
     [router?.asPath]
   );
 
-  const handlerMoveTab = (index: number) => {
+  const handlerMoveTab = async (index: number) => {
     setActiveTabIndex(index);
+    await router.prefetch(tabData[index].url);
     // eslint-disable-next-line no-unused-vars
     const { id, ...newObj } = router.query;
     router.push({
