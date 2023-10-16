@@ -19,7 +19,7 @@ const getBaseURL = () => {
 const baseURL = getBaseURL();
 
 // 배치 크기 설정
-const BATCH_SIZE = 10;
+const BATCH_SIZE = 5;
 
 // 동적 라우트를 스캔하는 함수
 function scanDynamicRoutes(directory: string) {
