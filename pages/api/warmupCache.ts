@@ -69,16 +69,16 @@ async function warmupCache(route: string, baseURL: string) {
   const url = `${baseURL}${route}`;
 
   console.log(`Cache test warmed for ${url}`);
-  // try {
-  //   const response = await fetch(url);
-  //   if (response.ok) {
-  //     console.log(`Cache warmed for ${url}`);
-  //   } else {
-  //     console.error(`Failed to warm cache for ${url}: ${response.statusText}`);
-  //   }
-  // } catch (error: any) {
-  //   console.error(`Failed to warm cache for ${url}: ${error.message}`);
-  // }
+  try {
+    const response = await fetch(url);
+    if (response.ok) {
+      console.log(`Cache warmed for ${url}`);
+    } else {
+      console.error(`Failed to warm cache for ${url}: ${response.statusText}`);
+    }
+  } catch (error: any) {
+    console.error(`Failed to warm cache for ${url}: ${error.message}`);
+  }
 }
 
 // 주요 함수
