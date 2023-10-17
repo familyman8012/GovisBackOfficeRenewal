@@ -31,7 +31,7 @@ const generateHistoryPage2 = (config: Config) => {
     });
 
     const { data, isLoading, hasNextPage, fetchNextPage } = useInfiniteQuery(
-      [config.endpoint, params],
+      [config.endpoint, router.query.id],
       ({ pageParam = 1 }) =>
         fetchDataHistoryList(`${config.endpoint}/${config.idx}`, {
           ...params,
@@ -46,6 +46,7 @@ const generateHistoryPage2 = (config: Config) => {
           return allPages.length + 1;
         },
         enabled: !!router.isReady,
+        cacheTime: 60,
       }
     );
 
