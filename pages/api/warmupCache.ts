@@ -73,7 +73,7 @@ async function warmupCache(route: string) {
   try {
     const response = await fetch(url);
     if (response.ok) {
-      console.log(`Cache warmed for ${url}`);
+      // console.log(`Cache warmed for ${url}`);
     } else {
       console.error(`Failed to warm cache for ${url}: ${response.statusText}`);
     }
@@ -107,7 +107,7 @@ const handleRequest = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     console.log('res', res);
     await warmupCacheForDynamicRoutes(); // 이 부분 수정
-    res.status(200).send('Cache warmup complete');
+    // res.status(200).send('Cache warmup complete');
   } else {
     res.status(405).send('Method Not Allowed');
   }
