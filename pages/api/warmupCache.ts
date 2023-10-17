@@ -69,11 +69,11 @@ function scanDynamicRoutes(directory: string) {
 // 캐시를 워밍업하는 함수
 async function warmupCache(route: string) {
   const url = `${baseURL}${route}`;
-  console.log(`Warming up cache for ${url}`);
+  // console.log(`Warming up cache for ${url}`);
   try {
     const response = await fetch(url);
     if (response.ok) {
-      console.log(`Cache warmed for ${url}`);
+      // console.log(`Cache warmed for ${url}`);
     } else {
       console.error(`Failed to warm cache for ${url}: ${response.statusText}`);
     }
@@ -105,10 +105,10 @@ async function warmupCacheForDynamicRoutes() {
 
 const handleRequest = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
-    console.log('req Cache', req);
-    console.log('res Cache', res);
-    console.log('req Cache message', (req as any).message);
-    console.log('res Cache message', (res as any).message);
+    // console.log('req Cache', req);
+    // console.log('res Cache', res);
+    // console.log('req Cache message', (req as any).message);
+    console.log('res', res);
     await warmupCacheForDynamicRoutes(); // 이 부분 수정
     res.status(200).send('Cache warmup complete');
   } else {
