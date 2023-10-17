@@ -44,9 +44,13 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
   const { data: materialPatner } = useQuery(
     ['partnerList', router.asPath],
     () =>
-      fetchPartnerList(String(materialPatnerParams?.environment_variable_idx)),
+      fetchPartnerList(String(materialPatnerParams?.environment_variable_idx), {
+        per_num: 9999,
+      }),
     { enabled: !!materialPatnerParams }
   );
+
+  console.log('materialPatner', materialPatner);
 
   // 등록일때, 데이터 저장
   const saveSubmit = useMutation(fetchMaterialFormSave, {
