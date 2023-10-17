@@ -105,10 +105,8 @@ async function warmupCacheForDynamicRoutes() {
 
 const handleRequest = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
-    // console.log('req Cache', req);
-    // console.log('res Cache', res);
-    // console.log('req Cache message', (req as any).message);
-    console.log('res', res);
+    const deploymentUrl = req.body.payload.deployment.url;
+    console.log('deployment URL:', deploymentUrl);
     await warmupCacheForDynamicRoutes(); // 이 부분 수정
     res.status(200).send('Cache warmup complete');
   } else {
