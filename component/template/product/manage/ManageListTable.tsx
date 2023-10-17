@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 import React from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { IProductRes } from '@InterfaceFarm/product';
 import { Badge } from '@ComponentFarm/atom/Badge/Badge';
@@ -64,7 +65,16 @@ const ManageListTable = ({ data, updateParams }: TableProps) => {
               key={product.product_info_idx}
               onClick={() => handleGoIdxClick(String(product.product_info_idx))}
             >
-              <td className="code">{product.product_code}</td>
+              <td className="code">
+                <Link
+                  href={{
+                    pathname: `/product/view/${product.product_info_idx}`,
+                    query: router.query,
+                  }}
+                >
+                  {product.product_code}
+                </Link>
+              </td>
               <td>{product.evi_product_category_str}</td>
               <td>{product.product_name_ko}</td>
               <td>{product.evi_sale_type_str.join('/')}</td>

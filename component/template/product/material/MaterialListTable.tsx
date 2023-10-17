@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 import React from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { css } from '@emotion/react';
 import { IMaterialRes } from '@InterfaceFarm/material';
@@ -109,7 +110,16 @@ const ManageListTable = ({ data, updateParams }: TableProps) => {
                 handleGoIdxClick(String(material.material_info_idx))
               }
             >
-              <td className="code">{material.material_code}</td>
+              <td className="code">
+                <Link
+                  href={{
+                    pathname: `/material/view/${material.material_info_idx}`,
+                    query: router.query,
+                  }}
+                >
+                  {material.material_code}
+                </Link>
+              </td>
               <td>{material.evv_material_product_type}</td>
               <td>{material.mcn_large}</td>
               <td>{material.mcn_middle}</td>
