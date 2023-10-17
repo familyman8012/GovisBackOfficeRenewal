@@ -11,19 +11,17 @@ const DynamicFolderRoute = [
 ];
 
 // baseURL을 가져오는 함수
-const getBaseURL = () => {
-  switch (process.env.NEXT_PUBLIC_DEPLOYMENT_ENV) {
+const getBaseURL = (githubCommitRef: string) => {
+  console.log('githubCommitRef getBaseUrl', githubCommitRef);
+  switch (githubCommitRef) {
     case 'dev':
       return 'https://dev.govis2.gopizza.kr';
-    case 'prod':
+    case 'master':
       return 'https://govis2.gopizza.kr';
     default:
       return 'http://localhost:3000';
   }
 };
-
-// baseURL 변수 설정
-const baseURL = getBaseURL();
 
 // 배치 크기 설정
 const BATCH_SIZE = 5;
@@ -67,9 +65,9 @@ function scanDynamicRoutes(directory: string) {
 }
 
 // 캐시를 워밍업하는 함수
-async function warmupCache(route: string) {
+async function warmupCache(route: string, baseURL: string) {
   const url = `${baseURL}${route}`;
-  console.log(`Warming up cache for ${url}`);
+
   try {
     const response = await fetch(url);
     if (response.ok) {
@@ -83,7 +81,7 @@ async function warmupCache(route: string) {
 }
 
 // 주요 함수
-async function warmupCacheForDynamicRoutes() {
+async function warmupCacheForDynamicRoutes(baseURL: string) {
   const pagesDirectory = path.join(process.cwd(), 'pages');
   const dynamicRoutes = scanDynamicRoutes(pagesDirectory);
 
@@ -95,18 +93,22 @@ async function warmupCacheForDynamicRoutes() {
   // 동적 라우트와 사용자 지정 라우트 병합
   const allRoutes = [...staticRoutes, ...DynamicFolderRoute];
 
-  // 정적 라우트를 사용하여 캐시 워밍업 작업 수행
+  // 정적 라우트를 사용하여 캐시 워밍업 작업 수행.
   for (let i = 0; i < allRoutes.length; i += BATCH_SIZE) {
     const batch = allRoutes.slice(i, i + BATCH_SIZE);
     // eslint-disable-next-line no-await-in-loop
-    await Promise.all(batch.map(route => warmupCache(route)));
+    await Promise.all(batch.map(route => warmupCache(route, baseURL)));
   }
 }
 
 const handleRequest = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
-    console.log('res Cache warmup', (res as any).message);
-    await warmupCacheForDynamicRoutes(); // 이 부분 수정
+    const { githubCommitRef } = req.body.payload.deployment.meta;
+    // 주소 자동
+    const baseURL = await getBaseURL(githubCommitRef);
+    console.log('githubCommitRef:', githubCommitRef, baseURL);
+
+    await warmupCacheForDynamicRoutes(baseURL); // 이 부분 수정
     res.status(200).send('Cache warmup complete');
   } else {
     res.status(405).send('Method Not Allowed');
