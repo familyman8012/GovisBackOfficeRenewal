@@ -24,7 +24,7 @@ const getBaseURL = (githubCommitRef: string) => {
 };
 
 // 배치 크기 설정
-const BATCH_SIZE = 5;
+const BATCH_SIZE = 10;
 
 // 동적 라우트를 스캔하는 함수
 function scanDynamicRoutes(directory: string) {
@@ -105,7 +105,7 @@ async function warmupCacheForDynamicRoutes(baseURL: string) {
 }
 
 const handleRequest = async (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method === 'GET') {
+  if (req.method === 'POST') {
     const { githubCommitRef } = req.body.payload.deployment.meta;
     // 주소 자동
     const baseURL = await getBaseURL(githubCommitRef);
