@@ -17,7 +17,7 @@ const getBaseURL = (githubCommitRef: string) => {
     case 'dev':
       return 'https://dev.govis2.gopizza.kr';
     case 'master':
-      return '';
+      return 'https://govis2.gopizza.kr';
     default:
       return 'http://localhost:3000';
   }
