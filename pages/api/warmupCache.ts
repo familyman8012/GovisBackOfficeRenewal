@@ -88,7 +88,6 @@ async function warmupCacheForDynamicRoutes() {
   const pagesDirectory = path.join(process.cwd(), 'pages');
   const dynamicRoutes = scanDynamicRoutes(pagesDirectory);
 
-  // 동적 라우트의 동적 부분을 '1'로 대체
   const staticRoutes = dynamicRoutes.map(route =>
     route.replace(/\[.*?\]/g, 'view/1')
   );
