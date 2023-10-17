@@ -1,8 +1,7 @@
 // pages/api/warmupCache.ts
 import fs from 'fs';
 import path from 'path';
-import { withAxiom, Logger } from 'next-axiom';
-import type { NextApiResponse } from 'next';
+import type { NextApiRequest, NextApiResponse } from 'next';
 
 const DynamicFolderRoute = [
   '/menu/1',
@@ -88,6 +87,7 @@ async function warmupCacheForDynamicRoutes() {
   const pagesDirectory = path.join(process.cwd(), 'pages');
   const dynamicRoutes = scanDynamicRoutes(pagesDirectory);
 
+  // 동적 라우트의 동적 부분을 '1'로 대체
   const staticRoutes = dynamicRoutes.map(route =>
     route.replace(/\[.*?\]/g, 'view/1')
   );
@@ -103,16 +103,13 @@ async function warmupCacheForDynamicRoutes() {
   }
 }
 
-const handleRequest = withAxiom(async (req: any, res: NextApiResponse) => {
-  const log = new Logger();
+const handleRequest = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
-    // req.log.info('res', res); 테스트, 통합
-    log.info('res', res);
+    console.log('res', res);
     await warmupCacheForDynamicRoutes(); // 이 부분 수정
     res.status(200).send('Cache warmup complete');
   } else {
     res.status(405).send('Method Not Allowed');
   }
-});
-
+};
 export default handleRequest;
