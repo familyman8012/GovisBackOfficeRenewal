@@ -1,14 +1,14 @@
 // pages/api/warmupCache.ts
-// import fs from 'fs';
-// import path from 'path';
+import fs from 'fs';
+import path from 'path';
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-// const DynamicFolderRoute = [
-//   '/menu/1',
-//   '/menu/1/history',
-//   '/product-recipes/1/recipe-info',
-//   '/product-recipes/1/recipe-info/add',
-// ];
+const DynamicFolderRoute = [
+  '/menu/1',
+  '/menu/1/history',
+  '/product-recipes/1/recipe-info',
+  '/product-recipes/1/recipe-info/add',
+];
 
 // baseURL을 가져오는 함수
 const getBaseURL = (githubCommitRef: string) => {
@@ -24,86 +24,83 @@ const getBaseURL = (githubCommitRef: string) => {
 };
 
 // 배치 크기 설정
-// const BATCH_SIZE = 5;
+const BATCH_SIZE = 5;
 
 // 동적 라우트를 스캔하는 함수
-// function scanDynamicRoutes(directory: string) {
-//   const files = fs.readdirSync(directory);
-//   const dynamicRoutes: string[] = []; // 타입을 명시적으로 선언
+function scanDynamicRoutes(directory: string) {
+  const files = fs.readdirSync(directory);
+  const dynamicRoutes: string[] = []; // 타입을 명시적으로 선언
 
-//   files.forEach(file => {
-//     const filePath = path.join(directory, file);
-//     const stat = fs.statSync(filePath);
+  files.forEach(file => {
+    const filePath = path.join(directory, file);
+    const stat = fs.statSync(filePath);
 
-//     if (stat.isDirectory()) {
-//       // 디렉터리인 경우 재귀적으로 스캔
-//       if (file.includes('[') && file.includes(']')) {
-//         // 디렉터리 이름에 대괄호가 포함되어 있으면 동적 폴더로 간주
-//         const dynamicFolder = `/${path
-//           .relative('pages', directory)
-//           .replace(/\\/g, '/')}/${file}`;
-//         dynamicRoutes.push(dynamicFolder);
-//         dynamicRoutes.push(...scanDynamicRoutes(filePath));
-//       } else {
-//         dynamicRoutes.push(...scanDynamicRoutes(filePath));
-//       }
-//     } else if (
-//       file.includes('[') &&
-//       file.includes(']') &&
-//       file.endsWith('.tsx')
-//     ) {
-//       // 파일 이름에 대괄호가 포함되어 있고 .tsx 확장자를 가지면 동적 라우트로 간주
-//       const route = `/${path
-//         .relative('pages', filePath)
-//         .replace(/\\/g, '/')
-//         .replace(/\.tsx?$/, '')}`;
-//       dynamicRoutes.push(route);
-//     }
-//   });
+    if (stat.isDirectory()) {
+      // 디렉터리인 경우 재귀적으로 스캔
+      if (file.includes('[') && file.includes(']')) {
+        // 디렉터리 이름에 대괄호가 포함되어 있으면 동적 폴더로 간주
+        const dynamicFolder = `/${path
+          .relative('pages', directory)
+          .replace(/\\/g, '/')}/${file}`;
+        dynamicRoutes.push(dynamicFolder);
+        dynamicRoutes.push(...scanDynamicRoutes(filePath));
+      } else {
+        dynamicRoutes.push(...scanDynamicRoutes(filePath));
+      }
+    } else if (
+      file.includes('[') &&
+      file.includes(']') &&
+      file.endsWith('.tsx')
+    ) {
+      // 파일 이름에 대괄호가 포함되어 있고 .tsx 확장자를 가지면 동적 라우트로 간주
+      const route = `/${path
+        .relative('pages', filePath)
+        .replace(/\\/g, '/')
+        .replace(/\.tsx?$/, '')}`;
+      dynamicRoutes.push(route);
+    }
+  });
 
-//   return dynamicRoutes;
-// }
+  return dynamicRoutes;
+}
 
 // 캐시를 워밍업하는 함수
-// async function warmupCache(route: string, req: any, res: any) {
-//   const url = `${baseURL}${route}`;
-//   console.log(`START Warming up cache for ${url}`);
-//   console.log(`START2 Warming up cache for ${url}`, res);
-//   console.log('res Cache warmup');
-//   console.log('res Cache warmup', res);
-//   console.log('req Cache warmup', req);
-//   try {
-//     const response = await fetch(url);
-//     if (response.ok) {
-//       console.log(`Cache warmed for ${url}`);
-//     } else {
-//       console.error(`Failed to warm cache for ${url}: ${response.statusText}`);
-//     }
-//   } catch (error: any) {
-//     console.error(`Failed to warm cache for ${url}: ${error.message}`);
-//   }
-// }
+async function warmupCache(route: string, baseURL: string) {
+  const url = `${baseURL}${route}`;
+
+  console.log(`Cache warmed for ${url}`);
+  // try {
+  //   const response = await fetch(url);
+  //   if (response.ok) {
+  //     console.log(`Cache warmed for ${url}`);
+  //   } else {
+  //     console.error(`Failed to warm cache for ${url}: ${response.statusText}`);
+  //   }
+  // } catch (error: any) {
+  //   console.error(`Failed to warm cache for ${url}: ${error.message}`);
+  // }
+}
 
 // 주요 함수
-// async function warmupCacheForDynamicRoutes(req: any, res: any) {
-//   const pagesDirectory = path.join(process.cwd(), 'pages');
-//   const dynamicRoutes = scanDynamicRoutes(pagesDirectory);
+async function warmupCacheForDynamicRoutes(baseURL: string) {
+  const pagesDirectory = path.join(process.cwd(), 'pages');
+  const dynamicRoutes = scanDynamicRoutes(pagesDirectory);
 
-//   // 동적 라우트의 동적 부분을 '1'로 대체
-//   const staticRoutes = dynamicRoutes.map(route =>
-//     route.replace(/\[.*?\]/g, 'view/1')
-//   );
+  // 동적 라우트의 동적 부분을 '1'로 대체
+  const staticRoutes = dynamicRoutes.map(route =>
+    route.replace(/\[.*?\]/g, 'view/1')
+  );
 
-//   // 동적 라우트와 사용자 지정 라우트 병합
-//   const allRoutes = [...staticRoutes, ...DynamicFolderRoute];
+  // 동적 라우트와 사용자 지정 라우트 병합
+  const allRoutes = [...staticRoutes, ...DynamicFolderRoute];
 
-//   // 정적 라우트를 사용하여 캐시 워밍업 작업 수행
-//   for (let i = 0; i < allRoutes.length; i += BATCH_SIZE) {
-//     const batch = allRoutes.slice(i, i + BATCH_SIZE);
-//     // eslint-disable-next-line no-await-in-loop
-//     await Promise.all(batch.map(route => warmupCache(route, req, res)));
-//   }
-// }
+  // 정적 라우트를 사용하여 캐시 워밍업 작업 수행
+  for (let i = 0; i < allRoutes.length; i += BATCH_SIZE) {
+    const batch = allRoutes.slice(i, i + BATCH_SIZE);
+    // eslint-disable-next-line no-await-in-loop
+    await Promise.all(batch.map(route => warmupCache(route, baseURL)));
+  }
+}
 
 const handleRequest = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
@@ -112,7 +109,7 @@ const handleRequest = async (req: NextApiRequest, res: NextApiResponse) => {
     const baseURL = await getBaseURL(githubCommitRef);
     console.log('githubCommitRef:', githubCommitRef, baseURL);
 
-    // await warmupCacheForDynamicRoutes(req, res); // 이 부분 수정
+    await warmupCacheForDynamicRoutes(baseURL); // 이 부분 수정
     res.status(200).send('Cache warmup complete');
   } else {
     res.status(405).send('Method Not Allowed');
