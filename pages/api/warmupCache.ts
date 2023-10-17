@@ -105,7 +105,7 @@ const handleRequest = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     const { githubCommitRef } = req.body.payload.deployment.meta;
     // 주소 자동
-    const baseURL = getBaseURL(githubCommitRef);
+    const baseURL = await getBaseURL(githubCommitRef);
     console.log('githubCommitRef:', githubCommitRef);
     await warmupCacheForDynamicRoutes(baseURL);
     res.status(200).send('Cache warmup complete');
