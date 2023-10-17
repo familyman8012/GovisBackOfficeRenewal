@@ -69,7 +69,8 @@ function scanDynamicRoutes(directory: string) {
 // 캐시를 워밍업하는 함수
 async function warmupCache(route: string, req: any, res: any) {
   const url = `${baseURL}${route}`;
-  console.log(`Warming up cache for ${url}`);
+  console.log(`START Warming up cache for ${url}`);
+  console.log(`START2 Warming up cache for ${url}`, res);
   console.log('res Cache warmup');
   console.log('res Cache warmup', res);
   console.log('req Cache warmup', req);
