@@ -1,5 +1,7 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+const { withAxiom } = require('next-axiom');
+
+const nextConfig = withAxiom({
   reactStrictMode: true,
   images: {
     domains: ['dev-govis.s3.ap-northeast-2.amazonaws.com'],
@@ -8,6 +10,6 @@ const nextConfig = {
   compiler: {
     emotion: true,
   },
-};
+});
 
 module.exports = nextConfig;

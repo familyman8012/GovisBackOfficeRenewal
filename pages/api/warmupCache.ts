@@ -1,7 +1,8 @@
 // pages/api/warmupCache.ts
 import fs from 'fs';
 import path from 'path';
-import type { NextApiRequest, NextApiResponse } from 'next';
+import { AxiomRequest, withAxiom } from 'next-axiom';
+import type { NextApiResponse } from 'next';
 
 const DynamicFolderRoute = [
   '/menu/1',
@@ -103,14 +104,16 @@ async function warmupCacheForDynamicRoutes() {
   }
 }
 
-const handleRequest = async (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method === 'POST') {
-    console.log('res', res);
-    await warmupCacheForDynamicRoutes(); // 이 부분 수정
-    res.status(200).send('Cache warmup complete');
-  } else {
-    res.status(405).send('Method Not Allowed');
+const handleRequest = withAxiom(
+  async (req: AxiomRequest, res: NextApiResponse) => {
+    if (req.method === 'POST') {
+      req.log.info('res', res);
+      await warmupCacheForDynamicRoutes(); // 이 부분 수정
+      res.status(200).send('Cache warmup complete');
+    } else {
+      res.status(405).send('Method Not Allowed');
+    }
   }
-};
+);
 
 export default handleRequest;
