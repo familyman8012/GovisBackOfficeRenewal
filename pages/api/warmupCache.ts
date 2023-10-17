@@ -12,6 +12,7 @@ const DynamicFolderRoute = [
 
 // baseURL을 가져오는 함수
 const getBaseURL = (githubCommitRef: string) => {
+  console.log('githubCommitRef getBaseUrl', githubCommitRef);
   switch (githubCommitRef) {
     case 'dev':
       return 'https://dev.govis2.gopizza.kr';
