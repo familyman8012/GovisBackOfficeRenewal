@@ -68,7 +68,7 @@ function scanDynamicRoutes(directory: string) {
 async function warmupCache(route: string, baseURL: string) {
   const url = `${baseURL}${route}`;
 
-  console.log(`Cache warmed for ${url}`);
+  console.log(`Cache test warmed for ${url}`);
   // try {
   //   const response = await fetch(url);
   //   if (response.ok) {
