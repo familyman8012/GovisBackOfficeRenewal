@@ -103,8 +103,9 @@ async function warmupCacheForDynamicRoutes(baseURL: string) {
 const handleRequest = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === 'POST') {
     const { githubCommitRef } = req.body.payload.deployment.meta;
+    // 주소 자동
     const baseURL = getBaseURL(githubCommitRef);
-    console.log('deployment URL:', baseURL);
+    console.log('githubCommitRef:', githubCommitRef);
     await warmupCacheForDynamicRoutes(baseURL);
     res.status(200).send('Cache warmup complete');
   } else {
