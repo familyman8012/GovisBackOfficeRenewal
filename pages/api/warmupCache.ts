@@ -94,7 +94,7 @@ async function warmupCacheForDynamicRoutes(baseURL: string) {
   // 동적 라우트와 사용자 지정 라우트 병합
   const allRoutes = [...staticRoutes, ...DynamicFolderRoute];
 
-  // 정적 라우트를 사용하여 캐시 워밍업 작업 수행
+  // 정적 라우트를 사용하여 캐시 워밍업 작업 수행.
   for (let i = 0; i < allRoutes.length; i += BATCH_SIZE) {
     const batch = allRoutes.slice(i, i + BATCH_SIZE);
     // eslint-disable-next-line no-await-in-loop
