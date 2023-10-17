@@ -24,40 +24,43 @@ const getBaseURL = (githubCommitRef: string) => {
 };
 
 // 배치 크기 설정
-const BATCH_SIZE = 5;
+const BATCH_SIZE = 20;
 
 // 동적 라우트를 스캔하는 함수
 function scanDynamicRoutes(directory: string) {
   const files = fs.readdirSync(directory);
-  const dynamicRoutes: string[] = []; // 타입을 명시적으로 선언
+  const dynamicRoutes: string[] = [];
 
   files.forEach(file => {
     const filePath = path.join(directory, file);
     const stat = fs.statSync(filePath);
 
     if (stat.isDirectory()) {
-      // 디렉터리인 경우 재귀적으로 스캔
-      if (file.includes('[') && file.includes(']')) {
-        // 디렉터리 이름에 대괄호가 포함되어 있으면 동적 폴더로 간주
-        const dynamicFolder = `/${path
-          .relative('pages', directory)
-          .replace(/\\/g, '/')}/${file}`;
-        dynamicRoutes.push(dynamicFolder);
-        dynamicRoutes.push(...scanDynamicRoutes(filePath));
-      } else {
-        dynamicRoutes.push(...scanDynamicRoutes(filePath));
-      }
+      dynamicRoutes.push(...scanDynamicRoutes(filePath)); // 재귀적으로 디렉터리 스캔
     } else if (
       file.includes('[') &&
       file.includes(']') &&
       file.endsWith('.tsx')
     ) {
-      // 파일 이름에 대괄호가 포함되어 있고 .tsx 확장자를 가지면 동적 라우트로 간주
+      // 동적 파일을 찾은 경우
       const route = `/${path
         .relative('pages', filePath)
         .replace(/\\/g, '/')
         .replace(/\.tsx?$/, '')}`;
       dynamicRoutes.push(route);
+
+      // index 파일과 history 파일이 있는지 확인
+      const dir = path.dirname(filePath);
+      ['index', 'history'].forEach(filename => {
+        const additionalFilePath = path.join(dir, `${filename}.tsx`);
+        if (fs.existsSync(additionalFilePath)) {
+          const additionalRoute = `/${path
+            .relative('pages', additionalFilePath)
+            .replace(/\\/g, '/')
+            .replace(/\.tsx?$/, '')}`;
+          dynamicRoutes.push(additionalRoute);
+        }
+      });
     }
   });
 
@@ -68,7 +71,6 @@ function scanDynamicRoutes(directory: string) {
 async function warmupCache(route: string, baseURL: string) {
   const url = `${baseURL}${route}`;
 
-  console.log(`Cache test warmed for ${url}`);
   try {
     const response = await fetch(url);
     if (response.ok) {
@@ -103,11 +105,10 @@ async function warmupCacheForDynamicRoutes(baseURL: string) {
 }
 
 const handleRequest = async (req: NextApiRequest, res: NextApiResponse) => {
-  if (req.method === 'POST') {
+  if (req.method === 'GET') {
     const { githubCommitRef } = req.body.payload.deployment.meta;
     // 주소 자동
     const baseURL = await getBaseURL(githubCommitRef);
-    console.log('githubCommitRef:', githubCommitRef, baseURL);
 
     await warmupCacheForDynamicRoutes(baseURL); // 이 부분 수정
     res.status(200).send('Cache warmup complete');
