@@ -106,7 +106,7 @@ async function warmupCacheForDynamicRoutes() {
 const handleRequest = withAxiom(async (req: any, res: NextApiResponse) => {
   const log = new Logger();
   if (req.method === 'POST') {
-    // req.log.info('res', res); 테스트
+    // req.log.info('res', res); 테스트, 통합
     log.info('res', res);
     await warmupCacheForDynamicRoutes(); // 이 부분 수정
     res.status(200).send('Cache warmup complete');
