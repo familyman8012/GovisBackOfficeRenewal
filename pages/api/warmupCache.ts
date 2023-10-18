@@ -109,6 +109,7 @@ const handleRequest = async (req: NextApiRequest, res: NextApiResponse) => {
     const { githubCommitRef } = req.body.payload.deployment.meta;
     // 주소 자동
     const baseURL = await getBaseURL(githubCommitRef);
+    console.log('githubCommitRef:', githubCommitRef, baseURL);
 
     await warmupCacheForDynamicRoutes(baseURL); // 이 부분 수정
     res.status(200).send('Cache warmup complete');
