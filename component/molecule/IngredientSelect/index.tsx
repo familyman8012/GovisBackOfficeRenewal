@@ -217,7 +217,7 @@ const IngredientSelect = ({ onSelect }: Props) => {
               <thead>
                 <tr>
                   <th>원재료명</th>
-                  <th>제조사명</th>
+                  <th>거래처명</th>
                   <th>원산지명</th>
                   <th>설정</th>
                 </tr>
@@ -268,7 +268,7 @@ const IngredientSelect = ({ onSelect }: Props) => {
               <thead>
                 <tr>
                   <th>원재료명</th>
-                  <th>제조사명</th>
+                  <th>거래처명</th>
                   <th>원산지명</th>
                   <th>설정</th>
                 </tr>

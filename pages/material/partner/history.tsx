@@ -18,7 +18,7 @@ const History = ({ environment }: { environment: IEnvironmentRes }) => {
   const getHistory = generateHistoryPage2({
     idx: String(router?.query?.id),
     endpoint: `/partner_company/history/list`,
-    subTitle: '제조사 변경 내역',
+    subTitle: '거래처 변경 내역',
     tabData,
   });
 

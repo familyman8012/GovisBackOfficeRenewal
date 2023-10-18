@@ -39,7 +39,6 @@ const Menu = ({ permissionList }: { permissionList: PermissionList }) => {
 
             return (
               <li key={depth1}>
-                {/* // 현재 위치이면서, index인경우에는 클릭이 안되게 */}
                 {isPathActive(String(path)) && chkRouterIndex ? (
                   <span
                     className={`link_depth1 ${isActive ? 'on' : ''} ${

@@ -20,10 +20,13 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
   const queryClient = useQueryClient();
   const [pageMode, setPageMode] = useState('');
   const [selectedImgFile, setSelectedImgFile] = useState<File | null>(null);
+  // 수정예정
   const materialPatnerParams = useMemo(
-    () => environment.list.find(el => el.value === '제조사'),
+    () => environment.list.find(el => el.code === 'pct_manufacturer'),
     [environment.list]
   );
+
+  console.log('environment.list', environment.list);
 
   // view 일때, 데이터 불러오기
   const { data: viewData } = useQuery(
@@ -40,13 +43,17 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
     () => fetchMaterialCategory()
   );
 
-  // 제조사 데이터
+  // 거래처 데이터
   const { data: materialPatner } = useQuery(
     ['partnerList', router.asPath],
     () =>
-      fetchPartnerList(String(materialPatnerParams?.environment_variable_idx)),
+      fetchPartnerList(String(materialPatnerParams?.environment_variable_idx), {
+        per_num: 9999,
+      }),
     { enabled: !!materialPatnerParams }
   );
+
+  console.log('materialPatner', materialPatner);
 
   // 등록일때, 데이터 저장
   const saveSubmit = useMutation(fetchMaterialFormSave, {

@@ -41,7 +41,7 @@ const Manage = ({ environment }: { environment: IEnvironmentRes }) => {
   return (
     <>
       <TitleArea
-        title="제품관리"
+        title="제품 관리"
         BtnBox={
           <>
             <ExportButton

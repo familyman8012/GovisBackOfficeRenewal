@@ -66,7 +66,7 @@ export const columnConfig = {
   first_cost: '원재료 원가',
   evi_taxable: '원재료 과세 여부',
   evi_vat: '원재료 VAT',
-  pci_manufacturer: '원재료 제조사',
+  pci_manufacturer: '원재료 거래처',
   evi_country: '원재료 원산지',
   ordering_place: '원재료 발주처',
   evi_material_sale_brand: '원재료 판매 브랜드',

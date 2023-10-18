@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 import React from 'react';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { css } from '@emotion/react';
 import { IMaterialRes } from '@InterfaceFarm/material';
@@ -80,7 +81,7 @@ const ManageListTable = ({ data, updateParams }: TableProps) => {
     { id: 7, label: '원재료명', sort: 'material_name_ko' },
     { id: 8, label: '매입가', sort: 'purchase_price' },
     { id: 9, label: '판매가', sort: 'sale_price' },
-    { id: 10, label: '제조사', sort: '' },
+    { id: 10, label: '거래처', sort: '' },
     { id: 11, label: '등록일', sort: 'created_date' },
     { id: 12, label: '수정일', sort: 'updated_date' },
     { id: 13, label: '상태', sort: '' },
@@ -109,7 +110,16 @@ const ManageListTable = ({ data, updateParams }: TableProps) => {
                 handleGoIdxClick(String(material.material_info_idx))
               }
             >
-              <td className="code">{material.material_code}</td>
+              <td className="code">
+                <Link
+                  href={{
+                    pathname: `/material/view/${material.material_info_idx}`,
+                    query: router.query,
+                  }}
+                >
+                  {material.material_code}
+                </Link>
+              </td>
               <td>{material.evv_material_product_type}</td>
               <td>{material.mcn_large}</td>
               <td>{material.mcn_middle}</td>

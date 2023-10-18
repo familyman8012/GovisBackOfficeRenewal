@@ -71,7 +71,7 @@ export const materialListTabData = [
     url: '/material',
   },
   {
-    title: '제조사 목록',
+    title: '거래처 목록',
     url: '/material/partner?category=pct_manufacturer&current_num=1&per_num=10',
   },
   {

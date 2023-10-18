@@ -80,7 +80,7 @@ export const TotalMenu: MenuType[] = [
     ],
   },
   {
-    depth1: '제품관리',
+    depth1: '제품 관리',
     group: 'HeadOffice',
     path: '/product',
     perm_code: 'product',
@@ -422,4 +422,5 @@ export const Goivs2Menu = [
   '/material',
   '/menu',
   '/product-recipes',
+  '/test',
 ];
