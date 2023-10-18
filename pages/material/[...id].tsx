@@ -20,6 +20,7 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
   const queryClient = useQueryClient();
   const [pageMode, setPageMode] = useState('');
   const [selectedImgFile, setSelectedImgFile] = useState<File | null>(null);
+  // 수정예정
   const materialPatnerParams = useMemo(
     () => environment.list.find(el => el.value === '거래처'),
     [environment.list]
