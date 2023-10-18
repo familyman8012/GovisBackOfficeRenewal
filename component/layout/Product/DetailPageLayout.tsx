@@ -1,7 +1,7 @@
-import React, { useEffect, useLayoutEffect, useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { useRouter } from 'next/router';
 import { Button } from '@ComponentFarm/atom/Button/Button';
-import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
+import { Tabs } from '@ComponentFarm/atom/Tab/TabLink';
 import {
   PageModeSettings,
   Tab,
@@ -28,30 +28,10 @@ const DetailPageLayout: React.FC<ILayout> = ({
   children,
 }) => {
   const router = useRouter();
-  const [activeTabIndex, setActiveTabIndex] = useState(0);
-
-  const tabIndex = useMemo(
-    () => tabData?.findIndex(tab => router?.asPath.includes(tab.url)),
-    [router, tabData]
-  );
-  const tabId = useMemo(() => router?.asPath?.split('?')[0], [router?.asPath]);
   const currentCategory = useMemo(
     () => router?.asPath?.split('/')[1],
     [router?.asPath]
   );
-
-  const handlerMoveTab = async (index: number) => {
-    setActiveTabIndex(index);
-    await router.prefetch(tabData[index].url);
-    // eslint-disable-next-line no-unused-vars
-    const { id, ...newObj } = router.query;
-    router.push({
-      pathname: `${tabData[index].url}`,
-      query: tabData[index].query
-        ? { ...tabData[index].query, ...newObj }
-        : { ...newObj },
-    });
-  };
 
   const handlerMoveBack = () => {
     // eslint-disable-next-line no-unused-vars
@@ -61,14 +41,6 @@ const DetailPageLayout: React.FC<ILayout> = ({
       query: { ...newObj },
     });
   };
-
-  const useIsomorphicLayoutEffect =
-    typeof window !== 'undefined' ? useLayoutEffect : useEffect;
-  useIsomorphicLayoutEffect(() => {
-    if (typeof tabIndex === 'number') {
-      setActiveTabIndex(tabIndex);
-    }
-  }, [tabIndex]);
 
   return (
     <>
@@ -93,12 +65,7 @@ const DetailPageLayout: React.FC<ILayout> = ({
           </>
         }
       />
-      <Tabs
-        id={String(tabId)}
-        tabs={tabData}
-        activeTabIndex={activeTabIndex}
-        onTabChange={index => handlerMoveTab(index)}
-      />
+      <Tabs tabs={tabData} />
       {children}
     </>
   );

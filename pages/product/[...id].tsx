@@ -27,6 +27,8 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
     () => fetchProductFormView(String(id && id[1])),
     {
       enabled: pageMode === 'view' || pageMode === 'modify',
+      staleTime: 1000 * 90,
+      cacheTime: 1000 * 90,
     }
   );
 
