@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import React, { useState } from 'react';
 import { Meta, Story } from '@storybook/react';
 import { useForm, Controller } from 'react-hook-form';
@@ -114,3 +115,29 @@ const StoryDatePicker2: Story<Props> = args => {
   );
 };
 export const ReactHookForm = StoryDatePicker2.bind({});
+
+export const minDateMaxDate = (args: any) => {
+  const [minDateValue, setMinDateValue] = useState('2023-10-18');
+  const [maxDateValue, setMaxDateValue] = useState('2023-10-20');
+
+  return (
+    <StoryLayout {...args}>
+      <DatePicker
+        placeholderText="판매 시작일"
+        minDate={new Date('2023-10-17')}
+        selectedDate={minDateValue}
+        onChange={(newDate: NewDate) => {
+          setMinDateValue(String(newDate));
+        }}
+      />
+      <DatePicker
+        placeholderText="판매 시작일"
+        maxDate={new Date('2023-10-20')}
+        selectedDate={maxDateValue}
+        onChange={(newDate: NewDate) => {
+          setMaxDateValue(String(newDate));
+        }}
+      />
+    </StoryLayout>
+  );
+};

@@ -17,7 +17,7 @@ interface Props {
 
 const IngredientModalContent = styled.div`
   max-width: 87.4rem;
-  width: 80vh;
+  width: 80vw;
 
   .search {
     display: flex;

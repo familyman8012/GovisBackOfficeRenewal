@@ -86,6 +86,7 @@ export const datepickerGlobalStyle = css`
     border-radius: 50%;
 
     &--disabled {
+      opacity: 0.25;
       cursor: not-allowed;
     }
 
