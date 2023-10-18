@@ -44,8 +44,9 @@ const Layout: React.FC<ILayout> = ({ children }) => {
         <title>{`${depth1Text} | GOVIS`}</title>
       </Head>
       <NextProgress
-        delay={300}
+        delay={500}
         disableSameRoute
+        color="#171C8F"
         options={{ showSpinner: false }}
       />
       <LayoutWrap>
