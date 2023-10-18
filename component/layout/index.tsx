@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
+import NextProgress from 'next-progress';
 import { ErrorBoundary } from 'react-error-boundary';
 import { getUrlText } from '@UtilFarm/getUrlText';
 import LeftMenu from './LeftMenu';
@@ -42,6 +43,11 @@ const Layout: React.FC<ILayout> = ({ children }) => {
       <Head>
         <title>{`${depth1Text} | GOVIS`}</title>
       </Head>
+      <NextProgress
+        delay={300}
+        disableSameRoute
+        options={{ showSpinner: false }}
+      />
       <LayoutWrap>
         <LeftMenu />
         <ErrorBoundary FallbackComponent={Fallback}>

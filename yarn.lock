@@ -3662,6 +3662,11 @@
   resolved "https://registry.yarnpkg.com/@types/npmlog/-/npmlog-4.1.4.tgz#30eb872153c7ead3e8688c476054ddca004115f6"
   integrity sha512-WKG4gTr8przEZBiJ5r3s8ZIAoMXNbOgQ+j/d5O4X3x6kZJRLNvyUJuUK/KoG3+8BaOHPhp2m7WC6JKKeovDSzQ==
 
+"@types/nprogress@^0.2.1":
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/@types/nprogress/-/nprogress-0.2.1.tgz#e853abbb58bd00873e047156ae86b58b6af6044c"
+  integrity sha512-TYuyVnp+nOnimgdOydDIDYIxv2kSeuJZw4tF0p/KG7hpzcMF1WkHaREwM8O4blqfT1F7rq0nht6Ko2KVUfWzBA==
+
 "@types/parse-json@^4.0.0":
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/@types/parse-json/-/parse-json-4.0.0.tgz#2f8bb441434d163b35fb8ffdccd7138927ffb8c0"
@@ -8684,6 +8689,13 @@ next-connect@0.10.2:
   dependencies:
     trouter "^3.1.0"
 
+next-progress@^2.3.1:
+  version "2.3.1"
+  resolved "https://registry.yarnpkg.com/next-progress/-/next-progress-2.3.1.tgz#31476ed88231dfb79e12bdfa9777584f2a5ddc90"
+  integrity sha512-agjfECh6VQaD2VXg/u8k3fsVStrxE1atdXeWhOCh+HBty7bxh92w5Wy3SxI86dZO+xK5+78sNLXQm1cikFCDPw==
+  dependencies:
+    nprogress "^0.2.0"
+
 next@13.4.8:
   version "13.4.8"
   resolved "https://registry.yarnpkg.com/next/-/next-13.4.8.tgz#72245bf4fdf328970147ee30de97142c39b1cb3f"
@@ -8824,6 +8836,11 @@ npmlog@^5.0.1:
     console-control-strings "^1.1.0"
     gauge "^3.0.0"
     set-blocking "^2.0.0"
+
+nprogress@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/nprogress/-/nprogress-0.2.0.tgz#cb8f34c53213d895723fcbab907e9422adbcafb1"
+  integrity sha512-I19aIingLgR1fmhftnbWWO3dXc0hSxqHQHQb3H8m+K3TnEn/iSeTZZOyvKXWqQESMwuUVnatlCnZdLBZZt2VSA==
 
 nth-check@^2.0.1:
   version "2.1.1"
