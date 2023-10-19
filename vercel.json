@@ -2,10 +2,7 @@
   "builds": [
     {
       "src": "package.json",
-      "use": "@vercel/next",
-      "config": {
-        "outputDirectory": "nextjs"
-      }
+      "use": "@vercel/next"
     },
     {
       "src": "package.json",
@@ -15,14 +12,5 @@
       }
     }
   ],
-  "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "/nextjs/$1"
-    },
-    {
-      "src": "/storybook/(.*)",
-      "dest": "/storybook-static/$1"
-    }
-  ]
+  "routes": [{ "src": "/storybook/(.*)", "dest": "/storybook-static/$1" }]
 }
