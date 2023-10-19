@@ -82,7 +82,7 @@ const LoginWrap = styled.div`
       display: flex;
       align-items: center;
       padding-top: 8rem;
-      color: var(--color-blue-gray50);
+      color: var(--color-blue_gray50);
       font-size: 1.2rem;
       font-style: normal;
       font-weight: 400;

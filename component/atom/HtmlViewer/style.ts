@@ -178,7 +178,7 @@ export const HtmlViewerStyle = styled.div`
   [type='button']:-moz-focusring,
   [type='reset']:-moz-focusring,
   [type='submit']:-moz-focusring {
-    outline: 1px dotted var(--color-blue);
+    outline: 1px dotted var(--color-blue60);
   }
 
   [type='checkbox'],

@@ -19,7 +19,7 @@ export const GroupWrap = styled.div`
   width: 9.2rem;
   height: 100%;
   padding: 3.2rem 2.4rem;
-  background: var(--color-blue);
+  background: var(--color-blue60);
 
   h1 {
     width: 4.4rem;
@@ -130,7 +130,7 @@ export const MenuWrap = styled.div`
   h2 {
     margin-bottom: 0.6rem;
     padding: 1rem 0.6rem;
-    color: var(--color-blue);
+    color: var(--color-blue60);
     font-size: 2.4rem;
     font-weight: var(--font-bold);
     line-height: 4.7rem;
@@ -202,7 +202,7 @@ export const MenuWrap = styled.div`
         padding: 1rem 0;
 
         &.on {
-          color: var(--color-blue);
+          color: var(--color-blue60);
           text-decoration: underline;
         }
       }

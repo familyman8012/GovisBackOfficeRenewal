@@ -20,7 +20,7 @@ interface IChangePasswordForm {
 
 const ChangePasswordModalWrap = styled.div`
   .notice {
-    color: #ef4747;
+    color: #ff672e;
   }
   .inp {
     margin: 20px 0;

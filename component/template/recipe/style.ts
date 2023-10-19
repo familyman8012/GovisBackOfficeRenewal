@@ -112,7 +112,7 @@ export const RegisterRecipeWrap = styled.div`
       color: var(--color-gray500);
 
       &.active {
-        color: var(--color-blue);
+        color: var(--color-blue60);
         background: var(--color-gray1);
         border: 1px solid var(--color-neutral90);
         border-left: 0;
@@ -367,7 +367,7 @@ export const RecipeListWrap = styled.div`
   }
 
   .recipe-title {
-    color: var(--color-blue);
+    color: var(--color-blue60);
     text-decoration: underline;
   }
 

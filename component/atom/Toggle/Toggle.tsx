@@ -35,7 +35,7 @@ const variantStyle = (props: StyleProps) => {
 
   return css`
     input:checked + .slider {
-      background-color: var(--color-blue);
+      background-color: var(--color-blue60);
     }
   `;
 };
@@ -85,7 +85,7 @@ const ToggleStyle = styled.label<StyleProps>`
   }
 
   input:checked + .slider {
-    background-color: var(--color-blue);
+    background-color: var(--color-blue60);
   }
 
   input:checked + .slider:before {

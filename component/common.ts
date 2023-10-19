@@ -640,10 +640,6 @@ export const Table = styled.table`
 
   th {
     border-bottom: 1px solid var(--color-neutral90);
-
-    &.on {
-      background: #ededed;
-    }
   }
 
   .th_title {
@@ -660,7 +656,7 @@ export const Table = styled.table`
     tr:not(.empty) {
       &:hover {
         cursor: pointer;
-        background: #ededfc;
+        background: var(--color-indigo90);
       }
       &:last-of-type td {
         border-bottom: none;
@@ -674,14 +670,14 @@ export const Table = styled.table`
       font-weight: 500;
       letter-spacing: 0.42px;
       word-break: keep-all;
-      background: #f9fafb;
+      background: var(--color-blue_gray10);
     }
     td {
       padding: 1.2rem 0 1.2rem 2rem;
       color: var(--color-neutral10);
 
       &.code {
-        color: var(--color-blue);
+        color: var(--color-blue60);
       }
     }
   }

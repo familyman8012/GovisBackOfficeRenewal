@@ -124,7 +124,7 @@ export const PaginationWrap = styled.div`
     font-size: ${FONT.size4};
     line-height: 1.2;
     border-radius: 0.4rem;
-    color: #212b36;
+    color: var(--color-dark_gray400);
     cursor: pointer;
     svg {
       position: static;
@@ -149,7 +149,7 @@ export const PaginationWrap = styled.div`
 
   .page-item.active {
     background: var(--color-gray1);
-    color: var(--color-blue);
+    color: var(--color-blue60);
     border-color: currentColor;
   }
 

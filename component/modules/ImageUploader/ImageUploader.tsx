@@ -48,13 +48,13 @@ const ImageWrapper = styled.div`
 
   svg {
     path {
-      fill: var(--color-blue);
+      fill: var(--color-blue60);
     }
   }
 `;
 
 const ImageText = styled.span`
-  color: var(--color-blue);
+  color: var(--color-blue60);
   font-size: 1.4rem;
   font-weight: 600;
   line-height: 120%;

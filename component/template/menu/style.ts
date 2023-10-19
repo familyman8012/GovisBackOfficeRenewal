@@ -92,7 +92,7 @@ export const MenuOptionGroupStyle = styled.div`
       padding: 0.4rem 0.8rem;
       border-radius: 0.2rem;
       color: var(--color-gray1);
-      background: var(--color-blue);
+      background: var(--color-blue60);
       cursor: pointer;
     }
 
@@ -225,7 +225,7 @@ export const MenuOptionGroupStyle = styled.div`
 
   .add-button {
     height: 4rem;
-    color: var(--color-blue);
+    color: var(--color-blue60);
   }
 `;
 

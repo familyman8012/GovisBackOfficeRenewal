@@ -45,7 +45,7 @@ const CustomControl = (prefixLabel: string) => {
             padding: '0 .2rem 0 1.2rem',
           }}
         >
-          <span style={{ color: '#687182' }}>{prefixLabel}</span>
+          <span style={{ color: 'var(--color-gray500)' }}>{prefixLabel}</span>
         </span>
         {children}
       </components.Control>
@@ -116,7 +116,7 @@ export const Select: FC<SelectProps> = ({
       backgroundColor: state.isFocused
         ? 'var(--input-selectOptionSelected)'
         : 'transparent',
-      color: state.isFocused ? 'var(--color-blue)' : 'var(--color-neutral10)',
+      color: state.isFocused ? 'var(--color-blue60)' : 'var(--color-neutral10)',
       // color: state.isSelected ? 'white' : 'inherit',
     }),
   };

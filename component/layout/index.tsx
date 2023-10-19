@@ -47,7 +47,7 @@ const Layout: React.FC<ILayout> = ({ children }) => {
         height={1}
         delay={500}
         disableSameRoute
-        color="#ff4600"
+        color="var(--color-orange60)"
         options={{ showSpinner: false }}
       />
       <LayoutWrap>

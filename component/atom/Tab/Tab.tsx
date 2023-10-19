@@ -31,7 +31,7 @@ const TabWrapper = styled.div<{ isActive: boolean }>`
   font-style: normal;
   font-weight: 700;
   line-height: 2rem;
-  color: ${({ isActive }) => (isActive ? 'var(--color-blue)' : '#667085')};
+  color: ${({ isActive }) => (isActive ? 'var(--color-blue60)' : '#667085')};
   cursor: pointer;
 
   .badge {
@@ -44,7 +44,7 @@ const TabWrapper = styled.div<{ isActive: boolean }>`
     left: 0;
     right: 0;
     height: 2px;
-    background: var(--color-blue);
+    background: var(--color-blue60);
   }
 `;
 

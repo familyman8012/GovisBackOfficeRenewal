@@ -4,7 +4,7 @@ import { BACKGROUND, COLOR, INPUT, TEXTCOLOR } from '@ComponentFarm/token';
 
 export const datepickerGlobalStyle = css`
   .react-datepicker {
-    color: #333;
+    color: var(--color-neutral10);
     background: #fff;
     box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 0.25);
     font: inherit;
@@ -131,6 +131,12 @@ export const datepickerGlobalStyle = css`
   .react-datepicker__quarter-text--today,
   .react-datepicker__year-text--today {
     font-weight: normal;
+  }
+
+  .react-datepicker__current-month,
+  .react-datepicker-time__header,
+  .react-datepicker-year-header {
+    color: var(--color-neutral10);
   }
 
   .react-datepicker__day--outside-month {
@@ -308,7 +314,7 @@ export const datepickerGlobalStyle = css`
     &.react-datepicker__day--selecting-range-end,
     &.react-datepicker__day--range-end {
       &:not(.react-datepicker__day--outside-month) {
-        background-color: var(--color-blue) !important;
+        background-color: var(--color-blue60) !important;
         color: ${TEXTCOLOR.brandPrimary} !important;
         border-radius: 50%;
         font-weight: 900;
@@ -358,7 +364,7 @@ export const datepickerGlobalStyle = css`
 
   .react-datepicker__day--keyboard-selected {
     background: transparent;
-    border: 1px solid var(--color-blue);
+    border: 1px solid var(--color-blue60);
 
     &.react-datepicker__day--outside-month {
       background: transparent !important;
