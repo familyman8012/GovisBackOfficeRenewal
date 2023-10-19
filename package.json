@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
+    "build-storybook": "build-storybook -s public -o storybook-static",
     "icons_rename": "node ./util/icon_rename.js",
     "svg": "npx @svgr/cli --out-dir ./component/atom/icons --icon --template ./util/svgrTemplate.tsx ./public/images/icons --typescript && eslint ./component/atom/icons --fix"
   },
