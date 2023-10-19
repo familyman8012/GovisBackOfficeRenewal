@@ -35,7 +35,7 @@ const SVGDisplay: Story<any> = ({ ...args }) => (
   <StoryLayout
     customCss={css`
       display: grid;
-      grid-template-columns: repeat(7, 1fr);
+      grid-template-columns: repeat(5, 1fr);
       gap: 4rem;
       text-align: center;
       background: darkseagreen;
