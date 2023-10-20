@@ -1,4 +1,7 @@
 import React from 'react';
+import dayjs from 'dayjs';
+import { Badge } from '@ComponentFarm/atom/Badge/Badge';
+import { VideoListStyle } from './style';
 
 type VideoListProps = {
   list: {
@@ -12,20 +15,38 @@ type VideoListProps = {
 
 const VideoList: React.FC<VideoListProps> = ({ list }) => {
   return (
-    <div>
-      {list.map((video, index) => (
-        <div key={index}>
-          <video muted src={video.video_url} controls />
-
-          <h3>{video.store_name}</h3>
-          <ul>
-            <li className="tag">{video.score}</li>
-          </ul>
-          <p>Score: {video.score}</p>
-          <p>Created Date: {video.created_date}</p>
+    <VideoListStyle>
+      <div className="item">
+        <div className="video-wrap">
+          <Badge color="green" dot>
+            검수완료
+          </Badge>
+          <video muted controls />
         </div>
-      ))}
-    </div>
+
+        <h3>오리지널 페퍼로니</h3>
+        <ul>
+          <li className="score" />
+        </ul>
+
+        <p>Created Date: {dayjs().format('YYYY-MM-DD')}</p>
+      </div>
+      <div className="item">
+        <div className="video-wrap">
+          <Badge color="green" dot>
+            검수완료
+          </Badge>
+          <video muted controls />
+        </div>
+
+        <h3>오리지널 페퍼로니</h3>
+        <ul>
+          <li className="score" />
+        </ul>
+
+        <p>Created Date: {dayjs().format('YYYY-MM-DD')}</p>
+      </div>
+    </VideoListStyle>
   );
 };
 
