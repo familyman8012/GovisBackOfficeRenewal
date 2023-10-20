@@ -173,11 +173,17 @@ const Login = () => {
         {
           secure: true,
           domain:
-            chkhost?.indexOf('localhost') !== -1 ? undefined : '.gopizza.kr',
+            chkhost?.indexOf('localhost') !== -1
+              ? undefined
+              : chkhost?.indexOf('dev.gopizza.kr') !== -1
+              ? '.dev.gopizza.kr'
+              : '.gopizza.kr',
           sameSite: 'none',
           path: '/',
         }
       );
+
+      console.log('chkhost', chkhost);
 
       runInAction(() => {
         authStore.login({
