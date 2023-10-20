@@ -1,6 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
-import { GetServerSideProps } from 'next';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import {
   fetchMaterialCategory,
@@ -9,13 +8,15 @@ import {
   fetchMaterialFormView,
   fetchPartnerList,
 } from '@ApiFarm/ material';
-import { fetchEnvironment } from '@ApiFarm/environment';
-import { IEnvironmentRes } from '@InterfaceFarm/environment';
 import MaterialForm from '@ComponentFarm/template/product/material/Form';
+import { EnvStore } from '@MobxFarm/store';
 import { uploadToS3 } from '@UtilFarm/uploads3';
 
-const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
+const ProductDetail = () => {
   const router = useRouter();
+  const environment = EnvStore?.getData({
+    name: 'material_status,material_product_type,material_storage_type,material_trade_unit,material_spec_unit,taxable,vat,country,material_sale_brand,partner_company_type',
+  });
   const { id } = router.query;
   const queryClient = useQueryClient();
   const [pageMode, setPageMode] = useState('');
@@ -143,34 +144,3 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
 };
 
 export default ProductDetail;
-
-// export async function getStaticPaths() {
-//   // 기본 경로들
-//   const basePaths = [
-//     { params: { id: ['add'] } },
-//     { params: { id: ['modify'] } },
-//     { params: { id: ['view'] } },
-//   ];
-
-//   return {
-//     paths: basePaths,
-//     fallback: 'blocking',
-//   };
-// }
-
-export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
-  res.setHeader(
-    'Cache-Control',
-    `public, s-maxage=${60 * 60 * 24}, stale-while-revalidate=59`
-  );
-
-  const environment = await fetchEnvironment({
-    name: 'material_status,material_product_type,material_storage_type,material_trade_unit,material_spec_unit,taxable,vat,country,material_sale_brand,partner_company_type',
-  });
-
-  return {
-    props: {
-      environment,
-    },
-  };
-};
