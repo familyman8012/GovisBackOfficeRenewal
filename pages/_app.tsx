@@ -14,7 +14,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { ToastContainer } from 'react-toastify';
 import { Global } from '@emotion/react';
 import 'react-toastify/dist/ReactToastify.css';
-import { saveSessionEnvironment } from '@ApiFarm/environment';
+import { fetchEnvironment } from '@ApiFarm/environment';
 import { ServerError } from '@InterfaceFarm/response';
 import ConfirmModal from '@ComponentFarm/modules/Modal/ConfirmModal';
 import reset from '@ComponentFarm/common';
@@ -61,6 +61,11 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
     if (!!localStorage.getItem('BO_AUTH_TOKEN') && !Cookies.get('AUTH_DATA')) {
       authStore.logOut();
     }
+
+    const saveSessionEnvironment = async () => {
+      const environment = await fetchEnvironment();
+      sessionStorage.setItem('environment', JSON.stringify(environment));
+    };
 
     if (!sessionStorage.getItem('environment')) {
       saveSessionEnvironment();
