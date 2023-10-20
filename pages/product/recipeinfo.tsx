@@ -1,18 +1,33 @@
 import { useMemo } from 'react';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
-import { fetchEnvironment } from '@ApiFarm/environment';
 import { fetchProductRecipe } from '@ApiFarm/product';
-import { IEnvironmentResItem } from '@InterfaceFarm/environment';
 import Empty from '@ComponentFarm/atom/Empty/Empty';
 import DetailPageLayout from '@ComponentFarm/layout/Product/DetailPageLayout';
 import { tabDataFunc } from '@ComponentFarm/template/product/manage/const';
 import RecipeView from '@ComponentFarm/template/recipe/RecipeView';
+import { EnvStore } from '@MobxFarm/store';
 
-const ProductRecipeInfoPage = ({ envs }: { envs: IEnvironmentResItem[] }) => {
+const ProductRecipeInfoPage = () => {
   const router = useRouter();
   const tabData = tabDataFunc('view', router?.query);
   const id = useMemo(() => router.query.id, [router?.query]);
+
+  const environment = useMemo(
+    () =>
+      EnvStore?.getData({
+        name: [
+          'product_group',
+          'product_category',
+          'product_status',
+          'recipe_status',
+          'recipe_step_topping_type',
+          'recipe_material_meterage_unit',
+          'recipe_material_quantity_unit',
+        ].join(','),
+      }),
+    [EnvStore.data]
+  );
 
   // view 일때, 데이터 불러오기
   const { data, isLoading, isError } = useQuery(
@@ -44,29 +59,9 @@ const ProductRecipeInfoPage = ({ envs }: { envs: IEnvironmentResItem[] }) => {
 
   return (
     <DetailPageLayout title="제품 관리 상세 정보" tabData={tabData}>
-      {data && <RecipeView initialData={data} envs={envs} />}
+      {data && <RecipeView initialData={data} envs={environment.list} />}
     </DetailPageLayout>
   );
-};
-
-export const getServerSideProps = async () => {
-  const props = await fetchEnvironment({
-    name: [
-      'product_group',
-      'product_category',
-      'product_status',
-      'recipe_status',
-      'recipe_step_topping_type',
-      'recipe_material_meterage_unit',
-      'recipe_material_quantity_unit',
-    ].join(','),
-  });
-
-  return {
-    props: {
-      envs: props.list,
-    },
-  };
 };
 
 export default ProductRecipeInfoPage;

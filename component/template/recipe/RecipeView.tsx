@@ -82,7 +82,7 @@ const RecipeView = React.forwardRef<HTMLFormElement, RecipeFormProps>(
                 </div>
               </div>
             </div>
-            <RecipeStepForm ref={stepRef} editable={false} inView envs={envs} />
+            <RecipeStepForm ref={stepRef} editable={false} inView />
           </FormWrap>
         </FormProvider>
       </RegisterRecipeWrap>

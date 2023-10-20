@@ -1,9 +1,7 @@
 import { useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
-import { NextPage } from 'next';
 import { useMutation } from 'react-query';
 import { updateMenuInfo } from '@ApiFarm/menu';
-import { IEnvironmentResItem } from '@InterfaceFarm/environment';
 import AlertModal from '@ComponentFarm/modules/Modal/AlertModal';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import LayoutTitleBoxWithTab from '@ComponentFarm/template/layout/LayoutWithTitleBoxAndTab';
@@ -12,9 +10,7 @@ import { MenuForm } from '@ComponentFarm/template/menu/MenuForm';
 import { useGoMove } from '@HookFarm/useGoMove';
 import { formRequestSubmit } from '@UtilFarm/form';
 
-const MenuDetailPage: NextPage<{
-  envs: IEnvironmentResItem[];
-}> = ({ envs }) => {
+const MenuDetailPage = () => {
   const router = useRouter();
   const { onBack } = useGoMove();
   const [showAlert, setShowAlert] = useState(false);
@@ -75,7 +71,6 @@ const MenuDetailPage: NextPage<{
         ref={formRef}
         id={id}
         editable={editable}
-        envs={envs}
         onSubmit={updateMutate.mutate}
       />
       <AlertModal
