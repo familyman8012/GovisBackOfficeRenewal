@@ -1,9 +1,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
-import { fetchEnvironment } from '@ApiFarm/environment';
 import { fetchProductList } from '@ApiFarm/product';
-import { IEnvironmentRes } from '@InterfaceFarm/environment';
 import ExportButton from '@ComponentFarm/modules/ExportButton/ExportButton';
 import Pagination from '@ComponentFarm/modules/Paginate/Pagination';
 import { Button } from '@ComponentFarm/atom/Button/Button';
@@ -14,13 +12,18 @@ import { tabData } from '@ComponentFarm/template/product/manage/const';
 import ManageListHandler from '@ComponentFarm/template/product/manage/ManageListHandler';
 import ManageListTable from '@ComponentFarm/template/product/manage/ManageListTable';
 import useQueryParams from '@HookFarm/useQueryParams';
+import { EnvStore } from '@MobxFarm/store';
 
-const Manage = ({ environment }: { environment: IEnvironmentRes }) => {
+const Manage = () => {
   const router = useRouter();
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const [params, updateParams, resetParams] = useQueryParams({
     current_num: 1,
     per_num: 10,
+  });
+
+  const environment = EnvStore?.getData({
+    name: 'product_category,sale_type,product_status,recipe_status',
   });
 
   const { isLoading, data } = useQuery(['productList', router.asPath], () =>
@@ -82,16 +85,3 @@ const Manage = ({ environment }: { environment: IEnvironmentRes }) => {
 };
 
 export default Manage;
-
-export const getStaticProps = async () => {
-  const environment = await fetchEnvironment({
-    name: 'product_category,sale_type,product_status,recipe_status',
-  });
-
-  return {
-    props: {
-      environment,
-    },
-    revalidate: 60,
-  };
-};

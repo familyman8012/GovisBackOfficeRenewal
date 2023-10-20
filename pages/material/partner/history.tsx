@@ -1,12 +1,14 @@
 import React, { useMemo } from 'react';
 import { useRouter } from 'next/router';
-import { fetchEnvironment } from '@ApiFarm/environment';
-import { IEnvironmentRes } from '@InterfaceFarm/environment';
 import generateHistoryPage2 from '@ComponentFarm/template/history/generateHistoryPage2';
 import { tabDataFunc } from '@ComponentFarm/template/product/material/partner/const';
+import { EnvStore } from '@MobxFarm/store';
 
-const History = ({ environment }: { environment: IEnvironmentRes }) => {
+const History = () => {
   const router = useRouter();
+  const environment = EnvStore?.getData({
+    name: 'partner_company_type,partner_company_status',
+  });
 
   const partnerLabel = useMemo(
     () => environment?.list?.find(el => el.code === router.query.category),
@@ -23,19 +25,6 @@ const History = ({ environment }: { environment: IEnvironmentRes }) => {
   });
 
   return <>{getHistory({ environment })}</>;
-};
-
-export const getStaticProps = async () => {
-  const environment = await fetchEnvironment({
-    name: 'partner_company_type,partner_company_status',
-  });
-
-  return {
-    props: {
-      environment,
-    },
-    revalidate: 60,
-  };
 };
 
 export default History;

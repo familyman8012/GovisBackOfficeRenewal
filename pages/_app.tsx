@@ -19,10 +19,11 @@ import ConfirmModal from '@ComponentFarm/modules/Modal/ConfirmModal';
 import reset from '@ComponentFarm/common';
 import Layout from '@ComponentFarm/layout';
 import { Goivs2Menu } from '@ComponentFarm/layout/MenuData';
-import { authStore } from '@MobxFarm/store';
+import { EnvStore, authStore } from '@MobxFarm/store';
 import { errorHandler } from '@UtilFarm/error-handler';
 import 'react-datepicker/dist/react-datepicker.css';
 import 'react-loading-skeleton/dist/skeleton.css';
+import { fetchEnvironment } from '@ApiFarm/environment';
 
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -53,6 +54,11 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
     }
   }, [currentUrl, router.asPath]);
 
+  const saveEnvironment = async () => {
+    const environment = await fetchEnvironment();
+    sessionStorage.setItem('environment', JSON.stringify(environment));
+  };
+
   useIsomorphicLayoutEffect(() => {
     if (!localStorage.getItem('BO_AUTH_TOKEN') && !!Cookies.get('AUTH_DATA')) {
       authStore.login(JSON.parse(Cookies.get('AUTH_DATA') || '{}'));
@@ -60,6 +66,12 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
     if (!!localStorage.getItem('BO_AUTH_TOKEN') && !Cookies.get('AUTH_DATA')) {
       authStore.logOut();
     }
+
+    if (!sessionStorage.getItem('environment')) {
+      saveEnvironment();
+    }
+
+    EnvStore.init();
     authStore.init();
   }, []);
 

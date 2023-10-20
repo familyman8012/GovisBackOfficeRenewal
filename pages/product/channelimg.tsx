@@ -3,9 +3,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { css } from '@emotion/react';
-import { fetchEnvironment } from '@ApiFarm/environment';
 import { fetchChannelImgSave, fetchChannelImgView } from '@ApiFarm/product';
-import { IEnvironmentRes } from '@InterfaceFarm/environment';
 import { IProductChannelImgList } from '@InterfaceFarm/product';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Edit, Export, Plus } from '@ComponentFarm/atom/icons';
@@ -13,6 +11,7 @@ import { FormWrap, Table, TableWrap } from '@ComponentFarm/common';
 import DetailPageLayout from '@ComponentFarm/layout/Product/DetailPageLayout';
 import { tabDataFunc } from '@ComponentFarm/template/product/manage/const';
 import useImageUploader from '@HookFarm/useImageUploader';
+import { EnvStore } from '@MobxFarm/store';
 
 const pageStyle = css`
   &.basic tr:hover {
@@ -62,8 +61,11 @@ const pageStyle = css`
   }
 `;
 
-const Channelimg = ({ environment }: { environment: IEnvironmentRes }) => {
+const Channelimg = () => {
   const router = useRouter();
+  const environment = EnvStore?.getData({
+    name: 'sale_channel',
+  });
   const { id } = router.query;
   const queryClient = useQueryClient();
   const tabData = tabDataFunc('view', router?.query);
@@ -291,16 +293,3 @@ const Channelimg = ({ environment }: { environment: IEnvironmentRes }) => {
 };
 
 export default Channelimg;
-
-export const getStaticProps = async () => {
-  const environment = await fetchEnvironment({
-    name: 'sale_channel',
-  });
-
-  return {
-    props: {
-      environment,
-    },
-    revalidate: 60,
-  };
-};

@@ -36,7 +36,7 @@ export function convertEnv(
   }
 
   // 주어진 카테고리에 해당하는 데이터만 필터링
-  const filteredData = data.filter(item => item.name === category);
+  const filteredData = data.filter(item => item?.name === category);
 
   // 필터링된 데이터를 label, value 형태로 변환
   return filteredData.map(item => ({
