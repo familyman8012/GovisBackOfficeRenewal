@@ -1,29 +1,22 @@
 /* eslint-disable camelcase */
 import React from 'react';
-import { css } from '@emotion/react';
+import { IoAlertCircleOutline } from 'react-icons/io5';
 import { IPartnerCountryRes } from '@InterfaceFarm/material';
+import Empty from '@ComponentFarm/atom/Empty/Empty';
+import SkeletonTh from '@ComponentFarm/atom/Skeleton/SkeletonTh';
 import ToggleSort from '@ComponentFarm/atom/Sort/ToggleSort';
 import { Table, TableWrap } from '@ComponentFarm/common';
 import { QueryParams } from '@HookFarm/useQueryParams';
 import useSortable from '@HookFarm/useSortable';
+import { getTableWidthPercentage } from '@UtilFarm/calcSize';
 
 interface TableProps {
+  isLoading: boolean;
   data?: IPartnerCountryRes;
   updateParams: (newParams: QueryParams) => void;
 }
 
-const pageStyle = css`
-  th {
-    &:nth-of-type(1) {
-      width: calc((600 / 1536) * 100%);
-    }
-    &:nth-of-type(2) {
-      width: calc((700 / 1536) * 100%);
-    }
-  }
-`;
-
-const ListTable = ({ data, updateParams }: TableProps) => {
+const ListTable = ({ isLoading, data, updateParams }: TableProps) => {
   const { sortState, toggleSort } = useSortable(updateParams);
 
   const Th = [
@@ -34,7 +27,12 @@ const ListTable = ({ data, updateParams }: TableProps) => {
 
   return (
     <TableWrap>
-      <Table className="basic" css={pageStyle}>
+      <Table className="basic">
+        <colgroup>
+          {[600, 700, 236].map((el, i) => (
+            <col key={i} width={getTableWidthPercentage(el)} />
+          ))}
+        </colgroup>
         <thead>
           <tr>
             {Th.map((el, i) => (
@@ -48,13 +46,23 @@ const ListTable = ({ data, updateParams }: TableProps) => {
           </tr>
         </thead>
         <tbody>
-          {data?.list.map(country => (
-            <tr key={country.origin_code}>
-              <td className="code">{country.origin_code}</td>
-              <td>{country.origin_name}</td>
-              <td>{country.created_date}</td>
+          {isLoading ? (
+            <SkeletonTh colLength={3} />
+          ) : data?.list.length === 0 ? (
+            <tr>
+              <td colSpan={3} rowSpan={10}>
+                <Empty Icon={<IoAlertCircleOutline size={42} />} />
+              </td>
             </tr>
-          ))}
+          ) : (
+            data?.list.map(country => (
+              <tr key={country.origin_code}>
+                <td className="code">{country.origin_code}</td>
+                <td>{country.origin_name}</td>
+                <td>{country.created_date}</td>
+              </tr>
+            ))
+          )}
         </tbody>
       </Table>
     </TableWrap>

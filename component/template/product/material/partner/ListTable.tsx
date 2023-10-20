@@ -1,56 +1,25 @@
 /* eslint-disable camelcase */
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { css } from '@emotion/react';
+import { IoAlertCircleOutline } from 'react-icons/io5';
 import { IPartnerRes } from '@InterfaceFarm/material';
 import { Badge } from '@ComponentFarm/atom/Badge/Badge';
+import Empty from '@ComponentFarm/atom/Empty/Empty';
+import SkeletonTh from '@ComponentFarm/atom/Skeleton/SkeletonTh';
 import ToggleSort from '@ComponentFarm/atom/Sort/ToggleSort';
 import { Table, TableWrap } from '@ComponentFarm/common';
 import { QueryParams } from '@HookFarm/useQueryParams';
 import useSortable from '@HookFarm/useSortable';
+import { getTableWidthPercentage } from '@UtilFarm/calcSize';
 
 interface TableProps {
+  isLoading: boolean;
   data?: IPartnerRes;
   title: string;
   updateParams: (newParams: QueryParams) => void;
 }
 
-const pageStyle = css`
-  th {
-    /* &:nth-of-type(1) {
-      width: calc((119 / 1536) * 100%);
-    }
-    &:nth-of-type(2) {
-      width: calc((102 / 1536) * 100%);
-    }
-    &:nth-of-type(3) {
-      width: calc((243 / 1536) * 100%);
-    }
-    &:nth-of-type(4) {
-      width: calc((130 / 1536) * 100%);
-    }
-    &:nth-of-type(5) {
-      width: calc((150 / 1536) * 100%);
-    }
-    &:nth-of-type(6) {
-      width: calc((150 / 1536) * 100%);
-    }
-    &:nth-of-type(7) {
-      width: calc((150 / 1536) * 100%);
-    }
-    &:nth-of-type(8) {
-      width: calc((150 / 1536) * 100%);
-    }
-    &:nth-of-type(9) {
-      width: calc((130 / 1536) * 100%);
-    }
-    &:nth-of-type(10) {
-      width: calc((100 / 1536) * 100%);
-    } */
-  }
-`;
-
-const ListTable = ({ data, title, updateParams }: TableProps) => {
+const ListTable = ({ isLoading, data, title, updateParams }: TableProps) => {
   const router = useRouter();
   const { sortState, setSortState, toggleSort } = useSortable(updateParams);
 
@@ -76,14 +45,11 @@ const ListTable = ({ data, title, updateParams }: TableProps) => {
 
   return (
     <TableWrap>
-      <Table className="basic" css={pageStyle}>
+      <Table className="basic">
         <colgroup>
-          <col width={120} />
-          <col />
-          <col width={120} />
-          <col width={200} />
-          <col width={200} />
-          <col width={160} />
+          {[240, 380, 200, 300, 300, 160].map((el, i) => (
+            <col key={i} width={getTableWidthPercentage(el)} />
+          ))}
         </colgroup>
         <thead>
           <tr>
@@ -98,32 +64,42 @@ const ListTable = ({ data, title, updateParams }: TableProps) => {
           </tr>
         </thead>
         <tbody>
-          {data?.list.map(partner => (
-            <tr
-              key={partner.partner_company_code}
-              onClick={() =>
-                handleGoIdxClick(String(partner.partner_company_idx))
-              }
-            >
-              <td className="code">{partner.partner_company_code}</td>
-              <td>{partner.partner_company_name}</td>
-              <td>{partner.material_count}개</td>
-              <td>{partner.created_date}</td>
-              <td>{partner.updated_date}</td>
-              <td>
-                <Badge
-                  dot
-                  color={
-                    partner.evv_partner_company_status === '운영'
-                      ? 'green'
-                      : 'red'
-                  }
-                >
-                  {partner.evv_partner_company_status}
-                </Badge>
+          {isLoading ? (
+            <SkeletonTh colLength={6} />
+          ) : data?.list.length === 0 ? (
+            <tr>
+              <td colSpan={6} rowSpan={10}>
+                <Empty Icon={<IoAlertCircleOutline size={42} />} />
               </td>
             </tr>
-          ))}
+          ) : (
+            data?.list.map(partner => (
+              <tr
+                key={partner.partner_company_code}
+                onClick={() =>
+                  handleGoIdxClick(String(partner.partner_company_idx))
+                }
+              >
+                <td className="code">{partner.partner_company_code}</td>
+                <td>{partner.partner_company_name}</td>
+                <td>{partner.material_count}개</td>
+                <td>{partner.created_date}</td>
+                <td>{partner.updated_date}</td>
+                <td>
+                  <Badge
+                    dot
+                    color={
+                      partner.evv_partner_company_status === '운영'
+                        ? 'green'
+                        : 'red'
+                    }
+                  >
+                    {partner.evv_partner_company_status}
+                  </Badge>
+                </td>
+              </tr>
+            ))
+          )}
         </tbody>
       </Table>
     </TableWrap>

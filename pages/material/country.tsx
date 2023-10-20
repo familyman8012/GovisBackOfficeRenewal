@@ -19,7 +19,7 @@ const CountryListPage = () => {
     per_num: 10,
   });
 
-  const { data } = useQuery(['countryList', router.asPath], () =>
+  const { isLoading, data } = useQuery(['countryList', router.asPath], () =>
     fetchCountryList(params)
   );
 
@@ -53,7 +53,11 @@ const CountryListPage = () => {
         onTabChange={index => hanldeTabMove(index)}
       />
       <ListFilter params={params} updateParams={updateParams} />
-      <ListTable data={data} updateParams={updateParams} />
+      <ListTable
+        isLoading={isLoading}
+        data={data}
+        updateParams={updateParams}
+      />
       <Pagination
         pageInfo={[Number(params.current_num), Number(params.per_num)]}
         totalCount={Number(data?.total_count)}

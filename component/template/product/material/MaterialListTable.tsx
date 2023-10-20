@@ -2,64 +2,24 @@
 import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { css } from '@emotion/react';
+import { IoAlertCircleOutline } from 'react-icons/io5';
 import { IMaterialRes } from '@InterfaceFarm/material';
 import { Badge } from '@ComponentFarm/atom/Badge/Badge';
+import Empty from '@ComponentFarm/atom/Empty/Empty';
+import SkeletonTh from '@ComponentFarm/atom/Skeleton/SkeletonTh';
 import ToggleSort from '@ComponentFarm/atom/Sort/ToggleSort';
 import { Table, TableWrap } from '@ComponentFarm/common';
 import { QueryParams } from '@HookFarm/useQueryParams';
 import useSortable from '@HookFarm/useSortable';
+import { getTableWidthPercentage } from '@UtilFarm/calcSize';
 
 interface TableProps {
+  isLoading: boolean;
   data?: IMaterialRes;
   updateParams: (newParams: QueryParams) => void;
 }
 
-const pageStyle = css`
-  th {
-    &:nth-of-type(1) {
-      width: calc((140 / 1536) * 100%);
-    }
-    &:nth-of-type(2) {
-      width: calc((80 / 1536) * 100%);
-    }
-    &:nth-of-type(3) {
-      width: calc((80 / 1536) * 100%);
-    }
-    &:nth-of-type(4) {
-      width: calc((80 / 1536) * 100%);
-    }
-    &:nth-of-type(5) {
-      width: calc((80 / 1536) * 100%);
-    }
-    &:nth-of-type(6) {
-      width: calc((100 / 1536) * 100%);
-    }
-    &:nth-of-type(7) {
-      width: calc((200 / 1536) * 100%);
-    }
-    &:nth-of-type(8) {
-      width: calc((150 / 1536) * 100%);
-    }
-    &:nth-of-type(9) {
-      width: calc((150 / 1536) * 100%);
-    }
-    &:nth-of-type(10) {
-      width: calc((100 / 1536) * 100%);
-    }
-    &:nth-of-type(11) {
-      width: calc((130 / 1536) * 100%);
-    }
-    &:nth-of-type(12) {
-      width: calc((130 / 1536) * 100%);
-    }
-    &:nth-of-type(13) {
-      width: calc((116 / 1536) * 100%);
-    }
-  }
-`;
-
-const ManageListTable = ({ data, updateParams }: TableProps) => {
+const ManageListTable = ({ isLoading, data, updateParams }: TableProps) => {
   const router = useRouter();
   const { sortState, toggleSort } = useSortable(updateParams);
 
@@ -89,7 +49,14 @@ const ManageListTable = ({ data, updateParams }: TableProps) => {
 
   return (
     <TableWrap>
-      <Table className="basic" css={pageStyle}>
+      <Table className="basic">
+        <colgroup>
+          {[140, 80, 95, 80, 95, 100, 170, 110, 110, 180, 130, 130, 116].map(
+            (el, i) => (
+              <col key={i} width={getTableWidthPercentage(el)} />
+            )
+          )}
+        </colgroup>
         <thead>
           <tr>
             {Th.map((el, i) => (
@@ -103,47 +70,57 @@ const ManageListTable = ({ data, updateParams }: TableProps) => {
           </tr>
         </thead>
         <tbody>
-          {data?.list.map(material => (
-            <tr
-              key={material.material_code}
-              onClick={() =>
-                handleGoIdxClick(String(material.material_info_idx))
-              }
-            >
-              <td className="code">
-                <Link
-                  href={{
-                    pathname: `/material/view/${material.material_info_idx}`,
-                    query: router.query,
-                  }}
-                >
-                  {material.material_code}
-                </Link>
-              </td>
-              <td>{material.evv_material_product_type}</td>
-              <td>{material.mcn_large}</td>
-              <td>{material.mcn_middle}</td>
-              <td>{material.mcn_small}</td>
-              <td>{material.evv_material_storage_type}</td>
-              <td>{material.material_name_ko}</td>
-              <td>{material.purchase_price}</td>
-              <td>{material.sale_price}</td>
-              <td>{material.pcn_manufacturer}</td>
-              <td>{material.created_date}</td>
-              <td>{material.updated_date}</td>
-              <td>
-                <Badge
-                  color={
-                    material.evv_material_status === '운영' ? 'green' : 'red'
-                  }
-                  size="sm"
-                  dot
-                >
-                  {material.evv_material_status}
-                </Badge>
+          {isLoading ? (
+            <SkeletonTh colLength={13} />
+          ) : data?.list.length === 0 ? (
+            <tr>
+              <td colSpan={10} rowSpan={10}>
+                <Empty Icon={<IoAlertCircleOutline size={42} />} />
               </td>
             </tr>
-          ))}
+          ) : (
+            data?.list.map(material => (
+              <tr
+                key={material.material_code}
+                onClick={() =>
+                  handleGoIdxClick(String(material.material_info_idx))
+                }
+              >
+                <td className="code">
+                  <Link
+                    href={{
+                      pathname: `/material/view/${material.material_info_idx}`,
+                      query: router.query,
+                    }}
+                  >
+                    {material.material_code}
+                  </Link>
+                </td>
+                <td>{material.evv_material_product_type}</td>
+                <td>{material.mcn_large}</td>
+                <td>{material.mcn_middle}</td>
+                <td>{material.mcn_small}</td>
+                <td>{material.evv_material_storage_type}</td>
+                <td>{material.material_name_ko}</td>
+                <td>{material.purchase_price.toLocaleString()}원</td>
+                <td>{material.sale_price.toLocaleString()}원</td>
+                <td>{material.pcn_manufacturer}</td>
+                <td>{material.created_date}</td>
+                <td>{material.updated_date}</td>
+                <td>
+                  <Badge
+                    color={
+                      material.evv_material_status === '운영' ? 'green' : 'red'
+                    }
+                    size="sm"
+                    dot
+                  >
+                    {material.evv_material_status}
+                  </Badge>
+                </td>
+              </tr>
+            ))
+          )}
         </tbody>
       </Table>
     </TableWrap>
