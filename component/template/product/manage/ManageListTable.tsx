@@ -2,8 +2,11 @@
 import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { IoAlertCircleOutline } from 'react-icons/io5';
 import { IProductRes } from '@InterfaceFarm/product';
 import { Badge } from '@ComponentFarm/atom/Badge/Badge';
+import Empty from '@ComponentFarm/atom/Empty/Empty';
+import SkeletonTh from '@ComponentFarm/atom/Skeleton/SkeletonTh';
 import ToggleSort from '@ComponentFarm/atom/Sort/ToggleSort';
 import { Table, TableWrap } from '@ComponentFarm/common';
 import { QueryParams } from '@HookFarm/useQueryParams';
@@ -11,11 +14,12 @@ import useSortable from '@HookFarm/useSortable';
 import { getTableWidthPercentage } from '@UtilFarm/calcSize';
 
 interface TableProps {
+  isLoading: boolean;
   data?: IProductRes;
   updateParams: (newParams: QueryParams) => void;
 }
 
-const ManageListTable = ({ data, updateParams }: TableProps) => {
+const ManageListTable = ({ isLoading, data, updateParams }: TableProps) => {
   const router = useRouter();
   const { sortState, toggleSort } = useSortable(updateParams);
 
@@ -60,61 +64,75 @@ const ManageListTable = ({ data, updateParams }: TableProps) => {
           </tr>
         </thead>
         <tbody>
-          {data?.list?.map(product => (
-            <tr
-              key={product.product_info_idx}
-              onClick={() => handleGoIdxClick(String(product.product_info_idx))}
-            >
-              <td className="code">
-                <Link
-                  href={{
-                    pathname: `/product/view/${product.product_info_idx}`,
-                    query: router.query,
-                  }}
-                >
-                  {product.product_code}
-                </Link>
-              </td>
-              <td>{product.evi_product_category_str}</td>
-              <td>{product.product_name_ko}</td>
-              <td>{product.evi_sale_type_str.join('/')}</td>
-              <td>{product.sale_start_date}</td>
-              <td>
-                {product.sale_end_date !== '0000-00-00' ? (
-                  product.sale_end_date
-                ) : (
-                  <span style={{ paddingLeft: '3.5rem' }}>-</span>
-                )}
-              </td>
-              <td>{product.created_date}</td>
-              <td>{product.updated_date}</td>
-              <td>
-                <Badge
-                  color={
-                    product.evi_product_status_str === '운영'
-                      ? 'green'
-                      : product.evi_product_status_str === '중단'
-                      ? 'red'
-                      : 'yellow'
-                  }
-                  size="sm"
-                  dot
-                >
-                  {product.evi_product_status_str}
-                </Badge>
-              </td>
-              <td>
-                <Badge
-                  color={product.is_recipe_registration === 1 ? 'green' : 'red'}
-                  fill="transparent"
-                  size="sm"
-                  dot
-                >
-                  {product.is_recipe_registration === 1 ? '등록' : '미등록'}
-                </Badge>
+          {isLoading ? (
+            <SkeletonTh colLength={10} />
+          ) : data?.list.length === 0 ? (
+            <tr>
+              <td colSpan={10} rowSpan={10}>
+                <Empty Icon={<IoAlertCircleOutline size={42} />} />
               </td>
             </tr>
-          ))}
+          ) : (
+            data?.list?.map(product => (
+              <tr
+                key={product.product_info_idx}
+                onClick={() =>
+                  handleGoIdxClick(String(product.product_info_idx))
+                }
+              >
+                <td className="code">
+                  <Link
+                    href={{
+                      pathname: `/product/view/${product.product_info_idx}`,
+                      query: router.query,
+                    }}
+                  >
+                    {product.product_code}
+                  </Link>
+                </td>
+                <td>{product.evi_product_category_str}</td>
+                <td>{product.product_name_ko}</td>
+                <td>{product.evi_sale_type_str.join('/')}</td>
+                <td>{product.sale_start_date}</td>
+                <td>
+                  {product.sale_end_date !== '0000-00-00' ? (
+                    product.sale_end_date
+                  ) : (
+                    <span style={{ paddingLeft: '3.5rem' }}>-</span>
+                  )}
+                </td>
+                <td>{product.created_date}</td>
+                <td>{product.updated_date}</td>
+                <td>
+                  <Badge
+                    color={
+                      product.evi_product_status_str === '운영'
+                        ? 'green'
+                        : product.evi_product_status_str === '중단'
+                        ? 'red'
+                        : 'yellow'
+                    }
+                    size="sm"
+                    dot
+                  >
+                    {product.evi_product_status_str}
+                  </Badge>
+                </td>
+                <td>
+                  <Badge
+                    color={
+                      product.is_recipe_registration === 1 ? 'green' : 'red'
+                    }
+                    fill="transparent"
+                    size="sm"
+                    dot
+                  >
+                    {product.is_recipe_registration === 1 ? '등록' : '미등록'}
+                  </Badge>
+                </td>
+              </tr>
+            ))
+          )}
         </tbody>
       </Table>
     </TableWrap>

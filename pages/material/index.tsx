@@ -23,7 +23,7 @@ const Manage = ({ environment }: { environment: IEnvironmentRes }) => {
     per_num: 10,
   });
 
-  const { data } = useQuery(['materialList', router.asPath], () =>
+  const { isLoading, data } = useQuery(['materialList', router.asPath], () =>
     fetchMaterialList(params)
   );
 
@@ -73,7 +73,11 @@ const Manage = ({ environment }: { environment: IEnvironmentRes }) => {
         updateParams={updateParams}
         resetParams={resetParams}
       />
-      <MaterialListTable data={data} updateParams={updateParams} />
+      <MaterialListTable
+        isLoading={isLoading}
+        data={data}
+        updateParams={updateParams}
+      />
       <Pagination
         pageInfo={[Number(params.current_num), Number(params.per_num)]}
         totalCount={Number(data?.total_count)}

@@ -42,7 +42,7 @@ const PartnerListPage = ({ environment }: { environment: IEnvironmentRes }) => {
     [environment.list, router.query.partner_company_status]
   );
 
-  const { data } = useQuery(
+  const { isLoading, data } = useQuery(
     ['partnerList', router.asPath],
     () =>
       fetchPartnerList(String(partnerCategory?.environment_variable_idx), {
@@ -115,6 +115,7 @@ const PartnerListPage = ({ environment }: { environment: IEnvironmentRes }) => {
             resetParams={resetParams}
           />
           <ListTable
+            isLoading={isLoading}
             data={data}
             title={partnerCategory?.value}
             updateParams={updateParams}
