@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import { useQuery } from 'react-query';
-import { fetchEnvironment } from '@ApiFarm/environment';
 import { downloadMenuCategoryList, fetchMenuCategoryList } from '@ApiFarm/menu';
-import { IEnvironmentResItem } from '@InterfaceFarm/environment';
 import Pagination from '@ComponentFarm/modules/Paginate/Pagination';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import Export from '@ComponentFarm/atom/icons/Export';
@@ -14,7 +12,7 @@ import RegisterModal from '@ComponentFarm/template/menu/CategoryRegisterModal';
 import { menuListLayoutConfig } from '@ComponentFarm/template/menu/const';
 import useQueryParams from '@HookFarm/useQueryParams';
 
-const CategoryListPage = ({ envs }: { envs: IEnvironmentResItem[] }) => {
+const CategoryListPage = () => {
   const [showRegisterModal, setShowRegisterModal] = useState(false);
   const [params, updateParams, resetParams] = useQueryParams({
     current_num: 1,
@@ -64,7 +62,6 @@ const CategoryListPage = ({ envs }: { envs: IEnvironmentResItem[] }) => {
         handlePageChange={handlePageChange}
       />
       <RegisterModal
-        envs={envs}
         show={showRegisterModal}
         onClose={() => setShowRegisterModal(false)}
         onRegister={() => {
@@ -74,19 +71,6 @@ const CategoryListPage = ({ envs }: { envs: IEnvironmentResItem[] }) => {
       />
     </div>
   );
-};
-
-export const getStaticProps = async () => {
-  const props = await fetchEnvironment({
-    name: ['menu_category_status'].join(','),
-  });
-
-  return {
-    props: {
-      envs: props.list,
-    },
-    revalidate: 60,
-  };
 };
 
 export default CategoryListPage;

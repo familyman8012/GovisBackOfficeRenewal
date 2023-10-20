@@ -7,7 +7,6 @@ import {
 } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { fetchRecipe } from '@ApiFarm/product-recipe';
-import { IEnvironmentResItem } from '@InterfaceFarm/environment';
 import { IRecipeFormFields } from '@InterfaceFarm/product-recipe';
 import ErrorTxt from '@ComponentFarm/atom/ErrorTxt/ErrorTxt';
 import { FormWrap } from '@ComponentFarm/common';
@@ -20,12 +19,11 @@ interface RecipeFormProps {
   productId: number; // 제품 아이디
   recipeId?: number; // 레시피 아이디
   editable?: boolean;
-  envs: IEnvironmentResItem[];
   onSubmit: (formData: IRecipeFormFields) => void;
 }
 
 const RecipeForm = React.forwardRef<HTMLFormElement, RecipeFormProps>(
-  ({ recipeId, productId, envs, editable = true, onSubmit }, formRef) => {
+  ({ recipeId, productId, editable = true, onSubmit }, formRef) => {
     const stepRef = React.useRef<HTMLDivElement>(null);
     const fetchDefaultValue = React.useCallback(
       () =>
@@ -173,7 +171,7 @@ const RecipeForm = React.forwardRef<HTMLFormElement, RecipeFormProps>(
                 )}
               </div>
             </div>
-            <RecipeStepForm ref={stepRef} envs={envs} editable={editable} />
+            <RecipeStepForm ref={stepRef} editable={editable} />
           </FormWrap>
         </form>
       </FormProvider>

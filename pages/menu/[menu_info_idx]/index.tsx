@@ -1,8 +1,7 @@
 import { useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
-import { GetServerSideProps, NextPage } from 'next';
+import { NextPage } from 'next';
 import { useMutation } from 'react-query';
-import { fetchEnvironment } from '@ApiFarm/environment';
 import { updateMenuInfo } from '@ApiFarm/menu';
 import { IEnvironmentResItem } from '@InterfaceFarm/environment';
 import AlertModal from '@ComponentFarm/modules/Modal/AlertModal';
@@ -87,30 +86,6 @@ const MenuDetailPage: NextPage<{
       />
     </div>
   );
-};
-
-export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
-  res.setHeader(
-    'Cache-Control',
-    `public, s-maxage=${60 * 60 * 24}, stale-while-revalidate=59`
-  );
-
-  const props = await fetchEnvironment({
-    name: [
-      'menu_group',
-      'menu_type',
-      'menu_status',
-      'menu_category_status',
-      'menu_classification',
-    ].join(','),
-  });
-
-  return {
-    props: {
-      envs: props.list,
-      // cacheTime: 3600,
-    },
-  };
 };
 
 export default MenuDetailPage;

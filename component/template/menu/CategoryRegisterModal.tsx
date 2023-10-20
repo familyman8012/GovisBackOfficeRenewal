@@ -3,7 +3,6 @@ import { Controller, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
 import { toast } from 'react-toastify';
 import { createMenuCategory } from '@ApiFarm/menu';
-import { IEnvironmentResItem } from '@InterfaceFarm/environment';
 import Modal from '@ComponentFarm/modules/Modal/Modal';
 import RadioGroup from '@ComponentFarm/modules/RadioGroup/RadioGroup';
 import ErrorTxt from '@ComponentFarm/atom/ErrorTxt/ErrorTxt';
@@ -11,18 +10,15 @@ import { InnerTable } from '@ComponentFarm/common';
 import useFormOptionsWithEnvs from '@HookFarm/useFormOptionsWithEnvs';
 
 interface Props {
-  envs: IEnvironmentResItem[];
   show: boolean;
   onClose: () => void;
   onRegister: (id: number) => void;
 }
 
-const RegisterModal = ({ show, onClose, envs, onRegister }: Props) => {
-  const { menu_category_status } =
-    useFormOptionsWithEnvs<'menu_category_status'>(
-      ['menu_category_status'],
-      envs
-    );
+const RegisterModal = ({ show, onClose, onRegister }: Props) => {
+  const { menu_category_status } = useFormOptionsWithEnvs([
+    'menu_category_status',
+  ]);
 
   const createCategory = useMutation(createMenuCategory, {
     onSuccess: data => {
@@ -43,7 +39,7 @@ const RegisterModal = ({ show, onClose, envs, onRegister }: Props) => {
   }>({
     defaultValues: {
       menu_category_name: '',
-      evi_menu_category_status: menu_category_status?.[0]?.value,
+      evi_menu_category_status: menu_category_status[0]?.value,
     },
   });
 
@@ -51,7 +47,7 @@ const RegisterModal = ({ show, onClose, envs, onRegister }: Props) => {
     if (!show) {
       reset({
         menu_category_name: '',
-        evi_menu_category_status: menu_category_status?.[0]?.value,
+        evi_menu_category_status: menu_category_status[0]?.value,
       });
     }
   }, [show]);

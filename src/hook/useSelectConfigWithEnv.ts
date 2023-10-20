@@ -1,7 +1,13 @@
 import React from 'react';
-import { IEnvironmentResItem } from '@InterfaceFarm/environment';
+import { EnvStore } from '@MobxFarm/store';
 
-const useSelectConfigWithEnv = (config: any, envs: IEnvironmentResItem[]) => {
+const useSelectConfigWithEnv = (config: any) => {
+  const { list: envs } = EnvStore.getData({
+    name: (config ?? [])
+      .map((cfg: any) => cfg.field?.replace('evi_', ''))
+      .join(','),
+  });
+
   return React.useMemo(
     () =>
       config.map((select: any) => {
