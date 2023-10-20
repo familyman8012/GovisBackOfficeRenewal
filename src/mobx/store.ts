@@ -248,10 +248,12 @@ class EnvironmentStore {
   }
 
   init(): void {
-    if (!this.data) {
-      this.data = JSON.parse(
-        String(sessionStorage.getItem('environment') ?? 'null')
-      );
+    if (typeof window !== 'undefined' && window.sessionStorage) {
+      if (!this.data) {
+        this.data = JSON.parse(
+          String(sessionStorage.getItem('environment') ?? 'null')
+        );
+      }
     }
   }
 
