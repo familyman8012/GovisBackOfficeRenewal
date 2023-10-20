@@ -175,8 +175,8 @@ const Login = () => {
           domain:
             chkhost?.indexOf('localhost') !== -1
               ? undefined
-              : chkhost?.indexOf('dev.govis2') !== -1
-              ? '.dev.govis2.gopizza.kr'
+              : chkhost?.indexOf('dev.govis') !== -1
+              ? '.dev.govis.gopizza.kr'
               : '.gopizza.kr',
           sameSite: 'none',
           path: '/',
