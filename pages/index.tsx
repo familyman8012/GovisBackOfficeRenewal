@@ -191,7 +191,7 @@ const Login = () => {
           ...authData,
         });
 
-        router.push('/dashboard');
+        // router.push('/dashboard');
       });
     } catch (error: unknown) {
       const { code, message } = error as ServerError;
