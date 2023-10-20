@@ -44,7 +44,7 @@ const ProductForm: React.FC<FormProps> = ({
   const DatePickerRef = React.useRef<HTMLInputElement>(null);
 
   const { STATUS, GROUP, CATEGORY, SALETYPE } = useEnvironments(
-    environment.list,
+    environment?.list,
     envKeys
   );
 

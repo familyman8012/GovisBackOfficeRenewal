@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import { runInAction } from 'mobx';
 import { useRouter } from 'next/router';
-import { GetServerSideProps } from 'next';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { fetchEnvironment } from '@ApiFarm/environment';
 import {
   fetchProductFormModify,
   fetchProductFormSave,
   fetchProductFormView,
 } from '@ApiFarm/product';
-import { IEnvironmentRes } from '@InterfaceFarm/environment';
 import ProductForm from '@ComponentFarm/template/product/manage/Form';
-import { confirmModalStore } from '@MobxFarm/store';
+import { EnvStore, confirmModalStore } from '@MobxFarm/store';
 import { uploadToS3 } from '@UtilFarm/uploads3';
 
-const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
+const ProductDetail = () => {
   const router = useRouter();
+  const environment = EnvStore?.getData({
+    name: 'product_status,product_group,product_category,sale_type',
+  });
   const { id } = router.query;
   const queryClient = useQueryClient();
   const [pageMode, setPageMode] = useState('');
@@ -145,21 +145,3 @@ const ProductDetail = ({ environment }: { environment: IEnvironmentRes }) => {
 };
 
 export default ProductDetail;
-
-export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
-  res.setHeader(
-    'Cache-Control',
-    `public, s-maxage=${60 * 60 * 24}, stale-while-revalidate=59`
-  );
-
-  const environment = await fetchEnvironment({
-    name: 'product_status,product_group,product_category,sale_type',
-  });
-
-  return {
-    props: {
-      environment,
-      // cacheTime: 3600,
-    },
-  };
-};

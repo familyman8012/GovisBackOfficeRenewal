@@ -248,15 +248,21 @@ class EnvironmentStore {
   }
 
   init(): void {
-    if (!this.data) {
-      this.data = JSON.parse(
-        String(sessionStorage.getItem('environment') ?? 'null')
-      );
+    if (typeof window !== 'undefined' && window.sessionStorage) {
+      if (!this.data) {
+        this.data = JSON.parse(
+          String(sessionStorage.getItem('environment') ?? 'null')
+        );
+      }
     }
   }
 
   getData(reqData: { name: string }): IEnvironmentRes {
     const keys = reqData.name?.split(',');
+
+    if (!this.data) {
+      this.init();
+    }
 
     const result = {
       list: keys.flatMap(
