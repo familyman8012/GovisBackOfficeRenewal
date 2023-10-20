@@ -11,3 +11,8 @@ export const fetchEnvironment = async (params?: IEnvironmentReq) => {
 
   return response.data.data;
 };
+
+export const saveSessionEnvironment = async () => {
+  const environment = await fetchEnvironment();
+  sessionStorage.setItem('environment', JSON.stringify(environment));
+};

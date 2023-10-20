@@ -14,6 +14,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { ToastContainer } from 'react-toastify';
 import { Global } from '@emotion/react';
 import 'react-toastify/dist/ReactToastify.css';
+import { saveSessionEnvironment } from '@ApiFarm/environment';
 import { ServerError } from '@InterfaceFarm/response';
 import ConfirmModal from '@ComponentFarm/modules/Modal/ConfirmModal';
 import reset from '@ComponentFarm/common';
@@ -23,7 +24,6 @@ import { EnvStore, authStore } from '@MobxFarm/store';
 import { errorHandler } from '@UtilFarm/error-handler';
 import 'react-datepicker/dist/react-datepicker.css';
 import 'react-loading-skeleton/dist/skeleton.css';
-import { fetchEnvironment } from '@ApiFarm/environment';
 
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -54,11 +54,6 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
     }
   }, [currentUrl, router.asPath]);
 
-  const saveEnvironment = async () => {
-    const environment = await fetchEnvironment();
-    sessionStorage.setItem('environment', JSON.stringify(environment));
-  };
-
   useIsomorphicLayoutEffect(() => {
     if (!localStorage.getItem('BO_AUTH_TOKEN') && !!Cookies.get('AUTH_DATA')) {
       authStore.login(JSON.parse(Cookies.get('AUTH_DATA') || '{}'));
@@ -68,7 +63,7 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
     }
 
     if (!sessionStorage.getItem('environment')) {
-      saveEnvironment();
+      saveSessionEnvironment();
     }
 
     EnvStore.init();

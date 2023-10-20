@@ -2,6 +2,7 @@ import Cookies from 'js-cookie';
 import { action, makeObservable, observable } from 'mobx';
 import router from 'next/router';
 import secureLocalStorage from 'react-secure-storage';
+import { saveSessionEnvironment } from '@ApiFarm/environment';
 import { ILoginUserResponse } from '@InterfaceFarm/auth';
 import {
   IEnvironmentRes,
@@ -257,6 +258,11 @@ class EnvironmentStore {
 
   getData(reqData: { name: string }): IEnvironmentRes {
     const keys = reqData.name?.split(',');
+
+    if (!this.data) {
+      saveSessionEnvironment();
+      this.init();
+    }
 
     const result = {
       list: keys.flatMap(
