@@ -119,8 +119,8 @@ const ManageListHandler = ({
   ];
 
   const envDataConvert = useMemo(
-    () => envConfigGeneration(envData, environment.list),
-    [environment.list]
+    () => envConfigGeneration(envData, environment?.list),
+    [environment?.list]
   );
 
   const selectConfig = materialCategory && [

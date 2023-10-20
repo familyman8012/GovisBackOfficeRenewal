@@ -31,7 +31,7 @@ const LogisticsDetailPage = () => {
   // pct_shipping_company : 물류사
   const partnerCategory = useMemo(
     () => environment?.list?.find(el => el.code === router.query.category),
-    [environment.list, router.query.category]
+    [environment?.list, router.query.category]
   );
 
   // 등록일때, 데이터 저장

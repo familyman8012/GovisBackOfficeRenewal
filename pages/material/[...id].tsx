@@ -23,11 +23,9 @@ const ProductDetail = () => {
   const [selectedImgFile, setSelectedImgFile] = useState<File | null>(null);
   // 수정예정
   const materialPatnerParams = useMemo(
-    () => environment.list.find(el => el.code === 'pct_manufacturer'),
-    [environment.list]
+    () => environment?.list.find(el => el.code === 'pct_manufacturer'),
+    [environment?.list]
   );
-
-  console.log('environment.list', environment.list);
 
   // view 일때, 데이터 불러오기
   const { data: viewData } = useQuery(

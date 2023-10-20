@@ -47,8 +47,8 @@ const ManageListHandler = ({
   };
 
   const selectConfig = useMemo(
-    () => envConfigGeneration(selectConfigSet, environment.list),
-    [environment.list]
+    () => envConfigGeneration(selectConfigSet, environment?.list),
+    [environment?.list]
   );
 
   return (

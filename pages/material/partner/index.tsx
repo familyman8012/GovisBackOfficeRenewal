@@ -33,7 +33,7 @@ const PartnerListPage = () => {
   // pct_shipping_company : 물류사
   const partnerCategory = useMemo(
     () => environment?.list?.find(el => el.code === router.query.category),
-    [environment.list, router.query.category]
+    [environment?.list, router.query.category]
   );
 
   const partnerStatus = useMemo(
@@ -41,7 +41,7 @@ const PartnerListPage = () => {
       environment?.list?.find(
         el => el.code === router.query.partner_company_status
       ),
-    [environment.list, router.query.partner_company_status]
+    [environment?.list, router.query.partner_company_status]
   );
 
   const { isLoading, data } = useQuery(

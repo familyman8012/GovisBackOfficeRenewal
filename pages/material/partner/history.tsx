@@ -12,7 +12,7 @@ const History = () => {
 
   const partnerLabel = useMemo(
     () => environment?.list?.find(el => el.code === router.query.category),
-    [environment.list, router.query.category]
+    [environment?.list, router.query.category]
   )?.value;
 
   const tabData = tabDataFunc(String(partnerLabel), 'view', router?.query);

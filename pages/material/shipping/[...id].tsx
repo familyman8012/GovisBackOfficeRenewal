@@ -50,12 +50,12 @@ const Shipping = () => {
   // 물류사, 지역정보 가져오기
   const partnerCategory = useMemo(
     () => environment?.list?.find(el => el.code === 'pct_shipping_company'),
-    [environment.list]
+    [environment?.list]
   );
 
   const area = useMemo(
     () => environment?.list?.filter(el => el.name === 'area'),
-    [environment.list]
+    [environment?.list]
   );
 
   const { data: shippingListData } = useQuery(

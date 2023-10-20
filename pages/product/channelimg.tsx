@@ -143,7 +143,7 @@ const Channelimg = () => {
       const submitData = {
         product_image: imgData,
         evi_sale_channel: Number(
-          environment.list.find(el => el.code === currentChannel.channel_code)
+          environment?.list.find(el => el.code === currentChannel.channel_code)
             ?.environment_variable_idx
         ),
         product_image_channel_idx: currentChannel.channel_idx,
