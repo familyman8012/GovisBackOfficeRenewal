@@ -23,28 +23,14 @@ const VideoList: React.FC<VideoListProps> = ({ list }) => {
           </Badge>
           <video muted controls />
         </div>
-
-        <h3>오리지널 페퍼로니</h3>
-        <ul>
-          <li className="score" />
-        </ul>
-
-        <p>Created Date: {dayjs().format('YYYY-MM-DD')}</p>
-      </div>
-      <div className="item">
-        <div className="video-wrap">
-          <Badge color="green" dot>
-            검수완료
-          </Badge>
-          <video muted controls />
+        <div className="info-wrap">
+          <h3>오리지널 페퍼로니</h3>
+          <ul>
+            <li className="score">100점</li>
+          </ul>
+          <p>평촌학원가점</p>
+          <p>제조일자 {dayjs().format('YYYY-MM-DD')}</p>
         </div>
-
-        <h3>오리지널 페퍼로니</h3>
-        <ul>
-          <li className="score" />
-        </ul>
-
-        <p>Created Date: {dayjs().format('YYYY-MM-DD')}</p>
       </div>
     </VideoListStyle>
   );
