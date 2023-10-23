@@ -1,7 +1,6 @@
 import { useMemo } from 'react';
 import { useQuery } from 'react-query';
 import { fetchMenuCategoryList } from '@ApiFarm/menu';
-import { IEnvironmentResItem } from '@InterfaceFarm/environment';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import Sync from '@ComponentFarm/atom/icons/Sync';
 import ListDatePickers from '@ComponentFarm/molecule/ListDatePickers/ListDatePickers';
@@ -18,14 +17,12 @@ export type keywordType = {
 };
 
 interface IMenuFilterProps {
-  envs: IEnvironmentResItem[];
   params: QueryParams;
   updateParams: (newParams: QueryParams) => void;
   resetParams: () => void;
 }
 
 const MenuFilter = ({
-  envs,
   params,
   updateParams,
   resetParams,
@@ -44,30 +41,33 @@ const MenuFilter = ({
     });
   };
 
-  const categoryEnvList = useMemo(
+  const categoryOptionList = useMemo(
     () =>
-      (categoryQuery?.data?.list ?? []).map(
-        item =>
-          ({
-            environment_variable_idx: `${item.menu_category_idx}`,
-            name: 'menu_category_idx',
-            code: '',
-            value: item.menu_category_name,
-          }) as IEnvironmentResItem
-      ),
+      (categoryQuery?.data?.list ?? []).map(item => ({
+        value: `${item.menu_category_idx}`,
+        label: item.menu_category_name,
+      })),
     [categoryQuery.data]
   );
 
-  const menuSelectConfigWithEnv = useSelectConfigWithEnv(menuSelectConfig, [
-    ...envs,
-    ...categoryEnvList,
-  ]);
+  const menuSelectConfigWithEnv = useSelectConfigWithEnv(menuSelectConfig);
 
   return (
     <ListHandlerStyle>
       <div className="line group">
         <ListFilterSelects
           selectConfig={menuSelectConfigWithEnv}
+          params={params}
+          updateParams={updateParams}
+        />
+        <ListFilterSelects
+          selectConfig={[
+            {
+              label: '카테고리',
+              field: 'menu_category_idx',
+              options: [{ value: '', label: '전체' }, ...categoryOptionList],
+            },
+          ]}
           params={params}
           updateParams={updateParams}
         />

@@ -8,7 +8,6 @@ import {
 import { useQuery } from 'react-query';
 import { toast } from 'react-toastify';
 import { fetchMenu, fetchMenuCategoryList } from '@ApiFarm/menu';
-import { IEnvironmentResItem } from '@InterfaceFarm/environment';
 import { IMenuFormFields } from '@InterfaceFarm/menu';
 import RadioGroup from '@ComponentFarm/modules/RadioGroup/RadioGroup';
 import ErrorTxt from '@ComponentFarm/atom/ErrorTxt/ErrorTxt';
@@ -21,23 +20,19 @@ import { FormStyle } from './style';
 interface MenuFormProps {
   id?: number;
   editable?: boolean;
-  envs: IEnvironmentResItem[];
   onSubmit: (formData: IMenuFormFields) => void;
 }
 
 export const MenuForm = React.forwardRef<HTMLFormElement, MenuFormProps>(
-  ({ id, envs, editable = true, onSubmit }, formRef) => {
+  ({ id, editable = true, onSubmit }, formRef) => {
     const optionFormRef = React.useRef<HTMLDivElement>(null);
-    const options = useFormOptionsWithEnvs(
-      [
-        'menu_group',
-        'menu_type',
-        'menu_status',
-        'menu_category_status',
-        'menu_classification',
-      ],
-      envs
-    );
+    const options = useFormOptionsWithEnvs([
+      'menu_group',
+      'menu_type',
+      'menu_status',
+      'menu_category_status',
+      'menu_classification',
+    ]);
 
     const fetchDefaultValue = React.useCallback(async () => {
       const data = await fetchMenu(id ?? -1);
@@ -54,13 +49,13 @@ export const MenuForm = React.forwardRef<HTMLFormElement, MenuFormProps>(
       mode: 'onBlur',
       defaultValues: useMemo(
         () => ({
-          evi_menu_group: options.menu_group[0].value,
-          evi_menu_status: options.menu_status[0].value,
-          evi_menu_type: options.menu_type[0].value,
-          evi_menu_classification: options.menu_classification[0].value,
+          evi_menu_group: options.menu_group[0]?.value,
+          evi_menu_status: options.menu_status[0]?.value,
+          evi_menu_type: options.menu_type[0]?.value,
+          evi_menu_classification: options.menu_classification[0]?.value,
           is_menu_option: '1',
         }),
-        []
+        [options]
       ),
     });
 

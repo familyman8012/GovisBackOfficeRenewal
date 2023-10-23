@@ -1,7 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 import React, { useState } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
-import { IEnvironmentResItem } from '@InterfaceFarm/environment';
 import { IRecipeFormFields } from '@InterfaceFarm/product-recipe';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import Empty from '@ComponentFarm/atom/Empty/Empty';
@@ -14,11 +13,10 @@ import { MenuOptionListStyle } from '../menu/style';
 const RecipeStepForm = React.forwardRef<
   HTMLElement,
   {
-    envs: IEnvironmentResItem[];
     editable?: boolean;
     inView?: boolean;
   }
->(({ envs, editable, inView }, ref) => {
+>(({ editable, inView }, ref) => {
   const { control, watch } = useFormContext<IRecipeFormFields>();
   const { append, fields, remove } = useFieldArray<
     IRecipeFormFields,
@@ -28,10 +26,10 @@ const RecipeStepForm = React.forwardRef<
     control,
   });
 
-  const options = useFormOptionsWithEnvs(['recipe_step_topping_type'], envs);
-
-  const steps = watch('recipe_steps') ?? [];
   const [view, setView] = useState<number | undefined>(undefined);
+
+  const options = useFormOptionsWithEnvs(['recipe_step_topping_type']);
+  const steps = watch('recipe_steps') ?? [];
 
   return (
     <MenuOptionListStyle ref={ref}>
@@ -48,7 +46,7 @@ const RecipeStepForm = React.forwardRef<
                   recipe_step_description: '',
                   step_manufacturing_time: '0',
                   evi_recipe_step_topping_type:
-                    options.recipe_step_topping_type[0].value,
+                    options.recipe_step_topping_type[0]?.value,
                 })
               }
             >
@@ -86,7 +84,6 @@ const RecipeStepForm = React.forwardRef<
             ))}
           {fields?.map((field, i) => (
             <RecipeStepDetail
-              envs={envs}
               key={field.id}
               editable={editable}
               stepIndex={i}

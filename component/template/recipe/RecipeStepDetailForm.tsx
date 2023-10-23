@@ -1,6 +1,5 @@
 import React, { useCallback, useMemo } from 'react';
 import { Controller, useFieldArray, useFormContext } from 'react-hook-form';
-import { IEnvironmentResItem } from '@InterfaceFarm/environment';
 import { IRecipeFormFields } from '@InterfaceFarm/product-recipe';
 import Editor from '@ComponentFarm/modules/Editor/Editor';
 import RadioGroup from '@ComponentFarm/modules/RadioGroup/RadioGroup';
@@ -20,7 +19,6 @@ import { RecipeStepWrap } from './style';
 import { MenuOptionDetailStyle } from '../menu/style';
 
 interface RecipeStepDetailProps {
-  envs: IEnvironmentResItem[];
   editable?: boolean;
   inView?: boolean;
   stepIndex: number;
@@ -29,7 +27,6 @@ interface RecipeStepDetailProps {
 }
 
 const RecipeStepDetail = ({
-  envs,
   editable,
   currentView,
   stepIndex,
@@ -38,15 +35,12 @@ const RecipeStepDetail = ({
   const { register, control, formState, watch, getValues, setValue } =
     useFormContext<IRecipeFormFields>();
 
-  const options = useFormOptionsWithEnvs(
-    [
-      'recipe_status',
-      'recipe_step_topping_type',
-      'recipe_material_meterage_unit',
-      'recipe_material_quantity_unit',
-    ],
-    envs
-  );
+  const options = useFormOptionsWithEnvs([
+    'recipe_status',
+    'recipe_step_topping_type',
+    'recipe_material_meterage_unit',
+    'recipe_material_quantity_unit',
+  ]);
 
   const formKey = `recipe_steps.${stepIndex}` as `recipe_steps.${number}`;
   const stepFormData = watch(formKey);
@@ -187,9 +181,9 @@ const RecipeStepDetail = ({
                         material_name_ko: item.material_name_ko,
                         material_info_idx: item.material_info_idx,
                         evi_recipe_material_meterage_unit:
-                          options.recipe_material_meterage_unit[0].value,
+                          options.recipe_material_meterage_unit[0]?.value,
                         evi_recipe_material_quantity_unit:
-                          options.recipe_material_quantity_unit[0].value,
+                          options.recipe_material_quantity_unit[0]?.value,
                         evv_country: item.evv_country,
                         pcn_manufacturer: item.pcn_manufacturer,
                         recipe_material_meterage_value: 0,

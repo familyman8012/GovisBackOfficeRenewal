@@ -1,5 +1,4 @@
 import React from 'react';
-import { IEnvironmentResItem } from '@InterfaceFarm/environment';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import Sync from '@ComponentFarm/atom/icons/Sync';
 import ListDatePickers from '@ComponentFarm/molecule/ListDatePickers/ListDatePickers';
@@ -13,18 +12,12 @@ import { dateConfig, searchOption, selectConfig } from './const';
 import { ListHandlerStyle } from './style';
 
 interface IListHandler {
-  envs: IEnvironmentResItem[];
   params: QueryParams;
   updateParams: (newParams: QueryParams) => void;
   resetParams: () => void;
 }
 
-const RecipeFilter = ({
-  envs,
-  params,
-  updateParams,
-  resetParams,
-}: IListHandler) => {
+const RecipeFilter = ({ params, updateParams, resetParams }: IListHandler) => {
   const handlerKeyword = (keyword: SearchkeywordType) => {
     if (keyword.search_target) {
       updateParams({
@@ -42,7 +35,7 @@ const RecipeFilter = ({
     }
   };
 
-  const recipeSelectConfigWithEnvs = useSelectConfigWithEnv(selectConfig, envs);
+  const recipeSelectConfigWithEnvs = useSelectConfigWithEnv(selectConfig);
 
   return (
     <ListHandlerStyle>

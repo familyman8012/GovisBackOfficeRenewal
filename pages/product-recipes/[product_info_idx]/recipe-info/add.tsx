@@ -1,10 +1,7 @@
 import { useMemo, useRef } from 'react';
 import { useRouter } from 'next/router';
-import { GetServerSideProps } from 'next';
 import { useMutation } from 'react-query';
-import { fetchEnvironment } from '@ApiFarm/environment';
 import { createRecipe } from '@ApiFarm/product-recipe';
-import { IEnvironmentResItem } from '@InterfaceFarm/environment';
 import { IRecipeFormFields } from '@InterfaceFarm/product-recipe';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import LayoutTitleBoxWithTab from '@ComponentFarm/template/layout/LayoutWithTitleBoxAndTab';
@@ -15,7 +12,7 @@ import { useGoMove } from '@HookFarm/useGoMove';
 import { formRequestSubmit } from '@UtilFarm/form';
 import { uploadToS3 } from '@UtilFarm/uploads3';
 
-const RecipeAddPage = ({ envs }: { envs: IEnvironmentResItem[] }) => {
+const RecipeAddPage = () => {
   const router = useRouter();
   const { onBack } = useGoMove();
   const formRef = useRef<HTMLFormElement>(null);
@@ -80,39 +77,12 @@ const RecipeAddPage = ({ envs }: { envs: IEnvironmentResItem[] }) => {
         }
       />
       <RecipeForm
-        productId={product_info_idx}
         ref={formRef}
-        envs={envs}
+        productId={product_info_idx}
         onSubmit={createMutate.mutate}
       />
     </RegisterRecipeWrap>
   );
-};
-
-export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
-  res.setHeader(
-    'Cache-Control',
-    `public, s-maxage=${60 * 60 * 24}, stale-while-revalidate=59`
-  );
-
-  const props = await fetchEnvironment({
-    name: [
-      'product_group',
-      'product_category',
-      'product_status',
-      'recipe_status',
-      'recipe_step_topping_type',
-      'recipe_material_meterage_unit',
-      'recipe_material_quantity_unit',
-    ].join(','),
-  });
-
-  return {
-    props: {
-      envs: props.list,
-      // cacheTime: 3600,
-    },
-  };
 };
 
 export default RecipeAddPage;

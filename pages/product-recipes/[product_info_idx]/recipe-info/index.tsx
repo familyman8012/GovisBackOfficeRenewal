@@ -2,10 +2,8 @@ import React, { useMemo } from 'react';
 import { runInAction } from 'mobx';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { GetServerSideProps } from 'next';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { toast } from 'react-toastify';
-import { fetchEnvironment } from '@ApiFarm/environment';
 import {
   fetchProductRecipeList,
   removeRecipe,
@@ -34,7 +32,7 @@ const RecipeListPage = ({ envs }: { envs: IEnvironmentResItem[] }) => {
   const { onBack } = useGoMove();
   const [pathname] = router.asPath.split('?');
 
-  const { recipe_status } = useFormOptionsWithEnvs(['recipe_status'], envs);
+  const { recipe_status } = useFormOptionsWithEnvs(['recipe_status']);
 
   const product_info_idx = useMemo(
     () => parseInt(router.query?.product_info_idx as string, 10),
@@ -234,24 +232,6 @@ const RecipeListPage = ({ envs }: { envs: IEnvironmentResItem[] }) => {
       )}
     </RecipeListWrap>
   );
-};
-
-export const getServerSideProps: GetServerSideProps = async ({ req, res }) => {
-  res.setHeader(
-    'Cache-Control',
-    `public, s-maxage=${60 * 60 * 24}, stale-while-revalidate=59`
-  );
-
-  const props = await fetchEnvironment({
-    name: ['recipe_status'].join(','),
-  });
-
-  return {
-    props: {
-      envs: props.list,
-      // cacheTime: 3600,
-    },
-  };
 };
 
 export default RecipeListPage;

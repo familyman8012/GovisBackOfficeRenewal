@@ -1,13 +1,14 @@
 import { useCallback, useMemo, useState } from 'react';
+import { observer } from 'mobx-react';
 import { useRouter } from 'next/router';
 import { useInfiniteQuery } from 'react-query';
 import { fetchDataHistoryList } from '@ApiFarm/history';
-import { IEnvironmentRes } from '@InterfaceFarm/environment';
 import { IHistoryResItem } from '@InterfaceFarm/history';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import type { LayoutWithTitleBoxAndTabProps } from '@ComponentFarm/template/layout/LayoutWithTitleBoxAndTab';
 import LayoutTitleBoxWithTab from '@ComponentFarm/template/layout/LayoutWithTitleBoxAndTab';
 import { useGoMove } from '@HookFarm/useGoMove';
+import { EnvStore } from '@MobxFarm/store';
 import InfiniteHistoryTable from './InfiniteHistoryTable';
 import { HistoryPageLayout } from './style';
 
@@ -21,11 +22,7 @@ type Config = {
  * @TODO 구조 통일 generateHistoryPage, generateHistoryPage2
  */
 const generateHistoryPage = (config: Config) => {
-  return function HistoryPage({
-    environment,
-  }: {
-    environment: IEnvironmentRes;
-  }) {
+  const HistoryPage = () => {
     const router = useRouter();
     const { onBack } = useGoMove();
     const [params] = useState({
@@ -90,7 +87,7 @@ const generateHistoryPage = (config: Config) => {
         />
         {config.subTitle && <h2>{config.subTitle}</h2>}
         <InfiniteHistoryTable
-          envs={environment?.list ?? []}
+          envs={EnvStore?.data?.list ?? []}
           list={list}
           loading={isLoading}
           onBottomScroll={handleLoadData}
@@ -98,6 +95,8 @@ const generateHistoryPage = (config: Config) => {
       </HistoryPageLayout>
     );
   };
+
+  return observer(HistoryPage);
 };
 
 export default generateHistoryPage;

@@ -1,16 +1,7 @@
-import React, {
-  ReactElement,
-  useCallback,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 import { useRouter } from 'next/router';
-import { NextPage } from 'next';
 import { useMutation, useQueryClient } from 'react-query';
-import { fetchEnvironment } from '@ApiFarm/environment';
 import { updateRecipe } from '@ApiFarm/product-recipe';
-import { IEnvironmentResItem } from '@InterfaceFarm/environment';
 import { IRecipeFormFields } from '@InterfaceFarm/product-recipe';
 import AlertModal from '@ComponentFarm/modules/Modal/AlertModal';
 import { Button } from '@ComponentFarm/atom/Button/Button';
@@ -23,9 +14,7 @@ import { useGoMove } from '@HookFarm/useGoMove';
 import { formRequestSubmit } from '@UtilFarm/form';
 import { uploadToS3 } from '@UtilFarm/uploads3';
 
-const RecipeDetailPage: NextPage<{ envs: IEnvironmentResItem[] }> & {
-  getLayout?: (page: ReactElement) => React.ReactNode;
-} = ({ envs }) => {
+const RecipeDetailPage = () => {
   const qc = useQueryClient();
   const router = useRouter();
   const { onBack } = useGoMove();
@@ -118,7 +107,6 @@ const RecipeDetailPage: NextPage<{ envs: IEnvironmentResItem[] }> & {
         productId={product_info_idx}
         recipeId={recipe_info_idx}
         editable={editable}
-        envs={envs}
         onSubmit={updateMutate.mutate}
       />
       <AlertModal
@@ -129,40 +117,6 @@ const RecipeDetailPage: NextPage<{ envs: IEnvironmentResItem[] }> & {
       />
     </RegisterRecipeWrap>
   );
-};
-
-export const getStaticPaths = async () => {
-  return {
-    paths: [
-      {
-        params: {
-          product_info_idx: ':product_info_idx',
-          recipe_info_idx: ':recipe_info_idx',
-        },
-      },
-    ],
-    fallback: 'blocking',
-  };
-};
-
-export const getStaticProps = async () => {
-  const props = await fetchEnvironment({
-    name: [
-      'product_group',
-      'product_category',
-      'product_status',
-      'recipe_status',
-      'recipe_step_topping_type',
-      'recipe_material_meterage_unit',
-      'recipe_material_quantity_unit',
-    ].join(','),
-  });
-
-  return {
-    props: {
-      envs: props.list,
-    },
-  };
 };
 
 export default RecipeDetailPage;
