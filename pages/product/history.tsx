@@ -1,11 +1,14 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import { fetchEnvironment } from '@ApiFarm/environment';
 import generateHistoryPage2 from '@ComponentFarm/template/history/generateHistoryPage2';
 import { tabDataFunc } from '@ComponentFarm/template/product/manage/const';
+import { EnvStore } from '@MobxFarm/store';
 
-const History = (props: any) => {
+const History = () => {
   const router = useRouter();
+  const environment = EnvStore?.getData({
+    name: 'product_status,product_group,product_category,sale_type',
+  });
   const tabData = tabDataFunc('view', router?.query);
 
   const getHistory = generateHistoryPage2({
@@ -15,20 +18,7 @@ const History = (props: any) => {
     tabData,
   });
 
-  return <>{getHistory(props)}</>;
-};
-
-export const getStaticProps = async () => {
-  const environment = await fetchEnvironment({
-    name: 'product_status,product_group,product_category,sale_type',
-  });
-
-  return {
-    props: {
-      environment,
-    },
-    revalidate: 60,
-  };
+  return <>{getHistory({ environment })}</>;
 };
 
 export default History;

@@ -3,8 +3,6 @@ import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
 import { toast } from 'react-toastify';
 import { fetchPartnerList } from '@ApiFarm/ material';
-import { fetchEnvironment } from '@ApiFarm/environment';
-import { IEnvironmentRes } from '@InterfaceFarm/environment';
 import ExportButton from '@ComponentFarm/modules/ExportButton/ExportButton';
 import Pagination from '@ComponentFarm/modules/Paginate/Pagination';
 import { Button } from '@ComponentFarm/atom/Button/Button';
@@ -15,9 +13,13 @@ import { materialListTabData } from '@ComponentFarm/template/product/material/co
 import ListFilter from '@ComponentFarm/template/product/material/partner/ListFilter';
 import ListTable from '@ComponentFarm/template/product/material/partner/ListTable';
 import useQueryParams from '@HookFarm/useQueryParams';
+import { EnvStore } from '@MobxFarm/store';
 
-const PartnerListPage = ({ environment }: { environment: IEnvironmentRes }) => {
+const PartnerListPage = () => {
   const router = useRouter();
+  const environment = EnvStore?.getData({
+    name: 'partner_company_type,partner_company_status',
+  });
   const category = router.asPath.match(/category=([^&]*)/);
   const [activeTabIndex, setActiveTabIndex] = useState(
     category && category[1] === 'pct_manufacturer' ? 1 : 2
@@ -31,7 +33,7 @@ const PartnerListPage = ({ environment }: { environment: IEnvironmentRes }) => {
   // pct_shipping_company : 물류사
   const partnerCategory = useMemo(
     () => environment?.list?.find(el => el.code === router.query.category),
-    [environment.list, router.query.category]
+    [environment?.list, router.query.category]
   );
 
   const partnerStatus = useMemo(
@@ -39,10 +41,10 @@ const PartnerListPage = ({ environment }: { environment: IEnvironmentRes }) => {
       environment?.list?.find(
         el => el.code === router.query.partner_company_status
       ),
-    [environment.list, router.query.partner_company_status]
+    [environment?.list, router.query.partner_company_status]
   );
 
-  const { data } = useQuery(
+  const { isLoading, data } = useQuery(
     ['partnerList', router.asPath],
     () =>
       fetchPartnerList(String(partnerCategory?.environment_variable_idx), {
@@ -115,6 +117,7 @@ const PartnerListPage = ({ environment }: { environment: IEnvironmentRes }) => {
             resetParams={resetParams}
           />
           <ListTable
+            isLoading={isLoading}
             data={data}
             title={partnerCategory?.value}
             updateParams={updateParams}
@@ -131,16 +134,3 @@ const PartnerListPage = ({ environment }: { environment: IEnvironmentRes }) => {
 };
 
 export default PartnerListPage;
-
-export const getStaticProps = async () => {
-  const environment = await fetchEnvironment({
-    name: 'partner_company_type,partner_company_status',
-  });
-
-  return {
-    props: {
-      environment,
-    },
-    revalidate: 60,
-  };
-};

@@ -85,6 +85,7 @@ const HistoryTableRow = ({
     </tr>
   );
 };
+
 const InfiniteHistoryTable = ({
   envs,
   list,
@@ -145,8 +146,8 @@ const InfiniteHistoryTable = ({
           )}
           {list.map(item => (
             <HistoryTableRow
-              key={item[uniqueKey ?? 'empty']}
               envs={envs}
+              key={item[uniqueKey ?? 'empty']}
               item={item}
             />
           ))}

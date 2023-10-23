@@ -2,28 +2,20 @@ import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
 import { copyMenu } from '@ApiFarm/menu';
-import { IEnvironmentResItem } from '@InterfaceFarm/environment';
 import Modal from '@ComponentFarm/modules/Modal/Modal';
 import ErrorTxt from '@ComponentFarm/atom/ErrorTxt/ErrorTxt';
 import useFormOptionsWithEnvs from '@HookFarm/useFormOptionsWithEnvs';
 import { MenuCopyInputStyle } from './style';
 
 interface Props {
-  envs: IEnvironmentResItem[];
   show: boolean;
   menu_info_idx?: number;
   onClose: () => void;
   onRegister: (menu_info_idx: number) => void;
 }
 
-const MenuCopyModal = ({
-  envs,
-  show,
-  menu_info_idx,
-  onClose,
-  onRegister,
-}: Props) => {
-  const { menu_group } = useFormOptionsWithEnvs(['menu_group'], envs);
+const MenuCopyModal = ({ show, menu_info_idx, onClose, onRegister }: Props) => {
+  const { menu_group } = useFormOptionsWithEnvs(['menu_group']);
 
   const {
     register,
@@ -35,7 +27,7 @@ const MenuCopyModal = ({
     evi_menu_group: string;
   }>({
     defaultValues: {
-      evi_menu_group: menu_group[0].value,
+      evi_menu_group: menu_group[0]?.value,
       menu_name: '',
     },
   });
@@ -49,7 +41,7 @@ const MenuCopyModal = ({
   useEffect(() => {
     if (!show)
       reset({
-        evi_menu_group: menu_group[0].value,
+        evi_menu_group: menu_group[0]?.value,
         menu_name: '',
       });
   }, [show]);
@@ -80,7 +72,7 @@ const MenuCopyModal = ({
             required: true,
           })}
         >
-          {menu_group.map(({ label, value }) => (
+          {menu_group?.map(({ label, value }) => (
             <option key={value} value={value}>
               {label}
             </option>

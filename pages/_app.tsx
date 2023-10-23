@@ -14,14 +14,16 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import { ToastContainer } from 'react-toastify';
 import { Global } from '@emotion/react';
 import 'react-toastify/dist/ReactToastify.css';
+import { fetchEnvironment } from '@ApiFarm/environment';
 import { ServerError } from '@InterfaceFarm/response';
 import ConfirmModal from '@ComponentFarm/modules/Modal/ConfirmModal';
 import reset from '@ComponentFarm/common';
 import Layout from '@ComponentFarm/layout';
 import { Goivs2Menu } from '@ComponentFarm/layout/MenuData';
-import { authStore } from '@MobxFarm/store';
+import { EnvStore, authStore } from '@MobxFarm/store';
 import { errorHandler } from '@UtilFarm/error-handler';
 import 'react-datepicker/dist/react-datepicker.css';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -59,6 +61,17 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
     if (!!localStorage.getItem('BO_AUTH_TOKEN') && !Cookies.get('AUTH_DATA')) {
       authStore.logOut();
     }
+
+    const saveSessionEnvironment = async () => {
+      const environment = await fetchEnvironment();
+      sessionStorage.setItem('environment', JSON.stringify(environment));
+    };
+
+    if (!sessionStorage.getItem('environment')) {
+      saveSessionEnvironment();
+    }
+
+    EnvStore.init();
     authStore.init();
   }, []);
 

@@ -1,9 +1,7 @@
 import { useRef } from 'react';
 import { NextPage } from 'next';
 import { useMutation } from 'react-query';
-import { fetchEnvironment } from '@ApiFarm/environment';
 import { createMenu } from '@ApiFarm/menu';
-import { IEnvironmentResItem } from '@InterfaceFarm/environment';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
@@ -17,9 +15,7 @@ const tabs = [
   },
 ];
 
-const MenuAddPage: NextPage<{
-  envs: IEnvironmentResItem[];
-}> = ({ envs }) => {
+const MenuAddPage: NextPage = () => {
   const formRef = useRef<HTMLFormElement>(null);
   const { onBack } = useGoMove();
 
@@ -48,28 +44,9 @@ const MenuAddPage: NextPage<{
         }
       />
       <Tabs id="" tabs={tabs} activeTabIndex={0} onTabChange={() => {}} />
-      <MenuForm ref={formRef} envs={envs} onSubmit={createMutate.mutate} />
+      <MenuForm ref={formRef} onSubmit={createMutate.mutate} />
     </>
   );
-};
-
-export const getStaticProps = async () => {
-  const props = await fetchEnvironment({
-    name: [
-      'menu_group',
-      'menu_type',
-      'menu_status',
-      'menu_category_status',
-      'menu_classification',
-    ].join(','),
-  });
-
-  return {
-    props: {
-      envs: props.list,
-    },
-    revalidate: 60,
-  };
 };
 
 export default MenuAddPage;

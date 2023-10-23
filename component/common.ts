@@ -648,7 +648,18 @@ export const Table = styled.table`
   }
 
   td {
+    min-height: 4.9rem;
     border-top: 1px solid var(--color-neutral90);
+
+    span[aria-busy='true'] {
+      display: block;
+      width: 100%;
+    }
+
+    .wrap_skeleton {
+      display: flex;
+      min-height: 2.5rem;
+    }
   }
 
   &.basic {

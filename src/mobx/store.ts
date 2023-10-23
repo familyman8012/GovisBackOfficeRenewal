@@ -1,8 +1,12 @@
 import Cookies from 'js-cookie';
-import { observable } from 'mobx';
+import { action, makeObservable, observable } from 'mobx';
 import router from 'next/router';
 import secureLocalStorage from 'react-secure-storage';
 import { ILoginUserResponse } from '@InterfaceFarm/auth';
+import {
+  IEnvironmentRes,
+  IEnvironmentResItem,
+} from '@InterfaceFarm/environment';
 import { IUserPermission } from '@InterfaceFarm/user';
 import {
   Franchise,
@@ -229,3 +233,49 @@ export const confirmModalStore = observable({
 export const manageFormStore = observable({
   isEdit: false,
 });
+
+class EnvironmentStore {
+  data: {
+    list: IEnvironmentResItem[];
+  } | null = null;
+
+  constructor() {
+    makeObservable(this, {
+      data: observable,
+      init: action,
+      getData: action,
+    });
+  }
+
+  init(): void {
+    if (typeof window !== 'undefined' && window.sessionStorage) {
+      if (!this.data) {
+        this.data = JSON.parse(
+          String(sessionStorage.getItem('environment') ?? 'null')
+        );
+      }
+    }
+  }
+
+  getData(reqData: { name: string }): IEnvironmentRes {
+    const keys = reqData.name?.split(',');
+
+    if (!this.data) {
+      this.init();
+    }
+
+    const result = {
+      list: keys.flatMap(
+        key =>
+          this.data?.list.filter(
+            (item: IEnvironmentResItem) => item.name === key
+          ) ?? []
+      ),
+    };
+
+    // 결과 객체 반환
+    return result;
+  }
+}
+
+export const EnvStore = new EnvironmentStore();

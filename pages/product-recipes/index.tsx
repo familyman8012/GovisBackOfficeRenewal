@@ -1,12 +1,9 @@
 import { useRouter } from 'next/router';
-import { NextPage } from 'next';
 import { useQuery } from 'react-query';
-import { fetchEnvironment } from '@ApiFarm/environment';
 import {
   downloadRecipeProductList,
   fetchRecipeProductList,
 } from '@ApiFarm/product-recipe';
-import { IEnvironmentResItem } from '@InterfaceFarm/environment';
 import Pagination from '@ComponentFarm/modules/Paginate/Pagination';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import Export from '@ComponentFarm/atom/icons/Export';
@@ -15,11 +12,7 @@ import RecipeFilter from '@ComponentFarm/template/recipe/RecipeFilter';
 import RecipeListTable from '@ComponentFarm/template/recipe/RecipeListTable';
 import useQueryParams from '@HookFarm/useQueryParams';
 
-const RecipeListPage: NextPage<{ envs: IEnvironmentResItem[] }> = ({
-  envs,
-}: {
-  envs: IEnvironmentResItem[];
-}) => {
+const RecipeListPage = () => {
   const router = useRouter();
   const [pathname] = router.asPath.split('?');
   const [params, updateParams, resetParams] = useQueryParams({
@@ -51,7 +44,6 @@ const RecipeListPage: NextPage<{ envs: IEnvironmentResItem[] }> = ({
         }
       />
       <RecipeFilter
-        envs={envs}
         params={params}
         updateParams={updateParams}
         resetParams={resetParams}
@@ -68,19 +60,6 @@ const RecipeListPage: NextPage<{ envs: IEnvironmentResItem[] }> = ({
       />
     </>
   );
-};
-
-export const getStaticProps = async () => {
-  const props = await fetchEnvironment({
-    name: ['product_group', 'product_category', 'product_status'].join(','),
-  });
-
-  return {
-    props: {
-      envs: props.list,
-    },
-    revalidate: 60,
-  };
 };
 
 export default RecipeListPage;

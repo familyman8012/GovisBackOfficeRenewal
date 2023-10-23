@@ -1,31 +1,35 @@
 import React from 'react';
-import { IEnvironmentResItem } from '@InterfaceFarm/environment';
+import { EnvStore } from '@MobxFarm/store';
 
-const useFormOptionsWithEnvs = <T extends string>(
-  names: readonly T[],
-  envs: IEnvironmentResItem[]
-) => {
+const useFormOptionsWithEnvs = <T extends string>(names: readonly T[]) => {
+  const { list: envs } = EnvStore.getData({
+    name: names.join(','),
+  });
+
+  const initialObject = names.reduce(
+    (obj, name) => {
+      obj[name] = [];
+
+      return obj;
+    },
+    {} as Record<T, { label: string; value: string; code: string }[]>
+  );
+
   return React.useMemo(
     () =>
       envs
         ?.filter(env => env.is_hidden !== 1)
-        ?.reduce(
-          (acc, cur) => {
-            const name = cur.name as T;
-            if (names.includes(name)) {
-              if (!Array.isArray(acc[name])) {
-                acc[name] = [];
-              }
-              acc[name].push({
-                label: `${cur.value}`,
-                value: `${cur.environment_variable_idx}`,
-                code: cur.code,
-              });
-            }
-            return acc;
-          },
-          {} as Record<T, { label: string; value: string; code: string }[]>
-        ),
+        ?.reduce((acc, cur) => {
+          const name = cur.name as T;
+          if (names.includes(name)) {
+            acc[name].push({
+              label: `${cur.value}`,
+              value: `${cur.environment_variable_idx}`,
+              code: cur.code,
+            });
+          }
+          return acc;
+        }, initialObject),
     [envs]
   );
 };

@@ -1,9 +1,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
-import { fetchEnvironment } from '@ApiFarm/environment';
 import { fetchProductList } from '@ApiFarm/product';
-import { IEnvironmentRes } from '@InterfaceFarm/environment';
 import ExportButton from '@ComponentFarm/modules/ExportButton/ExportButton';
 import Pagination from '@ComponentFarm/modules/Paginate/Pagination';
 import { Button } from '@ComponentFarm/atom/Button/Button';
@@ -14,8 +12,9 @@ import { tabData } from '@ComponentFarm/template/product/manage/const';
 import ManageListHandler from '@ComponentFarm/template/product/manage/ManageListHandler';
 import ManageListTable from '@ComponentFarm/template/product/manage/ManageListTable';
 import useQueryParams from '@HookFarm/useQueryParams';
+import { EnvStore } from '@MobxFarm/store';
 
-const Manage = ({ environment }: { environment: IEnvironmentRes }) => {
+const Manage = () => {
   const router = useRouter();
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const [params, updateParams, resetParams] = useQueryParams({
@@ -23,7 +22,11 @@ const Manage = ({ environment }: { environment: IEnvironmentRes }) => {
     per_num: 10,
   });
 
-  const { data } = useQuery(['productList', router.asPath], () =>
+  const environment = EnvStore?.getData({
+    name: 'product_category,sale_type,product_status,recipe_status',
+  });
+
+  const { isLoading, data } = useQuery(['productList', router.asPath], () =>
     fetchProductList(params)
   );
 
@@ -67,7 +70,11 @@ const Manage = ({ environment }: { environment: IEnvironmentRes }) => {
         updateParams={updateParams}
         resetParams={resetParams}
       />
-      <ManageListTable data={data} updateParams={updateParams} />
+      <ManageListTable
+        isLoading={isLoading}
+        data={data}
+        updateParams={updateParams}
+      />
       <Pagination
         pageInfo={[Number(params.current_num), Number(params.per_num)]}
         totalCount={Number(data?.total_count)}
@@ -78,16 +85,3 @@ const Manage = ({ environment }: { environment: IEnvironmentRes }) => {
 };
 
 export default Manage;
-
-export const getStaticProps = async () => {
-  const environment = await fetchEnvironment({
-    name: 'product_category,sale_type,product_status,recipe_status',
-  });
-
-  return {
-    props: {
-      environment,
-    },
-    revalidate: 60,
-  };
-};

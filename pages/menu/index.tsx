@@ -1,9 +1,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
-import { fetchEnvironment } from '@ApiFarm/environment';
 import { downloadMenuList, fetchMenuList } from '@ApiFarm/menu';
-import { IEnvironmentResItem } from '@InterfaceFarm/environment';
 import Pagination from '@ComponentFarm/modules/Paginate/Pagination';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Plus } from '@ComponentFarm/atom/icons';
@@ -15,7 +13,7 @@ import MenuFilter from '@ComponentFarm/template/menu/MenuFilter';
 import MenuListTable from '@ComponentFarm/template/menu/MenuListTable';
 import useQueryParams from '@HookFarm/useQueryParams';
 
-const MenuListPage = ({ envs }: { envs: IEnvironmentResItem[] }) => {
+const MenuListPage = () => {
   const router = useRouter();
   const [pathname] = router.asPath.split('?');
   const [params, updateParams, resetParams] = useQueryParams({
@@ -56,7 +54,6 @@ const MenuListPage = ({ envs }: { envs: IEnvironmentResItem[] }) => {
         }
       />
       <MenuFilter
-        envs={envs}
         params={params}
         updateParams={updateParams}
         resetParams={resetParams}
@@ -73,7 +70,6 @@ const MenuListPage = ({ envs }: { envs: IEnvironmentResItem[] }) => {
         handlePageChange={handlePageChange}
       />
       <MenuCopyModal
-        envs={envs}
         show={!!copyTargerId}
         menu_info_idx={copyTargerId}
         onClose={() => setCopyTargetId(undefined)}
@@ -84,25 +80,6 @@ const MenuListPage = ({ envs }: { envs: IEnvironmentResItem[] }) => {
       />
     </div>
   );
-};
-
-export const getStaticProps = async () => {
-  const props = await fetchEnvironment({
-    name: [
-      'menu_group',
-      'menu_type',
-      'menu_status',
-      'menu_category_status',
-      'menu_classification',
-    ].join(','),
-  });
-
-  return {
-    props: {
-      envs: props.list,
-    },
-    revalidate: 60,
-  };
 };
 
 export default MenuListPage;
