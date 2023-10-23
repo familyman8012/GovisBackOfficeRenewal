@@ -6,7 +6,7 @@ import {
   PageModeSettings,
   Tab,
 } from '@ComponentFarm/template/product/manage/const';
-import TitleArea from '../TitleArea';
+import TitleArea from './TitleArea';
 
 interface ILayout {
   tabData: Tab[];
@@ -18,7 +18,7 @@ interface ILayout {
   children: React.ReactNode;
 }
 
-const DetailPageLayout: React.FC<ILayout> = ({
+const PageLayout: React.FC<ILayout> = ({
   tabData,
   subRoot,
   currentSettings,
@@ -78,4 +78,4 @@ const DetailPageLayout: React.FC<ILayout> = ({
   );
 };
 
-export default DetailPageLayout;
+export default PageLayout;

@@ -14,7 +14,7 @@ import RadioGroup from '@ComponentFarm/modules/RadioGroup/RadioGroup';
 import ErrorTxt from '@ComponentFarm/atom/ErrorTxt/ErrorTxt';
 import { Select } from '@ComponentFarm/atom/Select/Select';
 import { FormWrap } from '@ComponentFarm/common';
-import DetailPageLayout from '@ComponentFarm/layout/Product/DetailPageLayout';
+import PageLayout from '@ComponentFarm/layout/PageLayout';
 import useEnvironments, {
   EnvironmentKeyMapping,
 } from '@HookFarm/useEnviroments';
@@ -346,7 +346,7 @@ const MaterialForm: React.FC<FormProps> = ({
   const currentSettings = settingsByMode[pageMode];
 
   return (
-    <DetailPageLayout
+    <PageLayout
       tabData={tabData}
       currentSettings={currentSettings}
       isSubmitLoading={isSubmitLoading}
@@ -1052,7 +1052,7 @@ const MaterialForm: React.FC<FormProps> = ({
           </div>
         </div>
       </FormWrap>
-    </DetailPageLayout>
+    </PageLayout>
   );
 };
 
