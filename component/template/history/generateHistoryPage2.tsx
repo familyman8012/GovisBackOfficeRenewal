@@ -14,6 +14,7 @@ type Config = {
   endpoint: string;
   subTitle?: string;
   tabData: Tab[];
+  subRoot?: boolean;
 };
 
 /**
@@ -63,7 +64,11 @@ const generateHistoryPage2 = (config: Config) => {
     }, [hasNextPage, fetchNextPage]);
 
     return (
-      <DetailPageLayout tabData={config.tabData} title={config.subTitle}>
+      <DetailPageLayout
+        subRoot={config.subRoot}
+        tabData={config.tabData}
+        title={config.subTitle}
+      >
         <HistoryPageLayout>
           {config.subTitle && <h2>{config.subTitle}</h2>}
           <InfiniteHistoryTable

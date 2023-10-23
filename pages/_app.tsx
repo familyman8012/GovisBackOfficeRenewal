@@ -19,7 +19,6 @@ import { ServerError } from '@InterfaceFarm/response';
 import ConfirmModal from '@ComponentFarm/modules/Modal/ConfirmModal';
 import reset from '@ComponentFarm/common';
 import Layout from '@ComponentFarm/layout';
-import { Goivs2Menu } from '@ComponentFarm/layout/MenuData';
 import { EnvStore, authStore } from '@MobxFarm/store';
 import { errorHandler } from '@UtilFarm/error-handler';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -48,19 +47,19 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   const useIsomorphicLayoutEffect =
     typeof window !== 'undefined' ? useLayoutEffect : useEffect;
 
-  useIsomorphicLayoutEffect(() => {
-    // 현재 URL이 Goivs2Menu에 없으면 리다이렉트
-    if (
-      !Goivs2Menu.includes(
-        urlArr.length > 2
-          ? `/${urlArr[urlArr.length - 2]}${currentUrl}`
-          : currentUrl
-      ) &&
-      currentUrl !== '/'
-    ) {
-      window.location.href = `${host}${router.asPath}`;
-    }
-  }, [currentUrl, router.asPath]);
+  // useIsomorphicLayoutEffect(() => {
+  //   // 현재 URL이 Goivs2Menu에 없으면 리다이렉트
+  //   if (
+  //     !Goivs2Menu.includes(
+  //       urlArr.length > 2
+  //         ? `/${urlArr[urlArr.length - 2]}${currentUrl}`
+  //         : currentUrl
+  //     ) &&
+  //     currentUrl !== '/'
+  //   ) {
+  //     window.location.href = `${host}${router.asPath}`;
+  //   }
+  // }, [currentUrl, router.asPath]);
 
   useIsomorphicLayoutEffect(() => {
     if (!localStorage.getItem('BO_AUTH_TOKEN') && !!Cookies.get('AUTH_DATA')) {
