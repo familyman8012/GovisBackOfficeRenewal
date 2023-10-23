@@ -149,7 +149,7 @@ const MaterialForm: React.FC<FormProps> = ({
     VAT,
     COUNTRY,
     SALE_BRAND,
-  } = useEnvironments(environment.list, envKeys);
+  } = useEnvironments(environment?.list, envKeys);
 
   // // 거래처 변환
   const PARTNER = useMemo(

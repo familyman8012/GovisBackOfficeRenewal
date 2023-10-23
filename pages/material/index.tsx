@@ -2,8 +2,6 @@ import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
 import { fetchMaterialList } from '@ApiFarm/ material';
-import { fetchEnvironment } from '@ApiFarm/environment';
-import { IEnvironmentRes } from '@InterfaceFarm/environment';
 import ExportButton from '@ComponentFarm/modules/ExportButton/ExportButton';
 import Pagination from '@ComponentFarm/modules/Paginate/Pagination';
 import { Button } from '@ComponentFarm/atom/Button/Button';
@@ -14,9 +12,13 @@ import { materialListTabData } from '@ComponentFarm/template/product/material/co
 import MaterialListHandler from '@ComponentFarm/template/product/material/MaterialListHandler';
 import MaterialListTable from '@ComponentFarm/template/product/material/MaterialListTable';
 import useQueryParams from '@HookFarm/useQueryParams';
+import { EnvStore } from '@MobxFarm/store';
 
-const Manage = ({ environment }: { environment: IEnvironmentRes }) => {
+const Manage = () => {
   const router = useRouter();
+  const environment = EnvStore?.getData({
+    name: 'material_storage_type,material_status',
+  });
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const [params, updateParams, resetParams] = useQueryParams({
     current_num: 1,
@@ -88,16 +90,3 @@ const Manage = ({ environment }: { environment: IEnvironmentRes }) => {
 };
 
 export default Manage;
-
-export const getStaticProps = async () => {
-  const environment = await fetchEnvironment({
-    name: 'material_storage_type,material_status',
-  });
-
-  return {
-    props: {
-      environment,
-    },
-    revalidate: 60,
-  };
-};

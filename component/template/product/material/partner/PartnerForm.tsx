@@ -219,7 +219,7 @@ const PartnerForm: React.FC<FormProps> = ({
                 })}
               >
                 <option value="">상태 선택</option>
-                {convertEnv('partner_company_status', environment.list).map(
+                {convertEnv('partner_company_status', environment?.list).map(
                   el => (
                     <option key={el.value} value={String(el.value)}>
                       {el.label}
