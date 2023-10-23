@@ -15,11 +15,11 @@ const Group = ({ permissionList }: { permissionList: PermissionList }) => {
   const layerRef = useRef<HTMLUListElement>(null);
   const [isOpen, setIsOpen] = useState(false);
 
-  const host = window.location.host.includes('dev')
-    ? 'https://dev.govis.gopizza.kr'
-    : window.location.host.includes('localhost')
-    ? 'http://localhost:3000/'
-    : 'https://govis.gopizza.kr';
+  const host =
+    window.location.host.includes('dev') ||
+    window.location.host.includes('localhost')
+      ? 'https://dev.govis.gopizza.kr'
+      : 'https://govis.gopizza.kr';
 
   // url 에 따라 적절한 그룹탭을 보여준다.
   useEffect(() => {

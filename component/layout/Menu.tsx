@@ -7,22 +7,18 @@ import { Goivs2Menu } from './MenuData';
 
 const Menu = ({ permissionList }: { permissionList: PermissionList }) => {
   const router = useRouter();
-  const urlArr = router.asPath.split('/');
-  const currentUrl = `/${urlArr[urlArr.length - 1]?.split('?')[0]}`;
+  const currentUrl = `/${router.asPath.split('/')[1].split('?')[0]}`;
+  const chkRouterIndex = router.asPath.split('/').length === 2;
 
   const isPathActive = (path: string) => {
-    const pathArr = path.split('/');
-    return pathArr.length > 2
-      ? `/${urlArr[urlArr.length - 2]}${currentUrl}` ===
-          `/${pathArr[pathArr.length - 2]}/${pathArr[pathArr.length - 1]}`
-      : currentUrl === `/${pathArr[pathArr.length - 1]}`;
+    return currentUrl === path;
   };
 
-  const host = window.location.host.includes('dev')
-    ? 'https://dev.govis.gopizza.kr'
-    : window.location.host.includes('localhost')
-    ? 'http://localhost:3000/'
-    : 'https://govis.gopizza.kr';
+  const host =
+    window.location.host.includes('dev') ||
+    window.location.host.includes('localhost')
+      ? 'https://dev.govis.gopizza.kr'
+      : 'https://govis.gopizza.kr';
 
   return (
     <>
@@ -43,7 +39,7 @@ const Menu = ({ permissionList }: { permissionList: PermissionList }) => {
 
             return (
               <li key={depth1}>
-                {isPathActive(String(path)) && urlArr.length === 2 ? (
+                {isPathActive(String(path)) && chkRouterIndex ? (
                   <span
                     className={`link_depth1 ${isActive ? 'on' : ''} ${
                       path ? 'depth1Only' : ''
