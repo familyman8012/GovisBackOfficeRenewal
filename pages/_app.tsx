@@ -36,7 +36,8 @@ type AppPropsWithLayout = AppProps & {
 
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   const router = useRouter();
-  const currentUrl = `/${router.asPath.split('/')[1].split('?')[0]}`;
+  const urlArr = router.asPath.split('/');
+  const currentUrl = `/${urlArr[urlArr.length - 1]?.split('?')[0]}`;
   const host =
     typeof window !== 'undefined' &&
     (window.location.host.includes('dev') ||
@@ -49,7 +50,14 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
 
   useIsomorphicLayoutEffect(() => {
     // 현재 URL이 Goivs2Menu에 없으면 리다이렉트
-    if (!Goivs2Menu.includes(currentUrl) && currentUrl !== '/') {
+    if (
+      !Goivs2Menu.includes(
+        urlArr.length > 2
+          ? `/${urlArr[urlArr.length - 2]}${currentUrl}`
+          : currentUrl
+      ) &&
+      currentUrl !== '/'
+    ) {
       window.location.href = `${host}${router.asPath}`;
     }
   }, [currentUrl, router.asPath]);

@@ -153,10 +153,12 @@ export const MenuWrap = styled.div`
     border-radius: 0.4rem;
     cursor: pointer;
     .txt {
+      display: block;
       padding: 0.8rem;
       font-size: 1.6rem;
       font-weight: var(--font-semiBold);
-      line-height: 110%;
+      line-height: 1.76rem;
+      white-space: pre-line;
     }
 
     &:after {

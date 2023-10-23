@@ -217,6 +217,24 @@ export const TotalMenu: MenuType[] = [
     ],
   },
   {
+    depth1: `AI Smart\n Topping table`,
+    group: 'Franchise',
+    depth2: [
+      {
+        name: '현황',
+        path: '/aistt/state',
+        perm_code: 'board_recipe',
+        perm_info_idx: 35,
+      },
+      {
+        name: '캘린더',
+        path: '/fc/calendar',
+        perm_code: 'board_calendar',
+        perm_info_idx: 35,
+      },
+    ],
+  },
+  {
     depth1: '이벤트 관리',
     group: 'Franchise',
     depth2: [
@@ -423,4 +441,5 @@ export const Goivs2Menu = [
   '/menu',
   '/product-recipes',
   '/storybook',
+  '/aistt/state',
 ];
