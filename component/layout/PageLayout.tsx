@@ -6,11 +6,11 @@ import {
   PageModeSettings,
   Tab,
 } from '@ComponentFarm/template/product/manage/const';
-import TitleArea from '../TitleArea';
+import TitleArea from './TitleArea';
 
 interface ILayout {
   tabData: Tab[];
-  backUrl?: string;
+  subRoot?: boolean;
   currentSettings?: PageModeSettings;
   title?: string;
   isSubmitLoading?: boolean;
@@ -18,9 +18,9 @@ interface ILayout {
   children: React.ReactNode;
 }
 
-const DetailPageLayout: React.FC<ILayout> = ({
+const PageLayout: React.FC<ILayout> = ({
   tabData,
-  backUrl,
+  subRoot,
   currentSettings,
   title,
   isSubmitLoading = false,
@@ -28,16 +28,23 @@ const DetailPageLayout: React.FC<ILayout> = ({
   children,
 }) => {
   const router = useRouter();
-  const currentCategory = useMemo(
+  const urlArr = router.asPath.split('/');
+  const currentUrl = useMemo(
     () => router?.asPath?.split('/')[1],
     [router?.asPath]
   );
+
+  console.log('urlArr', urlArr);
 
   const handlerMoveBack = () => {
     // eslint-disable-next-line no-unused-vars
     const { id, ...newObj } = router.query;
     router.push({
-      pathname: backUrl ? `/${backUrl}` : `/${currentCategory}`,
+      pathname: subRoot
+        ? urlArr[urlArr.length - 1].includes('id=')
+          ? urlArr.slice(0, urlArr.length - 1).join('/')
+          : urlArr.slice(0, urlArr.length - 2).join('/')
+        : `/${currentUrl}`,
       query: { ...newObj },
     });
   };
@@ -71,4 +78,4 @@ const DetailPageLayout: React.FC<ILayout> = ({
   );
 };
 
-export default DetailPageLayout;
+export default PageLayout;

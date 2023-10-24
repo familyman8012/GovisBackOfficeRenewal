@@ -8,7 +8,7 @@ import { IProductChannelImgList } from '@InterfaceFarm/product';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Edit, Export, Plus } from '@ComponentFarm/atom/icons';
 import { FormWrap, Table, TableWrap } from '@ComponentFarm/common';
-import DetailPageLayout from '@ComponentFarm/layout/Product/DetailPageLayout';
+import PageLayout from '@ComponentFarm/layout/PageLayout';
 import { tabDataFunc } from '@ComponentFarm/template/product/manage/const';
 import useImageUploader from '@HookFarm/useImageUploader';
 import { EnvStore } from '@MobxFarm/store';
@@ -220,7 +220,7 @@ const Channelimg = () => {
 
   return (
     <FormWrap>
-      <DetailPageLayout tabData={tabData} title="제품 상세 정보">
+      <PageLayout tabData={tabData} title="제품 상세 정보">
         <h2>채널별 제품 이미지 목록</h2>
         <TableWrap>
           <Table className="basic" css={pageStyle}>
@@ -287,7 +287,7 @@ const Channelimg = () => {
             </tbody>
           </Table>
         </TableWrap>
-      </DetailPageLayout>
+      </PageLayout>
     </FormWrap>
   );
 };

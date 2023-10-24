@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
 import { fetchMaterialInfoView } from '@ApiFarm/product';
 import { FormWrap } from '@ComponentFarm/common';
-import DetailPageLayout from '@ComponentFarm/layout/Product/DetailPageLayout';
+import PageLayout from '@ComponentFarm/layout/PageLayout';
 import { tabDataFunc } from '@ComponentFarm/template/product/manage/const';
 import RecipeMaterialInfo from '@ComponentFarm/template/recipe/RecipeMaterialInfo';
 
@@ -22,9 +22,9 @@ const MaterialInfo = () => {
 
   return (
     <FormWrap>
-      <DetailPageLayout tabData={tabData} title="제품 상세 정보">
+      <PageLayout tabData={tabData} title="제품 상세 정보">
         <RecipeMaterialInfo materialInfo={MaterialInfoData} />
-      </DetailPageLayout>
+      </PageLayout>
     </FormWrap>
   );
 };

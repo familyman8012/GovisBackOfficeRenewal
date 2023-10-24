@@ -103,24 +103,6 @@ export type PageModeSettings = {
   secondButtonText: string;
 };
 
-export const settingsByMode: Record<string, PageModeSettings> = {
-  add: {
-    title: '제품 등록',
-    firstButtonText: '취소',
-    secondButtonText: '등록',
-  },
-  modify: {
-    title: '제품 상세 정보 수정',
-    firstButtonText: '취소',
-    secondButtonText: '저장',
-  },
-  view: {
-    title: '제품 상세 정보',
-    firstButtonText: '이전',
-    secondButtonText: '수정',
-  },
-};
-
 export const searchStatus = [
   {
     value: '',
@@ -146,6 +128,24 @@ export interface Tab {
   url: string;
   query?: { id?: string | string[] };
 }
+
+export const settingsByMode: Record<string, PageModeSettings> = {
+  add: {
+    title: '제품 등록',
+    firstButtonText: '취소',
+    secondButtonText: '등록',
+  },
+  modify: {
+    title: '제품 상세 정보 수정',
+    firstButtonText: '취소',
+    secondButtonText: '저장',
+  },
+  view: {
+    title: '제품 상세 정보',
+    firstButtonText: '이전',
+    secondButtonText: '수정',
+  },
+};
 
 export const tabDataFunc = (pageMode: string, query?: any) => {
   const getIdFromQuery = tabGetQueryId(query);

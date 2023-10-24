@@ -22,6 +22,7 @@ const History = () => {
     endpoint: `/partner_company/history/list`,
     subTitle: '거래처 변경 내역',
     tabData,
+    subRoot: true,
   });
 
   return <>{getHistory({ environment })}</>;

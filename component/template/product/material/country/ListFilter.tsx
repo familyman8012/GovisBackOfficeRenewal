@@ -38,7 +38,7 @@ const ListFilter = ({ params, updateParams }: IListHandler) => {
     if (keyword.search_target) {
       updateParams({ ...keyword, current_num: 1 });
     } else {
-      // search_target이 없을 경우, search_keyword만 사용
+      // search_target이 없을 경우, search_keyword만 사용.
       updateParams({ search_keyword: keyword.search_keyword, current_num: 1 });
     }
   };

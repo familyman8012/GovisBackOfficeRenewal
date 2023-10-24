@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
 import { fetchProductRecipe } from '@ApiFarm/product';
 import Empty from '@ComponentFarm/atom/Empty/Empty';
-import DetailPageLayout from '@ComponentFarm/layout/Product/DetailPageLayout';
+import PageLayout from '@ComponentFarm/layout/PageLayout';
 import { tabDataFunc } from '@ComponentFarm/template/product/manage/const';
 import RecipeView from '@ComponentFarm/template/recipe/RecipeView';
 import { EnvStore } from '@MobxFarm/store';
@@ -40,27 +40,27 @@ const ProductRecipeInfoPage = () => {
 
   if (isLoading) {
     return (
-      <DetailPageLayout title="제품 관리 상세 정보" tabData={tabData}>
+      <PageLayout title="제품 관리 상세 정보" tabData={tabData}>
         <Empty>불러오는중입니다....</Empty>
-      </DetailPageLayout>
+      </PageLayout>
     );
   }
 
   if (isError || !data || data?.recipe_info_idx === 0) {
     return (
-      <DetailPageLayout title="제품 관리 상세 정보" tabData={tabData}>
+      <PageLayout title="제품 관리 상세 정보" tabData={tabData}>
         <Empty>
           조회된 레시피가 없습니다. <br />{' '}
           <span className="sub">레시피를 등록해주세요.</span>
         </Empty>
-      </DetailPageLayout>
+      </PageLayout>
     );
   }
 
   return (
-    <DetailPageLayout title="제품 관리 상세 정보" tabData={tabData}>
+    <PageLayout title="제품 관리 상세 정보" tabData={tabData}>
       {data && <RecipeView initialData={data} envs={environment.list} />}
-    </DetailPageLayout>
+    </PageLayout>
   );
 };
 

@@ -7,7 +7,7 @@ import { IPartnerSaveReq } from '@InterfaceFarm/material';
 import { AddressSearch } from '@ComponentFarm/modules/AddressSearch/AddressSearch';
 import ErrorTxt from '@ComponentFarm/atom/ErrorTxt/ErrorTxt';
 import { FormWrap } from '@ComponentFarm/common';
-import DetailPageLayout from '@ComponentFarm/layout/Product/DetailPageLayout';
+import PageLayout from '@ComponentFarm/layout/PageLayout';
 import { convertEnv } from '@UtilFarm/convertEnvironment';
 import { settingsByMode, tabDataFunc } from './const';
 
@@ -107,8 +107,8 @@ const PartnerForm: React.FC<FormProps> = ({
   const currentSettings = settingsByModeObj[pageMode];
 
   return (
-    <DetailPageLayout
-      backUrl="/material/partner"
+    <PageLayout
+      subRoot
       tabData={tabData}
       currentSettings={currentSettings}
       isSubmitLoading={isSubmitLoading}
@@ -266,7 +266,7 @@ const PartnerForm: React.FC<FormProps> = ({
         </Button>
       </div> */}
       </FormWrap>
-    </DetailPageLayout>
+    </PageLayout>
   );
 };
 

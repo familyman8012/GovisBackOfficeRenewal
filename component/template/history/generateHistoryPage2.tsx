@@ -4,7 +4,7 @@ import { useInfiniteQuery } from 'react-query';
 import { fetchDataHistoryList } from '@ApiFarm/history';
 import { IEnvironmentRes } from '@InterfaceFarm/environment';
 import { IHistoryResItem } from '@InterfaceFarm/history';
-import DetailPageLayout from '@ComponentFarm/layout/Product/DetailPageLayout';
+import PageLayout from '@ComponentFarm/layout/PageLayout';
 import InfiniteHistoryTable from './InfiniteHistoryTable';
 import { HistoryPageLayout } from './style';
 import { Tab } from '../product/manage/const';
@@ -14,6 +14,7 @@ type Config = {
   endpoint: string;
   subTitle?: string;
   tabData: Tab[];
+  subRoot?: boolean;
 };
 
 /**
@@ -63,7 +64,11 @@ const generateHistoryPage2 = (config: Config) => {
     }, [hasNextPage, fetchNextPage]);
 
     return (
-      <DetailPageLayout tabData={config.tabData} title={config.subTitle}>
+      <PageLayout
+        subRoot={config.subRoot}
+        tabData={config.tabData}
+        title={config.subTitle}
+      >
         <HistoryPageLayout>
           {config.subTitle && <h2>{config.subTitle}</h2>}
           <InfiniteHistoryTable
@@ -73,7 +78,7 @@ const generateHistoryPage2 = (config: Config) => {
             onBottomScroll={handleLoadData}
           />
         </HistoryPageLayout>
-      </DetailPageLayout>
+      </PageLayout>
     );
   };
 };

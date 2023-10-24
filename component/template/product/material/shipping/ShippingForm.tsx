@@ -12,7 +12,7 @@ import ErrorTxt from '@ComponentFarm/atom/ErrorTxt/ErrorTxt';
 import { Minus } from '@ComponentFarm/atom/icons';
 import { IOption, Select } from '@ComponentFarm/atom/Select/Select';
 import { FormWrap, Table, TableWrap } from '@ComponentFarm/common';
-import DetailPageLayout from '@ComponentFarm/layout/Product/DetailPageLayout';
+import PageLayout from '@ComponentFarm/layout/PageLayout';
 import {
   convertServerFormat,
   convertToLabelValueFormat,
@@ -234,7 +234,7 @@ const ShippingForm: React.FC<FormProps> = ({
   const currentSettings = settingsByMode[pageMode];
 
   return (
-    <DetailPageLayout
+    <PageLayout
       tabData={tabData}
       currentSettings={currentSettings}
       isSubmitLoading={isSubmitLoading}
@@ -370,7 +370,7 @@ const ShippingForm: React.FC<FormProps> = ({
           ))
         )}
       </FormWrap>
-    </DetailPageLayout>
+    </PageLayout>
   );
 };
 

@@ -12,7 +12,7 @@ import ImageUploader from '@ComponentFarm/modules/ImageUploader/ImageUploader';
 import { Divider } from '@ComponentFarm/atom/Divider/Divider';
 import ErrorTxt from '@ComponentFarm/atom/ErrorTxt/ErrorTxt';
 import { FormWrap } from '@ComponentFarm/common';
-import DetailPageLayout from '@ComponentFarm/layout/Product/DetailPageLayout';
+import PageLayout from '@ComponentFarm/layout/PageLayout';
 import {
   envKeys,
   productStyles,
@@ -108,7 +108,7 @@ const ProductForm: React.FC<FormProps> = ({
   });
 
   return (
-    <DetailPageLayout
+    <PageLayout
       tabData={tabData}
       currentSettings={currentSettings}
       isSubmitLoading={isSubmitLoading}
@@ -387,7 +387,7 @@ const ProductForm: React.FC<FormProps> = ({
           )}
         </div>
       </FormWrap>
-    </DetailPageLayout>
+    </PageLayout>
   );
 };
 export default ProductForm;
