@@ -423,5 +423,6 @@ export const Goivs2Menu = [
   '/menu',
   '/product-recipes',
   '/storybook',
-  '/ai-fqs',
+  '/ai-fqs-analysis',
+  '/ai-fqs-device',
 ];

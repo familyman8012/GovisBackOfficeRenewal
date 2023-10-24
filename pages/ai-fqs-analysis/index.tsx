@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Pagination from '@ComponentFarm/modules/Paginate/Pagination';
 import { Select } from '@ComponentFarm/atom/Select/Select';
+import { inspectionOptions } from '@ComponentFarm/template/ai-fqs/const';
 import { AnalysisPageStyle } from '@ComponentFarm/template/ai-fqs/style';
-import VideoList from '@ComponentFarm/template/ai-fqs/VideoList';
+import AnalysisVideoList from '@ComponentFarm/template/ai-fqs/VideoList';
 
-const ProductAnalysis = () => {
+const AnalysisListPage = () => {
   const [analysisVideos, setAnalysisVideos] = useState([]);
 
   useEffect(() => {
@@ -20,10 +21,25 @@ const ProductAnalysis = () => {
   return (
     <AnalysisPageStyle>
       <div className="total">
-        <h2>총 115건</h2>
-        <Select selectedOption={{}} options={[]} setSelectedOption={() => {}} />
+        <span>
+          총 <span className="value">115</span> 건
+        </span>
+        <Select
+          selectedOption={{}}
+          options={React.useMemo(
+            () => [
+              {
+                label: '전체',
+                value: '',
+              },
+              ...inspectionOptions,
+            ],
+            []
+          )}
+          setSelectedOption={() => {}}
+        />
       </div>
-      <VideoList list={analysisVideos} />
+      <AnalysisVideoList list={analysisVideos} />
       <Pagination
         pageInfo={[currentPage, 10]}
         totalCount={100}
@@ -33,4 +49,4 @@ const ProductAnalysis = () => {
   );
 };
 
-export default ProductAnalysis;
+export default AnalysisListPage;

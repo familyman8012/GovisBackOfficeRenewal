@@ -13,27 +13,29 @@ type VideoListProps = {
   }[];
 };
 
-const VideoList: React.FC<VideoListProps> = ({ list }) => {
+const AnalysisVideoList: React.FC<VideoListProps> = ({ list }) => {
   return (
     <VideoListStyle>
-      <div className="item">
-        <div className="video-wrap">
-          <Badge color="green" dot>
-            검수완료
-          </Badge>
-          <video muted controls />
+      {Array.from({ length: 10 }).map((_, i) => (
+        <div className="item" key={i + i}>
+          <div className="video-wrap">
+            <Badge color="green" dot>
+              검수완료
+            </Badge>
+            <video muted controls />
+          </div>
+          <div className="info-wrap">
+            <h3>오리지널 페퍼로니</h3>
+            <ul>
+              <li className="score">100점</li>
+            </ul>
+            <p>평촌학원가점</p>
+            <p>제조일자 {dayjs().format('YYYY-MM-DD')}</p>
+          </div>
         </div>
-        <div className="info-wrap">
-          <h3>오리지널 페퍼로니</h3>
-          <ul>
-            <li className="score">100점</li>
-          </ul>
-          <p>평촌학원가점</p>
-          <p>제조일자 {dayjs().format('YYYY-MM-DD')}</p>
-        </div>
-      </div>
+      ))}
     </VideoListStyle>
   );
 };
 
-export default VideoList;
+export default AnalysisVideoList;
