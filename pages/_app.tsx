@@ -22,7 +22,7 @@ import Layout from '@ComponentFarm/layout';
 import { Goivs2Menu } from '@ComponentFarm/layout/MenuData';
 import { EnvStore, authStore } from '@MobxFarm/store';
 import { errorHandler } from '@UtilFarm/error-handler';
-import 'react-datepicker/dist/react-datepicker.css';
+// import 'react-datepicker/dist/react-datepicker.css';
 import 'react-loading-skeleton/dist/skeleton.css';
 
 export type NextPageWithLayout = NextPage & {

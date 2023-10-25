@@ -3,7 +3,7 @@ import { TitleAreaWrap } from './styles';
 
 interface TitleAreaProps {
   title: string;
-  BtnBox: React.ReactNode;
+  BtnBox?: React.ReactNode;
 }
 
 const TitleArea = ({ title, BtnBox }: TitleAreaProps) => {
