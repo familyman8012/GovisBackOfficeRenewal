@@ -17,8 +17,12 @@ export const datepickerGlobalStyle = css`
     width: 100%;
   }
 
+  .react-datepicker__monthPicker .react-datepicker__month-wrapper {
+    display: none;
+  }
+
   .react-datepicker__month-container {
-    max-width: 37.5rem;
+    width: 37.5rem;
     padding: 3.2rem 1.6rem;
   }
 

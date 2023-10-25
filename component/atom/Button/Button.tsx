@@ -2,6 +2,7 @@ import { FC, ButtonHTMLAttributes, ReactElement } from 'react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { theme } from '@ComponentFarm/theme';
+import Cross from '../icons/Cross';
 import Spinner from '../Spinner/Spinner';
 
 type ButtonVariant =
@@ -9,6 +10,8 @@ type ButtonVariant =
   | 'secondary'
   | 'gostPrimary'
   | 'gostSecondary'
+  | 'selectItem'
+  | 'selectItem_on'
   | 'transparent';
 
 type ButtonSize = 'md' | 'lg';
@@ -82,6 +85,66 @@ const buttonVariants = {
     &:disabled {
       color: var(--button-gray);
       border: 1px solid var(--button-gray);
+    }
+  `,
+  selectItem: css`
+    min-width: auto !important;
+    height: auto !important;
+    padding: 0 !important;
+    color: var(--color-neutral10);
+    border: 1px solid var(--color-neutral90);
+    background-color: var(--color-gray3);
+
+    &:disabled {
+      color: var(--color-neutral90);
+      border: 1px solid var(--color-neutral90);
+      background: #fff;
+      .btn_close {
+        &:hover {
+          background: #fff;
+        }
+        svg path {
+          fill: #e5e5e5;
+        }
+      }
+    }
+    .txt {
+      padding: 0 1.6rem;
+    }
+
+    .btn_close {
+      display: flex;
+      padding: 1.2rem 1.6rem;
+      border-left: 1px solid var(--color-neutral90);
+      &:hover {
+        background: var(--color-gray5);
+      }
+      svg path {
+        fill: #747474;
+      }
+    }
+  `,
+  selectItem_on: css`
+    min-width: auto !important;
+    height: auto !important;
+    padding: 0 !important;
+    color: var(--color-indigo45);
+    background: var(--color-indigo90);
+
+    .txt {
+      padding: 0 1.6rem;
+    }
+
+    .btn_close {
+      display: flex;
+      padding: 1.2rem 1.6rem;
+      border-left: 1px solid var(--color-neutral90);
+      &:hover {
+        background: var(--color-indigo90);
+      }
+      svg path {
+        fill: #5e5adb;
+      }
     }
   `,
   transparent: css`
@@ -161,11 +224,23 @@ export const Button: FC<ButtonProps> = ({
       {Leading && (
         <Leading {...LeadingIcon.props} customCss="margin-right: 0.4rem;" />
       )}
-      {!isLoading ? children : <Spinner color="white" />}
+      {!isLoading ? (
+        <span className="txt">{children}</span>
+      ) : (
+        <Spinner color="white" />
+      )}
       {IconOnlyType && <IconOnlyType {...IconOnly.props} />}
       {Trailing && (
         <Trailing {...TrailingIcon.props} customCss="margin-left: 0.4rem;" />
       )}
     </StyledButton>
+  );
+};
+
+export const BtnDelete = () => {
+  return (
+    <span className="btn_close">
+      <Cross />
+    </span>
   );
 };

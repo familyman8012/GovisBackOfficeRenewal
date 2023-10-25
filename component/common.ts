@@ -331,6 +331,12 @@ const reset = css`
     &:disabled {
       color: var(--textcolor-buttonDisabled);
     }
+    &.btn_reset {
+      min-width: auto;
+      height: 4.4rem;
+      padding: 0px;
+      color: var(--color-neutral60);
+    }
   }
 
   input {
