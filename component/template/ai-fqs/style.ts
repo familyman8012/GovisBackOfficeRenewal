@@ -260,7 +260,7 @@ export const VideoListStyle = styled.div`
   }
 `;
 
-export const ExpandContentStyle = styled.tr`
+export const ExpandRowStyle = styled.tr`
   .wrap {
     position: relative;
     margin-left: 3.2%;
@@ -298,6 +298,10 @@ export const ExpandContentStyle = styled.tr`
     svg {
       width: 1.6rem;
       height: 1.6rem;
+
+      path {
+        fill: currentColor;
+      }
     }
   }
 

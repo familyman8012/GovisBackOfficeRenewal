@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { BACKGROUND, COLOR, INPUT, TEXTCOLOR } from '@ComponentFarm/token';
+import { BACKGROUND, INPUT, TEXTCOLOR } from '@ComponentFarm/token';
 
 export const datepickerGlobalStyle = css`
   .react-datepicker {
@@ -290,8 +290,8 @@ export const datepickerGlobalStyle = css`
 
     &.react-datepicker__day--range-start,
     &.react-datepicker__day--selecting-range-start {
-      background-color: ${COLOR.blue} !important;
-      color: ${TEXTCOLOR.brandPrimary} !important;
+      background-color: var(--color-blue60) !important;
+      color: var(--color-gray1) !important;
       border-radius: 50%;
       font-weight: 900;
 
@@ -315,7 +315,7 @@ export const datepickerGlobalStyle = css`
     &.react-datepicker__day--range-end {
       &:not(.react-datepicker__day--outside-month) {
         background-color: var(--color-blue60) !important;
-        color: ${TEXTCOLOR.brandPrimary} !important;
+        color: var(--color-gray1) !important;
         border-radius: 50%;
         font-weight: 900;
       }
@@ -350,8 +350,8 @@ export const datepickerGlobalStyle = css`
   .react-datepicker__day--range-start,
   .react-datepicker__month--range-start,
   .react-datepicker__month--range-end {
-    background-color: ${COLOR.blue} !important;
-    color: ${TEXTCOLOR.brandPrimary} !important;
+    background-color: var(--color-blue60) !important;
+    color: var(--color-gray1) !important;
     border-radius: 50%;
     font-weight: 900;
   }

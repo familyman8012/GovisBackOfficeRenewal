@@ -1,6 +1,6 @@
 import DataFilled from '@ComponentFarm/atom/icons/DataFilled';
 import Pic from '@ComponentFarm/atom/icons/Pic';
-import { ExpandContentStyle } from './style';
+import { ExpandRowStyle } from './style';
 
 interface Props {
   show?: boolean;
@@ -17,7 +17,7 @@ const TableExpandRow = ({
 }: Props) => {
   return (
     show && (
-      <ExpandContentStyle className="empty">
+      <ExpandRowStyle className="empty">
         <td colSpan={colSpan}>
           <div className="wrap">
             <ul className="">
@@ -36,7 +36,7 @@ const TableExpandRow = ({
             </ul>
           </div>
         </td>
-      </ExpandContentStyle>
+      </ExpandRowStyle>
     )
   );
 };
