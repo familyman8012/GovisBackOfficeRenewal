@@ -2,13 +2,14 @@ import React, { FC } from 'react';
 import Link from 'next/link';
 import styled from '@emotion/styled';
 
-export const TilteBoxWrap = styled.div`
+export const TilteBoxWrap = styled.div<{ hideUnderline?: boolean }>`
   display: flex;
   align-items: center;
   width: 100%;
   margin: 3.2rem 0;
   padding: 2.4rem 0;
-  border-bottom: 2px solid var(--color-gray6);
+  border-bottom: ${props =>
+    props.hideUnderline ? '0' : '2px solid var(--color-gray6)'};
 
   h2 {
     margin-bottom: 0;
@@ -49,11 +50,17 @@ interface ITitleBoxProps {
   title: string;
   desc: string;
   moreLink?: string;
+  hideUnderline?: boolean;
 }
 
-const TitleBox: FC<ITitleBoxProps> = ({ title, desc, moreLink }) => {
+const TitleBox: FC<ITitleBoxProps> = ({
+  title,
+  desc,
+  moreLink,
+  hideUnderline,
+}) => {
   return (
-    <TilteBoxWrap>
+    <TilteBoxWrap hideUnderline={hideUnderline}>
       <h2>{title}</h2>
       <em className="desc">{desc}</em>
       {moreLink && <Link href="/">더보기</Link>}

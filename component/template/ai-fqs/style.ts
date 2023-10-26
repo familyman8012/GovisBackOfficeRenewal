@@ -186,6 +186,11 @@ export const AnalysisPageStyle = styled.div`
   }
 `;
 
+export const DevicePageStyle = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
 export const VideoListStyle = styled.div`
   display: flex;
   flex-wrap: wrap;

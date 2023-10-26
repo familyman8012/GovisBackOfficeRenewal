@@ -146,10 +146,11 @@ export const IcoInput: FC<IcoInputProps> = ({
           ) : null}
           {TrailingIcon ? (
             <TrailingIcon.type
-              customCss={`margin-left: auto; color: ${
-                error ? theme.colors.error500 : theme.colors.gray400
-              }`}
               className="trailingIcon"
+              style={{
+                marginLeft: 'auto',
+                color: error ? theme.colors.error500 : theme.colors.gray400,
+              }}
             />
           ) : null}
         </IconContainer>
