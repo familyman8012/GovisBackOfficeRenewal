@@ -1,6 +1,7 @@
 import React from 'react';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
+import ReactDatePicker from 'react-datepicker';
 import { Controller, useForm } from 'react-hook-form';
 import { IEnvironmentRes } from '@InterfaceFarm/environment';
 import { IProductFormField, IProductFormSaveReq } from '@InterfaceFarm/product';
@@ -41,7 +42,7 @@ const ProductForm: React.FC<FormProps> = ({
 }) => {
   const router = useRouter();
   const tabData = tabDataFunc(pageMode, router?.query);
-  const DatePickerRef = React.useRef<HTMLInputElement>(null);
+  const DatePickerRef = React.useRef<ReactDatePicker>(null);
 
   const { STATUS, GROUP, CATEGORY, SALETYPE } = useEnvironments(
     environment?.list,

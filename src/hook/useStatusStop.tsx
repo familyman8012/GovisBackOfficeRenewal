@@ -1,5 +1,6 @@
 import { useEffect, useMemo } from 'react';
 import { runInAction } from 'mobx';
+import ReactDatePicker from 'react-datepicker';
 import { confirmModalStore } from '@MobxFarm/store';
 
 interface IEnvironmentRes {
@@ -18,7 +19,7 @@ interface UseStatusStopProps {
   statusType: string;
   setValue: any;
   STATUS: Array<{ label: string; value: string }>;
-  DatePickerRef?: React.RefObject<HTMLInputElement>;
+  DatePickerRef?: React.RefObject<ReactDatePicker>;
   watch: (key: string) => string | undefined;
 }
 
@@ -68,7 +69,7 @@ const useStatusStop = ({
         ),
         onFormSubmit: () => {
           confirmModalStore.isOpen = false;
-          DatePickerRef?.current?.click();
+          DatePickerRef?.current?.setFocus();
         },
         onCancel: () => {
           setValue(

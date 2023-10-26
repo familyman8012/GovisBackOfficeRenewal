@@ -13,12 +13,77 @@ export const datepickerGlobalStyle = css`
     border-radius: 0.4rem;
   }
 
+  .react-datepicker__aria-live {
+    display: none;
+  }
+
   & > div:not(.react-datepicker__tab-loop) {
     width: 100%;
   }
 
   .react-datepicker__monthPicker .react-datepicker__month-wrapper {
     display: none;
+  }
+
+  .react-datepicker__input-container {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+
+    width: 100%;
+    height: ${INPUT.height};
+    font-size: ${INPUT.fontSize};
+    border: 1px solid ${INPUT.border};
+    border-radius: 0.4rem;
+
+    -webkit-transition:
+      border-color 0.15s ease-in-out,
+      box-shadow 0.15s ease-in-out;
+    transition:
+      border-color 0.15s ease-in-out,
+      box-shadow 0.15s ease-in-out;
+
+    input {
+      width: 100%;
+      height: 100%;
+      border: none;
+      color: inherit;
+      border-radius: inherit;
+      padding: 0;
+      font: inherit;
+      padding: 0 2.8rem 0 1.2rem;
+    }
+
+    &.disabled {
+      background: var(--color-neutral95);
+
+      input {
+        background: var(--color-neutral95);
+      }
+    }
+
+    &:after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      margin-top: -0.8rem;
+      width: 1.6rem;
+      height: 1.6rem;
+      right: 1.2rem;
+      background: url('/images/common/icon-16-calendar.svg') no-repeat left top /
+        100%;
+    }
+
+    &:focus-within {
+      border-color: ${INPUT.focusBorder};
+    }
+
+    &::-webkit-input-placeholder,
+    &::-moz-placeholder,
+    &:-ms-input-placeholder,
+    &:-moz-placeholder {
+      color: ${INPUT.placeholder};
+    }
   }
 
   .react-datepicker__month-container {
@@ -45,7 +110,6 @@ export const datepickerGlobalStyle = css`
     flex-wrap: nowrap;
   }
 
-  .react-datepicker__input-container,
   .react-datepicker-wrapper {
     height: 100%;
   }
@@ -370,6 +434,9 @@ export const datepickerGlobalStyle = css`
     background: transparent;
     border: 1px solid var(--color-blue60);
 
+    &[aria-selected='false'] {
+      border: none;
+    }
     &.react-datepicker__day--outside-month {
       background: transparent !important;
     }
