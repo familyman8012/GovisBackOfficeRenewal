@@ -64,6 +64,7 @@ const StoryDatePicker: Story<Props> = args => {
           <button type="submit">Submit</button>
         </form>
       </div>
+      <div>{selectedDate}</div>
     </StoryLayout>
   );
 };

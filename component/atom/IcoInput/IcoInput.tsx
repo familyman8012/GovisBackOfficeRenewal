@@ -43,7 +43,7 @@ const InputContainer = styled.div<{ leadingText?: string }>`
 `;
 
 const IconContainer = styled.div`
-  width: 100%;
+  /* width: 100%; */
   height: 4.4rem;
   position: absolute;
   display: flex;
@@ -51,6 +51,7 @@ const IconContainer = styled.div`
   justify-content: space-between;
   padding: 0 1.4rem;
   pointer-events: none;
+  right: 0;
 `;
 
 const LeadingTextContainer = styled.div<{ disabled?: boolean }>`
@@ -88,15 +89,15 @@ const IcoInputComponent = styled.input<IcoInputComponentProps>`
     border-color 0.15s ease-in-out,
     box-shadow 0.15s ease-in-out;
 
-  &:focus {
+  /* &:focus {
     outline: none;
     box-shadow: ${props =>
-      props.error
-        ? `0 0 0 0.3rem ${theme.colors.error100}`
-        : `0 0 0 0.3rem ${theme.colors.primary100}`};
+    props.error
+      ? `0 0 0 0.3rem ${theme.colors.error100}`
+      : `0 0 0 0.3rem ${theme.colors.primary100}`};
     border-color: ${props =>
-      props.error ? theme.colors.error300 : theme.colors.primary300};
-  }
+    props.error ? theme.colors.error300 : theme.colors.primary300};
+  } */
 
   &::placeholder {
     color: ${theme.colors.gray400};

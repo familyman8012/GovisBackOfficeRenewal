@@ -69,21 +69,33 @@ const CustomHeader = ({
   setShowMonthYearPicker,
   params,
   datePickerRef,
+  dateRange,
+  monthIndex,
 }: any) => {
   const monthNames = Array.from({ length: 12 }, (_, i) =>
     new Date(0, i).toLocaleDateString('ko', { month: 'long' })
   );
 
   const handleHeaderClick = () => {
-    setShowMonthYearPicker((prev: boolean) => !prev);
+    const updatedState = [...showMonthYearPicker];
+    updatedState[monthIndex] = !updatedState[monthIndex];
+    setShowMonthYearPicker(updatedState);
   };
 
+  // CustomHeader 컴포넌트 내부
   const handleMonthClick = (monthNum: number) => {
-    setShowMonthYearPicker(false); // 날짜 선택기로 전환
-    const newDate = new Date(params.date.getFullYear(), monthNum, 1);
-    if (datePickerRef?.current) {
-      datePickerRef?.current.setSelected(newDate);
-    }
+    const year = params.date.getFullYear();
+    const newDate = new Date(year, monthNum, 1); // 해당 월의 첫 날
+
+    // 연/월 선택 후 해당 월의 첫 날로 설정
+    params.onChange(newDate);
+
+    // 연/월 선택기를 숨기고 날짜 선택기를 다시 표시
+    setShowMonthYearPicker(prev => {
+      const newValues = [...prev];
+      newValues[params.monthCount] = false;
+      return newValues;
+    });
   };
 
   return (
@@ -91,55 +103,15 @@ const CustomHeader = ({
       <button
         type="button"
         className="react-datepicker__navigation react-datepicker__navigation--previous"
-        onClick={
-          showMonthYearPicker ? params.decreaseYear : params.decreaseMonth
-        }
-        disabled={
-          showMonthYearPicker
-            ? params.prevYearButtonDisabled
-            : params.prevMonthButtonDisabled
-        }
+        onClick={params.decreaseMonth}
+        disabled={params.prevMonthButtonDisabled}
       >
         <span className="react-datepicker__navigation-icon react-datepicker__navigation-icon--previous">
           <span className="hiddenZoneV">Previous Month</span>
         </span>
       </button>
-      <button
-        type="button"
-        className={
-          showMonthYearPicker
-            ? 'react-datepicker__current-month'
-            : 'react-datepicker__current-month'
-        }
-        onClick={handleHeaderClick}
-      >
-        <span className="area_current_date">
-          {showMonthYearPicker
-            ? params.date.getFullYear().toString()
-            : params.date.toLocaleDateString('ko', {
-                month: 'long',
-                year: 'numeric',
-              })}
-          <ArrowDownFilled />
-        </span>
-      </button>
-      <button
-        type="button"
-        className="react-datepicker__navigation react-datepicker__navigation--next"
-        onClick={
-          showMonthYearPicker ? params.increaseYear : params.increaseMonth
-        }
-        disabled={
-          showMonthYearPicker
-            ? params.nextYearButtonDisabled
-            : params.nextMonthButtonDisabled
-        }
-      >
-        <span className="react-datepicker__navigation-icon react-datepicker__navigation-icon--next">
-          <span className="hiddenZoneV"> Next Month</span>
-        </span>
-      </button>
-      {showMonthYearPicker && (
+
+      {showMonthYearPicker[monthIndex] ? (
         <div className="month-list">
           {monthNames.map((monthName, idx) => (
             <button
@@ -152,7 +124,32 @@ const CustomHeader = ({
             </button>
           ))}
         </div>
+      ) : (
+        <button
+          type="button"
+          className="react-datepicker__current-month"
+          onClick={handleHeaderClick}
+        >
+          <span className="area_current_date">
+            {params.date.toLocaleDateString('ko', {
+              month: 'long',
+              year: 'numeric',
+            })}
+            <ArrowDownFilled />
+          </span>
+        </button>
       )}
+
+      <button
+        type="button"
+        className="react-datepicker__navigation react-datepicker__navigation--next"
+        onClick={params.increaseMonth}
+        disabled={params.nextMonthButtonDisabled}
+      >
+        <span className="react-datepicker__navigation-icon react-datepicker__navigation-icon--next">
+          <span className="hiddenZoneV"> Next Month</span>
+        </span>
+      </button>
     </DatePickerCustomHeader>
   );
 };

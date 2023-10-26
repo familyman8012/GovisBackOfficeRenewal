@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import DatePicker from '@ComponentFarm/modules/DatePicker/DatePicker';
+import DateRange from '@ComponentFarm/modules/DateRange/DateRange';
+import DateRangePicker from '@ComponentFarm/modules/DateRange/DateRange';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
 import { aisttStateListTabData } from '@ComponentFarm/template/aistt/const';
@@ -68,8 +69,16 @@ const AisttState = () => {
   ];
 
   const [selectedDate, setSelectedDate] = useState('2023-08-05');
+  const [selectedDateRange, setSelectedDateRange] = useState<DateRange>([
+    null,
+    null,
+  ]);
   const handleSubmit = () => {
     console.log(selectedDate);
+  };
+
+  const handleDateRangeChange = (update: DateRange) => {
+    setSelectedDateRange(update);
   };
 
   return (
@@ -88,10 +97,11 @@ const AisttState = () => {
       <FilterTableForm />
       <StateInfoBox items={StateItems} />
 
-      <DatePicker
-        selectedDate={selectedDate}
-        onChange={(newDate: string) => setSelectedDate(newDate)}
-      />
+      <DateRangePicker onDateRangeChange={handleDateRangeChange} />
+      {/* <p>
+        Selected range: {selectedDateRange[0]?.toLocaleDateString()} -{' '}
+        {selectedDateRange[1]?.toLocaleDateString()}
+      </p> */}
     </>
   );
 };
