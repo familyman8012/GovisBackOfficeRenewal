@@ -189,6 +189,50 @@ export const AnalysisPageStyle = styled.div`
 export const DevicePageStyle = styled.div`
   display: flex;
   flex-direction: column;
+
+  .status {
+    display: flex;
+    gap: 0 3.2rem;
+
+    & > * {
+      flex: 1;
+    }
+  }
+
+  h3 {
+    font-size: 1.8rem;
+    font-weight: bold;
+    line-height: 1.5;
+  }
+
+  .list,
+  .summary {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+
+    .content {
+      margin-top: 3.2rem;
+    }
+  }
+
+  .list {
+    margin-top: 6.4rem;
+  }
+
+  .summary {
+    display: flex;
+    justify-content: space-between;
+    min-height: 4rem;
+    margin: 3.2rem 0;
+  }
+
+  .value {
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: var(--color-blue60);
+  }
 `;
 
 export const VideoListStyle = styled.div`
