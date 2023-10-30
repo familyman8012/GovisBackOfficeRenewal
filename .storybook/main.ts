@@ -25,6 +25,7 @@ const config: StorybookConfig = {
       '@ApiFarm': path.resolve(__dirname, '../src/api'),
       '@HookFarm': path.resolve(__dirname, '../src/hook'),
       '@MobxFarm': path.resolve(__dirname, '../src/mobx'),
+      '@UtilFarm': path.resolve(__dirname, '../util'),
     };
 
     // TypeScript에 대한 웹팩 규칙 추가

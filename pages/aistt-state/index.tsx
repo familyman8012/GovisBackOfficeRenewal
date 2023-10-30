@@ -4,7 +4,6 @@ import { useRouter } from 'next/router';
 import DateRangePicker from '@ComponentFarm/modules/DateRange/DateRange';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
-import SearchPopup from '@ComponentFarm/modal/SearchPopup';
 import { aisttStateListTabData } from '@ComponentFarm/template/aistt/const';
 import FilterTableForm from '@ComponentFarm/template/aistt/FilterTableForm';
 import StateInfoBox from '@ComponentFarm/template/common/StateInfoBox';
@@ -106,12 +105,12 @@ const AisttState = () => {
       <StateInfoBox items={StateItems} />
 
       <DateRangePicker onDateRangeChange={handleDateRangeChange} />
-      <SearchPopup
+      {/* <SearchPopup
         title="제품 상세 설정"
         type="checkbox"
         columnName={columnName}
         data={ResultTempArr}
-      />
+      /> */}
       {/* <p>
         Selected range: {selectedDateRange[0]?.toLocaleDateString()} -{' '}
         {selectedDateRange[1]?.toLocaleDateString()}

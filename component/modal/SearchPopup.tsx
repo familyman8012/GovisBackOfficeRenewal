@@ -16,6 +16,8 @@ type ColumnNameType = {
 };
 
 const SearchPopup = ({
+  isOpen,
+  onClose,
   title = '제품 상세 설정',
   columnName = {
     searchBoxTitle: ['제품 상태', '제품 분류'],
@@ -27,8 +29,10 @@ const SearchPopup = ({
   badge = true,
   disabled = false,
 }: {
+  isOpen: boolean;
+  onClose: () => void;
   title?: string;
-  columnName: ColumnNameType;
+  columnName?: ColumnNameType;
   data: any;
   type?: string;
   badge?: boolean;
@@ -38,7 +42,6 @@ const SearchPopup = ({
   const [selectedRadio, setSelectedRadio] = useState('0');
   // eslint-disable-next-line no-unused-vars
   const [selectedLetters, setSelectedLetters] = useState<any>([]);
-  const handlerClose = () => {};
 
   const options2 = data.map((item: any) => ({
     value: item.id.toString(), // id 값을 문자열로 변환하여 value로 설정
@@ -102,6 +105,10 @@ const SearchPopup = ({
                         >
                           {value === 'op' ? '운영' : '중단'}
                         </Badge>
+                      ) : index === 1 ? (
+                        <label htmlFor={options2[el.id].value}>
+                          {String(value)}
+                        </label>
                       ) : (
                         String(value)
                       )}
@@ -142,7 +149,7 @@ const SearchPopup = ({
   };
 
   return (
-    <Modal title={title} isOpen onClose={handlerClose} showCloseButton>
+    <Modal title={title} isOpen={isOpen} onClose={onClose} showCloseButton>
       <SearchBox>
         <fieldset>
           <legend>{title} 검색</legend>
