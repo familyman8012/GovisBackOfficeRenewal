@@ -1,9 +1,10 @@
+/* eslint-disable no-unused-vars */
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import DateRange from '@ComponentFarm/modules/DateRange/DateRange';
 import DateRangePicker from '@ComponentFarm/modules/DateRange/DateRange';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
+import SearchPopup from '@ComponentFarm/modal/SearchPopup';
 import { aisttStateListTabData } from '@ComponentFarm/template/aistt/const';
 import FilterTableForm from '@ComponentFarm/template/aistt/FilterTableForm';
 import StateInfoBox from '@ComponentFarm/template/common/StateInfoBox';
@@ -34,50 +35,57 @@ const AisttState = () => {
     { title: '제품 제조 수', txt1: '1,425', txt2: '개', txt3: '( +4 )' },
   ];
 
-  const data = [
+  const columnName = {
+    searchBoxTitle: ['제품 상태', '제품 분류'],
+    th: ['제품 분류', '제품명', '제품 상태'],
+    col: [46, 180, 240, 180],
+  };
+
+  const ResultTempArr = [
     {
-      item_label: '00',
-      base_value_data: {
-        value_list: [
-          {
-            value_label: '피자',
-            value: 104,
-          },
-          {
-            value_label: '파스타',
-            value: 22,
-          },
-        ],
-        total_value: 126,
-      },
-      compare_value_data: {
-        value_list: [
-          {
-            value_label: '피자',
-            value: 114,
-          },
-          {
-            value_label: '파스타',
-            value: 23,
-          },
-        ],
-        total_value: 137,
-      },
-      increase_decrease_number: -9,
-      increase_decrease_rate: -8,
+      id: 0,
+      kind: '피자',
+      name: '오리지널 페페로니 피자',
+
+      state: 'op',
+    },
+    {
+      id: 1,
+      kind: '피자',
+      name: '베이컨 포테이토 피자',
+
+      state: 'op',
+    },
+    {
+      id: 2,
+      kind: '피자',
+      name: '매니악 페로니 피자',
+
+      state: 'st',
+    },
+    {
+      id: 3,
+      kind: '피자',
+      name: '매니악 페로니 피자',
+
+      state: 'st',
+    },
+    {
+      id: 4,
+      kind: '피자',
+      name: '매니악 페로니 피자',
+
+      state: 'st',
     },
   ];
 
   const [selectedDate, setSelectedDate] = useState('2023-08-05');
-  const [selectedDateRange, setSelectedDateRange] = useState<DateRange>([
-    null,
-    null,
-  ]);
+  const [selectedDateRange, setSelectedDateRange] = useState<any>([null, null]);
   const handleSubmit = () => {
     console.log(selectedDate);
   };
 
-  const handleDateRangeChange = (update: DateRange) => {
+  const handleDateRangeChange = (update: any) => {
     setSelectedDateRange(update);
   };
 
@@ -98,6 +106,12 @@ const AisttState = () => {
       <StateInfoBox items={StateItems} />
 
       <DateRangePicker onDateRangeChange={handleDateRangeChange} />
+      <SearchPopup
+        title="제품 상세 설정"
+        type="checkbox"
+        columnName={columnName}
+        data={ResultTempArr}
+      />
       {/* <p>
         Selected range: {selectedDateRange[0]?.toLocaleDateString()} -{' '}
         {selectedDateRange[1]?.toLocaleDateString()}

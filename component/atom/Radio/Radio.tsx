@@ -36,6 +36,7 @@ const Radio: React.FC<CheckBoxProps> = ({
     >
       <RadioWrap
         type="radio"
+        id={String(value)}
         value={value}
         checked={checked}
         onChange={onChange}
