@@ -35,6 +35,7 @@ const CheckBox: React.FC<CheckBoxProps> = ({
       chksize={chksize}
     >
       <CheckBoxWrap
+        id={value}
         type="checkbox"
         value={value}
         checked={checked}
