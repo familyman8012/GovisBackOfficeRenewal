@@ -734,6 +734,14 @@ export const InnerTable = styled.table<{
     padding: 2rem;
     vertical-align: middle;
     white-space: nowrap;
+
+    .bl-none {
+      border-left: 0 !important;
+    }
+
+    .br-none {
+      border-right: 0 !important;
+    }
   }
 
   label {

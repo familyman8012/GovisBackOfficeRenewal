@@ -19,7 +19,7 @@ const AnalysisVideoList: React.FC<VideoListProps> = ({ list }) => {
       {Array.from({ length: 10 }).map((_, i) => (
         <div className="item" key={i + i}>
           <div className="video-wrap">
-            <Badge color="green" dot>
+            <Badge color="green" dot size="sm">
               검수완료
             </Badge>
             <video muted controls />

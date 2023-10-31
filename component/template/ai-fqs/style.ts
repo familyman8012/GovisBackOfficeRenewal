@@ -1,31 +1,49 @@
 import styled from '@emotion/styled';
+import { InnerTable } from '@ComponentFarm/common';
+
+export const VideoWrapStyle = styled.div`
+  position: relative;
+  width: 100%;
+  max-width: 1536px;
+  border-radius: 0.8rem;
+  border-radius: 0.8rem;
+
+  overflow: hidden;
+
+  video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  &:before {
+    display: block;
+    content: '';
+    padding-bottom: 56.25%;
+  }
+
+  .badge {
+    position: absolute;
+    z-index: 2;
+    top: 1.6rem;
+    right: 1.6rem;
+  }
+`;
 
 export const AnalysisPageStyle = styled.div`
+  padding-top: 3.2rem;
   display: flex;
   flex-direction: column;
-
-  .total {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 3.2rem 0;
-
-    & > div:nth-of-type(1) {
-      min-width: 23.8rem;
-    }
-  }
-
-  .value {
-    font-size: 1.6rem;
-    font-weight: 600;
-    color: var(--color-blue60);
-  }
 
   .video-wrap {
     position: relative;
     width: 100%;
     max-width: 1536px;
-    border-radius: 0.8rem;
+    border-top-right-radius: 0.8rem;
+    border-top-left-radius: 0.8rem;
+
     overflow: hidden;
 
     video {
@@ -40,6 +58,13 @@ export const AnalysisPageStyle = styled.div`
       display: block;
       content: '';
       padding-bottom: 56.25%;
+    }
+
+    .badge {
+      position: absolute;
+      z-index: 2;
+      top: 1.6rem;
+      right: 1.6rem;
     }
   }
 
@@ -83,8 +108,7 @@ export const AnalysisPageStyle = styled.div`
     line-height: 1.5;
   }
 
-  .list,
-  .summary {
+  .list {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -97,26 +121,6 @@ export const AnalysisPageStyle = styled.div`
 
   .list {
     margin-top: 6.4rem;
-  }
-
-  .summary {
-    margin-top: 3.2rem;
-
-    table {
-      flex: 0 0 100%;
-
-      th {
-        background-color: var(--color-gray2);
-        text-align: right;
-      }
-      th,
-      td {
-        padding-top: 0.8rem;
-        padding-bottom: 0.8rem;
-        height: 4.4rem;
-        vertical-align: middle;
-      }
-    }
   }
 
   .inspection-img {
@@ -189,6 +193,7 @@ export const AnalysisPageStyle = styled.div`
 export const DevicePageStyle = styled.div`
   display: flex;
   flex-direction: column;
+  padding-top: 3.2rem;
 
   .status {
     display: flex;
@@ -199,39 +204,76 @@ export const DevicePageStyle = styled.div`
     }
   }
 
-  h3 {
+  .camera-group .header {
+    font-weight: 600;
+    font-size: 1.6rem;
+    border: 0;
+    background-color: transparent;
+    margin-bottom: 0;
+    padding-left: 0.8rem;
+  }
+
+  .camera-group .option {
+    display: inline-flex;
+    align-items: center;
+    margin-left: 0;
+    border: 0;
+    background-color: transparent;
+
+    &:before {
+      content: '';
+      width: 1.2rem;
+      height: 1.2rem;
+      border-radius: 50%;
+      margin-right: 1rem;
+      background-color: var(--color-green50);
+    }
+
+    & + .option {
+      margin-top: 0;
+    }
+  }
+
+  .view > div:first-of-type {
+    margin-bottom: 3.2rem;
+  }
+
+  .view > section:first-of-type {
+    margin-top: 0;
+  }
+`;
+
+export const SectionStyle = styled.section`
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  align-items: center;
+  min-height: 4rem;
+  margin: 3.2rem 0;
+
+  .title {
     font-size: 1.8rem;
     font-weight: bold;
     line-height: 1.5;
   }
 
-  .list,
-  .summary {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-
-    .content {
-      margin-top: 3.2rem;
+  .count {
+    font-size: 1.4rem;
+    line-height: 1.2;
+    font-weight: normal;
+    .number {
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: var(--color-blue60);
     }
   }
 
-  .list {
-    margin-top: 6.4rem;
+  .select_library_control {
+    min-width: 23.8rem;
   }
 
-  .summary {
-    display: flex;
-    justify-content: space-between;
-    min-height: 4rem;
-    margin: 3.2rem 0;
-  }
-
-  .value {
-    font-size: 1.6rem;
-    font-weight: 600;
-    color: var(--color-blue60);
+  .content {
+    margin-top: 3.2rem;
   }
 `;
 
@@ -375,5 +417,22 @@ export const ExpandRowStyle = styled.tr`
       background-color: var(--color-gray100);
       border-radius: 0.2rem;
     }
+  }
+`;
+
+export const FqsInfoTable = styled(InnerTable)`
+  flex: 0 0 100%;
+
+  th {
+    background-color: var(--color-gray2);
+    text-align: right;
+  }
+
+  th,
+  td {
+    padding-top: 0.8rem;
+    padding-bottom: 0.8rem;
+    height: 4.4rem;
+    vertical-align: middle;
   }
 `;
