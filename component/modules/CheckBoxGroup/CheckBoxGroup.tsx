@@ -31,6 +31,7 @@ const CheckboxGroup: React.FC<CheckBoxGroupProps> = ({
   initialCheckedValues = [],
   disabled = false,
 }) => {
+  const [customAllChk, setCustomAllChk] = useState(false);
   const [values, setValues] = useState<{ [key: string]: boolean }>(
     initialCheckedValues.reduce((acc: { [key: string]: boolean }, curr) => {
       acc[curr] = true;
@@ -63,9 +64,47 @@ const CheckboxGroup: React.FC<CheckBoxGroupProps> = ({
     }));
   };
 
+  useEffect(() => {
+    let isCustomAllChk = false;
+
+    // 'nodes' 매개변수를 'children'으로 변경
+    const checkNodes = (nodes: ReactNode) => {
+      React.Children.forEach(nodes, node => {
+        if (
+          React.isValidElement<CheckBoxProps>(node) &&
+          node.type === CheckBox &&
+          node.props.value === 'allChkHandler'
+        ) {
+          isCustomAllChk = true;
+        }
+
+        // 재귀적으로 자식 노드를 확인
+        if (React.isValidElement(node) && node.props.children) {
+          checkNodes(node.props.children);
+        }
+      });
+    };
+
+    checkNodes(children); // 'children' 매개변수를 함수에 전달
+
+    setCustomAllChk(isCustomAllChk);
+  }, [children]);
+
   const renderChildren = (nodes: ReactNode): ReactNode => {
     return React.Children.map(nodes, node => {
       if (React.isValidElement<CheckBoxProps>(node) && node.type === CheckBox) {
+        if (node.props.value === 'allChkHandler') {
+          return (
+            <CheckBox
+              key="all"
+              value="all"
+              checked={isAllSelected}
+              chksize={chksize}
+              onChange={(e: any) => handleAllChange(e.target.checked)}
+              label=""
+            />
+          );
+        }
         const isChecked = !!values[String(node.props.value)];
         return React.cloneElement(node, {
           checked: isChecked,
@@ -118,7 +157,7 @@ const CheckboxGroup: React.FC<CheckBoxGroupProps> = ({
 
   return (
     <span className="box_checkbox_group">
-      {renderAllCheckbox()}
+      {!customAllChk && renderAllCheckbox()}
       {options ? renderOptions(options) : renderChildren(children)}
     </span>
   );
