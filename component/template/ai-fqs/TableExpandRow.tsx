@@ -1,43 +1,40 @@
-import DataFilled from '@ComponentFarm/atom/icons/DataFilled';
-import Pic from '@ComponentFarm/atom/icons/Pic';
+import React, { useState } from 'react';
+import CircleUp from '@ComponentFarm/atom/icons/CircleUp';
 import { ExpandRowStyle } from './style';
 
 interface Props {
   show?: boolean;
-  colSpan?: number;
-  imageContent?: React.ReactNode;
-  dataContent?: React.ReactNode;
+  content?: React.ReactNode;
 }
 
 const TableExpandRow = ({
   show,
-  colSpan,
-  imageContent,
-  dataContent,
-}: Props) => {
+  content,
+
+  children,
+}: React.PropsWithChildren<Props>) => {
+  const [expanded, setExpanded] = useState(show);
+
+  const toggleExpand = () => {
+    setExpanded(!expanded);
+  };
+
   return (
-    show && (
-      <ExpandRowStyle className="empty">
-        <td colSpan={colSpan}>
-          <div className="wrap">
-            <ul className="">
-              <li>
-                <span className="ico">
-                  <Pic />
-                </span>
-                <div className="cont">{imageContent}</div>
-              </li>
-              <li className="hide-line">
-                <span className="ico">
-                  <DataFilled />
-                </span>
-                <div className="cont">{dataContent}</div>
-              </li>
-            </ul>
-          </div>
+    <>
+      <ExpandRowStyle onClick={() => toggleExpand()}>
+        <td className="right">
+          <button type="button" className="dropdown-btn">
+            <CircleUp transform={`rotate(${expanded ? 180 : 90})`} />
+          </button>
         </td>
+        {children}
       </ExpandRowStyle>
-    )
+      {expanded && (
+        <tr className="expand-content">
+          <td colSpan={React.Children.count(children) + 1}>{content}</td>
+        </tr>
+      )}
+    </>
   );
 };
 

@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { Badge } from '@ComponentFarm/atom/Badge/Badge';
-import CircleUp from '@ComponentFarm/atom/icons/CircleUp';
+import { Pic } from '@ComponentFarm/atom/icons';
+import DataFilled from '@ComponentFarm/atom/icons/DataFilled';
 import Toggle from '@ComponentFarm/atom/Toggle/Toggle';
 import { Table, TableWrap } from '@ComponentFarm/common';
 import PageLayout from '@ComponentFarm/layout/PageLayout';
 import {
   DevicePageStyle,
+  FqsAnalysisDataStyle,
   FqsInfoTable,
   SectionStyle,
   VideoWrapStyle,
@@ -89,16 +91,16 @@ const AnalysisViewPage = () => {
                   <div className="header" role="button" tabIndex={0}>
                     카메라 목록
                   </div>
-                  <button className="option" type="button">
+                  <button className="option on" type="button">
                     테이블 카메라
                   </button>
-                  <button className="option" type="button">
+                  <button className="option off" type="button">
                     얼굴 카메라
                   </button>
-                  <button className="option" type="button">
+                  <button className="option on" type="button">
                     왼쪽 바트 카메라
                   </button>
-                  <button className="option" type="button">
+                  <button className="option off" type="button">
                     오른쪽 바트 카메라
                   </button>
                 </MenuOptionGroupStyle>
@@ -156,7 +158,7 @@ const AnalysisViewPage = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
+                      {/* <tr>
                         <td className="right">
                           <button type="button" className="dropdown-btn">
                             <CircleUp transform="rotate(180)" />
@@ -165,40 +167,57 @@ const AnalysisViewPage = () => {
                         <td className="code">2023-10-09</td>
                         <td>13</td>
                         <td>01:00:00</td>
-                      </tr>
+                      </tr> */}
                       <TableExpandRow
-                        show={false}
-                        colSpan={8}
-                        imageContent={
-                          <>
-                            <div className="inspection-img">
-                              <h3>제조 이미지</h3>
-                              <img src="" alt="" />
-                            </div>
-                            <div className="inspection-img">
-                              <h3>제조 이미지 컬러맵</h3>
-                              <img src="" alt="" />
-                            </div>
-                          </>
+                        content={
+                          <FqsAnalysisDataStyle>
+                            <ul className="">
+                              <li>
+                                <span className="ico">
+                                  <Pic />
+                                </span>
+                                <div className="cont">
+                                  <div className="inspection-img">
+                                    <h3>제조 이미지</h3>
+                                    <img src="" alt="" />
+                                  </div>
+
+                                  <div className="inspection-img">
+                                    <h3>제조 이미지 컬러맵</h3>
+                                    <img src="" alt="" />
+                                  </div>
+                                </div>
+                              </li>
+                              <li className="hide-line">
+                                <span className="ico">
+                                  <DataFilled />
+                                </span>
+                                <div className="cont">
+                                  <div className="inspection">
+                                    <h3>감점 및 심각 요인</h3>
+                                    <div className="effect">
+                                      <Badge color="yellow" size="sm">
+                                        감점내역
+                                      </Badge>
+                                      <p>감점 내역이 없습니다.</p>
+                                    </div>
+                                    <div className="effect">
+                                      <Badge color="red" size="sm">
+                                        심각 내역
+                                      </Badge>
+                                      <p>심각 내역이 없습니다.</p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </li>
+                            </ul>
+                          </FqsAnalysisDataStyle>
                         }
-                        dataContent={
-                          <div className="inspection">
-                            <h3>감점 및 심각 요인</h3>
-                            <div className="effect">
-                              <Badge color="yellow" size="sm">
-                                감점 요인
-                              </Badge>
-                              <p>감점 내역이 없습니다.</p>
-                            </div>
-                            <div className="effect">
-                              <Badge color="red" size="sm">
-                                심각 요인
-                              </Badge>
-                              <p>심각 내역이 없습니다.</p>
-                            </div>
-                          </div>
-                        }
-                      />
+                      >
+                        <td className="code">2023-10-09</td>
+                        <td>13</td>
+                        <td>01:00:00</td>
+                      </TableExpandRow>
                     </tbody>
                   </Table>
                 </TableWrap>

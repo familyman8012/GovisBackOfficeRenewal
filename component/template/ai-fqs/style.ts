@@ -122,72 +122,6 @@ export const AnalysisPageStyle = styled.div`
   .list {
     margin-top: 6.4rem;
   }
-
-  .inspection-img {
-    h3 {
-      font-size: 1.4rem;
-      font-weight: 500;
-      line-height: 2.4rem;
-      margin-bottom: 1.8rem;
-    }
-
-    img {
-      min-width: 32.9rem;
-      min-height: 20.8rem;
-      background-color: red;
-    }
-
-    & + .inspection-img {
-      margin-left: 7rem;
-    }
-  }
-
-  .inspection {
-    display: flex;
-    flex-direction: column;
-
-    h3 {
-      font-size: inherit;
-      font-weight: inherit;
-      line-height: 2.4rem;
-    }
-
-    .effect {
-      margin-top: 1.4rem;
-      display: flex;
-      align-items: center;
-
-      p {
-        color: var(--color-neutral50);
-        margin-left: 1.1rem;
-      }
-
-      &::before {
-        content: '';
-        width: 0.2rem;
-        height: 2.6rem;
-        border-radius: 0.2rem;
-        margin-right: 1rem;
-        background-color: var(--color-gray100);
-      }
-    }
-  }
-
-  .dropdown-btn {
-    width: 2.4rem;
-    height: 2.4rem;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    appearance: none;
-    background-color: transparent;
-    cursor: pointer;
-
-    svg {
-      width: 1.6rem;
-      height: 1.6rem;
-    }
-  }
 `;
 
 export const DevicePageStyle = styled.div`
@@ -226,11 +160,18 @@ export const DevicePageStyle = styled.div`
       height: 1.2rem;
       border-radius: 50%;
       margin-right: 1rem;
-      background-color: var(--color-green50);
     }
 
     & + .option {
       margin-top: 0;
+    }
+
+    &.on::before {
+      background-color: var(--color-green50);
+    }
+
+    &.off::before {
+      background-color: var(--color-red50);
     }
   }
 
@@ -352,26 +293,42 @@ export const VideoListStyle = styled.div`
 `;
 
 export const ExpandRowStyle = styled.tr`
-  .wrap {
-    position: relative;
-    margin-left: 3.2%;
-    padding-top: 1.5rem;
-
-    &:before {
-      content: '';
-      position: absolute;
-      top: 0;
-      right: calc(100% + 1.2rem - 0.1rem);
-      height: 1rem;
-      width: 0.2rem;
-
-      background-size: 0.2rem 0.6rem;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='2' height='10' viewBox='0 0 2 10' fill='none'%3E%3Cpath d='M1 1V9' stroke='%23D5DBE5' stroke-width='2' stroke-linecap='round' stroke-dasharray='4 4'/%3E%3C/svg%3E");
-    }
+  & ~ tr.expand-content td {
+    padding: 0 !important;
   }
 
-  td {
-    padding: 0 !important;
+  .dropdown-btn {
+    width: 2.4rem;
+    height: 2.4rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    appearance: none;
+    background-color: transparent;
+    cursor: pointer;
+
+    svg {
+      width: 1.6rem;
+      height: 1.6rem;
+    }
+  }
+`;
+
+export const FqsAnalysisDataStyle = styled.div`
+  position: relative;
+  margin-left: 3.2%;
+  padding-top: 1.5rem;
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: calc(100% + 1.2rem - 0.1rem);
+    height: 1rem;
+    width: 0.2rem;
+
+    background-size: 0.2rem 0.6rem;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='2' height='10' viewBox='0 0 2 10' fill='none'%3E%3Cpath d='M1 1V9' stroke='%23D5DBE5' stroke-width='2' stroke-linecap='round' stroke-dasharray='4 4'/%3E%3C/svg%3E");
   }
 
   .ico {
@@ -416,6 +373,56 @@ export const ExpandRowStyle = styled.tr`
       height: calc(100% - 4rem);
       background-color: var(--color-gray100);
       border-radius: 0.2rem;
+    }
+  }
+
+  .inspection-img {
+    h3 {
+      font-size: 1.4rem;
+      font-weight: 500;
+      line-height: 2.4rem;
+      margin-bottom: 1.8rem;
+    }
+
+    img {
+      min-width: 32.9rem;
+      min-height: 20.8rem;
+      background-color: red;
+    }
+
+    & + .inspection-img {
+      margin-left: 7rem;
+    }
+  }
+
+  .inspection {
+    display: flex;
+    flex-direction: column;
+
+    h3 {
+      font-size: inherit;
+      font-weight: inherit;
+      line-height: 2.4rem;
+    }
+
+    .effect {
+      margin-top: 1.4rem;
+      display: flex;
+      align-items: center;
+
+      p {
+        color: var(--color-neutral50);
+        margin-left: 1.1rem;
+      }
+
+      &::before {
+        content: '';
+        width: 0.2rem;
+        height: 2.6rem;
+        border-radius: 0.2rem;
+        margin-right: 1rem;
+        background-color: var(--color-gray100);
+      }
     }
   }
 `;

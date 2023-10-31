@@ -2,11 +2,13 @@ import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { Badge } from '@ComponentFarm/atom/Badge/Badge';
 import { Button } from '@ComponentFarm/atom/Button/Button';
-import CircleUp from '@ComponentFarm/atom/icons/CircleUp';
+import { Pic } from '@ComponentFarm/atom/icons';
+import DataFilled from '@ComponentFarm/atom/icons/DataFilled';
 import { Table, TableWrap } from '@ComponentFarm/common';
 import PageLayout from '@ComponentFarm/layout/PageLayout';
 import {
   AnalysisPageStyle,
+  FqsAnalysisDataStyle,
   FqsInfoTable,
   SectionStyle,
   VideoWrapStyle,
@@ -24,7 +26,6 @@ const AnalysisViewPage = () => {
     () => router.asPath.split('?')[0],
     [router.asPath]
   );
-  const [expandedInspection, setExpandInspection] = React.useState(false);
 
   useEffect(() => {
     if (path !== 'view') {
@@ -124,16 +125,52 @@ const AnalysisViewPage = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  <tr onClick={() => setExpandInspection(val => !val)}>
-                    <td className="right">
-                      <button type="button" className="dropdown-btn">
-                        <CircleUp
-                          transform={`rotate(${
-                            expandedInspection ? '180' : '90'
-                          })`}
-                        />
-                      </button>
-                    </td>
+                  <TableExpandRow
+                    content={
+                      <FqsAnalysisDataStyle>
+                        <ul className="">
+                          <li>
+                            <span className="ico">
+                              <Pic />
+                            </span>
+                            <div className="cont">
+                              <div className="inspection-img">
+                                <h3>제조 이미지</h3>
+                                <img src="" alt="" />
+                              </div>
+
+                              <div className="inspection-img">
+                                <h3>제조 이미지 컬러맵</h3>
+                                <img src="" alt="" />
+                              </div>
+                            </div>
+                          </li>
+                          <li className="hide-line">
+                            <span className="ico">
+                              <DataFilled />
+                            </span>
+                            <div className="cont">
+                              <div className="inspection">
+                                <h3>감점 및 심각 요인</h3>
+                                <div className="effect">
+                                  <Badge color="yellow" size="sm">
+                                    감점내역
+                                  </Badge>
+                                  <p>감점 내역이 없습니다.</p>
+                                </div>
+                                <div className="effect">
+                                  <Badge color="red" size="sm">
+                                    심각 내역
+                                  </Badge>
+                                  <p>심각 내역이 없습니다.</p>
+                                </div>
+                              </div>
+                            </div>
+                          </li>
+                        </ul>
+                      </FqsAnalysisDataStyle>
+                    }
+                  >
                     <td>도우</td>
                     <td>
                       <img src="" alt="" />
@@ -151,40 +188,7 @@ const AnalysisViewPage = () => {
                     </td>
                     <td>10/10</td>
                     <td>25/25</td>
-                  </tr>
-                  <TableExpandRow
-                    show={expandedInspection}
-                    colSpan={8}
-                    imageContent={
-                      <>
-                        <div className="inspection-img">
-                          <h3>제조 이미지</h3>
-                          <img src="" alt="" />
-                        </div>
-                        <div className="inspection-img">
-                          <h3>제조 이미지 컬러맵</h3>
-                          <img src="" alt="" />
-                        </div>
-                      </>
-                    }
-                    dataContent={
-                      <div className="inspection">
-                        <h3>감점 및 심각 요인</h3>
-                        <div className="effect">
-                          <Badge color="yellow" size="sm">
-                            감점 요인
-                          </Badge>
-                          <p>감점 내역이 없습니다.</p>
-                        </div>
-                        <div className="effect">
-                          <Badge color="red" size="sm">
-                            심각 요인
-                          </Badge>
-                          <p>심각 내역이 없습니다.</p>
-                        </div>
-                      </div>
-                    }
-                  />
+                  </TableExpandRow>
                 </tbody>
               </Table>
             </TableWrap>
