@@ -21,7 +21,7 @@ const Menu = ({ permissionList }: { permissionList: PermissionList }) => {
   const host = window.location.host.includes('dev')
     ? 'https://dev.govis.gopizza.kr'
     : window.location.host.includes('localhost')
-    ? 'http://localhost:3000/'
+    ? 'http://localhost:3000'
     : 'https://govis.gopizza.kr';
 
   return (
