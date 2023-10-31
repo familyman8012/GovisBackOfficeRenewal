@@ -3,7 +3,6 @@ import styled from '@emotion/styled';
 import { Badge } from '@ComponentFarm/atom/Badge/Badge';
 import FaceDown from '@ComponentFarm/atom/icons/FaceDown';
 import FaceUp from '@ComponentFarm/atom/icons/FaceUp';
-// import { Badge } from '@ComponentFarm/token';
 
 interface FqsCardProps {
   label: string;
@@ -53,6 +52,7 @@ const CardContainer = styled.div`
     color: var(--color-neutral50);
     vertical-align: middle;
     margin-left: 0.2rem;
+    line-height: 1.1;
   }
 
   .placeholder {
