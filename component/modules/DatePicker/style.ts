@@ -359,7 +359,7 @@ export const datepickerGlobalStyle = css`
     &.react-datepicker__day--range-start,
     &.react-datepicker__day--selecting-range-start {
       background-color: var(--color-blue60) !important;
-      color: ${TEXTCOLOR.brandPrimary} !important;
+      color: var(--color-gray1) !important;
       border-radius: 50%;
       font-weight: 900;
 
@@ -383,7 +383,7 @@ export const datepickerGlobalStyle = css`
     &.react-datepicker__day--range-end {
       &:not(.react-datepicker__day--outside-month) {
         background-color: var(--color-blue60) !important;
-        color: ${TEXTCOLOR.brandPrimary} !important;
+        color: var(--color-gray1) !important;
         border-radius: 50%;
         font-weight: 900;
       }
@@ -419,7 +419,7 @@ export const datepickerGlobalStyle = css`
   .react-datepicker__month--range-start,
   .react-datepicker__month--range-end {
     background-color: var(--color-blue60) !important;
-    color: ${TEXTCOLOR.brandPrimary} !important;
+    color: var(--color-gray1) !important;
     border-radius: 50%;
     font-weight: 900;
   }

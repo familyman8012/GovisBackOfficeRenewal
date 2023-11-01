@@ -17,14 +17,14 @@ const Data = ({ size, viewBoxSize, ...props }: Props) => (
     viewBox={`0 0 ${viewBoxSize || 24} ${viewBoxSize || 24}`}
   >
     <path
-      stroke="#747474"
+      stroke="currentColor"
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={2}
       d="M3 20.408h18M9.886 11.41H5.65v8.998h4.236v-8.997ZM18.355 4h-4.237v16.409h4.237V4Z"
     />
     <path
-      stroke="#747474"
+      stroke="currentColor"
       strokeLinecap="round"
       strokeLinejoin="round"
       strokeWidth={2}

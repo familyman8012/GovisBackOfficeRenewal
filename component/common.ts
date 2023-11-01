@@ -642,6 +642,18 @@ export const Table = styled.table`
   td {
     text-align: left;
     padding-left: 2rem;
+
+    &.right {
+      text-align: right;
+      padding-left: 0;
+      padding-right: 2rem;
+    }
+
+    &.center {
+      text-align: center;
+      padding-left: 1rem !important;
+      padding-right: 1rem;
+    }
   }
 
   th {
