@@ -3,10 +3,11 @@ import { Meta, Story } from '@storybook/react';
 import { css } from '@emotion/react';
 import StoryLayout from '@ComponentFarm/modules/story_layout/StoryLayout';
 import { Button } from '@ComponentFarm/atom/Button/Button';
+import MailSendPopup from './mailSendPopup';
 import SearchPopup from './SearchPopup';
 
 const meta: Meta = {
-  title: 'Modal/SearchPopup',
+  title: 'Modal/mailSendPopup',
   tags: ['autodocs'],
   args: {
     TotalProps: {
@@ -28,43 +29,10 @@ interface Props {
   darkMode: boolean;
 }
 
-const ResultTempArr = [
-  {
-    id: 0,
-    kind: '피자',
-    name: '오리지널 페페로니 피자',
-
-    state: 'op',
-  },
-  {
-    id: 1,
-    kind: '피자',
-    name: '베이컨 포테이토 피자',
-
-    state: 'op',
-  },
-  {
-    id: 2,
-    kind: '피자',
-    name: '매니악 페로니 피자',
-
-    state: 'st',
-  },
-  {
-    id: 3,
-    kind: '피자',
-    name: '매니악 페로니 피자',
-
-    state: 'st',
-  },
-  {
-    id: 4,
-    kind: '피자',
-    name: '매니악 페로니 피자',
-
-    state: 'st',
-  },
-];
+const initialData: any = Array.from({ length: 15 }, (_, i) => ({
+  value: `mail${i}`,
+  label: `User ${i + 1} <user${i + 1}@example.com>`,
+}));
 
 const StoryStorePopup: Story<Props> = args => {
   const [isOpen, setIsOpen] = useState(false);
@@ -92,8 +60,8 @@ const StoryStorePopup: Story<Props> = args => {
         <Button variant="primary" onClick={() => setIsOpen(true)}>
           제품 상세 설정
         </Button>
-        <SearchPopup
-          data={ResultTempArr}
+        <MailSendPopup
+          viewData={initialData}
           isOpen={isOpen}
           onClose={handlerClose}
         />

@@ -1,13 +1,29 @@
 /* eslint-disable no-unused-vars */
 import { useState } from 'react';
 import { useRouter } from 'next/router';
-import DateRangePicker from '@ComponentFarm/modules/DateRange/DateRange';
+import styled from '@emotion/styled';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
 import { aisttStateListTabData } from '@ComponentFarm/template/aistt/const';
 import FilterTableForm from '@ComponentFarm/template/aistt/FilterTableForm';
+import { NumberBarList } from '@ComponentFarm/template/common/NumberBarList';
 import StateInfoBox from '@ComponentFarm/template/common/StateInfoBox';
 import TitleBox from '@ComponentFarm/template/common/TitleBox';
+
+export const TopMenu = styled.div`
+  h3 {
+    margin-bottom: 2.4rem;
+    color: var(--color-neutral50);
+    font-size: 1.4rem;
+    font-weight: 600;
+    line-height: 110%;
+  }
+  .box_numberBarList {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+`;
 
 const AisttState = () => {
   const router = useRouter();
@@ -78,6 +94,15 @@ const AisttState = () => {
     },
   ];
 
+  const data = Array.from({ length: 14 }, (_, i) => ({
+    id: i + 1,
+    imgUrl: '',
+    product_name: '오리지널 페페로니 피자',
+    category: '피자',
+    time: '01분 23초',
+    descTime: '+4초',
+  }));
+
   const [selectedDate, setSelectedDate] = useState('2023-08-05');
   const [selectedDateRange, setSelectedDateRange] = useState<any>([null, null]);
   const handleSubmit = () => {
@@ -103,18 +128,18 @@ const AisttState = () => {
       />
       <FilterTableForm />
       <StateInfoBox items={StateItems} />
-
-      <DateRangePicker onDateRangeChange={handleDateRangeChange} />
-      {/* <SearchPopup
-        title="제품 상세 설정"
-        type="checkbox"
-        columnName={columnName}
-        data={ResultTempArr}
-      /> */}
-      {/* <p>
-        Selected range: {selectedDateRange[0]?.toLocaleDateString()} -{' '}
-        {selectedDateRange[1]?.toLocaleDateString()}
-      </p> */}
+      <TitleBox
+        title="TOP 메뉴별 제조시간"
+        desc="오늘 기준으로 7일치 데이터 입니다."
+        moreLink="/"
+      />
+      <TopMenu>
+        <h3>제조 빠른 순</h3>
+        <div className="box_numberBarList">
+          <NumberBarList data={data.slice(0, 7)} />
+          <NumberBarList data={data.slice(7, 14)} />
+        </div>
+      </TopMenu>
     </>
   );
 };

@@ -7,7 +7,7 @@ import CheckBox from '@ComponentFarm/atom/Checkbox/CheckBox';
 import Radio from '@ComponentFarm/atom/Radio/Radio';
 import { Table, TableWrap } from '@ComponentFarm/common';
 import { getTableWidthPercentage } from '@UtilFarm/calcSize';
-import { SearchBox, SearchResult } from './style';
+import { SearchBox, SearchResult } from './searchPopup_style';
 
 type ColumnNameType = {
   searchBoxTitle: string[];
