@@ -43,7 +43,6 @@ export const AnalysisPageStyle = styled.div`
     max-width: 1536px;
     border-top-right-radius: 0.8rem;
     border-top-left-radius: 0.8rem;
-
     overflow: hidden;
 
     video {
@@ -293,8 +292,16 @@ export const VideoListStyle = styled.div`
 `;
 
 export const ExpandRowStyle = styled.tr`
-  & ~ tr.expand-content td {
+  & ~ tr.expand-content > td {
     padding: 0 !important;
+  }
+
+  & ~ tr.expand-content:hover {
+    background-color: transparent !important;
+  }
+
+  td:first-of-type {
+    padding: 0;
   }
 
   .dropdown-btn {
@@ -441,5 +448,13 @@ export const FqsInfoTable = styled(InnerTable)`
     padding-bottom: 0.8rem;
     height: 4.4rem;
     vertical-align: middle;
+  }
+
+  .info-text {
+    color: var(--color-neutral60);
+    font-size: 1.4rem;
+    font-weight: 500;
+    line-height: 1.2;
+    margin-left: 1.6rem;
   }
 `;

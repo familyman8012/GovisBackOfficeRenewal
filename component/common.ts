@@ -643,6 +643,10 @@ export const Table = styled.table`
     text-align: left;
     padding-left: 2rem;
 
+    &.left {
+      text-align: left;
+    }
+
     &.right {
       text-align: right;
       padding-left: 0;

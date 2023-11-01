@@ -13,7 +13,7 @@ import {
   SectionStyle,
   VideoWrapStyle,
 } from '@ComponentFarm/template/ai-fqs/style';
-import TableExpandRow from '@ComponentFarm/template/ai-fqs/TableExpandRow';
+import TableExpandRow from '@ComponentFarm/template/common/TableExpandRow';
 import { useGoMove } from '@HookFarm/useGoMove';
 import { getTableWidthPercentage } from '@UtilFarm/calcSize';
 
@@ -128,7 +128,7 @@ const AnalysisViewPage = () => {
                   <TableExpandRow
                     content={
                       <FqsAnalysisDataStyle>
-                        <ul className="">
+                        <ul>
                           <li>
                             <span className="ico">
                               <Pic />
@@ -154,13 +154,13 @@ const AnalysisViewPage = () => {
                                 <h3>감점 및 심각 요인</h3>
                                 <div className="effect">
                                   <Badge color="yellow" size="sm">
-                                    감점내역
+                                    감점 요인
                                   </Badge>
                                   <p>감점 내역이 없습니다.</p>
                                 </div>
                                 <div className="effect">
                                   <Badge color="red" size="sm">
-                                    심각 내역
+                                    심각 요인
                                   </Badge>
                                   <p>심각 내역이 없습니다.</p>
                                 </div>

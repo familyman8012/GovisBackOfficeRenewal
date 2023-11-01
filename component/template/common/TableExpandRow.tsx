@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import CircleUp from '@ComponentFarm/atom/icons/CircleUp';
-import { ExpandRowStyle } from './style';
+import { ExpandRowStyle } from '../ai-fqs/style';
 
 interface Props {
   show?: boolean;
@@ -8,20 +8,17 @@ interface Props {
 }
 
 const TableExpandRow = ({
-  show,
+  show = false,
   content,
-
   children,
 }: React.PropsWithChildren<Props>) => {
   const [expanded, setExpanded] = useState(show);
 
-  const toggleExpand = () => {
-    setExpanded(!expanded);
-  };
+  const toggleExpand = () => setExpanded(val => !val);
 
   return (
     <>
-      <ExpandRowStyle onClick={() => toggleExpand()}>
+      <ExpandRowStyle onClick={toggleExpand}>
         <td className="right">
           <button type="button" className="dropdown-btn">
             <CircleUp transform={`rotate(${expanded ? 180 : 90})`} />
