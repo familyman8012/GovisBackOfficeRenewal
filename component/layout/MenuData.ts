@@ -94,18 +94,18 @@ export const TotalMenu: MenuType[] = [
     perm_info_idx: 22,
   },
   {
-    depth1: '메뉴 관리',
-    group: 'HeadOffice',
-    path: '/menu',
-    perm_code: 'menu',
-    perm_info_idx: 20,
-  },
-  {
     depth1: '레시피 관리',
     group: 'HeadOffice',
     path: '/product-recipes',
     perm_code: 'recipe',
     perm_info_idx: 21,
+  },
+  {
+    depth1: '메뉴 관리',
+    group: 'HeadOffice',
+    path: '/menu',
+    perm_code: 'menu',
+    perm_info_idx: 20,
   },
   {
     depth1: '매장 관리',

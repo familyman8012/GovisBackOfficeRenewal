@@ -29,7 +29,7 @@ const useFormOptionsWithEnvs = <T extends string>(names: readonly T[]) => {
             });
           }
           return acc;
-        }, initialObject),
+        }, initialObject) ?? initialObject,
     [envs]
   );
 };
