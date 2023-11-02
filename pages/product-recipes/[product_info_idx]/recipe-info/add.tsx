@@ -76,11 +76,13 @@ const RecipeAddPage = () => {
           </>
         }
       />
-      <RecipeForm
-        ref={formRef}
-        productId={product_info_idx}
-        onSubmit={createMutate.mutate}
-      />
+      {router.isReady && (
+        <RecipeForm
+          ref={formRef}
+          productId={product_info_idx}
+          onSubmit={createMutate.mutate}
+        />
+      )}
     </RegisterRecipeWrap>
   );
 };
