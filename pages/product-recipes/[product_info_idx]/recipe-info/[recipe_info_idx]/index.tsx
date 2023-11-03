@@ -100,15 +100,20 @@ const RecipeDetailPage = () => {
           )
         }
       />
-      <RecipeSwitch />
-      <RecipeForm
-        ref={formRef}
-        key={recipe_info_idx}
-        productId={product_info_idx}
-        recipeId={recipe_info_idx}
-        editable={editable}
-        onSubmit={updateMutate.mutate}
-      />
+
+      {router.isReady && (
+        <>
+          <RecipeSwitch />
+          <RecipeForm
+            ref={formRef}
+            key={recipe_info_idx}
+            productId={product_info_idx}
+            recipeId={recipe_info_idx}
+            editable={editable}
+            onSubmit={updateMutate.mutate}
+          />
+        </>
+      )}
       <AlertModal
         isOpen={showAlert}
         title="레시피 수정"
