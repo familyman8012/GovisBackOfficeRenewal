@@ -412,6 +412,26 @@ const reset = css`
     }
   }
 
+  .link_more {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    margin-right: 0;
+    color: var(--color-neutral10);
+    font-size: 1.4rem;
+    font-weight: 500;
+    line-height: 2rem;
+
+    &:after {
+      display: block;
+      content: '';
+      width: 1.6rem;
+      height: 1.6rem;
+      background: url('/images/common/arrow_right.svg') no-repeat left center /
+        1.6rem;
+    }
+  }
+
   /* input.inp,
   select,
   textarea {
