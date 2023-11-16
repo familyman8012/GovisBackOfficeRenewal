@@ -1,99 +1,158 @@
-import React, { useEffect, useRef } from 'react';
-import styled from '@emotion/styled';
-
-export const DemoWrap = styled.div`
-  position: relative;
-  width: 100vw;
-  height: 800px;
-  max-height: 800px;
-  overflow-y: auto;
-  overflow-x: hidden;
-  border-radius: 10px;
-`;
-export const DemoBox = styled.div`
-  position: absolute;
-
-  width: 800px;
-
-  .bar {
-    width: 100%;
-    position: absolute;
-    right: -800px; // 박스 오른쪽 바깥에서 시작
-    opacity: 0;
-    border: 1px solid;
-    animation: fadeInMove 1s forwards; // 애니메이션 적용
-    text-align: center; // 텍스트 중앙 정렬
-    line-height: 50px; // 라인 높이 설정
-  }
-
-  @keyframes fadeInMove {
-    0% {
-      right: -800px;
-      opacity: 0;
-    }
-    100% {
-      right: 0;
-      opacity: 1;
-    }
-  }
-`;
+import React, { useEffect, useRef, useState } from 'react';
+import { css } from '@emotion/react';
+import Pic from '@ComponentFarm/atom/icons/Pic';
+import { Content } from '@ComponentFarm/common';
+import { DemoBox, DemoWrap, NumberBarItem, menuItem } from './const';
 
 const Index = () => {
-  const containerRef = useRef(null);
-  const intervalIdRef = useRef(null);
-  const pannRef = useRef(null); // pann 참조 추가
+  const [bars, setBars] = useState<any>([]);
+  const [data, setData] = useState<any>([]);
+  const intervalIdRef = useRef<any>(null);
+  const pannRef = useRef<any>(null);
+  const demoBoxRef = useRef<any>(null);
 
   useEffect(() => {
-    intervalIdRef.current = setInterval(addBar, 1000);
-
-    return () => clearInterval(intervalIdRef.current);
+    document.body.style.overflow = 'hidden';
   }, []);
 
-  function addBar() {
-    const container = containerRef.current;
-    const pann = pannRef.current; // pann 참조 사용
-    const newBar = document.createElement('div');
-    newBar.classList.add('bar');
-    const barNumber = container.childNodes.length + 1;
-    newBar.textContent = barNumber;
-    container.appendChild(newBar);
+  // 랜덤 시간 생성 함수
+  const getRandomTime = (index: any) => {
+    const minutesArray = ['00', '10', '20', '30', '40', '50'];
+    // 오전 11시부터 오후 8시 사이의 시간을 계산
+    let hour = 11 + Math.floor(index / 2);
+    const minuteIndex = index % minutesArray.length;
+    const minute = minutesArray[minuteIndex];
+    let period = '오전';
 
-    let bottom = 0;
-    const bars = document.querySelectorAll('.bar');
-    bars.forEach((bar, index) => {
-      bar.style.bottom = `${bottom}px`;
-      bottom += 50;
-    });
-
-    // DemoBox의 bottom 값을 갱신
-    // container.style.bottom = `${-50 * bars.length}px`;
-    if (bars.length * 50 > 800) {
-      container.style.bottom = `${-50 * (bars.length - 16)}px`;
-      pann.style.height = `${800 + 50 * bars.length}px`;
+    if (hour > 12) {
+      hour -= 12;
+      period = '오후';
     }
 
-    // pann의 높이를 증가시켜 DemoWrap의 스크롤 범위 확장
-    // if (pann) {
-    //   pann.style.height = `${800 + 50 * bars.length}px`;
-    // }
+    return `${period} ${hour}:${minute}`;
+  };
 
-    if (
-      container.scrollHeight - container.clientHeight - container.scrollTop <=
-      50
-    ) {
-      container.scrollTop = container.scrollHeight - container.clientHeight;
-    }
+  useEffect(() => {
+    intervalIdRef.current = setTimeout(
+      () => {
+        setBars((currentBars: any) => {
+          if (currentBars.length < 50) {
+            // 데이터 배열에서 랜덤한 항목 선택
+            const randomIndex = Math.floor(Math.random() * menuItem.length);
+            const selectedItem = menuItem[randomIndex];
 
-    if (bars.length >= 20) {
-      clearInterval(intervalIdRef.current);
+            const newItem = {
+              id: currentBars.length + 1,
+              imgUrl: selectedItem?.imgUrl,
+              product_name: selectedItem?.name,
+              time: `${getRandomTime(currentBars?.length)}`,
+            };
+
+            setData((currentData: any) => [...currentData, newItem]);
+            return [...currentBars, newItem];
+          }
+          clearInterval(intervalIdRef.current);
+          return currentBars;
+        });
+      },
+      Math.floor(Math.random() * (5000 - 1000 + 1)) + 2000
+    );
+
+    return () => clearInterval(intervalIdRef.current);
+  }, [bars.length]);
+
+  useEffect(() => {
+    const demoBox = demoBoxRef.current;
+    const pann = pannRef.current;
+    if (bars.length * 100 > 100) {
+      demoBox.style.bottom = `${-100 * (bars.length - 8)}px`;
+      pann.style.height = `${800 + 100 * bars.length}px`;
     }
-  }
+  }, [bars]);
 
   return (
-    <DemoWrap>
-      <div ref={pannRef} className="pann" style={{ height: 800 }} />
-      <DemoBox ref={containerRef} id="container" style={{ bottom: 0 }} />
-    </DemoWrap>
+    <Content>
+      {/* <TitleArea title="매장 실시간 주문 현황" />
+      <Tabs
+        id="product"
+        tabs={tabData}
+        activeTabIndex={activeTabIndex}
+        onTabChange={index => setActiveTabIndex(index)}
+      /> */}
+
+      <h2
+        css={css`
+          @keyframes fadeInOut {
+            0%,
+            100% {
+              opacity: 0;
+            }
+            50% {
+              opacity: 1;
+            }
+          }
+          display: flex;
+
+          font-size: 20px;
+          font-weight: bold;
+
+          .circle {
+            margin-top: 5px;
+            margin-left: 10px;
+            width: 7px; /* 원의 크기 */
+            height: 7px; /* 원의 크기 */
+            background-color: green; /* 원의 색상 */
+            border-radius: 50%; /* 원 형태를 만들기 위해 */
+            animation: fadeInOut 2s infinite; /* 애니메이션 적용 */
+          }
+        `}
+      >
+        매장 실시간 주문 현황
+        <div className="circle" />
+      </h2>
+      <div
+        css={css`
+          margin-top: 10px;
+        `}
+      >
+        광화문 매장 : 현재 시간 오후 07시 27분 / 총 {bars.length} 주문
+      </div>
+      <div
+        css={css`
+          margin-top: 24px;
+        `}
+      />
+      <DemoWrap>
+        <div ref={pannRef} className="pann" style={{ height: 100 }} />
+        <DemoBox ref={demoBoxRef}>
+          {bars.map((bar: any, index: any) => (
+            <NumberBarItem
+              key={index}
+              className="bar"
+              style={{ bottom: `${index * 100}px` }}
+            >
+              <div className="txt_number">{index + 1}</div>
+              <div className="thumb">
+                {!data[index].imgUrl ? (
+                  <Pic />
+                ) : (
+                  <img src={data[index].imgUrl} alt="" />
+                )}
+                {/* 이 부분에서 imgUrl을 사용하여 이미지를 렌더링할 수 있습니다. */}
+              </div>
+              <div className="box1">
+                <div className="line1">{data[index].product_name}</div>
+                <div className="line2">광화문 글로벌 본사</div>
+              </div>
+              <div className="box2">
+                <div className="line1">{data[index].time}</div>
+                {/* <div className="line2">{data[index].price}</div> */}
+              </div>
+            </NumberBarItem>
+          ))}
+        </DemoBox>
+      </DemoWrap>
+    </Content>
   );
 };
 

@@ -101,6 +101,12 @@ export const NumberBarListWrap = styled.div`
 // ];
 
 export const NumberBarList = ({ data }: NumberBarListProps) => {
+  if (!data) {
+    return null; // data가 유효하지 않으면 null을 반환
+  }
+
+  console.log('data', data);
+
   const keysArray = Object.keys(data[0]);
 
   return (
