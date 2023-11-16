@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useQuery } from 'react-query';
 import styled from '@emotion/styled';
-import { fetchRecipeMaterialList } from '@ApiFarm/product-recipe';
+import { fetchCommonMaterialList } from '@ApiFarm/common';
 import { MaterialInfo } from '@InterfaceFarm/material';
 import Modal from '@ComponentFarm/modules/Modal/Modal';
 import { Button } from '@ComponentFarm/atom/Button/Button';
@@ -150,7 +150,7 @@ const IngredientSelect = ({ onSelect }: Props) => {
   const { data, isIdle } = useQuery(
     ['ingredient-list', params],
     () =>
-      fetchRecipeMaterialList({
+      fetchCommonMaterialList({
         search_target: params.search_target,
         search_keyword: params.search_keyword,
         current_num: 1,

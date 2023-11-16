@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { css } from '@emotion/react';
 import { IEnvironmentRes } from '@InterfaceFarm/environment';
 import { Button } from '@ComponentFarm/atom/Button/Button';
@@ -46,10 +46,7 @@ const ManageListHandler = ({
     }
   };
 
-  const selectConfig = useMemo(
-    () => envConfigGeneration(selectConfigSet, environment?.list),
-    [environment?.list]
-  );
+  const selectConfig = envConfigGeneration(selectConfigSet);
 
   return (
     <ListHandlerWrap css={pageListSetting}>

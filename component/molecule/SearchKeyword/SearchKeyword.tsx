@@ -6,7 +6,7 @@ import { Select } from '@ComponentFarm/atom/Select/Select';
 import { QueryParams } from '@HookFarm/useQueryParams';
 
 interface ISearchKeyword {
-  params: QueryParams;
+  params?: QueryParams;
   selOption?: {
     label: string;
     value: string;
@@ -92,16 +92,22 @@ const SearchKeyword = ({
   const [keyword, setKeyword] = useState(defaultKeyword);
 
   useEffect(() => {
-    if ('search_keyword' in params || !keyword.search_keyword) {
-      setKeyword({
-        search_target: String(params.search_target ?? keyword.search_target), // 수정된 부분
-        search_keyword: String(params.search_keyword ?? keyword.search_keyword),
-      });
-    } else {
-      setKeyword({
-        search_target: selOption?.[0]?.value ? String(selOption[0].value) : '', // 수정된 부분
-        search_keyword: '',
-      });
+    if (params) {
+      if ('search_keyword' in params || !keyword.search_keyword) {
+        setKeyword({
+          search_target: String(params.search_target ?? keyword.search_target), // 수정된 부분
+          search_keyword: String(
+            params.search_keyword ?? keyword.search_keyword
+          ),
+        });
+      } else {
+        setKeyword({
+          search_target: selOption?.[0]?.value
+            ? String(selOption[0].value)
+            : '', // 수정된 부분
+          search_keyword: '',
+        });
+      }
     }
   }, [params]);
 

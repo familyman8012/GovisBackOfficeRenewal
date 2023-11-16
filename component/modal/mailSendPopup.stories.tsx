@@ -3,10 +3,11 @@ import { Meta, Story } from '@storybook/react';
 import { css } from '@emotion/react';
 import StoryLayout from '@ComponentFarm/modules/story_layout/StoryLayout';
 import { Button } from '@ComponentFarm/atom/Button/Button';
-import SearchPopup from './SearchPopup';
+import MailSendPopup from './mailSendPopup';
+import SearchPopup from './SearchPopup/SearchPopup';
 
 const meta: Meta = {
-  title: 'Modal/SearchPopup',
+  title: 'Modal/mailSendPopup',
   tags: ['autodocs'],
   args: {
     TotalProps: {
@@ -28,43 +29,10 @@ interface Props {
   darkMode: boolean;
 }
 
-const ResultTempArr = [
-  {
-    id: 0,
-    kind: '피자',
-    name: '오리지널 페페로니 피자',
-
-    state: 'op',
-  },
-  {
-    id: 1,
-    kind: '피자',
-    name: '베이컨 포테이토 피자',
-
-    state: 'op',
-  },
-  {
-    id: 2,
-    kind: '피자',
-    name: '매니악 페로니 피자',
-
-    state: 'st',
-  },
-  {
-    id: 3,
-    kind: '피자',
-    name: '매니악 페로니 피자',
-
-    state: 'st',
-  },
-  {
-    id: 4,
-    kind: '피자',
-    name: '매니악 페로니 피자',
-
-    state: 'st',
-  },
-];
+const initialData: any = Array.from({ length: 15 }, (_, i) => ({
+  value: `mail${i}`,
+  label: `User ${i + 1} <user${i + 1}@example.com>`,
+}));
 
 const StoryStorePopup: Story<Props> = args => {
   const [isOpen, setIsOpen] = useState(false);
@@ -90,10 +58,10 @@ const StoryStorePopup: Story<Props> = args => {
     >
       <div>
         <Button variant="primary" onClick={() => setIsOpen(true)}>
-          Open Store Modal
+          제품 상세 설정
         </Button>
-        <SearchPopup
-          data={ResultTempArr}
+        <MailSendPopup
+          viewData={initialData}
           isOpen={isOpen}
           onClose={handlerClose}
         />
@@ -171,7 +139,7 @@ const StoryStorePopup2: Story<Props> = args => {
     >
       <div>
         <Button variant="primary" onClick={() => setIsOpen(true)}>
-          Open Store Modal
+          다른 곳에서 사용될때
         </Button>
         <SearchPopup
           title="매장 검색"
@@ -184,7 +152,7 @@ const StoryStorePopup2: Story<Props> = args => {
     </StoryLayout>
   );
 };
-export const Default2 = StoryStorePopup2.bind({});
+export const Various = StoryStorePopup2.bind({});
 
 const StoryStorePopup3: Story<Props> = args => {
   const [isOpen, setIsOpen] = useState(false);
@@ -210,7 +178,7 @@ const StoryStorePopup3: Story<Props> = args => {
     >
       <div>
         <Button variant="primary" onClick={() => setIsOpen(true)}>
-          Open Store Modal
+          라디오 스타일
         </Button>
         <SearchPopup
           title="매장 검색"

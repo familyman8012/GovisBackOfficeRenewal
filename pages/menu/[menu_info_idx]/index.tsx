@@ -18,7 +18,7 @@ const MenuDetailPage = () => {
 
   const id = useMemo(
     () => parseInt(router.query?.menu_info_idx as string, 10),
-    [router]
+    [router.query, router.isReady]
   );
 
   const [editable, setEditable] = useState(false);
@@ -67,12 +67,14 @@ const MenuDetailPage = () => {
           )
         }
       />
-      <MenuForm
-        ref={formRef}
-        id={id}
-        editable={editable}
-        onSubmit={updateMutate.mutate}
-      />
+      {router.isReady && (
+        <MenuForm
+          ref={formRef}
+          id={id}
+          editable={editable}
+          onSubmit={updateMutate.mutate}
+        />
+      )}
       <AlertModal
         isOpen={showAlert}
         title="메뉴 수정"

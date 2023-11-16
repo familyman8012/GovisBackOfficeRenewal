@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Meta, Story } from '@storybook/react';
 import { useForm, Controller } from 'react-hook-form';
-import DateRangePicker, { DateRange } from './DateRange';
+import DateRangePicker, { DateRangeType } from './DateRange';
 
 const meta: Meta = {
   title: 'MODULES/DateRange',
@@ -37,12 +37,12 @@ interface Props {
 }
 
 const StoryDateRanger: Story<Props> = () => {
-  const [selectedDateRange, setSelectedDateRange] = useState<DateRange>([
+  const [selectedDateRange, setSelectedDateRange] = useState<DateRangeType>([
     null,
     null,
   ]);
 
-  const handleDateRangeChange = (update: DateRange) => {
+  const handleDateRangeChange = (update: DateRangeType) => {
     setSelectedDateRange(update);
   };
 
@@ -59,7 +59,7 @@ const StoryDateRanger: Story<Props> = () => {
 export const Default = StoryDateRanger.bind({});
 
 interface FormInputs {
-  dateRange: DateRange;
+  dateRange: DateRangeType;
 }
 
 const StoryDateRanger2: Story<Props> = () => {

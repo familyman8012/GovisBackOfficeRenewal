@@ -66,6 +66,7 @@ export const COLOR: Token = {
   green50: '#14804a',
   green80: '#abefc6',
   green90: '#e1fcef',
+  green300: '#377E36',
   green400: '#38a06c',
   green500: '#14804a',
   yellow50: '#f8bf00',
