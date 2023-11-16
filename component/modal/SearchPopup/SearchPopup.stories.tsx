@@ -30,44 +30,49 @@ interface Props {
 
 const ResultTempArr = [
   {
-    id: 0,
-    kind: '피자',
+    idx: 0,
+    category: '피자',
     name: '오리지널 페페로니 피자',
 
     state: 'op',
   },
   {
-    id: 1,
-    kind: '피자',
+    idx: 1,
+    category: '피자',
     name: '베이컨 포테이토 피자',
 
     state: 'op',
   },
   {
-    id: 2,
-    kind: '피자',
+    idx: 2,
+    category: '피자',
     name: '매니악 페로니 피자',
 
     state: 'st',
   },
   {
-    id: 3,
-    kind: '피자',
+    idx: 3,
+    category: '피자',
     name: '매니악 페로니 피자',
 
     state: 'st',
   },
   {
-    id: 4,
-    kind: '피자',
+    idx: 4,
+    category: '피자',
     name: '매니악 페로니 피자',
-
     state: 'st',
   },
 ];
 
 const StoryStorePopup: Story<Props> = args => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const columnName = {
+    searchBoxTitle: ['제품 상태', '제품 분류'],
+    th: ['제품 분류', '제품명', '제품 상태'],
+    col: [46, 180, 240, 180],
+  };
 
   useEffect(() => {
     if (isOpen) {
@@ -96,6 +101,8 @@ const StoryStorePopup: Story<Props> = args => {
           data={ResultTempArr}
           isOpen={isOpen}
           onClose={handlerClose}
+          title="제품 상세 설정"
+          columnName={columnName}
         />
       </div>
     </StoryLayout>

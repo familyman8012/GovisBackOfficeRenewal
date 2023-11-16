@@ -1,38 +1,95 @@
 import styled from '@emotion/styled';
+import { TableWrap } from '@ComponentFarm/common';
 
-export const SearchBox = styled.form`
-  width: 64.6rem;
-  padding: 2rem;
+export const SearchBox = styled.form<{ width?: string }>`
+  position: relative;
+  z-index: 100;
+  width: ${props => `${props.width}`};
   border-radius: 4px;
   border: 1px solid var(--color-neutral90);
-  background: rgba(247, 249, 252, 0.8);
 
-  h3 {
-    margin: 2rem 0 1.1rem;
-    color: #687182;
-    font-size: 1.4rem;
-    font-weight: 600;
-    line-height: 110%;
+  table {
+    width: 100%;
+    text-align: left;
 
-    &:first-of-type {
-      margin-top: 0;
+    th {
+      width: 10rem;
+      padding: 0 2rem;
+      font-weight: normal;
+      border-right: 1px solid var(--color-blue_gray20);
+      background: var(--color-blue_gray10);
     }
-  }
-  select {
-    display: block;
+    th,
+    td {
+      height: 6.5rem;
+      border-bottom: 1px solid var(--color-blue_gray20);
+    }
+
+    td {
+      padding: 0 1rem;
+      .wrap_input {
+        display: flex;
+        gap: 0.8rem;
+      }
+      .box_searchkeyword {
+        width: 100%;
+      }
+    }
+
+    tr:last-of-type {
+      th,
+      td {
+        border-bottom: none;
+      }
+    }
   }
 `;
 
-export const SearchResult = styled.form`
-  width: 64.6rem;
+export const SearchResult = styled.form<{ width?: string; col?: number[] }>`
+  width: ${props => `${props.width}`};
   margin-top: 1.5rem;
+  border: 1px solid var(--color-neutral90);
+  border-radius: 0.6rem;
+
+  ${TableWrap} {
+    border: none;
+    display: block;
+    width: 100%;
+  }
+
+  tabel {
+    width: 100%;
+    table-layout: fixed;
+  }
+
+  thead th {
+    position: sticky;
+    top: 0; /* 상단에 고정 */
+    background: white; /* 배경색 설정 */
+    z-index: 10; /* 다른 요소들 위에 위치하도록 z-index 설정 */
+  }
+
+  tbody {
+    display: block;
+    width: ${props => `${props.width}`};
+    height: 300px; /* 원하는 높이 설정 */
+    overflow-y: auto; /* 스크롤 가능하게 설정 */
+  }
 
   thead tr:first-of-type th {
     background: #fff;
   }
 
-  th:first-of-type {
-    width: calc((46 / 694) * 100%);
+  td {
+    ${props =>
+      props.col
+        ?.map(
+          (width, index) =>
+            `&:nth-of-type(${
+              index + 1
+            }) { width: calc((${width} / 694) * 100%); }`
+        )
+        .join('')}
   }
 
   th,

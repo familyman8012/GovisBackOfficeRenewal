@@ -440,9 +440,10 @@ export const Goivs2Menu = [
   '/material',
   '/menu',
   '/product-recipes',
-  '/product-performance',
+  '/product-statistics',
   '/storybook',
   '/ai-fqs-analysis',
   '/ai-fqs-device',
   '/ai-fqs-state',
+  '/demo',
 ];

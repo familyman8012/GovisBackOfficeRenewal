@@ -118,10 +118,7 @@ const ManageListHandler = ({
     ['원재료 상태', 'material_status'],
   ];
 
-  const envDataConvert = useMemo(
-    () => envConfigGeneration(envData, environment?.list),
-    [environment?.list]
-  );
+  const envDataConvert = envConfigGeneration(envData);
 
   const selectConfig = materialCategory && [
     ...selectConfigAll,

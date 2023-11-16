@@ -4,7 +4,7 @@ import { css } from '@emotion/react';
 import StoryLayout from '@ComponentFarm/modules/story_layout/StoryLayout';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import MailSendPopup from './mailSendPopup';
-import SearchPopup from './SearchPopup';
+import SearchPopup from './SearchPopup/SearchPopup';
 
 const meta: Meta = {
   title: 'Modal/mailSendPopup',

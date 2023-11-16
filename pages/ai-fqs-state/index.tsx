@@ -5,10 +5,10 @@ import styled from '@emotion/styled';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
 import { aisttStateListTabData } from '@ComponentFarm/template/aistt/const';
-import FilterTableForm from '@ComponentFarm/template/aistt/FilterTableForm';
+import FilterTableForm from '@ComponentFarm/template/common/FilterTable/FilterTableForm';
 import { NumberBarList } from '@ComponentFarm/template/common/NumberBarList';
 import StateInfoBox from '@ComponentFarm/template/common/StateInfoBox';
-import TitleBox from '@ComponentFarm/template/common/TitleBox';
+import SubTitleBox from '@ComponentFarm/template/common/SubTitleBox';
 
 export const TopMenu = styled.div`
   h3 {
@@ -122,13 +122,13 @@ const AisttState = () => {
         activeTabIndex={activeTabIndex}
         onTabChange={index => hanldeTabMove(index)}
       />
-      <TitleBox
+      <SubTitleBox
         title="제조 품질 통계"
         desc="분류, 기간 유형별 통계를 확인할 수 있습니다."
       />
       <FilterTableForm />
       <StateInfoBox items={StateItems} />
-      <TitleBox
+      <SubTitleBox
         title="TOP 메뉴별 제조시간"
         desc="오늘 기준으로 7일치 데이터 입니다."
         moreLink="/"

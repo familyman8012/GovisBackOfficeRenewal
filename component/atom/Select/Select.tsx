@@ -64,7 +64,7 @@ export const Select: FC<SelectProps> = ({
   LeadingIcon,
   width,
   height,
-  isSearchable,
+  isSearchable = true,
   isDisabled,
   formatOptionLabel,
   formatStatus,
@@ -159,7 +159,7 @@ export const Select: FC<SelectProps> = ({
       onChange={setSelectedOption}
       placeholder={placeholder || 'Select...'}
       isClearable={false}
-      isSearchable
+      isSearchable={isSearchable}
       isDisabled={isDisabled}
       formatOptionLabel={customFormatOptionLabel}
     />

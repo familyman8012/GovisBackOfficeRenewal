@@ -3,10 +3,10 @@ import React from 'react';
 import { Meta, Story } from '@storybook/react';
 import { css } from '@emotion/react';
 import StoryLayout from '@ComponentFarm/modules/story_layout/StoryLayout';
-import TitleBox from './TitleBox';
+import DonutChart from './DonutChart';
 
 const meta: Meta = {
-  title: 'TEMPLATE/TitleBox',
+  title: 'CHART/DonutChart',
   tags: ['autodocs'],
   args: {
     TotalProps: {
@@ -28,7 +28,13 @@ interface Props {
   darkMode: boolean;
 }
 
-const StoryCheckboxGroup: Story<Props> = args => {
+const StoryDonutChart: Story<Props> = args => {
+  const data = [
+    { name: '배달', value: 3054, increase: 34, percent: 34, fill: '#0088FE' },
+    { name: '내점', value: 1654, increase: 26, percent: 26, fill: '#00C49F' },
+    { name: '포장', value: 80, increase: -8, percent: -8, fill: '#FFBB28' },
+  ];
+
   return (
     <StoryLayout
       {...args}
@@ -39,16 +45,10 @@ const StoryCheckboxGroup: Story<Props> = args => {
         }
       `}
     >
-      <TitleBox
-        title="제조 품질 통계"
-        desc="분류, 기간 유형별 통계를 확인할 수 있습니다."
-      />
-      <TitleBox
-        title="제조 품질 현황"
-        desc="오늘 기준으로 7일치 데이터 입니다."
-        moreLink="/"
-      />
+      <div style={{ height: '40rem' }}>
+        <DonutChart chartData={data} />
+      </div>
     </StoryLayout>
   );
 };
-export const Default = StoryCheckboxGroup.bind({});
+export const Default = StoryDonutChart.bind({});

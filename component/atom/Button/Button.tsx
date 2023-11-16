@@ -237,10 +237,20 @@ export const Button: FC<ButtonProps> = ({
   );
 };
 
-export const BtnDelete = () => {
+export const BtnDelete = ({ onClick }: { onClick: () => void }) => {
   return (
-    <span className="btn_close">
+    <button
+      type="button"
+      className="btn_close"
+      onClick={e => {
+        e.stopPropagation();
+        onClick();
+      }}
+      css={css`
+        margin-right: 0 !important;
+      `}
+    >
       <Cross />
-    </span>
+    </button>
   );
 };

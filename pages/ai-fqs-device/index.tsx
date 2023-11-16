@@ -5,7 +5,7 @@ import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Table, TableWrap } from '@ComponentFarm/common';
 import { DevicePageStyle } from '@ComponentFarm/template/ai-fqs/style';
 import FqsCard from '@ComponentFarm/template/common/FqsCard';
-import TitleBox from '@ComponentFarm/template/common/TitleBox';
+import SubTitleBox from '@ComponentFarm/template/common/SubTitleBox';
 // import { Badge } from '@ComponentFarm/token';
 import { getTableWidthPercentage } from '@UtilFarm/calcSize';
 
@@ -14,7 +14,7 @@ const DeviceListPage = () => {
 
   return (
     <DevicePageStyle>
-      <TitleBox
+      <SubTitleBox
         title="기기 상태"
         desc="분류, 기간 유형별 통계를 확인할 수 있습니다."
         hideUnderline

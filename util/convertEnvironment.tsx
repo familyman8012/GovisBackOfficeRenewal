@@ -1,5 +1,7 @@
 // utils/convertObject.js
 
+import { EnvStore } from '@MobxFarm/store';
+
 /**
  * 원본 데이터 타입
  */
@@ -52,18 +54,21 @@ export function convertEnv(
  * @returns 생성된 selectConfig 배열
  */
 
-type SelectConfig = {
+export type SelectConfig = {
   label: string;
   field: string;
   options: convertEnvObj[];
 };
 
 export const envConfigGeneration = (
-  categoryPairs: [string, string, convertEnvObj[]?][],
-  dataList: SourceObj[]
+  categoryPairs: [string, string, convertEnvObj[]?][]
 ): SelectConfig[] => {
+  const environment = EnvStore?.getData({
+    name: categoryPairs.map(item => item[1]).join(','),
+  })?.list;
+
   return categoryPairs.map(([label, category, customOptions]) => {
-    const optionsFromData = customOptions || convertEnv(category, dataList);
+    const optionsFromData = customOptions || convertEnv(category, environment);
 
     // {label: "전체", value: ""}를 각 options 배열의 시작 부분에 추가
     const options = [{ label: '전체', value: '' }, ...optionsFromData];

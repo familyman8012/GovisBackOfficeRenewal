@@ -1,6 +1,6 @@
 import React, { FC, ReactNode } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { css } from '@emotion/react';
+import { css, SerializedStyles } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Cross } from '@ComponentFarm/atom/icons';
@@ -20,6 +20,7 @@ interface ModalProps {
   showCancelButton?: boolean;
   children?: ReactNode;
   showButtons?: boolean;
+  addStyles?: SerializedStyles;
 }
 
 const DimmedBackground = styled(motion.div)`
@@ -104,8 +105,27 @@ const Modal: FC<ModalProps> = ({
   showCloseButton = false,
   showCancelButton = true,
   showButtons = true,
+  addStyles,
   children,
 }) => {
+  const defaultStyles = css`
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 36rem;
+    width: fit-width;
+    background-color: white;
+    border-radius: 12px;
+    max-height: 100%;
+    overflow-y: auto;
+  `;
+
+  const combinedStyles = css`
+    ${defaultStyles};
+    ${addStyles};
+  `;
+
   const modalContent = (
     <>
       <DimmedBackground
@@ -119,18 +139,8 @@ const Modal: FC<ModalProps> = ({
         animate={{ opacity: 1, x: '-50%', y: '-50%' }}
         exit={{ opacity: 0, x: '-50%', y: '-70%' }}
         transition={{ duration: 0.2 }}
-        css={css`
-          position: fixed;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          min-width: 36rem;
-          width: fit-width;
-          background-color: white;
-          border-radius: 12px;
-          max-height: 100%;
-          overflow-y: auto;
-        `}
+        className="modal"
+        css={combinedStyles}
       >
         <HeaderContentContainer className={showCloseButton ? 'left' : 'center'}>
           {title && (

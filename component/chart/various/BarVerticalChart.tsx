@@ -1,5 +1,4 @@
 import React from 'react';
-import Link from 'next/link';
 import {
   ResponsiveContainer,
   BarChart,
@@ -8,6 +7,7 @@ import {
   YAxis,
   LabelList,
 } from 'recharts';
+import { AreaBox } from '@ComponentFarm/template/common/AreaBox';
 
 const data = [
   {
@@ -50,7 +50,7 @@ const CustomYAxisTick = (props: any) => {
   );
 };
 
-export const BarHorizonChart = () => {
+export const BarVerticalChart = () => {
   return (
     <ResponsiveContainer width="100%" aspect={2}>
       <BarChart
@@ -88,36 +88,30 @@ export const BarHorizonChart = () => {
   );
 };
 
-interface BarHorizonChartCardProps {
+interface BarVerticalChartCardProps {
   title: string;
-  txt1: string;
-  txt2: string;
-  moreLink: string;
-  className: string;
+  txt1?: string;
+  txt2?: string;
+  moreLink?: string;
+  className?: string;
 }
 
-export const BarHorizonChartCard = ({
+export const BarVerticalChartCard = ({
   title,
+  moreLink,
   txt1,
   txt2,
-  moreLink,
   className,
-}: BarHorizonChartCardProps) => {
+}: BarVerticalChartCardProps) => {
   return (
-    <BarHorizonChartCardWrap>
-      <div className="head">
-        <h2>
-          <span>{title}</span>
-          {moreLink && (
-            <Link href={moreLink} className="link_more">
-              더보기
-            </Link>
-          )}
-        </h2>
-        <p className={`txt1 ${className}`}>{txt1}</p>
-        <div className="txt2">{txt2}</div>
-      </div>
-      <BarHorizonChart />
-    </BarHorizonChartCardWrap>
+    <AreaBox
+      className={className}
+      title={title}
+      moreLink={moreLink}
+      txt1={txt1}
+      txt2={txt2}
+    >
+      <BarVerticalChart />
+    </AreaBox>
   );
 };
