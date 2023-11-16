@@ -412,6 +412,23 @@ const reset = css`
     }
   }
 
+  a.download-link {
+    display: inline-flex;
+    padding: 1.2rem 1.6rem;
+    font-size: 1.4rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 1.4;
+    border-radius: 0.4rem;
+    color: var(--color-blue60);
+    border: 1px solid currentColor;
+  }
+
+  [role='button'] {
+    display: inline-flex;
+    align-items: center;
+  }
+
   /* input.inp,
   select,
   textarea {
@@ -665,7 +682,7 @@ export const Table = styled.table`
   }
 
   .th_title {
-    display: flex;
+    display: inline-flex;
     align-items: center;
   }
 
@@ -686,6 +703,7 @@ export const Table = styled.table`
 
   &.basic {
     width: 100%;
+    background-color: var(--color-gray1);
     tr:not(.empty) {
       &:hover {
         cursor: pointer;

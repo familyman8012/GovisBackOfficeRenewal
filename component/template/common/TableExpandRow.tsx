@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import CircleUp from '@ComponentFarm/atom/icons/CircleUp';
-import { ExpandRowStyle } from '../ai-fqs/style';
+import { ExpandRowStyle } from '../aistt/style';
 
 interface Props {
   show?: boolean;

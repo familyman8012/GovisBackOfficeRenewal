@@ -10,7 +10,7 @@ import Ellipse from '@ComponentFarm/atom/icons/Ellipse';
 import { InnerTable } from '@ComponentFarm/common';
 import IngredientSelect from '@ComponentFarm/molecule/IngredientSelect';
 import SelectFileButton from '@ComponentFarm/molecule/SelectFile/SelectFileButton';
-import TimeSecondInput from '@ComponentFarm/molecule/TimeSecondInput/TimeSecondInput';
+import TimeSecondInput from '@ComponentFarm/molecule/TimeInput/TimeSecondInput';
 import useFormOptionsWithEnvs from '@HookFarm/useFormOptionsWithEnvs';
 import { getTableWidthPercentage } from '@UtilFarm/calcSize';
 import { getComputedCost } from '@UtilFarm/number';

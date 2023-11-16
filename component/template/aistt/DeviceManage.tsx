@@ -2,9 +2,8 @@ import React from 'react';
 import { useForm, FormProvider } from 'react-hook-form';
 import { css } from '@emotion/react';
 import RadioGroup from '@ComponentFarm/modules/RadioGroup/RadioGroup';
-import { Button } from '@ComponentFarm/atom/Button/Button';
 import { FormWrap } from '@ComponentFarm/common';
-import TimeSecondInput from '@ComponentFarm/molecule/TimeSecondInput/TimeSecondInput';
+import TimeHourInput from '@ComponentFarm/molecule/TimeInput/TimeHourInput';
 import CameraForm from './CameraForm';
 
 const FormCss = css`
@@ -74,26 +73,9 @@ const DeviceManage = () => {
         <form onSubmit={handleSubmit(data => console.log(data))}>
           <section className="first-section">
             <h2 className="border-none">기기 기본 정보</h2>
-            <Button variant="gostPrimary">프로그램 재부팅</Button>
+            {/* <Button variant="gostPrimary">프로그램 재부팅</Button> */}
           </section>
 
-          <div className="line">
-            <div className="field">
-              <label htmlFor="name">매장 코드</label>
-              <div className="box_inp combined">
-                <input
-                  {...register('name', {
-                    required: true,
-                  })}
-                  className="inp"
-                  disabled
-                  type="text"
-                />
-              </div>
-            </div>
-            <div />
-            <div />
-          </div>
           <div className="line">
             <div className="field">
               <label htmlFor="name">매장명</label>
@@ -115,13 +97,13 @@ const DeviceManage = () => {
             <div className="field">
               <label htmlFor="name">기기 시작 시간</label>
               <div className="box_inp">
-                <TimeSecondInput value={0} onChange={() => {}} />
+                <TimeHourInput value={0} onChange={() => {}} />
               </div>
             </div>
             <div className="field">
               <label htmlFor="name">기기 종료 시간</label>
               <div className="box_inp">
-                <TimeSecondInput value={0} onChange={() => {}} />
+                <TimeHourInput value={0} onChange={() => {}} />
               </div>
             </div>
           </div>

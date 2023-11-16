@@ -4,11 +4,12 @@ import { InnerTable } from '@ComponentFarm/common';
 export const VideoWrapStyle = styled.div`
   position: relative;
   width: 100%;
+  border-radius: 0.8rem;
+  border-radius: 0.8rem;
   max-width: 1536px;
-  border-radius: 0.8rem;
-  border-radius: 0.8rem;
-
+  margin: 0 auto;
   overflow: hidden;
+  background-color: #000;
 
   video {
     position: absolute;
@@ -16,6 +17,8 @@ export const VideoWrapStyle = styled.div`
     left: 0;
     width: 100%;
     height: 100%;
+    background-color: #000;
+    object-fit: contain;
   }
 
   &:before {
@@ -29,6 +32,24 @@ export const VideoWrapStyle = styled.div`
     z-index: 2;
     top: 1.6rem;
     right: 1.6rem;
+  }
+
+  /* &.viewport-in {
+  } */
+
+  &.viewport-out {
+    video {
+      position: fixed;
+      top: 0;
+      bottom: auto;
+      left: auto;
+      right: 0;
+      width: 33%;
+      height: 18.5625vw;
+
+      z-index: 100;
+      border-bottom-left-radius: 0.4rem;
+    }
   }
 `;
 
@@ -127,6 +148,12 @@ export const DevicePageStyle = styled.div`
   display: flex;
   flex-direction: column;
   padding-top: 3.2rem;
+  margin: 0 -3.2rem -3.2rem;
+  padding: 0 3.2rem 3.2rem;
+
+  &.bg-gray {
+    background-color: var(--color-blue_gray10);
+  }
 
   .status {
     display: flex;
@@ -222,16 +249,33 @@ export const VideoListStyle = styled.div`
   flex-wrap: wrap;
   margin: 3.2rem -1.2rem 0;
   padding: 0;
+  cursor: pointer;
+
+  button {
+    text-align: left;
+    display: flex;
+    flex-wrap: wrap;
+    background-color: transparent;
+    appearance: none;
+    cursor: pointer;
+  }
 
   .item {
-    flex: 0 0 23%; /* explanation below */
-    display: flex;
+    flex: 0 0 auto;
+    display: inline-flex;
+    width: calc(25% - 2.4rem);
     flex-direction: column;
-    border: 1px solid var(--color-neutral90);
+    border: 2px solid var(--color-neutral90);
     border-radius: 0.8rem;
     overflow: hidden;
     margin: 1.2rem;
     cursor: pointer;
+
+    &:focus,
+    &:hover {
+      background-color: var(--color-blue90);
+      border-color: var(--color-blue70);
+    }
   }
 
   .img-wrap {
@@ -259,9 +303,9 @@ export const VideoListStyle = styled.div`
     padding: 2.4rem;
 
     h3 {
-      font-size: inherit;
+      font-size: 2.4rem;
       line-height: inherit;
-      line-height: 2.4rem;
+      line-height: 1.1;
     }
 
     .score {
@@ -318,6 +362,16 @@ export const ExpandRowStyle = styled.tr`
       width: 1.6rem;
       height: 1.6rem;
     }
+  }
+
+  .gt {
+    display: inline-flex;
+    margin: 0 0.7rem;
+    width: 1.6rem;
+    height: 1.6rem;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='17' height='16' viewBox='0 0 17 16' fill='none'%3E%3Cpath d='M7 11L10 8L7 5' stroke='%23868FA0' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-size: 100% 100%;
+    vertical-align: middle;
   }
 `;
 
@@ -392,9 +446,9 @@ export const FqsAnalysisDataStyle = styled.div`
     }
 
     img {
-      min-width: 32.9rem;
-      min-height: 20.8rem;
-      background-color: red;
+      width: 32.9rem;
+      height: 20.8rem;
+      object-fit: cover;
     }
 
     & + .inspection-img {
@@ -455,6 +509,5 @@ export const FqsInfoTable = styled(InnerTable)`
     font-size: 1.4rem;
     font-weight: 500;
     line-height: 1.2;
-    margin-left: 1.6rem;
   }
 `;

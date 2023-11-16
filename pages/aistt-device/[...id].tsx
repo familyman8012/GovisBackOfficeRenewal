@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import { Button } from '@ComponentFarm/atom/Button/Button';
-import DeviceManage from '@ComponentFarm/template/ai-fqs/DeviceManage';
-import DeviceView from '@ComponentFarm/template/ai-fqs/DeviceView';
+import DeviceManage from '@ComponentFarm/template/aistt/DeviceManage';
+import DeviceView from '@ComponentFarm/template/aistt/DeviceView';
 import LayoutTitleBoxWithTab from '@ComponentFarm/template/layout/LayoutWithTitleBoxAndTab';
 import { useGoMove } from '@HookFarm/useGoMove';
 
@@ -30,11 +30,11 @@ const DeviceDetailPage = () => {
         tabs={[
           {
             title: '기기 정보',
-            path: '/ai-fqs-device/view/[id]',
+            path: '/aistt-device/view/[id]',
           },
           {
             title: '기기 정보 입력',
-            path: '/ai-fqs-device/setting/[id]',
+            path: '/aistt-device/setting/[id]',
           },
         ]}
         actionButtons={

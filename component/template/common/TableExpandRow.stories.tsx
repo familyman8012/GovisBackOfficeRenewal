@@ -8,7 +8,7 @@ import Pic from '@ComponentFarm/atom/icons/Pic';
 import { Table, TableWrap } from '@ComponentFarm/common';
 import { getTableWidthPercentage } from '@UtilFarm/calcSize';
 import TableExpandRow from './TableExpandRow';
-import { FqsAnalysisDataStyle } from '../ai-fqs/style';
+import { FqsAnalysisDataStyle } from '../aistt/style';
 
 const meta: Meta = {
   title: 'TEMPLATE/TableExpandRow',
@@ -113,7 +113,7 @@ export const Default: Story<Props> = args => {
               </td>
               <td>
                 <Badge color="gray">00:00</Badge>
-                &gt;
+                <span className="gt" />
                 <Badge color="gray">00:30</Badge>
               </td>
               <td>
