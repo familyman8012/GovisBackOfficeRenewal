@@ -7,6 +7,7 @@ export const menuItem = [
       'https://dev-gopizza-homepage.s3.ap-northeast-2.amazonaws.com/ui/images/menu/pizza/img_item1x2.webp',
     name: '치킨앤콘 반반 피자',
     enName: 'Chicken & Corn Half/Half Pizza',
+    price: 12800,
   },
   {
     idx: 'pizza2',
@@ -14,6 +15,7 @@ export const menuItem = [
       'https://dev-gopizza-homepage.s3.ap-northeast-2.amazonaws.com/ui/images/menu/pizza/img_item2x2.webp',
     name: '페퍼로니 앤 포테이토 반반 피자',
     enName: 'Pepperoni & Potato Half/Half Pizza',
+    price: 12300,
   },
   {
     idx: 'pizza3',
@@ -21,6 +23,7 @@ export const menuItem = [
       'https://dev-gopizza-homepage.s3.ap-northeast-2.amazonaws.com/ui/images/menu/pizza/img_item3x2.webp',
     name: '슈퍼 콤비네이션 피자',
     enName: 'Super Combination Pizza',
+    price: 11900,
   },
   {
     idx: 'pizza4',
@@ -28,6 +31,7 @@ export const menuItem = [
       'https://dev-gopizza-homepage.s3.ap-northeast-2.amazonaws.com/ui/images/menu/pizza/img_item4x2.webp',
     name: 'K-불고기 피자',
     enName: 'K-Bulgogi Pizza',
+    price: 11900,
   },
   {
     idx: 'pizza5',
@@ -35,6 +39,7 @@ export const menuItem = [
       'https://dev-gopizza-homepage.s3.ap-northeast-2.amazonaws.com/ui/images/menu/pizza/img_item5x2.webp',
     name: '스윗 치킨앤콘 피자',
     enName: 'Sweet Chicken & Corn Pizza',
+    price: 11800,
   },
   {
     idx: 'pizza6',
@@ -42,6 +47,7 @@ export const menuItem = [
       'https://dev-gopizza-homepage.s3.ap-northeast-2.amazonaws.com/ui/images/menu/pizza/img_item6x2.webp',
     name: '스파이시 치킨앤콘 피자',
     enName: 'Spicy Chicken & Corn Pizza',
+    price: 11800,
   },
   {
     idx: 'pizza7',
@@ -50,6 +56,7 @@ export const menuItem = [
     name: '베이컨 포테이토 피자',
     enName: 'Bacon Potato Pizza',
     badge: 'best',
+    price: 11700,
   },
   {
     idx: 'pizza8',
@@ -58,6 +65,7 @@ export const menuItem = [
     name: '매니악 페퍼로니 피자',
     enName: 'Maniac Pepperoni Pizza',
     badge: 'best',
+    price: 11700,
   },
   {
     idx: 'pizza9',
@@ -65,6 +73,7 @@ export const menuItem = [
       'https://dev-gopizza-homepage.s3.ap-northeast-2.amazonaws.com/ui/images/menu/pizza/img_item9x2.webp',
     name: '달콤 고구마 피자',
     enName: 'Sweet Potato Pizza',
+    price: 11400,
   },
   {
     idx: 'pizza10',
@@ -72,6 +81,7 @@ export const menuItem = [
       'https://dev-gopizza-homepage.s3.ap-northeast-2.amazonaws.com/ui/images/menu/pizza/img_item10x2.webp',
     name: '오리지널 페퍼로니 피자',
     enName: 'OG Pepperoni Pizza',
+    price: 10900,
   },
   {
     idx: 'pizza11',
@@ -79,6 +89,7 @@ export const menuItem = [
       'https://dev-gopizza-homepage.s3.ap-northeast-2.amazonaws.com/ui/images/menu/pizza/img_item11x2.webp',
     name: '마약 옥수수 피자',
     enName: "'Mayak' Corn Pizza",
+    price: 10500,
   },
   {
     idx: 'pizza12',
@@ -86,6 +97,7 @@ export const menuItem = [
       'https://dev-gopizza-homepage.s3.ap-northeast-2.amazonaws.com/ui/images/menu/pizza/img_item12x2.webp',
     name: '허니 고르곤졸라 피자',
     enName: 'Honey Gorgonzola Pizza',
+    price: 10400,
   },
   {
     idx: 'pizza13',
@@ -93,6 +105,7 @@ export const menuItem = [
       'https://dev-gopizza-homepage.s3.ap-northeast-2.amazonaws.com/ui/images/menu/pizza/img_item13x2.webp',
     name: '크레이지 미트치즈 피자',
     enName: 'Crazy Bolognese Pizza',
+    price: 9900,
   },
   {
     idx: 'pizza14',
@@ -100,6 +113,7 @@ export const menuItem = [
       'https://dev-gopizza-homepage.s3.ap-northeast-2.amazonaws.com/ui/images/menu/pizza/img_item14x2.webp',
     name: '클래식 마르게리타 피자',
     enName: 'Classic Margherita Pizza',
+    price: 9900,
   },
   {
     idx: 'pizza15',
@@ -107,6 +121,7 @@ export const menuItem = [
       'https://dev-gopizza-homepage.s3.ap-northeast-2.amazonaws.com/ui/images/menu/pizza/img_item15x2.webp',
     name: '아메리칸 치즈 피자',
     enName: 'American Cheese Pizza',
+    price: 8900,
   },
 
   {
@@ -115,6 +130,7 @@ export const menuItem = [
       'https://dev-gopizza-homepage.s3.ap-northeast-2.amazonaws.com/ui/images/menu/pasta/img_item1x2.webp',
     name: '토마토 치즈 파스타',
     enName: 'Tomato Cheese Pasta',
+    price: 9500,
   },
   {
     idx: 'pasta2',
@@ -122,6 +138,7 @@ export const menuItem = [
       'https://dev-gopizza-homepage.s3.ap-northeast-2.amazonaws.com/ui/images/menu/pasta/img_item2x2.webp',
     name: '미트 치즈 파스타',
     enName: 'Meat Cheese Pasta',
+    price: 9500,
   },
   {
     idx: 'pasta3',
@@ -129,6 +146,7 @@ export const menuItem = [
       'https://dev-gopizza-homepage.s3.ap-northeast-2.amazonaws.com/ui/images/menu/pasta/img_item2x2.webp',
     name: '베이컨 로제 파스타',
     enName: 'Bacon Rosé Pasta',
+    price: 9500,
   },
 
   {
@@ -138,6 +156,7 @@ export const menuItem = [
     name: '매콤 떡볶이',
     enName: 'Topokki',
     badge: 'best',
+    price: 4900,
   },
   {
     idx: 'topokki2',
@@ -145,6 +164,7 @@ export const menuItem = [
       'https://dev-gopizza-homepage.s3.ap-northeast-2.amazonaws.com/ui/images/menu/topokki/img_item2x2.webp?v=2',
     name: '매콤 치즈 떡볶이',
     enName: 'Cheese Topokki',
+    price: 6900,
   },
   {
     idx: 'topokki3',
@@ -152,6 +172,7 @@ export const menuItem = [
       'https://dev-gopizza-homepage.s3.ap-northeast-2.amazonaws.com/ui/images/menu/topokki/img_item3x2.webp',
     name: '마라 로제 떡볶이',
     enName: 'Mala Rosé Topokki',
+    price: 4900,
   },
   {
     idx: 'topokki4',
@@ -159,6 +180,7 @@ export const menuItem = [
       'https://dev-gopizza-homepage.s3.ap-northeast-2.amazonaws.com/ui/images/menu/topokki/img_item4x2.webp',
     name: '마라 치즈 떡볶이',
     enName: 'Mala Cheese Topokki',
+    price: 6900,
   },
 
   {
@@ -167,6 +189,7 @@ export const menuItem = [
       'https://dev-gopizza-homepage.s3.ap-northeast-2.amazonaws.com/ui/images/menu/sides/img_item1x2.webp',
     name: 'ALL 순살치킨',
     enName: 'ALL Boneless Chicken',
+    price: 7400,
   },
   {
     idx: 'sides2',
@@ -174,6 +197,7 @@ export const menuItem = [
       'https://dev-gopizza-homepage.s3.ap-northeast-2.amazonaws.com/ui/images/menu/sides/img_item2x2.webp',
     name: '순살치킨 앤 프라이',
     enName: 'Boneless Chicken & Fries',
+    price: 5900,
   },
   {
     idx: 'sides3',
@@ -181,6 +205,7 @@ export const menuItem = [
       'https://dev-gopizza-homepage.s3.ap-northeast-2.amazonaws.com/ui/images/menu/sides/img_item3x2.webp',
     name: '버팔로 윙/봉',
     enName: 'Original Buffalo Wing',
+    price: 3700,
   },
   {
     idx: 'sides4',
@@ -188,6 +213,7 @@ export const menuItem = [
       'https://dev-gopizza-homepage.s3.ap-northeast-2.amazonaws.com/ui/images/menu/sides/img_item4x2.webp',
     name: '프렌치 프라이',
     enName: 'French Fries',
+    price: 2400,
   },
   {
     idx: 'sides5',
@@ -195,6 +221,7 @@ export const menuItem = [
       'https://dev-gopizza-homepage.s3.ap-northeast-2.amazonaws.com/ui/images/menu/sides/img_item5x2.webp',
     name: '치즈스틱',
     enName: 'Cheese Stick',
+    price: 2400,
   },
 
   {
@@ -203,6 +230,7 @@ export const menuItem = [
       'https://dev-gopizza-homepage.s3.ap-northeast-2.amazonaws.com/ui/images/menu/set/img_item1x2.webp',
     name: '1인 피자 세트',
     enName: 'Pizza & Side Set',
+    price: 11800,
   },
   {
     idx: 'set2',
@@ -210,6 +238,7 @@ export const menuItem = [
       'https://dev-gopizza-homepage.s3.ap-northeast-2.amazonaws.com/ui/images/menu/set/img_item2x2.webp',
     name: '1.5인 피파 세트',
     enName: 'Pizza & Pasta Set',
+    price: 11800,
   },
   {
     idx: 'set3',
@@ -217,6 +246,7 @@ export const menuItem = [
       'https://dev-gopizza-homepage.s3.ap-northeast-2.amazonaws.com/ui/images/menu/set/img_item3x2.webp',
     name: '1.5인 피떡 세트',
     enName: 'Pizza & Topokki Set',
+    price: 17900,
   },
   {
     idx: 'set4',
@@ -224,6 +254,7 @@ export const menuItem = [
       'https://dev-gopizza-homepage.s3.ap-northeast-2.amazonaws.com/ui/images/menu/set/img_item4x2.webp',
     name: '1.5인 피치 세트',
     enName: 'Pizza & Chicken Set',
+    price: 15300,
   },
   {
     idx: 'set5',
@@ -231,6 +262,7 @@ export const menuItem = [
       'https://dev-gopizza-homepage.s3.ap-northeast-2.amazonaws.com/ui/images/menu/set/img_item5x2.webp',
     name: '2인 피자 세트',
     enName: 'Couple Set',
+    price: 21200,
   },
   {
     idx: 'set6',
@@ -238,28 +270,7 @@ export const menuItem = [
       'https://dev-gopizza-homepage.s3.ap-northeast-2.amazonaws.com/ui/images/menu/set/img_item6x2.webp',
     name: '2.5인 피자 세트',
     enName: 'Friends Set',
-  },
-
-  {
-    idx: 'powertime1',
-    imgUrl:
-      'https://dev-gopizza-homepage.s3.ap-northeast-2.amazonaws.com/ui/images/menu/powertime/img_item1x2.webp',
-    name: '오리지널 페퍼로니 피자+콜라',
-    enName: 'OG Pepperoni Pizza',
-  },
-  {
-    idx: 'powertime2',
-    imgUrl:
-      'https://dev-gopizza-homepage.s3.ap-northeast-2.amazonaws.com/ui/images/menu/powertime/img_item2x2.webp',
-    name: '허니 고르곤졸라 피자+콜라',
-    enName: 'Honey Gorgonzola Pizza',
-  },
-  {
-    idx: 'powertime3',
-    imgUrl:
-      'https://dev-gopizza-homepage.s3.ap-northeast-2.amazonaws.com/ui/images/menu/powertime/img_item3x2.webp',
-    name: '이달의 피자+콜라',
-    enName: '',
+    price: 21200,
   },
 ];
 
@@ -274,7 +285,7 @@ export const DemoWrap = styled.div`
 
 export const DemoBox = styled.div`
   position: absolute;
-  width: 800px;
+  width: 732px;
 
   .bar {
     width: 100%;
