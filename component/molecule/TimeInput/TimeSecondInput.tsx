@@ -1,22 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import styled from '@emotion/styled';
 import useSyncedRef from '@HookFarm/useSyncedRef';
-
-const TimeInputStyle = styled.div`
-  display: inline-flex;
-  align-items: center;
-
-  input {
-    width: 10rem;
-  }
-
-  span {
-    margin-left: 1.6rem;
-    &:not(:last-child) {
-      margin-right: 3.2rem;
-    }
-  }
-`;
+import { TimeInputStyle } from './style';
 
 interface Props {
   value: string | number;

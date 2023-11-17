@@ -28,8 +28,11 @@ const LayoutTitleBoxWithTab = ({
           const returnVal =
             v.search(/\[.*\]$/) !== -1
               ? router.query[v.replace(/\[(.*)\]/, '$1')]
+                  ?.toString()
+                  .split(',')
+                  .filter?.(str => !Number.isNaN(Number(str)))
               : v;
-          return returnVal;
+          return returnVal?.toString();
         })
         .join('/'),
     [pathname, router.query]
@@ -38,10 +41,9 @@ const LayoutTitleBoxWithTab = ({
   const replacedPathTabs = useMemo(
     () =>
       tabs.map(tab => {
-        const mergedPath = getMergedDynamicParamPath(tab.path);
         return {
           ...tab,
-          path: mergedPath,
+          path: getMergedDynamicParamPath(tab.path),
         };
       }),
     [tabs, router.query]

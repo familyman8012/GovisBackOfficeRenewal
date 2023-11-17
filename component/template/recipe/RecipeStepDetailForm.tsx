@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import { Controller, useFieldArray, useFormContext } from 'react-hook-form';
 import { IRecipeFormFields } from '@InterfaceFarm/product-recipe';
 import Editor from '@ComponentFarm/modules/Editor/Editor';
@@ -10,10 +10,10 @@ import Ellipse from '@ComponentFarm/atom/icons/Ellipse';
 import { InnerTable } from '@ComponentFarm/common';
 import IngredientSelect from '@ComponentFarm/molecule/IngredientSelect';
 import SelectFileButton from '@ComponentFarm/molecule/SelectFile/SelectFileButton';
-import TimeSecondInput from '@ComponentFarm/molecule/TimeSecondInput/TimeSecondInput';
+import TimeSecondInput from '@ComponentFarm/molecule/TimeInput/TimeSecondInput';
 import useFormOptionsWithEnvs from '@HookFarm/useFormOptionsWithEnvs';
 import { getTableWidthPercentage } from '@UtilFarm/calcSize';
-import { toPrice } from '@UtilFarm/number';
+import { getComputedCost } from '@UtilFarm/number';
 import RecipeIngredientList from './RecipeIngredientList';
 import { RecipeStepWrap } from './style';
 import { MenuOptionDetailStyle } from '../menu/style';
@@ -60,15 +60,6 @@ const RecipeStepDetail = ({
   const errors = useMemo(
     () => formState.errors.recipe_steps?.[stepIndex ?? -1],
     [formState, stepIndex]
-  );
-
-  const getComputedCost = useCallback(
-    (firstCost?: number, recipe_material_quantity_value?: number) => {
-      const basePrice = firstCost ?? 0;
-      const quantity = recipe_material_quantity_value ?? 0;
-      return toPrice((basePrice * quantity).toFixed(2));
-    },
-    []
   );
 
   return (

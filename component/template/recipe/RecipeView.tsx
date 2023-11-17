@@ -3,7 +3,7 @@ import { Controller, FormProvider, useForm } from 'react-hook-form';
 import { IEnvironmentResItem } from '@InterfaceFarm/environment';
 import { IRecipeFormFields } from '@InterfaceFarm/product-recipe';
 import { FormWrap } from '@ComponentFarm/common';
-import TimeSecondInput from '@ComponentFarm/molecule/TimeSecondInput/TimeSecondInput';
+import TimeSecondInput from '@ComponentFarm/molecule/TimeInput/TimeSecondInput';
 import RecipeStepForm from './RecipeStepForm';
 import { RecipeFormStyle, RegisterRecipeWrap } from './style';
 

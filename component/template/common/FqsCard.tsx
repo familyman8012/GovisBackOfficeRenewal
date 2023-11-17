@@ -1,8 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { Badge } from '@ComponentFarm/atom/Badge/Badge';
-import FaceDown from '@ComponentFarm/atom/icons/FaceDown';
-import FaceUp from '@ComponentFarm/atom/icons/FaceUp';
 
 interface FqsCardProps {
   label: string;
@@ -109,9 +107,6 @@ const FqsCard = ({
           {unit && <span className="unit">{unit}</span>}
           {placeholder && <span className="placeholder">({placeholder})</span>}
         </span>
-      </div>
-      <div className="icon-wrap">
-        {variant === 'error' ? <FaceDown /> : <FaceUp />}
       </div>
     </CardContainer>
   );

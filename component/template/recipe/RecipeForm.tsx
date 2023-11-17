@@ -11,7 +11,7 @@ import { IRecipeFormFields } from '@InterfaceFarm/product-recipe';
 import ErrorTxt from '@ComponentFarm/atom/ErrorTxt/ErrorTxt';
 import { FormWrap } from '@ComponentFarm/common';
 import SelectFile from '@ComponentFarm/molecule/SelectFile/SelectFile';
-import TimeSecondInput from '@ComponentFarm/molecule/TimeSecondInput/TimeSecondInput';
+import TimeSecondInput from '@ComponentFarm/molecule/TimeInput/TimeSecondInput';
 import RecipeStepForm from './RecipeStepForm';
 import { RecipeFormStyle } from './style';
 

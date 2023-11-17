@@ -1,7 +1,6 @@
-import { useCallback } from 'react';
 import { IRecipeStepFormFields } from '@InterfaceFarm/product-recipe';
 import Empty from '@ComponentFarm/atom/Empty/Empty';
-import { toPrice } from '@UtilFarm/number';
+import { getComputedCost } from '@UtilFarm/number';
 import { RecipeIngreientListStyle } from './style';
 
 interface RecipeIngredientListProps {
@@ -9,15 +8,6 @@ interface RecipeIngredientListProps {
 }
 
 const RecipeIngredientList = ({ ingredients }: RecipeIngredientListProps) => {
-  const getComputedCost = useCallback(
-    (firstCost?: number, recipe_material_quantity_value?: number) => {
-      const basePrice = firstCost ?? 0;
-      const quantity = recipe_material_quantity_value ?? 0;
-      return toPrice((basePrice * quantity).toFixed(2));
-    },
-    []
-  );
-
   return (
     <RecipeIngreientListStyle>
       {!ingredients || ingredients.length === 0 ? (
