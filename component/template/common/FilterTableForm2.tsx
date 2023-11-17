@@ -74,7 +74,10 @@ export const DiffDateRangerWrap = styled.div`
 export type DateRangeType = [Date | null, Date | null];
 
 const FilterTableForm = ({ params, updateParams }: any) => {
-  const [selectedDateRanges, setSelectedDateRanges] = useState({
+  const [selectedDateRanges, setSelectedDateRanges] = useState<{
+    range1: DateRangeType;
+    range2: DateRangeType;
+  }>({
     range1: [null, null],
     range2: [null, null],
   });
