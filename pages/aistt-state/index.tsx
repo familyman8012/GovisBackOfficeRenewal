@@ -5,7 +5,6 @@ import styled from '@emotion/styled';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
 import { aisttStateListTabData } from '@ComponentFarm/template/aistt/const';
-import FilterTableForm from '@ComponentFarm/template/common/FilterTable/FilterTableForm';
 import { NumberBarList } from '@ComponentFarm/template/common/NumberBarList';
 import StateInfoBox from '@ComponentFarm/template/common/StateInfoBox';
 import SubTitleBox from '@ComponentFarm/template/common/SubTitleBox';
@@ -126,7 +125,7 @@ const AisttState = () => {
         title="제조 품질 통계"
         desc="분류, 기간 유형별 통계를 확인할 수 있습니다."
       />
-      <FilterTableForm />
+      {/* <FilterTableForm /> */}
       <StateInfoBox items={StateItems} />
       <SubTitleBox
         title="TOP 메뉴별 제조시간"

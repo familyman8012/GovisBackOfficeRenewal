@@ -110,14 +110,14 @@ export const NumberBarItem = styled.div`
 `;
 
 const Index = () => {
-  const [bars, setBars] = useState([]);
-  const [data, setData] = useState([]);
-  const intervalIdRef = useRef(null);
-  const pannRef = useRef(null);
-  const demoBoxRef = useRef(null);
+  const [bars, setBars] = useState<any[]>([]);
+  const [data, setData] = useState<any[]>([]);
+  const intervalIdRef = useRef<number | null>(null);
+  const pannRef = useRef<HTMLDivElement>(null);
+  const demoBoxRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    intervalIdRef.current = setInterval(() => {
+    intervalIdRef.current = window.setInterval(() => {
       if (bars.length < 20) {
         const newItem = {
           id: bars.length + 1,
@@ -130,16 +130,18 @@ const Index = () => {
         setData(currentData => [...currentData, newItem]);
         setBars(currentBars => [...currentBars, newItem]);
       } else {
-        clearInterval(intervalIdRef.current);
+        clearInterval(intervalIdRef.current ?? undefined);
       }
     }, 1000);
 
-    return () => clearInterval(intervalIdRef.current);
+    return () => clearInterval(intervalIdRef.current ?? undefined);
   }, [bars.length]);
 
   useEffect(() => {
     const demoBox = demoBoxRef.current;
     const pann = pannRef.current;
+    if (!demoBox || !pann) return;
+
     const barTotalHeight = 98; // 7.4rem 높이 + 2.4rem 마진 = 98px (1rem = 10px)
     if (bars.length * barTotalHeight > 800) {
       demoBox.style.bottom = `${

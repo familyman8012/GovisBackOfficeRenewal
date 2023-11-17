@@ -34,7 +34,7 @@ const PageLayout: React.FC<ILayout> = ({
     [router?.asPath]
   );
 
-  console.log('urlArr', urlArr);
+  // console.log('urlArr', urlArr);
 
   const handlerMoveBack = () => {
     // eslint-disable-next-line no-unused-vars

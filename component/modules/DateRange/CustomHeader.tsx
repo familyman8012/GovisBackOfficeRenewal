@@ -91,7 +91,7 @@ const CustomHeader = ({
     params.onChange(newDate);
 
     // 연/월 선택기를 숨기고 날짜 선택기를 다시 표시
-    setShowMonthYearPicker(prev => {
+    setShowMonthYearPicker((prev: any) => {
       const newValues = [...prev];
       newValues[params.monthCount] = false;
       return newValues;

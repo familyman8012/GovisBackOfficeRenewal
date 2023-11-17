@@ -7,7 +7,12 @@ import { css } from '@emotion/react';
 import Pic from '@ComponentFarm/atom/icons/Pic';
 import Spinner from '@ComponentFarm/atom/Spinner/Spinner';
 import { Content } from '@ComponentFarm/common';
-import { DemoBox, DemoWrap, NumberBarItem, menuItem } from './const';
+import {
+  DemoBox,
+  DemoWrap,
+  NumberBarItem,
+  menuItem,
+} from '@ComponentFarm/template/demo/const';
 
 const Index = () => {
   const [bars, setBars] = useState<any>([]);

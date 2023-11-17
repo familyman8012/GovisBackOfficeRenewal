@@ -237,14 +237,14 @@ export const Button: FC<ButtonProps> = ({
   );
 };
 
-export const BtnDelete = ({ onClick }: { onClick: () => void }) => {
+export const BtnDelete = ({ onClick }: { onClick?: () => void }) => {
   return (
     <button
       type="button"
       className="btn_close"
       onClick={e => {
         e.stopPropagation();
-        onClick();
+        onClick?.();
       }}
       css={css`
         margin-right: 0 !important;
