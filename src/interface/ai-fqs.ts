@@ -92,13 +92,13 @@ export interface IFqsStoreInfoResponse {
     wifi_ssid: string;
     wifi_pwd: string;
     host_ip: string;
-    is_use_stt: number;
-    camera_table: {
-      shutter_speed: string;
-      iso: string;
-      fps: string;
-      is_use: number;
-    };
+    is_use_stt: string | number;
+  };
+  camera_table: {
+    shutter_speed: string;
+    iso: string;
+    fps: string;
+    is_use: number;
   };
   camera_face: {
     camera_id: string;
@@ -177,6 +177,9 @@ export interface IFqsStoreCameraVideoList {
   }[];
 }
 
-export type FqsStoreInfoParams = Partial<IFqsStoreInfoResponse> & {
-  store_idx: number;
+export type FqsStoreInfoParams = Partial<
+  Omit<IFqsStoreInfoResponse, 'info'>
+> & {
+  store_idx: number | string;
+  info: Omit<IFqsStoreInfoResponse['info'], 'store_name'>;
 };

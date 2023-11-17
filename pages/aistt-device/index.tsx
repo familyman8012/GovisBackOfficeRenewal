@@ -1,6 +1,6 @@
 import React from 'react';
 import { useQuery } from 'react-query';
-import { fetchAiFqsDeviceStatus, fetchAisttStoreList } from '@ApiFarm/ai-fqs';
+import { fetchAiFqsDeviceStatus, fetchAisttStoreList } from '@ApiFarm/aistt';
 import Pagination from '@ComponentFarm/modules/Paginate/Pagination';
 import PageLayout from '@ComponentFarm/layout/PageLayout';
 import DeviceStoreList from '@ComponentFarm/template/aistt/DeviceStoreList';
@@ -9,7 +9,7 @@ import {
   SectionStyle,
 } from '@ComponentFarm/template/aistt/style';
 import FqsCard from '@ComponentFarm/template/common/FqsCard';
-import TitleBox from '@ComponentFarm/template/common/TitleBox';
+import TitleBox from '@ComponentFarm/template/common/SubTitleBox';
 // import { Badge } from '@ComponentFarm/token';
 import useQueryParams from '@HookFarm/useQueryParams';
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { useQuery } from 'react-query';
-import { fetchInspectionList } from '@ApiFarm/ai-fqs';
+import { fetchInspectionList } from '@ApiFarm/aistt';
 import Pagination from '@ComponentFarm/modules/Paginate/Pagination';
 import { Select } from '@ComponentFarm/atom/Select/Select';
 import PageLayout from '@ComponentFarm/layout/PageLayout';

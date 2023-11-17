@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef } from 'react';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
-import { fetchInspectionInfo } from '@ApiFarm/ai-fqs';
+import { fetchInspectionInfo } from '@ApiFarm/aistt';
 import { Badge } from '@ComponentFarm/atom/Badge/Badge';
 import Empty from '@ComponentFarm/atom/Empty/Empty';
 import { Pic } from '@ComponentFarm/atom/icons';

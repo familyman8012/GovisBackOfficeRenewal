@@ -1,3 +1,4 @@
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { InnerTable } from '@ComponentFarm/common';
 
@@ -509,5 +510,55 @@ export const FqsInfoTable = styled(InnerTable)`
     font-size: 1.4rem;
     font-weight: 500;
     line-height: 1.2;
+  }
+`;
+
+export const StoreFormStyle = css`
+  .line {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  h2 {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0;
+
+    .sub-text {
+      margin-left: 1.6rem;
+      font-size: 1.4rem;
+      font-weight: 400;
+      line-height: 1.4;
+      color: var(--color-neutral30);
+    }
+  }
+
+  .first-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .border-none {
+    border: 0 !important;
+  }
+
+  // half width
+  .field {
+    display: inline-flex;
+    align-items: center;
+    width: calc(50% - 3.3rem);
+    padding: 0;
+
+    &:first-of-type {
+      margin-right: 6.6rem;
+    }
+  }
+
+  label:not(.label_radio):not(.label_check) {
+    width: 40%;
+    color: var(--color-gray500);
   }
 `;

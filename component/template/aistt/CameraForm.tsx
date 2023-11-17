@@ -1,14 +1,14 @@
-import { useFormContext } from 'react-hook-form';
+import { Controller, useFormContext } from 'react-hook-form';
 import RadioGroup from '@ComponentFarm/modules/RadioGroup/RadioGroup';
 
 interface Props {
-  type: 'face' | 'left-vat' | 'right-vat';
+  type: 'camera_face' | 'camera_vat_left' | 'camera_vat_right';
   title?: string;
   subTitle?: string;
 }
 
 const CameraForm = ({ type, title, subTitle }: Props) => {
-  const { register } = useFormContext<any>();
+  const { register, control } = useFormContext();
 
   return (
     <>
@@ -21,9 +21,7 @@ const CameraForm = ({ type, title, subTitle }: Props) => {
           <label htmlFor="name">고유값 (ID)</label>
           <div className="box_inp">
             <input
-              {...register(`${type}_camera_id`, {
-                required: true,
-              })}
+              {...register(`${type}.camera_id`)}
               placeholder="숫자만 입력 가능"
               className="inp"
               type="text"
@@ -34,9 +32,7 @@ const CameraForm = ({ type, title, subTitle }: Props) => {
           <label htmlFor="name">해상도 가로값 (Width)</label>
           <div className="box_inp">
             <input
-              {...register(`${type}_camera_width`, {
-                required: true,
-              })}
+              {...register(`${type}.resolution_width`)}
               placeholder="숫자만 입력 가능"
               className="inp"
               type="text"
@@ -49,9 +45,7 @@ const CameraForm = ({ type, title, subTitle }: Props) => {
           <label htmlFor="name">해상도 세로값 (Height)</label>
           <div className="box_inp">
             <input
-              {...register(`${type}_camera_height`, {
-                required: true,
-              })}
+              {...register(`${type}.resolution_height`)}
               placeholder="숫자만 입력 가능"
               className="inp"
               type="text"
@@ -62,9 +56,7 @@ const CameraForm = ({ type, title, subTitle }: Props) => {
           <label htmlFor="name">영상 프레임 (FPS)</label>
           <div className="box_inp">
             <input
-              {...register(`${type}_camera_fps`, {
-                required: true,
-              })}
+              {...register(`${type}.fps`)}
               placeholder="숫자만 입력 가능"
               className="inp"
               type="text"
@@ -76,13 +68,19 @@ const CameraForm = ({ type, title, subTitle }: Props) => {
         <div className="field">
           <label htmlFor="name">카메라 사용</label>
           <div className="box_inp">
-            <RadioGroup
-              defaultValue="1"
-              options={[
-                { label: '사용', value: '1' },
-                { label: '사용 안함', value: '0' },
-              ]}
-              onChange={() => {}}
+            <Controller
+              control={control}
+              name={`${type}.is_use`}
+              render={({ field: { value, onChange } }) => (
+                <RadioGroup
+                  defaultValue={`${value ?? 0}`}
+                  options={[
+                    { label: '사용', value: '1' },
+                    { label: '사용 안함', value: '0' },
+                  ]}
+                  onChange={val => onChange(Number(val))}
+                />
+              )}
             />
           </div>
         </div>

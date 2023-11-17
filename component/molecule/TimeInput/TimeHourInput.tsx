@@ -1,23 +1,7 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import dayjs from 'dayjs';
-import styled from '@emotion/styled';
 import useSyncedRef from '@HookFarm/useSyncedRef';
-
-const TimeInputStyle = styled.div`
-  display: inline-flex;
-  align-items: center;
-
-  input {
-    width: 10rem;
-  }
-
-  span {
-    margin-left: 1.6rem;
-    &:not(:last-child) {
-      margin-right: 3.2rem;
-    }
-  }
-`;
+import { TimeInputStyle } from './style';
 
 interface Props {
   value: string | number;
@@ -31,34 +15,15 @@ const TimeHourInput = React.forwardRef<HTMLInputElement, Props>(
     const [minute, setMinute] = useState('0');
     const [hour, setHour] = useState('0');
 
-    const numberedValue = useMemo(() => {
-      const numberValue = parseInt(`${value}`, 10);
+    // value changed set min, sec input state value
+    useEffect(() => {
+      const date = dayjs(value);
 
-      if (Number.isNaN(numberValue)) {
-        const date = dayjs(value);
+      if (date.isValid()) {
+        setHour(`${date.hour()}`);
+        setMinute(`${date.minute()}`);
       }
-
-      parseInt(`${value}`, 10);
     }, [value]);
-
-    // const handleCalcurateTime = useCallback(() => {
-    //   const minNumber = !min ? 0 : parseInt(min, 10);
-    //   const secNumber = !sec ? 0 : parseInt(sec, 10);
-    //   onChange(`${minNumber * 60 + secNumber}`);
-    // }, [min, sec]);
-
-    // // value changed set min, sec input state value
-    // useEffect(() => {
-    //   const numberValue = parseInt(`${value}`, 10);
-    //   const date = dayjs(value);
-    //   if (Number.isNaN(numberedValue)) {
-    //     // setHour(`${date.isValid() date.hour() : 0}`);
-    //     // setMinute(date?.minute() ?? 0);
-    //   } else {
-    //     setMin(`${Math.floor(numberedValue / 60)}`);
-    //     setSec(`${numberedValue % 60}`);
-    //   }
-    // }, [numberedValue]);
 
     const getRangedValue = (str: string, min: number, max: number) => {
       const numberValue = parseInt(str, 10);
@@ -67,6 +32,12 @@ const TimeHourInput = React.forwardRef<HTMLInputElement, Props>(
       }
       return Math.max(Math.min(numberValue, max), min).toString();
     };
+
+    useEffect(() => {
+      onChange(
+        dayjs().hour(Number(hour)).minute(Number(minute)).format('HH:mm')
+      );
+    }, [hour, minute]);
 
     return (
       <TimeInputStyle>
@@ -87,7 +58,7 @@ const TimeHourInput = React.forwardRef<HTMLInputElement, Props>(
             )
           }
         />
-        <span>시간</span>
+        <span>시</span>
         <input
           className="inp"
           type="text"

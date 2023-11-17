@@ -1,24 +1,37 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { useRouter } from 'next/router';
+import { useMutation } from 'react-query';
+import { updateUpdateAisttInfo } from '@ApiFarm/aistt';
 import { Button } from '@ComponentFarm/atom/Button/Button';
-import DeviceManage from '@ComponentFarm/template/aistt/DeviceManage';
+import DeviceManageForm from '@ComponentFarm/template/aistt/DeviceManageForm';
 import DeviceView from '@ComponentFarm/template/aistt/DeviceView';
 import LayoutTitleBoxWithTab from '@ComponentFarm/template/layout/LayoutWithTitleBoxAndTab';
 import { useGoMove } from '@HookFarm/useGoMove';
+import { formRequestSubmit } from '@UtilFarm/form';
 
 const allowPath = ['view', 'setting'];
 
 const DeviceDetailPage = () => {
   const router = useRouter();
   const { onBack } = useGoMove();
+  const formRef = useRef<HTMLFormElement>(null);
+
   const path = React.useMemo(
     () => router.query.id?.[0] ?? '',
     [router.isReady, router.asPath]
   );
+  const storeId = React.useMemo(
+    () => router.query.id?.[1] ?? '',
+    [router.isReady]
+  );
+
+  const updateStoreInfo = useMutation(updateUpdateAisttInfo, {
+    onSuccess: () => router.push(`/aistt-device/view/${storeId}`),
+  });
 
   useEffect(() => {
     if (router.isReady && !allowPath.includes(path)) {
-      router.push('/ai-fqs-device/');
+      router.push('/aistt-device/');
     }
   }, [path, router.isReady]);
 
@@ -38,13 +51,29 @@ const DeviceDetailPage = () => {
           },
         ]}
         actionButtons={
-          <Button variant="gostSecondary" onClick={() => onBack()}>
-            이전
-          </Button>
+          <>
+            <Button variant="gostSecondary" onClick={() => onBack()}>
+              이전
+            </Button>
+            {path === 'setting' && (
+              <Button
+                disabled={updateStoreInfo.isLoading}
+                onClick={() => formRequestSubmit(formRef.current)}
+              >
+                수정
+              </Button>
+            )}
+          </>
         }
       />
       {path === 'view' && <DeviceView />}
-      {path === 'setting' && <DeviceManage />}
+      {path === 'setting' && (
+        <DeviceManageForm
+          ref={formRef}
+          storeId={storeId}
+          onSubmit={data => updateStoreInfo.mutate(data)}
+        />
+      )}
     </>
   );
 };

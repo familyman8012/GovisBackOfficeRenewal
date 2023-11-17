@@ -2,6 +2,7 @@ import {
   FqsStoreInfoParams,
   IFqsInspectionInfo,
   IFqsInspectionListResponse,
+  IFqsStoreCameraInfo,
   IFqsStoreCameraVideoList,
   IFqsStoreDeviceInfo,
   IFqsStoreDeviceListResponse,
@@ -54,8 +55,8 @@ export const fetchAisttDeviceCameraInfo = (params: {
   store_idx: number;
   store_stt_camera_idx: number;
 }) => {
-  return BoV2Request.get<IResponse<any>>(
-    `/aifqs/stt/device/camera/${params.store_idx}/${params.store_stt_camera_idx}`
+  return BoV2Request.get<IResponse<IFqsStoreCameraInfo>>(
+    `/aifqs/stt/device/camera/${params.store_idx}/${params.store_stt_camera_idx}/info`
   ).then(res => res.data.data);
 };
 
