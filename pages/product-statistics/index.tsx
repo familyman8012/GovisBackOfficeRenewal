@@ -35,7 +35,7 @@ const AisttState = () => {
   ];
 
   const [selectedOption, setSelectedOption] = useState(options[0]);
-  const [params, updateParams] = useQueryParams({
+  const [params, updateParams, resetParams] = useQueryParams({
     type: 'hourly',
   });
 
@@ -72,9 +72,14 @@ const AisttState = () => {
         title="제조 품질 통계"
         desc="분류, 기간 유형별 통계를 확인할 수 있습니다."
       />
-      <FilterTableForm params={params} updateParams={updateParams} />
+      <FilterTableForm
+        params={params}
+        updateParams={updateParams}
+        resetParams={resetParams}
+      />
       <SubTitleBoxWrap hideUnderline>
         <h2>조회 결과</h2>
+        <div>dasfasd</div>
         <div
           css={css`
             margin-left: auto;

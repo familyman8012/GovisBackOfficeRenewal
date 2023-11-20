@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect } from 'react';
 import dayjs from 'dayjs';
 import DateRangePicker from '@ComponentFarm/modules/DateRange/DateRange';
 import { QueryParams } from '@HookFarm/useQueryParams';
@@ -22,32 +22,14 @@ export const DiffDateRanger = ({
   setSelectedDateRanges,
   params,
 }: DiffDateRangerProps) => {
-  const [dateRangeLength, setDateRangeLength] = useState(0);
-
-  const handleDateRangeChange1 = (update: DateRangeType) => {
+  const handleDateRangeChange = (
+    rangeType: 'range1' | 'range2',
+    update: DateRangeType
+  ) => {
     setSelectedDateRanges(prevRanges => ({
       ...prevRanges,
-      range1: update,
+      [rangeType]: update,
     }));
-    if (update[0] && update[1]) {
-      const length = dayjs(update[1]).diff(dayjs(update[0]), 'day');
-      setDateRangeLength(length);
-    }
-  };
-
-  const handleDateRangeChange2 = (update: DateRangeType) => {
-    if (update[0] && dateRangeLength) {
-      const endDate = dayjs(update[0]).add(dateRangeLength, 'day').toDate();
-      setSelectedDateRanges(prevRanges => ({
-        ...prevRanges,
-        range2: [update[0], endDate],
-      }));
-    } else {
-      setSelectedDateRanges(prevRanges => ({
-        ...prevRanges,
-        range2: update,
-      }));
-    }
   };
 
   // URL의 쿼리 파라미터로부터 날짜 범위를 설정합니다.
@@ -60,8 +42,12 @@ export const DiffDateRanger = ({
     ) {
       setSelectedDateRanges({
         range1: [
-          dayjs(String(params.base_dt_start), 'YYYY-MM-DD').toDate(), // 문자열을 Date 객체로 변환
-          dayjs(String(params.base_dt_finish), 'YYYY-MM-DD').toDate(),
+          params.base_dt_start !== '0000-00-00'
+            ? dayjs(String(params.base_dt_start), 'YYYY-MM-DD').toDate()
+            : null, // 문자열을 Date 객체로 변환
+          params.base_dt_finish !== '0000-00-00'
+            ? dayjs(String(params.base_dt_finish), 'YYYY-MM-DD').toDate()
+            : null,
         ],
         range2: [
           params.comparison_dt_start !== '0000-00-00'
@@ -85,16 +71,18 @@ export const DiffDateRanger = ({
     <DiffDateRangerWrap>
       <span>
         <DateRangePicker
-          onDateRangeChange={update => handleDateRangeChange1(update)}
+          onDateRangeChange={update => handleDateRangeChange('range1', update)}
           initialDateRange={selectedDateRanges.range1}
+          placeholder="기준일"
         />
       </span>
       <span className="bar">~</span>
       <span>
         <DateRangePicker
-          onDateRangeChange={update => handleDateRangeChange2(update)}
+          onDateRangeChange={update => handleDateRangeChange('range2', update)}
           initialDateRange={selectedDateRanges.range2}
           exceptDateRange={selectedDateRanges.range1}
+          placeholder="비교일"
         />
       </span>
     </DiffDateRangerWrap>

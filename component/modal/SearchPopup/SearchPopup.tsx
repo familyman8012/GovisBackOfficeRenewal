@@ -46,6 +46,7 @@ interface SearchPopupProps<T extends ICommonResultData> {
   setFilters: Dispatch<SetStateAction<selectOptionsType>>;
   initialValues: string[];
   setSelectItems: Dispatch<SetStateAction<checkedItemType[]>>;
+  badge: string[];
 }
 
 const SearchPopup = <T extends ICommonResultData>({
@@ -62,6 +63,7 @@ const SearchPopup = <T extends ICommonResultData>({
   setFilters,
   initialValues,
   setSelectItems,
+  badge,
 }: SearchPopupProps<T>) => {
   const [checkedItems, setCheckedItems] = useState<string[]>([]);
 
@@ -140,9 +142,9 @@ const SearchPopup = <T extends ICommonResultData>({
                       {key === 'status' ? (
                         <Badge
                           color={
-                            value === '운영'
+                            value === badge[0]
                               ? 'green'
-                              : value === '중단'
+                              : value === badge[badge.length - 1]
                               ? 'red'
                               : 'yellow'
                           }

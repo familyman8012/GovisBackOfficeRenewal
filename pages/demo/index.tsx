@@ -646,9 +646,7 @@ const Index = () => {
                   <tr key={el.id}>
                     <td className="num">{el.id}</td>
                     <td className="product-name">{el.menuName}</td>
-                    <td className={el.id === animatingItemId ? 'on' : ''}>
-                      <CountUp end={el.price} duration={1.5} separator="," />원
-                    </td>
+                    <td>{el.price}원</td>
                     <td className={el.id === animatingItemId ? 'on' : ''}>
                       <CountUp end={el.count} duration={1.5} separator="," />개
                     </td>

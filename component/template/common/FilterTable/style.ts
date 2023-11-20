@@ -35,9 +35,8 @@ export const FilterTable = styled.table`
       }
 
       .list_select_item {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 1.6rem 0;
+        display: flex;
+        gap: 1rem;
       }
     }
   }

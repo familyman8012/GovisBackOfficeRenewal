@@ -57,6 +57,7 @@ const StoreSearchPopup = ({
       setFilters={setFilters}
       initialValues={initialValues}
       setSelectItems={setSelectItems}
+      badge={['운영중', '운영예정', '폐업']}
     />
   );
 };

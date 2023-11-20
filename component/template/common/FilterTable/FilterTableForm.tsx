@@ -21,9 +21,14 @@ import useSelectItems from './useFilterHandler';
 interface FilterTableFormProps {
   params: QueryParams;
   updateParams: (newParams: QueryParams) => void;
+  resetParams: () => void;
 }
 
-const FilterTableForm = ({ params, updateParams }: FilterTableFormProps) => {
+const FilterTableForm = ({
+  params,
+  updateParams,
+  resetParams,
+}: FilterTableFormProps) => {
   // 기간 선택
   const [selectedDateRanges, setSelectedDateRanges] = useState<DiffDateType>({
     range1: [null, null],
@@ -126,6 +131,16 @@ const FilterTableForm = ({ params, updateParams }: FilterTableFormProps) => {
     });
   };
 
+  const handlerReset = () => {
+    setSelectedDateRanges({
+      range1: [null, null],
+      range2: [null, null],
+    });
+    productSelect.setSelectItems([]);
+    storeSelect.setSelectItems([]);
+    resetParams();
+  };
+
   return (
     <>
       <FilterTable>
@@ -161,7 +176,9 @@ const FilterTableForm = ({ params, updateParams }: FilterTableFormProps) => {
       <StoreSearchPopup setConfig={storeSelect} data={storeModalData} />
 
       <FilterTableBtnBox>
-        <Button variant="gostSecondary">초기화</Button>
+        <Button variant="gostSecondary" onClick={handlerReset}>
+          초기화
+        </Button>
         <Button variant="primary" onClick={handleFilterResult}>
           조회
         </Button>

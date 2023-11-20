@@ -19,16 +19,18 @@ interface DateRangePickerProps {
   onDateRangeChange: (update: DateRangeType) => void;
   initialDateRange?: DateRangeType;
   exceptDateRange?: DateRangeType;
+  placeholder?: string;
 }
 
 const DateRangePicker: React.FC<DateRangePickerProps> = ({
   onDateRangeChange,
   initialDateRange = [null, null],
   exceptDateRange = [null, null],
+  placeholder,
 }) => {
   const [dateRange, setDateRange] = useState<DateRangeType>(initialDateRange);
-  const [startDateInput, setStartDateInput] = useState('');
-  const [endDateInput, setEndDateInput] = useState('');
+  const [startDateInput, setStartDateInput] = useState<string | null>('');
+  const [endDateInput, setEndDateInput] = useState<string | null>('');
   const [open, setOpen] = useState(false);
   // eslint-disable-next-line no-unused-vars
   const [isResetVisible, setIsResetVisible] = useState(false);
@@ -48,6 +50,9 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
       setStartDateInput(dayjs(start).format('YYYY-MM-DD'));
       setEndDateInput(dayjs(end).format('YYYY-MM-DD'));
       setDateRange([start, end]);
+    } else {
+      setStartDateInput(null);
+      setEndDateInput(null);
     }
   }, [initialDateRange]);
 
@@ -101,13 +106,13 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
   };
 
   const handleStartDateKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && validateDate(startDateInput)) {
+    if (e.key === 'Enter' && startDateInput && validateDate(startDateInput)) {
       refEndDate.current?.focus();
     }
   };
 
   const handleEndDateKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter' && validateDate(endDateInput)) {
+    if (e.key === 'Enter' && endDateInput && validateDate(endDateInput)) {
       setOpen(false);
       refEndDate.current?.blur();
     }
@@ -203,7 +208,7 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
               ? `${startDateInput} - ${endDateInput}`
               : ''
           }
-          placeholder=""
+          placeholder={placeholder}
           onClick={() => setOpen(!open)}
           TrailingIcon={<FiCalendar />}
           readOnly
@@ -254,7 +259,7 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
                   id="startDate"
                   className="inp"
                   // placeholder="시작일"
-                  value={startDateInput}
+                  value={String(startDateInput)}
                   onChange={handleStartDateChange}
                   onKeyDown={handleStartDateKeyDown}
                   onFocus={handleFocus}
@@ -270,11 +275,11 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
                   id="endDate"
                   className="inp"
                   // placeholder="종료일"
-                  value={endDateInput}
+                  value={String(endDateInput)}
                   onChange={handleEndDateChange}
                   onKeyDown={handleEndDateKeyDown}
                   onFocus={handleFocus}
-                  disabled={!validateDate(startDateInput)}
+                  disabled={!validateDate(String(startDateInput))}
                   ref={refEndDate}
                 />
               </dd>

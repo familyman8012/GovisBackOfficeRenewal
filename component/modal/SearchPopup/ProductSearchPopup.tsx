@@ -62,6 +62,7 @@ const ProductSearchPopup = ({
       setFilters={setFilters}
       initialValues={initialValues}
       setSelectItems={setSelectItems}
+      badge={['운영', '중단', '폐기']}
     />
   );
 };
