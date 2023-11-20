@@ -119,6 +119,8 @@ const Modal: FC<ModalProps> = ({
     border-radius: 12px;
     max-height: 100%;
     overflow-y: auto;
+    // modal z-index 추가
+    z-index: 100;
   `;
 
   const combinedStyles = css`

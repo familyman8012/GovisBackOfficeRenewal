@@ -3,6 +3,7 @@ import { useQuery } from 'react-query';
 import { fetchAiFqsDeviceStatus, fetchAisttStoreList } from '@ApiFarm/aistt';
 import Pagination from '@ComponentFarm/modules/Paginate/Pagination';
 import PageLayout from '@ComponentFarm/layout/PageLayout';
+import AisttDeviceFilter from '@ComponentFarm/template/aistt/DeviceFilter';
 import DeviceStoreList from '@ComponentFarm/template/aistt/DeviceStoreList';
 import {
   DevicePageStyle,
@@ -14,16 +15,18 @@ import TitleBox from '@ComponentFarm/template/common/SubTitleBox';
 import useQueryParams from '@HookFarm/useQueryParams';
 
 const DeviceListPage = () => {
-  const [params, setParams] = useQueryParams({
+  const [params, updateParams, resetParams] = useQueryParams({
     current_num: 1,
     per_num: 10,
+    device_status: '',
+    program_status: '',
   });
 
   const deviceStatusQuery = useQuery(['fqs-device-status'], () =>
     fetchAiFqsDeviceStatus()
   );
 
-  const { data, isLoading } = useQuery(
+  const { data, isFetching } = useQuery(
     ['aistt-store-list', params],
     () => fetchAisttStoreList(params),
     {
@@ -41,6 +44,11 @@ const DeviceListPage = () => {
           title="기기 상태"
           desc="분류, 기간 유형별 통계를 확인할 수 있습니다."
           hideUnderline
+        />
+        <AisttDeviceFilter
+          params={params}
+          updateParams={updateParams}
+          resetParams={resetParams}
         />
         <div className="status">
           <FqsCard
@@ -69,14 +77,14 @@ const DeviceListPage = () => {
           </span>
         </SectionStyle>
         <DeviceStoreList
-          loading={isLoading}
+          loading={isFetching}
           list={data?.list ?? []}
-          updateParams={setParams}
+          updateParams={updateParams}
         />
         <Pagination
           pageInfo={[Number(params.current_num), Number(params.per_num)]}
           totalCount={data?.total_count ?? 0}
-          handlePageChange={current_num => setParams({ current_num })}
+          handlePageChange={current_num => updateParams({ current_num })}
         />
       </DevicePageStyle>
     </PageLayout>
