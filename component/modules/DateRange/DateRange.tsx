@@ -50,9 +50,10 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
       setStartDateInput(dayjs(start).format('YYYY-MM-DD'));
       setEndDateInput(dayjs(end).format('YYYY-MM-DD'));
       setDateRange([start, end]);
-    } else {
+    } else if (!start && !end) {
       setStartDateInput(null);
       setEndDateInput(null);
+      setDateRange([null, null]);
     }
   }, [initialDateRange]);
 
