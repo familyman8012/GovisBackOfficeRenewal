@@ -17,7 +17,7 @@ const AnalysisListPage = () => {
   const [params, updateParams, resetParams] = useQueryParams({
     inspection_status: inspectionOptions[0].value,
     current_num: 1,
-    per_num: 16,
+    per_num: 20,
   });
 
   const { data, isFetching } = useQuery(

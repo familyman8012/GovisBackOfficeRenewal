@@ -11,7 +11,6 @@ import {
 } from '@ComponentFarm/template/aistt/style';
 import FqsCard from '@ComponentFarm/template/common/FqsCard';
 import TitleBox from '@ComponentFarm/template/common/SubTitleBox';
-// import { Badge } from '@ComponentFarm/token';
 import useQueryParams from '@HookFarm/useQueryParams';
 
 const DeviceListPage = () => {
@@ -28,7 +27,12 @@ const DeviceListPage = () => {
 
   const { data, isFetching } = useQuery(
     ['aistt-store-list', params],
-    () => fetchAisttStoreList(params),
+    () =>
+      fetchAisttStoreList({
+        ...params,
+        sort_target: params.sort_target ? params.sort_target : 'device_status',
+        sort_type: params.sort_target ? params.sort_type : 'desc',
+      }),
     {
       keepPreviousData: true,
     }

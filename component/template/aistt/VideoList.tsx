@@ -26,7 +26,10 @@ const AnalysisVideoList: React.FC<VideoListProps> = ({ loading, list }) => {
           <button
             type="button"
             onClick={() =>
-              router.push(`/aistt-analysis/view/${item.inspection_info_idx}`)
+              router.push({
+                pathname: `/aistt-analysis/view/${item.inspection_info_idx}`,
+                search: router.asPath.split('?')?.[1] ?? '',
+              })
             }
           >
             <div className="img-wrap">

@@ -6,7 +6,7 @@ const SkeletonVideoThumb = ({ count }: { count: number }) => {
   return (
     <VideoListStyle>
       {Array.from({ length: count }).map((_, i) => (
-        <div className="item" key={i}>
+        <div className="item loading" key={i}>
           <div className="img-wrap">
             <Skeleton height="100%" style={{ position: 'absolute' }} />
           </div>

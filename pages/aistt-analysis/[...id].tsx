@@ -25,7 +25,9 @@ const AnalysisViewPage = () => {
   const { onBack } = useGoMove();
   const videoRef = useRef<HTMLVideoElement>(null);
   const router = useRouter();
+
   const pathname = useMemo(() => router.asPath.split('?')[0], [router.asPath]);
+
   const path = useMemo(() => router.query.id?.[0] ?? 'view', [router.isReady]);
   const id = useMemo(() => router.query.id?.[1] ?? '', [router.isReady]);
 
@@ -64,6 +66,7 @@ const AnalysisViewPage = () => {
       <AnalysisPageStyle>
         <FqsVideo
           sticky
+          closeButton
           ref={videoRef}
           src={data?.dual_video_url ? data?.dual_video_url : data?.video_url}
         />
@@ -93,7 +96,7 @@ const AnalysisViewPage = () => {
         </div>
         <div className="inspection-info">
           <SectionStyle className="summary">
-            <h3 className="title">내역</h3>
+            <h3 className="title">제조 결과</h3>
             <FqsInfoTable bordered className="content">
               <colgroup>
                 <col width={getTableWidthPercentage(120)} />
@@ -123,13 +126,17 @@ const AnalysisViewPage = () => {
                 </tr>
                 <tr>
                   <th>개선 필요</th>
-                  <td>{data?.poor_count}건</td>
+                  <td>
+                    감점 {data?.average_count}건 / 미흡 {data?.poor_count} 건
+                  </td>
                   <th>영상 보관</th>
                   <td>
                     <a
                       className="download-link"
-                      download
                       href={data?.video_url}
+                      download={`${data?.inspection_dt}_${data?.store_name}_${
+                        data?.product_info_name ?? ''
+                      }`}
                     >
                       보관하기
                     </a>
@@ -139,7 +146,7 @@ const AnalysisViewPage = () => {
             </FqsInfoTable>
           </SectionStyle>
           <SectionStyle className="list">
-            <h3 className="title">영상 내역</h3>
+            <h3 className="title">단계별 상세 결과</h3>
             <span className="count">
               총 <span className="number">{data?.step_list.length ?? 0}</span>{' '}
               건
@@ -215,9 +222,9 @@ const AnalysisViewPage = () => {
                                       <Badge
                                         color={
                                           item.rating_scale_idx_1 === 2
-                                            ? 'red'
-                                            : item.rating_scale_idx_1 === 3
                                             ? 'yellow'
+                                            : item.rating_scale_idx_1 === 3
+                                            ? 'red'
                                             : 'gray'
                                         }
                                         size="sm"
@@ -226,12 +233,9 @@ const AnalysisViewPage = () => {
                                       </Badge>
                                     )}
                                     <p>
-                                      {item.rating_scale_idx_1 !== 1
-                                        ? `${item.step_variable_name?.replace(
-                                            '고피자',
-                                            ''
-                                          )} ${item.rating_scale_name_3}`
-                                        : '개선/감점 요인이 없습니다.'}
+                                      {item.improvement_label ||
+                                        item.decrease_label ||
+                                        '개선/감점 요인이 없습니다.'}
                                     </p>
                                   </div>
                                 </div>
