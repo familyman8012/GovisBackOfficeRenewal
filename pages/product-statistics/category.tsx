@@ -24,6 +24,8 @@ import { CollapseList } from './style';
 const Category = () => {
   const router = useRouter();
   const [activeTabIndex, setActiveTabIndex] = useState(0);
+  // 빌드 에러로 인해 임시로 주석처리
+  // eslint-disable-next-line no-unused-vars
   const [selectedOption, setSelectedOption] = useState(options[0]);
   const [params, updateParams, resetParams] = useQueryParams({
     type: 'hourly',
