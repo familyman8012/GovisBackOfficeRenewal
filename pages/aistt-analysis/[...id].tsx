@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
@@ -125,7 +125,7 @@ const AnalysisViewPage = () => {
                   <td>{getScoreFormat(data?.converted_score)}/100</td>
                 </tr>
                 <tr>
-                  <th>개선 필요</th>
+                  <th>감점 요인 등</th>
                   <td>
                     감점 {data?.average_count}건 / 개선 {data?.poor_count} 건
                   </td>
