@@ -4,6 +4,7 @@ import { fetchInspectionList } from '@ApiFarm/aistt';
 import Pagination from '@ComponentFarm/modules/Paginate/Pagination';
 import { Select } from '@ComponentFarm/atom/Select/Select';
 import PageLayout from '@ComponentFarm/layout/PageLayout';
+import AisttAnalysisFilter from '@ComponentFarm/template/aistt/AnalysisFilter';
 import { inspectionOptions } from '@ComponentFarm/template/aistt/const';
 import {
   AnalysisPageStyle,
@@ -13,10 +14,10 @@ import AnalysisVideoList from '@ComponentFarm/template/aistt/VideoList';
 import useQueryParams from '@HookFarm/useQueryParams';
 
 const AnalysisListPage = () => {
-  const [params, updateParams] = useQueryParams({
+  const [params, updateParams, resetParams] = useQueryParams({
     inspection_status: inspectionOptions[0].value,
     current_num: 1,
-    per_num: 16,
+    per_num: 20,
   });
 
   const { data, isFetching } = useQuery(
@@ -33,6 +34,11 @@ const AnalysisListPage = () => {
       tabData={[{ title: '제조 제품 목록', url: '/aistt-analysis' }]}
     >
       <AnalysisPageStyle>
+        <AisttAnalysisFilter
+          params={params}
+          updateParams={updateParams}
+          resetParams={resetParams}
+        />
         <SectionStyle>
           <span className="count">
             총 <span className="number">{data?.total_count}</span> 건

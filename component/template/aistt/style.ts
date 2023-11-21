@@ -7,7 +7,7 @@ export const VideoWrapStyle = styled.div`
   width: 100%;
   border-radius: 0.8rem;
   border-radius: 0.8rem;
-  max-width: 1536px;
+  max-width: 1024px;
   margin: 0 auto;
   overflow: hidden;
   background-color: #000;
@@ -35,9 +35,6 @@ export const VideoWrapStyle = styled.div`
     right: 1.6rem;
   }
 
-  /* &.viewport-in {
-  } */
-
   &.viewport-out {
     video {
       position: fixed;
@@ -47,9 +44,34 @@ export const VideoWrapStyle = styled.div`
       right: 0;
       width: 33%;
       height: 18.5625vw;
+      max-width: 1024px;
+      max-height: 576px;
 
-      z-index: 100;
+      z-index: 98;
       border-bottom-left-radius: 0.4rem;
+    }
+  }
+
+  .video-fix-close {
+    position: fixed;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    right: 2rem;
+    top: 2rem;
+    z-index: 99;
+    width: 3.2rem;
+    height: 3.2rem;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--color-gray1);
+    border: 1px solid currentColor;
+    cursor: pointer;
+
+    svg {
+      width: 2.4rem;
+      height: 2.4rem;
     }
   }
 `;
@@ -277,6 +299,11 @@ export const VideoListStyle = styled.div`
       background-color: var(--color-blue90);
       border-color: var(--color-blue70);
     }
+
+    &.loading {
+      pointer-events: none;
+      cursor: default;
+    }
   }
 
   .img-wrap {
@@ -332,6 +359,12 @@ export const VideoListStyle = styled.div`
     p + p {
       margin-top: 1rem;
       font-size: 1.2rem;
+    }
+  }
+
+  @media screen and (min-width: 1920px) {
+    .item {
+      width: calc(20% - 2.4rem);
     }
   }
 `;
