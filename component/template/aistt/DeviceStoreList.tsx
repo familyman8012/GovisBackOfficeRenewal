@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { useRouter } from 'next/router';
 import { IFqsStoreDeviceListResponse } from '@InterfaceFarm/ai-fqs';
 import { Badge } from '@ComponentFarm/atom/Badge/Badge';
@@ -28,6 +29,8 @@ const sortItems = [
 const DeviceStoreList = ({ loading, list, updateParams }: Props) => {
   const router = useRouter();
   const { sortState, toggleSort } = useSortable(updateParams);
+
+  const search = useMemo(() => router.asPath.split('?')[1], [router]);
 
   return (
     <TableWrap className="">
@@ -65,7 +68,10 @@ const DeviceStoreList = ({ loading, list, updateParams }: Props) => {
               <tr
                 key={item.store_idx}
                 onClick={() =>
-                  router.push(`/aistt-device/view/${item.store_idx}`)
+                  router.push({
+                    pathname: `/aistt-device/view/${item.store_idx}`,
+                    search,
+                  })
                 }
               >
                 <td className="code">{item.store_idx}</td>

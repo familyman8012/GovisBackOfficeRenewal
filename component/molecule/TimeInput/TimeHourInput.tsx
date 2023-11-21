@@ -15,16 +15,6 @@ const TimeHourInput = React.forwardRef<HTMLInputElement, Props>(
     const [minute, setMinute] = useState('0');
     const [hour, setHour] = useState('0');
 
-    // value changed set min, sec input state value
-    useEffect(() => {
-      const date = dayjs(value);
-
-      if (date.isValid()) {
-        setHour(`${date.hour()}`);
-        setMinute(`${date.minute()}`);
-      }
-    }, [value]);
-
     const getRangedValue = (str: string, min: number, max: number) => {
       const numberValue = parseInt(str, 10);
       if (Number.isNaN(numberValue)) {
@@ -32,6 +22,18 @@ const TimeHourInput = React.forwardRef<HTMLInputElement, Props>(
       }
       return Math.max(Math.min(numberValue, max), min).toString();
     };
+
+    // value changed set min, sec input state value
+    useEffect(() => {
+      if (typeof value === 'number') {
+        setHour(`${value / 3600}`);
+        setMinute(`${value / 60}`);
+      } else if (typeof value === 'string') {
+        const [h, m] = value?.replace(/\s+/g, '').split(':') ?? [];
+        setHour(`${Number(h)}`);
+        setMinute(`${Number(m)}`);
+      }
+    }, [value]);
 
     useEffect(() => {
       onChange(

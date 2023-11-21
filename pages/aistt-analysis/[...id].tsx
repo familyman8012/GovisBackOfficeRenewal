@@ -127,7 +127,7 @@ const AnalysisViewPage = () => {
                 <tr>
                   <th>개선 필요</th>
                   <td>
-                    감점 {data?.average_count}건 / 미흡 {data?.poor_count} 건
+                    감점 {data?.average_count}건 / 개선 {data?.poor_count} 건
                   </td>
                   <th>영상 보관</th>
                   <td>
@@ -216,7 +216,7 @@ const AnalysisViewPage = () => {
                               </span>
                               <div className="cont">
                                 <div className="inspection">
-                                  <h3>감점/개선 요인</h3>
+                                  <h3>개선/감점 요인</h3>
                                   <div className="effect">
                                     {item.rating_scale_idx_1 !== 1 && (
                                       <Badge

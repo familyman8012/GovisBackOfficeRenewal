@@ -17,7 +17,7 @@ const DeviceView = () => {
   );
 
   const { data: storeInfoData } = useQuery(
-    ['aistt-store-info'],
+    ['aistt-store-info', id],
     () => fetchAisttStoreInfo(Number(id)),
     {
       onError: () => onBack(),

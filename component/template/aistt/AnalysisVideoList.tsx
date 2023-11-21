@@ -16,7 +16,7 @@ const AnalysisVideoList: React.FC<VideoListProps> = ({ loading, list }) => {
   const router = useRouter();
 
   if (loading) {
-    return <SkeletonVideoThumb count={16} />;
+    return <SkeletonVideoThumb count={20} />;
   }
 
   return (

@@ -5,12 +5,12 @@ import Pagination from '@ComponentFarm/modules/Paginate/Pagination';
 import { Select } from '@ComponentFarm/atom/Select/Select';
 import PageLayout from '@ComponentFarm/layout/PageLayout';
 import AisttAnalysisFilter from '@ComponentFarm/template/aistt/AnalysisFilter';
+import AnalysisVideoList from '@ComponentFarm/template/aistt/AnalysisVideoList';
 import { inspectionOptions } from '@ComponentFarm/template/aistt/const';
 import {
   AnalysisPageStyle,
   SectionStyle,
 } from '@ComponentFarm/template/aistt/style';
-import AnalysisVideoList from '@ComponentFarm/template/aistt/VideoList';
 import useQueryParams from '@HookFarm/useQueryParams';
 
 const AnalysisListPage = () => {

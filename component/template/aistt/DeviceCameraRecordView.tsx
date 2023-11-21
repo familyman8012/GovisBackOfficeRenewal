@@ -97,13 +97,19 @@ const DeviceCameraRecordView = ({
       cameraType === 'camera_table'
         ? [
             {
-              title: '카메라 ID',
-              txt1: cameraInfo.camera_info.camera_id ?? '-',
-            },
-            {
               title: '노출 시간',
               txt1: cameraInfo.camera_info.shutter_speed ?? '-',
               txt2: '초',
+            },
+            {
+              title: 'ISO 대비 민감도',
+              txt1: cameraInfo.camera_info.iso ?? '-',
+              txt2: 'ISO',
+            },
+            {
+              title: '카메라 FPS',
+              txt1: cameraInfo.camera_info.iso ?? '-',
+              txt2: 'fps',
             },
           ]
         : [
