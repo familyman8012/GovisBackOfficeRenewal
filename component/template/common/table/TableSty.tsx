@@ -12,11 +12,16 @@ export const GrayUnderLineTable = styled.table`
     font-size: 1.3rem;
     font-weight: 600;
     line-height: 120%; /* 1.56rem */
+
+    &:first-of-type {
+      text-align: left;
+    }
   }
   td {
     padding: 0 1;
     height: 7.8rem;
     text-overflow: ellipsis;
+    text-align: center;
     font-family: Pretendard;
     font-size: 1.4rem;
     font-weight: 600;
@@ -24,30 +29,15 @@ export const GrayUnderLineTable = styled.table`
     border-top: 1px solid var(--color-neutral90);
     border-bottom: 1px solid var(--color-neutral90);
 
+    &:first-of-type {
+      text-align: left;
+    }
+
     &.no {
       color: var(--color-gray8);
     }
 
-    &.tac {
-      text-align: center;
-    }
-
-    .rate {
-      display: inline-block;
-      margin-left: 0.8rem;
-      color: var(--color-green50);
-      font-size: 1.4rem;
-      font-weight: 400;
-      line-height: 120%;
-
-      &.increase {
-        /* color: var(--color-orange70); */
-      }
-      &.decrease {
-        /* color: var(--color-blue60); */
-      }
-    }
-  }
+   
 `;
 
 export const TableSty2 = () => {

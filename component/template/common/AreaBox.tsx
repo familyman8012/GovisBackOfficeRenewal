@@ -9,6 +9,19 @@ const AreaBoxWrap = styled.div`
   border: 2px solid #e5e5e5;
   background: #fff;
 
+  &.noPadding {
+    padding: 0;
+    padding-top: 2.4rem;
+
+    .box_head {
+      margin-bottom: 2.4rem;
+      h2 {
+        margin-bottom: 0;
+        padding-left: 2.4rem;
+      }
+    }
+  }
+
   & + .areaBox {
     margin-top: 6.4rem;
   }
@@ -27,9 +40,14 @@ const AreaBoxWrap = styled.div`
     }
   }
 
-  .head {
+  .box_head {
+    display: flex;
+    align-items: center;
     margin-bottom: 3.2rem;
-    padding: 2.4rem 4.8rem;
+  }
+
+  .head {
+    padding: 0;
 
     h2 {
       display: flex;
@@ -93,6 +111,7 @@ interface AreaBoxProps {
   txt1?: string | string[];
   txt2?: string | string[];
   className?: string;
+  addFunc?: React.ReactNode;
   children: React.ReactNode;
 }
 
@@ -102,34 +121,39 @@ export const AreaBox: FC<AreaBoxProps> = ({
   txt2,
   moreLink,
   className,
+  addFunc,
   children,
 }) => {
   return (
     <AreaBoxWrap className={`areaBox ${className}`}>
-      <div className="head">
-        <h2>
-          <span>{title}</span>
-          {moreLink && (
-            <Link href={moreLink} className="link_more">
-              더보기
-            </Link>
+      <div className="box_head">
+        <div className="head">
+          <h2>
+            <span>{title}</span>
+            {moreLink && (
+              <Link href={moreLink} className="link_more">
+                더보기
+              </Link>
+            )}
+          </h2>
+          {txt1 && (
+            <p className="box_txt1">
+              {typeof txt1 === 'string'
+                ? txt1
+                : txt1?.map((el, i) => <span key={i}>{el}</span>)}
+            </p>
           )}
-        </h2>
-        {txt1 && (
-          <p className="box_txt1">
-            {typeof txt1 === 'string'
-              ? txt1
-              : txt1?.map((el, i) => <span key={i}>{el}</span>)}
-          </p>
-        )}
-        {txt2 && (
-          <div className="box_txt2">
-            {typeof txt2 === 'string'
-              ? txt2
-              : txt2?.map((el, i) => <span key={i}>{el}</span>)}
-          </div>
-        )}
+          {txt2 && (
+            <div className="box_txt2">
+              {typeof txt2 === 'string'
+                ? txt2
+                : txt2?.map((el, i) => <span key={i}>{el}</span>)}
+            </div>
+          )}
+        </div>
+        {addFunc}
       </div>
+
       {children}
     </AreaBoxWrap>
   );

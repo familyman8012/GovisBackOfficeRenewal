@@ -2,6 +2,7 @@ import React, { FC, ReactNode } from 'react';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
+type BadgeType = 'square' | 'circle';
 type BadgeSize = 'sm' | 'md' | 'lg' | 'circle';
 export type BadgeColor =
   | 'green'
@@ -15,6 +16,7 @@ export type BadgeColor =
 type BadgeFill = 'fill' | 'outline' | 'transparent';
 
 export interface BadgeProps {
+  type?: BadgeType;
   children: ReactNode;
   size?: BadgeSize;
   color?: BadgeColor;
@@ -30,8 +32,18 @@ const badgeBase = css`
   align-items: center;
   width: max-content;
   font-weight: 500;
-  border-radius: 1.6rem;
 `;
+
+const badgeType = {
+  square: css`
+    min-width: 5.8rem;
+    justify-content: center;
+    border-radius: 0.4rem;
+  `,
+  circle: css`
+    border-radius: 1.6rem;
+  `,
+};
 
 const sizes = {
   sm: css`
@@ -102,6 +114,7 @@ const colors = {
 
 const BadgeWrapper = styled.span<BadgeProps>`
   ${badgeBase};
+  ${props => badgeType[props.type || 'circle']};
   ${props => sizes[props.size || 'md']};
   ${props => colors[props.color || 'green']};
   ${props =>
@@ -122,6 +135,7 @@ const BadgeWrapper = styled.span<BadgeProps>`
 `;
 
 export const Badge: FC<BadgeProps> = ({
+  type = 'circle',
   size = 'md',
   color = 'green',
   dot,
@@ -136,6 +150,7 @@ export const Badge: FC<BadgeProps> = ({
 
   return (
     <BadgeWrapper
+      type={type}
       size={size}
       color={color}
       dot={dot}

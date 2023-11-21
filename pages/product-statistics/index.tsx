@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-expressions */
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
@@ -9,9 +10,7 @@ import { BarCharts } from '@ComponentFarm/chart/BarCharts';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
 import { AreaBox } from '@ComponentFarm/template/common/AreaBox';
 import FilterTableForm from '@ComponentFarm/template/common/FilterTable/FilterTableForm';
-import SubTitleBox, {
-  SubTitleBoxWrap,
-} from '@ComponentFarm/template/common/SubTitleBox';
+import SubTitleBox from '@ComponentFarm/template/common/SubTitleBox';
 import { ProductSalesTable } from '@ComponentFarm/template/product-statistics/all-statistics/ProductSalesTable';
 import { productStatisticsTabData } from '@ComponentFarm/template/product-statistics/const';
 import useQueryParams from '@HookFarm/useQueryParams';
@@ -27,6 +26,10 @@ const AisttState = () => {
     {
       value: 'daily',
       label: '일별',
+    },
+    {
+      value: 'weekly',
+      label: '주별',
     },
     {
       value: 'monthly',
@@ -52,12 +55,18 @@ const AisttState = () => {
     fetchProductAllStatis(params)
   );
 
-  const calCulateXformat =
-    selectedOption?.value === 'hourly'
-      ? '시'
-      : selectedOption?.value === 'daily'
-      ? '일'
-      : '월';
+  const calCulateXformat = (formValue: string, type?: string) => {
+    if (selectedOption?.value === 'hourly') {
+      return type === 'chart' ? `${formValue}시` : `${formValue}:00`;
+    }
+    if (selectedOption?.value === 'daily') {
+      return type === 'chart' ? `11.${formValue}` : `2023-11-${formValue}`;
+    }
+    if (selectedOption?.value === 'monthly') {
+      return `${formValue}월`;
+    }
+    return formValue;
+  };
 
   return (
     <>
@@ -71,38 +80,44 @@ const AisttState = () => {
       <SubTitleBox
         title="제조 품질 통계"
         desc="분류, 기간 유형별 통계를 확인할 수 있습니다."
+        hideUnderline
       />
       <FilterTableForm
         params={params}
         updateParams={updateParams}
         resetParams={resetParams}
       />
-      <SubTitleBoxWrap hideUnderline>
-        <h2>조회 결과</h2>
-        <div>dasfasd</div>
-        <div
-          css={css`
-            margin-left: auto;
-            > div {
-              width: 10rem;
-            }
-          `}
-        >
-          <Select
-            options={options}
-            selectedOption={selectedOption}
-            setSelectedOption={option => updateParams({ type: option.value })}
-            isSearchable={false}
-          />
-        </div>
-      </SubTitleBoxWrap>
+      <SubTitleBox
+        title="조회 결과"
+        hideUnderline
+        descBottom={[
+          {
+            label: '기준일 제품 총 판매 수',
+            value: `${data?.total.total_base_sales_count.toLocaleString()}`,
+          },
+          {
+            label: '비교일 제품 총 판매 수',
+            value: `${data?.total.total_comparison_sales_count.toLocaleString()}`,
+          },
+        ]}
+      />
       <AreaBox
         title="전체 제품판매 현황"
-        txt1={`${data?.total.total_base_sales_count.toLocaleString()}개`}
-        txt2={[
-          '전년도 (2022년) 대비',
-          `+ ${data?.total.total_increase_decrease_rate}% 상승`,
-        ]}
+        addFunc={
+          <div
+            css={css`
+              width: 11.8rem;
+              margin-left: auto;
+            `}
+          >
+            <Select
+              options={options}
+              selectedOption={selectedOption}
+              setSelectedOption={option => updateParams({ type: option.value })}
+              isSearchable={false}
+            />
+          </div>
+        }
       >
         {data && (
           <BarCharts
@@ -110,19 +125,16 @@ const AisttState = () => {
             chartData={data?.list}
             barSize={6}
             tickCount={11}
-            xTickFormatter={formatValue => `${formatValue}${calCulateXformat}`}
-            domain={[
-              0,
-              (dataMax: number) => Math.ceil((dataMax * 1.2) / 10) * 10,
-            ]}
+            xTickFormatter={formatValue =>
+              `${calCulateXformat(formatValue, 'chart')}`
+            }
             fill="var(--color-orange90)"
           />
         )}
       </AreaBox>
-      <AreaBox title="판매 제품 수">
+      <AreaBox title="판매 제품 수" className="noPadding">
         <ProductSalesTable chartData={data?.list} format={calCulateXformat} />
       </AreaBox>
-      {/* <StoreSearchPopup /> */}
     </>
   );
 };

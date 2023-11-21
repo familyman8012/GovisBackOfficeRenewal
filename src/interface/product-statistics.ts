@@ -25,3 +25,27 @@ export interface IProductStatisticsRes {
     total_increase_decrease_rate: number;
   };
 }
+
+export interface ICategoryStatisticsListItem
+  extends IProductStatisticsResListItem {
+  item_key: number;
+}
+
+export interface ICategoryStatisticsRes
+  extends Omit<IProductStatisticsRes, 'list'> {
+  list: ICategoryStatisticsListItem[];
+}
+
+export interface ICategoryDetailListItem {
+  product_info_idx: number;
+  product_name_ko: string;
+  base_sales_count: number;
+  comparison_sales_count: number;
+  increase_decrease_number: number;
+  increase_decrease_rate: number;
+}
+
+export interface ICategoryDetailRes {
+  info: IProductStatisticsReq;
+  list: ICategoryDetailListItem[];
+}

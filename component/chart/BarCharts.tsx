@@ -19,11 +19,13 @@ export const BarCharts = ({
   barSize,
   tickCount,
   domain,
+  xKey = 'item_label',
+  yKey,
   xTickFormatter,
   yTickFormatter,
   toolTip = <BasicTooltip />,
   fill,
-  diffFill,
+  diffSet,
   isLegend,
   isLabelList,
   LabelListFormatter,
@@ -34,23 +36,26 @@ export const BarCharts = ({
   barSize?: number;
   tickCount?: number;
   domain?: any[];
+  xKey?: string;
+  yKey?: string;
   xTickFormatter?: (value: string) => string;
   yTickFormatter?: (value: number) => string;
   toolTip?: any;
   fill?: string;
   isLegend?: boolean;
-  diffFill?: string[];
+  diffSet?: { name: string; dataKey: string; fill: string }[];
   isLabelList?: boolean;
   LabelListFormatter?: (value: number) => string;
 }) => {
   const chartDataName = Object.keys(chartData[0]);
+
   return (
     <div style={{ height }}>
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={chartData} barSize={barSize}>
           <CartesianGrid strokeDasharray="2 0" vertical={false} />
           <XAxis
-            dataKey={chartDataName[0]}
+            dataKey={xKey}
             axisLine={false}
             tickLine={false}
             tickFormatter={xTickFormatter}
@@ -60,20 +65,35 @@ export const BarCharts = ({
             axisLine={false}
             tickLine={false}
             domain={domain}
+            interval={0}
             tickFormatter={yTickFormatter}
           />
           <Tooltip content={toolTip} />
-          {isLegend && <Legend iconType="circle" iconSize={12} />}
-          {type === 'diff' ? (
+          {isLegend && (
+            <Legend
+              iconType="circle"
+              iconSize={12}
+              wrapperStyle={{ paddingTop: '20px' }}
+            />
+          )}
+          {type === 'diff' && diffSet ? (
             <>
-              <Bar dataKey={chartDataName[1]} fill={diffFill && diffFill[0]} />
-              <Bar dataKey={chartDataName[2]} fill={diffFill && diffFill[1]} />
+              <Bar
+                name={diffSet[0].name}
+                dataKey={diffSet[0].dataKey}
+                fill={diffSet[0].fill}
+              />
+              <Bar
+                name={diffSet[1].name}
+                dataKey={diffSet[1].dataKey}
+                fill={diffSet[1].fill}
+              />
             </>
           ) : (
             <Bar dataKey={chartDataName[1]} fill={fill}>
               {isLabelList && (
                 <LabelList
-                  dataKey={chartDataName[1]}
+                  dataKey={yKey ?? chartDataName[1]}
                   position="top"
                   formatter={LabelListFormatter}
                 />
