@@ -16,6 +16,7 @@ import {
   FqsInfoTable,
   SectionStyle,
 } from '@ComponentFarm/template/aistt/style';
+import SecondBadges from '@ComponentFarm/template/common/SecondBadges';
 import TableExpandRow from '@ComponentFarm/template/common/TableExpandRow';
 import { useGoMove } from '@HookFarm/useGoMove';
 import { getTableWidthPercentage } from '@UtilFarm/calcSize';
@@ -251,27 +252,11 @@ const AnalysisViewPage = () => {
                       </td>
                       {/** 시간 클릭 시 영상 시간 변경 */}
                       <td className="center">
-                        <div
-                          role="button"
-                          tabIndex={0}
-                          onClick={e => {
-                            e.stopPropagation();
-                            handleChangeVideoTime(item.section_dt_start);
-                          }}
-                          onKeyDown={e => {
-                            if (e.key === 'Enter') {
-                              handleChangeVideoTime(item.section_dt_start);
-                            }
-                          }}
-                        >
-                          <Badge color="gray">
-                            {dayjs.unix(item.section_dt_start).format('mm:ss')}
-                          </Badge>
-                          <span className="gt" />
-                          <Badge color="gray">
-                            {dayjs.unix(item.section_dt_finish).format('mm:ss')}
-                          </Badge>
-                        </div>
+                        <SecondBadges
+                          beforeSecond={item.section_dt_start}
+                          afterSecond={item.section_dt_finish}
+                          onClickSecond={handleChangeVideoTime}
+                        />
                       </td>
                       <td>
                         {item.section_score}/{item.section_score_std}

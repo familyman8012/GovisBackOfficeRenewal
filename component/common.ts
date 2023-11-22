@@ -424,11 +424,6 @@ const reset = css`
     border: 1px solid currentColor;
   }
 
-  [role='button'] {
-    display: inline-flex;
-    align-items: center;
-  }
-
   .link_more {
     display: flex;
     align-items: center;
