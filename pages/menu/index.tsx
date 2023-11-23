@@ -28,7 +28,9 @@ const MenuListPage = () => {
   const handlePageChange = (current_num: number) =>
     updateParams({ current_num });
 
-  const { data } = useQuery(['menu-list', params], () => fetchMenuList(params));
+  const { data, isLoading } = useQuery(['menu-list', params], () =>
+    fetchMenuList(params)
+  );
 
   return (
     <div>
@@ -59,11 +61,18 @@ const MenuListPage = () => {
         resetParams={resetParams}
       />
       <MenuListTable
+        loading={isLoading}
         list={data?.list ?? []}
-        onClick={item => router.push(`${pathname}/${item.menu_info_idx}`)}
+        onClick={item =>
+          router.push({
+            pathname: `${pathname}/${item.menu_info_idx}`,
+            search: router.asPath.split('?')[1],
+          })
+        }
         onClickCopy={item => setCopyTargetId(item.menu_info_idx)}
         updateParams={updateParams}
       />
+
       <Pagination
         pageInfo={[Number(params.current_num), Number(params.per_num)]}
         totalCount={data?.total_count ?? 1}

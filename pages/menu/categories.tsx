@@ -23,7 +23,7 @@ const CategoryListPage = () => {
     updateParams({ current_num });
   };
 
-  const { data } = useQuery(['menu-categories', params], () =>
+  const { data, isLoading } = useQuery(['menu-categories', params], () =>
     fetchMenuCategoryList(params)
   );
 
@@ -55,7 +55,11 @@ const CategoryListPage = () => {
         updateParams={updateParams}
         resetParams={resetParams}
       />
-      <CategoryListTable list={data?.list ?? []} updateParams={updateParams} />
+      <CategoryListTable
+        loading={isLoading}
+        list={data?.list ?? []}
+        updateParams={updateParams}
+      />
       <Pagination
         pageInfo={[Number(params.current_num), Number(params.per_num)]}
         totalCount={data?.total_count ?? 1}
