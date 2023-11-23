@@ -156,7 +156,7 @@ const StoryBarChartsGroup3: Story<Props> = args => {
           chartData={data3}
           tickCount={11}
           isLegend
-          diffFill={['#8884d8', '#82ca9d']}
+          // diffFill={['#8884d8', '#82ca9d']}
         />
       </div>
     </StoryLayout>
