@@ -58,6 +58,7 @@ const RecipeAddPage = () => {
       onBack();
     },
   });
+
   return (
     <RegisterRecipeWrap>
       <LayoutTitleBoxWithTab
@@ -78,6 +79,7 @@ const RecipeAddPage = () => {
       />
       {router.isReady && (
         <RecipeForm
+          key={product_info_idx}
           ref={formRef}
           productId={product_info_idx}
           onSubmit={createMutate.mutate}

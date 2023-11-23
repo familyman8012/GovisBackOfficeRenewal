@@ -1,5 +1,6 @@
 import { IMenuCategoryItem } from '@InterfaceFarm/menu';
 import Empty from '@ComponentFarm/atom/Empty/Empty';
+import SkeletonTh from '@ComponentFarm/atom/Skeleton/SkeletonTh';
 import ToggleSort from '@ComponentFarm/atom/Sort/ToggleSort';
 import { Table, TableWrap } from '@ComponentFarm/common';
 import { QueryParams } from '@HookFarm/useQueryParams';
@@ -7,6 +8,7 @@ import useSortable from '@HookFarm/useSortable';
 import { getTableWidthPercentage } from '@UtilFarm/calcSize';
 
 interface ICategoryListTableProps {
+  loading?: boolean;
   list: IMenuCategoryItem[];
   updateParams: (sort: QueryParams) => void;
 }
@@ -18,7 +20,11 @@ const categorySortItems = [
   { id: 4, label: '수정일', sort: 'updated_date' },
 ];
 
-const CategoryListTable = ({ updateParams, list }: ICategoryListTableProps) => {
+const CategoryListTable = ({
+  updateParams,
+  list,
+  loading,
+}: ICategoryListTableProps) => {
   const { sortState, toggleSort } = useSortable(updateParams);
 
   return (
@@ -46,7 +52,8 @@ const CategoryListTable = ({ updateParams, list }: ICategoryListTableProps) => {
           </tr>
         </thead>
         <tbody>
-          {list.length === 0 && (
+          {loading && <SkeletonTh colLength={4} rowLength={10} />}
+          {!loading && list.length === 0 && (
             <tr className="empty">
               <td colSpan={4}>
                 <Empty>데이터가 없습니다.</Empty>

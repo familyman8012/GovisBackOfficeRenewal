@@ -19,7 +19,7 @@ const SortableItem = ({
     <tr ref={setNodeRef} style={style} {...attributes} {...listeners}>
       {!disabled && (
         <td aria-label="sort-icon">
-          <Menu />
+          <Menu customCss="path {fill: var(--color-gray500);}" />
         </td>
       )}
       {children}

@@ -6,7 +6,7 @@ import Sortable from './Sortable';
 import SortableItem from './SortableItem';
 
 const meta: Meta = {
-  title: 'Template/Sortable',
+  title: 'TEMPLATE/Sortable',
   tags: ['autodocs'],
   args: {
     disabled: false,

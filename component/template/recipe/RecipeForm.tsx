@@ -25,14 +25,12 @@ interface RecipeFormProps {
 const RecipeForm = React.forwardRef<HTMLFormElement, RecipeFormProps>(
   ({ recipeId, productId, editable = true, onSubmit }, formRef) => {
     const stepRef = React.useRef<HTMLDivElement>(null);
-    const fetchDefaultValue = React.useCallback(
-      () =>
-        fetchRecipe({
-          product_info_idx: productId,
-          recipe_info_idx: recipeId ?? -1,
-        }).then(res => ({ ...res, product_info_idx: productId })),
-      []
-    );
+    const fetchDefaultValue = React.useCallback(() => {
+      return fetchRecipe({
+        product_info_idx: productId,
+        recipe_info_idx: recipeId ?? -1,
+      }).then(res => ({ ...res, product_info_idx: productId }));
+    }, []);
 
     const methods = useForm<IRecipeFormFields>({
       defaultValues: useMemo(
@@ -171,7 +169,11 @@ const RecipeForm = React.forwardRef<HTMLFormElement, RecipeFormProps>(
                 )}
               </div>
             </div>
-            <RecipeStepForm ref={stepRef} editable={editable} />
+            <RecipeStepForm
+              ref={stepRef}
+              editable={editable}
+              onChangeOrder={() => fetchDefaultValue().then(reset)}
+            />
           </FormWrap>
         </form>
       </FormProvider>

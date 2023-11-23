@@ -8,6 +8,7 @@ import Plus from '@ComponentFarm/atom/icons/Plus';
 import useFormOptionsWithEnvs from '@HookFarm/useFormOptionsWithEnvs';
 import RecipeStepCategory from './RecipeStepCategoryForm';
 import RecipeStepDetail from './RecipeStepDetailForm';
+import RecipeStepOrder from './RecipeStepOrder';
 import { MenuOptionListStyle } from '../menu/style';
 
 const RecipeStepForm = React.forwardRef<
@@ -15,8 +16,9 @@ const RecipeStepForm = React.forwardRef<
   {
     editable?: boolean;
     inView?: boolean;
+    onChangeOrder?: () => void;
   }
->(({ editable, inView }, ref) => {
+>(({ editable, inView, onChangeOrder }, ref) => {
   const { control, watch } = useFormContext<IRecipeFormFields>();
   const { append, fields, remove } = useFieldArray<
     IRecipeFormFields,
@@ -33,7 +35,15 @@ const RecipeStepForm = React.forwardRef<
 
   return (
     <MenuOptionListStyle ref={ref}>
-      <h3>레시피 단계별 정보</h3>
+      <h3>
+        레시피 단계별 정보
+        {!inView && !editable && (
+          <RecipeStepOrder
+            recipeSteps={steps}
+            onChangeOrder={() => onChangeOrder?.()}
+          />
+        )}
+      </h3>
       <div className="wrap">
         <div className="side">
           {editable && (
@@ -42,6 +52,10 @@ const RecipeStepForm = React.forwardRef<
               LeadingIcon={<Plus />}
               onClick={() =>
                 append({
+                  sort_number:
+                    steps?.[steps.length - 1]?.sort_number !== undefined
+                      ? (steps[steps.length - 1]?.sort_number ?? 0) + 1
+                      : steps.length,
                   recipe_step_name: '',
                   recipe_step_description: '',
                   step_manufacturing_time: '0',

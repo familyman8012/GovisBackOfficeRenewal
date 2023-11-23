@@ -30,6 +30,7 @@ export interface IRecipeStepFormFields {
   recipe_step_name: string;
   evi_recipe_step_topping_type?: string;
   topping_image?: string;
+  sort_number?: number;
 
   initial_topping_image?: FileList | null;
   step_manufacturing_time: number | string;
@@ -82,6 +83,7 @@ export type RecipeInfo = Omit<
   updated_date: string;
   recipe_step_list: {
     recipe_step_idx: number;
+    sort_number: number;
     recipe_step_name: string;
   }[];
 };
