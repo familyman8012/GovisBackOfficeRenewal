@@ -35,12 +35,27 @@ const statusOptions = [
   },
 ];
 
+const useOptions = [
+  {
+    value: '',
+    label: '전체',
+  },
+  {
+    value: '1',
+    label: '사용',
+  },
+  {
+    value: '2',
+    label: '미사용',
+  },
+];
+
 const AisttDeviceFilter = ({
   params,
   updateParams,
   resetParams,
 }: FilterTableFormProps) => {
-  const [deviceStatus, setDeviceStatus] = useState(params.device_status ?? '');
+  const [useStt, setUseStt] = useState(params.is_use_stt ?? '');
   const [programStatus, setProgramStatus] = useState(
     params.program_status ?? ''
   );
@@ -82,7 +97,7 @@ const AisttDeviceFilter = ({
   const handleFilterResult = () => {
     updateParams({
       ...params,
-      device_status: deviceStatus,
+      is_use_stt: useStt,
       program_status: programStatus,
       store_idx: storeSelect.selectItems.map(item => item.idx).join(','),
       current_num: 1,
@@ -90,7 +105,7 @@ const AisttDeviceFilter = ({
   };
 
   const handlerReset = () => {
-    setDeviceStatus('');
+    setUseStt('');
     setProgramStatus('');
     storeSelect.setSelectItems([]);
     resetParams();
@@ -110,13 +125,13 @@ const AisttDeviceFilter = ({
               <div className="inner">
                 <div className="select_box">
                   <Select
-                    options={statusOptions}
-                    selectedOption={deviceStatus ?? ''}
+                    options={useOptions}
+                    selectedOption={useStt ?? ''}
                     setSelectedOption={({ value }: { value: string }) =>
-                      setDeviceStatus(value)
+                      setUseStt(value)
                     }
                     placeholder="전체"
-                    prefixLabel="PC 상태"
+                    prefixLabel="도입 상태"
                   />
                   <Select
                     options={statusOptions}
@@ -132,7 +147,7 @@ const AisttDeviceFilter = ({
                   className="btn_reset"
                   variant="transparent"
                   onClick={() => {
-                    setDeviceStatus('');
+                    setUseStt('');
                     setProgramStatus('');
                   }}
                   LeadingIcon={<Sync />}

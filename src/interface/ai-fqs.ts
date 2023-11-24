@@ -83,6 +83,7 @@ export interface IFqsStoreDeviceListResponse {
     program_status: number;
     camera_enabled: number;
     camera_total: number;
+    is_use_stt: number;
   }[];
 }
 
@@ -90,7 +91,7 @@ export interface IFqsStoreInfoResponse {
   info: {
     store_name: string;
     opening_time: string;
-    closeing_time: string;
+    closing_time: string;
     wifi_ssid: string;
     wifi_pwd: string;
     host_ip: string;

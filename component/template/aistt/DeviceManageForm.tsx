@@ -67,7 +67,7 @@ const DeviceManage = React.forwardRef<HTMLFormElement, Props>(
                 <label htmlFor="name">기기 종료 시간</label>
                 <div className="box_inp">
                   <Controller
-                    name="info.closeing_time"
+                    name="info.closing_time"
                     defaultValue="00:00"
                     control={control}
                     render={({ field: { value, onChange } }) => (
