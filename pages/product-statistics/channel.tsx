@@ -13,7 +13,7 @@ import SubTitleBox from '@ComponentFarm/template/common/SubTitleBox';
 import { productStatisticsTabData } from '@ComponentFarm/template/product-statistics/const';
 import SalesProductTable from '@ComponentFarm/template/product-statistics/order/SalesProductTable';
 import useQueryParams from '@HookFarm/useQueryParams';
-import { options } from './const';
+import { options } from '../../component/template/product-statistics/all-statistics/const';
 
 const Category = () => {
   const router = useRouter();

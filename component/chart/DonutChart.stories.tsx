@@ -3,7 +3,6 @@ import React from 'react';
 import { Meta, Story } from '@storybook/react';
 import { css } from '@emotion/react';
 import StoryLayout from '@ComponentFarm/modules/story_layout/StoryLayout';
-import DonutChart from './DonutChart';
 
 const meta: Meta = {
   title: 'CHART/DonutChart',
@@ -29,11 +28,11 @@ interface Props {
 }
 
 const StoryDonutChart: Story<Props> = args => {
-  const data = [
-    { name: '배달', value: 3054, increase: 34, percent: 34, fill: '#0088FE' },
-    { name: '내점', value: 1654, increase: 26, percent: 26, fill: '#00C49F' },
-    { name: '포장', value: 80, increase: -8, percent: -8, fill: '#FFBB28' },
-  ];
+  // const data = [
+  //   { name: '배달', value: 3054, increase: 34, percent: 34, fill: '#0088FE' },
+  //   { name: '내점', value: 1654, increase: 26, percent: 26, fill: '#00C49F' },
+  //   { name: '포장', value: 80, increase: -8, percent: -8, fill: '#FFBB28' },
+  // ];
 
   return (
     <StoryLayout
@@ -46,7 +45,8 @@ const StoryDonutChart: Story<Props> = args => {
       `}
     >
       <div style={{ height: '40rem' }}>
-        <DonutChart chartData={data} />
+        {/* <DonutChart chartData={data} /> */}
+        asd
       </div>
     </StoryLayout>
   );

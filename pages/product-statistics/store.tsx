@@ -18,7 +18,7 @@ import { productStatisticsTabData } from '@ComponentFarm/template/product-statis
 import SalesProductTable from '@ComponentFarm/template/product-statistics/store/SalesProductTable';
 import StoreSalesTable from '@ComponentFarm/template/product-statistics/store/StoreSalesTable';
 import useQueryParams from '@HookFarm/useQueryParams';
-import { options } from './const';
+import { options } from '../../component/template/product-statistics/all-statistics/const';
 
 const SelectStoreType = styled.div`
   margin: 0 2.4rem 0 auto;

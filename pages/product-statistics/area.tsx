@@ -16,7 +16,7 @@ import { AreaDonutLegend } from '@ComponentFarm/template/product-statistics/area
 import SalesProductTable from '@ComponentFarm/template/product-statistics/area/SalesProductTable';
 import { productStatisticsTabData } from '@ComponentFarm/template/product-statistics/const';
 import useQueryParams from '@HookFarm/useQueryParams';
-import { options } from './const';
+import { options } from '../../component/template/product-statistics/all-statistics/const';
 
 const Category = () => {
   const router = useRouter();

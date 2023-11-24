@@ -14,10 +14,10 @@ import TitleArea from '@ComponentFarm/layout/TitleArea';
 import { AreaBox } from '@ComponentFarm/template/common/AreaBox';
 import FilterTableForm from '@ComponentFarm/template/common/FilterTable/FilterTableForm';
 import SubTitleBox from '@ComponentFarm/template/common/SubTitleBox';
+import { CollapseList } from '@ComponentFarm/template/product-statistics/category/style';
 import { productStatisticsTabData } from '@ComponentFarm/template/product-statistics/const';
 import useQueryParams from '@HookFarm/useQueryParams';
-import { options } from './const';
-import { CollapseList } from './style';
+import { options } from '../../component/template/product-statistics/all-statistics/const';
 
 const Category = () => {
   const router = useRouter();
