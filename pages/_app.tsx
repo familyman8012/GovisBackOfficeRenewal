@@ -34,6 +34,9 @@ type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
 };
 
+const useIsomorphicLayoutEffect =
+  typeof window !== 'undefined' ? useLayoutEffect : useEffect;
+
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   const router = useRouter();
   const currentUrl = `/${router.asPath.split('/')[1].split('?')[0]}`;
@@ -44,12 +47,11 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
       ? 'https://dev.govis.gopizza.kr'
       : 'https://govis.gopizza.kr';
 
-  const useIsomorphicLayoutEffect =
-    typeof window !== 'undefined' ? useLayoutEffect : useEffect;
-
   useIsomorphicLayoutEffect(() => {
-    // 현재 URL이 Goivs2Menu에 없으면 리다이렉트
-    if (!Goivs2Menu.includes(currentUrl) && currentUrl !== '/') {
+    // 현재 URL이 Goivs2Menu에 없으면 리다이렉트 localhost 제외
+    const isLocalDev = window.location.host.includes('localhost');
+
+    if (!isLocalDev && !Goivs2Menu.includes(currentUrl) && currentUrl !== '/') {
       window.location.href = `${host}${router.asPath}`;
     }
   }, [currentUrl, router.asPath]);

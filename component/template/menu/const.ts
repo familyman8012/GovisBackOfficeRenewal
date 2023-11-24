@@ -40,6 +40,14 @@ export const menuListLayoutConfig = {
       title: '메뉴 목록',
       path: '/menu',
     },
+    {
+      title: '미확인 메뉴 목록',
+      path: '/menu/link',
+    },
+    {
+      title: '미확인 메뉴 연결 내역',
+      path: '/menu/unlink',
+    },
   ],
 };
 
