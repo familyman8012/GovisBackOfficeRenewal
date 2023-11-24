@@ -1,6 +1,8 @@
+import { useState } from 'react';
 import Pagination from '@ComponentFarm/modules/Paginate/Pagination';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Table, TableWrap } from '@ComponentFarm/common';
+import MenuSelectModal from '@ComponentFarm/molecule/MenuSelect';
 import LayoutTitleBoxWithTab from '@ComponentFarm/template/layout/LayoutWithTitleBoxAndTab';
 import { menuListLayoutConfig } from '@ComponentFarm/template/menu/const';
 import { ListHandlerStyle } from '@ComponentFarm/template/recipe/style';
@@ -8,6 +10,9 @@ import useQueryParams from '@HookFarm/useQueryParams';
 import { getTableWidthPercentage } from '@UtilFarm/calcSize';
 
 const MenuLinkPage = () => {
+  const [selectedUnLinkMenu, setSelectedUnLinkMenu] = useState<any | null>(
+    null
+  );
   const [params, updateParams] = useQueryParams({
     per_num: 10,
     current_num: 1,
@@ -51,7 +56,12 @@ const MenuLinkPage = () => {
                   </button>
                 </td>
                 <td>
-                  <Button type="button">메뉴 연결</Button>
+                  <Button
+                    type="button"
+                    onClick={() => setSelectedUnLinkMenu({})}
+                  >
+                    메뉴 연결
+                  </Button>
                 </td>
               </tr>
             ))}
@@ -62,6 +72,12 @@ const MenuLinkPage = () => {
         pageInfo={[Number(params.current_num), Number(params.per_num)]}
         totalCount={100}
         handlePageChange={current_num => updateParams({ current_num })}
+      />
+      <MenuSelectModal
+        type="radio"
+        open={!!selectedUnLinkMenu}
+        onSelect={selectedMenus => console.log(selectedMenus)}
+        onClose={() => selectedUnLinkMenu && setSelectedUnLinkMenu(null)}
       />
     </div>
   );
