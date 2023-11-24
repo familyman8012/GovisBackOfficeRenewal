@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import {
   ResponsiveContainer,
   BarChart,
@@ -11,6 +11,10 @@ import {
   Legend,
 } from 'recharts';
 import { BasicTooltip } from './BasicTooltip';
+
+const LegendFormatter = ({ value }: { value: string }) => {
+  return <span style={{ color: 'var(--color-neutral50)' }}>{value}</span>;
+};
 
 export const BarCharts = ({
   type,
@@ -25,7 +29,9 @@ export const BarCharts = ({
   yTickFormatter,
   toolTip = <BasicTooltip />,
   fill,
+  hasGrid = false,
   diffSet,
+  isTooltip = true,
   isLegend,
   isLabelList,
   LabelListFormatter,
@@ -42,18 +48,23 @@ export const BarCharts = ({
   yTickFormatter?: (value: number) => string;
   toolTip?: any;
   fill?: string;
+  hasGrid?: boolean;
+  isTooltip?: boolean;
   isLegend?: boolean;
   diffSet?: { name: string; dataKey: string; fill: string }[];
   isLabelList?: boolean;
   LabelListFormatter?: (value: number) => string;
 }) => {
   const chartDataName = Object.keys(chartData[0]);
-
+  const formatter = useCallback(
+    (value: string) => <LegendFormatter value={value} />,
+    []
+  );
   return (
     <div style={{ height }}>
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={chartData} barSize={barSize}>
-          <CartesianGrid strokeDasharray="2 0" vertical={false} />
+          <CartesianGrid strokeDasharray="2 0" vertical={hasGrid} />
           <XAxis
             dataKey={xKey}
             axisLine={false}
@@ -68,11 +79,12 @@ export const BarCharts = ({
             interval={0}
             tickFormatter={yTickFormatter}
           />
-          <Tooltip content={toolTip} />
+          {isTooltip && <Tooltip content={toolTip} />}
           {isLegend && (
             <Legend
               iconType="circle"
               iconSize={12}
+              formatter={formatter}
               wrapperStyle={{ paddingTop: '20px' }}
             />
           )}

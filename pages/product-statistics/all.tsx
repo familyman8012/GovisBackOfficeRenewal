@@ -9,11 +9,10 @@ import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import { BarCharts } from '@ComponentFarm/chart/BarCharts';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
 import { AreaBox } from '@ComponentFarm/template/common/AreaBox';
+import FilterTableForm from '@ComponentFarm/template/common/FilterTable/FilterTableForm';
 import SubTitleBox from '@ComponentFarm/template/common/SubTitleBox';
 import { ProductSalesTable } from '@ComponentFarm/template/product-statistics/all-statistics/ProductSalesTable';
 import { productStatisticsTabData } from '@ComponentFarm/template/product-statistics/const';
-import FilterStatiscDashBoard from '@ComponentFarm/template/product-statistics/index/FilterStatiscDashBoard';
-import InfoTotalProduct from '@ComponentFarm/template/product-statistics/index/InfoTotalProduct';
 import useQueryParams from '@HookFarm/useQueryParams';
 
 const AisttState = () => {
@@ -78,8 +77,12 @@ const AisttState = () => {
         activeTabIndex={activeTabIndex}
         onTabChange={index => hanldeTabMove(index)}
       />
-      <InfoTotalProduct />
-      <FilterStatiscDashBoard
+      <SubTitleBox
+        title="제조 품질 통계"
+        desc="분류, 기간 유형별 통계를 확인할 수 있습니다."
+        hideUnderline
+      />
+      <FilterTableForm
         params={params}
         updateParams={updateParams}
         resetParams={resetParams}

@@ -13,8 +13,6 @@ function useSelectItems(search_target: string, initial = []) {
     [selectItems]
   );
 
-  console.log('selectItems', selectItems);
-
   const handleDeleteItem = (itemIdx: string) => {
     const updatedItems = selectItems.filter(item => item.idx !== itemIdx);
     setSelectItems(updatedItems);

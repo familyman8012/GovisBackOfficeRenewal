@@ -49,3 +49,45 @@ export interface ICategoryDetailRes {
   info: IProductStatisticsReq;
   list: ICategoryDetailListItem[];
 }
+
+export interface IChannelRes {
+  info: IProductStatisticsReq;
+  list: {
+    store_idx: number;
+    store_name: string;
+    store_type_code: string;
+    store_type_value: string;
+    store_status_code: string;
+    store_status_value: string;
+    base_sales_count: number;
+    comparison_sales_count: number;
+    increase_decrease_number: number;
+    increase_decrease_rate: number;
+  }[];
+  total: {
+    total_base_sales_count: number;
+    total_comparison_sales_count: number;
+    total_increase_decrease_number: number;
+    total_increase_decrease_rate: number;
+  };
+}
+
+export interface IChannelRankingReq extends IProductStatisticsReq {
+  ranking_limit_number?: number;
+}
+
+export interface IChannelStoreListItem {
+  ranking: number;
+  store_idx: number;
+  store_name: string;
+  base_sales_count: number;
+  comparison_sales_count: number;
+  increase_decrease_number: number;
+  increase_decrease_rate: number;
+}
+
+export interface IChannelRankingRes {
+  info: IChannelRankingReq;
+  direct_store_list: IChannelStoreListItem[];
+  franchisee_store_list: IChannelStoreListItem[];
+}

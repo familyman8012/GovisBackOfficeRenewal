@@ -1,7 +1,5 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable no-unused-expressions */
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
@@ -24,6 +22,7 @@ import { CollapseList } from './style';
 const Category = () => {
   const router = useRouter();
   const [activeTabIndex, setActiveTabIndex] = useState(0);
+  // eslint-disable-next-line no-unused-vars
   const [selectedOption, setSelectedOption] = useState(options[0]);
   const [params, updateParams, resetParams] = useQueryParams({
     type: 'hourly',

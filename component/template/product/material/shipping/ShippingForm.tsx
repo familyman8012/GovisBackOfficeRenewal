@@ -133,7 +133,7 @@ const ShippingForm: React.FC<FormProps> = ({
   const [tables, setTables] = useState<Array<string>>([]);
   const [selValue, setSelValue] = useState<IOption | null>(null);
 
-  const regions = convertEnv('area', area);
+  const regions = convertEnv('area');
   const selOption = convertToLabelValueFormat(shippingListData.list);
 
   const {
