@@ -2,6 +2,7 @@ import React from 'react';
 import { IRecipeProductListItem } from '@InterfaceFarm/product-recipe';
 import { Badge } from '@ComponentFarm/atom/Badge/Badge';
 import Empty from '@ComponentFarm/atom/Empty/Empty';
+import SkeletonTh from '@ComponentFarm/atom/Skeleton/SkeletonTh';
 import ToggleSort from '@ComponentFarm/atom/Sort/ToggleSort';
 import { Table, TableWrap } from '@ComponentFarm/common';
 import { QueryParams } from '@HookFarm/useQueryParams';
@@ -9,6 +10,7 @@ import useSortable from '@HookFarm/useSortable';
 import { getTableWidthPercentage } from '@UtilFarm/calcSize';
 
 interface TableProps {
+  loading?: boolean;
   list: IRecipeProductListItem[];
   onClick: (item: IRecipeProductListItem) => void;
   updateParams: (params: QueryParams) => void;
@@ -26,7 +28,12 @@ const recipeSortItems = [
   { id: 9, label: '레시피 수정일', sort: 'updated_date' },
 ];
 
-const RecipeListTable = ({ list, updateParams, onClick }: TableProps) => {
+const RecipeListTable = ({
+  list,
+  updateParams,
+  onClick,
+  loading,
+}: TableProps) => {
   const { sortState, toggleSort } = useSortable(updateParams);
 
   return (
@@ -59,7 +66,8 @@ const RecipeListTable = ({ list, updateParams, onClick }: TableProps) => {
           </tr>
         </thead>
         <tbody>
-          {list.length === 0 && (
+          {loading && <SkeletonTh colLength={9} rowLength={10} />}
+          {!loading && list.length === 0 && (
             <tr className="empty">
               <td colSpan={recipeSortItems.length}>
                 <Empty>데이터가 없습니다.</Empty>

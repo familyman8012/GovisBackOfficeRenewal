@@ -2,6 +2,7 @@ import styled from '@emotion/styled';
 
 export const FilterTable = styled.table`
   width: 100%;
+  background-color: var(--color-gray1);
 
   th,
   td {
@@ -18,8 +19,10 @@ export const FilterTable = styled.table`
     text-align: right;
     background: var(--color-gray2);
   }
+
   td {
     border-right: 0;
+
     .inner {
       display: flex;
       align-items: center;

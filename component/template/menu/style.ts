@@ -28,7 +28,6 @@ export const MenuOptionListStyle = styled.section`
     flex: none;
     width: 30rem;
     padding: 1.6rem;
-    max-height: 50rem;
     overflow-y: auto;
     max-width: 40rem;
 

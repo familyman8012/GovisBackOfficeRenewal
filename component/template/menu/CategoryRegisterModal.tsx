@@ -114,7 +114,6 @@ const RegisterModal = ({ show, onClose, onRegister }: Props) => {
             </td>
           </tr>
         </tbody>
-        <tr />
       </InnerTable>
     </Modal>
   );

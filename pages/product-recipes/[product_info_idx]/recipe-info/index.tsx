@@ -161,7 +161,7 @@ const RecipeListPage = ({ envs }: { envs: IEnvironmentResItem[] }) => {
                 <th>설정</th>
                 <th>레시피명</th>
                 <th>레시피 상태</th>
-                <th>&nbsp;</th>
+                <th aria-label="레시피 수정/삭제">&nbsp;</th>
               </tr>
             </thead>
             <tbody>
@@ -170,7 +170,7 @@ const RecipeListPage = ({ envs }: { envs: IEnvironmentResItem[] }) => {
 
                 return (
                   <tr key={item.recipe_info_idx}>
-                    <td>
+                    <td aria-label="사용 상태 변경">
                       <Toggle
                         checked={used}
                         disabled={actionLoading}
@@ -205,6 +205,7 @@ const RecipeListPage = ({ envs }: { envs: IEnvironmentResItem[] }) => {
                             router.push(`${pathname}/${item.recipe_info_idx}`)
                           }
                           disabled={actionLoading}
+                          aria-label="레시피 수정"
                         >
                           <Edit />
                         </button>
@@ -218,6 +219,7 @@ const RecipeListPage = ({ envs }: { envs: IEnvironmentResItem[] }) => {
                               recipe_info_idx: item.recipe_info_idx,
                             })
                           }
+                          aria-label="레시피 삭제"
                         >
                           <Bucket />
                         </button>

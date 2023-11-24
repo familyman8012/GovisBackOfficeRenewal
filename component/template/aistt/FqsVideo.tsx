@@ -17,18 +17,13 @@ const FqsVideo = React.forwardRef<
   React.useLayoutEffect(() => {
     if (!wrapperRef.current || !sticky) return () => {};
 
-    const io = new IntersectionObserver(
-      entries => {
-        entries.forEach(entry => {
-          if (entry.target === wrapperRef.current) {
-            setViewportIn(entry.isIntersecting);
-          }
-        });
-      },
-      {
-        threshold: 0.75,
-      }
-    );
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.target === wrapperRef.current) {
+          setViewportIn(entry.isIntersecting);
+        }
+      });
+    }, {});
 
     io.observe(wrapperRef.current);
 
@@ -40,16 +35,18 @@ const FqsVideo = React.forwardRef<
       ref={wrapperRef}
       className={sticky ? (viewportIn ? 'viewport-in' : 'viewport-out') : ''}
     >
-      <video ref={ref} controls muted {...props} />
-      {!viewportIn && closeButton && (
-        <button
-          type="button"
-          className="video-fix-close"
-          onClick={() => setViewportIn(true)}
-        >
-          <Cross />
-        </button>
-      )}
+      <div className="video-position">
+        <video ref={ref} controls muted {...props} />
+        {!viewportIn && closeButton && (
+          <button
+            type="button"
+            className="video-fix-close"
+            onClick={() => setViewportIn(true)}
+          >
+            <Cross />
+          </button>
+        )}
+      </div>
     </VideoWrapStyle>
   );
 });

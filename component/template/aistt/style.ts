@@ -12,20 +12,28 @@ export const VideoWrapStyle = styled.div`
   overflow: hidden;
   background-color: #000;
 
+  &:before {
+    display: block;
+    content: '';
+    padding-bottom: 56.25%;
+  }
+
   video {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .video-position {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     background-color: #000;
-    object-fit: contain;
-  }
-
-  &:before {
-    display: block;
-    content: '';
-    padding-bottom: 56.25%;
   }
 
   .badge {
@@ -36,31 +44,30 @@ export const VideoWrapStyle = styled.div`
   }
 
   &.viewport-out {
-    video {
+    .video-position {
       position: fixed;
-      top: 0;
-      bottom: auto;
+      top: auto;
+      bottom: 0;
       left: auto;
       right: 0;
+      z-index: 98;
       width: 33%;
       height: 18.5625vw;
       max-width: 1024px;
       max-height: 576px;
-
-      z-index: 98;
-      border-bottom-left-radius: 0.4rem;
+      border-top-left-radius: 0.4rem;
+      overflow: hidden;
     }
   }
 
   .video-fix-close {
-    position: fixed;
+    position: absolute;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-
-    right: 2rem;
     top: 2rem;
-    z-index: 99;
+    right: 2rem;
+    z-index: 2;
     width: 3.2rem;
     height: 3.2rem;
     border-radius: 50%;
@@ -140,6 +147,11 @@ export const AnalysisPageStyle = styled.div`
     }
   }
 
+  .video-second-tags {
+    display: inline-flex;
+    align-items: center;
+  }
+
   h2 {
     font-size: 2.4rem;
     font-weight: bold;
@@ -202,6 +214,7 @@ export const DevicePageStyle = styled.div`
     margin-left: 0;
     border: 0;
     background-color: transparent;
+    width: 100%;
 
     &:before {
       content: '';
@@ -396,16 +409,6 @@ export const ExpandRowStyle = styled.tr`
       width: 1.6rem;
       height: 1.6rem;
     }
-  }
-
-  .gt {
-    display: inline-flex;
-    margin: 0 0.7rem;
-    width: 1.6rem;
-    height: 1.6rem;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='17' height='16' viewBox='0 0 17 16' fill='none'%3E%3Cpath d='M7 11L10 8L7 5' stroke='%23868FA0' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-    background-size: 100% 100%;
-    vertical-align: middle;
   }
 `;
 

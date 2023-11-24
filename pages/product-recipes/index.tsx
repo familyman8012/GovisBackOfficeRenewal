@@ -14,7 +14,7 @@ import useQueryParams from '@HookFarm/useQueryParams';
 
 const RecipeListPage = () => {
   const router = useRouter();
-  const [pathname] = router.asPath.split('?');
+  const [pathname, search] = router.asPath.split('?');
   const [params, updateParams, resetParams] = useQueryParams({
     current_num: 1,
     per_num: 10,
@@ -23,7 +23,7 @@ const RecipeListPage = () => {
   const handlePageChange = (current_num: number) =>
     updateParams({ current_num });
 
-  const { data } = useQuery(['recipe-product-list', params], () =>
+  const { data, isLoading } = useQuery(['recipe-product-list', params], () =>
     fetchRecipeProductList(params)
   );
 
@@ -49,8 +49,14 @@ const RecipeListPage = () => {
         resetParams={resetParams}
       />
       <RecipeListTable
+        loading={isLoading}
         list={data?.list ?? []}
-        onClick={item => router.push(`${pathname}/${item.product_info_idx}`)}
+        onClick={item =>
+          router.push({
+            pathname: `${pathname}/${item.product_info_idx}`,
+            search,
+          })
+        }
         updateParams={updateParams}
       />
       <Pagination
