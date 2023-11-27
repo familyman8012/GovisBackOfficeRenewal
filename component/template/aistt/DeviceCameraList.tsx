@@ -63,7 +63,7 @@ const DeviceCameraList = ({ storeId, cameraList }: Props) => {
                         ? 'on'
                         : camera.status === 2
                         ? 'off'
-                        : ''
+                        : 'none'
                     } ${activeCamera === camera.key ? 'active' : ''}`}
                     onClick={() => setActiveCamera(camera.key)}
                   >

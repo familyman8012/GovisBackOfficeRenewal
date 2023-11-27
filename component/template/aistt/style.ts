@@ -248,6 +248,10 @@ export const DevicePageStyle = styled.div`
     &.off::before {
       background-color: var(--color-red50);
     }
+
+    &.none::before {
+      background-color: var(--color-gray5);
+    }
   }
 
   .view > div:first-of-type {
