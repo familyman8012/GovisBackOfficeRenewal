@@ -171,10 +171,8 @@ const FilterTableForm = ({
           ))}
         </tbody>
       </FilterTable>
-
       <ProductSearchPopup setConfig={productSelect} data={productModalData} />
       <StoreSearchPopup setConfig={storeSelect} data={storeModalData} />
-
       <FilterTableBtnBox>
         <Button variant="gostSecondary" onClick={handlerReset}>
           초기화

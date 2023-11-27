@@ -258,6 +258,10 @@ export const ListHandlerWrap = styled.div`
     }
   }
 
+  button {
+    min-width: auto;
+  }
+
   .left {
     display: flex;
   }

@@ -5,7 +5,7 @@ import { Table, TableWrap } from '@ComponentFarm/common';
 import MenuSelectModal from '@ComponentFarm/molecule/MenuSelect';
 import LayoutTitleBoxWithTab from '@ComponentFarm/template/layout/LayoutWithTitleBoxAndTab';
 import { menuListLayoutConfig } from '@ComponentFarm/template/menu/const';
-import { ListHandlerStyle } from '@ComponentFarm/template/recipe/style';
+import MenuLinkFilter from '@ComponentFarm/template/menu/MenuLinkFilter';
 import useQueryParams from '@HookFarm/useQueryParams';
 import { getTableWidthPercentage } from '@UtilFarm/calcSize';
 
@@ -13,7 +13,7 @@ const MenuLinkPage = () => {
   const [selectedUnLinkMenu, setSelectedUnLinkMenu] = useState<any | null>(
     null
   );
-  const [params, updateParams] = useQueryParams({
+  const [params, updateParams, resetParams] = useQueryParams({
     per_num: 10,
     current_num: 1,
   });
@@ -21,7 +21,11 @@ const MenuLinkPage = () => {
   return (
     <div>
       <LayoutTitleBoxWithTab {...menuListLayoutConfig} />
-      <ListHandlerStyle />
+      <MenuLinkFilter
+        params={params}
+        updateParams={updateParams}
+        resetParams={resetParams}
+      />
       <TableWrap>
         <Table className="basic">
           <colgroup>

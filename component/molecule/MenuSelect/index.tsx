@@ -142,11 +142,13 @@ const MenuSelectModal = ({
       })),
     [params]
   );
+
   const handleClose = React.useCallback(() => {
     onClose?.();
     setSelectedItems([]);
     setParams(initialParams);
   }, [onClose]);
+
   const handleClickItem = React.useCallback(
     (item: IMenuListItem) => {
       // checkbox일때 여러개 선택가능, radio일때는 하나만 선택가능

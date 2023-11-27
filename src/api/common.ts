@@ -14,6 +14,7 @@ export const fetchCommonMenuList = async (params: any) => {
   const response = await CommonRequest.get<
     IResponse<{
       info: any;
+      total_count: number;
       list: IMenuListItem[];
     }>
   >('/menu/info/list', { params });
