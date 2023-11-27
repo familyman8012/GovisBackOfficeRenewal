@@ -108,23 +108,23 @@ const DeviceCameraRecordView = ({
             },
             {
               title: '카메라 FPS',
-              txt1: cameraInfo.camera_info.iso ?? '-',
+              txt1: cameraInfo.camera_info.fps ?? '-',
               txt2: 'fps',
             },
           ]
         : [
             {
               title: '카메라 ID',
-              txt1: cameraInfo.camera_info.camera_id ?? '-',
+              txt1: cameraInfo.camera_id ?? '-',
             },
             {
               title: '카메라 해상도',
-              txt1: cameraInfo.camera_info.resolution_width ?? '-',
+              txt1: cameraInfo.resolution_width ?? '-',
               txt2: 'px',
             },
             {
               title: '카메라 해상도 높이',
-              txt1: cameraInfo.camera_info.resolution_height ?? '-',
+              txt1: cameraInfo.resolution_height ?? '-',
               txt2: 'px',
             },
             {
