@@ -58,9 +58,13 @@ const DeviceCameraList = ({ storeId, cameraList }: Props) => {
                   <button
                     key={camera.key}
                     type="button"
-                    className={`option ${camera.status === 1 ? 'on' : 'off'} ${
-                      activeCamera === camera.key ? 'active' : ''
-                    }`}
+                    className={`option ${
+                      camera.status === 1
+                        ? 'on'
+                        : camera.status === 2
+                        ? 'off'
+                        : ''
+                    } ${activeCamera === camera.key ? 'active' : ''}`}
                     onClick={() => setActiveCamera(camera.key)}
                   >
                     {labels?.[camera.key as keyof typeof labels] ?? ''}

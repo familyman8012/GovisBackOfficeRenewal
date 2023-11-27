@@ -330,7 +330,9 @@ const reset = css`
   button {
     &:disabled {
       color: var(--textcolor-buttonDisabled);
+      cursor: not-allowed !important;
     }
+
     &.btn_reset {
       min-width: auto;
       height: 4.4rem;
