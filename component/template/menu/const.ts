@@ -46,7 +46,7 @@ export const menuListLayoutConfig = {
     },
     {
       title: '미확인 메뉴 연결 내역',
-      path: '/menu/unlink',
+      path: '/menu/link-history',
     },
   ],
 };

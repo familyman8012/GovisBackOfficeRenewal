@@ -1,7 +1,8 @@
-import { useEffect } from 'react';
+import { useMemo } from 'react';
 import { useQuery } from 'react-query';
 import { fetchStoreSearchModal } from '@ApiFarm/search-modal';
 import { Button } from '@ComponentFarm/atom/Button/Button';
+import Sync from '@ComponentFarm/atom/icons/Sync';
 import { ListHandlerWrap } from '@ComponentFarm/layout/styles';
 import StoreSearchPopup from '@ComponentFarm/modal/SearchPopup/StoreSearchPopup';
 import ListFilterSelects from '@ComponentFarm/molecule/ListFilterSelects/ListFilterSelects';
@@ -16,46 +17,80 @@ interface Props {
   resetParams: () => void;
 }
 const MenuLinkFilter = ({ params, updateParams, resetParams }: Props) => {
-  const storeSelect = useSelectItems('store_name');
+  const storeSelect = useSelectItems(
+    'store_name',
+    params.store_idx
+      ?.toString()
+      .split(',')
+      .map(item => ({ idx: item, name: '' }))
+  );
 
   const { data: storeModalData } = useQuery(
     ['searchModal', 'store', storeSelect.filters],
     () => fetchStoreSearchModal(storeSelect.filters),
-    { cacheTime: 0, enabled: storeSelect.isOpen || !!params.store_idx }
+    { enabled: storeSelect.isOpen || !!params.store_idx }
   );
 
-  useEffect(() => {
-    if (storeSelect.selectItems.length > 0) {
-      updateParams({
-        ...params,
-        store_idx: storeSelect.selectItems.map(item => item.idx).join(','),
-      });
-    } else {
-      updateParams({ ...params, store_idx: '' });
-    }
-  }, [storeSelect.selectItems]);
-
+  const storeSelectForParmas = useMemo(
+    () => ({
+      ...storeSelect,
+      setSelectItems: (items: any) => {
+        updateParams({
+          ...params,
+          store_idx: items.map((item: any) => item.idx).join(','),
+          current_num: 1,
+        });
+        storeSelect.setSelectItems(items);
+      },
+    }),
+    [storeSelect, params]
+  );
   return (
     <ListHandlerWrap>
-      <StoreSearchPopup setConfig={storeSelect} data={storeModalData} />
+      <StoreSearchPopup
+        setConfig={storeSelectForParmas}
+        data={storeModalData}
+      />
       <div className="line line1">
         <ListFilterSelects
           selectConfig={linkMenuSelectConfig}
           params={params}
           updateParams={updateParams}
         />
-        <Button
-          variant="gostSecondary"
-          onClick={() => storeSelect.setIsOpen(true)}
-        >
-          매장 선택
-        </Button>
+        <div className="field">
+          <Button
+            variant="gostSecondary"
+            onClick={() => storeSelect.setIsOpen(true)}
+          >
+            매장 선택
+          </Button>
+        </div>
+        <div className="field">
+          <Button
+            className="btn_reset"
+            variant="transparent"
+            onClick={() => {
+              resetParams();
+              storeSelect.setSelectItems([]);
+            }}
+            LeadingIcon={<Sync />}
+          >
+            초기화
+          </Button>
+        </div>
         <div className="right">
           <SearchKeyword
-            placeholder="메뉴명"
-            params={params}
+            placeholder="메뉴명 검색"
+            params={useMemo(
+              () => ({ search_keyword: params.unidentified_menu_name ?? '' }),
+              [params]
+            )}
             handler={({ search_keyword }) =>
-              updateParams({ ...params, search_keyword })
+              updateParams({
+                ...params,
+                unidentified_menu_name: search_keyword,
+                current_num: 1,
+              })
             }
           />
         </div>

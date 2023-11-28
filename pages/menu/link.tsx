@@ -1,6 +1,6 @@
 import { useState } from 'react';
+import { runInAction } from 'mobx';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { toast } from 'react-toastify';
 import { fetchUnLinkedMenuList, updateLinkMenu } from '@ApiFarm/menu';
 import { IUnLinkMenuListItem } from '@InterfaceFarm/menu';
 import Pagination from '@ComponentFarm/modules/Paginate/Pagination';
@@ -10,6 +10,7 @@ import { menuListLayoutConfig } from '@ComponentFarm/template/menu/const';
 import MenuLinkFilter from '@ComponentFarm/template/menu/MenuLinkFilter';
 import MenuLinkListTable from '@ComponentFarm/template/menu/MenuLinkListTable';
 import useQueryParams from '@HookFarm/useQueryParams';
+import { confirmModalStore } from '@MobxFarm/store';
 
 const MenuLinkPage = () => {
   const qc = useQueryClient();
@@ -26,7 +27,25 @@ const MenuLinkPage = () => {
 
   const updateLinkMutate = useMutation(updateLinkMenu, {
     onSuccess: () => {
-      toast.info('메뉴 연결이 완료되었습니다.');
+      runInAction(() => {
+        confirmModalStore.openModal({
+          title: '메뉴 연결 완료',
+          content: (
+            <p>
+              연결이 완료된 메뉴는 내역에서 <br /> 확인할 수 있습니다.
+            </p>
+          ),
+          showCancelButton: false,
+          showCloseButton: false,
+
+          onFormSubmit: () => {
+            confirmModalStore.isOpen = false;
+          },
+          onCancel: () => {
+            confirmModalStore.isOpen = false;
+          },
+        });
+      });
       qc.invalidateQueries(['menu-unlink', params]);
     },
   });
@@ -46,12 +65,13 @@ const MenuLinkPage = () => {
       />
       <Pagination
         pageInfo={[Number(params.current_num), Number(params.per_num)]}
-        totalCount={100}
+        totalCount={data?.total_count ?? 0}
         handlePageChange={current_num => updateParams({ current_num })}
       />
       <MenuSelectModal
         type="radio"
         open={!!selectedUnLinkMenu}
+        submitButtonText="메뉴 연결"
         onSelect={([item]) =>
           selectedUnLinkMenu &&
           updateLinkMutate.mutate({

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useQuery } from 'react-query';
+import React, { useCallback, useMemo, useState } from 'react';
+import { useInfiniteQuery } from 'react-query';
 import styled from '@emotion/styled';
 import { fetchCommonMenuList } from '@ApiFarm/common';
 import { IMenuListItem } from '@InterfaceFarm/menu';
@@ -19,6 +19,7 @@ interface Props {
   open?: boolean;
   type?: 'radio' | 'checkbox';
   onSelect?: (selectedList: IMenuListItem[]) => void;
+  submitButtonText?: string;
   onClose?: () => void;
 }
 
@@ -124,14 +125,37 @@ const initialParams = {
 const MenuSelectModal = ({
   open,
   type = 'checkbox',
+  submitButtonText,
   onSelect,
   onClose,
 }: Props) => {
   const [params, setParams] = useState<any>(initialParams);
   const [selectedItems, setSelectedItems] = useState<IMenuListItem[]>([]);
+  const menuSelectConfigWithEnv = useSelectConfigWithEnv(selectConfig);
 
-  const { data } = useQuery(['menuList', params], () =>
-    fetchCommonMenuList(params)
+  const { data, isFetching, hasNextPage, fetchNextPage } = useInfiniteQuery(
+    ['common-menu-list', params],
+    ({ pageParam = 1 }) =>
+      fetchCommonMenuList({
+        ...params,
+        current_num: pageParam,
+      }),
+    {
+      getNextPageParam: (response, allPages) => {
+        const maxPageNumber = Math.ceil(response.total_count / params.per_num);
+        if (maxPageNumber < allPages.length + 1) return undefined;
+        return allPages.length + 1;
+      },
+      enabled: !!open,
+    }
+  );
+
+  const list = useMemo(
+    () =>
+      ([] as IMenuListItem[]).concat(
+        ...(data?.pages.map(res => res.list) ?? [])
+      ),
+    [data]
   );
 
   const updateParmas = React.useCallback(
@@ -169,7 +193,9 @@ const MenuSelectModal = ({
     [type, selectedItems]
   );
 
-  const menuSelectConfigWithEnv = useSelectConfigWithEnv(selectConfig);
+  const handleLoadData = useCallback(() => {
+    if (hasNextPage) fetchNextPage();
+  }, [hasNextPage, fetchNextPage]);
 
   return (
     <Modal
@@ -177,11 +203,13 @@ const MenuSelectModal = ({
       showCloseButton
       isOpen={!!open}
       onClose={handleClose}
+      submitButtonText={submitButtonText}
       disabledFormSubmit={selectedItems.length === 0}
       onFormSubmit={() => {
         onSelect?.(selectedItems);
         handleClose();
       }}
+      onCancel={handleClose}
     >
       <MenuSearchContent>
         <div className="filter">
@@ -222,7 +250,8 @@ const MenuSelectModal = ({
         <section className="content">
           <h3>검색 결과</h3>
           <InfiniteTable
-            list={data?.list ?? []}
+            loading={isFetching}
+            list={list}
             render={item => (
               <tr
                 key={item.menu_info_idx}
@@ -271,7 +300,7 @@ const MenuSelectModal = ({
                 <td>{item.menu_name}</td>
               </tr>
             )}
-            onBottomScroll={() => {}}
+            onBottomScroll={handleLoadData}
           />
         </section>
       </MenuSearchContent>

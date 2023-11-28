@@ -199,7 +199,6 @@ const AnalysisViewPage = () => {
                                     width="100%"
                                   />
                                 </div>
-
                                 <div className="inspection-img">
                                   <h3>제조 이미지 컬러맵</h3>
                                   <img
@@ -210,7 +209,6 @@ const AnalysisViewPage = () => {
                                 </div>
                               </div>
                             </li>
-
                             <li className="hide-line">
                               <span className="ico">
                                 <DataFilled />

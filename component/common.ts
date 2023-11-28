@@ -679,6 +679,10 @@ export const TableWrap = styled.div`
   height: fit-content;
   border: 1px solid var(--color-neutral90);
   border-radius: 0.6rem;
+
+  &.overflow-visible {
+    overflow: visible;
+  }
 `;
 
 export const Table = styled.table`

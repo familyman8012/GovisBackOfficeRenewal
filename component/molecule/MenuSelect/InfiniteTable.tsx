@@ -13,7 +13,7 @@ interface InfiniteTableProps {
 }
 const InfiniteTableWrap = styled.div`
   overflow-y: auto;
-  max-height: 48rem;
+  max-height: 29.2rem;
 
   /* border-radius: 0.6rem; */
   /* border: 1px solid var(--color-neutral90); */

@@ -6,6 +6,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 interface IStoryArgs {
   darkMode: boolean;
+  className?: string;
   children?: React.ReactNode;
   noPadding?: boolean;
   customCss?: SerializedStyles;
@@ -28,8 +29,13 @@ const Content = styled.div<{
   display: flex;
   flex-direction: column;
   gap: 1rem;
+
   * {
     box-sizing: border-box;
+  }
+
+  &.center {
+    align-items: center;
   }
 
   padding: ${({ noPadding }) => (noPadding ? '0' : '1rem')};
@@ -39,13 +45,18 @@ const Content = styled.div<{
 const StoryLayout = ({
   darkMode,
   children,
+  className,
   noPadding,
   customCss,
 }: IStoryArgs) => {
   return (
     <ThemeProvider theme={theme as Theme}>
       <Container darkMode={darkMode}>
-        <Content noPadding={noPadding} customCss={customCss}>
+        <Content
+          className={className}
+          noPadding={noPadding}
+          customCss={customCss}
+        >
           {children}
         </Content>
       </Container>
