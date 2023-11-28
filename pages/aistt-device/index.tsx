@@ -65,7 +65,7 @@ const DeviceListPage = () => {
             label="프로그램 상태"
             title="프로그램 ON"
             value={`${deviceStatusQuery.data?.program_enabled ?? 0}`}
-            unit={`/${deviceStatusQuery.data?.program_total ?? 0}`}
+            unit={`/${deviceStatusQuery.data?.store_aifqs_enabled ?? 0}`}
           />
         </div>
         <SectionStyle>
