@@ -1,10 +1,13 @@
+import { useEffect } from 'react';
 import { useQuery } from 'react-query';
 import { fetchStoreSearchModal } from '@ApiFarm/search-modal';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import { ListHandlerWrap } from '@ComponentFarm/layout/styles';
 import StoreSearchPopup from '@ComponentFarm/modal/SearchPopup/StoreSearchPopup';
+import ListFilterSelects from '@ComponentFarm/molecule/ListFilterSelects/ListFilterSelects';
 import SearchKeyword from '@ComponentFarm/molecule/SearchKeyword/SearchKeyword';
 import { QueryParams } from '@HookFarm/useQueryParams';
+import { linkMenuSelectConfig } from './const';
 import useSelectItems from '../common/FilterTable/useFilterHandler';
 
 interface Props {
@@ -21,10 +24,26 @@ const MenuLinkFilter = ({ params, updateParams, resetParams }: Props) => {
     { cacheTime: 0, enabled: storeSelect.isOpen || !!params.store_idx }
   );
 
+  useEffect(() => {
+    if (storeSelect.selectItems.length > 0) {
+      updateParams({
+        ...params,
+        store_idx: storeSelect.selectItems.map(item => item.idx).join(','),
+      });
+    } else {
+      updateParams({ ...params, store_idx: '' });
+    }
+  }, [storeSelect.selectItems]);
+
   return (
     <ListHandlerWrap>
       <StoreSearchPopup setConfig={storeSelect} data={storeModalData} />
       <div className="line line1">
+        <ListFilterSelects
+          selectConfig={linkMenuSelectConfig}
+          params={params}
+          updateParams={updateParams}
+        />
         <Button
           variant="gostSecondary"
           onClick={() => storeSelect.setIsOpen(true)}

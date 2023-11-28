@@ -10,8 +10,10 @@ import {
   IMenuOptionInfo,
   MenuUpdateParams,
   MenuCategoryCreateParams,
+  IUnLinkMenuListItem,
 } from '@InterfaceFarm/menu';
 import { IProductReq, IProductRes } from '@InterfaceFarm/product';
+import { QueryParams } from '@HookFarm/useQueryParams';
 import { downloadAxiosResponse } from '@UtilFarm/download';
 import { BoV2Request } from './index';
 
@@ -280,4 +282,28 @@ export const removeMenuOptionInfo = (menu_option_info_idx: number) => {
       menu_option_info_idx: number;
     }>
   >(`/menu/option/info/${menu_option_info_idx}`).then(res => res.data.data);
+};
+
+// 미확인 메뉴 등록
+export const fetchUnLinkedMenuList = async (params: QueryParams) => {
+  const response = await BoV2Request.get<
+    IResponse<{
+      total_count: number;
+      list: IUnLinkMenuListItem[];
+    }>
+  >('/unidentified_menu/list', { params });
+
+  return response.data.data;
+};
+
+export const updateLinkMenu = async (params: {
+  unidentified_menu_name: string;
+  menu_info_idx: number;
+}) => {
+  const response = await BoV2Request.post<IResponse<any>>(
+    `/unidentified_menu/linking`,
+    params
+  );
+
+  return response.data.data;
 };

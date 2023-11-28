@@ -18,7 +18,7 @@ import SearchKeyword from '../SearchKeyword/SearchKeyword';
 interface Props {
   open?: boolean;
   type?: 'radio' | 'checkbox';
-  onSelect?: (selectedList: any[]) => void;
+  onSelect?: (selectedList: IMenuListItem[]) => void;
   onClose?: () => void;
 }
 
@@ -184,7 +184,6 @@ const MenuSelectModal = ({
       }}
     >
       <MenuSearchContent>
-        {JSON.stringify(params)}
         <div className="filter">
           <InnerTable className="filter-table">
             <colgroup>
