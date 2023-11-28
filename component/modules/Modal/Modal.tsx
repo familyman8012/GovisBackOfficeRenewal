@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from 'react';
+import React, { FC, ReactNode, useLayoutEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { css, SerializedStyles } from '@emotion/react';
 import styled from '@emotion/styled';
@@ -6,6 +6,8 @@ import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Cross } from '@ComponentFarm/atom/icons';
 import { IconViewArea } from '@ComponentFarm/common';
 import Portal from './Portal';
+
+const modalOpenQueue: string[] = [];
 
 interface ModalProps {
   isOpen: boolean;
@@ -127,6 +129,21 @@ const Modal: FC<ModalProps> = ({
     ${defaultStyles};
     ${addStyles};
   `;
+
+  // modal open queue 데이터를 통해서 body 스크롤 제어
+  useLayoutEffect(() => {
+    const uuid = Math.random().toString(36).substr(2, 9);
+    if (isOpen) {
+      modalOpenQueue.push(uuid);
+      document.body.style.overflow = 'hidden';
+    }
+    return () => {
+      modalOpenQueue.splice(modalOpenQueue.indexOf(uuid), 1);
+      if (modalOpenQueue.length === 0) {
+        document.body.style.overflow = '';
+      }
+    };
+  }, [isOpen]);
 
   const modalContent = (
     <>

@@ -1,9 +1,10 @@
+import { useState } from 'react';
 import { IUnLinkMenuListItem } from '@InterfaceFarm/menu';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import SkeletonTh from '@ComponentFarm/atom/Skeleton/SkeletonTh';
-import Tooltip from '@ComponentFarm/atom/Tooltip/Tooltip';
 import { Table, TableWrap } from '@ComponentFarm/common';
 import { getTableWidthPercentage } from '@UtilFarm/calcSize';
+import { MoreViewModal } from './MoreViewModal';
 
 interface IMenuListTableProps {
   loading?: boolean;
@@ -16,6 +17,11 @@ const MenuLinkListTable = ({
   loading,
   onRequestLink,
 }: IMenuListTableProps) => {
+  const [viewChannel, setViewChannel] = useState<IUnLinkMenuListItem | null>(
+    null
+  );
+  const [viewStore, setViewStore] = useState<IUnLinkMenuListItem | null>(null);
+
   return (
     <TableWrap className="overflow-visible">
       <Table className="basic">
@@ -47,25 +53,23 @@ const MenuLinkListTable = ({
                 <td className="code">{item.sequence_number}</td>
                 <td>{item.unidentified_menu_name}</td>
                 <td>
-                  <button type="button" className="link_popup">
+                  <button
+                    type="button"
+                    className="link_popup"
+                    onClick={() =>
+                      item.order_channel_count && setViewChannel(item)
+                    }
+                  >
                     {item.order_channel_count}개
-                    {item.order_channel_count > 0 && (
-                      <Tooltip
-                        eventType="click"
-                        content={item.order_channel_list.join(', ')}
-                      />
-                    )}
                   </button>
                 </td>
                 <td>
-                  <button type="button" className="link_popup">
+                  <button
+                    type="button"
+                    className="link_popup"
+                    onClick={() => item.order_store_count && setViewStore(item)}
+                  >
                     {item.order_store_count}개
-                    {item.order_store_count > 0 && (
-                      <Tooltip
-                        eventType="click"
-                        content={item.order_store_list.join(', ')}
-                      />
-                    )}
                   </button>
                 </td>
                 <td>
@@ -82,6 +86,18 @@ const MenuLinkListTable = ({
           )}
         </tbody>
       </Table>
+      <MoreViewModal
+        open={!!viewChannel}
+        title="주문 채널 목록"
+        data={viewChannel?.order_channel_list}
+        onClose={() => setViewChannel(null)}
+      />
+      <MoreViewModal
+        open={!!viewStore}
+        title="주문 매장 목록"
+        data={viewStore?.order_store_list}
+        onClose={() => setViewStore(null)}
+      />
     </TableWrap>
   );
 };

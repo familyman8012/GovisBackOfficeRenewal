@@ -32,50 +32,41 @@ export const Default = ({ darkMode }: Props) => {
     <StoryLayout className="center" darkMode={darkMode}>
       <Button>
         기본 툴팁
-        <Tooltip content="툴팁 내용" />
+        <Tooltip>기본 툴팁 내용</Tooltip>
       </Button>
       <Button>
         LEFT 툴팁
-        <Tooltip direction="left" content="툴팁 내용" />
+        <Tooltip direction="left">LEFT 툴팁 내용</Tooltip>
       </Button>
       <Button>
         RIGHT 툴팁
-        <Tooltip direction="right" content={`툴팁 내용\n여러줄`} />
+        <Tooltip direction="right">{`툴팁 내용\n여러줄 툴팁`}</Tooltip>
       </Button>
       <Button>
         TOP 툴팁
-        <Tooltip direction="top" content="상단 툴팁 내용" />
+        <Tooltip direction="top">TOP 툴팁 내용...</Tooltip>
       </Button>
-
       <a href="https://gopizza.kr" target="_blank">
         링크 툴팁
-        <Tooltip content="상단 툴팁 내용" />
+        <Tooltip>상단 툴팁 내용</Tooltip>
       </a>
 
       <div>
         클릭 툴팁 내부 링크
-        <Tooltip
-          eventType="click"
-          direction="right"
-          content={
-            <a href="https://gopizza.kr" target="blank">
-              툴팁 링크
-            </a>
-          }
-        />
+        <Tooltip eventType="click" direction="right">
+          <a href="https://gopizza.kr" target="blank">
+            툴팁 링크
+          </a>
+        </Tooltip>
       </div>
 
       <div>
         클릭 툴팁 내부 링크
-        <Tooltip
-          eventType="click"
-          direction="left"
-          content={
-            <a href="https://gopizza.kr" target="blank">
-              툴팁 링크
-            </a>
-          }
-        />
+        <Tooltip eventType="click" direction="left">
+          <a href="https://gopizza.kr" target="blank">
+            툴팁 링크
+          </a>
+        </Tooltip>
       </div>
     </StoryLayout>
   );

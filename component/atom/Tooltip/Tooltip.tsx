@@ -4,7 +4,6 @@ import styled from '@emotion/styled';
 interface Props {
   direction?: 'top' | 'bottom' | 'left' | 'right';
   eventType?: 'hover' | 'click';
-  content: string | React.ReactNode;
 }
 
 const TooltipContainerStyle = styled.span`
@@ -130,10 +129,10 @@ const TooltipContainerStyle = styled.span`
 `;
 
 const Tooltip = ({
-  content,
   eventType = 'hover',
   direction = 'bottom',
-}: Props) => {
+  children,
+}: React.PropsWithChildren<Props>) => {
   const tooltipRef = useRef<HTMLSpanElement>(null);
   const [show, setShow] = useState(false);
 
@@ -199,7 +198,7 @@ const Tooltip = ({
       ref={tooltipRef}
       className={`${show ? 'show' : ''} ${direction}`}
     >
-      <span className="tooltip-content">{content}</span>
+      <span className="tooltip-content">{children}</span>
     </TooltipContainerStyle>
   );
 };

@@ -80,7 +80,7 @@ const MenuLinkFilter = ({ params, updateParams, resetParams }: Props) => {
         </div>
         <div className="right">
           <SearchKeyword
-            placeholder="메뉴명 검색"
+            placeholder="미확인 메뉴명 검색"
             params={useMemo(
               () => ({ search_keyword: params.unidentified_menu_name ?? '' }),
               [params]
