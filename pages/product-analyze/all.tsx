@@ -1,9 +1,8 @@
-/* eslint-disable no-unused-expressions */
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
 import { css } from '@emotion/react';
-import { fetchProductAllStatis } from '@ApiFarm/product-statistics';
+import { fetchAllProductAnalyze } from '@ApiFarm/product-analyze';
+import { IProductAllAnalyzeReq } from '@InterfaceFarm/product-analyze';
 import { IOption, Select } from '@ComponentFarm/atom/Select/Select';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import { BarCharts } from '@ComponentFarm/chart/BarCharts';
@@ -11,13 +10,12 @@ import TitleArea from '@ComponentFarm/layout/TitleArea';
 import { AreaBox } from '@ComponentFarm/template/common/AreaBox';
 import FilterTableForm from '@ComponentFarm/template/common/FilterTable/FilterTableForm';
 import SubTitleBox from '@ComponentFarm/template/common/SubTitleBox';
-import { ProductSalesTable } from '@ComponentFarm/template/product-statistics/all-statistics/ProductSalesTable';
-import { productStatisticsTabData } from '@ComponentFarm/template/product-statistics/const';
+import { ProductSalesTable } from '@ComponentFarm/template/product-analyze/all/ProductSalesTable';
+import { productAnalyzeTabData } from '@ComponentFarm/template/product-analyze/const';
+import useTabWithDateQuery from '@ComponentFarm/template/product-analyze/useTabWithDateQuery';
 import useQueryParams from '@HookFarm/useQueryParams';
 
-const AisttState = () => {
-  const router = useRouter();
-  const [activeTabIndex, setActiveTabIndex] = useState(0);
+const AllAnalyze = () => {
   const options: IOption[] = [
     {
       value: 'hourly',
@@ -46,13 +44,14 @@ const AisttState = () => {
     setSelectedOption(options.find(o => o.value === params.type) ?? options[0]);
   }, [params.type]);
 
-  const hanldeTabMove = (index: number) => {
-    setActiveTabIndex(index);
-    router.push(productStatisticsTabData[index].url);
-  };
+  const { activeTabIndex, handleTabWithDateQuery } = useTabWithDateQuery({
+    tabIdx: 1,
+    params,
+    productAnalyzeTabData,
+  });
 
-  const { data } = useQuery(['productList', params], () =>
-    fetchProductAllStatis(params)
+  const { data } = useQuery(['AllProductAnalyze', params], () =>
+    fetchAllProductAnalyze(params as IProductAllAnalyzeReq)
   );
 
   const calCulateXformat = (formValue: string, type?: string) => {
@@ -72,10 +71,10 @@ const AisttState = () => {
     <>
       <TitleArea title="제품 분석 및 통계" />
       <Tabs
-        id="all-statistics"
-        tabs={productStatisticsTabData}
+        id="all-analyze"
+        tabs={productAnalyzeTabData}
         activeTabIndex={activeTabIndex}
-        onTabChange={index => hanldeTabMove(index)}
+        onTabChange={index => handleTabWithDateQuery(index)}
       />
       <SubTitleBox
         title="제조 품질 통계"
@@ -139,4 +138,4 @@ const AisttState = () => {
   );
 };
 
-export default AisttState;
+export default AllAnalyze;

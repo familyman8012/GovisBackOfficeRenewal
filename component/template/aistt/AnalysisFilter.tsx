@@ -32,8 +32,12 @@ const AisttAnalysisFilter = ({
 }: FilterTableFormProps) => {
   // 기간 선택
   const [selectedDateRanges, setSelectedDateRanges] = useState<DateRangeType>([
-    null,
-    null,
+    params.manufacture_dt_start
+      ? dayjs(params.manufacture_dt_start as string).toDate()
+      : null,
+    params.manufacture_dt_finish
+      ? dayjs(params.manufacture_dt_finish as string).toDate()
+      : null,
   ]);
 
   // 팝업

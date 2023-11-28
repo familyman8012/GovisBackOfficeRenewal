@@ -47,7 +47,8 @@ export const StateInfoBoxWrap = styled.div`
   }
   dd {
     display: flex;
-    align-items: center;
+    align-items: baseline;
+
     .txt1 {
       color: var(--color-neutral10);
       font-size: 2.4rem;
@@ -56,7 +57,7 @@ export const StateInfoBoxWrap = styled.div`
     }
 
     .txt2 {
-      margin-left: 0.2rem;
+      margin-left: 0.3rem;
       color: var(--color-neutral50);
       font-size: 1.4rem;
       font-weight: 600;

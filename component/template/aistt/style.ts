@@ -36,6 +36,19 @@ export const VideoWrapStyle = styled.div`
     background-color: #000;
   }
 
+  .empty {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+
+    & > div {
+      color: var(--color-gray1) !important;
+    }
+  }
   .badge {
     position: absolute;
     z-index: 2;
@@ -234,6 +247,10 @@ export const DevicePageStyle = styled.div`
 
     &.off::before {
       background-color: var(--color-red50);
+    }
+
+    &.none::before {
+      background-color: var(--color-gray5);
     }
   }
 

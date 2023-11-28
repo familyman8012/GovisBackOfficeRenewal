@@ -25,6 +25,7 @@ export interface BadgeProps {
   LeadingIcon?: React.ReactElement;
   TrailingIcon?: React.ReactElement;
   textWhite?: boolean;
+  hasBorder?: boolean;
 }
 
 const badgeBase = css`
@@ -132,6 +133,8 @@ const BadgeWrapper = styled.span<BadgeProps>`
   ${props => (props.fill === 'outline' ? 'background:none' : '')}
   ${props =>
     props.fill === 'transparent' ? 'border:none;background:none' : ''}
+
+  ${props => !props.hasBorder && 'border:none;font-weight:600;'}
 `;
 
 export const Badge: FC<BadgeProps> = ({
@@ -144,6 +147,7 @@ export const Badge: FC<BadgeProps> = ({
   TrailingIcon,
   children,
   textWhite,
+  hasBorder = true,
 }) => {
   const Leading = LeadingIcon?.type;
   const Trailing = TrailingIcon?.type;
@@ -156,6 +160,7 @@ export const Badge: FC<BadgeProps> = ({
       dot={dot}
       fill={fill}
       textWhite={textWhite}
+      hasBorder={hasBorder}
       className="badge"
     >
       {Leading && (

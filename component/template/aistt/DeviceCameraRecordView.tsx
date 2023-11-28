@@ -8,7 +8,7 @@ import SkeletonTh from '@ComponentFarm/atom/Skeleton/SkeletonTh';
 import { Table, TableWrap } from '@ComponentFarm/common';
 import { getTableWidthPercentage } from '@UtilFarm/calcSize';
 import FqsVideo from './FqsVideo';
-import { FqsInfoTable, SectionStyle } from './style';
+import { FqsInfoTable, SectionStyle, VideoWrapStyle } from './style';
 import StateInfoBox from '../common/StateInfoBox';
 import TableExpandRow from '../common/TableExpandRow';
 
@@ -98,38 +98,52 @@ const DeviceCameraRecordView = ({
         ? [
             {
               title: '노출 시간',
-              txt1: cameraInfo.camera_info.shutter_speed ?? '-',
+              txt1: cameraInfo.camera_info.shutter_speed
+                ? cameraInfo.camera_info.shutter_speed
+                : '-',
               txt2: '초',
             },
             {
               title: 'ISO 대비 민감도',
-              txt1: cameraInfo.camera_info.iso ?? '-',
+              txt1: cameraInfo.camera_info.iso
+                ? cameraInfo.camera_info.iso
+                : '-',
               txt2: 'ISO',
             },
             {
               title: '카메라 FPS',
-              txt1: cameraInfo.camera_info.iso ?? '-',
+              txt1: cameraInfo.camera_info.fps
+                ? cameraInfo.camera_info.fps
+                : '-',
               txt2: 'fps',
             },
           ]
         : [
             {
               title: '카메라 ID',
-              txt1: cameraInfo.camera_info.camera_id ?? '-',
+              txt1: cameraInfo.camera_info.camera_id
+                ? cameraInfo.camera_info.camera_id
+                : '-',
             },
             {
               title: '카메라 해상도',
-              txt1: cameraInfo.camera_info.resolution_width ?? '-',
+              txt1: cameraInfo.camera_info.resolution_width
+                ? cameraInfo.camera_info.resolution_width
+                : '-',
               txt2: 'px',
             },
             {
               title: '카메라 해상도 높이',
-              txt1: cameraInfo.camera_info.resolution_height ?? '-',
+              txt1: cameraInfo.camera_info.resolution_height
+                ? cameraInfo.camera_info.resolution_height
+                : '-',
               txt2: 'px',
             },
             {
               title: '카메라 FPS',
-              txt1: cameraInfo.camera_info.fps ?? '-',
+              txt1: cameraInfo.camera_info.fps
+                ? cameraInfo.camera_info.fps
+                : '-',
               txt2: 'fps',
             },
           ],
@@ -143,7 +157,16 @@ const DeviceCameraRecordView = ({
         <h3 className="title">영상 정보</h3>
       </SectionStyle>
       <StateInfoBox items={cameraState} />
-      <FqsVideo src={videoSource} />
+
+      {videoSource ? (
+        <FqsVideo src={videoSource} />
+      ) : (
+        <VideoWrapStyle>
+          <div className="empty">
+            <Empty>조회된 영상이 없습니다.</Empty>
+          </div>
+        </VideoWrapStyle>
+      )}
       <SectionStyle>
         <h3 className="title">영상 내역</h3>
         <span className="count">

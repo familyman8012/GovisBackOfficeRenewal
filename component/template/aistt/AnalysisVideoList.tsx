@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import { IFqsInspectionListResponse } from '@InterfaceFarm/ai-fqs';
 import { Badge } from '@ComponentFarm/atom/Badge/Badge';
+import Empty from '@ComponentFarm/atom/Empty/Empty';
 import { getScoreFormat } from '@UtilFarm/number';
 import SkeletonVideoThumb from './SkeletonVideoThumb';
 import { VideoListStyle } from './style';
@@ -21,6 +22,7 @@ const AnalysisVideoList: React.FC<VideoListProps> = ({ loading, list }) => {
 
   return (
     <VideoListStyle>
+      {list.length === 0 && <Empty>조회된 데이터가 없습니다.</Empty>}
       {list.map(item => (
         <div className="item" key={item.inspection_info_idx}>
           <button

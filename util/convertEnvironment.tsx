@@ -26,16 +26,16 @@ export type convertEnvObj = {
  * @param data 원본 데이터 배열
  * @returns 변환된 데이터 배열
  */
-export function convertEnv(
-  category: string,
-  data: SourceObj[]
-): convertEnvObj[] {
+export function convertEnv(category: string): convertEnvObj[] {
   if (category === 'boolean') {
     return [
       { label: '미사용', value: '0' },
       { label: '사용', value: '1' },
     ];
   }
+  const data = EnvStore?.getData({
+    name: category,
+  })?.list;
 
   // 주어진 카테고리에 해당하는 데이터만 필터링
   const filteredData = data.filter(item => item?.name === category);
@@ -63,12 +63,8 @@ export type SelectConfig = {
 export const envConfigGeneration = (
   categoryPairs: [string, string, convertEnvObj[]?][]
 ): SelectConfig[] => {
-  const environment = EnvStore?.getData({
-    name: categoryPairs.map(item => item[1]).join(','),
-  })?.list;
-
   return categoryPairs.map(([label, category, customOptions]) => {
-    const optionsFromData = customOptions || convertEnv(category, environment);
+    const optionsFromData = customOptions || convertEnv(category);
 
     // {label: "전체", value: ""}를 각 options 배열의 시작 부분에 추가
     const options = [{ label: '전체', value: '' }, ...optionsFromData];

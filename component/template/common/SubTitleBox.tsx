@@ -74,7 +74,7 @@ export const SubTitleBoxWrap = styled.div<{ hideUnderline?: boolean }>`
 `;
 
 interface ISubTitleBoxProps {
-  title: string;
+  title?: string;
   desc?: string;
   moreLink?: string;
   hideUnderline?: boolean;
@@ -91,7 +91,7 @@ const SubTitleBox: FC<ISubTitleBoxProps> = ({
   return (
     <SubTitleBoxWrap hideUnderline={hideUnderline}>
       <div>
-        <h2>{title}</h2>
+        {title && <h2>{title}</h2>}
         {descBottom && (
           <dl className="descBottom">
             {descBottom.map((el, idx) => (

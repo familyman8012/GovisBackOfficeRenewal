@@ -29,7 +29,6 @@ export const fetchInspectionInfo = (inspection_info_idx: number) => {
 };
 
 export const fetchAiFqsDeviceStatus = () => {
-  /** @TODO typedef */
   return BoV2Request.get<IResponse<IFqsStoreStatus>>(
     `/aifqs/stt/devices/statuses`,
     { baseURL }

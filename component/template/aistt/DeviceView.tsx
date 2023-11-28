@@ -32,7 +32,9 @@ const DeviceView = () => {
     () =>
       deviceInfoData
         ? Object.entries(deviceInfoData)
-            .filter(([key, value]) => key.includes('camera') && !!value.status)
+            .filter(
+              ([key, value]) => key.includes('camera') && value.is_use === 1
+            )
             .map(([key, value]) => ({ key, ...value }))
         : [],
     [deviceInfoData]

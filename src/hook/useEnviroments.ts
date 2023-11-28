@@ -13,10 +13,7 @@ const useEnvironments = (
 ): EnvironmentsReturn => {
   return envKeys.reduce<EnvironmentsReturn>((acc, [key, name]) => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    acc[name] = useMemo(
-      () => convertEnv(key, environmentList),
-      [environmentList]
-    );
+    acc[name] = useMemo(() => convertEnv(key), [environmentList]);
     return acc;
   }, {});
 };

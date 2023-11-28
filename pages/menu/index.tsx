@@ -72,7 +72,6 @@ const MenuListPage = () => {
         onClickCopy={item => setCopyTargetId(item.menu_info_idx)}
         updateParams={updateParams}
       />
-
       <Pagination
         pageInfo={[Number(params.current_num), Number(params.per_num)]}
         totalCount={data?.total_count ?? 1}

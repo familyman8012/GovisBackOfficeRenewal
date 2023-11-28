@@ -50,7 +50,11 @@ const AnalysisListPage = () => {
               []
             )}
             setSelectedOption={option =>
-              updateParams({ inspection_status: option.value, current_num: 1 })
+              updateParams({
+                ...params,
+                inspection_status: option.value,
+                current_num: 1,
+              })
             }
           />
         </SectionStyle>

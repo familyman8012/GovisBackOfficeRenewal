@@ -1,71 +1,68 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import styled from '@emotion/styled';
-import { IProductStatisticsResListItem } from '@InterfaceFarm/product-statistics';
+import { IChannelStoreListItem } from '@InterfaceFarm/product-analyze';
 import { Badge } from '@ComponentFarm/atom/Badge/Badge';
 import Arrow2Down from '@ComponentFarm/atom/icons/Arrow2Down';
 import Arrow2Up from '@ComponentFarm/atom/icons/Arrow2Up';
+import { TableSty1 } from '@ComponentFarm/template/common/table/TableSty';
 import { getTableWidthPercentage } from '@UtilFarm/calcSize';
 
-export const ProductSalesTableWrap = styled.table`
-  width: 100%;
-
-  th,
+const pageStyle = css`
   td {
-    &:first-of-type {
-      padding: 0 2.4rem;
-      text-align: left;
+    height: 5.6rem;
+    padding: 0 1.6rem !important;
+
+    &.comparison_sales_count {
+      color: var(--color-gray8);
     }
-  }
 
-  th {
-    height: 4.8rem;
-    padding: 0 2.4rem;
-    color: var(--color-gray500);
-    font-size: 1.4rem;
-    font-weight: 500;
-    line-height: 1.8rem;
-    letter-spacing: 0.042rem;
-    border-top: 1px solid var(--color-neutral90);
-    border-bottom: 1px solid var(--color-neutral90);
-    background: #f7f9fc;
-  }
-  td {
-    height: 7rem;
-    text-align: center;
-    border-bottom: 1px solid var(--color-neutral90);
+    .badge {
+      margin-right: 1.6rem;
+    }
+    .store_name {
+      padding-left: 1.6rem;
+      font-weight: 600;
+    }
   }
 `;
 
-export const ProductSalesTable = ({
-  chartData,
-  format,
+const StoreSalesTable = ({
+  rankingData,
 }: {
-  chartData?: IProductStatisticsResListItem[];
-  format: (formValue: string, type?: string) => string;
+  rankingData: IChannelStoreListItem[];
 }) => {
   return (
-    <ProductSalesTableWrap>
+    <TableSty1 css={pageStyle}>
       <colgroup>
-        <col width={getTableWidthPercentage(510, 1536)} />
-        <col width={getTableWidthPercentage(342, 1536)} />
-        <col width={getTableWidthPercentage(342, 1536)} />
-        <col width={getTableWidthPercentage(342, 1536)} />
+        {[507, 343, 343, 343].map((el, i) => (
+          <col key={i} width={getTableWidthPercentage(el, 1536)} />
+        ))}
       </colgroup>
       <thead>
         <tr>
-          <th>시간</th>
-          <th>기준일</th>
-          <th>비교일</th>
-          <th>증감율</th>
+          <th scope="col">매장명</th>
+          <th scope="col">기준일 판매</th>
+          <th scope="col">비교일 판매</th>
+          <th scope="col">증감율</th>
         </tr>
       </thead>
       <tbody>
-        {chartData?.map((el, i: number) => (
-          <tr key={el.item_label}>
-            <td>{format(el.item_label)}</td>
+        {rankingData.map(el => (
+          <tr key={el.store_idx}>
+            <td>
+              <Badge
+                color={el.ranking > 3 ? 'gray' : 'indigo'}
+                size="circle"
+                hasBorder={false}
+              >
+                {el.ranking}
+              </Badge>
+              <span className="store_name"> {el.store_name}</span>
+            </td>
             <td>{el.base_sales_count}</td>
-            <td>{el.comparison_sales_count}</td>
+            <td className="comparison_sales_count">
+              {el.comparison_sales_count}
+            </td>
             <td>
               <Badge
                 type="square"
@@ -104,6 +101,8 @@ export const ProductSalesTable = ({
           </tr>
         ))}
       </tbody>
-    </ProductSalesTableWrap>
+    </TableSty1>
   );
 };
+
+export default StoreSalesTable;

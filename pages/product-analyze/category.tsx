@@ -1,30 +1,28 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-/* eslint-disable no-unused-expressions */
 import { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
 import {
-  fetchCategoryStatics,
-  fetchCategoryStaticsDetail,
-} from '@ApiFarm/product-statistics';
-import { ICategoryDetailRes } from '@InterfaceFarm/product-statistics';
+  fetchCategoryAnalyze,
+  fetchCategoryDetailAnalyze,
+} from '@ApiFarm/product-analyze';
+import {
+  ICategoryDetailRes,
+  IProductAnalyzeReq,
+} from '@InterfaceFarm/product-analyze';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import { BarCharts } from '@ComponentFarm/chart/BarCharts';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
 import { AreaBox } from '@ComponentFarm/template/common/AreaBox';
 import FilterTableForm from '@ComponentFarm/template/common/FilterTable/FilterTableForm';
 import SubTitleBox from '@ComponentFarm/template/common/SubTitleBox';
-import { productStatisticsTabData } from '@ComponentFarm/template/product-statistics/const';
+import { CollapseList } from '@ComponentFarm/template/product-analyze/category/style';
+import { productAnalyzeTabData } from '@ComponentFarm/template/product-analyze/const';
+import useTabWithDateQuery from '@ComponentFarm/template/product-analyze/useTabWithDateQuery';
 import useQueryParams from '@HookFarm/useQueryParams';
-import { options } from './const';
-import { CollapseList } from './style';
+import { options } from '../../component/template/product-analyze/all/const';
 
-const Category = () => {
-  const router = useRouter();
-  const [activeTabIndex, setActiveTabIndex] = useState(0);
-  // 빌드 에러로 인해 임시로 주석처리
+const CategoryAnalyze = () => {
   // eslint-disable-next-line no-unused-vars
   const [selectedOption, setSelectedOption] = useState(options[0]);
   const [params, updateParams, resetParams] = useQueryParams({
@@ -35,13 +33,14 @@ const Category = () => {
     setSelectedOption(options.find(o => o.value === params.type) ?? options[0]);
   }, [params.type]);
 
-  const hanldeTabMove = (index: number) => {
-    setActiveTabIndex(index);
-    router.push(productStatisticsTabData[index].url);
-  };
+  const { activeTabIndex, handleTabWithDateQuery } = useTabWithDateQuery({
+    tabIdx: 2,
+    params,
+    productAnalyzeTabData,
+  });
 
-  const { data } = useQuery(['cateogyStaticsList', params], () =>
-    fetchCategoryStatics(params)
+  const { data } = useQuery(['CategoryAnalyze', params], () =>
+    fetchCategoryAnalyze(params as IProductAnalyzeReq)
   );
 
   interface CategoryState {
@@ -65,7 +64,10 @@ const Category = () => {
 
     // 세부 정보가 아직 불러와지지 않았다면 불러오기
     if (!current.details) {
-      const detailData = await fetchCategoryStaticsDetail(itemKey, params);
+      const detailData = await fetchCategoryDetailAnalyze(
+        itemKey,
+        params as IProductAnalyzeReq
+      );
       current.details = detailData;
     }
 
@@ -83,10 +85,10 @@ const Category = () => {
     <>
       <TitleArea title="제품 분석 및 통계" />
       <Tabs
-        id="all-statistics"
-        tabs={productStatisticsTabData}
+        id="category-analyze"
+        tabs={productAnalyzeTabData}
         activeTabIndex={activeTabIndex}
-        onTabChange={index => hanldeTabMove(index)}
+        onTabChange={index => handleTabWithDateQuery(index)}
       />
       <SubTitleBox
         title="카테고리별 현황"
@@ -211,4 +213,4 @@ const Category = () => {
   );
 };
 
-export default Category;
+export default CategoryAnalyze;

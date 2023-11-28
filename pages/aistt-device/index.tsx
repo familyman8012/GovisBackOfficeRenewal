@@ -30,7 +30,7 @@ const DeviceListPage = () => {
     () =>
       fetchAisttStoreList({
         ...params,
-        sort_target: params.sort_target ? params.sort_target : 'device_status',
+        sort_target: params.sort_target ? params.sort_target : 'is_use_stt',
         sort_type: params.sort_target ? params.sort_type : 'desc',
       }),
     {
@@ -62,16 +62,10 @@ const DeviceListPage = () => {
             unit={`/${deviceStatusQuery.data?.store_count ?? 0}`}
           />
           <FqsCard
-            label="기기 상태"
-            title="기기 ON"
-            value={`${deviceStatusQuery.data?.devices_enabled ?? 0}`}
-            unit={`/${deviceStatusQuery.data?.devices_total ?? 0}`}
-          />
-          <FqsCard
             label="프로그램 상태"
             title="프로그램 ON"
             value={`${deviceStatusQuery.data?.program_enabled ?? 0}`}
-            unit={`/${deviceStatusQuery.data?.program_total ?? 0}`}
+            unit={`/${deviceStatusQuery.data?.store_aifqs_enabled ?? 0}`}
           />
         </div>
         <SectionStyle>

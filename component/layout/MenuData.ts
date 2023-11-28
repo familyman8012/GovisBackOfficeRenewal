@@ -108,6 +108,13 @@ export const TotalMenu: MenuType[] = [
     perm_info_idx: 20,
   },
   {
+    depth1: '제품 분석 및 통계',
+    group: 'HeadOffice',
+    path: '/product-analyze',
+    perm_code: 'product_sales_analytics',
+    perm_info_idx: 100,
+  },
+  {
     depth1: '매장 관리',
     group: 'HeadOffice',
     depth2: [
@@ -120,7 +127,7 @@ export const TotalMenu: MenuType[] = [
       {
         name: '매출 채널 관리',
         path: '/bo/sales-channel',
-        perm_code: '',
+        perm_code: 'sales_channel_management',
         perm_info_idx: 999,
       },
       {
@@ -440,7 +447,7 @@ export const Goivs2Menu = [
   '/material',
   '/menu',
   '/product-recipes',
-  '/product-statistics',
+  '/product-analyze',
   '/storybook',
   '/aistt-analysis',
   '/aistt-device',
