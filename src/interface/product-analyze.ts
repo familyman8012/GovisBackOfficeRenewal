@@ -14,6 +14,7 @@ export interface IProductTotalRes {
 }
 
 export interface IProductAnalyzeReq {
+  [key: string]: string | number | undefined | string[]; // QueryParam Type과 호환을 위해 추가
   base_dt_start?: string;
   base_dt_finish?: string;
   comparison_dt_start?: string;

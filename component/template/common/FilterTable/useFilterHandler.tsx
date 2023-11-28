@@ -1,7 +1,10 @@
 import { useMemo, useState } from 'react';
 import { checkedItemType } from '@ComponentFarm/modal/SearchPopup/SearchPopup';
 
-function useSelectItems(search_target: string, initial = []) {
+function useSelectItems(
+  search_target: string,
+  initial: checkedItemType[] = []
+) {
   const [selectItems, setSelectItems] = useState<checkedItemType[]>(initial);
   const [isOpen, setIsOpen] = useState(false);
   const [filters, setFilters] = useState<{

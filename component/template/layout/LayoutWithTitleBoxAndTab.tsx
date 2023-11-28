@@ -1,5 +1,6 @@
 import React, { useMemo, ReactNode, useCallback } from 'react';
 import { useRouter } from 'next/router';
+import styled from '@emotion/styled';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
 
@@ -9,6 +10,12 @@ export interface LayoutWithTitleBoxAndTabProps {
   actionButtons?: ReactNode;
   tabs: { title: string; path: string }[];
 }
+
+const BoxStyle = styled.div`
+  h1 {
+    min-height: 4.4rem;
+  }
+`;
 
 const LayoutTitleBoxWithTab = ({
   id,
@@ -56,7 +63,7 @@ const LayoutTitleBoxWithTab = ({
   }, [pathname, replacedPathTabs]);
 
   return (
-    <div>
+    <BoxStyle>
       <TitleArea title={title} BtnBox={actionButtons} />
       <Tabs
         id={id ?? ''}
@@ -69,7 +76,7 @@ const LayoutTitleBoxWithTab = ({
         }}
       />
       {children}
-    </div>
+    </BoxStyle>
   );
 };
 

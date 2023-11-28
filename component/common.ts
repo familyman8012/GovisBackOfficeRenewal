@@ -291,6 +291,7 @@ const reset = css`
   input[type='checkbox'] {
     margin: 0;
   }
+
   input.inp,
   select,
   textarea {
@@ -444,6 +445,17 @@ const reset = css`
       background: url('/images/common/arrow_right.svg') no-repeat left center /
         1.6rem;
     }
+  }
+
+  .link_popup {
+    display: inline-flex;
+    appearance: none;
+    align-items: center;
+    justify-content: center;
+    text-decoration: underline;
+    color: var(--color-blue60);
+    background: transparent;
+    cursor: pointer;
   }
 
   /* input.inp,
@@ -669,6 +681,10 @@ export const TableWrap = styled.div`
   height: fit-content;
   border: 1px solid var(--color-neutral90);
   border-radius: 0.6rem;
+
+  &.overflow-visible {
+    overflow: visible;
+  }
 `;
 
 export const Table = styled.table`
