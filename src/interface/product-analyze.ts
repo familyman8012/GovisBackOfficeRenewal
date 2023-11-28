@@ -21,9 +21,12 @@ export interface IProductAnalyzeReq {
   product_info_idx?: string;
   store_idx?: string;
 }
-
 export interface IProductAllAnalyzeReq extends IProductAnalyzeReq {
   type?: string;
+}
+
+export interface IStoreAnalyzeReq extends IProductAnalyzeReq {
+  ranking_limit_number?: number;
 }
 
 export interface IProductAnalyzeResListItem {

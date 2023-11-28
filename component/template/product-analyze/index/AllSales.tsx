@@ -7,24 +7,25 @@ import { BarCharts } from '@ComponentFarm/chart/BarCharts';
 import { AreaBox } from '@ComponentFarm/template/common/AreaBox';
 import SubTitleBox from '@ComponentFarm/template/common/SubTitleBox';
 import { QueryParams } from '@HookFarm/useQueryParams';
+import { dateParams } from './moreLinkDateParams';
 
 const AllSales = ({ params }: { params: QueryParams }) => {
   const options: IOption[] = [
     {
       value: 'hourly',
-      label: '시간별',
+      label: '시간순',
     },
     {
       value: 'daily',
-      label: '일별',
+      label: '일별순',
     },
     {
       value: 'weekly',
-      label: '주별',
+      label: '주간순',
     },
     {
       value: 'monthly',
-      label: '월별',
+      label: '월별순',
     },
   ];
 
@@ -67,19 +68,20 @@ const AllSales = ({ params }: { params: QueryParams }) => {
           },
         ]}
       />
-      <AreaBox title="전체 제품판매 현황">
-        {allData && (
-          <BarCharts
-            height="55.7rem"
-            chartData={allData?.list}
-            barSize={6}
-            tickCount={11}
-            xTickFormatter={formatValue =>
-              `${calCulateXformat(formatValue, 'chart')}`
-            }
-            fill="var(--color-orange90)"
-          />
-        )}
+      <AreaBox
+        title="전체 제품판매 현황"
+        moreLink={`/product-analyze/all?${dateParams(params)}`}
+      >
+        <BarCharts
+          height="55.7rem"
+          chartData={allData?.list}
+          barSize={6}
+          tickCount={11}
+          xTickFormatter={formatValue =>
+            `${calCulateXformat(formatValue, 'chart')}`
+          }
+          fill="var(--color-orange90)"
+        />
       </AreaBox>
     </>
   );

@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
+import Link from 'next/link';
+import Skeleton from 'react-loading-skeleton';
 import { useQuery } from 'react-query';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { fetchStoreRankingAnalyze } from '@ApiFarm/product-analyze-dashboard';
-import { IProductAnalyzeReq } from '@InterfaceFarm/product-analyze';
+import { IStoreAnalyzeReq } from '@InterfaceFarm/product-analyze';
 import { Button } from '@ComponentFarm/atom/Button/Button';
-import { AreaBox } from '@ComponentFarm/template/common/AreaBox';
+import { AreaBoxWrap } from '@ComponentFarm/template/common/AreaBox';
 import { QueryParams } from '@HookFarm/useQueryParams';
+import { dateParams } from './moreLinkDateParams';
 import StoreSalesTable from '../store/StoreSalesTable';
 
 const SelectStoreType = styled.div`
@@ -22,30 +25,61 @@ const StoreSales = ({ params }: { params: QueryParams }) => {
   const [selectStoreType, setSelectStoreType] = useState('direct');
   const { data: rankingData } = useQuery(
     ['StoreRankingAnalyze-Dashboard', params],
-    () => fetchStoreRankingAnalyze(params as IProductAnalyzeReq)
+    () =>
+      fetchStoreRankingAnalyze({
+        ...params,
+        ranking_limit_number: 8,
+      } as IStoreAnalyzeReq)
   );
   return (
-    <AreaBox
-      title="매장별 제품판매 현황"
-      className="noPadding"
+    <AreaBoxWrap
+      className="areaBox"
       css={css`
-        height: 61.8rem;
+        h2 {
+          a {
+            display: flex;
+            align-items: center;
+            &:after {
+              display: block;
+              content: '';
+              width: 1.6rem;
+              height: 1.6rem;
+              background: url('/images/common/arrow_right.svg') no-repeat left
+                center/1.6rem;
+            }
+          }
+        }
       `}
-      addFunc={
-        <SelectStoreType>
-          {['direct', 'franchisee'].map(el => (
-            <Button
-              key={el}
-              variant={selectStoreType === el ? 'primary' : 'transparent'}
-              onClick={() => setSelectStoreType(el)}
-            >
-              {el === 'direct' ? '직영점' : '가맹점'}
-            </Button>
-          ))}
-        </SelectStoreType>
-      }
     >
-      {rankingData && (
+      <div className="box_head">
+        <div className="head">
+          <h2>
+            <Link
+              href={`/product-analyze/store?${dateParams(params)}`}
+              className="txt_title"
+            >
+              매장별 제품판매 현황
+            </Link>
+          </h2>
+          <SelectStoreType
+            css={css`
+              margin-right: 0;
+            `}
+          >
+            {['direct', 'franchisee'].map(el => (
+              <Button
+                key={el}
+                variant={selectStoreType === el ? 'primary' : 'transparent'}
+                onClick={() => setSelectStoreType(el)}
+              >
+                {el === 'direct' ? '직영점' : '가맹점'}
+              </Button>
+            ))}
+          </SelectStoreType>
+        </div>
+      </div>
+
+      {rankingData ? (
         <StoreSalesTable
           rankingData={
             selectStoreType === 'direct'
@@ -53,8 +87,10 @@ const StoreSales = ({ params }: { params: QueryParams }) => {
               : rankingData?.franchisee_store_list
           }
         />
+      ) : (
+        <Skeleton height={497} baseColor="#fcfcfc" />
       )}
-    </AreaBox>
+    </AreaBoxWrap>
   );
 };
 

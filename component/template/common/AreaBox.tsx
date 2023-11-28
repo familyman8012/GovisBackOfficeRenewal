@@ -2,7 +2,7 @@ import { FC } from 'react';
 import Link from 'next/link';
 import styled from '@emotion/styled';
 
-const AreaBoxWrap = styled.div`
+export const AreaBoxWrap = styled.div`
   width: 100%;
   padding: 2.4rem;
   border-radius: 0.8rem;
@@ -15,9 +15,9 @@ const AreaBoxWrap = styled.div`
 
     .box_head {
       margin-bottom: 2.4rem;
-      h2 {
+      .head {
         margin-bottom: 0;
-        padding-left: 2.4rem;
+        padding: 0 2.4rem;
       }
     }
   }
@@ -47,22 +47,26 @@ const AreaBoxWrap = styled.div`
   }
 
   .head {
+    width: 100%;
+    display: flex;
+    align-items: center;
     padding: 0;
+    margin-bottom: 1.2rem;
 
     h2 {
-      display: flex;
-      align-items: center;
-      margin-bottom: 1.2rem;
-
       color: var(--color-neutral10);
       font-size: 1.8rem;
       font-weight: 700;
+    }
 
-      .link_more {
-        color: var(--color-neutral10);
-        font-size: 1.4rem;
-        font-weight: 500;
-      }
+    .link_more {
+      color: var(--color-neutral10);
+      font-size: 1.4rem;
+      font-weight: 500;
+    }
+
+    .box_add_func {
+      margin-left: auto;
     }
 
     .box_txt1 {
@@ -138,14 +142,15 @@ export const AreaBox: FC<AreaBoxProps> = ({
     <AreaBoxWrap className={`areaBox ${className}`}>
       <div className="box_head">
         <div className="head">
-          <h2>
-            <span>{title}</span>
-            {moreLink && (
-              <Link href={moreLink} className="link_more">
-                더보기
-              </Link>
-            )}
-          </h2>
+          <h2>{title}</h2>
+          {moreLink && (
+            <Link href={moreLink} className="link_more">
+              더보기
+            </Link>
+          )}
+          {addFunc && <div className="box_add_func">{addFunc}</div>}
+        </div>
+        <div>
           {txt1 && (
             <p className="box_txt1">
               {typeof txt1 === 'string'
@@ -161,7 +166,6 @@ export const AreaBox: FC<AreaBoxProps> = ({
             </div>
           )}
         </div>
-        {addFunc}
       </div>
 
       {children}

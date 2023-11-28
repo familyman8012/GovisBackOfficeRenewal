@@ -4,6 +4,7 @@ import {
   IProductAnalyzeReq,
   IProductAnalyzeRes,
   IProductTotalRes,
+  IStoreAnalyzeReq,
 } from '@InterfaceFarm/product-analyze';
 import { BoV2Request } from '.';
 
@@ -59,7 +60,7 @@ export const fetchChannelAnalyze = async (params?: IProductAnalyzeReq) => {
   return response.data.data;
 };
 
-export const fetchStoreRankingAnalyze = async (params?: IProductAnalyzeReq) => {
+export const fetchStoreRankingAnalyze = async (params?: IStoreAnalyzeReq) => {
   const response = await BoV2Request.get<IResponse<IChannelRankingRes>>(
     `/analytics/product/sales/dashboard/by_store_type_ranking`,
     {

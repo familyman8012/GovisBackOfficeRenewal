@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import Skeleton from 'react-loading-skeleton';
 import { useQuery } from 'react-query';
 import styled from '@emotion/styled';
 import {
@@ -6,6 +7,7 @@ import {
   fetchStoreAnalyze,
 } from '@ApiFarm/product-analyze';
 import { IProductAnalyzeReq } from '@InterfaceFarm/product-analyze';
+import ExportButton from '@ComponentFarm/modules/ExportButton/ExportButton';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
@@ -94,7 +96,7 @@ const StoreAnalyze = () => {
           </SelectStoreType>
         }
       >
-        {rankingData && (
+        {rankingData ? (
           <StoreSalesTable
             rankingData={
               selectStoreType === 'direct'
@@ -102,10 +104,26 @@ const StoreAnalyze = () => {
                 : rankingData?.franchisee_store_list
             }
           />
+        ) : (
+          <Skeleton height={217} baseColor="#fcfcfc" />
         )}
       </AreaBox>
-      <AreaBox title="판매 제품 수" className="noPadding">
-        {data && <SalesProductTable data={data} />}
+      <AreaBox
+        title="판매 제품 수"
+        className="noPadding"
+        addFunc={
+          <ExportButton
+            params={params}
+            endPoint="/analytics/product/sales/export/order_raw_data"
+            title="판매 제품 수"
+          />
+        }
+      >
+        {data ? (
+          <SalesProductTable data={data} />
+        ) : (
+          <Skeleton height={517} baseColor="#fcfcfc" />
+        )}
       </AreaBox>
     </>
   );

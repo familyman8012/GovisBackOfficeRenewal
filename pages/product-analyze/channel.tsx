@@ -2,6 +2,7 @@ import { useMemo } from 'react';
 import { useQuery } from 'react-query';
 import { fetchChannelAnalyze } from '@ApiFarm/product-analyze';
 import { IProductAnalyzeReq } from '@InterfaceFarm/product-analyze';
+import ExportButton from '@ComponentFarm/modules/ExportButton/ExportButton';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import { BarCharts } from '@ComponentFarm/chart/BarCharts';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
@@ -71,48 +72,52 @@ const ChannelAnalyze = () => {
         ]}
       />
       <AreaBox title="카테고리별 제품판매 현황">
-        {data && (
-          <BarCharts
-            type="diff"
-            height="55.7rem"
-            chartData={data.list}
-            barSize={6}
-            tickCount={11}
-            isLegend
-            diffSet={[
-              { name: '기준일', dataKey: 'base_sales_count', fill: '#5A6ACF' },
-              {
-                name: '비교일',
-                dataKey: 'comparison_sales_count',
-                fill: '#E6E8EC',
-              },
-            ]}
-          />
-        )}
+        <BarCharts
+          type="diff"
+          height="55.7rem"
+          chartData={data?.list}
+          barSize={6}
+          tickCount={11}
+          isLegend
+          diffSet={[
+            { name: '기준일', dataKey: 'base_sales_count', fill: '#5A6ACF' },
+            {
+              name: '비교일',
+              dataKey: 'comparison_sales_count',
+              fill: '#E6E8EC',
+            },
+          ]}
+        />
       </AreaBox>
       <AreaBox title="증감율">
-        {data && (
-          <BarCharts
-            height="40rem"
-            barSize={60}
-            domain={[
-              (dataMin: number) =>
-                (dataMin - Math.abs(dataMin * 0.3)).toFixed(0),
-              (dataMax: number) =>
-                (dataMax + Math.abs(dataMax * 0.3)).toFixed(0),
-            ]}
-            hasGrid
-            xKey="name"
-            chartData={increaseData}
-            isTooltip={false}
-            isLabelList
-            LabelListFormatter={(value: number) =>
-              `${value > 0 ? '+' : ''}${value.toFixed(2)}%`
-            }
-          />
-        )}
+        <BarCharts
+          height="40rem"
+          barSize={60}
+          domain={[
+            (dataMin: number) => (dataMin - Math.abs(dataMin * 0.3)).toFixed(0),
+            (dataMax: number) => (dataMax + Math.abs(dataMax * 0.3)).toFixed(0),
+          ]}
+          hasGrid
+          xKey="name"
+          chartData={increaseData}
+          isTooltip={false}
+          isLabelList
+          LabelListFormatter={(value: number) =>
+            `${value > 0 ? '+' : ''}${value.toFixed(2)}%`
+          }
+        />
       </AreaBox>
-      <AreaBox title="판매 제품 수" className="noPadding">
+      <AreaBox
+        title="판매 제품 수"
+        className="noPadding"
+        addFunc={
+          <ExportButton
+            params={params}
+            endPoint="/analytics/product/sales/export/order_raw_data"
+            title="판매 제품 수"
+          />
+        }
+      >
         {data && <SalesProductTable data={data} />}
       </AreaBox>
     </>

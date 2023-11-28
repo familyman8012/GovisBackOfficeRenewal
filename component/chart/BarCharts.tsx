@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react';
+import Skeleton from 'react-loading-skeleton';
 import {
   ResponsiveContainer,
   BarChart,
@@ -57,7 +58,8 @@ export const BarCharts = ({
   LabelListFormatter?: (value: number) => string;
   angle?: number;
 }) => {
-  const chartDataName = chartData.length > 0 ? Object.keys(chartData[0]) : null;
+  const chartDataName =
+    chartData?.length > 0 ? Object.keys(chartData[0]) : null;
   const formatter = useCallback(
     (value: string) => <LegendFormatter value={value} />,
     []
@@ -120,7 +122,7 @@ export const BarCharts = ({
           </BarChart>
         </ResponsiveContainer>
       ) : (
-        <div />
+        <Skeleton height={height} baseColor="#fcfcfc" />
       )}
     </div>
   );

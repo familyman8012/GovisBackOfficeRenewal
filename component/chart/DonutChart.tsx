@@ -1,4 +1,5 @@
 import React from 'react';
+import Skeleton from 'react-loading-skeleton';
 import { ResponsiveContainer, PieChart, Pie, Legend, Tooltip } from 'recharts';
 import { BasicTooltip } from './BasicTooltip';
 import { DonutBasicLegend } from './DonutBasicLegend';
@@ -54,30 +55,34 @@ const DonutChart = ({
 
   return (
     <div style={{ height }}>
-      <ResponsiveContainer width="100%" height="100%">
-        <PieChart>
-          <Pie
-            data={chartData}
-            cx="50%"
-            cy="50%"
-            labelLine={false}
-            label={renderCustomizedLabel}
-            innerRadius="50%"
-            outerRadius="70%"
-            fill="#8884d8"
-            paddingAngle={5}
-            dataKey="base_sales_count"
-          />
+      {chartData ? (
+        <ResponsiveContainer width="100%" height="100%">
+          <PieChart>
+            <Pie
+              data={chartData}
+              cx="50%"
+              cy="50%"
+              labelLine={false}
+              label={renderCustomizedLabel}
+              innerRadius="50%"
+              outerRadius="70%"
+              fill="#8884d8"
+              paddingAngle={5}
+              dataKey="base_sales_count"
+            />
 
-          <Legend
-            layout="vertical"
-            verticalAlign="bottom"
-            align="center"
-            content={legend}
-          />
-          <Tooltip content={toolTip} />
-        </PieChart>
-      </ResponsiveContainer>
+            <Legend
+              layout="vertical"
+              verticalAlign="bottom"
+              align="center"
+              content={legend}
+            />
+            <Tooltip content={toolTip} />
+          </PieChart>
+        </ResponsiveContainer>
+      ) : (
+        <Skeleton height={height} baseColor="#fcfcfc" />
+      )}
     </div>
   );
 };

@@ -6,6 +6,7 @@ import { IProductAnalyzeReq } from '@InterfaceFarm/product-analyze';
 import { BarCharts } from '@ComponentFarm/chart/BarCharts';
 import { AreaBox } from '@ComponentFarm/template/common/AreaBox';
 import { QueryParams } from '@HookFarm/useQueryParams';
+import { dateParams } from './moreLinkDateParams';
 
 const CategorySales = ({ params }: { params: QueryParams }) => {
   const { data } = useQuery(['CategoryAnalyze-Dashboard', params], () =>
@@ -29,6 +30,7 @@ const CategorySales = ({ params }: { params: QueryParams }) => {
   return (
     <AreaBox
       title="카테고리별 제품판매 현황"
+      moreLink={`/product-analyze/category?${dateParams(params)}`}
       css={css`
         margin: 3.2rem 0;
         .recharts-surface {
@@ -41,26 +43,24 @@ const CategorySales = ({ params }: { params: QueryParams }) => {
         }
       `}
     >
-      {categoryData && (
-        <BarCharts
-          type="diff"
-          height="55.7rem"
-          xKey="product_name_ko"
-          chartData={categoryData}
-          barSize={6}
-          tickCount={11}
-          angle={categoryData?.length > 12 ? -30 : 0}
-          isLegend
-          diffSet={[
-            { name: '기준일', dataKey: 'base_sales_count', fill: '#5A6ACF' },
-            {
-              name: '비교일',
-              dataKey: 'comparison_sales_count',
-              fill: '#E6E8EC',
-            },
-          ]}
-        />
-      )}
+      <BarCharts
+        type="diff"
+        height="55.7rem"
+        xKey="product_name_ko"
+        chartData={categoryData}
+        barSize={6}
+        tickCount={11}
+        angle={Number(categoryData?.length) > 12 ? -30 : 0}
+        isLegend
+        diffSet={[
+          { name: '기준일', dataKey: 'base_sales_count', fill: '#5A6ACF' },
+          {
+            name: '비교일',
+            dataKey: 'comparison_sales_count',
+            fill: '#E6E8EC',
+          },
+        ]}
+      />
     </AreaBox>
   );
 };

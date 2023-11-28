@@ -1,6 +1,8 @@
+import Skeleton from 'react-loading-skeleton';
 import { useQuery } from 'react-query';
 import { fetchRegionAnalyze } from '@ApiFarm/product-analyze';
 import { IProductAnalyzeReq } from '@InterfaceFarm/product-analyze';
+import ExportButton from '@ComponentFarm/modules/ExportButton/ExportButton';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
 import { AreaBox } from '@ComponentFarm/template/common/AreaBox';
@@ -56,8 +58,22 @@ const RegionAnalyze = () => {
           },
         ]}
       />
-      <AreaBox title="판매 제품 수" className="noPadding">
-        {data && <SalesProductTable data={data} />}
+      <AreaBox
+        title="판매 제품 수"
+        className="noPadding"
+        addFunc={
+          <ExportButton
+            params={params}
+            endPoint="/analytics/product/sales/export/order_raw_data"
+            title="판매 제품 수"
+          />
+        }
+      >
+        {data ? (
+          <SalesProductTable data={data} />
+        ) : (
+          <Skeleton height={517} baseColor="#fcfcfc" />
+        )}
       </AreaBox>
     </>
   );

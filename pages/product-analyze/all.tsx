@@ -3,6 +3,7 @@ import { useQuery } from 'react-query';
 import { css } from '@emotion/react';
 import { fetchAllProductAnalyze } from '@ApiFarm/product-analyze';
 import { IProductAllAnalyzeReq } from '@InterfaceFarm/product-analyze';
+import ExportButton from '@ComponentFarm/modules/ExportButton/ExportButton';
 import { IOption, Select } from '@ComponentFarm/atom/Select/Select';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import { BarCharts } from '@ComponentFarm/chart/BarCharts';
@@ -19,19 +20,19 @@ const AllAnalyze = () => {
   const options: IOption[] = [
     {
       value: 'hourly',
-      label: '시간별',
+      label: '시간순',
     },
     {
       value: 'daily',
-      label: '일별',
+      label: '일별순',
     },
     {
       value: 'weekly',
-      label: '주별',
+      label: '주간순',
     },
     {
       value: 'monthly',
-      label: '월별',
+      label: '월별순',
     },
   ];
 
@@ -105,7 +106,6 @@ const AllAnalyze = () => {
         addFunc={
           <div
             css={css`
-              width: 11.8rem;
               margin-left: auto;
             `}
           >
@@ -114,24 +114,33 @@ const AllAnalyze = () => {
               selectedOption={selectedOption}
               setSelectedOption={option => updateParams({ type: option.value })}
               isSearchable={false}
+              prefixLabel="분류"
             />
           </div>
         }
       >
-        {data && (
-          <BarCharts
-            height="55.7rem"
-            chartData={data?.list}
-            barSize={6}
-            tickCount={11}
-            xTickFormatter={formatValue =>
-              `${calCulateXformat(formatValue, 'chart')}`
-            }
-            fill="var(--color-orange90)"
-          />
-        )}
+        <BarCharts
+          height="55.7rem"
+          chartData={data?.list}
+          barSize={6}
+          tickCount={11}
+          xTickFormatter={formatValue =>
+            `${calCulateXformat(formatValue, 'chart')}`
+          }
+          fill="var(--color-orange90)"
+        />
       </AreaBox>
-      <AreaBox title="판매 제품 수" className="noPadding">
+      <AreaBox
+        title="판매 제품 수"
+        className="noPadding"
+        addFunc={
+          <ExportButton
+            params={params}
+            endPoint="/analytics/product/sales/export/order_raw_data"
+            title="판매 제품 수"
+          />
+        }
+      >
         <ProductSalesTable chartData={data?.list} format={calCulateXformat} />
       </AreaBox>
     </>

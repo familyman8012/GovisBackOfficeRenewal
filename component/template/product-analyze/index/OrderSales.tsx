@@ -5,6 +5,7 @@ import { IProductAnalyzeReq } from '@InterfaceFarm/product-analyze';
 import DonutChart from '@ComponentFarm/chart/DonutChart';
 import { AreaBox } from '@ComponentFarm/template/common/AreaBox';
 import { QueryParams } from '@HookFarm/useQueryParams';
+import { dateParams } from './moreLinkDateParams';
 import { OrderDonutLegend } from '../order/OrderDonutLegend';
 
 const OrderSales = ({ params }: { params: QueryParams }) => {
@@ -25,7 +26,10 @@ const OrderSales = ({ params }: { params: QueryParams }) => {
   );
 
   return (
-    <AreaBox title="주문방식별 제품판매 현황">
+    <AreaBox
+      title="주문방식별 제품판매 현황"
+      moreLink={`/product-analyze/order?${dateParams(params)}`}
+    >
       <DonutChart
         height="40rem"
         chartData={chartData}
