@@ -23,7 +23,7 @@ const AreaBoxWrap = styled.div`
   }
 
   & + .areaBox {
-    margin-top: 6.4rem;
+    margin-top: 3.2rem;
   }
 
   &.best .box_txt1 {
@@ -102,6 +102,16 @@ const AreaBoxWrap = styled.div`
         font-weight: 500;
       }
     }
+  }
+`;
+
+export const GridAreaWrap = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, calc(50% - 1.6rem));
+  gap: 3.2rem;
+
+  .areaBox + .areaBox {
+    margin-top: 0;
   }
 `;
 

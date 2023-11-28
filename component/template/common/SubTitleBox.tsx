@@ -74,7 +74,7 @@ export const SubTitleBoxWrap = styled.div<{ hideUnderline?: boolean }>`
 `;
 
 interface ISubTitleBoxProps {
-  title: string;
+  title?: string;
   desc?: string;
   moreLink?: string;
   hideUnderline?: boolean;
