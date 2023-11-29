@@ -29,14 +29,13 @@ const DashBoardAnalyze = () => {
   useEffect(() => {
     const saveSessionEnvironment = async () => {
       const environment = await fetchEnvironment();
-      sessionStorage.setItem('environment', JSON.stringify(environment));
+      await sessionStorage.setItem('environment', JSON.stringify(environment));
+      await EnvStore.init();
     };
 
     if (!sessionStorage.getItem('environment')) {
       saveSessionEnvironment();
     }
-
-    EnvStore.init();
 
     updateParams({
       evi_product_category: convertEnv('product_category').find(
