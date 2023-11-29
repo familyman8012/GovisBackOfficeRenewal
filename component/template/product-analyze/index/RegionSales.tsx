@@ -3,7 +3,7 @@ import { useQuery } from 'react-query';
 import { fetchRegionAnalyze } from '@ApiFarm/product-analyze-dashboard';
 import { AreaBox } from '@ComponentFarm/template/common/AreaBox';
 import { QueryParams } from '@HookFarm/useQueryParams';
-import SalesProductTable from '../region/SalesProductTable';
+import RegionSalesTable from '../region/RegionSalesTable';
 
 const RegionSales = ({ params }: { params: QueryParams }) => {
   const { data } = useQuery(
@@ -13,8 +13,8 @@ const RegionSales = ({ params }: { params: QueryParams }) => {
   );
 
   return (
-    <AreaBox title="판매 제품 수" className="noPadding">
-      {data && <SalesProductTable data={data} />}
+    <AreaBox title="지역별 제품 판매 현황" className="noPadding">
+      {data && <RegionSalesTable data={data} />}
     </AreaBox>
   );
 };

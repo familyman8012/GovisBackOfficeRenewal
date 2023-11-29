@@ -12,6 +12,7 @@ import ChannelSaels from '@ComponentFarm/template/product-analyze/index/ChannelS
 import FilterStatiscDashBoard from '@ComponentFarm/template/product-analyze/index/FilterStatiscDashBoard';
 import InfoTotalProduct from '@ComponentFarm/template/product-analyze/index/InfoTotalProduct';
 import OrderSales from '@ComponentFarm/template/product-analyze/index/OrderSales';
+import RegionSales from '@ComponentFarm/template/product-analyze/index/RegionSales';
 import StoreSales from '@ComponentFarm/template/product-analyze/index/StoreSales';
 import useTabWithDateQuery from '@ComponentFarm/template/product-analyze/useTabWithDateQuery';
 import useQueryParams from '@HookFarm/useQueryParams';
@@ -64,18 +65,19 @@ const DashBoardAnalyze = () => {
       />
       <AllSales params={params} />
       <CategorySales params={params} />
-      <GridAreaWrap
-        css={css`
-          margin-bottom: 3.2rem;
-        `}
-      >
+      <GridAreaWrap>
         <OrderSales params={params} />
         <ChannelSaels params={params} />
       </GridAreaWrap>
-      <GridAreaWrap>
+      <GridAreaWrap
+        css={css`
+          margin: 3.2rem 0;
+        `}
+      >
         <StoreSales params={params} />
         <AreaSales params={params} />
       </GridAreaWrap>
+      <RegionSales params={params} />
     </>
   );
 };
