@@ -19,7 +19,11 @@ import { EnvStore } from '@MobxFarm/store';
 import { convertEnv } from '@UtilFarm/convertEnvironment';
 
 const DashBoardAnalyze = () => {
-  const [params, updateParams, resetParams] = useQueryParams({});
+  const [params, updateParams, resetParams] = useQueryParams({
+    evi_product_category: convertEnv('product_category').find(
+      el => el.label === '피자'
+    )?.value,
+  });
   const { activeTabIndex, handleTabWithDateQuery } = useTabWithDateQuery({
     tabIdx: 0,
     params,
@@ -31,17 +35,16 @@ const DashBoardAnalyze = () => {
       const environment = await fetchEnvironment();
       await sessionStorage.setItem('environment', JSON.stringify(environment));
       await EnvStore.init();
+      updateParams({
+        evi_product_category: convertEnv('product_category').find(
+          el => el.label === '피자'
+        )?.value,
+      });
     };
 
     if (!sessionStorage.getItem('environment')) {
       saveSessionEnvironment();
     }
-
-    updateParams({
-      evi_product_category: convertEnv('product_category').find(
-        el => el.label === '피자'
-      )?.value,
-    });
   }, []);
 
   return (
