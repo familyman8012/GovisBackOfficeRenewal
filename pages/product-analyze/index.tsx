@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { css } from '@emotion/react';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
@@ -16,16 +17,20 @@ import useQueryParams from '@HookFarm/useQueryParams';
 import { convertEnv } from '@UtilFarm/convertEnvironment';
 
 const DashBoardAnalyze = () => {
-  const [params, updateParams, resetParams] = useQueryParams({
-    evi_product_category: convertEnv('product_category').find(
-      el => el.label === '피자'
-    )?.value,
-  });
+  const [params, updateParams, resetParams] = useQueryParams({});
   const { activeTabIndex, handleTabWithDateQuery } = useTabWithDateQuery({
     tabIdx: 0,
     params,
     productAnalyzeTabData,
   });
+
+  useEffect(() => {
+    updateParams({
+      evi_product_category: convertEnv('product_category').find(
+        el => el.label === '피자'
+      )?.value,
+    });
+  }, []);
 
   return (
     <>
