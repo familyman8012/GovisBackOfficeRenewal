@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { css } from '@emotion/react';
+import { fetchEnvironment } from '@ApiFarm/environment';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
 import { GridAreaWrap } from '@ComponentFarm/template/common/AreaBox';
@@ -14,6 +15,7 @@ import OrderSales from '@ComponentFarm/template/product-analyze/index/OrderSales
 import StoreSales from '@ComponentFarm/template/product-analyze/index/StoreSales';
 import useTabWithDateQuery from '@ComponentFarm/template/product-analyze/useTabWithDateQuery';
 import useQueryParams from '@HookFarm/useQueryParams';
+import { EnvStore } from '@MobxFarm/store';
 import { convertEnv } from '@UtilFarm/convertEnvironment';
 
 const DashBoardAnalyze = () => {
@@ -25,15 +27,22 @@ const DashBoardAnalyze = () => {
   });
 
   useEffect(() => {
-    console.log(sessionStorage.getItem('environment'));
+    const saveSessionEnvironment = async () => {
+      const environment = await fetchEnvironment();
+      sessionStorage.setItem('environment', JSON.stringify(environment));
+    };
 
-    if (sessionStorage.getItem('environment')) {
-      updateParams({
-        evi_product_category: convertEnv('product_category').find(
-          el => el.label === '피자'
-        )?.value,
-      });
+    if (!sessionStorage.getItem('environment')) {
+      saveSessionEnvironment();
     }
+
+    EnvStore.init();
+
+    updateParams({
+      evi_product_category: convertEnv('product_category').find(
+        el => el.label === '피자'
+      )?.value,
+    });
   }, []);
 
   return (
