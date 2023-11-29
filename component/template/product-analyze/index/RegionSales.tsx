@@ -6,8 +6,10 @@ import { QueryParams } from '@HookFarm/useQueryParams';
 import SalesProductTable from '../region/SalesProductTable';
 
 const RegionSales = ({ params }: { params: QueryParams }) => {
-  const { data } = useQuery(['regionDashboard', params], () =>
-    fetchRegionAnalyze(params)
+  const { data } = useQuery(
+    ['regionDashboard', params],
+    () => fetchRegionAnalyze(params),
+    { enabled: !!params.evi_product_category }
   );
 
   return (

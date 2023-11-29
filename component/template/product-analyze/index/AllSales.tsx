@@ -36,7 +36,8 @@ const AllSales = ({ params }: { params: QueryParams }) => {
 
   const { data: allData } = useQuery(
     ['AllProductAnalyze-Dashboard', params],
-    () => fetchAllProductAnalyze(params as IProductAnalyzeReq)
+    () => fetchAllProductAnalyze(params as IProductAnalyzeReq),
+    { enabled: !!params.evi_product_category }
   );
 
   const calCulateXformat = (formValue: string, type?: string) => {

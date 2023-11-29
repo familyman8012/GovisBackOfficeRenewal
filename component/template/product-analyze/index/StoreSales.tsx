@@ -29,7 +29,8 @@ const StoreSales = ({ params }: { params: QueryParams }) => {
       fetchStoreRankingAnalyze({
         ...params,
         ranking_limit_number: 8,
-      } as IStoreAnalyzeReq)
+      } as IStoreAnalyzeReq),
+    { enabled: !!params.evi_product_category }
   );
   return (
     <AreaBoxWrap

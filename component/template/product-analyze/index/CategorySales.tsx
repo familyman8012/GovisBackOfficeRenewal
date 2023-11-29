@@ -9,8 +9,10 @@ import { QueryParams } from '@HookFarm/useQueryParams';
 import { dateParams } from './moreLinkDateParams';
 
 const CategorySales = ({ params }: { params: QueryParams }) => {
-  const { data } = useQuery(['CategoryAnalyze-Dashboard', params], () =>
-    fetchCategoryAnalyze(params as IProductAnalyzeReq)
+  const { data } = useQuery(
+    ['CategoryAnalyze-Dashboard', params],
+    () => fetchCategoryAnalyze(params as IProductAnalyzeReq),
+    { enabled: !!params.evi_product_category }
   );
 
   const categoryData = useMemo(

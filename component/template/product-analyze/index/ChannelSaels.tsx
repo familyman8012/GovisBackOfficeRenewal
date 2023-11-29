@@ -10,7 +10,8 @@ import { dateParams } from './moreLinkDateParams';
 const ChannelSaels = ({ params }: { params: QueryParams }) => {
   const { data: channelData } = useQuery(
     ['ChannelAnalyze-Dashboard', params],
-    () => fetchChannelAnalyze(params as IProductAnalyzeReq)
+    () => fetchChannelAnalyze(params as IProductAnalyzeReq),
+    { enabled: !!params.evi_product_category }
   );
   return (
     <AreaBox

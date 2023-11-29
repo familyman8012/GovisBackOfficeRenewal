@@ -25,11 +25,13 @@ const DashBoardAnalyze = () => {
   });
 
   useEffect(() => {
-    updateParams({
-      evi_product_category: convertEnv('product_category').find(
-        el => el.label === '피자'
-      )?.value,
-    });
+    if (sessionStorage.getItem('environment')) {
+      updateParams({
+        evi_product_category: convertEnv('product_category').find(
+          el => el.label === '피자'
+        )?.value,
+      });
+    }
   }, []);
 
   return (

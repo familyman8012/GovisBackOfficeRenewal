@@ -10,8 +10,10 @@ import { dateParams } from './moreLinkDateParams';
 import { AreaDonutLegend } from '../area/areaDonutLegend';
 
 const AreaSales = ({ params }: { params: QueryParams }) => {
-  const { data } = useQuery(['AreaAnalyze-Dashboard', params], () =>
-    fetchAreaAnalyze(params as IProductAnalyzeReq)
+  const { data } = useQuery(
+    ['AreaAnalyze-Dashboard', params],
+    () => fetchAreaAnalyze(params as IProductAnalyzeReq),
+    { enabled: !!params.evi_product_category }
   );
 
   const chartData = useMemo(

@@ -9,8 +9,10 @@ import { dateParams } from './moreLinkDateParams';
 import { OrderDonutLegend } from '../order/OrderDonutLegend';
 
 const OrderSales = ({ params }: { params: QueryParams }) => {
-  const { data: orderData } = useQuery(['OrderAnalyze-Dashboard', params], () =>
-    fetchOrderAnalyze(params as IProductAnalyzeReq)
+  const { data: orderData } = useQuery(
+    ['OrderAnalyze-Dashboard', params],
+    () => fetchOrderAnalyze(params as IProductAnalyzeReq),
+    { enabled: !!params.evi_product_category }
   );
 
   const chartData = useMemo(
