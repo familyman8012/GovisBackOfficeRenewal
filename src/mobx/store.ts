@@ -153,7 +153,8 @@ export const authStore = observable<IAuthStore>({
         return {
           ...menu,
           depth2: menu.depth2.filter(
-            item => this.permissionCodes?.includes(item.perm_code)
+            item =>
+              this.permissionCodes?.includes(item.perm_code) || !item.perm_code
           ),
         };
       }

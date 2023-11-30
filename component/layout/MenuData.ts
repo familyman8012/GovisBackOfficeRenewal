@@ -290,31 +290,6 @@ export const TotalMenu: MenuType[] = [
       },
     ],
   },
-
-  {
-    depth1: 'AI-FQS',
-    group: 'Franchise',
-    depth2: [
-      {
-        name: '대시보드',
-        path: '/aistt/dashboard',
-        perm_code: 'ai_fqs_dashboard',
-        perm_info_idx: 36,
-      },
-      {
-        name: '제품 분석',
-        path: '/aistt/analysis',
-        perm_code: 'ai_fqs_analysis',
-        perm_info_idx: 37,
-      },
-      {
-        name: '데이터 검수',
-        path: '/aistt/inspection',
-        perm_code: 'ai_fqs_Inspection',
-        perm_info_idx: 38,
-      },
-    ],
-  },
   {
     depth1: 'G-FQS',
     group: 'Franchise',
