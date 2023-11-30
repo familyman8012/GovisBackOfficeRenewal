@@ -1,4 +1,4 @@
-import React, { FC, ReactNode, useLayoutEffect } from 'react';
+import React, { FC, ReactNode, useLayoutEffect, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { css, SerializedStyles } from '@emotion/react';
 import styled from '@emotion/styled';
@@ -8,6 +8,9 @@ import { IconViewArea } from '@ComponentFarm/common';
 import Portal from './Portal';
 
 const modalOpenQueue: string[] = [];
+
+const useIsomorphicLayoutEffect =
+  typeof window !== 'undefined' ? useLayoutEffect : useEffect;
 
 interface ModalProps {
   isOpen: boolean;
@@ -131,7 +134,7 @@ const Modal: FC<ModalProps> = ({
   `;
 
   // modal open queue 데이터를 통해서 body 스크롤 제어
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     const uuid = Math.random().toString(36).substr(2, 9);
     if (isOpen) {
       modalOpenQueue.push(uuid);

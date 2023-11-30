@@ -230,13 +230,19 @@ export const TotalMenu: MenuType[] = [
       {
         name: '현황',
         path: '/aistt-state',
-        perm_code: 'board_recipe',
+        perm_code: '',
         perm_info_idx: 35,
       },
       {
-        name: '캘린더',
-        path: '/fc/calendar',
-        perm_code: 'board_calendar',
+        name: '제품 분석',
+        path: '/aistt-analysis',
+        perm_code: '',
+        perm_info_idx: 35,
+      },
+      {
+        name: '기기 관리',
+        path: '/aistt-device',
+        perm_code: '',
         perm_info_idx: 35,
       },
     ],
