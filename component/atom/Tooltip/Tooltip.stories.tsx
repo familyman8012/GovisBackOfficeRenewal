@@ -7,11 +7,7 @@ import { Button } from '../Button/Button';
 const meta: Meta = {
   title: 'Atoms/Tooltip',
   tags: ['autodocs'],
-  args: {
-    loading: false,
-    checked: true,
-    disabled: false,
-  },
+  args: {},
   parameters: {
     docs: {
       story: { inline: true }, // render the story in an iframe
