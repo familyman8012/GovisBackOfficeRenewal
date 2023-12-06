@@ -107,13 +107,13 @@ export const TotalMenu: MenuType[] = [
     perm_code: 'menu',
     perm_info_idx: 20,
   },
-  {
-    depth1: '제품 분석 및 통계',
-    group: 'HeadOffice',
-    path: '/product-analyze',
-    perm_code: 'product_sales_analytics',
-    perm_info_idx: 100,
-  },
+  // {
+  //   depth1: '제품 분석 및 통계',
+  //   group: 'HeadOffice',
+  //   path: '/product-analyze',
+  //   perm_code: 'product_sales_analytics',
+  //   perm_info_idx: 100,
+  // },
   {
     depth1: '매장 관리',
     group: 'HeadOffice',
@@ -223,30 +223,31 @@ export const TotalMenu: MenuType[] = [
       },
     ],
   },
-  {
-    depth1: `AI Smart\n Topping table`,
-    group: 'Franchise',
-    depth2: [
-      {
-        name: '현황',
-        path: '/aistt-state',
-        perm_code: '',
-        perm_info_idx: 35,
-      },
-      {
-        name: '제품 분석',
-        path: '/aistt-analysis',
-        perm_code: '',
-        perm_info_idx: 35,
-      },
-      {
-        name: '기기 관리',
-        path: '/aistt-device',
-        perm_code: '',
-        perm_info_idx: 35,
-      },
-    ],
-  },
+  // 운영 반영을 위한 주석처리
+  // {
+  //   depth1: `AI Smart\n Topping table`,
+  //   group: 'Franchise',
+  //   depth2: [
+  //     {
+  //       name: '현황',
+  //       path: '/aistt-state',
+  //       perm_code: '',
+  //       perm_info_idx: 35,
+  //     },
+  //     {
+  //       name: '제품 분석',
+  //       path: '/aistt-analysis',
+  //       perm_code: '',
+  //       perm_info_idx: 35,
+  //     },
+  //     {
+  //       name: '기기 관리',
+  //       path: '/aistt-device',
+  //       perm_code: '',
+  //       perm_info_idx: 35,
+  //     },
+  //   ],
+  // },
   {
     depth1: '이벤트 관리',
     group: 'Franchise',

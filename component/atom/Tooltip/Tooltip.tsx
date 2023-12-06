@@ -165,22 +165,28 @@ const Tooltip = ({
 
       $parent?.addEventListener('mouseenter', handleMouseEnter);
       $parent?.addEventListener('mouseleave', handleMouseLeave);
-
+      $parent?.addEventListener('focusin', handleMouseEnter);
+      $parent?.addEventListener('focusout', handleMouseLeave);
       return () => {
         $parent?.removeEventListener('mouseenter', handleMouseEnter);
         $parent?.removeEventListener('mouseleave', handleMouseLeave);
+        $parent?.removeEventListener('focusin', handleMouseEnter);
+        $parent?.removeEventListener('focusout', handleMouseLeave);
       };
     }
+
     if (eventType === 'click') {
       const handleClick = (e: MouseEvent) => {
         if ($tooltip.contains(e.target as Node)) return;
         setShow(prev => !prev);
       };
+
       const handleClickOutside = (e: MouseEvent) => {
         if (!$parent?.contains(e.target as Node)) {
           setShow(false);
         }
       };
+
       $parent?.addEventListener('click', handleClick);
       document.addEventListener('click', handleClickOutside);
 
