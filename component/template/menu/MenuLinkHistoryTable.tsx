@@ -60,7 +60,7 @@ const MenuLinkHistoryTable = ({
             list.map(item => (
               <tr key={item.sequence_number}>
                 <td className="code">{item.sequence_number}</td>
-                <td>${item.unidentified_menu_name}</td>
+                <td>{item.unidentified_menu_name}</td>
                 <td>
                   <button
                     type="button"
