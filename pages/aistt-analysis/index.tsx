@@ -4,13 +4,11 @@ import { fetchInspectionList } from '@ApiFarm/aistt';
 import Pagination from '@ComponentFarm/modules/Paginate/Pagination';
 import { Select } from '@ComponentFarm/atom/Select/Select';
 import PageLayout from '@ComponentFarm/layout/PageLayout';
-import AisttAnalysisFilter from '@ComponentFarm/template/aistt/AnalysisFilter';
-import AnalysisVideoList from '@ComponentFarm/template/aistt/AnalysisVideoList';
+import AisttAnalysisFilter from '@ComponentFarm/template/aistt/analysis/AnalysisFilter';
+import AnalysisVideoList from '@ComponentFarm/template/aistt/analysis/AnalysisVideoList';
+import { AnalysisPageStyle } from '@ComponentFarm/template/aistt/analysis/style';
 import { inspectionOptions } from '@ComponentFarm/template/aistt/const';
-import {
-  AnalysisPageStyle,
-  SectionStyle,
-} from '@ComponentFarm/template/aistt/style';
+import { SectionStyle } from '@ComponentFarm/template/aistt/style';
 import useQueryParams from '@HookFarm/useQueryParams';
 
 const AnalysisListPage = () => {
@@ -22,7 +20,13 @@ const AnalysisListPage = () => {
 
   const { data, isFetching } = useQuery(
     ['fqs-analysis-list', params],
-    () => fetchInspectionList(params),
+    () =>
+      fetchInspectionList({
+        ...params,
+        inspection_status:
+          params.inspection_status === 'ALL' ? '' : params.inspection_status,
+      }),
+
     {
       keepPreviousData: true,
     }
@@ -46,7 +50,7 @@ const AnalysisListPage = () => {
           <Select
             selectedOption={params.inspection_status ?? ''}
             options={React.useMemo(
-              () => [{ label: '전체', value: '' }, ...inspectionOptions],
+              () => [{ label: '전체', value: 'ALL' }, ...inspectionOptions],
               []
             )}
             setSelectedOption={option =>

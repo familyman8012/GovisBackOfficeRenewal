@@ -31,6 +31,7 @@ import {
 import { QueryParams } from '@HookFarm/useQueryParams';
 import { BoV2Request } from '.';
 
+// 제품 분석
 export const fetchInspectionList = (params: QueryParams) => {
   return BoV2Request.get<IResponse<IFqsInspectionListResponse>>(
     '/aifqs/inspection/list',
@@ -44,6 +45,7 @@ export const fetchInspectionInfo = (inspection_info_idx: number) => {
   ).then(res => res.data.data);
 };
 
+// 기기관리
 export const fetchAiFqsDeviceStatus = () => {
   return BoV2Request.get<IResponse<IFqsStoreStatus>>(
     `/aifqs/stt/devices/statuses`
@@ -164,6 +166,13 @@ export const fetchManufacturingList = async (
     {
       params,
     }
+  );
+  return response.data.data;
+};
+
+export const fetchManufacturingInfo = async (inspection_info_idx?: number) => {
+  const response = await BoV2Request.get<IResponse<IFqsInspectionInfo>>(
+    `/aifqs/overview/production/detail/${inspection_info_idx}`
   );
   return response.data.data;
 };

@@ -3,8 +3,8 @@ import { useQuery } from 'react-query';
 import { fetchAiFqsDeviceStatus, fetchAisttStoreList } from '@ApiFarm/aistt';
 import Pagination from '@ComponentFarm/modules/Paginate/Pagination';
 import PageLayout from '@ComponentFarm/layout/PageLayout';
-import AisttDeviceFilter from '@ComponentFarm/template/aistt/DeviceFilter';
-import DeviceStoreList from '@ComponentFarm/template/aistt/DeviceStoreList';
+import AisttDeviceFilter from '@ComponentFarm/template/aistt/device/DeviceFilter';
+import DeviceStoreList from '@ComponentFarm/template/aistt/device/DeviceStoreList';
 import {
   DevicePageStyle,
   SectionStyle,

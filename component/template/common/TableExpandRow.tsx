@@ -1,6 +1,36 @@
 import React, { useState } from 'react';
+import styled from '@emotion/styled';
 import CircleUp from '@ComponentFarm/atom/icons/CircleUp';
-import { ExpandRowStyle } from '../aistt/style';
+
+const ExpandRowStyle = styled.tr`
+  & ~ tr.expand-content > td {
+    padding: 0 !important;
+  }
+
+  & ~ tr.expand-content:hover {
+    background-color: transparent !important;
+  }
+
+  td:first-of-type {
+    padding: 0;
+  }
+
+  .dropdown-btn {
+    width: 2.4rem;
+    height: 2.4rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    appearance: none;
+    background-color: transparent;
+    cursor: pointer;
+
+    svg {
+      width: 1.6rem;
+      height: 1.6rem;
+    }
+  }
+`;
 
 interface Props {
   show?: boolean;

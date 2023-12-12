@@ -1,40 +1,35 @@
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
-import { fetchInspectionInfo } from '@ApiFarm/aistt';
+import { fetchManufacturingInfo } from '@ApiFarm/aistt';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
 import AnalysisView from '@ComponentFarm/template/aistt/analysis/AnalysisView';
 import { useGoMove } from '@HookFarm/useGoMove';
 
-const AnalysisViewPage = () => {
+const AisttStateAnalysisViewPage = () => {
   const { onBack } = useGoMove();
 
   const router = useRouter();
-
-  const path = useMemo(() => router.query.id?.[0] ?? 'view', [router.isReady]);
-  const id = useMemo(() => router.query.id?.[1] ?? '', [router.isReady]);
+  const id = useMemo(
+    () => router.query.inspection_info_idx ?? '',
+    [router.isReady]
+  );
 
   const { data } = useQuery(
-    ['fqs-analysis-view', id],
-    () => fetchInspectionInfo(Number(id)),
+    ['fqs-state-analysis-view', id],
+    () => fetchManufacturingInfo(Number(id)),
     {
-      onError: () => onBack(2),
+      onError: () => onBack(),
       enabled: router.isReady,
     }
   );
 
-  useEffect(() => {
-    if (router.isReady && path !== 'view') {
-      onBack(id ? 2 : 1);
-    }
-  }, [path, router.isReady]);
-
   return (
     <>
       <TitleArea
-        title="제품 분석"
+        title="현황"
         BtnBox={
           <Button variant="gostSecondary" onClick={() => router.back()}>
             이전
@@ -45,7 +40,7 @@ const AnalysisViewPage = () => {
         id="aistt-state-view"
         tabs={[
           {
-            title: '상세 정보',
+            title: '제품 제조 상세',
           },
         ]}
         activeTabIndex={0}
@@ -56,4 +51,4 @@ const AnalysisViewPage = () => {
   );
 };
 
-export default AnalysisViewPage;
+export default AisttStateAnalysisViewPage;
