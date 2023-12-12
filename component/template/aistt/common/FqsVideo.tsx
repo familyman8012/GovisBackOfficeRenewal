@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { Cross } from '@ComponentFarm/atom/icons';
 import useSyncedRef from '@HookFarm/useSyncedRef';
 
-const VideoWrapStyle = styled.div`
+export const VideoWrapStyle = styled.div`
   position: relative;
   width: 100%;
   border-radius: 0.8rem;

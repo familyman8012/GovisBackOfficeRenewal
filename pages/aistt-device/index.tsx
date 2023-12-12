@@ -5,10 +5,8 @@ import Pagination from '@ComponentFarm/modules/Paginate/Pagination';
 import PageLayout from '@ComponentFarm/layout/PageLayout';
 import AisttDeviceFilter from '@ComponentFarm/template/aistt/device/DeviceFilter';
 import DeviceStoreList from '@ComponentFarm/template/aistt/device/DeviceStoreList';
-import {
-  DevicePageStyle,
-  SectionStyle,
-} from '@ComponentFarm/template/aistt/style';
+import { DevicePageStyle } from '@ComponentFarm/template/aistt/device/style';
+import { SectionStyle } from '@ComponentFarm/template/aistt/style';
 import FqsCard from '@ComponentFarm/template/common/FqsCard';
 import TitleBox from '@ComponentFarm/template/common/SubTitleBox';
 import useQueryParams from '@HookFarm/useQueryParams';
