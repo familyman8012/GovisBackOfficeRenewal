@@ -53,6 +53,7 @@ const ChannelAnalyze = () => {
         hideUnderline
       />
       <FilterTableForm
+        type="diff"
         params={params}
         updateParams={updateParams}
         resetParams={resetParams}

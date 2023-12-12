@@ -19,21 +19,35 @@ import { FilterTable, FilterTableBtnBox } from './style';
 import useSelectItems from './useFilterHandler';
 
 interface FilterTableFormProps {
+  type?: string;
+  dateKeys?: {
+    startKey: string; // 시작 날짜의 파라미터 키
+    endKey: string; // 종료 날짜의 파라미터 키
+  };
   params: QueryParams;
   updateParams: (newParams: QueryParams) => void;
   resetParams: () => void;
 }
 
 const FilterTableForm = ({
+  type,
+  dateKeys = {
+    startKey: 'search_start_dt',
+    endKey: 'search_end_dt',
+  },
   params,
   updateParams,
   resetParams,
 }: FilterTableFormProps) => {
   // 기간 선택
-  const [selectedDateRanges, setSelectedDateRanges] = useState<DiffDateType>({
-    range1: [null, null],
-    range2: [null, null],
-  });
+  const [selectedDateRanges, setSelectedDateRanges] = useState<DiffDateType>(
+    type === 'diff'
+      ? {
+          range1: [null, null],
+          range2: [null, null],
+        }
+      : { range1: [null, null] }
+  );
 
   // 팝업
   const productSelect = useSelectItems('product_name_ko');
@@ -105,13 +119,21 @@ const FilterTableForm = ({
     const { range1, range2 } = selectedDateRanges;
 
     let dateParams = {};
-    if (
-      range1.every(date => date !== null) &&
-      range2.every(date => date !== null)
-    ) {
+    if (range1.every(date => date !== null)) {
+      dateParams =
+        type === 'diff'
+          ? {
+              base_dt_start: dayjs(range1[0]).format('YYYY-MM-DD'),
+              base_dt_finish: dayjs(range1[1]).format('YYYY-MM-DD'),
+            }
+          : {
+              [dateKeys.startKey]: dayjs(range1[0]).format('YYYY-MM-DD'),
+              [dateKeys.endKey]: dayjs(range1[1]).format('YYYY-MM-DD'),
+            };
+    }
+
+    if (range2 && range2.every(date => date !== null)) {
       dateParams = {
-        base_dt_start: dayjs(range1[0]).format('YYYY-MM-DD'),
-        base_dt_finish: dayjs(range1[1]).format('YYYY-MM-DD'),
         comparison_dt_start: range2[0]
           ? dayjs(range2[0]).format('YYYY-MM-DD')
           : '0000-00-00',
@@ -153,9 +175,11 @@ const FilterTableForm = ({
             <th scope="row">기간 선택</th>
             <td>
               <DiffDateRanger
+                type={type}
                 selectedDateRanges={selectedDateRanges}
                 setSelectedDateRanges={setSelectedDateRanges}
                 params={params}
+                dateKeys={dateKeys}
               />
             </td>
           </tr>

@@ -53,6 +53,8 @@ const AllSales = ({ params }: { params: QueryParams }) => {
     return formValue;
   };
 
+  console.log('dateParams(params)', dateParams(params));
+
   return (
     <>
       <SubTitleBox

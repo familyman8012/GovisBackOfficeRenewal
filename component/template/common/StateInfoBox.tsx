@@ -1,4 +1,5 @@
 import React, { FC } from 'react';
+import Skeleton from 'react-loading-skeleton';
 import styled from '@emotion/styled';
 
 export const StateInfoBoxWrap = styled.div`
@@ -54,6 +55,11 @@ export const StateInfoBoxWrap = styled.div`
       font-size: 2.4rem;
       font-weight: 700;
       line-height: 2.64rem;
+
+      > span {
+        display: inline-block;
+        width: 7.8rem;
+      }
     }
 
     .txt2 {
@@ -93,7 +99,13 @@ const StateInfoBox: FC<IStateInfoBoxItemsProps> = ({ items }) => {
           <dl>
             <dt>{el.title}</dt>
             <dd>
-              <span className="txt1">{el.txt1}</span>
+              <span className="txt1">
+                {el.txt1 !== 'undefined' ? (
+                  el.txt1
+                ) : (
+                  <Skeleton width="100%" baseColor="#fcfcfc" />
+                )}
+              </span>
               {el.txt2 && <span className="txt2">{el.txt2}</span>}
               {el.txt3 && <span className="txt3">{el.txt3}</span>}
             </dd>

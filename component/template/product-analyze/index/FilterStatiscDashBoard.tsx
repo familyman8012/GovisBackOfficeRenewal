@@ -60,6 +60,7 @@ const FilterTableForm = ({
     let dateParams = {};
     if (
       range1.every(date => date !== null) &&
+      range2 &&
       range2.every(date => date !== null)
     ) {
       dateParams = {
@@ -124,6 +125,7 @@ const FilterTableForm = ({
         )}
       </div>
       <DiffDateRanger
+        type="diff"
         selectedDateRanges={selectedDateRanges}
         setSelectedDateRanges={setSelectedDateRanges}
         params={params}

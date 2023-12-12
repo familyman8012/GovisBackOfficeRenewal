@@ -458,6 +458,26 @@ const reset = css`
     cursor: pointer;
   }
 
+  .swiper {
+    width: 100%;
+    height: 100%;
+  }
+
+  .swiper-pagination-bullet {
+    width: 1rem;
+    height: 1rem;
+    background: #d9d9d9;
+    opacity: 1;
+
+    &:hover {
+      background: var(--color-blue60);
+    }
+  }
+
+  .swiper-pagination-bullet-active {
+    background: var(--color-blue60);
+  }
+
   /* input.inp,
   select,
   textarea {

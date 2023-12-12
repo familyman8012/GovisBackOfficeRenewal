@@ -5,6 +5,7 @@ import { Meta, Story } from '@storybook/react';
 import { FiArrowRight, FiStar } from 'react-icons/fi';
 import { css } from '@emotion/react';
 import StoryLayout from '@ComponentFarm/modules/story_layout/StoryLayout';
+import { TextBadge } from '@ComponentFarm/atom/Badge/TextBadge';
 import { Badge, BadgeProps } from './Badge';
 
 const meta: Meta = {
@@ -285,3 +286,48 @@ Default.args = {
 Default.parameters = {
   controls: { exclude: ['LeadingIcon', 'TrailingIcon', 'className'] },
 };
+
+const StoryTextBadge: Story<Props> = args => {
+  return (
+    <StoryLayout
+      {...args}
+      customCss={css`
+        display: inline-flex;
+        flex-direction: column;
+        & > span + span {
+          margin-top: 1.25rem; /* Corresponds to space-y-5 in Tailwind CSS */
+        }
+      `}
+    >
+      <div
+        css={css`
+          margin-bottom: 30px;
+        `}
+      >
+        <TextBadge text="토마토 소스 면적" color="red" />
+      </div>
+      <div
+        css={css`
+          margin-bottom: 30px;
+        `}
+      >
+        <TextBadge text="100점~70점" color="blue" />
+      </div>
+      <div
+        css={css`
+          margin-bottom: 30px;
+        `}
+      >
+        <TextBadge text="70점~50점" color="yellow" />
+      </div>
+      <div
+        css={css`
+          margin-bottom: 30px;
+        `}
+      >
+        <TextBadge text="50점~0점" color="orange" />
+      </div>
+    </StoryLayout>
+  );
+};
+export const TextBadgeCase = StoryTextBadge.bind({});

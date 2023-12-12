@@ -97,6 +97,7 @@ const CategoryAnalyze = () => {
         hideUnderline
       />
       <FilterTableForm
+        type="diff"
         params={params}
         updateParams={updateParams}
         resetParams={resetParams}

@@ -25,6 +25,11 @@
       "@PagesFarm/*": ["./pages/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "component/chart/BarCharts.stories.bak"
+  ],
   "exclude": ["node_modules"]
 }

@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import Link from 'next/link';
 import styled from '@emotion/styled';
+import { SubTitleBoxWrap } from './SubTitleBox';
 
 export const AreaBoxWrap = styled.div`
   width: 100%;
@@ -22,22 +23,31 @@ export const AreaBoxWrap = styled.div`
     }
   }
 
+  &.underline {
+    padding: 0;
+    padding-top: 2.4rem;
+
+    &.tab .head {
+      align-items: start;
+    }
+
+    .box_head {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0;
+      border-bottom: 1px solid #e5e5e5;
+      .head {
+        margin-bottom: 0;
+        padding: 0 2.4rem;
+      }
+    }
+    .content {
+      padding: 3.6rem 2.4rem;
+    }
+  }
+
   & + .areaBox {
     margin-top: 3.2rem;
-  }
-
-  &.best .box_txt1 {
-    &:not(:has(span:nth-of-type(2))),
-    span:first-of-type {
-      color: var(--color-green50);
-    }
-  }
-
-  &.worst .box_txt1 {
-    &:not(:has(span:nth-of-type(2))),
-    span:first-of-type {
-      color: var(--color-red50);
-    }
   }
 
   .box_head {
@@ -68,43 +78,32 @@ export const AreaBoxWrap = styled.div`
     .box_add_func {
       margin-left: auto;
     }
+  }
+`;
 
-    .box_txt1 {
-      margin: 0.8rem 0 1.2rem;
+export const AddTab = styled.ul`
+  display: flex;
 
-      &:not(:has(span:nth-of-type(2))),
-      span:first-of-type {
-        margin-bottom: 1.2rem;
-        color: var(--color-neutral20);
-        font-size: 3.6rem;
-        font-style: normal;
-        font-weight: 700;
-        line-height: 120%; /* 4.32rem */
-      }
-      span:nth-of-type(2) {
-        margin-left: 1.6rem;
-        color: var(--color-green50);
-        font-size: 1.6rem;
-        font-weight: 500;
-        line-height: 2.8rem;
-        letter-spacing: -0.0144rem;
-      }
+  right: 2.4rem;
+  li {
+    &:first-of-type {
+      margin-right: 1.6rem;
+    }
+    padding: 0 1rem 2.4rem;
+    button {
+      color: #667085;
+      font-size: 1.4rem;
+      font-weight: 700;
+      line-height: 2rem;
+      cursor: pointer;
+      background: transparent;
     }
 
-    .box_txt2 {
-      line-height: 120%;
-      &:not(:has(span:nth-of-type(2))),
-      span:first-of-type {
-        color: var(--color-neutral50);
-        font-size: 1.4rem;
-        font-weight: 500;
+    &.on {
+      button {
+        color: var(--color-blue60);
       }
-      span:nth-of-type(2) {
-        margin-left: 0.8rem;
-        color: var(--color-green50);
-        font-size: 1.4rem;
-        font-weight: 500;
-      }
+      border-bottom: 2px solid var(--color-blue60);
     }
   }
 `;
@@ -119,11 +118,23 @@ export const GridAreaWrap = styled.div`
   }
 `;
 
+export const ButtonWidthTextDiv = styled.div`
+  display: flex;
+  align-items: center;
+  margin: 3.2rem 0;
+  ${SubTitleBoxWrap} {
+    padding: 0;
+    margin: 0;
+  }
+  button {
+    margin-left: auto;
+  }
+`;
+
 interface AreaBoxProps {
   title: string;
+  desc?: string;
   moreLink?: string;
-  txt1?: string | string[];
-  txt2?: string | string[];
   className?: string;
   addFunc?: React.ReactNode;
   children: React.ReactNode;
@@ -131,8 +142,7 @@ interface AreaBoxProps {
 
 export const AreaBox: FC<AreaBoxProps> = ({
   title,
-  txt1,
-  txt2,
+  desc,
   moreLink,
   className,
   addFunc,
@@ -143,6 +153,7 @@ export const AreaBox: FC<AreaBoxProps> = ({
       <div className="box_head">
         <div className="head">
           <h2>{title}</h2>
+          <span className="desc">{desc}</span>
           {moreLink && (
             <Link href={moreLink} className="link_more">
               더보기
@@ -150,25 +161,8 @@ export const AreaBox: FC<AreaBoxProps> = ({
           )}
           {addFunc && <div className="box_add_func">{addFunc}</div>}
         </div>
-        <div>
-          {txt1 && (
-            <p className="box_txt1">
-              {typeof txt1 === 'string'
-                ? txt1
-                : txt1?.map((el, i) => <span key={i}>{el}</span>)}
-            </p>
-          )}
-          {txt2 && (
-            <div className="box_txt2">
-              {typeof txt2 === 'string'
-                ? txt2
-                : txt2?.map((el, i) => <span key={i}>{el}</span>)}
-            </div>
-          )}
-        </div>
       </div>
-
-      {children}
+      <div className="content">{children}</div>
     </AreaBoxWrap>
   );
 };
