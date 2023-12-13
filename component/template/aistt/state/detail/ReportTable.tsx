@@ -10,6 +10,13 @@ const pageSty = css`
   tr {
     min-height: 10.5rem;
 
+    &:hover {
+      background: transparent !important;
+
+      &.td_chk {
+        background: var(--color-red90) !important;
+      }
+    }
     &:last-of-type {
       td {
         border-bottom: 1px solid var(--color-gray6) !important;
@@ -63,7 +70,7 @@ export const ReportTable = ({
         </tr>
       </thead>
       <tbody>
-        {isLoading ? (
+        {!data ? (
           <SkeletonTh colLength={6} rowLength={12} />
         ) : (
           data &&

@@ -22,6 +22,10 @@ import {
   IReportInfoRes,
   IReportListReq,
   IReportListRes,
+  IReportMailHistoryReq,
+  IReportMailHistoryRes,
+  IReportMailSendReq,
+  IReportMailSendRes,
   IReportManufacturingStatusRes,
   IReportScoreAverageDetailRes,
   IReportScoreAverageRes,
@@ -259,5 +263,35 @@ export const fetchScoreResultDetail = async ({
       : {}
   );
 
+  return response.data.data;
+};
+
+export const fetchReportMailSend = async ({
+  fqs_reports_idx,
+  body,
+}: {
+  fqs_reports_idx: string;
+  body: IReportMailSendReq;
+}) => {
+  const response = await BoV2Request.post<IResponse<IReportMailSendRes>>(
+    `/aifqs/reports/details/${fqs_reports_idx}/mail-send`,
+    { ...body }
+  );
+  return response.data.data;
+};
+
+export const fetchReportMailSendList = async ({
+  fqs_reports_idx,
+  params,
+}: {
+  fqs_reports_idx: string;
+  params: IReportMailHistoryReq;
+}) => {
+  const response = await BoV2Request.get<IResponse<IReportMailHistoryRes>>(
+    `/aifqs/reports/details/${fqs_reports_idx}/mail-send`,
+    {
+      params,
+    }
+  );
   return response.data.data;
 };

@@ -30,7 +30,9 @@ const OrderSales = ({ params }: { params: QueryParams }) => {
   return (
     <AreaBox
       title="주문방식별 제품판매 현황"
-      moreLink={`/product-analyze/order?${dateParams(params)}`}
+      moreLink={`/product-analyze/order${
+        params.base_dt_start ? `?${dateParams(params)}` : ''
+      }`}
     >
       <DonutChart
         height="40rem"

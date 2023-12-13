@@ -36,12 +36,12 @@ export const ImprovementNeedCauseWrap = styled.div`
         order: 1;
         overflow: hidden;
         width: 100%;
-        height: 26.6rem;
         margin-bottom: 2.4rem;
         border-radius: 0.8rem;
 
         img {
-          height: 100%;
+          width: 100%;
+          border-radius: 0.8rem;
         }
       }
       &:nth-of-type(1) {
@@ -69,7 +69,7 @@ export const ImprovementNeedCause = ({
 }) => {
   return (
     <ImprovementNeedCauseWrap>
-      {isLoading
+      {!data
         ? Array.from({ length: 3 }, (_, i) => (
             <dl key={i}>
               <dt>

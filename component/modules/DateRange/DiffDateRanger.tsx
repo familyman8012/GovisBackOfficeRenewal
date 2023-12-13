@@ -98,6 +98,8 @@ export const DiffDateRanger = ({
     }
   }, [dateKeys.endKey, dateKeys.startKey, params, setSelectedDateRanges, type]);
 
+  console.log('selectedDateRanges', selectedDateRanges);
+
   return (
     <DiffDateRangerWrap>
       <span>
@@ -118,6 +120,7 @@ export const DiffDateRanger = ({
               initialDateRange={selectedDateRanges.range2}
               exceptDateRange={selectedDateRanges.range1}
               placeholder="비교일"
+              disabled={selectedDateRanges.range1.every(date => date === null)}
             />
           </span>
         </>

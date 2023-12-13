@@ -1,19 +1,22 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
-import { useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import {
   fetchReportInfo,
+  fetchReportMailSend,
   fetchReportManufacturingStatus,
   fetchScoreResult,
 } from '@ApiFarm/aistt';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
+import MailSendPopup, { IMailData } from '@ComponentFarm/modal/MailSendPopup';
 import { ManufacturingQualityList } from '@ComponentFarm/template/aistt/common/ManufacturingQuality';
 import { aisttStateListTabData } from '@ComponentFarm/template/aistt/const';
 import AnalysisResult from '@ComponentFarm/template/aistt/report/detail/AnalysisResult';
+import MailSendListPopup from '@ComponentFarm/template/aistt/report/detail/MailSendListPopup';
 import { ScoreResultTable } from '@ComponentFarm/template/aistt/report/detail/ScoreResultTable';
 import { StoreSummary } from '@ComponentFarm/template/aistt/report/detail/StoreSummary';
 import { SummaryInfoTable } from '@ComponentFarm/template/aistt/report/detail/SummaryInfoTable';
@@ -34,7 +37,10 @@ export const Detail = () => {
   const router = useRouter();
   // eslint-disable-next-line no-unused-vars
   const { store_idx, id, ...rest } = router.query;
+  const queryClient = useQueryClient();
   const [activeTabIndex, setActiveTabIndex] = useState(0);
+  const [mailOpen, setMailOpen] = useState(false);
+  const [mailListOpen, setMailListOpen] = useState(false);
   const [params, updateParams, resetParams] = useQueryParams({
     id,
     ...rest,
@@ -71,6 +77,26 @@ export const Detail = () => {
     { enabled: !!id }
   );
 
+  const ReportSendMailSubmit = useMutation(fetchReportMailSend, {
+    onSuccess: data => {
+      queryClient.invalidateQueries(['report-info']);
+      queryClient.invalidateQueries(['reportMailSendList']);
+    },
+  });
+
+  const mailOpenHandler = () => {
+    setMailOpen(prev => !prev);
+  };
+
+  const mailSendSubmit = async (data: IMailData) => {
+    const { recipient, ...mailSendData } = data;
+    const recv_emails = recipient?.map(item => item.value).join(',');
+    ReportSendMailSubmit.mutate({
+      fqs_reports_idx: String(id),
+      body: { recv_emails: String(recv_emails), ...mailSendData },
+    });
+  };
+
   return (
     <>
       <TitleArea
@@ -95,9 +121,14 @@ export const Detail = () => {
       <DetailInfoWrap>
         <ButtonWidthTextDiv>
           <SubTitleBox title="내역" hideUnderline />
-          <Button variant="gostPrimary">메일 발송</Button>
+          <Button variant="gostPrimary" onClick={mailOpenHandler}>
+            메일 발송
+          </Button>
         </ButtonWidthTextDiv>
-        <SummaryInfoTable data={reportInfoData} />
+        <SummaryInfoTable
+          setMailListOpen={setMailListOpen}
+          data={reportInfoData}
+        />
         <SubTitleBox title="결과" hideUnderline />
         <StoreSearch
           router={router}
@@ -158,6 +189,17 @@ export const Detail = () => {
           />
         </AreaBox>
       </DetailInfoWrap>
+      <MailSendPopup
+        initial_recv_emails={[{ label: '', value: '' }]}
+        isOpen={mailOpen}
+        onClose={mailOpenHandler}
+        submitFunc={mailSendSubmit}
+      />
+      <MailSendListPopup
+        fqs_reports_idx={String(id)}
+        isOpen={mailListOpen}
+        onClose={() => setMailListOpen(false)}
+      />
     </>
   );
 };

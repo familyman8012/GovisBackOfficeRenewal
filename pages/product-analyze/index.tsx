@@ -24,6 +24,10 @@ const DashBoardAnalyze = () => {
     evi_product_category: convertEnv('product_category').find(
       el => el.label === '피자'
     )?.value,
+    base_dt_start: '2023-11-01',
+    base_dt_finish: '2023-11-30',
+    comparison_dt_start: '2023-12-01',
+    comparison_dt_finish: '2023-12-31',
   });
   const { activeTabIndex, handleTabWithDateQuery } = useTabWithDateQuery({
     tabIdx: 0,

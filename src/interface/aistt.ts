@@ -334,7 +334,6 @@ export interface IReportScoreAverageDetailRes {
 }
 
 export interface IReportMailSendReq {
-  fqs_reports_idx: number;
   recv_emails: string;
   subject: string;
   link: string;
@@ -345,8 +344,7 @@ export interface IReportMailSendRes
   extends Omit<IReportMailSendReq, 'fqs_reports_idx'> {}
 
 export interface IReportMailHistoryReq {
-  fqs_reports_idx: number;
-  per_num: number;
+  per_num?: number;
   current_num: number;
 }
 

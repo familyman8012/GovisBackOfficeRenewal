@@ -1,6 +1,7 @@
 import React from 'react';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
+import { IoAlertCircleOutline } from 'react-icons/io5';
 import Skeleton from 'react-loading-skeleton';
 import { Pagination, Autoplay } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
@@ -10,6 +11,7 @@ import styled from '@emotion/styled';
 import { fetchImprovementStatus } from '@ApiFarm/aistt';
 import { IAisttStateReq, IimprovementStatusItem } from '@InterfaceFarm/aistt';
 import { TextBadge } from '@ComponentFarm/atom/Badge/TextBadge';
+import Empty from '@ComponentFarm/atom/Empty/Empty';
 import RingChart from '@ComponentFarm/chart/RingChart';
 import ScoreLabel from '@ComponentFarm/chart/ScoreLabel';
 import { QueryParams } from '@HookFarm/useQueryParams';
@@ -128,9 +130,11 @@ export const ImprovementStatus = ({
 };
 
 export const ImprovementStatusList = ({ params }: { params: QueryParams }) => {
-  const { data } = useQuery(['improvementList', params], () =>
+  const { isLoading, data } = useQuery(['improvementList', params], () =>
     fetchImprovementStatus(params as IAisttStateReq)
   );
+
+  console.log('data', data);
 
   return (
     <div
@@ -138,7 +142,13 @@ export const ImprovementStatusList = ({ params }: { params: QueryParams }) => {
         height: 28.1rem;
       `}
     >
-      {data ? (
+      {isLoading ? (
+        <SkeletonWrap>
+          {Array.from({ length: 3 }, (_, i) => (
+            <Skeleton key={i} baseColor="#fcfcfc" />
+          ))}
+        </SkeletonWrap>
+      ) : Number(data?.list?.length) > 0 ? (
         <Swiper
           modules={[Pagination, Autoplay]}
           spaceBetween={30}
@@ -158,11 +168,18 @@ export const ImprovementStatusList = ({ params }: { params: QueryParams }) => {
           ))}
         </Swiper>
       ) : (
-        <SkeletonWrap>
-          {Array.from({ length: 3 }, (_, i) => (
-            <Skeleton key={i} baseColor="#fcfcfc" />
-          ))}
-        </SkeletonWrap>
+        <div
+          css={css`
+            display: flex;
+            align-items: center;
+            height: 24.2rem;
+            border: 1px solid #e5e5e5;
+          `}
+        >
+          <Empty Icon={<IoAlertCircleOutline size={42} />}>
+            조회된 결과가 없습니다.
+          </Empty>
+        </div>
       )}
     </div>
   );

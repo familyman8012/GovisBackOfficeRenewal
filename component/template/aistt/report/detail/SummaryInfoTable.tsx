@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { SetStateAction } from 'react';
 import dayjs from 'dayjs';
 import { css } from '@emotion/react';
 import { IReportInfoRes } from '@InterfaceFarm/aistt';
@@ -39,10 +39,22 @@ const pageSty = css`
       background: var(--color-gray2);
     }
   }
+
+  .btn_mail_list {
+    padding: 0 0.3rem;
+    border-bottom: 1px solid var(--color-neutral10);
+    background: transparent;
+    cursor: pointer;
+  }
 `;
 
-export const SummaryInfoTable = ({ data }: { data?: IReportInfoRes }) => {
-  console.log('data', data);
+export const SummaryInfoTable = ({
+  setMailListOpen,
+  data,
+}: {
+  setMailListOpen: React.Dispatch<SetStateAction<boolean>>;
+  data?: IReportInfoRes;
+}) => {
   return (
     <TableSty3 css={pageSty}>
       <colgroup>
@@ -83,7 +95,20 @@ export const SummaryInfoTable = ({ data }: { data?: IReportInfoRes }) => {
           <th scope="row">등록일</th>
           <td>{dayjs(data?.info.registration_dt).format('YYYY-MM-DD')}</td>
           <th scope="row">발송수</th>
-          <td>{data?.info.send_count ?? 0}건</td>
+          <td>
+            {data?.info.send_count ? (
+              <button
+                type="button"
+                className="btn_mail_list"
+                onClick={() => setMailListOpen(true)}
+              >
+                {data?.info.send_count}
+              </button>
+            ) : (
+              0
+            )}
+            건
+          </td>
         </tr>
       </tbody>
     </TableSty3>

@@ -1,7 +1,9 @@
 import React from 'react';
+import { IoAlertCircleOutline } from 'react-icons/io5';
 import { useQuery } from 'react-query';
 import { fetchStoreManufacturingState } from '@ApiFarm/aistt';
 import { IAisttStateReq } from '@InterfaceFarm/aistt';
+import Empty from '@ComponentFarm/atom/Empty/Empty';
 import SkeletonTh from '@ComponentFarm/atom/Skeleton/SkeletonTh';
 import { TableSty1 } from '@ComponentFarm/template/common/table/TableSty';
 import { QueryParams } from '@HookFarm/useQueryParams';
@@ -12,8 +14,9 @@ export const StoreManufacturingTable = ({
 }: {
   params: QueryParams;
 }) => {
-  const { data } = useQuery(['StoreManufacturingStateList', params], () =>
-    fetchStoreManufacturingState(params as IAisttStateReq)
+  const { isLoading, data } = useQuery(
+    ['StoreManufacturingStateList', params],
+    () => fetchStoreManufacturingState(params as IAisttStateReq)
   );
 
   return (
@@ -31,7 +34,9 @@ export const StoreManufacturingTable = ({
         </tr>
       </thead>
       <tbody>
-        {data ? (
+        {isLoading ? (
+          <SkeletonTh colLength={3} />
+        ) : Number(data?.list.length) > 0 ? (
           data?.list.map(item => (
             <tr key={item.store_idx}>
               <td>{item.store_name}</td>
@@ -40,7 +45,13 @@ export const StoreManufacturingTable = ({
             </tr>
           ))
         ) : (
-          <SkeletonTh colLength={3} />
+          <tr>
+            <td colSpan={3}>
+              <Empty Icon={<IoAlertCircleOutline size={42} />}>
+                조회된 결과가 없습니다.
+              </Empty>
+            </td>
+          </tr>
         )}
       </tbody>
     </TableSty1>

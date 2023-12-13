@@ -1,22 +1,33 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { IoAlertCircleOutline } from 'react-icons/io5';
-import { useQuery } from 'react-query';
 import { css } from '@emotion/react';
 import { fetchScoreResultDetail } from '@ApiFarm/aistt';
-import { IReportScoreAverageItem } from '@InterfaceFarm/aistt';
+import {
+  IReportScoreAverageDetailRes,
+  IReportScoreAverageItem,
+} from '@InterfaceFarm/aistt';
 import { TimeBadge } from '@ComponentFarm/atom/Badge/TimeBadge';
 import Empty from '@ComponentFarm/atom/Empty/Empty';
 import { Pic } from '@ComponentFarm/atom/icons';
 import DataFilled from '@ComponentFarm/atom/icons/DataFilled';
 import SkeletonTh from '@ComponentFarm/atom/Skeleton/SkeletonTh';
+import {
+  PageSpinner,
+  PageSpinnerWrap,
+} from '@ComponentFarm/atom/Spinner/Spinner';
 import { Table, TableWrap } from '@ComponentFarm/common';
 import TableExpandRow from '@ComponentFarm/template/common/TableExpandRow';
 import { getTableWidthPercentage } from '@UtilFarm/calcSize';
-import { ImprovementNeedCause } from '../../state/detail/ImprovementNeedCause';
+import {
+  ImprovementNeedCause,
+  ImprovementNeedCauseWrap,
+} from '../../state/detail/ImprovementNeedCause';
 import { ReportTable } from '../../state/detail/ReportTable';
 import { FqsAnalysisDataStyle } from '../../style';
 
 const pageStyle = css`
+  position: relative;
+  width: calc(100% - 5rem);
   h3 {
     margin-bottom: 1.6rem;
   }
@@ -29,31 +40,25 @@ const pageStyle = css`
       padding-bottom: 3rem;
     }
   }
+  ${ImprovementNeedCauseWrap} {
+    dd:nth-of-type(2) {
+      [aria-busy='true'] {
+        height: 24rem;
+      }
+    }
+  }
+
+  ${PageSpinnerWrap} {
+    top: 20rem;
+    left: calc(50%);
+  }
 `;
 
 export const ScoreResultExpandContent = ({
-  info,
-  product_info_idx,
+  detailData,
 }: {
-  info: { fqs_reports_idx: string; store_idx: string };
-  product_info_idx: string;
+  detailData: IReportScoreAverageDetailRes;
 }) => {
-  const { data: ScoreResultDetailData } = useQuery(
-    ['ScoreResultList', product_info_idx],
-    () =>
-      fetchScoreResultDetail({
-        fqs_reports_idx: String(info.fqs_reports_idx),
-        product_info_idx,
-        store_idx: String(info.store_idx),
-      }),
-    {
-      enabled: !!info.fqs_reports_idx && !!product_info_idx,
-      cacheTime: 60,
-    }
-  );
-
-  console.log('ScoreResultDetailData', ScoreResultDetailData);
-
   return (
     <FqsAnalysisDataStyle css={pageStyle}>
       <ul>
@@ -63,9 +68,7 @@ export const ScoreResultExpandContent = ({
           </span>
           <div className="cont_improvement_need">
             <h3>주요 개선 필요 요인</h3>
-            <ImprovementNeedCause
-              data={ScoreResultDetailData?.improvement_factor}
-            />
+            <ImprovementNeedCause data={detailData?.improvement_factor} />
           </div>
         </li>
         <li className="hide-line">
@@ -75,14 +78,19 @@ export const ScoreResultExpandContent = ({
           <div className="cont">
             <div className="inspection">
               <h3>리포트</h3>
-              <ReportTable data={ScoreResultDetailData?.report} />
+              <ReportTable data={detailData?.report} />
             </div>
           </div>
         </li>
       </ul>
+      {!detailData && <PageSpinner spinnerText="PROCESSING" />}
     </FqsAnalysisDataStyle>
   );
 };
+
+interface DetailData {
+  [key: string]: IReportScoreAverageDetailRes;
+}
 
 export const ScoreResultTable = ({
   isLoading,
@@ -93,6 +101,19 @@ export const ScoreResultTable = ({
   info: { fqs_reports_idx: string; store_idx: string };
   data?: IReportScoreAverageItem[];
 }) => {
+  const [detailData, setDetailData] = useState<DetailData>({});
+
+  const fetchAndStoreDetailData = async (productInfoIdx: string) => {
+    if (!detailData[productInfoIdx]) {
+      const fetchedData = await fetchScoreResultDetail({
+        fqs_reports_idx: String(info.fqs_reports_idx),
+        product_info_idx: productInfoIdx,
+        store_idx: String(info.store_idx),
+      });
+      setDetailData(prev => ({ ...prev, [productInfoIdx]: fetchedData }));
+    }
+  };
+
   return (
     <TableWrap className="content">
       <Table className="basic">
@@ -125,13 +146,16 @@ export const ScoreResultTable = ({
             data?.map(item => (
               <TableExpandRow
                 key={item.product_info_idx}
+                onExpand={() =>
+                  fetchAndStoreDetailData(String(item.product_info_idx))
+                }
                 content={
                   <ScoreResultExpandContent
-                    info={info}
-                    product_info_idx={String(item.product_info_idx)}
+                    detailData={detailData[item.product_info_idx]}
                   />
                 }
               >
+                {/* 테이블 셀 내용 */}
                 <td>{item.product_name}</td>
                 <td>
                   {item.product_image ? (

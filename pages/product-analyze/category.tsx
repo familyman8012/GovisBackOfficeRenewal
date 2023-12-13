@@ -26,9 +26,7 @@ import { options } from '../../component/template/product-analyze/all/const';
 const CategoryAnalyze = () => {
   // eslint-disable-next-line no-unused-vars
   const [selectedOption, setSelectedOption] = useState(options[0]);
-  const [params, updateParams, resetParams] = useQueryParams({
-    type: 'hourly',
-  });
+  const [params, updateParams, resetParams] = useQueryParams({});
 
   useEffect(() => {
     setSelectedOption(options.find(o => o.value === params.type) ?? options[0]);

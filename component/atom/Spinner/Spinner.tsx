@@ -137,12 +137,12 @@ const Spinner = ({
 
 export default Spinner;
 
-const PageSpinnerWrap = styled.div`
+export const PageSpinnerWrap = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  position: fixed;
+  position: absolute;
   z-index: 1000;
   top: 50%;
   left: calc(50% + 16rem);

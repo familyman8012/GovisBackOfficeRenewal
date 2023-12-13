@@ -32,7 +32,9 @@ const CategorySales = ({ params }: { params: QueryParams }) => {
   return (
     <AreaBox
       title="카테고리별 제품판매 현황"
-      moreLink={`/product-analyze/category?${dateParams(params)}`}
+      moreLink={`/product-analyze/category${
+        params.base_dt_start ? `?${dateParams(params)}` : ''
+      }`}
       css={css`
         margin: 3.2rem 0;
         .recharts-surface {

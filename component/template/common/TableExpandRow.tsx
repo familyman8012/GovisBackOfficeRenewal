@@ -1,20 +1,27 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import CircleUp from '@ComponentFarm/atom/icons/CircleUp';
 import { ExpandRowStyle } from '../aistt/style';
 
 interface Props {
   show?: boolean;
   content?: React.ReactNode;
+  onExpand?: () => void;
 }
 
 const TableExpandRow = ({
   show = false,
   content,
+  onExpand,
   children,
 }: React.PropsWithChildren<Props>) => {
   const [expanded, setExpanded] = useState(show);
 
-  const toggleExpand = () => setExpanded(val => !val);
+  const toggleExpand = useCallback(() => {
+    if (!expanded && onExpand) {
+      onExpand(); // 확장될 때 onExpand 함수 호출
+    }
+    setExpanded(val => !val);
+  }, [expanded, onExpand]);
 
   return (
     <>
