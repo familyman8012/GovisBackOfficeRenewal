@@ -6,7 +6,8 @@ import Toggle from '@ComponentFarm/atom/Toggle/Toggle';
 import { useGoMove } from '@HookFarm/useGoMove';
 import { getTableWidthPercentage } from '@UtilFarm/calcSize';
 import DeviceCameraList from './DeviceCameraList';
-import { DevicePageStyle, FqsInfoTable, SectionStyle } from './style';
+import { DevicePageStyle } from './style';
+import { FqsInfoTable, SectionStyle } from '../style';
 
 const DeviceView = () => {
   const { onBack } = useGoMove();

@@ -67,7 +67,7 @@ const AisttListTable = ({
   const handleGoIdxClick = (idx: string) => {
     // 현재 쿼리 파라미터를 /add 경로에 추가
     router.push({
-      pathname: `/aistt/view/${idx}`,
+      pathname: `/aistt-state/view/${idx}`,
       query: router.query,
     });
   };

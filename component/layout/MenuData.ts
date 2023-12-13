@@ -223,31 +223,36 @@ export const TotalMenu: MenuType[] = [
       },
     ],
   },
-  // 운영 반영을 위한 주석처리
-  // {
-  //   depth1: `AI Smart\n Topping table`,
-  //   group: 'Franchise',
-  //   depth2: [
-  //     {
-  //       name: '현황',
-  //       path: '/aistt-state',
-  //       perm_code: '',
-  //       perm_info_idx: 35,
-  //     },
-  //     {
-  //       name: '제품 분석',
-  //       path: '/aistt-analysis',
-  //       perm_code: '',
-  //       perm_info_idx: 35,
-  //     },
-  //     {
-  //       name: '기기 관리',
-  //       path: '/aistt-device',
-  //       perm_code: '',
-  //       perm_info_idx: 35,
-  //     },
-  //   ],
-  // },
+  {
+    depth1: `AI Smart\n Topping table`,
+    group: 'Franchise',
+    depth2: [
+      {
+        name: '현황',
+        path: '/aistt-state',
+        perm_code: '',
+        perm_info_idx: 35,
+      },
+      {
+        name: '제품 분석',
+        path: '/aistt-analysis',
+        perm_code: '',
+        perm_info_idx: 35,
+      },
+      {
+        name: '레포트 관리',
+        path: '/aistt-report',
+        perm_code: '',
+        perm_info_idx: 35,
+      },
+      {
+        name: '기기 관리',
+        path: '/aistt-device',
+        perm_code: '',
+        perm_info_idx: 35,
+      },
+    ],
+  },
   {
     depth1: '이벤트 관리',
     group: 'Franchise',
@@ -339,7 +344,6 @@ export const TotalMenu: MenuType[] = [
       },
     ],
   },
-
   {
     depth1: '매장 평가',
     group: 'Franchise',
@@ -434,8 +438,8 @@ export const Goivs2Menu = [
   '/aistt-analysis',
   '/aistt-device',
   '/aistt-state',
-  '/ai-fqs-analysis',
-  '/ai-fqs-device',
-  '/ai-fqs-state',
+  '/aistt-report',
+  '/menu/link',
+  '/menu/link-history',
   '/demo',
 ];

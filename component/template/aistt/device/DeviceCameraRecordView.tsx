@@ -7,10 +7,10 @@ import Empty from '@ComponentFarm/atom/Empty/Empty';
 import SkeletonTh from '@ComponentFarm/atom/Skeleton/SkeletonTh';
 import { Table, TableWrap } from '@ComponentFarm/common';
 import { getTableWidthPercentage } from '@UtilFarm/calcSize';
-import FqsVideo from './FqsVideo';
-import { FqsInfoTable, SectionStyle, VideoWrapStyle } from './style';
-import StateInfoBox from '../common/StateInfoBox';
-import TableExpandRow from '../common/TableExpandRow';
+import StateInfoBox from '../../common/StateInfoBox';
+import TableExpandRow from '../../common/TableExpandRow';
+import FqsVideo, { VideoWrapStyle } from '../common/FqsVideo';
+import { FqsInfoTable, SectionStyle } from '../style';
 
 interface Props {
   storeId: number;

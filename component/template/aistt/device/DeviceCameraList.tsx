@@ -3,8 +3,8 @@ import { useQuery } from 'react-query';
 import { fetchAisttDeviceCameraInfo } from '@ApiFarm/aistt';
 import Empty from '@ComponentFarm/atom/Empty/Empty';
 import DeviceCameraRecordView from './DeviceCameraRecordView';
-import { SectionStyle } from './style';
-import { MenuOptionGroupStyle, MenuOptionListStyle } from '../menu/style';
+import { MenuOptionGroupStyle, MenuOptionListStyle } from '../../menu/style';
+import { SectionStyle } from '../style';
 
 interface Props {
   storeId: number;

@@ -1,13 +1,63 @@
 import React from 'react';
 import { useForm, FormProvider, Controller } from 'react-hook-form';
 import { useQuery } from 'react-query';
+import { css } from '@emotion/react';
 import { fetchAisttStoreInfo } from '@ApiFarm/aistt';
 import { IFqsStoreInfoResponse } from '@InterfaceFarm/ai-fqs';
 import RadioGroup from '@ComponentFarm/modules/RadioGroup/RadioGroup';
 import { FormWrap } from '@ComponentFarm/common';
 import TimeHourInput from '@ComponentFarm/molecule/TimeInput/TimeHourInput';
 import CameraForm from './CameraForm';
-import { StoreFormStyle } from './style';
+
+export const StoreFormStyle = css`
+  .line {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+
+  h2 {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0;
+
+    .sub-text {
+      margin-left: 1.6rem;
+      font-size: 1.4rem;
+      font-weight: 400;
+      line-height: 1.4;
+      color: var(--color-neutral30);
+    }
+  }
+
+  .first-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  }
+
+  .border-none {
+    border: 0 !important;
+  }
+
+  // half width
+  .field {
+    display: inline-flex;
+    align-items: center;
+    width: calc(50% - 3.3rem);
+    padding: 0;
+
+    &:first-of-type {
+      margin-right: 6.6rem;
+    }
+  }
+
+  label:not(.label_radio):not(.label_check) {
+    width: 40%;
+    color: var(--color-gray500);
+  }
+`;
 
 export type FormFields = IFqsStoreInfoResponse & {
   store_idx: string;
