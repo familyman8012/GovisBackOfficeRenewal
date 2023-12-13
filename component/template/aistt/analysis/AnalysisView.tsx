@@ -87,7 +87,8 @@ const AnalysisView = ({ data }: { data?: IFqsInspectionInfo }) => {
               <tr>
                 <th>감점 요인 등</th>
                 <td>
-                  감점 {data?.average_count}건 / 개선 {data?.poor_count} 건
+                  감점 요인 {data?.average_count}건 / 개선 필요 요인{' '}
+                  {data?.poor_count} 건
                 </td>
                 <th>영상 보관</th>
                 <td>
