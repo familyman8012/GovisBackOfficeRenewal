@@ -438,8 +438,8 @@ export const Goivs2Menu = [
   '/aistt-analysis',
   '/aistt-device',
   '/aistt-state',
-  '/ai-fqs-analysis',
-  '/ai-fqs-device',
-  '/ai-fqs-state',
+  '/aistt-report',
+  '/menu/link',
+  '/menu/link-history',
   '/demo',
 ];
