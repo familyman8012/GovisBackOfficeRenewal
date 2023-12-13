@@ -6,7 +6,7 @@ export const FqsInfoTable = styled(InnerTable)`
 
   th {
     background-color: var(--color-gray2);
-    text-align: right;
+    text-align: left;
   }
 
   th,

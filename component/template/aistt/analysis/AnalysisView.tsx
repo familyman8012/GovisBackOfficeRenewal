@@ -76,12 +76,13 @@ const AnalysisView = ({ data }: { data?: IFqsInspectionInfo }) => {
                 </td>
               </tr>
               <tr>
-                <th>종합점수</th>
-                <td>
-                  {data?.total_score ?? 0}/{(data?.step_list.length ?? 0) * 10}
+                <th>종합 점수</th>
+                <td colSpan={3}>
+                  {getScoreFormat(data?.converted_score)}/100
+                  {/* {data?.total_score ?? 0}/{(data?.step_list.length ?? 0) * 10} */}
                 </td>
-                <th>변환점수</th>
-                <td>{getScoreFormat(data?.converted_score)}/100</td>
+                {/* <th>변환점수</th>
+                <td>{getScoreFormat(data?.converted_score)}/100</td> */}
               </tr>
               <tr>
                 <th>감점 요인 등</th>
@@ -116,7 +117,7 @@ const AnalysisView = ({ data }: { data?: IFqsInspectionInfo }) => {
                 <col width={getTableWidthPercentage(185)} />
                 <col width={getTableWidthPercentage(150)} />
                 <col width={getTableWidthPercentage(812)} />
-                <col width={getTableWidthPercentage(96)} />
+
                 <col width={getTableWidthPercentage(140)} />
               </colgroup>
               <thead>
@@ -125,8 +126,8 @@ const AnalysisView = ({ data }: { data?: IFqsInspectionInfo }) => {
                   <th>구간 종류</th>
                   <th>구간 이미지</th>
                   <th className="center">구간 시작 및 종료</th>
+                  {/* <th>변환 점수</th> */}
                   <th>구간 점수</th>
-                  <th>변환 점수</th>
                 </tr>
               </thead>
               <tbody>
@@ -212,9 +213,6 @@ const AnalysisView = ({ data }: { data?: IFqsInspectionInfo }) => {
                         afterSecond={item.section_dt_finish}
                         onClickSecond={handleChangeVideoTime}
                       />
-                    </td>
-                    <td>
-                      {item.section_score}/{item.section_score_std}
                     </td>
                     <td>{item.conversion_score}/100</td>
                   </TableExpandRow>
