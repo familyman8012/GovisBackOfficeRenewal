@@ -45,6 +45,12 @@ export const fetchInspectionInfo = (inspection_info_idx: number) => {
   ).then(res => res.data.data);
 };
 
+export const requestInspection = (inspection_info_idx: number) => {
+  return BoV2Request.put(
+    `/aifqs/inspection/info/${inspection_info_idx}/re-request`
+  );
+};
+
 // 기기관리
 export const fetchAiFqsDeviceStatus = () => {
   return BoV2Request.get<IResponse<IFqsStoreStatus>>(

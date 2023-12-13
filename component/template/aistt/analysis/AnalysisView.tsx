@@ -1,10 +1,14 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import dayjs from 'dayjs';
+import { useMutation } from 'react-query';
+import { requestInspection } from '@ApiFarm/aistt';
 import { IFqsInspectionInfo } from '@InterfaceFarm/ai-fqs';
 import { Badge } from '@ComponentFarm/atom/Badge/Badge';
+import { Button } from '@ComponentFarm/atom/Button/Button';
 import Empty from '@ComponentFarm/atom/Empty/Empty';
 import DataFilled from '@ComponentFarm/atom/icons/DataFilled';
 import Pic from '@ComponentFarm/atom/icons/Pic';
+import Tooltip from '@ComponentFarm/atom/Tooltip/Tooltip';
 import { Table, TableWrap } from '@ComponentFarm/common';
 import SecondBadges from '@ComponentFarm/template/common/SecondBadges';
 import TableExpandRow from '@ComponentFarm/template/common/TableExpandRow';
@@ -14,13 +18,30 @@ import { AnalysisPageStyle } from './style';
 import FqsVideo from '../common/FqsVideo';
 import { FqsAnalysisDataStyle, FqsInfoTable, SectionStyle } from '../style';
 
-const AnalysisView = ({ data }: { data?: IFqsInspectionInfo }) => {
+const AnalysisView = ({
+  data,
+  inspectionId,
+}: {
+  data?: IFqsInspectionInfo;
+  inspectionId?: number | string;
+}) => {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [requestedInspect, setRequestedInspect] = useState(false);
   const handleChangeVideoTime = (time: number) => {
     if (videoRef.current) {
       videoRef.current.currentTime = time;
     }
   };
+
+  // 평가 재요청
+  const requestInspect = useMutation(requestInspection, {
+    onSuccess: () => {
+      setRequestedInspect(true);
+    },
+  });
+
+  const isRequested =
+    data?.is_re_request === 1 || requestInspect.isLoading || requestedInspect;
 
   return (
     <AnalysisPageStyle>
@@ -51,12 +72,26 @@ const AnalysisView = ({ data }: { data?: IFqsInspectionInfo }) => {
               : '영상 불량'}
           </Badge>
         </h2>
+
         <p>평가일자 {data?.inspection_dt}</p>
         <p>제조일자 {data?.manufacture_dt}</p>
       </div>
       <div className="inspection-info">
         <SectionStyle className="summary">
           <h3 className="title">제조 결과</h3>
+          {inspectionId && (
+            <Button
+              disabled={isRequested}
+              onClick={() => requestInspect.mutate(Number(inspectionId))}
+            >
+              평가 재요청
+              {isRequested && (
+                <Tooltip eventType="hover" direction="left">
+                  {`평가 재요청됨.\n평가 완료까지 시간이 소요됩니다.`}
+                </Tooltip>
+              )}
+            </Button>
+          )}
           <FqsInfoTable bordered className="content">
             <colgroup>
               <col width={getTableWidthPercentage(120)} />
@@ -77,12 +112,7 @@ const AnalysisView = ({ data }: { data?: IFqsInspectionInfo }) => {
               </tr>
               <tr>
                 <th>종합 점수</th>
-                <td colSpan={3}>
-                  {getScoreFormat(data?.converted_score)}/100
-                  {/* {data?.total_score ?? 0}/{(data?.step_list.length ?? 0) * 10} */}
-                </td>
-                {/* <th>변환점수</th>
-                <td>{getScoreFormat(data?.converted_score)}/100</td> */}
+                <td colSpan={3}>{getScoreFormat(data?.converted_score)}/100</td>
               </tr>
               <tr>
                 <th>감점 요인 등</th>
@@ -203,7 +233,11 @@ const AnalysisView = ({ data }: { data?: IFqsInspectionInfo }) => {
                   >
                     <td>{item?.step_variable_name}</td>
                     <td>
-                      <img src={item.step_image_url} alt="" width="82px" />
+                      <img
+                        src={item.step_image_url}
+                        alt={item?.step_variable_name}
+                        width="82px"
+                      />
                     </td>
                     {/** 시간 클릭 시 영상 시간 변경 */}
                     <td className="center">

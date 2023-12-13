@@ -51,7 +51,7 @@ const AnalysisViewPage = () => {
         activeTabIndex={0}
         onTabChange={() => {}}
       />
-      <AnalysisView data={data} />
+      <AnalysisView data={data} inspectionId={id} />
     </>
   );
 };
