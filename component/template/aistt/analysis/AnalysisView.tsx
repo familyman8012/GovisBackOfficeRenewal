@@ -162,7 +162,7 @@ const AnalysisView = ({
               <tbody>
                 {!data?.step_list.length && (
                   <tr className="empty">
-                    <td colSpan={6}>
+                    <td colSpan={5}>
                       <Empty>데이터가 없습니다.</Empty>
                     </td>
                   </tr>
