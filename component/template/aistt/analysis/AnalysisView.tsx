@@ -117,7 +117,6 @@ const AnalysisView = ({ data }: { data?: IFqsInspectionInfo }) => {
                 <col width={getTableWidthPercentage(185)} />
                 <col width={getTableWidthPercentage(150)} />
                 <col width={getTableWidthPercentage(812)} />
-
                 <col width={getTableWidthPercentage(140)} />
               </colgroup>
               <thead>
@@ -126,7 +125,6 @@ const AnalysisView = ({ data }: { data?: IFqsInspectionInfo }) => {
                   <th>구간 종류</th>
                   <th>구간 이미지</th>
                   <th className="center">구간 시작 및 종료</th>
-                  {/* <th>변환 점수</th> */}
                   <th>구간 점수</th>
                 </tr>
               </thead>
