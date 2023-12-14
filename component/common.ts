@@ -726,7 +726,7 @@ export const Table = styled.table`
     &.center {
       text-align: center;
       padding-left: 1rem !important;
-      padding-right: 1rem;
+      padding-right: 1rem !important;
     }
   }
 
