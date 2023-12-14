@@ -12,7 +12,7 @@ import {
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
-import MailSendPopup, { IMailData } from '@ComponentFarm/modal/MailSendPopup';
+import MailSendPopup, { IMailData } from '@ComponentFarm/modal/mailSendPopup';
 import { ManufacturingQualityList } from '@ComponentFarm/template/aistt/common/ManufacturingQuality';
 import { aisttStateListTabData } from '@ComponentFarm/template/aistt/const';
 import AnalysisResult from '@ComponentFarm/template/aistt/report/detail/AnalysisResult';

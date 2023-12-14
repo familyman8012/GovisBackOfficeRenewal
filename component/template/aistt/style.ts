@@ -23,6 +23,20 @@ export const FqsInfoTable = styled(InnerTable)`
     font-weight: 500;
     line-height: 1.2;
   }
+
+  .cnt-text {
+    font-size: 1.6rem;
+    font-weight: 600;
+    vertical-align: baseline;
+    color: var(--color-neutral10);
+
+    &.red {
+      color: var(--color-red50);
+    }
+    &.yellow {
+      color: var(--color-yellow50);
+    }
+  }
 `;
 
 export const SectionStyle = styled.section`

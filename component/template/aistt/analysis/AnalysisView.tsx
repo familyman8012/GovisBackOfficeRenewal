@@ -117,8 +117,10 @@ const AnalysisView = ({
               <tr>
                 <th>감점 요인 등</th>
                 <td>
-                  감점 요인 {data?.average_count}건 / 개선 필요 요인{' '}
-                  {data?.poor_count} 건
+                  감점 요인{' '}
+                  <span className="cnt-text yellow">{data?.average_count}</span>{' '}
+                  건 / 개선 필요{' '}
+                  <span className="cnt-text red">{data?.poor_count}</span> 건
                 </td>
                 <th>영상 보관</th>
                 <td>
@@ -145,14 +147,16 @@ const AnalysisView = ({
             <Table className="basic">
               <colgroup>
                 <col width={getTableWidthPercentage(50)} />
-                <col width={getTableWidthPercentage(185)} />
+                <col width={getTableWidthPercentage(100)} />
+                <col width={getTableWidthPercentage(160)} />
                 <col width={getTableWidthPercentage(150)} />
-                <col width={getTableWidthPercentage(812)} />
+                <col width={getTableWidthPercentage(936)} />
                 <col width={getTableWidthPercentage(140)} />
               </colgroup>
               <thead>
                 <tr>
                   <th>&nbsp;</th>
+                  <th className="center">검수 결과</th>
                   <th>구간 종류</th>
                   <th>구간 이미지</th>
                   <th className="center">구간 시작 및 종료</th>
@@ -231,7 +235,26 @@ const AnalysisView = ({
                       </FqsAnalysisDataStyle>
                     }
                   >
+                    <td className="center">
+                      <Badge
+                        color={
+                          item.rating_scale_idx_1 === 2
+                            ? 'yellow'
+                            : item.rating_scale_idx_1 === 3
+                            ? 'red'
+                            : 'blue'
+                        }
+                        size="sm"
+                      >
+                        {item.rating_scale_idx_1 === 2
+                          ? '감점 항목'
+                          : item.rating_scale_idx_1 === 3
+                          ? '개선 필요'
+                          : '우수'}
+                      </Badge>
+                    </td>
                     <td>{item?.step_variable_name}</td>
+
                     <td>
                       <img
                         src={item.step_image_url}
@@ -239,6 +262,7 @@ const AnalysisView = ({
                         width="82px"
                       />
                     </td>
+
                     {/** 시간 클릭 시 영상 시간 변경 */}
                     <td className="center">
                       <SecondBadges
