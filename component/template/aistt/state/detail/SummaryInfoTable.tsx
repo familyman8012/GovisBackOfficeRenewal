@@ -111,6 +111,7 @@ export const SummaryInfoTable = ({
                         pathname: `/aistt-state/list`,
                         query: {
                           product_info_idx: data?.info.product_info_idx,
+                          store_idx: data?.info.store_idx_list,
                         },
                       }}
                       className="link_list"
