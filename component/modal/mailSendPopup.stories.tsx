@@ -3,7 +3,7 @@ import { Meta, Story } from '@storybook/react';
 import { css } from '@emotion/react';
 import StoryLayout from '@ComponentFarm/modules/story_layout/StoryLayout';
 import { Button } from '@ComponentFarm/atom/Button/Button';
-import MailSendPopup from './MailSendPopup';
+import MailSendPopup from './mailSendPopup';
 
 const meta: Meta = {
   title: 'Modal/mailSendPopup',
@@ -28,7 +28,7 @@ interface Props {
   darkMode: boolean;
 }
 
-const initialData: any = Array.from({ length: 15 }, (_, i) => ({
+const initialData = Array.from({ length: 15 }, (_, i) => ({
   value: `mail${i}`,
   label: `User ${i + 1} <user${i + 1}@example.com>`,
 }));
@@ -60,9 +60,10 @@ const StoryStorePopup: Story<Props> = args => {
           제품 상세 설정
         </Button>
         <MailSendPopup
-          viewData={initialData}
+          initial_recv_emails={initialData}
           isOpen={isOpen}
           onClose={handlerClose}
+          submitFunc={() => {}}
         />
       </div>
     </StoryLayout>
