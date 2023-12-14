@@ -29,7 +29,8 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    "component/chart/BarCharts.stories.bak"
+    "component/chart/BarCharts.stories.bak",
+    "component/modal/mailSendPopup.stories.bak"
   ],
   "exclude": ["node_modules"]
 }
