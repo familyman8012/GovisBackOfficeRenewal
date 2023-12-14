@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
@@ -13,7 +12,7 @@ import {
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
-// import MailSendPopup, { IMailData } from '@ComponentFarm/modal/MailSendPopup';
+import MailSendPopup, { IMailData } from '@ComponentFarm/modal/MailSendPopup';
 import { ManufacturingQualityList } from '@ComponentFarm/template/aistt/common/ManufacturingQuality';
 import { aisttStateListTabData } from '@ComponentFarm/template/aistt/const';
 import AnalysisResult from '@ComponentFarm/template/aistt/report/detail/AnalysisResult';
@@ -89,14 +88,14 @@ export const Detail = () => {
     setMailOpen(prev => !prev);
   };
 
-  // const mailSendSubmit = async (data: IMailData) => {
-  //   const { recipient, ...mailSendData } = data;
-  //   const recv_emails = recipient?.map(item => item.value).join(',');
-  //   ReportSendMailSubmit.mutate({
-  //     fqs_reports_idx: String(id),
-  //     body: { recv_emails: String(recv_emails), ...mailSendData },
-  //   });
-  // };
+  const mailSendSubmit = async (data: IMailData) => {
+    const { recipient, ...mailSendData } = data;
+    const recv_emails = recipient?.map(item => item.value).join(',');
+    ReportSendMailSubmit.mutate({
+      fqs_reports_idx: String(id),
+      body: { recv_emails: String(recv_emails), ...mailSendData },
+    });
+  };
 
   return (
     <>
@@ -190,12 +189,12 @@ export const Detail = () => {
           />
         </AreaBox>
       </DetailInfoWrap>
-      {/* <MailSendPopup
+      <MailSendPopup
         initial_recv_emails={[{ label: '', value: '' }]}
         isOpen={mailOpen}
         onClose={mailOpenHandler}
         submitFunc={mailSendSubmit}
-      /> */}
+      />
       <MailSendListPopup
         fqs_reports_idx={String(id)}
         isOpen={mailListOpen}
