@@ -12,7 +12,7 @@ import {
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
-import MailSendPopup, { IMailData } from '@ComponentFarm/modal/MailSendPopup';
+import MailSendPopup from '@ComponentFarm/modal/MailSendPopup';
 import { ManufacturingQualityList } from '@ComponentFarm/template/aistt/common/ManufacturingQuality';
 import { aisttStateListTabData } from '@ComponentFarm/template/aistt/const';
 import AnalysisResult from '@ComponentFarm/template/aistt/report/detail/AnalysisResult';
@@ -88,7 +88,7 @@ export const Detail = () => {
     setMailOpen(prev => !prev);
   };
 
-  const mailSendSubmit = async (data: IMailData) => {
+  const mailSendSubmit = async (data: any) => {
     const { recipient, ...mailSendData } = data;
     const recv_emails = recipient?.map(item => item.value).join(',');
     ReportSendMailSubmit.mutate({
