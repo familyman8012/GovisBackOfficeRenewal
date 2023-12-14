@@ -88,14 +88,14 @@ export const Detail = () => {
     setMailOpen(prev => !prev);
   };
 
-  const mailSendSubmit = async (data: IMailData) => {
-    const { recipient, ...mailSendData } = data;
-    const recv_emails = recipient?.map(item => item.value).join(',');
-    ReportSendMailSubmit.mutate({
-      fqs_reports_idx: String(id),
-      body: { recv_emails: String(recv_emails), ...mailSendData },
-    });
-  };
+  // const mailSendSubmit = async (data: IMailData) => {
+  //   const { recipient, ...mailSendData } = data;
+  //   const recv_emails = recipient?.map(item => item.value).join(',');
+  //   ReportSendMailSubmit.mutate({
+  //     fqs_reports_idx: String(id),
+  //     body: { recv_emails: String(recv_emails), ...mailSendData },
+  //   });
+  // };
 
   return (
     <>
