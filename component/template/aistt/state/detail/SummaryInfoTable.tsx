@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import Skeleton from 'react-loading-skeleton';
 import { css } from '@emotion/react';
 import { IDetailStateRes } from '@InterfaceFarm/aistt';
@@ -80,6 +81,7 @@ export const SummaryInfoTable = ({
   isLoading?: boolean;
   data?: IDetailStateRes;
 }) => {
+  const router = useRouter();
   const totalFrequencyCount = useMemo(
     () =>
       data?.improvement_needed.reduce((total, item) => {
@@ -109,10 +111,7 @@ export const SummaryInfoTable = ({
                     <Link
                       href={{
                         pathname: `/aistt-state/list`,
-                        query: {
-                          product_info_idx: data?.info.product_info_idx,
-                          store_idx: data?.info.store_idx_list,
-                        },
+                        query: router.query,
                       }}
                       className="link_list"
                     >

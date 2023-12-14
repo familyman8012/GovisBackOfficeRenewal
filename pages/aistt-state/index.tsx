@@ -58,7 +58,10 @@ const AisttState = () => {
         params={params}
         updateParams={updateParams}
         resetParams={resetParams}
-        dateKeys={{ startKey: 'search_start_dt', endKey: 'search_end_dt' }}
+        dateKeys={{
+          startKey: 'manufacture_dt_start',
+          endKey: 'manufacture_dt_finish',
+        }}
       />
       <SubTitleBox title="개선 필요 피자 현황" hideUnderline />
       <ImprovementStatusList params={params} />

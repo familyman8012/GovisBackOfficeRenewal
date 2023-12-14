@@ -96,7 +96,6 @@ export const ImprovementStatus = ({
 }: {
   data: IimprovementStatusItem;
 }) => {
-  console.log('ImprovementStatus data', data);
   const router = useRouter();
   const RingChartData = [
     { name: 'Score', value: data.converted_score },
@@ -105,7 +104,10 @@ export const ImprovementStatus = ({
   return (
     <ImprovementStatusWrap
       onClick={() =>
-        router.push(`/aistt-state/view/${data.inspection_info_idx}`)
+        router.push({
+          pathname: `/aistt-state/view/${data.inspection_info_idx}`,
+          query: router.query,
+        })
       }
     >
       <div className="head">
@@ -159,6 +161,7 @@ export const ImprovementStatusList = ({ params }: { params: QueryParams }) => {
           modules={[Pagination, Autoplay]}
           spaceBetween={30}
           slidesPerView={3}
+          slidesPerGroup={3}
           autoplay={{
             delay: 5000,
             disableOnInteraction: false,
