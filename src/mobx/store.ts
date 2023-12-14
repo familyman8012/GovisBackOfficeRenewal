@@ -194,6 +194,7 @@ interface ModalState {
   content?: React.ReactNode;
   onFormSubmit?: () => void;
   onCancel?: () => void;
+  onClose?: () => void;
   submitButtonText?: string;
   cancelButtonText?: string;
   showCloseButton?: boolean;
@@ -214,6 +215,9 @@ export const confirmModalStore = observable({
   content: null,
   onFormSubmit: () => {},
   onCancel() {
+    this.isOpen = false;
+  },
+  onClose() {
     this.isOpen = false;
   },
   submitButtonText: '확인',
