@@ -72,7 +72,7 @@ export const Detail = () => {
             },
             {
               title: '평균 제조 점수',
-              txt1: String(data?.highlight.improvement_needed_count),
+              txt1: String(data?.highlight.converted_score_avarage),
               txt2: '점',
             },
           ]}

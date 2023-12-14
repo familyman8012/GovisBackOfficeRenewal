@@ -1,6 +1,7 @@
 import React from 'react';
 import dayjs from 'dayjs';
 import duration from 'dayjs/plugin/duration';
+import { useRouter } from 'next/router';
 import { IoAlertCircleOutline } from 'react-icons/io5';
 import Skeleton from 'react-loading-skeleton';
 import { Pagination, Autoplay } from 'swiper/modules';
@@ -20,6 +21,7 @@ dayjs.extend(duration);
 
 export const ImprovementStatusWrap = styled.div`
   width: 100%;
+  cursor: pointer;
   border: 1px solid #e5e5e5;
   border-radius: 0.8rem;
   box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
@@ -94,12 +96,18 @@ export const ImprovementStatus = ({
 }: {
   data: IimprovementStatusItem;
 }) => {
+  console.log('ImprovementStatus data', data);
+  const router = useRouter();
   const RingChartData = [
     { name: 'Score', value: data.converted_score },
     { name: 'Remaining', value: 100 - data.converted_score },
   ];
   return (
-    <ImprovementStatusWrap>
+    <ImprovementStatusWrap
+      onClick={() =>
+        router.push(`/aistt-state/view/${data.inspection_info_idx}`)
+      }
+    >
       <div className="head">
         <div className="product_info">
           <div className="product_name">{data.product_name}</div>
@@ -133,8 +141,6 @@ export const ImprovementStatusList = ({ params }: { params: QueryParams }) => {
   const { isLoading, data } = useQuery(['improvementList', params], () =>
     fetchImprovementStatus(params as IAisttStateReq)
   );
-
-  console.log('data', data);
 
   return (
     <div

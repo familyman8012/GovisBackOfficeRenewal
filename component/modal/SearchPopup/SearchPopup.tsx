@@ -77,6 +77,7 @@ const SearchPopup = <T extends ICommonResultData>({
 }: SearchPopupProps<T>) => {
   const [keyword, setKeyword] = useState(defaultKeyword);
   const [checkedItems, setCheckedItems] = useState<string[]>([]);
+
   const onFormSubmit = () => {
     const selectedProducts = resultData
       .filter((item: T) => checkedItems.includes(String(item.idx)))
@@ -86,7 +87,19 @@ const SearchPopup = <T extends ICommonResultData>({
       checkedItems.includes(item.idx)
     );
 
-    setSelectItems([...filterSelectItems, ...selectedProducts]);
+    const combineItems = [...filterSelectItems, ...selectedProducts].reduce(
+      (accumulator: checkedItemType[], currentItem) => {
+        if (!accumulator.some(item => item.idx === currentItem.idx)) {
+          accumulator.push(currentItem);
+        }
+        return accumulator;
+      },
+      []
+    );
+
+    console.log('combineItems', combineItems);
+
+    setSelectItems(combineItems);
     setFilters({ search_target: filters.search_target });
     setIsOpen(false);
   };

@@ -1,4 +1,5 @@
-import React, { SetStateAction, useState } from 'react';
+import React, { SetStateAction, useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
 import Skeleton from 'react-loading-skeleton';
 import styled from '@emotion/styled';
 import { IManufacturingQualityItem } from '@InterfaceFarm/aistt';
@@ -10,6 +11,7 @@ import { QueryParams } from '@HookFarm/useQueryParams';
 export const ManufacturingQualityWrap = styled.div`
   overflow: hidden;
   width: 33.3%;
+  cursor: pointer;
   border-radius: 0.8rem;
   border: 1px solid #e5e5e5;
   box-shadow: 0px 1px 2px 0px rgba(16, 24, 40, 0.05);
@@ -118,16 +120,19 @@ const textBadgeLabel: {
 };
 
 export const ManufacturingQuality = ({
+  type,
   selectScoreRange,
   setselectScoreRange,
   updateParams,
   data,
 }: {
+  type?: string;
   selectScoreRange: string;
   setselectScoreRange: React.Dispatch<SetStateAction<string>>;
   updateParams?: (newParams: QueryParams) => void;
   data: IManufacturingQualityItem;
 }) => {
+  const router = useRouter();
   const chartArray = [
     {
       title: '제조수',
@@ -142,7 +147,13 @@ export const ManufacturingQuality = ({
   ];
 
   const handlerScoreRange = () => {
-    if (updateParams) {
+    if (type === 'state') {
+      router.push({
+        pathname: '/aistt-state/quality',
+        query: { score_range: data.score_range },
+      });
+    }
+    if (type !== 'state' && updateParams) {
       if (selectScoreRange === String(data.score_range)) {
         setselectScoreRange('');
         updateParams({ score_range: undefined });
@@ -200,13 +211,23 @@ export const ManufacturingQuality = ({
 };
 
 export const ManufacturingQualityList = ({
+  type,
+  params,
   updateParams,
   data,
 }: {
+  type?: string;
+  params?: QueryParams;
   updateParams?: (newParams: QueryParams) => void;
   data?: IManufacturingQualityItem[];
 }) => {
   const [selectScoreRange, setselectScoreRange] = useState('');
+
+  useEffect(() => {
+    if (data) {
+      setselectScoreRange(String(params?.score_range));
+    }
+  }, [data]);
 
   return (
     <>
@@ -215,6 +236,7 @@ export const ManufacturingQualityList = ({
           {data?.map((item, i: number) => (
             <ManufacturingQuality
               key={i}
+              type={type}
               data={item}
               selectScoreRange={selectScoreRange}
               setselectScoreRange={setselectScoreRange}

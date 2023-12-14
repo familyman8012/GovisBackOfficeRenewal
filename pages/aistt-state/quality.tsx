@@ -81,6 +81,7 @@ const AisttQualityState = () => {
       >
         {statusSelect === 0 ? (
           <ManufacturingQualityList
+            params={params}
             updateParams={updateParams}
             data={manufacturingQualityData?.list}
           />

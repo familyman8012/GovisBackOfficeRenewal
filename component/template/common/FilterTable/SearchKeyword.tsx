@@ -102,11 +102,14 @@ const SearchKeyword = ({
     handler({ search_keyword: keyword.search_keyword }); // selOption이 없을 경우 이렇게 호출
   };
 
-  useEffect(() => {
-    if (keyword.search_keyword === '') {
-      setFilters({ ...filters, search_keyword: '' });
-    }
-  }, [keyword.search_keyword]);
+  // useEffect(() => {
+  //   if (keyword.search_keyword === '') {
+  //     console.log('filters', filters);
+  //     handler({ search_keyword: '' });
+  //   }
+  // }, [keyword.search_keyword]);
+
+  // console.log('filters', filters);
 
   const searchKeywordRef = useRef<HTMLDivElement | null>(null);
 

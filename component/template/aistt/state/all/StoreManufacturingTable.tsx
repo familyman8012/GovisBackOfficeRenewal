@@ -1,6 +1,8 @@
 import React from 'react';
+import { useRouter } from 'next/router';
 import { IoAlertCircleOutline } from 'react-icons/io5';
 import { useQuery } from 'react-query';
+import { css } from '@emotion/react';
 import { fetchStoreManufacturingState } from '@ApiFarm/aistt';
 import { IAisttStateReq } from '@InterfaceFarm/aistt';
 import Empty from '@ComponentFarm/atom/Empty/Empty';
@@ -14,13 +16,21 @@ export const StoreManufacturingTable = ({
 }: {
   params: QueryParams;
 }) => {
+  const router = useRouter();
   const { isLoading, data } = useQuery(
     ['StoreManufacturingStateList', params],
     () => fetchStoreManufacturingState(params as IAisttStateReq)
   );
 
   return (
-    <TableSty1>
+    <TableSty1
+      css={css`
+        tr:hover {
+          cursor: pointer;
+          background: var(--color-indigo90);
+        }
+      `}
+    >
       <colgroup>
         <col width={getTableWidthPercentage(936)} />
         <col width={getTableWidthPercentage(300)} />
@@ -38,7 +48,15 @@ export const StoreManufacturingTable = ({
           <SkeletonTh colLength={3} />
         ) : Number(data?.list.length) > 0 ? (
           data?.list.map(item => (
-            <tr key={item.store_idx}>
+            <tr
+              key={item.store_idx}
+              onClick={() =>
+                router.push({
+                  pathname: '/aistt-state/quality',
+                  query: { store_idx: item.store_idx },
+                })
+              }
+            >
               <td>{item.store_name}</td>
               <td>{item.manufacturing_count.toLocaleString()}</td>
               <td>{item.improvement_needed_count.toLocaleString()}</td>

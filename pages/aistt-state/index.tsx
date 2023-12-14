@@ -81,7 +81,10 @@ const AisttState = () => {
         }
       >
         {statusSelect === 0 ? (
-          <ManufacturingQualityList data={manufacturingQualityData?.list} />
+          <ManufacturingQualityList
+            type="state"
+            data={manufacturingQualityData?.list}
+          />
         ) : (
           <ManufacturingTimeList data={manufacturingTimeData?.list} />
         )}
