@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
 import dayjs from 'dayjs';
+import { runInAction } from 'mobx';
 import { useMutation } from 'react-query';
 import { requestInspection } from '@ApiFarm/aistt';
 import { IFqsInspectionInfo } from '@InterfaceFarm/ai-fqs';
@@ -12,6 +13,8 @@ import Tooltip from '@ComponentFarm/atom/Tooltip/Tooltip';
 import { Table, TableWrap } from '@ComponentFarm/common';
 import SecondBadges from '@ComponentFarm/template/common/SecondBadges';
 import TableExpandRow from '@ComponentFarm/template/common/TableExpandRow';
+import { useGoMove } from '@HookFarm/useGoMove';
+import { confirmModalStore } from '@MobxFarm/store';
 import { getTableWidthPercentage } from '@UtilFarm/calcSize';
 import { getScoreFormat } from '@UtilFarm/number';
 import { AnalysisPageStyle } from './style';
@@ -25,6 +28,7 @@ const AnalysisView = ({
   data?: IFqsInspectionInfo;
   inspectionId?: number | string;
 }) => {
+  const { onBack } = useGoMove();
   const videoRef = useRef<HTMLVideoElement>(null);
   const [requestedInspect, setRequestedInspect] = useState(false);
   const handleChangeVideoTime = (time: number) => {
@@ -37,6 +41,31 @@ const AnalysisView = ({
   const requestInspect = useMutation(requestInspection, {
     onSuccess: () => {
       setRequestedInspect(true);
+      runInAction(() => {
+        confirmModalStore.openModal({
+          title: '평가 재요청',
+          content: (
+            <p>
+              해당 제조 영상에 대한 평가 재요청을 완료했습니다. <br /> 목록으로
+              이동합니다.
+            </p>
+          ),
+          showCloseButton: false,
+          showCancelButton: false,
+          onFormSubmit: () => {
+            confirmModalStore.isOpen = false;
+            onBack(2);
+          },
+          onClose: () => {
+            confirmModalStore.isOpen = false;
+            onBack(2);
+          },
+          onCancel: () => {
+            confirmModalStore.isOpen = false;
+            onBack(2);
+          },
+        });
+      });
     },
   });
 
@@ -246,11 +275,7 @@ const AnalysisView = ({
                         }
                         size="sm"
                       >
-                        {item.rating_scale_idx_1 === 2
-                          ? '감점 항목'
-                          : item.rating_scale_idx_1 === 3
-                          ? '개선 필요'
-                          : '우수'}
+                        {item.rating_scale_name_1}
                       </Badge>
                     </td>
                     <td>{item?.step_variable_name}</td>
