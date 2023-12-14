@@ -21,6 +21,7 @@ const ProductSearchPopup = ({
   const {
     isOpen,
     setIsOpen,
+    selectItems,
     setSelectItems,
     initialValues,
     filters,
@@ -61,6 +62,7 @@ const ProductSearchPopup = ({
       filters={filters}
       setFilters={setFilters}
       initialValues={initialValues}
+      selectItems={selectItems}
       setSelectItems={setSelectItems}
       badge={['운영', '중단', '폐기']}
     />
