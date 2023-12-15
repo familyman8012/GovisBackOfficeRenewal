@@ -14,7 +14,7 @@ const pageSty = css`
       background: transparent !important;
 
       &.td_chk {
-        background: #ededed !important;
+        background: #fafafa !important;
       }
     }
     &:last-of-type {

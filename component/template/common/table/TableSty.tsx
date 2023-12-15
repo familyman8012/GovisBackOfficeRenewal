@@ -104,7 +104,7 @@ export const TableSty4 = styled.table`
   width: 100%;
   tr.td_chk {
     &:not(first-of-type) {
-      background: #ededed;
+      background: #fafafa;
     }
   }
 
