@@ -40,7 +40,8 @@ const CheckboxGroup: React.FC<CheckBoxGroupProps> = ({
   );
 
   const isAllSelected = allChechkHandler
-    ? allChechkHandler.every(({ value }) => values[value])
+    ? allChechkHandler.every(({ value }) => values[value]) &&
+      Object.keys(values).length !== 0
     : false;
 
   const handleAllChange = (checked: boolean) => {
