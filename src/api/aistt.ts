@@ -168,13 +168,17 @@ export const fetchDetailState = async (params?: IAisttStateReq) => {
   return response.data.data;
 };
 
-export const fetchManufacturingList = async (
-  params?: IManufacturingListReq
-) => {
+export const fetchManufacturingList = async (params: IManufacturingListReq) => {
+  const { search_start_dt, search_end_dt, ...rest } = params;
+
   const response = await BoV2Request.get<IResponse<IManufacturingListRes>>(
     `/aifqs/overview/production/list`,
     {
-      params,
+      params: {
+        ...rest,
+        manufacture_dt_start: search_start_dt,
+        manufacture_dt_finish: search_end_dt,
+      },
     }
   );
   return response.data.data;

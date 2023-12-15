@@ -151,7 +151,10 @@ export interface ReportConvertData {
 export interface IManufacturingListReq {
   per_num: number;
   current_num: number;
-  product_info_idx?: number;
+  search_start_dt?: string;
+  search_end_dt?: string;
+  store_idx?: string;
+  product_info_idx?: string;
 }
 
 export interface IManufacturingListRes {
