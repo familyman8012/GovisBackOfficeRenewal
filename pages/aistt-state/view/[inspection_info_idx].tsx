@@ -13,7 +13,7 @@ const AisttStateAnalysisViewPage = () => {
 
   const router = useRouter();
   const id = useMemo(
-    () => router.query.inspection_info_idx ?? '',
+    () => (router.query.inspection_info_idx as string) ?? '',
     [router.isReady]
   );
 
@@ -46,7 +46,7 @@ const AisttStateAnalysisViewPage = () => {
         activeTabIndex={0}
         onTabChange={() => {}}
       />
-      <AnalysisView data={data} />
+      <AnalysisView inspectionId={id} data={data} />
     </>
   );
 };
