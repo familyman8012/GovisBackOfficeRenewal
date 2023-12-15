@@ -24,7 +24,10 @@ const AisttState = () => {
   const router = useRouter();
   const [statusSelect, setstatusSelect] = useState(0);
   const [activeTabIndex, setActiveTabIndex] = useState(0);
-  const [params, updateParams, resetParams] = useQueryParams({});
+  const [params, updateParams, resetParams] = useQueryParams({
+    search_start_dt: '2023-12-15',
+    search_end_dt: '2023-12-15',
+  });
 
   const hanldeTabMove = (index: number) => {
     setActiveTabIndex(index);
