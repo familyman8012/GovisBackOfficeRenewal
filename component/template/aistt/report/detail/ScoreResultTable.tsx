@@ -116,7 +116,16 @@ export const ScoreResultTable = ({
 
   return (
     <TableWrap className="content">
-      <Table className="basic">
+      <Table
+        className="basic"
+        css={css`
+          th,
+          td {
+            padding: 1.2rem 1rem 1.2rem !important;
+            text-align: center;
+          }
+        `}
+      >
         <colgroup>
           {[50, 330, 150, 225.5, 225.5, 225.5, 225.5].map((el, i) => (
             <col key={i} width={getTableWidthPercentage(el)} />
