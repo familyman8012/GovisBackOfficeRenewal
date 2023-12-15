@@ -121,12 +121,16 @@ const FilterTableForm = ({
     const { range1, range2 } = selectedDateRanges;
 
     let dateParams = {};
-    if (range1.every(date => date !== null)) {
+    if (range1 && range1.every(date => date !== null)) {
       dateParams =
         type === 'diff'
           ? {
-              base_dt_start: dayjs(range1[0]).format('YYYY-MM-DD'),
-              base_dt_finish: dayjs(range1[1]).format('YYYY-MM-DD'),
+              base_dt_start: range1[0]
+                ? dayjs(range1[0]).format('YYYY-MM-DD')
+                : '0000-00-00',
+              base_dt_finish: range1[1]
+                ? dayjs(range1[1]).format('YYYY-MM-DD')
+                : '0000-00-00',
             }
           : {
               [dateKeys.startKey]: dayjs(range1[0]).format('YYYY-MM-DD'),
@@ -136,6 +140,7 @@ const FilterTableForm = ({
 
     if (range2 && range2.every(date => date !== null)) {
       dateParams = {
+        ...dateParams,
         comparison_dt_start: range2[0]
           ? dayjs(range2[0]).format('YYYY-MM-DD')
           : '0000-00-00',
