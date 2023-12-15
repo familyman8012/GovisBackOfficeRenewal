@@ -137,7 +137,7 @@ export const ScoreResultTable = ({
           <tr>
             <th>&nbsp;</th>
             <th>제품명</th>
-            <th className="center">구간 이미지</th>
+            <th className="center">대표 이미지</th>
             <th>총 제조 건수</th>
             <th>평균 제조 점수</th>
             <th>평균 제조 시간</th>

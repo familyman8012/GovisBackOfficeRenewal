@@ -174,7 +174,7 @@ export const Detail = () => {
           data={reportInfoData?.analysis_result_2}
         />
         <AreaBox
-          title="평점순 결과"
+          title="메뉴별 결과"
           css={css`
             margin-top: 3.2rem;
           `}
