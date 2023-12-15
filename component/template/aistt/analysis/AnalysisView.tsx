@@ -179,8 +179,8 @@ const AnalysisView = ({
                 <col width={getTableWidthPercentage(100)} />
                 <col width={getTableWidthPercentage(160)} />
                 <col width={getTableWidthPercentage(150)} />
-                <col width={getTableWidthPercentage(936)} />
-                <col width={getTableWidthPercentage(140)} />
+                <col width={getTableWidthPercentage(840)} />
+                <col width={getTableWidthPercentage(120)} />
               </colgroup>
               <thead>
                 <tr>
@@ -284,7 +284,7 @@ const AnalysisView = ({
                       <img
                         src={item.step_image_url}
                         alt={item?.step_variable_name}
-                        width="82px"
+                        width="100px"
                       />
                     </td>
 
