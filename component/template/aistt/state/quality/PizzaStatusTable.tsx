@@ -132,7 +132,7 @@ export const PizzaStatusTable = ({ params }: { params: QueryParams }) => {
         <dd>{data?.summary.converted_score_avarage_total}점</dd>
         <dt>총 메뉴 수</dt>
         <dd>{data?.summary.product_count}개</dd>
-        <dt>메뉴 제조 합계</dt>
+        <dt>총 제조 수</dt>
         <dd>{data?.summary.manufacturing_count_total.toLocaleString()}개</dd>
       </dl>
       <TableSty1 css={tablePageSty}>
