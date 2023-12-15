@@ -150,7 +150,7 @@ export const ManufacturingQuality = ({
     if (type === 'state') {
       router.push({
         pathname: '/aistt-state/quality',
-        query: router.query,
+        query: { ...router.query, score_range: data.score_range },
       });
     }
     if (type !== 'state' && updateParams) {

@@ -3,19 +3,12 @@ import styled from '@emotion/styled';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Search } from '@ComponentFarm/atom/icons';
 
-type selectOptionsType = {
-  [key: string]: string | null;
-};
-
 export type checkedItemType = {
   idx: string;
   name: string;
 };
 
 interface ISearchKeyword {
-  filters: selectOptionsType;
-  setFilters: Dispatch<SetStateAction<selectOptionsType>>;
-
   placeholder?: string;
   handler: (keyword: {
     search_target?: string;
@@ -91,8 +84,6 @@ export type SearchkeywordType = {
 };
 
 const SearchKeyword = ({
-  filters,
-  setFilters,
   placeholder,
   handler,
   keyword,
@@ -102,12 +93,11 @@ const SearchKeyword = ({
     handler({ search_keyword: keyword.search_keyword }); // selOption이 없을 경우 이렇게 호출
   };
 
-  // useEffect(() => {
-  //   if (keyword.search_keyword === '') {
-  //     console.log('filters', filters);
-  //     handler({ search_keyword: '' });
-  //   }
-  // }, [keyword.search_keyword]);
+  useEffect(() => {
+    if (keyword.search_keyword === '') {
+      handler({ search_keyword: '' });
+    }
+  }, [keyword.search_keyword]);
 
   // console.log('filters', filters);
 

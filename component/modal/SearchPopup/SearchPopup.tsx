@@ -101,6 +101,10 @@ const SearchPopup = <T extends ICommonResultData>({
 
     setSelectItems(combineItems);
     setFilters({ search_target: filters.search_target });
+    setKeyword({
+      search_target: '',
+      search_keyword: '',
+    });
     setIsOpen(false);
   };
 
@@ -114,6 +118,10 @@ const SearchPopup = <T extends ICommonResultData>({
 
   const handlerClose = () => {
     setFilters({ search_target: filters.search_target });
+    setKeyword({
+      search_target: '',
+      search_keyword: '',
+    });
     setIsOpen(false);
   };
 
@@ -292,8 +300,6 @@ const SearchPopup = <T extends ICommonResultData>({
                 <th scope="row">매장명</th>
                 <td>
                   <SearchKeyword
-                    filters={filters}
-                    setFilters={setFilters}
                     keyword={keyword}
                     setKeyword={setKeyword}
                     handler={keywordConfig => {

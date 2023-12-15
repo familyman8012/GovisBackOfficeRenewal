@@ -5,6 +5,7 @@ function useSelectItems(
   search_target: string,
   initial: checkedItemType[] = []
 ) {
+  const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [selectItems, setSelectItems] = useState<checkedItemType[]>(initial);
   const [isOpen, setIsOpen] = useState(false);
   const [filters, setFilters] = useState<{
@@ -22,6 +23,8 @@ function useSelectItems(
   };
 
   return {
+    isFirstLoad,
+    setIsFirstLoad,
     selectItems,
     setSelectItems,
     isOpen,

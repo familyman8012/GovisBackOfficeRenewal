@@ -78,7 +78,7 @@ const FilterTableForm = ({
 
   // params에 따른 초기화
   useEffect(() => {
-    if (params.product_info_idx) {
+    if (params.product_info_idx && productSelect?.isFirstLoad) {
       const setProductItems = productModalData?.list
         ?.filter(item =>
           String(params.product_info_idx)
@@ -91,9 +91,10 @@ const FilterTableForm = ({
         }));
       if (setProductItems) {
         productSelect?.setSelectItems(setProductItems);
+        productSelect?.setIsFirstLoad(false);
       }
     }
-    if (params.store_idx) {
+    if (params.store_idx && storeSelect?.isFirstLoad) {
       const setStoreItems = storeModalData?.list
         .filter(item =>
           String(params.store_idx)
@@ -106,6 +107,7 @@ const FilterTableForm = ({
         }));
       if (setStoreItems) {
         storeSelect?.setSelectItems(setStoreItems);
+        storeSelect?.setIsFirstLoad(false);
       }
     }
   }, [
