@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { useState } from 'react';
+import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
 import { css } from '@emotion/react';
@@ -25,8 +26,8 @@ const AisttState = () => {
   const [statusSelect, setstatusSelect] = useState(0);
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const [params, updateParams, resetParams] = useQueryParams({
-    search_start_dt: '2023-12-15',
-    search_end_dt: '2023-12-15',
+    search_start_dt: dayjs().format('YYYY-MM-DD'),
+    search_end_dt: dayjs().format('YYYY-MM-DD'),
   });
 
   const hanldeTabMove = (index: number) => {

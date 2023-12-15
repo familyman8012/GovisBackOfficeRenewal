@@ -1,5 +1,6 @@
 /* eslint-disable no-unused-vars */
 import { useState } from 'react';
+import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
 import { css } from '@emotion/react';
@@ -8,6 +9,7 @@ import {
   fetchManufacturingTime,
 } from '@ApiFarm/aistt';
 import { IAisttStateReq } from '@InterfaceFarm/aistt';
+import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
 import { ManufacturingQualityList } from '@ComponentFarm/template/aistt/common/ManufacturingQuality';
@@ -23,7 +25,10 @@ const AisttQualityState = () => {
   const router = useRouter();
   const [statusSelect, setstatusSelect] = useState(0);
   const [activeTabIndex, setActiveTabIndex] = useState(1);
-  const [params, updateParams, resetParams] = useQueryParams({});
+  const [params, updateParams, resetParams] = useQueryParams({
+    search_start_dt: dayjs().format('YYYY-MM-DD'),
+    search_end_dt: dayjs().format('YYYY-MM-DD'),
+  });
 
   const { score_range, ...rest } = router.query;
 
@@ -44,7 +49,14 @@ const AisttQualityState = () => {
 
   return (
     <>
-      <TitleArea title="현황" />
+      <TitleArea
+        title="현황"
+        BtnBox={
+          <Button variant="gostSecondary" onClick={() => router.back()}>
+            이전
+          </Button>
+        }
+      />
       <Tabs
         id="tab_aistt_quality"
         tabs={aisttStateListTabData}
