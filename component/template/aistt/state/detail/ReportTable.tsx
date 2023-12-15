@@ -23,6 +23,12 @@ const pageSty = css`
       }
     }
   }
+  tr {
+    th,
+    td {
+      text-align: center;
+    }
+  }
   .td_factor,
   .td_frequency {
     padding: 0 !important;

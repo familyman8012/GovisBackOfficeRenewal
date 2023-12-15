@@ -32,29 +32,15 @@ export const ImprovementNeedCauseWrap = styled.div`
       }
     }
     dd {
-      &:nth-of-type(2) {
-        order: 1;
-        overflow: hidden;
+      order: 1;
+      overflow: hidden;
+      width: 100%;
+      margin-bottom: 2.4rem;
+      border-radius: 0.8rem;
+
+      img {
         width: 100%;
-        margin-bottom: 2.4rem;
         border-radius: 0.8rem;
-
-        img {
-          width: 100%;
-          border-radius: 0.8rem;
-        }
-      }
-      &:nth-of-type(1) {
-        order: 3;
-        color: var(--color-neutral50);
-        font-size: 1.4rem;
-        font-weight: 400;
-        line-height: 120%; /* 1.68rem */
-
-        span[aria-busy='true'] {
-          width: 100%;
-          height: 100%;
-        }
       }
     }
   }
@@ -84,13 +70,12 @@ export const ImprovementNeedCause = ({
               </dd>
             </dl>
           ))
-        : data?.map((el, i) => (
+        : data?.slice(0, 2).map((el, i) => (
             <dl key={i}>
               <dt>
                 <span className="txt">{el.label}</span>
                 <Badge color="red">개선 필요</Badge>
               </dt>
-              <dd>페퍼로니 토핑의 위치가 불일치합니다.</dd>
               <dd>
                 <img src={el.image} alt={`${el.label} 사진`} />
               </dd>
