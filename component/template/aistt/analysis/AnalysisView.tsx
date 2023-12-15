@@ -1,6 +1,7 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import dayjs from 'dayjs';
 import { runInAction } from 'mobx';
+import { useRouter } from 'next/router';
 import { useMutation } from 'react-query';
 import { requestInspection } from '@ApiFarm/aistt';
 import { IFqsInspectionInfo } from '@InterfaceFarm/ai-fqs';
@@ -28,14 +29,44 @@ const AnalysisView = ({
   data?: IFqsInspectionInfo;
   inspectionId?: number | string;
 }) => {
+  const router = useRouter();
   const { onBack } = useGoMove();
   const videoRef = useRef<HTMLVideoElement>(null);
   const [requestedInspect, setRequestedInspect] = useState(false);
+
   const handleChangeVideoTime = (time: number) => {
     if (videoRef.current) {
       videoRef.current.currentTime = time;
     }
   };
+
+  // is_requested가 null일 경우 재요청 버튼을 뒤로가기
+  useEffect(() => {
+    if (data?.is_re_request === null) {
+      confirmModalStore.openModal({
+        title: '평가 재요청',
+        content: (
+          <p>
+            재평가가 진행중인 영상입니다. <br /> 목록으로 이동합니다.
+          </p>
+        ),
+        showCloseButton: false,
+        showCancelButton: false,
+        onFormSubmit: () => {
+          confirmModalStore.isOpen = false;
+          router.back();
+        },
+        onClose: () => {
+          confirmModalStore.isOpen = false;
+          router.back();
+        },
+        onCancel: () => {
+          confirmModalStore.isOpen = false;
+          router.back();
+        },
+      });
+    }
+  }, [data?.is_re_request]);
 
   // 평가 재요청
   const requestInspect = useMutation(requestInspection, {
@@ -54,15 +85,15 @@ const AnalysisView = ({
           showCancelButton: false,
           onFormSubmit: () => {
             confirmModalStore.isOpen = false;
-            onBack(2);
+            router.back();
           },
           onClose: () => {
             confirmModalStore.isOpen = false;
-            onBack(2);
+            router.back();
           },
           onCancel: () => {
             confirmModalStore.isOpen = false;
-            onBack(2);
+            router.back();
           },
         });
       });
@@ -101,7 +132,6 @@ const AnalysisView = ({
               : '영상 불량'}
           </Badge>
         </h2>
-
         <p>평가일자 {data?.inspection_dt}</p>
         <p>제조일자 {data?.manufacture_dt}</p>
       </div>
