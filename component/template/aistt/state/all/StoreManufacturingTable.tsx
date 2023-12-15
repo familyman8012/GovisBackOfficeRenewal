@@ -53,7 +53,7 @@ export const StoreManufacturingTable = ({
               onClick={() =>
                 router.push({
                   pathname: '/aistt-state/quality',
-                  query: router.query,
+                  query: { ...router.query, store_idx: item.store_idx },
                 })
               }
             >
