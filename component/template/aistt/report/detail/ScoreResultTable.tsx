@@ -121,8 +121,10 @@ export const ScoreResultTable = ({
         css={css`
           th,
           td {
-            padding: 1.2rem 1rem 1.2rem !important;
-            text-align: center;
+            &:not(:nth-of-type(2)) {
+              padding: 1.2rem 1rem 1.2rem !important;
+              text-align: center;
+            }
           }
         `}
       >
