@@ -1,7 +1,8 @@
-import { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import dayjs from 'dayjs';
 import { runInAction } from 'mobx';
 import { useRouter } from 'next/router';
+import Skeleton from 'react-loading-skeleton';
 import { useMutation } from 'react-query';
 import { requestInspection } from '@ApiFarm/aistt';
 import { IFqsInspectionInfo } from '@InterfaceFarm/ai-fqs';
@@ -9,6 +10,7 @@ import { Badge } from '@ComponentFarm/atom/Badge/Badge';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import Empty from '@ComponentFarm/atom/Empty/Empty';
 import DataFilled from '@ComponentFarm/atom/icons/DataFilled';
+import Info from '@ComponentFarm/atom/icons/Info';
 import Pic from '@ComponentFarm/atom/icons/Pic';
 import Tooltip from '@ComponentFarm/atom/Tooltip/Tooltip';
 import { Table, TableWrap } from '@ComponentFarm/common';
@@ -18,13 +20,34 @@ import { confirmModalStore } from '@MobxFarm/store';
 import { getTableWidthPercentage } from '@UtilFarm/calcSize';
 import { getScoreFormat } from '@UtilFarm/number';
 import { AnalysisPageStyle } from './style';
-import FqsVideo from '../common/FqsVideo';
+import FqsVideo, { VideoWrapStyle } from '../common/FqsVideo';
 import { FqsAnalysisDataStyle, FqsInfoTable, SectionStyle } from '../style';
 
+const AnalysisViewLoading = () => {
+  return (
+    <AnalysisPageStyle>
+      <VideoWrapStyle />
+      <div className="info">
+        <h2>
+          <Skeleton width="350px" height="2.6rem" />
+        </h2>
+        <p>
+          <Skeleton width="100px" height="1.7rem" />
+        </p>
+        <p>
+          <Skeleton width="100px" height="1.7rem" />
+        </p>
+      </div>
+    </AnalysisPageStyle>
+  );
+};
+
 const AnalysisView = ({
+  loading,
   data,
   inspectionId,
 }: {
+  loading?: boolean;
   data?: IFqsInspectionInfo;
   inspectionId?: number | string;
 }) => {
@@ -101,7 +124,18 @@ const AnalysisView = ({
   const isRequested =
     data?.is_re_request === 1 || requestInspect.isLoading || requestedInspect;
 
-  console.log('data', data);
+  const insufficientList = React.useMemo(
+    () => data?.step_list.filter(step => step.rating_scale_idx_1 === 2),
+    [data]
+  );
+  const criticalList = React.useMemo(
+    () => data?.step_list.filter(step => step.rating_scale_idx_1 === 3),
+    [data]
+  );
+
+  if (loading) {
+    return <AnalysisViewLoading />;
+  }
 
   return (
     <AnalysisPageStyle>
@@ -153,10 +187,10 @@ const AnalysisView = ({
           )}
           <FqsInfoTable bordered className="content">
             <colgroup>
-              <col width={getTableWidthPercentage(120)} />
-              <col width={getTableWidthPercentage(648)} />
-              <col width={getTableWidthPercentage(120)} />
-              <col width={getTableWidthPercentage(648)} />
+              <col width={getTableWidthPercentage(80)} />
+              <col width={getTableWidthPercentage(200)} />
+              <col width={getTableWidthPercentage(80)} />
+              <col width={getTableWidthPercentage(432)} />
             </colgroup>
             <tbody>
               <tr>
@@ -171,32 +205,63 @@ const AnalysisView = ({
               </tr>
               <tr>
                 <th>종합 점수</th>
-                <td colSpan={3}>{getScoreFormat(data?.converted_score)}/100</td>
+                <td colSpan={5}>{getScoreFormat(data?.converted_score)}/100</td>
               </tr>
               <tr>
-                <th>감점 요인 등</th>
-                <td>
-                  미흡{' '}
-                  <span className="cnt-text yellow">{data?.average_count}</span>{' '}
-                  건 / 심각{' '}
-                  <span className="cnt-text red">{data?.poor_count}</span> 건
-                </td>
-                <th>영상 보관</th>
-                <td>
-                  <a
-                    className="download-link"
-                    href={data?.video_url}
-                    download={`${data?.inspection_dt}_${data?.store_name}_${
-                      data?.product_info_name ?? ''
-                    }`}
-                  >
-                    보관하기
-                  </a>
+                <th>
+                  <button type="button" className="tooltip-button">
+                    감점 사항
+                    <Info />
+                    <Tooltip eventType="hover" direction="top">
+                      <ul>
+                        <li>
+                          <Badge color="yellow" size="sm">
+                            미흡
+                          </Badge>
+                          면적 / 개수 기준치 보다 약간 부족하지만 제조에 영향이
+                          없는 수준
+                        </li>
+                        <li>
+                          <Badge color="red" size="sm">
+                            심각
+                          </Badge>
+                          면적 / 개수 기준치 보다 많이 부족하고 품질에 심각한
+                          영향을 주는 수준
+                        </li>
+                      </ul>
+                    </Tooltip>
+                  </button>
+                </th>
+                <td colSpan={5}>
+                  <ul>
+                    {insufficientList?.map(item => (
+                      <li key={item.inspection_step_idx}>
+                        <Badge size="sm" color="yellow">
+                          미흡
+                        </Badge>
+                        {item.improvement_label || item.decrease_label}
+                      </li>
+                    ))}
+
+                    {criticalList?.map(item => (
+                      <li key={item.inspection_step_idx}>
+                        <Badge size="sm" color="red">
+                          심각
+                        </Badge>
+                        {item.improvement_label || item.decrease_label}
+                      </li>
+                    ))}
+
+                    {!insufficientList?.length && !criticalList?.length && (
+                      <li className="empty">감점 사항이 없습니다.</li>
+                    )}
+                  </ul>
                 </td>
               </tr>
             </tbody>
           </FqsInfoTable>
         </SectionStyle>
+
         <SectionStyle className="list">
           <h3 className="title">단계별 상세 결과</h3>
           <span className="count">

@@ -6,7 +6,7 @@ export const FqsInfoTable = styled(InnerTable)`
 
   th {
     background-color: var(--color-gray2);
-    text-align: right;
+    text-align: left;
   }
 
   th,
@@ -37,6 +37,56 @@ export const FqsInfoTable = styled(InnerTable)`
       color: var(--color-yellow50);
     }
   }
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem 0;
+    margin: 0.4rem 0 0.4rem;
+
+    li {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      /* list-style: inside; */
+
+      &.empty {
+        list-style: none;
+        color: var(--color-neutral60);
+        font-size: 1.4rem;
+      }
+    }
+  }
+
+  .tooltip-button {
+    appearance: none;
+    background: none;
+    display: inline-flex;
+    align-items: center;
+    svg {
+      margin-left: 0.4rem;
+    }
+    path {
+      fill: currentColor !important;
+    }
+
+    ul {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+
+      li {
+        list-style: none;
+        display: flex;
+        align-items: flex-start;
+        gap: 0.8rem;
+        font-size: 1.4rem;
+        font-weight: 500;
+        line-height: 1.2;
+        line-height: 1.7;
+      }
+    }
+  }
 `;
 
 export const SectionStyle = styled.section`
@@ -51,6 +101,9 @@ export const SectionStyle = styled.section`
     font-size: 1.8rem;
     font-weight: bold;
     line-height: 1.5;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
   }
 
   .count {

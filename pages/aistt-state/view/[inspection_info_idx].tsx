@@ -17,7 +17,7 @@ const AisttStateAnalysisViewPage = () => {
     [router.isReady]
   );
 
-  const { data } = useQuery(
+  const { data, isLoading } = useQuery(
     ['fqs-state-analysis-view', id],
     () => fetchManufacturingInfo(Number(id)),
     {
@@ -46,7 +46,11 @@ const AisttStateAnalysisViewPage = () => {
         activeTabIndex={0}
         onTabChange={() => {}}
       />
-      <AnalysisView inspectionId={id} data={data} />
+      <AnalysisView
+        loading={isLoading || !router.isReady}
+        inspectionId={id}
+        data={data}
+      />
     </>
   );
 };

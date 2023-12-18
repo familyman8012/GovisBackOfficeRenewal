@@ -16,7 +16,7 @@ const AnalysisViewPage = () => {
   const path = useMemo(() => router.query.id?.[0] ?? 'view', [router.isReady]);
   const id = useMemo(() => router.query.id?.[1] ?? '', [router.isReady]);
 
-  const { data } = useQuery(
+  const { data, isLoading } = useQuery(
     ['fqs-analysis-view', id],
     () => fetchInspectionInfo(Number(id)),
     {
@@ -51,7 +51,11 @@ const AnalysisViewPage = () => {
         activeTabIndex={0}
         onTabChange={() => {}}
       />
-      <AnalysisView data={data} inspectionId={id} />
+      <AnalysisView
+        loading={isLoading || !router.isReady}
+        data={data}
+        inspectionId={id}
+      />
     </>
   );
 };

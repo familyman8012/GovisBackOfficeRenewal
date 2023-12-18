@@ -124,6 +124,7 @@ const AisttAnalysisFilter = ({
         .map(item => item.idx)
         .join(','),
       store_idx: storeSelect.selectItems.map(item => item.idx).join(','),
+      current_num: 1,
     });
   };
 
