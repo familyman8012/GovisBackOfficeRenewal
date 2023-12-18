@@ -3,7 +3,8 @@ import { useQuery } from 'react-query';
 import { fetchInspectionList } from '@ApiFarm/aistt';
 import Pagination from '@ComponentFarm/modules/Paginate/Pagination';
 import { Select } from '@ComponentFarm/atom/Select/Select';
-import PageLayout from '@ComponentFarm/layout/PageLayout';
+import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
+import TitleArea from '@ComponentFarm/layout/TitleArea';
 import AisttAnalysisFilter from '@ComponentFarm/template/aistt/analysis/AnalysisFilter';
 import AnalysisVideoList from '@ComponentFarm/template/aistt/analysis/AnalysisVideoList';
 import { AnalysisPageStyle } from '@ComponentFarm/template/aistt/analysis/style';
@@ -33,10 +34,14 @@ const AnalysisListPage = () => {
   );
 
   return (
-    <PageLayout
-      title="제품 분석"
-      tabData={[{ title: '제조 제품 목록', url: '/aistt-analysis' }]}
-    >
+    <>
+      <TitleArea title="제품 분석" BtnBox={<></>} />
+      <Tabs
+        id="aistt-analysis-list"
+        tabs={[{ title: '제조 제품 목록' }]}
+        activeTabIndex={0}
+        onTabChange={() => {}}
+      />
       <AnalysisPageStyle>
         <AisttAnalysisFilter
           params={params}
@@ -69,7 +74,7 @@ const AnalysisListPage = () => {
           handlePageChange={current_num => updateParams({ current_num })}
         />
       </AnalysisPageStyle>
-    </PageLayout>
+    </>
   );
 };
 
