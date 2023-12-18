@@ -90,7 +90,7 @@ export const ManufacturingQualityWrap = styled.div`
 export const ManufacturingQualityListWrap = styled.div`
   display: flex;
   gap: 2.4rem;
-  height: 26.9rem;
+  /* height: 26.9rem; */
 `;
 
 export const SkeletonWrap = styled.div`
