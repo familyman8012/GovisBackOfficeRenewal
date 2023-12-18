@@ -46,6 +46,13 @@ export const ImprovementStatusWrap = styled.div`
       margin-right: auto;
       color: var(--color-blue-gray50);
       .product_name {
+        display: -webkit-box;
+        -webkit-line-clamp: 1; /* 줄 수를 2줄로 제한 */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis; /* 말줄임표를 표시 */
+        white-space: normal; /* 텍스트가 자연스럽게 줄바꿈되도록 설정 */
+        padding-right: 1rem;
         margin-bottom: 0.7rem;
         font-size: 1.6rem;
         font-weight: 600;

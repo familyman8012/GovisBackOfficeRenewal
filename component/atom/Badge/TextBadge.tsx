@@ -38,8 +38,21 @@ const TextBadgeWrap = styled.div<TextBadgeProps>`
   border-radius: 0.4rem;
 
   ${props => colors[props.color]};
+
+  span {
+    display: -webkit-box;
+    -webkit-line-clamp: 1; /* 줄 수를 2줄로 제한 */
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis; /* 말줄임표를 표시 */
+    white-space: normal; /* 텍스트가 자연스럽게 줄바꿈되도록 설정 */
+  }
 `;
 
 export const TextBadge = ({ text, color }: TextBadgeProps) => {
-  return <TextBadgeWrap color={color}>{text}</TextBadgeWrap>;
+  return (
+    <TextBadgeWrap color={color}>
+      <span>{text}</span>
+    </TextBadgeWrap>
+  );
 };

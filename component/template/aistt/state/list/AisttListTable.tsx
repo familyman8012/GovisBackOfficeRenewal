@@ -73,7 +73,7 @@ const AisttListTable = ({
   };
 
   const Th = [
-    { id: 1, label: 'NO.', sort: 'product_info_idx' },
+    { id: 1, label: 'NO.', sort: 'inspection_info_idx' },
     { id: 2, label: '제품명', sort: '' },
     { id: 3, label: '매장명', sort: '' },
     { id: 4, label: '종합 점수', sort: 'converted_score' },
@@ -129,7 +129,7 @@ const AisttListTable = ({
                       query: router.query,
                     }}
                   >
-                    {i + 1 + (Number(params?.current_num) - 1) * 10}
+                    {item.inspection_info_idx}
                   </Link>
                 </td>
                 <td>
