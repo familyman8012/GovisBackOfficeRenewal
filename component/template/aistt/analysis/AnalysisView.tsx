@@ -101,6 +101,8 @@ const AnalysisView = ({
   const isRequested =
     data?.is_re_request === 1 || requestInspect.isLoading || requestedInspect;
 
+  console.log('data', data);
+
   return (
     <AnalysisPageStyle>
       <FqsVideo
@@ -174,9 +176,9 @@ const AnalysisView = ({
               <tr>
                 <th>감점 요인 등</th>
                 <td>
-                  감점 요인{' '}
+                  미흡{' '}
                   <span className="cnt-text yellow">{data?.average_count}</span>{' '}
-                  건 / 개선 필요{' '}
+                  건 / 심각{' '}
                   <span className="cnt-text red">{data?.poor_count}</span> 건
                 </td>
                 <th>영상 보관</th>
@@ -276,7 +278,12 @@ const AnalysisView = ({
                                       }
                                       size="sm"
                                     >
-                                      {item.rating_scale_name_1}
+                                      {item.rating_scale_name_1 === '감점 요인'
+                                        ? '미흡'
+                                        : item.rating_scale_name_1 ===
+                                          '개선 필요'
+                                        ? '심각'
+                                        : item.rating_scale_name_1}
                                     </Badge>
                                   )}
                                   <p>
