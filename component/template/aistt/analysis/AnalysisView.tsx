@@ -265,7 +265,7 @@ const AnalysisView = ({
                             </span>
                             <div className="cont">
                               <div className="inspection">
-                                <h3>미흡/심각 요인</h3>
+                                <h3>개선 요인</h3>
                                 <div className="effect">
                                   {item.rating_scale_idx_1 !== 1 && (
                                     <Badge
@@ -289,7 +289,7 @@ const AnalysisView = ({
                                   <p>
                                     {item.improvement_label ||
                                       item.decrease_label ||
-                                      '개선/감점 요인이 없습니다.'}
+                                      '개선 요인이 없습니다.'}
                                   </p>
                                 </div>
                               </div>

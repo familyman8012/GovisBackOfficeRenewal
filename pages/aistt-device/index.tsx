@@ -39,7 +39,7 @@ const DeviceListPage = () => {
 
   return (
     <>
-      <TitleArea title="기기 관리" BtnBox={<></>} />
+      <TitleArea title="매장 모니터링" BtnBox={<></>} />
       <Tabs
         id="aistt-device-list"
         tabs={[{ title: '매장 목록' }]}
