@@ -120,7 +120,7 @@ const AisttDeviceFilter = ({
         </colgroup>
         <tbody>
           <tr>
-            <th scope="row">기간 선택</th>
+            <th scope="row">상태별 구분</th>
             <td>
               <div className="inner">
                 <div className="select_box">
