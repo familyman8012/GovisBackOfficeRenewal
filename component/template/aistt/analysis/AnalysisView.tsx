@@ -278,7 +278,7 @@ const AnalysisView = ({
                                       }
                                       size="sm"
                                     >
-                                      {item.rating_scale_name_1 === '감점 요인'
+                                      {item.rating_scale_name_1 === '감점 항목'
                                         ? '미흡'
                                         : item.rating_scale_name_1 ===
                                           '개선 필요'
@@ -310,7 +310,7 @@ const AnalysisView = ({
                         }
                         size="sm"
                       >
-                        {item.rating_scale_name_1 === '감점 요인'
+                        {item.rating_scale_name_1 === '감점 항목'
                           ? '미흡'
                           : item.rating_scale_name_1 === '개선 필요'
                           ? '심각'
