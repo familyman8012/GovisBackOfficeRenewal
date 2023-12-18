@@ -246,7 +246,7 @@ export const TotalMenu: MenuType[] = [
       //   perm_info_idx: 35,
       // },
       {
-        name: '기기 관리',
+        name: '매장 모니터링',
         path: '/aistt-device',
         perm_code: '',
         perm_info_idx: 35,

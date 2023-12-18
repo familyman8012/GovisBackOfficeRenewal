@@ -39,7 +39,7 @@ const DeviceDetailPage = () => {
     <>
       <LayoutTitleBoxWithTab
         id="ai-fqs-device-view"
-        title="기기관리"
+        title="매장 모니터링"
         tabs={[
           {
             title: '기기 정보',
