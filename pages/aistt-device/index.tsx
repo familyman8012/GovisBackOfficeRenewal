@@ -38,7 +38,7 @@ const DeviceListPage = () => {
 
   return (
     <PageLayout
-      title="기기 관리"
+      title="매장 모니터링"
       tabData={[{ title: '매장 목록', url: '/aistt-device' }]}
     >
       <DevicePageStyle className="bg-gray">
