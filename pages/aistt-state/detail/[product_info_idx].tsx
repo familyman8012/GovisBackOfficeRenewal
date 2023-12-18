@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
 import styled from '@emotion/styled';
@@ -42,6 +42,14 @@ export const Detail = () => {
     { enabled: !!product_info_idx }
   );
 
+  const totalFrequencyCount = useMemo(
+    () =>
+      data?.improvement_needed.reduce((total, item) => {
+        return total + item.frequency_count;
+      }, 0),
+    [data?.improvement_needed]
+  );
+
   return (
     <>
       <TitleArea
@@ -76,11 +84,11 @@ export const Detail = () => {
             },
           ]}
         />
-        <SubTitleBox title="주요 개선 필요 요인" hideUnderline />
-        <ImprovementNeedCause
-          isLoading={isLoading}
-          data={data?.improvement_factor}
+        <SubTitleBox
+          title={`주요 개선 필요 요인 : 총 ${totalFrequencyCount}건`}
+          hideUnderline
         />
+        <ImprovementNeedCause isLoading={isLoading} data={data} />
         {/* <SubTitleBox
           title="리포트"
           desc="조회기간 : 2023.10.06 - 2023.10.07"

@@ -183,7 +183,7 @@ export const ManufacturingQuality = ({
       <div className="status_content">
         <div className="info">
           <dl>
-            <dt>제조수</dt>
+            <dt>제조 수</dt>
             <dd>{data.manufacturing_count.toLocaleString()}</dd>
           </dl>
           <dl>

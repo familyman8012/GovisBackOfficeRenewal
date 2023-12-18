@@ -1,6 +1,7 @@
 import React from 'react';
 import Skeleton from 'react-loading-skeleton';
 import styled from '@emotion/styled';
+import { IDetailStateRes } from '@InterfaceFarm/aistt';
 import { Badge } from '@ComponentFarm/atom/Badge/Badge';
 
 export const ImprovementNeedCauseWrap = styled.div`
@@ -51,7 +52,7 @@ export const ImprovementNeedCause = ({
   data,
 }: {
   isLoading?: boolean;
-  data?: { image: string; label: string }[];
+  data?: IDetailStateRes;
 }) => {
   return (
     <ImprovementNeedCauseWrap>
@@ -70,11 +71,13 @@ export const ImprovementNeedCause = ({
               </dd>
             </dl>
           ))
-        : data?.map((el, i) => (
+        : data?.improvement_factor?.map((el, i) => (
             <dl key={i}>
               <dt>
                 <span className="txt">{el.label}</span>
-                <Badge color="red">개선 필요</Badge>
+                <Badge color="red">
+                  개선 필요 : {data.improvement_needed[i].frequency_count}건
+                </Badge>
               </dt>
               <dd>
                 <img src={el.image} alt={`${el.label} 사진`} />

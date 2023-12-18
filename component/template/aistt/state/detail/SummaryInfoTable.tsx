@@ -1,14 +1,14 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Skeleton from 'react-loading-skeleton';
 import { css } from '@emotion/react';
 import { IDetailStateRes } from '@InterfaceFarm/aistt';
-import SkeletonTh from '@ComponentFarm/atom/Skeleton/SkeletonTh';
 import { TableSty3 } from '@ComponentFarm/template/common/table/TableSty';
 import { getTableWidthPercentage } from '@UtilFarm/calcSize';
 
 const pageSty = css`
+  width: 100%;
   tr:nth-of-type(3) {
     td {
       padding: 1.2rem 2.4rem;
@@ -82,13 +82,6 @@ export const SummaryInfoTable = ({
   data?: IDetailStateRes;
 }) => {
   const router = useRouter();
-  const totalFrequencyCount = useMemo(
-    () =>
-      data?.improvement_needed.reduce((total, item) => {
-        return total + item.frequency_count;
-      }, 0),
-    [data?.improvement_needed]
-  );
 
   return (
     <TableSty3 css={pageSty}>
@@ -135,7 +128,7 @@ export const SummaryInfoTable = ({
             </div>
           </td>
         </tr>
-        <tr>
+        {/* <tr>
           <th scope="row">개선 필요</th>
           <td>
             <div className="total_count">
@@ -170,7 +163,7 @@ export const SummaryInfoTable = ({
               </tbody>
             </table>
           </td>
-        </tr>
+        </tr> */}
       </tbody>
     </TableSty3>
   );
