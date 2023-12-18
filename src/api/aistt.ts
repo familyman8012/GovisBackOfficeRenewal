@@ -246,17 +246,21 @@ export const fetchReportManufacturingStatus = async ({
 export const fetchScoreResult = async ({
   fqs_reports_idx,
   store_idx,
+  sort_target,
+  sort_type,
 }: {
   fqs_reports_idx: string;
   store_idx?: string;
+  sort_target?: string;
+  sort_type: string;
 }) => {
   const response = await BoV2Request.get<IResponse<IReportScoreAverageRes>>(
     `/aifqs/reports/details/${fqs_reports_idx}/ratings-sorted-results`,
     store_idx !== 'undefined'
       ? {
-          params: { store_idx },
+          params: { store_idx, sort_target, sort_type },
         }
-      : {}
+      : { params: { sort_target, sort_type } }
   );
 
   return response.data.data;

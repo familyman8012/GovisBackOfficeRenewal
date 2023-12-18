@@ -13,7 +13,10 @@ import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
 import MailSendPopup, { IMailData } from '@ComponentFarm/modal/mailSendPopup';
-import { ManufacturingQualityList } from '@ComponentFarm/template/aistt/common/ManufacturingQuality';
+import {
+  ManufacturingQualityList,
+  ManufacturingQualityListWrap,
+} from '@ComponentFarm/template/aistt/common/ManufacturingQuality';
 import { aisttStateListTabData } from '@ComponentFarm/template/aistt/const';
 import AnalysisResult from '@ComponentFarm/template/aistt/report/detail/AnalysisResult';
 import MailSendListPopup from '@ComponentFarm/template/aistt/report/detail/MailSendListPopup';
@@ -31,6 +34,9 @@ import useQueryParams from '@HookFarm/useQueryParams';
 
 export const DetailInfoWrap = styled.div`
   padding: 0 2rem;
+  ${ManufacturingQualityListWrap} {
+    cursor: auto;
+  }
 `;
 
 export const Detail = () => {
@@ -73,6 +79,8 @@ export const Detail = () => {
       fetchScoreResult({
         fqs_reports_idx: String(id),
         store_idx: String(params.store_idx),
+        sort_target: String(params.sort_target),
+        sort_type: String(params.sort_type),
       }),
     { enabled: !!id }
   );
@@ -129,12 +137,13 @@ export const Detail = () => {
           setMailListOpen={setMailListOpen}
           data={reportInfoData}
         />
-        <SubTitleBox title="결과" hideUnderline />
+
         <StoreSearch
           router={router}
           params={params}
           updateParams={updateParams}
           resetParams={resetParams}
+          storeCount={manufacturingQualityData?.store_overview.store_count}
         />
 
         <AreaBox
@@ -186,6 +195,7 @@ export const Detail = () => {
             }}
             isLoading={ScoreResultLoading}
             data={ScoreResultData?.list}
+            updateParams={updateParams}
           />
         </AreaBox>
       </DetailInfoWrap>

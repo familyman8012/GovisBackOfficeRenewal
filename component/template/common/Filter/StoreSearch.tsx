@@ -1,18 +1,21 @@
 import React, { useEffect } from 'react';
 import { NextRouter } from 'next/router';
 import { useQuery } from 'react-query';
+import { css } from '@emotion/react';
 import { fetchStoreSearchModal } from '@ApiFarm/search-modal';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import StoreSearchPopup from '@ComponentFarm/modal/SearchPopup/StoreSearchPopup';
 import useSelectItems from '@ComponentFarm/template/common/FilterTable/useFilterHandler';
 import { QueryParams } from '@HookFarm/useQueryParams';
 import { ButtonWidthTextDiv } from '../AreaBox';
+import SubTitleBox from '../SubTitleBox';
 
 interface IStoreSearchProps {
   router: NextRouter;
   params: QueryParams;
   updateParams: (newParams: QueryParams) => void;
   resetParams: () => void;
+  storeCount?: number;
 }
 
 const StoreSearch = ({
@@ -20,6 +23,7 @@ const StoreSearch = ({
   params,
   updateParams,
   resetParams,
+  storeCount,
 }: IStoreSearchProps) => {
   const storeSelect = useSelectItems('store_name');
 
@@ -67,11 +71,12 @@ const StoreSearch = ({
   }, [storeSelect.selectItems.length, router.isReady]);
 
   return (
-    <ButtonWidthTextDiv>
-      <p>
-        <strong>{storeSelect.selectItems.length}</strong>
-        개의 매장을 조회했습니다.
-      </p>
+    <ButtonWidthTextDiv
+      css={css`
+        margin-top: 3rem;
+      `}
+    >
+      <SubTitleBox title="결과" hideUnderline />
       <Button variant="gostPrimary" onClick={() => storeSelect.setIsOpen(true)}>
         매장 검색
       </Button>
