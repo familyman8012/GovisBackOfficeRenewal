@@ -289,7 +289,7 @@ const AnalysisView = ({
                                   <p>
                                     {item.improvement_label ||
                                       item.decrease_label ||
-                                      '개선/감점 요인이 없습니다.'}
+                                      '개선 요인이 없습니다.'}
                                   </p>
                                 </div>
                               </div>
