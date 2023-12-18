@@ -158,7 +158,7 @@ export const PizzaStatusTable = ({ params }: { params: QueryParams }) => {
                 <td className="num">
                   <div className="box_rank">
                     {i <= 2 && <Verified size={20} />}
-                    {i < 10 ? `0${i + 1}` : i + 1}
+                    {i < 9 ? `0${i + 1}` : i + 1}
                   </div>
                 </td>
                 <td className="product_info">
