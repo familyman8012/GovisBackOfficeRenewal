@@ -102,12 +102,11 @@ export const SummaryInfoTable = ({
                 className="btn_mail_list"
                 onClick={() => setMailListOpen(true)}
               >
-                {data?.info.send_count}
+                {data?.info.send_count}건
               </button>
             ) : (
-              0
+              `${0}건`
             )}
-            건
           </td>
         </tr>
       </tbody>
