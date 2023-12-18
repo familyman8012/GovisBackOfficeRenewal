@@ -13,7 +13,6 @@ import {
   aisttStateListTabData,
 } from '@ComponentFarm/template/aistt/const';
 import { ImprovementNeedCause } from '@ComponentFarm/template/aistt/state/detail/ImprovementNeedCause';
-import { ReportTable } from '@ComponentFarm/template/aistt/state/detail/ReportTable';
 import { SummaryInfoTable } from '@ComponentFarm/template/aistt/state/detail/SummaryInfoTable';
 import StateInfoBox from '@ComponentFarm/template/common/StateInfoBox';
 import SubTitleBox from '@ComponentFarm/template/common/SubTitleBox';
@@ -82,12 +81,12 @@ export const Detail = () => {
           isLoading={isLoading}
           data={data?.improvement_factor}
         />
-        <SubTitleBox
+        {/* <SubTitleBox
           title="리포트"
           desc="조회기간 : 2023.10.06 - 2023.10.07"
           hideUnderline
         />
-        <ReportTable isLoading={isLoading} data={data?.report} />
+        <ReportTable isLoading={isLoading} data={data?.report} /> */}
       </DetailInfoWrap>
       {!data && <PageSpinner spinnerText="PROCESSING" />}
     </>

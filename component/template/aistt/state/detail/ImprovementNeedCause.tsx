@@ -70,7 +70,7 @@ export const ImprovementNeedCause = ({
               </dd>
             </dl>
           ))
-        : data?.slice(0, 2).map((el, i) => (
+        : data?.map((el, i) => (
             <dl key={i}>
               <dt>
                 <span className="txt">{el.label}</span>
