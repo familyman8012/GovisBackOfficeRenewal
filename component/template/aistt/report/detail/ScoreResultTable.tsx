@@ -11,12 +11,15 @@ import Empty from '@ComponentFarm/atom/Empty/Empty';
 import { Pic } from '@ComponentFarm/atom/icons';
 import DataFilled from '@ComponentFarm/atom/icons/DataFilled';
 import SkeletonTh from '@ComponentFarm/atom/Skeleton/SkeletonTh';
+import ToggleSort from '@ComponentFarm/atom/Sort/ToggleSort';
 import {
   PageSpinner,
   PageSpinnerWrap,
 } from '@ComponentFarm/atom/Spinner/Spinner';
 import { Table, TableWrap } from '@ComponentFarm/common';
 import TableExpandRow from '@ComponentFarm/template/common/TableExpandRow';
+import { QueryParams } from '@HookFarm/useQueryParams';
+import useSortable from '@HookFarm/useSortable';
 import { getTableWidthPercentage } from '@UtilFarm/calcSize';
 import {
   ImprovementNeedCause,
@@ -96,11 +99,14 @@ export const ScoreResultTable = ({
   isLoading,
   info,
   data,
+  updateParams,
 }: {
   isLoading: boolean;
   info: { fqs_reports_idx: string; store_idx: string };
   data?: IReportScoreAverageItem[];
+  updateParams: (newParams: QueryParams) => void;
 }) => {
+  const { sortState, toggleSort } = useSortable(updateParams);
   const [detailData, setDetailData] = useState<DetailData>({});
 
   const fetchAndStoreDetailData = async (productInfoIdx: string) => {
@@ -114,6 +120,16 @@ export const ScoreResultTable = ({
     }
   };
 
+  const Th = [
+    { label: '', sort: '' },
+    { label: '제품명', sort: 'product_name' },
+    { label: '대표 이미지', sort: '' },
+    { label: '총 제조 건수', sort: 'manufacturing_count' },
+    { label: '평균 제조 점수', sort: 'converted_score_avarage' },
+    { label: '평균 제조 시간', sort: 'manufacture_since_time_avarage' },
+    { label: '개선 필요 피자 수', sort: 'improvement_needed_count' },
+  ];
+
   return (
     <TableWrap className="content">
       <Table
@@ -121,6 +137,7 @@ export const ScoreResultTable = ({
         css={css`
           th,
           td {
+            height: 5.35rem;
             &:not(:nth-of-type(2)) {
               padding: 1.2rem 1rem 1.2rem !important;
               text-align: center;
@@ -135,13 +152,14 @@ export const ScoreResultTable = ({
         </colgroup>
         <thead>
           <tr>
-            <th>&nbsp;</th>
-            <th>제품명</th>
-            <th className="center">대표 이미지</th>
-            <th>총 제조 건수</th>
-            <th>평균 제조 점수</th>
-            <th>평균 제조 시간</th>
-            <th>개선 필요 피자 수</th>
+            {Th.map((el, i) => (
+              <th key={i} onClick={() => el.sort && toggleSort(el.sort)}>
+                <span className="th_title">
+                  {el.label}
+                  {el.sort && <ToggleSort el={el} sortState={sortState} />}
+                </span>
+              </th>
+            ))}
           </tr>
         </thead>
         <tbody>

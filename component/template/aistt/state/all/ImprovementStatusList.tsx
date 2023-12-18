@@ -4,10 +4,10 @@ import duration from 'dayjs/plugin/duration';
 import { useRouter } from 'next/router';
 import { IoAlertCircleOutline } from 'react-icons/io5';
 import Skeleton from 'react-loading-skeleton';
-import { Pagination, Autoplay } from 'swiper/modules';
+import { Pagination } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { useQuery } from 'react-query';
-import { css } from '@emotion/react';
+import { css, keyframes } from '@emotion/react';
 import styled from '@emotion/styled';
 import { fetchImprovementStatus } from '@ApiFarm/aistt';
 import { IAisttStateReq, IimprovementStatusItem } from '@InterfaceFarm/aistt';
@@ -18,6 +18,17 @@ import ScoreLabel from '@ComponentFarm/chart/ScoreLabel';
 import { QueryParams } from '@HookFarm/useQueryParams';
 
 dayjs.extend(duration);
+
+const fadeInUp = keyframes`
+ from {
+    opacity: 0;
+   // transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+   // transform: translateY(0);
+  }
+`;
 
 export const ImprovementStatusWrap = styled.div`
   width: 100%;
@@ -71,6 +82,8 @@ export const ImprovementStatusWrap = styled.div`
       }
     }
   }
+
+  animation: ${fadeInUp} 1s ease-in-out;
 `;
 
 export const SkeletonWrap = styled.div`
@@ -140,8 +153,12 @@ export const ImprovementStatus = ({
 };
 
 export const ImprovementStatusList = ({ params }: { params: QueryParams }) => {
-  const { isLoading, data } = useQuery(['improvementList', params], () =>
-    fetchImprovementStatus(params as IAisttStateReq)
+  const { isLoading, data } = useQuery(
+    ['improvementList', params],
+    () => fetchImprovementStatus(params as IAisttStateReq),
+    {
+      refetchInterval: 60 * 1000,
+    }
   );
 
   return (
@@ -158,7 +175,7 @@ export const ImprovementStatusList = ({ params }: { params: QueryParams }) => {
         </SkeletonWrap>
       ) : Number(data?.list?.length) > 0 ? (
         <Swiper
-          modules={[Pagination, Autoplay]}
+          modules={[Pagination]}
           spaceBetween={30}
           slidesPerView={3}
           slidesPerGroup={3}
@@ -186,7 +203,7 @@ export const ImprovementStatusList = ({ params }: { params: QueryParams }) => {
           `}
         >
           <Empty Icon={<IoAlertCircleOutline size={42} />}>
-            조회된 결과가 없습니다.
+            조회 기간 중 개선 필요 피자가 없습니다.
           </Empty>
         </div>
       )}
