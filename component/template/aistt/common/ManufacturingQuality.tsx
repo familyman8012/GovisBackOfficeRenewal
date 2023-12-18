@@ -58,7 +58,7 @@ export const ManufacturingQualityWrap = styled.div`
       border-bottom: 1px solid #e5e5e5;
       dl {
         &:first-of-type {
-          margin-right: 2.4rem;
+          margin-right: 3rem;
         }
         dt {
           margin-bottom: 0.6rem;
@@ -139,11 +139,11 @@ export const ManufacturingQuality = ({
       color: 'var(--color-green30)',
       progress: data.manufacturing_count_per,
     },
-    {
-      title: '개선 필요 수',
-      color: 'var(--color-orange80)',
-      progress: data.improvement_needed_count_per,
-    },
+    // {
+    //   title: '개선 필요 수',
+    //   color: 'var(--color-orange80)',
+    //   progress: data.improvement_needed_count_per,
+    // },
   ];
 
   const handlerScoreRange = () => {
@@ -163,6 +163,8 @@ export const ManufacturingQuality = ({
       }
     }
   };
+
+  console.log('data', data);
 
   return (
     <ManufacturingQualityWrap
@@ -184,11 +186,11 @@ export const ManufacturingQuality = ({
         <div className="info">
           <dl>
             <dt>제조수</dt>
-            <dd>{data.manufacturing_count.toLocaleString()}</dd>
+            <dd>{data.manufacturing_count.toLocaleString()}개</dd>
           </dl>
           <dl>
-            <dt>개선 필요 수</dt>
-            <dd>{data.improvement_needed_count.toLocaleString()}</dd>
+            <dt>제조 비율</dt>
+            <dd>{data.manufacturing_count_per.toFixed(1)}%</dd>
           </dl>
         </div>
         <div className="box_chart">
