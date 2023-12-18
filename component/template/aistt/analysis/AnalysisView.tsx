@@ -14,7 +14,6 @@ import Tooltip from '@ComponentFarm/atom/Tooltip/Tooltip';
 import { Table, TableWrap } from '@ComponentFarm/common';
 import SecondBadges from '@ComponentFarm/template/common/SecondBadges';
 import TableExpandRow from '@ComponentFarm/template/common/TableExpandRow';
-import { useGoMove } from '@HookFarm/useGoMove';
 import { confirmModalStore } from '@MobxFarm/store';
 import { getTableWidthPercentage } from '@UtilFarm/calcSize';
 import { getScoreFormat } from '@UtilFarm/number';
@@ -30,7 +29,6 @@ const AnalysisView = ({
   inspectionId?: number | string;
 }) => {
   const router = useRouter();
-  const { onBack } = useGoMove();
   const videoRef = useRef<HTMLVideoElement>(null);
   const [requestedInspect, setRequestedInspect] = useState(false);
 
