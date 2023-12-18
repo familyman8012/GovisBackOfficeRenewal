@@ -60,7 +60,7 @@ const pageStyle = css`
 export const ScoreResultExpandContent = ({
   detailData,
 }: {
-  detailData: IReportScoreAverageDetailRes;
+  detailData: any;
 }) => {
   return (
     <FqsAnalysisDataStyle css={pageStyle}>
@@ -71,7 +71,7 @@ export const ScoreResultExpandContent = ({
           </span>
           <div className="cont_improvement_need">
             <h3>주요 개선 필요 요인</h3>
-            <ImprovementNeedCause data={detailData?.improvement_factor} />
+            <ImprovementNeedCause data={detailData} />
           </div>
         </li>
         <li className="hide-line">
