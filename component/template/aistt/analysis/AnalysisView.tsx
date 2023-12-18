@@ -239,14 +239,14 @@ const AnalysisView = ({
                               <Pic />
                             </span>
                             <div className="cont">
-                              <div className="inspection-img">
+                              {/* <div className="inspection-img">
                                 <h3>제조 이미지</h3>
                                 <img
                                   src={item.step_image_url}
                                   alt=""
                                   width="100%"
                                 />
-                              </div>
+                              </div> */}
                               <div className="inspection-img">
                                 <h3>제조 이미지 컬러맵</h3>
                                 <img
