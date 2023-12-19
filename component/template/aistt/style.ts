@@ -133,6 +133,18 @@ export const FqsAnalysisDataStyle = styled.div`
   position: relative;
   margin-left: 3.2%;
   padding-top: 1.5rem;
+  display: flex;
+
+  > ul:nth-of-type(1) {
+    flex: none;
+    display: inline-flex;
+    flex-direction: column;
+  }
+
+  > ul:nth-of-type(2) {
+    flex: 1;
+    margin-bottom: 3rem;
+  }
 
   &:before {
     content: '';
@@ -179,6 +191,8 @@ export const FqsAnalysisDataStyle = styled.div`
   li {
     position: relative;
     padding-left: 2.9rem;
+    width: 100%;
+
     &:not(.hide-line)::before {
       content: '';
       position: absolute;

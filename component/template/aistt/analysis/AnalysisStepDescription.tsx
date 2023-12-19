@@ -95,7 +95,7 @@ const AnalysisStepDescription = ({ description }: Props) => {
 
               return (
                 <tr key={step} className="empty">
-                  <td>{step + 1}번 도우</td>
+                  <td>{step + 1}번 조각</td>
                   <td className="center">
                     <StatusBadge status={status} />
                   </td>

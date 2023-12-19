@@ -303,29 +303,6 @@ const AnalysisView = ({
                         <ul>
                           <li>
                             <span className="ico">
-                              <Pic />
-                            </span>
-                            <div className="cont">
-                              <div className="inspection-img">
-                                <h3>제조 이미지 컬러맵</h3>
-                                <img
-                                  src={item.step_color_image_url}
-                                  alt=""
-                                  width="100%"
-                                />
-                              </div>
-                              {item.section_description && (
-                                <div className="inspection-img">
-                                  <h3>세부 분석</h3>
-                                  <AnalysisStepDescription
-                                    description={item.section_description}
-                                  />
-                                </div>
-                              )}
-                            </div>
-                          </li>
-                          <li className="hide-line">
-                            <span className="ico">
                               <DataFilled />
                             </span>
                             <div className="cont">
@@ -360,6 +337,33 @@ const AnalysisView = ({
                               </div>
                             </div>
                           </li>
+                          <li className="hide-line">
+                            <span className="ico">
+                              <Pic />
+                            </span>
+                            <div className="cont">
+                              <div className="inspection-img">
+                                <h3>제조 이미지 컬러맵</h3>
+                                <img
+                                  src={item.step_color_image_url}
+                                  alt=""
+                                  width="100%"
+                                />
+                              </div>
+                            </div>
+                          </li>
+                        </ul>
+                        <ul>
+                          <li className="hide-line">
+                            {item.section_description && (
+                              <div className="inspection-img">
+                                <h3>세부 분석</h3>
+                                <AnalysisStepDescription
+                                  description={item.section_description}
+                                />
+                              </div>
+                            )}
+                          </li>
                         </ul>
                       </FqsAnalysisDataStyle>
                     }
@@ -391,7 +395,6 @@ const AnalysisView = ({
                         width="100px"
                       />
                     </td>
-
                     {/** 시간 클릭 시 영상 시간 변경 */}
                     <td className="center">
                       <SecondBadges
