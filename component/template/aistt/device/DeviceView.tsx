@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
 import { fetchAisttDeviceInfo, fetchAisttStoreInfo } from '@ApiFarm/aistt';
-import Toggle from '@ComponentFarm/atom/Toggle/Toggle';
+import { Badge } from '@ComponentFarm/atom/Badge/Badge';
 import { useGoMove } from '@HookFarm/useGoMove';
 import { getTableWidthPercentage } from '@UtilFarm/calcSize';
 import DeviceCameraList from './DeviceCameraList';
@@ -44,7 +44,7 @@ const DeviceView = () => {
   return (
     <DevicePageStyle>
       <SectionStyle>
-        <h3 className="title">기기 기본 정보</h3>
+        <h3 className="title">Smart Topping Table 기본 정보</h3>
       </SectionStyle>
       <FqsInfoTable bordered>
         <colgroup>
@@ -66,9 +66,15 @@ const DeviceView = () => {
             </td>
           </tr>
           <tr>
-            <th>Application</th>
+            <th>전원 상태</th>
             <td>
-              <Toggle checked={storeInfoData?.info.is_use_stt === 1} disabled />
+              <Badge
+                dot
+                color={storeInfoData?.info.is_use_stt === 1 ? 'green' : 'red'}
+                size="sm"
+              >
+                {storeInfoData?.info.is_use_stt === 1 ? 'ON' : 'OFF'}
+              </Badge>
             </td>
           </tr>
         </tbody>

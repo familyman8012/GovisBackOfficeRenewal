@@ -63,6 +63,9 @@ export const FqsInfoTable = styled(InnerTable)`
     background: none;
     display: inline-flex;
     align-items: center;
+    color: inherit;
+    font-size: inherit;
+    font-weight: inherit;
     svg {
       margin-left: 0.4rem;
     }
@@ -79,7 +82,7 @@ export const FqsInfoTable = styled(InnerTable)`
         list-style: none;
         display: flex;
         align-items: flex-start;
-        gap: 0.8rem;
+        gap: 0.6rem;
         font-size: 1.4rem;
         font-weight: 500;
         line-height: 1.2;
@@ -130,6 +133,18 @@ export const FqsAnalysisDataStyle = styled.div`
   position: relative;
   margin-left: 3.2%;
   padding-top: 1.5rem;
+  display: flex;
+
+  > ul:nth-of-type(1) {
+    flex: none;
+    display: inline-flex;
+    flex-direction: column;
+  }
+
+  > ul:nth-of-type(2) {
+    flex: 1;
+    margin-bottom: 3rem;
+  }
 
   &:before {
     content: '';
@@ -176,6 +191,8 @@ export const FqsAnalysisDataStyle = styled.div`
   li {
     position: relative;
     padding-left: 2.9rem;
+    width: 100%;
+
     &:not(.hide-line)::before {
       content: '';
       position: absolute;
@@ -227,14 +244,14 @@ export const FqsAnalysisDataStyle = styled.div`
         margin-left: 1.1rem;
       }
 
-      &::before {
+      /* &::before {
         content: '';
         width: 0.2rem;
         height: 2.6rem;
         border-radius: 0.2rem;
         margin-right: 1rem;
         background-color: var(--color-gray100);
-      }
+      } */
     }
   }
 `;

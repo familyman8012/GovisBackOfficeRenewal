@@ -18,7 +18,7 @@ interface Props {
 }
 
 const sortItems = [
-  { id: 1, label: 'NO.', sort: '' },
+  { id: 1, label: '매장 번호', sort: '' },
   { id: 2, label: '매장명', sort: 'store_name' },
   { id: 3, label: '도입 상태', sort: 'is_use_stt', align: 'center' },
   { id: 4, label: '프로그램 상태', sort: 'program_status', align: 'center' },
@@ -43,7 +43,7 @@ const DeviceStoreList = ({ loading, list, updateParams }: Props) => {
           <col width={getTableWidthPercentage(150)} />
           <col width={getTableWidthPercentage(210)} />
           <col width={getTableWidthPercentage(210)} />
-          <col width={getTableWidthPercentage(200)} />
+          <col width={getTableWidthPercentage(250)} />
         </colgroup>
         <thead>
           <tr>
