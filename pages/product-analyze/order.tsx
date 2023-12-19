@@ -1,9 +1,11 @@
 import { useMemo } from 'react';
+import { IoAlertCircleOutline } from 'react-icons/io5';
 import { useQuery } from 'react-query';
 import { css } from '@emotion/react';
 import { fetchOrderAnalyze } from '@ApiFarm/product-analyze';
 import { IProductAnalyzeReq } from '@InterfaceFarm/product-analyze';
 import ExportButton from '@ComponentFarm/modules/ExportButton/ExportButton';
+import Empty from '@ComponentFarm/atom/Empty/Empty';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import { BarCharts } from '@ComponentFarm/chart/BarCharts';
 import DonutChart from '@ComponentFarm/chart/DonutChart';
@@ -29,7 +31,7 @@ const OrderAnalyze = () => {
     productAnalyzeTabData,
   });
 
-  const { data } = useQuery(['OrderAnalyze', params], () =>
+  const { isLoading, data } = useQuery(['OrderAnalyze', params], () =>
     fetchOrderAnalyze(params as IProductAnalyzeReq)
   );
 
@@ -104,11 +106,17 @@ const OrderAnalyze = () => {
           `}
         >
           <AreaBox title="주문방식별 제품판매 현황">
-            <DonutChart
-              height="40rem"
-              chartData={chartData}
-              legend={<OrderDonutLegend />}
-            />
+            {data?.total.total_base_sales_count === 0 ? (
+              <Empty Icon={<IoAlertCircleOutline size={42} />}>
+                해당 조회 조건의 제품 판매 현황 데이터가 없습니다.
+              </Empty>
+            ) : (
+              <DonutChart
+                height="40rem"
+                chartData={chartData}
+                legend={<OrderDonutLegend />}
+              />
+            )}
           </AreaBox>
         </div>
         <div
@@ -117,24 +125,30 @@ const OrderAnalyze = () => {
           `}
         >
           <AreaBox title="증감율">
-            <BarCharts
-              height="40rem"
-              barSize={60}
-              domain={[
-                (dataMin: number) =>
-                  (dataMin - Math.abs(dataMin * 0.2)).toFixed(0),
-                (dataMax: number) =>
-                  (dataMax + Math.abs(dataMax * 0.2)).toFixed(0),
-              ]}
-              hasGrid
-              xKey="name"
-              chartData={increaseData}
-              isTooltip={false}
-              isLabelList
-              LabelListFormatter={(value: number) =>
-                `${value > 0 ? '+' : ''}${value.toFixed(2)}%`
-              }
-            />
+            {data?.total.total_base_sales_count === 0 ? (
+              <Empty Icon={<IoAlertCircleOutline size={42} />}>
+                해당 조회 조건의 제품 판매 현황 데이터가 없습니다.
+              </Empty>
+            ) : (
+              <BarCharts
+                height="40rem"
+                barSize={60}
+                domain={[
+                  (dataMin: number) =>
+                    (dataMin - Math.abs(dataMin * 0.2)).toFixed(0),
+                  (dataMax: number) =>
+                    (dataMax + Math.abs(dataMax * 0.2)).toFixed(0),
+                ]}
+                hasGrid
+                xKey="name"
+                chartData={increaseData}
+                isTooltip={false}
+                isLabelList
+                LabelListFormatter={(value: number) =>
+                  `${value > 0 ? '+' : ''}${value.toFixed(2)}%`
+                }
+              />
+            )}
           </AreaBox>
         </div>
       </div>
@@ -149,7 +163,7 @@ const OrderAnalyze = () => {
           />
         }
       >
-        {data && <SalesProductTable data={data} />}
+        <SalesProductTable data={data} isLoading={isLoading} />
       </AreaBox>
     </>
   );

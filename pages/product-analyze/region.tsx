@@ -1,4 +1,3 @@
-import Skeleton from 'react-loading-skeleton';
 import { useQuery } from 'react-query';
 import { fetchRegionAnalyze } from '@ApiFarm/product-analyze';
 import { IProductAnalyzeReq } from '@InterfaceFarm/product-analyze';
@@ -24,7 +23,7 @@ const RegionAnalyze = () => {
     productAnalyzeTabData,
   });
 
-  const { data } = useQuery(['RegionAnalyze', params], () =>
+  const { isLoading, data } = useQuery(['RegionAnalyze', params], () =>
     fetchRegionAnalyze(params as IProductAnalyzeReq)
   );
 
@@ -73,11 +72,7 @@ const RegionAnalyze = () => {
           />
         }
       >
-        {data ? (
-          <SalesProductTable data={data} />
-        ) : (
-          <Skeleton height={517} baseColor="#fcfcfc" />
-        )}
+        <SalesProductTable data={data} isLoading={isLoading} />
       </AreaBox>
     </>
   );

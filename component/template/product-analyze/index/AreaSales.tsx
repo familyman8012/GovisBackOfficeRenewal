@@ -1,8 +1,10 @@
 import React, { useMemo } from 'react';
+import { IoAlertCircleOutline } from 'react-icons/io5';
 import { useQuery } from 'react-query';
 import { css } from '@emotion/react';
 import { fetchAreaAnalyze } from '@ApiFarm/product-analyze';
 import { IProductAnalyzeReq } from '@InterfaceFarm/product-analyze';
+import Empty from '@ComponentFarm/atom/Empty/Empty';
 import DonutChart from '@ComponentFarm/chart/DonutChart';
 import { AreaBox } from '@ComponentFarm/template/common/AreaBox';
 import { QueryParams } from '@HookFarm/useQueryParams';
@@ -37,14 +39,20 @@ const AreaSales = ({ params }: { params: QueryParams }) => {
         params.base_dt_start ? `?${dateParams(params)}` : ''
       }`}
       css={css`
-        height: 61.8rem;
+        height: data?.total.total_base_sales_count === 0 ? auto : 61.8rem;
       `}
     >
-      <DonutChart
-        height="50rem"
-        chartData={chartData}
-        legend={<AreaDonutLegend />}
-      />
+      {data?.total.total_base_sales_count === 0 ? (
+        <Empty Icon={<IoAlertCircleOutline size={42} />}>
+          해당 조회 조건의 제품 판매 현황 데이터가 없습니다.
+        </Empty>
+      ) : (
+        <DonutChart
+          height="50rem"
+          chartData={chartData}
+          legend={<AreaDonutLegend />}
+        />
+      )}
     </AreaBox>
   );
 };

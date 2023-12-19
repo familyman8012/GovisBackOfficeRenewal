@@ -32,6 +32,8 @@ const StoreSales = ({ params }: { params: QueryParams }) => {
       } as IStoreAnalyzeReq),
     { enabled: !!params.evi_product_category }
   );
+
+  console.log('rankingData', rankingData);
   return (
     <AreaBoxWrap
       className="areaBox"

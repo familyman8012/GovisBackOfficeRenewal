@@ -45,7 +45,7 @@ const StoreAnalyze = () => {
     fetchStoreRankingAnalyze(params as IProductAnalyzeReq)
   );
 
-  const { data } = useQuery(['StoreAnalyze', params], () =>
+  const { isLoading, data } = useQuery(['StoreAnalyze', params], () =>
     fetchStoreAnalyze(params as IProductAnalyzeReq)
   );
 
@@ -123,11 +123,7 @@ const StoreAnalyze = () => {
           />
         }
       >
-        {data ? (
-          <SalesProductTable data={data} />
-        ) : (
-          <Skeleton height={517} baseColor="#fcfcfc" />
-        )}
+        <SalesProductTable data={data} isLoading={isLoading} />
       </AreaBox>
     </>
   );

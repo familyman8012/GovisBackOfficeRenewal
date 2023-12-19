@@ -1,8 +1,10 @@
 import { useMemo } from 'react';
+import { IoAlertCircleOutline } from 'react-icons/io5';
 import { useQuery } from 'react-query';
 import { fetchChannelAnalyze } from '@ApiFarm/product-analyze';
 import { IProductAnalyzeReq } from '@InterfaceFarm/product-analyze';
 import ExportButton from '@ComponentFarm/modules/ExportButton/ExportButton';
+import Empty from '@ComponentFarm/atom/Empty/Empty';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import { BarCharts } from '@ComponentFarm/chart/BarCharts';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
@@ -25,7 +27,7 @@ const ChannelAnalyze = () => {
     productAnalyzeTabData,
   });
 
-  const { data } = useQuery(['ChannelAnalyze', params], () =>
+  const { isLoading, data } = useQuery(['ChannelAnalyze', params], () =>
     fetchChannelAnalyze(params as IProductAnalyzeReq)
   );
 
@@ -76,40 +78,55 @@ const ChannelAnalyze = () => {
         ]}
       />
       <AreaBox title="카테고리별 제품판매 현황">
-        <BarCharts
-          type="diff"
-          height="55.7rem"
-          chartData={data?.list}
-          barSize={6}
-          tickCount={11}
-          isLegend
-          diffSet={[
-            { name: '기준일', dataKey: 'base_sales_count', fill: '#5A6ACF' },
-            {
-              name: '비교일',
-              dataKey: 'comparison_sales_count',
-              fill: '#E6E8EC',
-            },
-          ]}
-        />
+        {data?.total.total_base_sales_count === 0 &&
+        data.total.total_comparison_sales_count === 0 ? (
+          <Empty Icon={<IoAlertCircleOutline size={42} />}>
+            해당 조회 조건의 제품 판매 현황 데이터가 없습니다.
+          </Empty>
+        ) : (
+          <BarCharts
+            type="diff"
+            height="55.7rem"
+            chartData={data?.list}
+            barSize={6}
+            tickCount={11}
+            isLegend
+            diffSet={[
+              { name: '기준일', dataKey: 'base_sales_count', fill: '#5A6ACF' },
+              {
+                name: '비교일',
+                dataKey: 'comparison_sales_count',
+                fill: '#E6E8EC',
+              },
+            ]}
+          />
+        )}
       </AreaBox>
       <AreaBox title="증감율">
-        <BarCharts
-          height="40rem"
-          barSize={60}
-          domain={[
-            (dataMin: number) => (dataMin - Math.abs(dataMin * 0.3)).toFixed(0),
-            (dataMax: number) => (dataMax + Math.abs(dataMax * 0.3)).toFixed(0),
-          ]}
-          hasGrid
-          xKey="name"
-          chartData={increaseData}
-          isTooltip={false}
-          isLabelList
-          LabelListFormatter={(value: number) =>
-            `${value > 0 ? '+' : ''}${value.toFixed(2)}%`
-          }
-        />
+        {data?.total.total_base_sales_count === 0 ? (
+          <Empty Icon={<IoAlertCircleOutline size={42} />}>
+            해당 조회 조건의 제품 판매 현황 데이터가 없습니다.
+          </Empty>
+        ) : (
+          <BarCharts
+            height="40rem"
+            barSize={60}
+            domain={[
+              (dataMin: number) =>
+                (dataMin - Math.abs(dataMin * 0.3)).toFixed(0),
+              (dataMax: number) =>
+                (dataMax + Math.abs(dataMax * 0.3)).toFixed(0),
+            ]}
+            hasGrid
+            xKey="name"
+            chartData={increaseData}
+            isTooltip={false}
+            isLabelList
+            LabelListFormatter={(value: number) =>
+              `${value > 0 ? '+' : ''}${value.toFixed(2)}%`
+            }
+          />
+        )}
       </AreaBox>
       <AreaBox
         title="판매 제품 수"
@@ -122,7 +139,7 @@ const ChannelAnalyze = () => {
           />
         }
       >
-        {data && <SalesProductTable data={data} />}
+        <SalesProductTable data={data} isLoading={isLoading} />
       </AreaBox>
     </>
   );

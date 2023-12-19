@@ -1,7 +1,9 @@
 import React, { useMemo } from 'react';
+import { IoAlertCircleOutline } from 'react-icons/io5';
 import { useQuery } from 'react-query';
 import { fetchOrderAnalyze } from '@ApiFarm/product-analyze-dashboard';
 import { IProductAnalyzeReq } from '@InterfaceFarm/product-analyze';
+import Empty from '@ComponentFarm/atom/Empty/Empty';
 import DonutChart from '@ComponentFarm/chart/DonutChart';
 import { AreaBox } from '@ComponentFarm/template/common/AreaBox';
 import { QueryParams } from '@HookFarm/useQueryParams';
@@ -34,11 +36,17 @@ const OrderSales = ({ params }: { params: QueryParams }) => {
         params.base_dt_start ? `?${dateParams(params)}` : ''
       }`}
     >
-      <DonutChart
-        height="40rem"
-        chartData={chartData}
-        legend={<OrderDonutLegend />}
-      />
+      {orderData?.total.total_base_sales_count === 0 ? (
+        <Empty Icon={<IoAlertCircleOutline size={42} />}>
+          해당 조회 조건의 제품 판매 현황 데이터가 없습니다.
+        </Empty>
+      ) : (
+        <DonutChart
+          height="40rem"
+          chartData={chartData}
+          legend={<OrderDonutLegend />}
+        />
+      )}
     </AreaBox>
   );
 };

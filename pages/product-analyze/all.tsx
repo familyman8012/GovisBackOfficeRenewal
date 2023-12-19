@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
+import { IoAlertCircleOutline } from 'react-icons/io5';
 import { useQuery } from 'react-query';
 import { css } from '@emotion/react';
 import { fetchAllProductAnalyze } from '@ApiFarm/product-analyze';
 import { IProductAllAnalyzeReq } from '@InterfaceFarm/product-analyze';
 import ExportButton from '@ComponentFarm/modules/ExportButton/ExportButton';
+import Empty from '@ComponentFarm/atom/Empty/Empty';
 import { IOption, Select } from '@ComponentFarm/atom/Select/Select';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import { BarCharts } from '@ComponentFarm/chart/BarCharts';
@@ -55,7 +57,7 @@ const AllAnalyze = () => {
     productAnalyzeTabData,
   });
 
-  const { data } = useQuery(['AllProductAnalyze', params], () =>
+  const { isLoading, data } = useQuery(['AllProductAnalyze', params], () =>
     fetchAllProductAnalyze(params as IProductAllAnalyzeReq)
   );
 
@@ -128,16 +130,22 @@ const AllAnalyze = () => {
           </div>
         }
       >
-        <BarCharts
-          height="55.7rem"
-          chartData={data?.list}
-          barSize={6}
-          tickCount={11}
-          xTickFormatter={formatValue =>
-            `${calCulateXformat(formatValue, 'chart')}`
-          }
-          fill="var(--color-orange90)"
-        />
+        {data?.total.total_base_sales_count === 0 ? (
+          <Empty Icon={<IoAlertCircleOutline size={42} />}>
+            해당 조회 조건의 판매 수가 없습니다.
+          </Empty>
+        ) : (
+          <BarCharts
+            height="55.7rem"
+            chartData={data?.list}
+            barSize={6}
+            tickCount={11}
+            xTickFormatter={formatValue =>
+              `${calCulateXformat(formatValue, 'chart')}`
+            }
+            fill="var(--color-orange90)"
+          />
+        )}
       </AreaBox>
       <AreaBox
         title="판매 제품 수"
@@ -151,9 +159,10 @@ const AllAnalyze = () => {
         }
       >
         <ProductSalesTable
-          chartData={data?.list}
+          chartData={data}
           format={calCulateXformat}
           viewType={String(selectedOption?.value)}
+          isLoading={isLoading}
         />
       </AreaBox>
     </>

@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
+import { IoAlertCircleOutline } from 'react-icons/io5';
 import { useQuery } from 'react-query';
 import { fetchAllProductAnalyze } from '@ApiFarm/product-analyze-dashboard';
 import { IProductAnalyzeReq } from '@InterfaceFarm/product-analyze';
+import Empty from '@ComponentFarm/atom/Empty/Empty';
 import { IOption } from '@ComponentFarm/atom/Select/Select';
 import { BarCharts } from '@ComponentFarm/chart/BarCharts';
 import { AreaBox } from '@ComponentFarm/template/common/AreaBox';
@@ -53,7 +55,7 @@ const AllSales = ({ params }: { params: QueryParams }) => {
     return formValue;
   };
 
-  console.log('dateParams(params)', dateParams(params));
+  console.log('allData', allData);
 
   return (
     <>
@@ -77,16 +79,22 @@ const AllSales = ({ params }: { params: QueryParams }) => {
           params.base_dt_start ? `?${dateParams(params)}` : ''
         }`}
       >
-        <BarCharts
-          height="55.7rem"
-          chartData={allData?.list}
-          barSize={6}
-          tickCount={11}
-          xTickFormatter={formatValue =>
-            `${calCulateXformat(formatValue, 'chart')}`
-          }
-          fill="var(--color-orange90)"
-        />
+        {allData?.total.total_base_sales_count === 0 ? (
+          <Empty Icon={<IoAlertCircleOutline size={42} />}>
+            해당 조회 조건의 판매 수가 없습니다.
+          </Empty>
+        ) : (
+          <BarCharts
+            height="55.7rem"
+            chartData={allData?.list}
+            barSize={6}
+            tickCount={11}
+            xTickFormatter={formatValue =>
+              `${calCulateXformat(formatValue, 'chart')}`
+            }
+            fill="var(--color-orange90)"
+          />
+        )}
       </AreaBox>
     </>
   );

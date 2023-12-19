@@ -1,9 +1,22 @@
 import React from 'react';
+import { IoAlertCircleOutline } from 'react-icons/io5';
+import Skeleton from 'react-loading-skeleton';
 import { IProductAnalyzeRes } from '@InterfaceFarm/product-analyze';
+import Empty from '@ComponentFarm/atom/Empty/Empty';
 import { TableSty2 } from '@ComponentFarm/template/common/table/TableSty';
 import { getTableWidthPercentage } from '@UtilFarm/calcSize';
 
-const SalesProductTable = ({ data }: { data: IProductAnalyzeRes }) => {
+const SalesProductTable = ({
+  data,
+  isLoading,
+}: {
+  data?: IProductAnalyzeRes;
+  isLoading?: boolean;
+}) => {
+  if (isLoading) {
+    return <Skeleton height="40rem" baseColor="#fcfcfc" />;
+  }
+
   return (
     <TableSty2>
       <colgroup>
@@ -33,21 +46,32 @@ const SalesProductTable = ({ data }: { data: IProductAnalyzeRes }) => {
         </tr>
       </thead>
       <tbody>
-        {data?.list.map((el, i) => (
-          <tr key={i}>
-            <td>
-              <span className="hiddenZoneV">{i}</span>
-            </td>
-            <td>{el.item_label}</td>
-            <td>{el.base_sales_count.toLocaleString()}</td>
-            <td>{el.comparison_sales_count.toLocaleString()}</td>
-            <td>
-              {el.increase_decrease_number.toLocaleString()}개 (
-              {el.increase_decrease_rate > 0 && '+'}
-              {el.increase_decrease_rate}%)
+        {data?.total.total_base_sales_count === 0 &&
+        data?.total.total_comparison_sales_count === 0 ? (
+          <tr>
+            <td colSpan={5}>
+              <Empty Icon={<IoAlertCircleOutline size={42} />}>
+                해당 조회 조건의 제품 판매 현황 데이터가 없습니다.
+              </Empty>
             </td>
           </tr>
-        ))}
+        ) : (
+          data?.list.map((el, i) => (
+            <tr key={i}>
+              <td>
+                <span className="hiddenZoneV">{i}</span>
+              </td>
+              <td>{el.item_label}</td>
+              <td>{el.base_sales_count.toLocaleString()}</td>
+              <td>{el.comparison_sales_count.toLocaleString()}</td>
+              <td>
+                {el.increase_decrease_number.toLocaleString()}개 (
+                {el.increase_decrease_rate > 0 && '+'}
+                {el.increase_decrease_rate}%)
+              </td>
+            </tr>
+          ))
+        )}
       </tbody>
     </TableSty2>
   );
