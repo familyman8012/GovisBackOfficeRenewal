@@ -223,36 +223,36 @@ export const TotalMenu: MenuType[] = [
       },
     ],
   },
-  {
-    depth1: `AI Smart\n Topping table`,
-    group: 'Franchise',
-    depth2: [
-      {
-        name: '현황',
-        path: '/aistt-state',
-        perm_code: '',
-        perm_info_idx: 35,
-      },
-      {
-        name: '제품 분석',
-        path: '/aistt-analysis',
-        perm_code: '',
-        perm_info_idx: 35,
-      },
-      // {
-      //   name: '레포트 관리',
-      //   path: '/aistt-report',
-      //   perm_code: '',
-      //   perm_info_idx: 35,
-      // },
-      {
-        name: '매장 모니터링',
-        path: '/aistt-device',
-        perm_code: '',
-        perm_info_idx: 35,
-      },
-    ],
-  },
+  // {
+  //   depth1: `AI Smart\n Topping table`,
+  //   group: 'Franchise',
+  //   depth2: [
+  //     {
+  //       name: '현황',
+  //       path: '/aistt-state',
+  //       perm_code: '',
+  //       perm_info_idx: 35,
+  //     },
+  //     {
+  //       name: '제품 분석',
+  //       path: '/aistt-analysis',
+  //       perm_code: '',
+  //       perm_info_idx: 35,
+  //     },
+  //     // {
+  //     //   name: '레포트 관리',
+  //     //   path: '/aistt-report',
+  //     //   perm_code: '',
+  //     //   perm_info_idx: 35,
+  //     // },
+  //     {
+  //       name: '매장 모니터링',
+  //       path: '/aistt-device',
+  //       perm_code: '',
+  //       perm_info_idx: 35,
+  //     },
+  //   ],
+  // },
   {
     depth1: '이벤트 관리',
     group: 'Franchise',

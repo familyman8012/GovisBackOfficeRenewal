@@ -18,7 +18,10 @@ import { AreaBox } from '@ComponentFarm/template/common/AreaBox';
 import FilterTableForm from '@ComponentFarm/template/common/FilterTable/FilterTableForm';
 import SubTitleBox from '@ComponentFarm/template/common/SubTitleBox';
 import { CollapseList } from '@ComponentFarm/template/product-analyze/category/style';
-import { productAnalyzeTabData } from '@ComponentFarm/template/product-analyze/const';
+import {
+  initialDay,
+  productAnalyzeTabData,
+} from '@ComponentFarm/template/product-analyze/const';
 import useTabWithDateQuery from '@ComponentFarm/template/product-analyze/useTabWithDateQuery';
 import useQueryParams from '@HookFarm/useQueryParams';
 import { options } from '../../component/template/product-analyze/all/const';
@@ -26,7 +29,7 @@ import { options } from '../../component/template/product-analyze/all/const';
 const CategoryAnalyze = () => {
   // eslint-disable-next-line no-unused-vars
   const [selectedOption, setSelectedOption] = useState(options[0]);
-  const [params, updateParams, resetParams] = useQueryParams({});
+  const [params, updateParams, resetParams] = useQueryParams(initialDay);
 
   useEffect(() => {
     setSelectedOption(options.find(o => o.value === params.type) ?? options[0]);

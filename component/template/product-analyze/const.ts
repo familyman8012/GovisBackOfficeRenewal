@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+
 type PageModeSettings = {
   title: string;
   firstButtonText: string;
@@ -97,3 +99,14 @@ export const dateConfig = [
     placeholder: '수정일',
   },
 ];
+
+const dayGeneration = (beforeDay: number) => {
+  return dayjs().subtract(beforeDay, 'day').format('YYYY-MM-DD');
+};
+
+export const initialDay = {
+  base_dt_start: dayGeneration(1),
+  base_dt_finish: dayGeneration(1),
+  comparison_dt_start: dayGeneration(2),
+  comparison_dt_finish: dayGeneration(2),
+};

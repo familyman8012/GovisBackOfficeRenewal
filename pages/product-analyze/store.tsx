@@ -14,7 +14,10 @@ import TitleArea from '@ComponentFarm/layout/TitleArea';
 import { AreaBox } from '@ComponentFarm/template/common/AreaBox';
 import FilterTableForm from '@ComponentFarm/template/common/FilterTable/FilterTableForm';
 import SubTitleBox from '@ComponentFarm/template/common/SubTitleBox';
-import { productAnalyzeTabData } from '@ComponentFarm/template/product-analyze/const';
+import {
+  initialDay,
+  productAnalyzeTabData,
+} from '@ComponentFarm/template/product-analyze/const';
 import SalesProductTable from '@ComponentFarm/template/product-analyze/store/SalesProductTable';
 import StoreSalesTable from '@ComponentFarm/template/product-analyze/store/StoreSalesTable';
 import useTabWithDateQuery from '@ComponentFarm/template/product-analyze/useTabWithDateQuery';
@@ -30,7 +33,7 @@ const SelectStoreType = styled.div`
 `;
 
 const StoreAnalyze = () => {
-  const [params, updateParams, resetParams] = useQueryParams({});
+  const [params, updateParams, resetParams] = useQueryParams(initialDay);
   const [selectStoreType, setSelectStoreType] = useState('direct');
   const { activeTabIndex, handleTabWithDateQuery } = useTabWithDateQuery({
     tabIdx: 5,
