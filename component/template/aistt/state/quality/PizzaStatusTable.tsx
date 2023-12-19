@@ -1,11 +1,13 @@
 import React from 'react';
 import Link from 'next/link';
+import { IoAlertCircleOutline } from 'react-icons/io5';
 import { useQuery } from 'react-query';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { fetchPizzaStatus } from '@ApiFarm/aistt';
 import { IAisttStateReq } from '@InterfaceFarm/aistt';
 import { TimeBadge } from '@ComponentFarm/atom/Badge/TimeBadge';
+import Empty from '@ComponentFarm/atom/Empty/Empty';
 import { Pic } from '@ComponentFarm/atom/icons';
 import Verified from '@ComponentFarm/atom/icons/Verified';
 import SkeletonTh from '@ComponentFarm/atom/Skeleton/SkeletonTh';
@@ -91,6 +93,10 @@ const tablePageSty = css`
         margin: 0 2rem;
         border-radius: 0.8rem;
         background: #f3f2f2;
+
+        img {
+          width: 100%;
+        }
       }
       .txt_product_info {
         padding: 0 2.4rem;
@@ -143,7 +149,7 @@ export const PizzaStatusTable = ({ params }: { params: QueryParams }) => {
         </colgroup>
         <thead>
           <tr>
-            <th>NO.</th>
+            <th>순위</th>
             <th>제품명</th>
             <th>총 제조건수</th>
             <th>평균 제조 점수</th>
@@ -153,47 +159,60 @@ export const PizzaStatusTable = ({ params }: { params: QueryParams }) => {
         </thead>
         <tbody>
           {data ? (
-            data?.list.map((item, i) => (
-              <tr key={item.product_info_idx}>
-                <td className="num">
-                  <div className="box_rank">
-                    {i <= 2 && <Verified size={20} />}
-                    {i < 9 ? `0${i + 1}` : i + 1}
-                  </div>
+            data?.list.length === 0 ? (
+              <tr>
+                <td colSpan={6}>
+                  <Empty Icon={<IoAlertCircleOutline size={42} />}>
+                    해당 조회 조건의 피자별 현황 데이터가 없습니다.
+                  </Empty>
                 </td>
-                <td className="product_info">
-                  <div className="inner">
-                    <div className="thumb">
-                      {item.product_image ? (
-                        <img src={item.product_image} alt={item.product_name} />
-                      ) : (
-                        <Pic size={25} />
-                      )}
+              </tr>
+            ) : (
+              data?.list.map((item, i) => (
+                <tr key={item.product_info_idx}>
+                  <td className="num">
+                    <div className="box_rank">
+                      {i <= 2 && <Verified size={20} />}
+                      {i < 9 ? `0${i + 1}` : i + 1}
                     </div>
-                    <div className="txt_product_info">
-                      <Link
-                        href={{
-                          pathname: `/aistt-state/detail/${item.product_info_idx}`,
-                          query: { ...rest },
-                        }}
-                        className="product_name"
-                      >
-                        {item.product_name}
-                      </Link>
-                      <div className="category">
-                        {item.evi_product_category_str}
+                  </td>
+                  <td className="product_info">
+                    <div className="inner">
+                      <div className="thumb">
+                        {item.product_image ? (
+                          <img
+                            src={item.product_image}
+                            alt={item.product_name}
+                          />
+                        ) : (
+                          <Pic size={25} />
+                        )}
+                      </div>
+                      <div className="txt_product_info">
+                        <Link
+                          href={{
+                            pathname: `/aistt-state/detail/${item.product_info_idx}`,
+                            query: { ...rest },
+                          }}
+                          className="product_name"
+                        >
+                          {item.product_name}
+                        </Link>
+                        <div className="category">
+                          {item.evi_product_category_str}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </td>
-                <td className="count">{item.manufacturing_count}건</td>
-                <td className="score">{item.converted_score_avarage}점</td>
-                <td className="time">
-                  <TimeBadge time={item.manufacture_since_time_avarage} />
-                </td>
-                <td className="need">{item.improvement_needed_count}건</td>
-              </tr>
-            ))
+                  </td>
+                  <td className="count">{item.manufacturing_count}건</td>
+                  <td className="score">{item.converted_score_avarage}점</td>
+                  <td className="time">
+                    <TimeBadge time={item.manufacture_since_time_avarage} />
+                  </td>
+                  <td className="need">{item.improvement_needed_count}건</td>
+                </tr>
+              ))
+            )
           ) : (
             <SkeletonTh colLength={6} />
           )}

@@ -1,8 +1,12 @@
 import React from 'react';
+import { IoAlertCircleOutline } from 'react-icons/io5';
 import Skeleton from 'react-loading-skeleton';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { IDetailStateRes } from '@InterfaceFarm/aistt';
 import { Badge } from '@ComponentFarm/atom/Badge/Badge';
+import Empty from '@ComponentFarm/atom/Empty/Empty';
+import { AreaBox } from '@ComponentFarm/template/common/AreaBox';
 
 export const ImprovementNeedCauseWrap = styled.div`
   display: grid;
@@ -54,19 +58,33 @@ export const ImprovementNeedCause = ({
   isLoading?: boolean;
   data?: IDetailStateRes;
 }) => {
+  if (data?.improvement_factor.length === 0) {
+    return (
+      <AreaBox
+        title=""
+        className="noPadding"
+        css={css`
+          .box_head {
+            margin-bottom: 0 !important;
+          }
+          padding: 5rem 0 !important;
+        `}
+      >
+        <Empty Icon={<IoAlertCircleOutline size={42} />}>
+          개선 필요 요인이 없습니다.
+        </Empty>
+      </AreaBox>
+    );
+  }
   return (
     <ImprovementNeedCauseWrap>
-      {!data
+      {isLoading
         ? Array.from({ length: 3 }, (_, i) => (
             <dl key={i}>
               <dt>
                 <Skeleton width="100%" height="100%" baseColor="#fcfcfc" />
               </dt>
               <dd>
-                <Skeleton width="100%" height="100%" baseColor="#fcfcfc" />
-              </dd>
-              <dd>
-                {/* <img src={el.image} alt={`${el.label} 사진`} /> */}
                 <Skeleton width="100%" height="100%" baseColor="#fcfcfc" />
               </dd>
             </dl>

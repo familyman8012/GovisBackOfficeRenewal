@@ -22,6 +22,7 @@ export const StoreManufacturingTable = ({
     () => fetchStoreManufacturingState(params as IAisttStateReq)
   );
 
+  console.log('data', data);
   return (
     <TableSty1
       css={css`
@@ -29,18 +30,47 @@ export const StoreManufacturingTable = ({
           cursor: pointer;
           background: var(--color-indigo90);
         }
+        tr:last-of-type td {
+          border-bottom: none;
+        }
+        th,
+        td {
+          border: 1px solid var(--color-neutral90);
+
+          &:first-of-type {
+            border-left: none;
+          }
+          &:last-of-type {
+            border-right: none;
+          }
+        }
       `}
     >
       <colgroup>
-        <col width={getTableWidthPercentage(936)} />
-        <col width={getTableWidthPercentage(300)} />
-        <col width={getTableWidthPercentage(300)} />
+        <col width={getTableWidthPercentage(636)} />
+        <col width={getTableWidthPercentage(200)} />
+        <col width={getTableWidthPercentage(200)} />
+        <col width={getTableWidthPercentage(200)} />
+        <col width={getTableWidthPercentage(150)} />
+        <col width={getTableWidthPercentage(150)} />
       </colgroup>
       <thead>
         <tr>
-          <th>매장명</th>
-          <th>총 제조건수</th>
-          <th>총 개선 필요 건수</th>
+          <th rowSpan={2}>매장명</th>
+          <th colSpan={3}>점수대별 제조 건수</th>
+          <th rowSpan={2}>총 제조건수</th>
+          <th rowSpan={2}>총 개선 필요 건수</th>
+        </tr>
+        <tr>
+          <th
+            css={css`
+              text-align: center !important;
+            `}
+          >
+            100점 ~ 80점
+          </th>
+          <th>80점 ~ 50점</th>
+          <th>80점 ~ 50점</th>
         </tr>
       </thead>
       <tbody>
@@ -58,6 +88,9 @@ export const StoreManufacturingTable = ({
               }
             >
               <td>{item.store_name}</td>
+              <td>{item.top_count}</td>
+              <td>{item.middle_count}</td>
+              <td>{item.bottom_count}</td>
               <td>{item.manufacturing_count.toLocaleString()}</td>
               <td>{item.improvement_needed_count.toLocaleString()}</td>
             </tr>

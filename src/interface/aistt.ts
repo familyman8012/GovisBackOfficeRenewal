@@ -52,6 +52,12 @@ export interface IStoreManufacturingStateRes {
     store_name: string;
     manufacturing_count: number;
     improvement_needed_count: number;
+    top_count?: number;
+    top_poor_count?: number;
+    middle_count?: number;
+    middle_poor_count?: number;
+    bottom_count?: number;
+    bottom_poor_count?: number;
   }[];
 }
 

@@ -114,8 +114,8 @@ export const SkeletonWrap = styled.div`
 const textBadgeLabel: {
   [key: number]: { text: string; color: TextBadgeColor };
 } = {
-  1: { text: '100점~70점', color: 'blue' },
-  2: { text: '70점~50점', color: 'yellow' },
+  1: { text: '100점~80점', color: 'blue' },
+  2: { text: '80점~50점', color: 'yellow' },
   3: { text: '50점~0점', color: 'orange' },
 };
 
