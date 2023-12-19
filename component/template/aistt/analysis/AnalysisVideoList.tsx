@@ -65,7 +65,10 @@ const AnalysisVideoList: React.FC<VideoListProps> = ({ loading, list }) => {
                 </li>
               </ul>
               <p>{item.store_name}</p>
-              <p>제조일자 {dayjs(item.manufacture_dt).format('YYYY-MM-DD')}</p>
+              <p>
+                제조일자{' '}
+                {dayjs(item.manufacture_dt).format('YYYY-MM-DD HH:mm:ss')}
+              </p>
             </div>
           </button>
         </div>

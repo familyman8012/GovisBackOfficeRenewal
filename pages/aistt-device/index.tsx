@@ -2,13 +2,12 @@ import React from 'react';
 import { useQuery } from 'react-query';
 import { fetchAiFqsDeviceStatus, fetchAisttStoreList } from '@ApiFarm/aistt';
 import Pagination from '@ComponentFarm/modules/Paginate/Pagination';
-import PageLayout from '@ComponentFarm/layout/PageLayout';
-import AisttDeviceFilter from '@ComponentFarm/template/aistt/DeviceFilter';
-import DeviceStoreList from '@ComponentFarm/template/aistt/DeviceStoreList';
-import {
-  DevicePageStyle,
-  SectionStyle,
-} from '@ComponentFarm/template/aistt/style';
+import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
+import TitleArea from '@ComponentFarm/layout/TitleArea';
+import AisttDeviceFilter from '@ComponentFarm/template/aistt/device/DeviceFilter';
+import DeviceStoreList from '@ComponentFarm/template/aistt/device/DeviceStoreList';
+import { DevicePageStyle } from '@ComponentFarm/template/aistt/device/style';
+import { SectionStyle } from '@ComponentFarm/template/aistt/style';
 import FqsCard from '@ComponentFarm/template/common/FqsCard';
 import TitleBox from '@ComponentFarm/template/common/SubTitleBox';
 import useQueryParams from '@HookFarm/useQueryParams';
@@ -39,10 +38,14 @@ const DeviceListPage = () => {
   );
 
   return (
-    <PageLayout
-      title="기기 관리"
-      tabData={[{ title: '매장 목록', url: '/aistt-device' }]}
-    >
+    <>
+      <TitleArea title="매장 모니터링" BtnBox={<></>} />
+      <Tabs
+        id="aistt-device-list"
+        tabs={[{ title: '매장 목록' }]}
+        activeTabIndex={0}
+        onTabChange={() => {}}
+      />
       <DevicePageStyle className="bg-gray">
         <TitleBox
           title="기기 상태"
@@ -85,7 +88,7 @@ const DeviceListPage = () => {
           handlePageChange={current_num => updateParams({ current_num })}
         />
       </DevicePageStyle>
-    </PageLayout>
+    </>
   );
 };
 

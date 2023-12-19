@@ -4,8 +4,11 @@ const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
   images: {
-    domains: ['dev-govis.s3.ap-northeast-2.amazonaws.com'],
-    unoptimized: true,
+    domains: [
+      'dev-govis.s3.ap-northeast-2.amazonaws.com',
+      'dev-govis-ai.s3.ap-northeast-2.amazonaws.com',
+    ],
+    formats: ['image/avif', 'image/webp'],
   },
   compiler: {
     emotion: {

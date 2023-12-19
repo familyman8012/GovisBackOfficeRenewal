@@ -3,14 +3,13 @@ import { useQuery } from 'react-query';
 import { fetchInspectionList } from '@ApiFarm/aistt';
 import Pagination from '@ComponentFarm/modules/Paginate/Pagination';
 import { Select } from '@ComponentFarm/atom/Select/Select';
-import PageLayout from '@ComponentFarm/layout/PageLayout';
-import AisttAnalysisFilter from '@ComponentFarm/template/aistt/AnalysisFilter';
-import AnalysisVideoList from '@ComponentFarm/template/aistt/AnalysisVideoList';
+import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
+import TitleArea from '@ComponentFarm/layout/TitleArea';
+import AisttAnalysisFilter from '@ComponentFarm/template/aistt/analysis/AnalysisFilter';
+import AnalysisVideoList from '@ComponentFarm/template/aistt/analysis/AnalysisVideoList';
+import { AnalysisPageStyle } from '@ComponentFarm/template/aistt/analysis/style';
 import { inspectionOptions } from '@ComponentFarm/template/aistt/const';
-import {
-  AnalysisPageStyle,
-  SectionStyle,
-} from '@ComponentFarm/template/aistt/style';
+import { SectionStyle } from '@ComponentFarm/template/aistt/style';
 import useQueryParams from '@HookFarm/useQueryParams';
 
 const AnalysisListPage = () => {
@@ -22,17 +21,27 @@ const AnalysisListPage = () => {
 
   const { data, isFetching } = useQuery(
     ['fqs-analysis-list', params],
-    () => fetchInspectionList(params),
+    () =>
+      fetchInspectionList({
+        ...params,
+        inspection_status:
+          params.inspection_status === 'ALL' ? '' : params.inspection_status,
+      }),
+
     {
       keepPreviousData: true,
     }
   );
 
   return (
-    <PageLayout
-      title="제품 분석"
-      tabData={[{ title: '제조 제품 목록', url: '/aistt-analysis' }]}
-    >
+    <>
+      <TitleArea title="제품 분석" BtnBox={<></>} />
+      <Tabs
+        id="aistt-analysis-list"
+        tabs={[{ title: '제조 제품 목록' }]}
+        activeTabIndex={0}
+        onTabChange={() => {}}
+      />
       <AnalysisPageStyle>
         <AisttAnalysisFilter
           params={params}
@@ -46,7 +55,7 @@ const AnalysisListPage = () => {
           <Select
             selectedOption={params.inspection_status ?? ''}
             options={React.useMemo(
-              () => [{ label: '전체', value: '' }, ...inspectionOptions],
+              () => [{ label: '전체', value: 'ALL' }, ...inspectionOptions],
               []
             )}
             setSelectedOption={option =>
@@ -65,7 +74,7 @@ const AnalysisListPage = () => {
           handlePageChange={current_num => updateParams({ current_num })}
         />
       </AnalysisPageStyle>
-    </PageLayout>
+    </>
   );
 };
 

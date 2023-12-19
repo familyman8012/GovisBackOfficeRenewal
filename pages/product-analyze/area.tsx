@@ -13,12 +13,15 @@ import FilterTableForm from '@ComponentFarm/template/common/FilterTable/FilterTa
 import SubTitleBox from '@ComponentFarm/template/common/SubTitleBox';
 import { AreaDonutLegend } from '@ComponentFarm/template/product-analyze/area/areaDonutLegend';
 import SalesProductTable from '@ComponentFarm/template/product-analyze/area/SalesProductTable';
-import { productAnalyzeTabData } from '@ComponentFarm/template/product-analyze/const';
+import {
+  initialDay,
+  productAnalyzeTabData,
+} from '@ComponentFarm/template/product-analyze/const';
 import useTabWithDateQuery from '@ComponentFarm/template/product-analyze/useTabWithDateQuery';
 import useQueryParams from '@HookFarm/useQueryParams';
 
 const AreaAnalyze = () => {
-  const [params, updateParams, resetParams] = useQueryParams({});
+  const [params, updateParams, resetParams] = useQueryParams(initialDay);
   const { activeTabIndex, handleTabWithDateQuery } = useTabWithDateQuery({
     tabIdx: 7,
     params,
@@ -70,6 +73,7 @@ const AreaAnalyze = () => {
         hideUnderline
       />
       <FilterTableForm
+        type="diff"
         params={params}
         updateParams={updateParams}
         resetParams={resetParams}

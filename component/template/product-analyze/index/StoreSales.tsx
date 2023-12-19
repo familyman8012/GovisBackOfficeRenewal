@@ -56,7 +56,9 @@ const StoreSales = ({ params }: { params: QueryParams }) => {
         <div className="head">
           <h2>
             <Link
-              href={`/product-analyze/store?${dateParams(params)}`}
+              href={`/product-analyze/store${
+                params.base_dt_start ? `?${dateParams(params)}` : ''
+              }`}
               className="txt_title"
             >
               매장별 제품판매 현황

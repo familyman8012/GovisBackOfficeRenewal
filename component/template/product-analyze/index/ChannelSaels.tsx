@@ -16,7 +16,9 @@ const ChannelSaels = ({ params }: { params: QueryParams }) => {
   return (
     <AreaBox
       title="주문채널별 제품판매 현황"
-      moreLink={`/product-analyze/channel?${dateParams(params)}`}
+      moreLink={`/product-analyze/channel${
+        params.base_dt_start ? `?${dateParams(params)}` : ''
+      }`}
     >
       <BarCharts
         type="diff"

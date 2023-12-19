@@ -14,9 +14,13 @@ const ConfirmModal = () => {
   }, []);
 
   const onClose = () => {
-    runInAction(() => {
-      confirmModalStore.closeModal();
-    });
+    if (typeof confirmModalStore.onClose === 'function') {
+      confirmModalStore.onClose();
+    } else {
+      runInAction(() => {
+        confirmModalStore.closeModal();
+      });
+    }
   };
 
   const onCancel = () => {

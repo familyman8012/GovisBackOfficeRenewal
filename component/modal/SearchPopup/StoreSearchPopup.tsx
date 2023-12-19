@@ -20,6 +20,7 @@ const StoreSearchPopup = ({
   const {
     isOpen,
     setIsOpen,
+    selectItems,
     setSelectItems,
     initialValues,
     filters,
@@ -56,6 +57,7 @@ const StoreSearchPopup = ({
       filters={filters}
       setFilters={setFilters}
       initialValues={initialValues}
+      selectItems={selectItems}
       setSelectItems={setSelectItems}
       badge={['운영중', '운영예정', '폐업']}
     />

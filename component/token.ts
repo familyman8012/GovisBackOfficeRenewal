@@ -20,6 +20,7 @@ export const COLOR: Token = {
   gray10: '#514f4d',
   gray100: '#D5DBE5',
   gray300: '#a1a9b8',
+  gray400: '#7a7a7a',
   gray500: '#687182',
   dark_gray400: '#212b36',
   grayborder: '#eaecf0',

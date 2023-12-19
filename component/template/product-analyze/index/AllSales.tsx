@@ -53,6 +53,8 @@ const AllSales = ({ params }: { params: QueryParams }) => {
     return formValue;
   };
 
+  console.log('dateParams(params)', dateParams(params));
+
   return (
     <>
       <SubTitleBox
@@ -71,7 +73,9 @@ const AllSales = ({ params }: { params: QueryParams }) => {
       />
       <AreaBox
         title="전체 제품판매 현황"
-        moreLink={`/product-analyze/all?${dateParams(params)}`}
+        moreLink={`/product-analyze/all${
+          params.base_dt_start ? `?${dateParams(params)}` : ''
+        }`}
       >
         <BarCharts
           height="55.7rem"

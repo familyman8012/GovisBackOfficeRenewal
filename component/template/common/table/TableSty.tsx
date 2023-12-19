@@ -77,6 +77,60 @@ export const TableSty2 = styled.table`
   }
 `;
 
+export const TableSty3 = styled.table`
+  th,
+  td {
+    font-size: 1.4rem;
+    border: 1px solid var(--color-gray6);
+  }
+  th {
+    height: 6.4rem;
+    text-align: right;
+    padding-right: 2rem;
+
+    background: var(--color-gray2);
+    color: var(--color-neutral50);
+    font-weight: 700;
+  }
+  td {
+    text-align: left;
+    padding-left: 2.4rem;
+    color: var(--color-neutral10);
+    font-weight: 400;
+  }
+`;
+
+export const TableSty4 = styled.table`
+  width: 100%;
+  tr.td_chk {
+    &:not(first-of-type) {
+      background: #fafafa;
+    }
+  }
+
+  th,
+  td {
+    padding: 1.2rem 2.4rem !important;
+    font-size: 1.4rem;
+    text-align: center;
+    border: 1px solid var(--color-gray6);
+    &:first-of-type {
+      border-left: none;
+    }
+    &:last-of-type {
+      border-right: none;
+    }
+  }
+  th {
+    color: var(--color-neutral50);
+    font-weight: 700;
+    background: var(--color-gray2);
+  }
+  td {
+    color: var(--color-neutral10, #181818);
+  }
+`;
+
 export const TableSty1View = () => {
   return (
     <TableSty1>

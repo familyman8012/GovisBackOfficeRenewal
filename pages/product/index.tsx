@@ -12,7 +12,6 @@ import { tabData } from '@ComponentFarm/template/product/manage/const';
 import ManageListHandler from '@ComponentFarm/template/product/manage/ManageListHandler';
 import ManageListTable from '@ComponentFarm/template/product/manage/ManageListTable';
 import useQueryParams from '@HookFarm/useQueryParams';
-import { EnvStore } from '@MobxFarm/store';
 
 const Manage = () => {
   const router = useRouter();
@@ -20,10 +19,6 @@ const Manage = () => {
   const [params, updateParams, resetParams] = useQueryParams({
     current_num: 1,
     per_num: 10,
-  });
-
-  const environment = EnvStore?.getData({
-    name: 'product_category,sale_type,product_status,recipe_status',
   });
 
   const { isLoading, data } = useQuery(['productList', router.asPath], () =>
@@ -65,7 +60,6 @@ const Manage = () => {
         onTabChange={index => setActiveTabIndex(index)}
       />
       <ManageListHandler
-        environment={environment}
         params={params}
         updateParams={updateParams}
         resetParams={resetParams}

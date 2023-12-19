@@ -36,6 +36,8 @@ export interface IProductAnalyzeResListItem {
   comparison_sales_count: number;
   increase_decrease_number: number;
   increase_decrease_rate: number;
+  base_included_days?: number;
+  comparison_included_days?: number;
 }
 
 export interface IProductAnalyzeRes {

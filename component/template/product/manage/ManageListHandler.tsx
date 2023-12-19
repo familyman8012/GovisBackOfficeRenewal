@@ -1,6 +1,5 @@
 import React from 'react';
 import { css } from '@emotion/react';
-import { IEnvironmentRes } from '@InterfaceFarm/environment';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Sync } from '@ComponentFarm/atom/icons';
 import { ListHandlerWrap } from '@ComponentFarm/layout/styles';
@@ -17,7 +16,6 @@ export type keywordType = {
 };
 
 interface IListHandler {
-  environment: IEnvironmentRes;
   params: QueryParams;
   updateParams: (newParams: QueryParams) => void;
   resetParams: () => void;
@@ -32,7 +30,6 @@ const pageListSetting = css`
 `;
 
 const ManageListHandler = ({
-  environment,
   params,
   updateParams,
   resetParams,

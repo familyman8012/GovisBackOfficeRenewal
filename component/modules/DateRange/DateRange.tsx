@@ -20,6 +20,7 @@ interface DateRangePickerProps {
   initialDateRange?: DateRangeType;
   exceptDateRange?: DateRangeType;
   placeholder?: string;
+  disabled?: boolean;
 }
 
 const DateRangePicker: React.FC<DateRangePickerProps> = ({
@@ -27,6 +28,7 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
   initialDateRange = [null, null],
   exceptDateRange = [null, null],
   placeholder,
+  disabled = false,
 }) => {
   const [dateRange, setDateRange] = useState<DateRangeType>(initialDateRange);
   const [startDateInput, setStartDateInput] = useState<string | null>('');
@@ -213,6 +215,7 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
           onClick={() => setOpen(!open)}
           TrailingIcon={<FiCalendar />}
           readOnly
+          disabled={disabled}
         />
       </div>
       {open && (

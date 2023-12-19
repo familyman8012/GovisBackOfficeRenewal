@@ -60,7 +60,7 @@ const MenuLinkHistoryTable = ({
             list.map(item => (
               <tr key={item.sequence_number}>
                 <td className="code">{item.sequence_number}</td>
-                <td>{`${item.unidentified_menu_name} (${item.linked_menu_classification})`}</td>
+                <td>{item.unidentified_menu_name}</td>
                 <td>
                   <button
                     type="button"
@@ -81,7 +81,7 @@ const MenuLinkHistoryTable = ({
                     {item.order_store_count}개
                   </button>
                 </td>
-                <td>{item.linked_menu_name}</td>
+                <td>{`${item.linked_menu_name} (${item.linked_menu_classification})`}</td>
                 <td>{item.processed_user_name}</td>
                 <td>{item.processed_date}</td>
                 <td>

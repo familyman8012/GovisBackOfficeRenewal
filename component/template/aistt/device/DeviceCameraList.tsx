@@ -1,10 +1,10 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useQuery } from 'react-query';
 import { fetchAisttDeviceCameraInfo } from '@ApiFarm/aistt';
 import Empty from '@ComponentFarm/atom/Empty/Empty';
 import DeviceCameraRecordView from './DeviceCameraRecordView';
-import { SectionStyle } from './style';
-import { MenuOptionGroupStyle, MenuOptionListStyle } from '../menu/style';
+import { MenuOptionGroupStyle, MenuOptionListStyle } from '../../menu/style';
+import { SectionStyle } from '../style';
 
 interface Props {
   storeId: number;
@@ -42,6 +42,12 @@ const DeviceCameraList = ({ storeId, cameraList }: Props) => {
       enabled: !!currentCameraInfo,
     }
   );
+
+  useEffect(() => {
+    if (cameraList.length > 0 && activeCamera === '') {
+      setActiveCamera(cameraList[0].key);
+    }
+  }, [cameraList]);
 
   return (
     <>

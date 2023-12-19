@@ -45,21 +45,11 @@ const StoryCheckboxGroup: Story<Props> = args => {
       <AreaBox title="전체 제품판매 현황" moreLink="/">
         <br />
       </AreaBox>
-      <AreaBox
-        title="카테고리별 제품 판매 현황"
-        moreLink="/"
-        txt1={['5,840', '+20.3%']}
-        txt2="VS 3,240"
-      >
+      <AreaBox title="카테고리별 제품 판매 현황" moreLink="/">
         <br />
       </AreaBox>
 
-      <AreaBox
-        title="전체 제품판매 현황"
-        moreLink="/"
-        txt1="5,840개"
-        txt2={['전년도 (2002년) 대비', '+ 20.3% 상승']}
-      >
+      <AreaBox title="전체 제품판매 현황" moreLink="/">
         <br />
       </AreaBox>
     </StoryLayout>

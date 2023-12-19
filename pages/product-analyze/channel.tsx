@@ -9,13 +9,16 @@ import TitleArea from '@ComponentFarm/layout/TitleArea';
 import { AreaBox } from '@ComponentFarm/template/common/AreaBox';
 import FilterTableForm from '@ComponentFarm/template/common/FilterTable/FilterTableForm';
 import SubTitleBox from '@ComponentFarm/template/common/SubTitleBox';
-import { productAnalyzeTabData } from '@ComponentFarm/template/product-analyze/const';
+import {
+  initialDay,
+  productAnalyzeTabData,
+} from '@ComponentFarm/template/product-analyze/const';
 import SalesProductTable from '@ComponentFarm/template/product-analyze/order/SalesProductTable';
 import useTabWithDateQuery from '@ComponentFarm/template/product-analyze/useTabWithDateQuery';
 import useQueryParams from '@HookFarm/useQueryParams';
 
 const ChannelAnalyze = () => {
-  const [params, updateParams, resetParams] = useQueryParams({});
+  const [params, updateParams, resetParams] = useQueryParams(initialDay);
   const { activeTabIndex, handleTabWithDateQuery } = useTabWithDateQuery({
     tabIdx: 4,
     params,
@@ -53,6 +56,7 @@ const ChannelAnalyze = () => {
         hideUnderline
       />
       <FilterTableForm
+        type="diff"
         params={params}
         updateParams={updateParams}
         resetParams={resetParams}

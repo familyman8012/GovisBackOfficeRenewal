@@ -39,7 +39,7 @@ const getBaseUrl = () => {
     (hostSplit && hostSplit[0].indexOf('localhost') >= 0) ||
     (hostSplit && hostSplit[0] === 'local')
   ) {
-    reVal = 'https://feature.api.gopizza.kr';
+    reVal = 'https://dev.api.gopizza.kr';
   }
   return reVal;
 };

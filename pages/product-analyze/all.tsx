@@ -12,7 +12,10 @@ import { AreaBox } from '@ComponentFarm/template/common/AreaBox';
 import FilterTableForm from '@ComponentFarm/template/common/FilterTable/FilterTableForm';
 import SubTitleBox from '@ComponentFarm/template/common/SubTitleBox';
 import { ProductSalesTable } from '@ComponentFarm/template/product-analyze/all/ProductSalesTable';
-import { productAnalyzeTabData } from '@ComponentFarm/template/product-analyze/const';
+import {
+  initialDay,
+  productAnalyzeTabData,
+} from '@ComponentFarm/template/product-analyze/const';
 import useTabWithDateQuery from '@ComponentFarm/template/product-analyze/useTabWithDateQuery';
 import useQueryParams from '@HookFarm/useQueryParams';
 
@@ -39,6 +42,7 @@ const AllAnalyze = () => {
   const [selectedOption, setSelectedOption] = useState(options[0]);
   const [params, updateParams, resetParams] = useQueryParams({
     type: 'hourly',
+    ...initialDay,
   });
 
   useEffect(() => {
@@ -60,7 +64,11 @@ const AllAnalyze = () => {
       return type === 'chart' ? `${formValue}시` : `${formValue}:00`;
     }
     if (selectedOption?.value === 'daily') {
-      return type === 'chart' ? `11.${formValue}` : `2023-11-${formValue}`;
+      return type === 'chart'
+        ? `${String(params.base_dt_start).split('-')[1]}.${formValue}`
+        : `${String(params.base_dt_start).split('-')[0]}-${
+            String(params.base_dt_start).split('-')[1]
+          }-${formValue}`;
     }
     if (selectedOption?.value === 'monthly') {
       return `${formValue}월`;
@@ -83,6 +91,7 @@ const AllAnalyze = () => {
         hideUnderline
       />
       <FilterTableForm
+        type="diff"
         params={params}
         updateParams={updateParams}
         resetParams={resetParams}
@@ -141,7 +150,11 @@ const AllAnalyze = () => {
           />
         }
       >
-        <ProductSalesTable chartData={data?.list} format={calCulateXformat} />
+        <ProductSalesTable
+          chartData={data?.list}
+          format={calCulateXformat}
+          viewType={String(selectedOption?.value)}
+        />
       </AreaBox>
     </>
   );

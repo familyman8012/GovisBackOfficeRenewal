@@ -223,7 +223,6 @@ export const TotalMenu: MenuType[] = [
       },
     ],
   },
-  // 운영 반영을 위한 주석처리
   // {
   //   depth1: `AI Smart\n Topping table`,
   //   group: 'Franchise',
@@ -240,8 +239,14 @@ export const TotalMenu: MenuType[] = [
   //       perm_code: '',
   //       perm_info_idx: 35,
   //     },
+  //     // {
+  //     //   name: '레포트 관리',
+  //     //   path: '/aistt-report',
+  //     //   perm_code: '',
+  //     //   perm_info_idx: 35,
+  //     // },
   //     {
-  //       name: '기기 관리',
+  //       name: '매장 모니터링',
   //       path: '/aistt-device',
   //       perm_code: '',
   //       perm_info_idx: 35,
@@ -339,7 +344,6 @@ export const TotalMenu: MenuType[] = [
       },
     ],
   },
-
   {
     depth1: '매장 평가',
     group: 'Franchise',
@@ -434,8 +438,9 @@ export const Goivs2Menu = [
   '/aistt-analysis',
   '/aistt-device',
   '/aistt-state',
-  '/ai-fqs-analysis',
-  '/ai-fqs-device',
-  '/ai-fqs-state',
+  '/aistt-report',
+  '/aistt-tmp',
+  '/menu/link',
+  '/menu/link-history',
   '/demo',
 ];

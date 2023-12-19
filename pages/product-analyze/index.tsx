@@ -4,7 +4,10 @@ import { fetchEnvironment } from '@ApiFarm/environment';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
 import { GridAreaWrap } from '@ComponentFarm/template/common/AreaBox';
-import { productAnalyzeTabData } from '@ComponentFarm/template/product-analyze/const';
+import {
+  initialDay,
+  productAnalyzeTabData,
+} from '@ComponentFarm/template/product-analyze/const';
 import AllSales from '@ComponentFarm/template/product-analyze/index/AllSales';
 import AreaSales from '@ComponentFarm/template/product-analyze/index/AreaSales';
 import CategorySales from '@ComponentFarm/template/product-analyze/index/CategorySales';
@@ -24,6 +27,7 @@ const DashBoardAnalyze = () => {
     evi_product_category: convertEnv('product_category').find(
       el => el.label === '피자'
     )?.value,
+    ...initialDay,
   });
   const { activeTabIndex, handleTabWithDateQuery } = useTabWithDateQuery({
     tabIdx: 0,
