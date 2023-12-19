@@ -244,14 +244,14 @@ export const FqsAnalysisDataStyle = styled.div`
         margin-left: 1.1rem;
       }
 
-      &::before {
+      /* &::before {
         content: '';
         width: 0.2rem;
         height: 2.6rem;
         border-radius: 0.2rem;
         margin-right: 1rem;
         background-color: var(--color-gray100);
-      }
+      } */
     }
   }
 `;
