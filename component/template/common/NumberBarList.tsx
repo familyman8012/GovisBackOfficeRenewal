@@ -35,6 +35,10 @@ export const NumberBarWrap = styled.div`
     padding: 1.3rem;
     border-radius: 0.8rem;
     background: var(--color-neutral90);
+
+    img {
+      width: 100%;
+    }
   }
 
   .box1 {

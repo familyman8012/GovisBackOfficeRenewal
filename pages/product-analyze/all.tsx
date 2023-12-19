@@ -88,7 +88,7 @@ const AllAnalyze = () => {
         onTabChange={index => handleTabWithDateQuery(index)}
       />
       <SubTitleBox
-        title="제조 품질 통계"
+        title="전체 현황"
         desc="분류, 기간 유형별 통계를 확인할 수 있습니다."
         hideUnderline
       />
@@ -113,7 +113,7 @@ const AllAnalyze = () => {
         ]}
       />
       <AreaBox
-        title="전체 제품판매 현황"
+        title="전체 제품 판매 현황"
         addFunc={
           <div
             css={css`

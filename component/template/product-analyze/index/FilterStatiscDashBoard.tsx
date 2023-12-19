@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 import {
   DiffDateRanger,
   DiffDateType,
-} from '@ComponentFarm/modules/DateRange/DiffDateRanger';
+} from '@ComponentFarm/modules/DateRange/DiffDateRanger2';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Sync } from '@ComponentFarm/atom/icons';
 import { IOption, Select } from '@ComponentFarm/atom/Select/Select';

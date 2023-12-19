@@ -35,6 +35,7 @@ export interface ICommonResultData {
 interface SearchPopupProps<T extends ICommonResultData> {
   width?: string;
   title: string;
+  keyWordSearchTitle: string;
   selectConfig?: SelectConfig[];
   tableCofig: ColumnNameType;
   resultData: T[];
@@ -57,6 +58,7 @@ interface SearchPopupProps<T extends ICommonResultData> {
 const SearchPopup = <T extends ICommonResultData>({
   width = '68.3rem',
   title,
+  keyWordSearchTitle,
   selectConfig,
   tableCofig,
   resultData,
@@ -297,7 +299,7 @@ const SearchPopup = <T extends ICommonResultData>({
                 </td>
               </tr>
               <tr>
-                <th scope="row">매장명</th>
+                <th scope="row">{keyWordSearchTitle}</th>
                 <td>
                   <SearchKeyword
                     keyword={keyword}

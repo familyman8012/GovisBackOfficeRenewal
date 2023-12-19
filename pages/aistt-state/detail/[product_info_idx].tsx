@@ -85,7 +85,7 @@ export const Detail = () => {
           ]}
         />
         <SubTitleBox
-          title={`주요 개선 필요 요인 : 총 ${totalFrequencyCount}건`}
+          title={`주요 개선 필요 요인 : 총 ${totalFrequencyCount ?? '-'}건`}
           hideUnderline
         />
         <ImprovementNeedCause isLoading={isLoading} data={data} />

@@ -3,7 +3,6 @@ import styled from '@emotion/styled';
 
 const BasicTooltipWrap = styled.div`
   display: flex;
-  width: 12.5rem;
   flex-direction: column;
   align-items: flex-start;
   gap: 1.6rem;

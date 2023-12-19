@@ -47,15 +47,17 @@ const AllSales = ({ params }: { params: QueryParams }) => {
       return type === 'chart' ? `${formValue}시` : `${formValue}:00`;
     }
     if (selectedOption?.value === 'daily') {
-      return type === 'chart' ? `11.${formValue}` : `2023-11-${formValue}`;
+      return type === 'chart'
+        ? `${String(params.base_dt_start).split('-')[1]}.${formValue}`
+        : `${String(params.base_dt_start).split('-')[0]}-${
+            String(params.base_dt_start).split('-')[1]
+          }-${formValue}`;
     }
     if (selectedOption?.value === 'monthly') {
       return `${formValue}월`;
     }
     return formValue;
   };
-
-  console.log('allData', allData);
 
   return (
     <>
@@ -74,7 +76,7 @@ const AllSales = ({ params }: { params: QueryParams }) => {
         ]}
       />
       <AreaBox
-        title="전체 제품판매 현황"
+        title="전체 제품 판매 현황"
         moreLink={`/product-analyze/all${
           params.base_dt_start ? `?${dateParams(params)}` : ''
         }`}
