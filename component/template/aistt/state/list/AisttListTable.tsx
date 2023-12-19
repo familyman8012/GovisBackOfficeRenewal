@@ -83,8 +83,6 @@ const AisttListTable = ({
     { id: 8, label: '제조 일자', sort: 'manufacture_dt' },
   ];
 
-  console.log('data', data);
-
   return (
     <TableWrap>
       <Table className="basic" css={pageSty}>

@@ -33,6 +33,9 @@ const badgeBase = css`
   align-items: center;
   width: max-content;
   font-weight: 500;
+  svg {
+    margin-right: 0.6rem;
+  }
 `;
 
 const badgeType = {
@@ -163,13 +166,9 @@ export const Badge: FC<BadgeProps> = ({
       hasBorder={hasBorder}
       className="badge"
     >
-      {Leading && (
-        <Leading {...LeadingIcon.props} style={{ marginRight: '6px' }} />
-      )}
+      {Leading && <Leading {...LeadingIcon.props} />}
       {children}
-      {Trailing && (
-        <Trailing {...TrailingIcon.props} style={{ marginLeft: '6px' }} />
-      )}
+      {Trailing && <Trailing {...TrailingIcon.props} />}
     </BadgeWrapper>
   );
 };

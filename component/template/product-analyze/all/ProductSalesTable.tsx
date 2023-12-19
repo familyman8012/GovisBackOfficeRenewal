@@ -40,10 +40,23 @@ export const ProductSalesTableWrap = styled.table`
 export const ProductSalesTable = ({
   chartData,
   format,
+  viewType,
 }: {
   chartData?: IProductAnalyzeResListItem[];
   format: (formValue: string, type?: string) => string;
+  viewType: string;
 }) => {
+  interface IthType {
+    [key: string]: string;
+  }
+
+  const thType: IthType = {
+    hourly: '시간',
+    daily: '일',
+    weekly: '요일',
+    monthly: '월',
+  };
+
   return (
     <ProductSalesTableWrap>
       <colgroup>
@@ -54,7 +67,7 @@ export const ProductSalesTable = ({
       </colgroup>
       <thead>
         <tr>
-          <th>시간</th>
+          <th>{thType[viewType]}</th>
           <th>기준일</th>
           <th>비교일</th>
           <th>증감율</th>
@@ -64,8 +77,35 @@ export const ProductSalesTable = ({
         {chartData?.map((el, i: number) => (
           <tr key={el.item_label}>
             <td>{format(el.item_label)}</td>
-            <td>{el.base_sales_count}</td>
-            <td>{el.comparison_sales_count}</td>
+            <td>
+              {el.base_sales_count}
+
+              {el.base_included_days && (
+                <div
+                  css={css`
+                    margin-top: 0.5rem;
+                    color: #ababab;
+                    font-size: 1.2rem;
+                  `}
+                >
+                  (포함일:{el.base_included_days}일)
+                </div>
+              )}
+            </td>
+            <td>
+              {el.comparison_sales_count}
+              {el.comparison_included_days && (
+                <div
+                  css={css`
+                    margin: 0.5rem 0 0 0;
+                    color: #ababab;
+                    font-size: 1.2rem;
+                  `}
+                >
+                  (포함일:{el.comparison_included_days}일)
+                </div>
+              )}
+            </td>
             <td>
               <Badge
                 type="square"

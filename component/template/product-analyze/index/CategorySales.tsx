@@ -15,16 +15,22 @@ const CategorySales = ({ params }: { params: QueryParams }) => {
     { enabled: !!params.evi_product_category }
   );
 
-  const categoryData = useMemo(
-    () =>
-      data?.list.map(el => {
-        return {
-          ...el,
-          product_name_ko: el.product_name_ko.replace('피자', ''),
-        };
-      }),
-    [data?.list]
-  );
+  const categoryData = useMemo(() => {
+    return data?.list.map(el => {
+      // 음수 값을 0으로 설정
+      const base_sales_count =
+        el.base_sales_count < 0 ? 0 : el.base_sales_count;
+      const comparison_sales_count =
+        el.comparison_sales_count < 0 ? 0 : el.comparison_sales_count;
+
+      return {
+        ...el,
+        base_sales_count,
+        comparison_sales_count,
+        product_name_ko: el.product_name_ko.replace('피자', ''),
+      };
+    });
+  }, [data?.list]);
 
   const fontSizeCal =
     categoryData && categoryData?.length > 10 ? '12px' : '14px';

@@ -60,7 +60,11 @@ const AllAnalyze = () => {
       return type === 'chart' ? `${formValue}시` : `${formValue}:00`;
     }
     if (selectedOption?.value === 'daily') {
-      return type === 'chart' ? `11.${formValue}` : `2023-11-${formValue}`;
+      return type === 'chart'
+        ? `${String(params.base_dt_start).split('-')[1]}.${formValue}`
+        : `${String(params.base_dt_start).split('-')[0]}-${
+            String(params.base_dt_start).split('-')[1]
+          }-${formValue}`;
     }
     if (selectedOption?.value === 'monthly') {
       return `${formValue}월`;
@@ -142,7 +146,11 @@ const AllAnalyze = () => {
           />
         }
       >
-        <ProductSalesTable chartData={data?.list} format={calCulateXformat} />
+        <ProductSalesTable
+          chartData={data?.list}
+          format={calCulateXformat}
+          viewType={String(selectedOption?.value)}
+        />
       </AreaBox>
     </>
   );
