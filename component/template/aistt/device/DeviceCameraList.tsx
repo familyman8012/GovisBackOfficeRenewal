@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useQuery } from 'react-query';
 import { fetchAisttDeviceCameraInfo } from '@ApiFarm/aistt';
 import Empty from '@ComponentFarm/atom/Empty/Empty';
@@ -42,6 +42,12 @@ const DeviceCameraList = ({ storeId, cameraList }: Props) => {
       enabled: !!currentCameraInfo,
     }
   );
+
+  useEffect(() => {
+    if (cameraList.length > 0 && activeCamera === '') {
+      setActiveCamera(cameraList[0].key);
+    }
+  }, [cameraList]);
 
   return (
     <>

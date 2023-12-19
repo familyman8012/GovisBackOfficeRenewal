@@ -80,7 +80,7 @@ export const ImprovementNeedCause = ({
                 </Badge>
               </dt>
               <dd>
-                <img src={el.image} alt={`${el.label} 사진`} />
+                <img src={el.color_image_url} alt={`${el.label} 사진`} />
               </dd>
             </dl>
           ))}

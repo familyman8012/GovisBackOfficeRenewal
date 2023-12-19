@@ -87,6 +87,7 @@ export interface IDetailStateRes {
   }[];
   improvement_factor: {
     image: string;
+    color_image_url: string;
     label: string;
   }[];
   highlight: {
