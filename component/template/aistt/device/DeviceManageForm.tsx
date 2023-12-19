@@ -82,7 +82,7 @@ const DeviceManage = React.forwardRef<HTMLFormElement, Props>(
           <form ref={ref} onSubmit={handleSubmit(onSubmit)}>
             <input {...register('store_idx')} type="hidden" value={storeId} />
             <section className="first-section">
-              <h2 className="border-none">토핑테이블 기본 정보</h2>
+              <h2 className="border-none">Smart Topping Table 기본 정보</h2>
             </section>
             <div className="line">
               <div className="field">
