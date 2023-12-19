@@ -19,6 +19,7 @@ import TableExpandRow from '@ComponentFarm/template/common/TableExpandRow';
 import { confirmModalStore } from '@MobxFarm/store';
 import { getTableWidthPercentage } from '@UtilFarm/calcSize';
 import { getScoreFormat } from '@UtilFarm/number';
+import AnalysisStepDescription from './AnalysisStepDescription';
 import { AnalysisPageStyle } from './style';
 import FqsVideo, { VideoWrapStyle } from '../common/FqsVideo';
 import { FqsAnalysisDataStyle, FqsInfoTable, SectionStyle } from '../style';
@@ -190,6 +191,8 @@ const AnalysisView = ({
               <col width={getTableWidthPercentage(80)} />
               <col width={getTableWidthPercentage(200)} />
               <col width={getTableWidthPercentage(80)} />
+              <col width={getTableWidthPercentage(200)} />
+              <col width={getTableWidthPercentage(80)} />
               <col width={getTableWidthPercentage(432)} />
             </colgroup>
             <tbody>
@@ -202,11 +205,10 @@ const AnalysisView = ({
                     .unix(data?.manufacture_since_time ?? 0)
                     .format('m분 ss초')}
                 </td>
-              </tr>
-              <tr>
                 <th>종합 점수</th>
-                <td colSpan={5}>{getScoreFormat(data?.converted_score)}/100</td>
+                <td>{getScoreFormat(data?.converted_score)}/100</td>
               </tr>
+
               <tr>
                 <th>
                   <button type="button" className="tooltip-button">
@@ -306,20 +308,18 @@ const AnalysisView = ({
                               <Pic />
                             </span>
                             <div className="cont">
-                              {/* <div className="inspection-img">
-                                <h3>제조 이미지</h3>
-                                <img
-                                  src={item.step_image_url}
-                                  alt=""
-                                  width="100%"
-                                />
-                              </div> */}
                               <div className="inspection-img">
                                 <h3>제조 이미지 컬러맵</h3>
                                 <img
                                   src={item.step_color_image_url}
                                   alt=""
                                   width="100%"
+                                />
+                              </div>
+                              <div className="inspection-img">
+                                <h3>세부 분석</h3>
+                                <AnalysisStepDescription
+                                  description={item.section_description}
                                 />
                               </div>
                             </div>

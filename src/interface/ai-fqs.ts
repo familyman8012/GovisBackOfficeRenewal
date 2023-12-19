@@ -32,6 +32,7 @@ export interface IFqsInspectionInfo {
     rating_scale_name_3: string;
     step_image_url: string;
     step_color_image_url: string;
+    section_description: string;
     section_dt_start: number;
     section_dt_finish: number;
     section_score: number;
