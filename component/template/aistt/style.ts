@@ -63,6 +63,9 @@ export const FqsInfoTable = styled(InnerTable)`
     background: none;
     display: inline-flex;
     align-items: center;
+    color: inherit;
+    font-size: inherit;
+    font-weight: inherit;
     svg {
       margin-left: 0.4rem;
     }
@@ -79,7 +82,7 @@ export const FqsInfoTable = styled(InnerTable)`
         list-style: none;
         display: flex;
         align-items: flex-start;
-        gap: 0.8rem;
+        gap: 0.6rem;
         font-size: 1.4rem;
         font-weight: 500;
         line-height: 1.2;
