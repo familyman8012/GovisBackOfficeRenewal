@@ -42,11 +42,11 @@ const DeviceDetailPage = () => {
         title="매장 모니터링"
         tabs={[
           {
-            title: '기기 정보',
+            title: 'Smart Topping Table 정보',
             path: '/aistt-device/view/[id]',
           },
           {
-            title: '기기 정보 입력',
+            title: 'Smart Topping Table 상세 정보',
             path: '/aistt-device/setting/[id]',
           },
         ]}

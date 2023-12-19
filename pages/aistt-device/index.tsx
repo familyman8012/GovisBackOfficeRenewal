@@ -16,7 +16,7 @@ const DeviceListPage = () => {
   const [params, updateParams, resetParams] = useQueryParams({
     current_num: 1,
     per_num: 10,
-    device_status: '',
+    is_use_stt: '1',
     program_status: '',
   });
 
@@ -48,7 +48,7 @@ const DeviceListPage = () => {
       />
       <DevicePageStyle className="bg-gray">
         <TitleBox
-          title="기기 상태"
+          title="Smart Topping Table 상태"
           desc="분류, 기간 유형별 통계를 확인할 수 있습니다."
           hideUnderline
         />
@@ -60,7 +60,7 @@ const DeviceListPage = () => {
         <div className="status">
           <FqsCard
             label="매장 구분"
-            title="AI-FQS 도입 매장"
+            title="Smart Topping Table 도입 매장"
             value={`${deviceStatusQuery.data?.store_aifqs_enabled ?? 0}`}
             unit={`/${deviceStatusQuery.data?.store_count ?? 0}`}
           />

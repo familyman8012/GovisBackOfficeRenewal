@@ -82,7 +82,7 @@ const DeviceManage = React.forwardRef<HTMLFormElement, Props>(
           <form ref={ref} onSubmit={handleSubmit(onSubmit)}>
             <input {...register('store_idx')} type="hidden" value={storeId} />
             <section className="first-section">
-              <h2 className="border-none">기기 기본 정보</h2>
+              <h2 className="border-none">토핑테이블 기본 정보</h2>
             </section>
             <div className="line">
               <div className="field">
@@ -101,7 +101,7 @@ const DeviceManage = React.forwardRef<HTMLFormElement, Props>(
             </div>
             <div className="line">
               <div className="field">
-                <label htmlFor="name">기기 시작 시간</label>
+                <label htmlFor="name">구동 시작 시간</label>
                 <div className="box_inp">
                   <Controller
                     name="info.opening_time"
@@ -114,7 +114,7 @@ const DeviceManage = React.forwardRef<HTMLFormElement, Props>(
                 </div>
               </div>
               <div className="field">
-                <label htmlFor="name">기기 종료 시간</label>
+                <label htmlFor="name">구동 종료 시간</label>
                 <div className="box_inp">
                   <Controller
                     name="info.closing_time"
@@ -163,7 +163,7 @@ const DeviceManage = React.forwardRef<HTMLFormElement, Props>(
             </div>
             <div className="line">
               <div className="field">
-                <label htmlFor="name">Smart Topping table</label>
+                <label htmlFor="name">사용 여부</label>
                 <div className="box_inp">
                   <Controller
                     control={control}
