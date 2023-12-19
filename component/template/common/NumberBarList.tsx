@@ -91,7 +91,7 @@ export const NumberBar = ({
   return (
     <NumberBarWrap>
       <div className="txt_number">
-        {index < 10 ? `0${index + 1}` : index + 1}
+        {index < 9 ? `0${index + 1}` : index + 1}
       </div>
       <div className="thumb">
         {data.imgUrl ? <img src={data.imgUrl} alt={data.box1Line1} /> : <Pic />}
