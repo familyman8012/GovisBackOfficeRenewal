@@ -208,7 +208,6 @@ const AnalysisView = ({
                 <th>종합 점수</th>
                 <td>{getScoreFormat(data?.converted_score)}/100</td>
               </tr>
-
               <tr>
                 <th>
                   <button type="button" className="tooltip-button">
@@ -263,7 +262,6 @@ const AnalysisView = ({
             </tbody>
           </FqsInfoTable>
         </SectionStyle>
-
         <SectionStyle className="list">
           <h3 className="title">단계별 상세 결과</h3>
           <span className="count">
@@ -316,12 +314,14 @@ const AnalysisView = ({
                                   width="100%"
                                 />
                               </div>
-                              <div className="inspection-img">
-                                <h3>세부 분석</h3>
-                                <AnalysisStepDescription
-                                  description={item.section_description}
-                                />
-                              </div>
+                              {item.section_description && (
+                                <div className="inspection-img">
+                                  <h3>세부 분석</h3>
+                                  <AnalysisStepDescription
+                                    description={item.section_description}
+                                  />
+                                </div>
+                              )}
                             </div>
                           </li>
                           <li className="hide-line">
