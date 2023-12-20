@@ -26,6 +26,7 @@ export interface BadgeProps {
   TrailingIcon?: React.ReactElement;
   textWhite?: boolean;
   hasBorder?: boolean;
+  onClick?: (e: React.MouseEvent<HTMLSpanElement>) => void;
 }
 
 const badgeBase = css`
@@ -151,6 +152,7 @@ export const Badge: FC<BadgeProps> = ({
   children,
   textWhite,
   hasBorder = true,
+  onClick,
 }) => {
   const Leading = LeadingIcon?.type;
   const Trailing = TrailingIcon?.type;
@@ -165,6 +167,7 @@ export const Badge: FC<BadgeProps> = ({
       textWhite={textWhite}
       hasBorder={hasBorder}
       className="badge"
+      onClick={e => onClick?.(e)}
     >
       {Leading && <Leading {...LeadingIcon.props} />}
       {children}
