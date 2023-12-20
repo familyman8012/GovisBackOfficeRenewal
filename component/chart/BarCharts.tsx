@@ -68,7 +68,13 @@ export const BarCharts = ({
     <div style={{ height }}>
       {chartDataName ? (
         <ResponsiveContainer width="100%" height="100%">
-          <BarChart data={chartData} barSize={barSize}>
+          <BarChart
+            data={chartData}
+            barSize={barSize}
+            margin={{
+              top: 15,
+            }}
+          >
             <CartesianGrid strokeDasharray="2 0" vertical={hasGrid} />
             <XAxis
               dataKey={xKey}

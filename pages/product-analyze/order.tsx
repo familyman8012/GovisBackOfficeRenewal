@@ -52,7 +52,7 @@ const OrderAnalyze = () => {
       data?.list.map(el => {
         return {
           name: el.item_label,
-          value: el.increase_decrease_rate,
+          increase_decrease_rate: el.increase_decrease_rate,
           fill: el.increase_decrease_rate > 0 ? '#FF4600' : '#2264E5',
         };
       }),
@@ -133,17 +133,12 @@ const OrderAnalyze = () => {
               <BarCharts
                 height="40rem"
                 barSize={60}
-                domain={[
-                  (dataMin: number) =>
-                    (dataMin - Math.abs(dataMin * 0.2)).toFixed(0),
-                  (dataMax: number) =>
-                    (dataMax + Math.abs(dataMax * 0.2)).toFixed(0),
-                ]}
                 hasGrid
                 xKey="name"
                 chartData={increaseData}
                 isTooltip={false}
                 isLabelList
+                // ticks={calculateTicks}
                 LabelListFormatter={(value: number) =>
                   `${value > 0 ? '+' : ''}${value.toFixed(2)}%`
                 }

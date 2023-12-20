@@ -172,6 +172,12 @@ const CategoryAnalyze = () => {
                 ({data?.total.total_increase_decrease_rate}%)
               </span>
             </li>
+            <li className="wrap_total th">
+              <span>카테고리</span>
+              <span>기준일 판매</span>
+              <span>비교일 판매</span>
+              <span>증감율</span>
+            </li>
             {data?.list.length === 0 ? (
               <li
                 style={{

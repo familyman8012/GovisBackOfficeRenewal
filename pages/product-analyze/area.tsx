@@ -135,12 +135,6 @@ const AreaAnalyze = () => {
                 height="50rem"
                 tickCount={6}
                 barSize={30}
-                domain={[
-                  (dataMin: number) =>
-                    (dataMin - Math.abs(dataMin * 0.2)).toFixed(0),
-                  (dataMax: number) =>
-                    (dataMax + Math.abs(dataMax * 0.2)).toFixed(0),
-                ]}
                 hasGrid
                 xKey="name"
                 chartData={increaseData}

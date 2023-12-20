@@ -111,12 +111,6 @@ const ChannelAnalyze = () => {
           <BarCharts
             height="40rem"
             barSize={60}
-            domain={[
-              (dataMin: number) =>
-                (dataMin - Math.abs(dataMin * 0.3)).toFixed(0),
-              (dataMax: number) =>
-                (dataMax + Math.abs(dataMax * 0.3)).toFixed(0),
-            ]}
             hasGrid
             xKey="name"
             chartData={increaseData}

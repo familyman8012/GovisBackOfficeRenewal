@@ -25,6 +25,18 @@ export const CollapseList = styled.ul`
     }
   }
 
+  .wrap_total.th {
+    font-weight: 600;
+    text-align: left;
+    border-top: 1px solid #fff;
+    border-bottom: 1px solid #fff;
+    background: #ddd;
+
+    span {
+      color: var(--color-gray30);
+    }
+  }
+
   .depth1_info {
     cursor: pointer;
     background: #f3f2f2;
