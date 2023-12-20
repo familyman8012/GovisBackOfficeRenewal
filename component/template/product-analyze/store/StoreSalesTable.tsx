@@ -7,7 +7,6 @@ import Empty from '@ComponentFarm/atom/Empty/Empty';
 import Arrow2Down from '@ComponentFarm/atom/icons/Arrow2Down';
 import Arrow2Up from '@ComponentFarm/atom/icons/Arrow2Up';
 import { TableSty1 } from '@ComponentFarm/template/common/table/TableSty';
-import { getTableWidthPercentage } from '@UtilFarm/calcSize';
 
 const pageStyle = css`
   td {
@@ -41,9 +40,10 @@ const StoreSalesTable = ({
   return (
     <TableSty1 css={pageStyle}>
       <colgroup>
-        {[507, 343, 343, 343].map((el, i) => (
-          <col key={i} width={getTableWidthPercentage(el, 1536)} />
-        ))}
+        <col width="39%" />
+        <col width="20%" />
+        <col width="20%" />
+        <col width="20%" />
       </colgroup>
       <thead>
         <tr>
