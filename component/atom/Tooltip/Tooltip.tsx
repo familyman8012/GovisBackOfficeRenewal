@@ -139,7 +139,7 @@ const TooltipContainerStyle = styled.span`
 const Tooltip = ({
   eventType = 'hover',
   direction = 'bottom',
-  size = 'md',
+  size,
   children,
 }: React.PropsWithChildren<Props>) => {
   const tooltipRef = useRef<HTMLSpanElement>(null);
