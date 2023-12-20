@@ -103,14 +103,17 @@ export const DiffDateRanger = ({
 
   return (
     <DiffDateRangerWrap>
-      <span
-        css={css`
-          margin-left: 2rem;
-          color: var(--color-neutral60);
-        `}
-      >
-        기준일:
-      </span>
+      {type === 'diff' && (
+        <span
+          css={css`
+            margin-left: 2rem;
+            color: var(--color-neutral60);
+          `}
+        >
+          기준일:
+        </span>
+      )}
+
       <span>
         <DateRangePicker
           onDateRangeChange={update => handleDateRangeChange('range1', update)}
