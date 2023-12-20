@@ -63,7 +63,7 @@ const StoreSales = ({ params }: { params: QueryParams }) => {
               }`}
               className="txt_title"
             >
-              매장별 제품판매 현황
+              매장별 제품 판매 현황
             </Link>
           </h2>
           <SelectStoreType

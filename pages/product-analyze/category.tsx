@@ -122,7 +122,7 @@ const CategoryAnalyze = () => {
           },
         ]}
       />
-      <AreaBox title="카테고리별 제품판매 현황">
+      <AreaBox title="카테고리별 제품 판매 현황">
         {data?.list.length === 0 ? (
           <Empty Icon={<IoAlertCircleOutline size={42} />}>
             해당 조회 조건의 제품 판매 현황 데이터가 없습니다.
