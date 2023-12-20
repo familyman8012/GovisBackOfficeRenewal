@@ -19,7 +19,11 @@ const pageStyle = css`
     }
 
     .badge {
+      width: 2.42rem;
+      height: 2.42rem;
+      padding: 0;
       margin-right: 1.6rem;
+      justify-content: center;
     }
     .store_name {
       padding-left: 1.6rem;
