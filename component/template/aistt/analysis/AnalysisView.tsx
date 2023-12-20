@@ -400,7 +400,8 @@ const AnalysisView = ({
                       <SecondBadges
                         beforeSecond={item.section_dt_start}
                         afterSecond={item.section_dt_finish}
-                        onClickSecond={handleChangeVideoTime}
+                        onClickbeforeSecond={handleChangeVideoTime}
+                        onClickAfterSecond={handleChangeVideoTime}
                       />
                     </td>
                     <td>{item.conversion_score}/100</td>

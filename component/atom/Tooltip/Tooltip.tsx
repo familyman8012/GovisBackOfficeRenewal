@@ -4,6 +4,7 @@ import styled from '@emotion/styled';
 interface Props {
   direction?: 'top' | 'bottom' | 'left' | 'right';
   eventType?: 'hover' | 'click';
+  size?: 'sm';
 }
 
 const TooltipContainerStyle = styled.span`
@@ -60,6 +61,13 @@ const TooltipContainerStyle = styled.span`
 
     > * {
       pointer-events: auto;
+    }
+  }
+
+  &.sm {
+    .tooltip-content {
+      padding: 0.4rem 0.8rem;
+      font-size: 1.2rem;
     }
   }
 
@@ -131,6 +139,7 @@ const TooltipContainerStyle = styled.span`
 const Tooltip = ({
   eventType = 'hover',
   direction = 'bottom',
+  size = 'md',
   children,
 }: React.PropsWithChildren<Props>) => {
   const tooltipRef = useRef<HTMLSpanElement>(null);
@@ -141,7 +150,9 @@ const Tooltip = ({
     if (!tooltipRef.current) return;
 
     const $tooltip = tooltipRef.current;
-    const $parent = $tooltip.closest('div, a, button') as HTMLElement;
+    const $parent = $tooltip?.parentElement?.closest(
+      'div, a, button, span'
+    ) as HTMLElement;
 
     if ($parent) {
       const parentPosition = window.getComputedStyle($parent).position;
@@ -157,8 +168,10 @@ const Tooltip = ({
     if (!tooltipRef.current) return () => {};
 
     const $tooltip = tooltipRef.current;
-    const $parent = $tooltip.closest('div, a, button') as HTMLElement;
-
+    const $parent = $tooltip?.parentElement?.closest(
+      'div, a, button, span'
+    ) as HTMLElement;
+    console.log($parent);
     if (eventType === 'hover') {
       const handleMouseEnter = () => setShow(true);
       const handleMouseLeave = () => setShow(false);
@@ -202,7 +215,7 @@ const Tooltip = ({
   return (
     <TooltipContainerStyle
       ref={tooltipRef}
-      className={`${show ? 'show' : ''} ${direction}`}
+      className={`${show ? 'show' : ''} ${direction} ${size}`}
     >
       <span className="tooltip-content">{children}</span>
     </TooltipContainerStyle>
