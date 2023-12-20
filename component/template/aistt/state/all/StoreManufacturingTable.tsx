@@ -57,9 +57,9 @@ export const StoreManufacturingTable = ({
       <thead>
         <tr>
           <th rowSpan={2}>매장명</th>
-          <th colSpan={3}>점수대별 제조 건수</th>
           <th rowSpan={2}>총 제조건수</th>
           <th rowSpan={2}>총 개선 필요 건수</th>
+          <th colSpan={3}>점수대별 제조 건수</th>
         </tr>
         <tr>
           <th
@@ -88,16 +88,16 @@ export const StoreManufacturingTable = ({
               }
             >
               <td>{item.store_name}</td>
+              <td>{item.manufacturing_count.toLocaleString()}</td>
+              <td>{item.improvement_needed_count.toLocaleString()}</td>
               <td>{item.top_count}</td>
               <td>{item.middle_count}</td>
               <td>{item.bottom_count}</td>
-              <td>{item.manufacturing_count.toLocaleString()}</td>
-              <td>{item.improvement_needed_count.toLocaleString()}</td>
             </tr>
           ))
         ) : (
           <tr>
-            <td colSpan={3}>
+            <td colSpan={6}>
               <Empty Icon={<IoAlertCircleOutline size={42} />}>
                 조회된 결과가 없습니다.
               </Empty>

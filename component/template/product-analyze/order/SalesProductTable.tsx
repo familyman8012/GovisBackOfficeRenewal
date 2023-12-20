@@ -26,11 +26,11 @@ const SalesProductTable = ({
       </colgroup>
       <thead>
         <tr>
-          <th colSpan={2}>전체 {data?.list.length}개</th>
-          <th>{data?.total.total_base_sales_count} 개</th>
-          <th>{data?.total.total_comparison_sales_count}개</th>
+          <th colSpan={2}>전체 {data?.list.length.toLocaleString()}개</th>
+          <th>{data?.total.total_base_sales_count.toLocaleString()} 개</th>
+          <th>{data?.total.total_comparison_sales_count.toLocaleString()}개</th>
           <th>
-            {data?.total.total_increase_decrease_number}개 (
+            {data?.total.total_increase_decrease_number.toLocaleString()}개 (
             {data && data?.total.total_increase_decrease_rate > 0 && '+'}
             {data?.total.total_increase_decrease_rate}%)
           </th>

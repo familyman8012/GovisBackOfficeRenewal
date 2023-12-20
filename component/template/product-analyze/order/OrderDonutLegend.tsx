@@ -97,7 +97,7 @@ export const OrderDonutLegend = (props: any) => {
               >
                 <span className="txt">
                   ({data?.payload?.increase_decrease_rate > 0 && '+'}
-                  {data?.payload?.increase_decrease_rate})%
+                  {data?.payload?.increase_decrease_rate}%)
                 </span>
               </span>
             </dd>

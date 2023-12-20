@@ -70,9 +70,9 @@ const StoreSalesTable = ({
                 </Badge>
                 <span className="store_name"> {el.store_name}</span>
               </td>
-              <td>{el.base_sales_count}</td>
+              <td>{el.base_sales_count.toLocaleString()}</td>
               <td className="comparison_sales_count">
-                {el.comparison_sales_count}
+                {el.comparison_sales_count.toLocaleString()}
               </td>
               <td>
                 <Badge

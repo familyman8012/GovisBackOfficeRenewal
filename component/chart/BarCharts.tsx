@@ -73,6 +73,7 @@ export const BarCharts = ({
             barSize={barSize}
             margin={{
               top: 15,
+              bottom: 15,
             }}
           >
             <CartesianGrid strokeDasharray="2 0" vertical={hasGrid} />
@@ -83,6 +84,7 @@ export const BarCharts = ({
               interval={0}
               tickFormatter={xTickFormatter}
               angle={angle}
+              textAnchor={angle ? 'end' : 'middle'}
             />
             <YAxis
               tickCount={tickCount}
@@ -90,7 +92,7 @@ export const BarCharts = ({
               tickLine={false}
               domain={domain}
               interval={0}
-              tickFormatter={yTickFormatter}
+              tickFormatter={(value: number) => value.toLocaleString()}
             />
             {isTooltip && <Tooltip content={toolTip} />}
             {isLegend && (
@@ -98,7 +100,7 @@ export const BarCharts = ({
                 iconType="circle"
                 iconSize={12}
                 formatter={formatter}
-                wrapperStyle={{ paddingTop: '20px' }}
+                wrapperStyle={{ paddingTop: angle ? '5rem' : '2rem' }}
               />
             )}
             {type === 'diff' && diffSet ? (

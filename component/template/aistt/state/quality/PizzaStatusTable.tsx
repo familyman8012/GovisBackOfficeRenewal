@@ -151,9 +151,10 @@ export const PizzaStatusTable = ({ params }: { params: QueryParams }) => {
           <tr>
             <th>순위</th>
             <th>제품명</th>
-            <th>총 제조건수</th>
             <th>평균 제조 점수</th>
             <th>평균 제조 시간</th>
+            <th>총 제조건수</th>
+
             <th>개선 필요 피자 수</th>
           </tr>
         </thead>
@@ -204,11 +205,11 @@ export const PizzaStatusTable = ({ params }: { params: QueryParams }) => {
                       </div>
                     </div>
                   </td>
-                  <td className="count">{item.manufacturing_count}건</td>
                   <td className="score">{item.converted_score_avarage}점</td>
                   <td className="time">
                     <TimeBadge time={item.manufacture_since_time_avarage} />
                   </td>
+                  <td className="count">{item.manufacturing_count}건</td>
                   <td className="need">{item.improvement_needed_count}건</td>
                 </tr>
               ))

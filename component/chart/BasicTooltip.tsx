@@ -82,19 +82,23 @@ export const BasicTooltip = ({ active, payload, label }: any) => {
         <dl>
           <dt>기준일 판매 수</dt>
           <dd>
-            <span>{data?.payload?.base_sales_count}</span>
+            <span>{data?.payload?.base_sales_count.toLocaleString()}</span>
           </dd>
         </dl>
         <dl>
           <dt>비교일 판매 수</dt>
           <dd>
-            <span>{data?.payload?.comparison_sales_count}</span>
+            <span>
+              {data?.payload?.comparison_sales_count.toLocaleString()}
+            </span>
           </dd>
         </dl>
         <dl>
           <dt>증감율</dt>
           <dd>
-            <span>{data?.payload?.increase_decrease_number}</span>
+            <span>
+              {data?.payload?.increase_decrease_number.toLocaleString()}
+            </span>
             <span
               className={
                 data?.payload?.increase_decrease_rate > 0
@@ -105,7 +109,7 @@ export const BasicTooltip = ({ active, payload, label }: any) => {
               }
             >
               <span className="txt">
-                {data?.payload?.increase_decrease_rate}%
+                {data?.payload?.increase_decrease_rate.toLocaleString()}%
               </span>
             </span>
           </dd>

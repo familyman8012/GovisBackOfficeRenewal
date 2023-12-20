@@ -97,7 +97,7 @@ export const ProductSalesTable = ({
             <tr key={el.item_label}>
               <td>{format(el.item_label)}</td>
               <td>
-                {el.base_sales_count}
+                {el.base_sales_count.toLocaleString()}
 
                 {el.base_included_days && (
                   <div
@@ -112,7 +112,7 @@ export const ProductSalesTable = ({
                 )}
               </td>
               <td>
-                {el.comparison_sales_count}
+                {el.comparison_sales_count.toLocaleString()}
                 {el.comparison_included_days && (
                   <div
                     css={css`
