@@ -10,7 +10,7 @@ export const CollapseList = styled.ul`
 
     background: #171c8f;
 
-    span {
+    > span {
       display: table-cell;
       vertical-align: middle;
       width: 25%;
@@ -41,7 +41,7 @@ export const CollapseList = styled.ul`
     cursor: pointer;
     background: #f3f2f2;
 
-    span {
+    > span {
       color: var(--color-neutral10);
       font-weight: 600;
       border-bottom: 1px solid var(--color-neutral90);

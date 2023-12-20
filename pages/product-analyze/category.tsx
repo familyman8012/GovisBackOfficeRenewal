@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { IoAlertCircleOutline } from 'react-icons/io5';
 import Skeleton from 'react-loading-skeleton';
 import { useQuery } from 'react-query';
+import { css } from '@emotion/react';
 import {
   fetchCategoryAnalyze,
   fetchCategoryDetailAnalyze,
@@ -14,6 +15,7 @@ import {
 } from '@InterfaceFarm/product-analyze';
 import ExportButton from '@ComponentFarm/modules/ExportButton/ExportButton';
 import Empty from '@ComponentFarm/atom/Empty/Empty';
+import CircleUp from '@ComponentFarm/atom/icons/CircleUp';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import { BarCharts } from '@ComponentFarm/chart/BarCharts';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
@@ -197,7 +199,25 @@ const CategoryAnalyze = () => {
                     className="depth1_info"
                     onClick={() => handleCategoryClick(el.item_key)}
                   >
-                    <span>{el.item_label}</span>
+                    <span>
+                      <span
+                        css={css`
+                          display: flex !important;
+                          align-items: center;
+                          margin-left: 0 !important;
+
+                          svg {
+                            margin-right: 1.5rem;
+                            transform: ${`rotate(${
+                              categoryStates[el.item_key]?.isOpen ? 180 : 90
+                            }deg)`};
+                          }
+                        `}
+                      >
+                        <CircleUp />
+                        {el.item_label}
+                      </span>
+                    </span>
                     <span>{el.base_sales_count.toLocaleString()}개</span>
                     <span>{el.comparison_sales_count.toLocaleString()}개</span>
                     <span>
