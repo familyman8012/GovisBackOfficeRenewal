@@ -9,7 +9,6 @@ import {
   fetchManufacturingTime,
 } from '@ApiFarm/aistt';
 import { IAisttStateReq } from '@InterfaceFarm/aistt';
-import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
 import { ManufacturingQualityList } from '@ComponentFarm/template/aistt/common/ManufacturingQuality';
@@ -49,14 +48,7 @@ const AisttQualityState = () => {
 
   return (
     <>
-      <TitleArea
-        title="현황"
-        BtnBox={
-          <Button variant="gostSecondary" onClick={() => router.back()}>
-            이전
-          </Button>
-        }
-      />
+      <TitleArea title="현황" />
       <Tabs
         id="tab_aistt_quality"
         tabs={aisttStateListTabData}
