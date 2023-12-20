@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
@@ -34,12 +35,29 @@ const Manage = () => {
     router.push(materialListTabData[index].url);
   };
 
+  const {
+    current_num,
+    per_num,
+    sort_target,
+    sort_type,
+    product_info_idx,
+    ...rest
+  } = params;
+
   return (
     <>
       <TitleArea
         title="현황"
         BtnBox={
-          <Button variant="gostSecondary" onClick={() => router.back()}>
+          <Button
+            variant="gostSecondary"
+            onClick={() =>
+              router.push({
+                pathname: `/aistt-state/detail/${product_info_idx}`,
+                query: rest,
+              })
+            }
+          >
             이전
           </Button>
         }
