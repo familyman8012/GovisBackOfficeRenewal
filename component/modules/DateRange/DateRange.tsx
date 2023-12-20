@@ -240,9 +240,6 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
               />
             </div>
             <div className="box_btn">
-              <button type="button" onClick={() => setRangeSetting(0)}>
-                어제
-              </button>
               <button type="button" onClick={() => setRangeSetting(1)}>
                 오늘
               </button>
