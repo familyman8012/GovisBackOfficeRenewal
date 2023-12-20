@@ -53,6 +53,14 @@ const PizzaStatusTableWrap = styled.div`
 `;
 
 const tablePageSty = css`
+  th,
+  td {
+    &:nth-of-type(1) {
+      padding: 0;
+      text-align: center;
+    }
+  }
+
   th:nth-of-type(2) {
     text-align: left;
   }
@@ -71,6 +79,7 @@ const tablePageSty = css`
     .box_rank {
       display: flex;
       align-items: center;
+      justify-content: center;
       svg {
         path:first-of-type {
           fill: var(--color-blue60);
