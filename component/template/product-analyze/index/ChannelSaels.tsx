@@ -19,7 +19,7 @@ const ChannelSaels = ({ params }: { params: QueryParams }) => {
   console.log('channelData', channelData);
   return (
     <AreaBox
-      title="주문채널별 제품판매 현황"
+      title="주문채널별 제품 판매 현황"
       moreLink={`/product-analyze/channel${
         params.base_dt_start ? `?${dateParams(params)}` : ''
       }`}

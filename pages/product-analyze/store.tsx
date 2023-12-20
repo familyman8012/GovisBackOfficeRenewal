@@ -84,7 +84,7 @@ const StoreAnalyze = () => {
         ]}
       />
       <AreaBox
-        title="매장별 제품판매 현황"
+        title="매장별 제품 판매 현황"
         className="noPadding"
         addFunc={
           <SelectStoreType>

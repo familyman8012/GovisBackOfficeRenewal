@@ -41,7 +41,7 @@ const CategorySales = ({ params }: { params: QueryParams }) => {
 
   return (
     <AreaBox
-      title="카테고리별 제품판매 현황"
+      title="카테고리별 제품 판매 현황"
       moreLink={`/product-analyze/category${
         params.base_dt_start ? `?${dateParams(params)}` : ''
       }`}
