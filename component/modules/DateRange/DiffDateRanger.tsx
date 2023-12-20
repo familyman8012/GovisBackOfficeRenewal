@@ -1,5 +1,6 @@
 import React, { Dispatch, SetStateAction, useEffect } from 'react';
 import dayjs from 'dayjs';
+import { css } from '@emotion/react';
 import DateRangePicker from '@ComponentFarm/modules/DateRange/DateRange';
 import { QueryParams } from '@HookFarm/useQueryParams';
 import { DiffDateRangerWrap } from './style';
@@ -102,6 +103,14 @@ export const DiffDateRanger = ({
 
   return (
     <DiffDateRangerWrap>
+      <span
+        css={css`
+          margin-left: 2rem;
+          color: var(--color-neutral60);
+        `}
+      >
+        기준일:
+      </span>
       <span>
         <DateRangePicker
           onDateRangeChange={update => handleDateRangeChange('range1', update)}
@@ -112,7 +121,20 @@ export const DiffDateRanger = ({
       {type === 'diff' && (
         <>
           <span className="bar">~</span>
-          <span>
+          <span
+            css={css`
+              display: flex;
+              align-items: center;
+            `}
+          >
+            <span
+              css={css`
+                margin-left: 1rem;
+                color: var(--color-neutral60);
+              `}
+            >
+              비교일:
+            </span>
             <DateRangePicker
               onDateRangeChange={update =>
                 handleDateRangeChange('range2', update)

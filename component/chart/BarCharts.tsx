@@ -74,6 +74,7 @@ export const BarCharts = ({
             margin={{
               top: 15,
               bottom: 15,
+              left: 15,
             }}
           >
             <CartesianGrid strokeDasharray="2 0" vertical={hasGrid} />

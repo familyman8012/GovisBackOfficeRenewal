@@ -3,6 +3,8 @@ import styled from '@emotion/styled';
 
 const AreaDonutLegendWrap = styled.ul`
   display: grid;
+  width: fit-content;
+  margin: 0 auto;
   gap: 1.6rem 3.2rem;
   grid-template-columns: 1fr 1fr 1fr;
   min-width: 50rem;
@@ -32,8 +34,6 @@ const AreaDonutLegendWrap = styled.ul`
     }
 
     dd {
-      display: flex;
-      align-items: baseline;
       margin-top: 1rem;
       padding-left: 2rem;
 
@@ -44,12 +44,15 @@ const AreaDonutLegendWrap = styled.ul`
         line-height: 110%;
       }
 
-      .comparison_sales_count,
+      .comparison_sales_count {
+        font-size: 1.4rem;
+        font-weight: 500;
+      }
       .rate {
+        margin-top: 0.5rem;
         font-size: 1.2rem;
         font-weight: 500;
       }
-
       .comparison_sales_count {
         margin: 0 0.5rem 0 1rem;
         color: var(--color-gray10);
@@ -80,13 +83,15 @@ export const AreaDonutLegend = (props: any) => {
               <span className="txt">{data.payload.item_label}</span>
             </dt>
             <dd>
-              <span className="base_sales_count">
-                {data.payload.base_sales_count.toLocaleString()}
-              </span>
-              <span className="comparison_sales_count">
-                {data.payload.comparison_sales_count.toLocaleString()}
-              </span>
-              <span
+              <div>
+                <span className="base_sales_count">
+                  {data.payload.base_sales_count.toLocaleString()}
+                </span>
+                <span className="comparison_sales_count">
+                  {data.payload.comparison_sales_count.toLocaleString()}
+                </span>
+              </div>
+              <div
                 className={`rate ${
                   data?.payload?.increase_decrease_rate > 0
                     ? 'increase'
@@ -94,9 +99,10 @@ export const AreaDonutLegend = (props: any) => {
                 }`}
               >
                 <span className="txt">
-                  ({data?.payload?.increase_decrease_rate})%
+                  ({data?.payload?.increase_decrease_rate > 0 && '+'}
+                  {data?.payload?.increase_decrease_rate}%)
                 </span>
-              </span>
+              </div>
             </dd>
           </dl>
         </li>

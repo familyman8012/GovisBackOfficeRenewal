@@ -13,12 +13,12 @@ import TitleArea from '@ComponentFarm/layout/TitleArea';
 import { AreaBox } from '@ComponentFarm/template/common/AreaBox';
 import FilterTableForm from '@ComponentFarm/template/common/FilterTable/FilterTableForm';
 import SubTitleBox from '@ComponentFarm/template/common/SubTitleBox';
-import { AreaDonutLegend } from '@ComponentFarm/template/product-analyze/area/areaDonutLegend';
 import SalesProductTable from '@ComponentFarm/template/product-analyze/area/SalesProductTable';
 import {
   initialDay,
   productAnalyzeTabData,
 } from '@ComponentFarm/template/product-analyze/const';
+import { OrderDonutLegend } from '@ComponentFarm/template/product-analyze/order/OrderDonutLegend';
 import useTabWithDateQuery from '@ComponentFarm/template/product-analyze/useTabWithDateQuery';
 import useQueryParams from '@HookFarm/useQueryParams';
 
@@ -115,7 +115,7 @@ const AreaAnalyze = () => {
               <DonutChart
                 height="50rem"
                 chartData={chartData}
-                legend={<AreaDonutLegend />}
+                legend={<OrderDonutLegend />}
               />
             )}
           </AreaBox>
@@ -141,7 +141,9 @@ const AreaAnalyze = () => {
                 isTooltip={false}
                 isLabelList
                 LabelListFormatter={(value: number) =>
-                  `${value > 0 ? '+' : ''}${value.toFixed(2)}%`
+                  `${value > 0 ? '+' : ''}${Number(
+                    value.toFixed(2)
+                  ).toLocaleString()}%`
                 }
               />
             )}

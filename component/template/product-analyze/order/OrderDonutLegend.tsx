@@ -2,18 +2,17 @@ import React from 'react';
 import styled from '@emotion/styled';
 
 const OrderDonutLegendWrap = styled.ul`
-  display: flex;
-  min-width: 50rem;
-  justify-content: space-around;
+  display: grid;
+  width: fit-content;
+  margin: 0 auto;
+  gap: 3.2rem;
+  grid-template-columns: 1fr 1fr 1fr;
+  margin: 0 auto;
 
   li {
     display: flex;
     align-items: center;
     margin-bottom: 0.4rem;
-
-    &:nth-of-type(2) {
-      margin: 0 1.6rem;
-    }
 
     dt {
       display: flex;
@@ -34,8 +33,6 @@ const OrderDonutLegendWrap = styled.ul`
     }
 
     dd {
-      display: flex;
-      align-items: baseline;
       margin-top: 1rem;
       padding-left: 2rem;
 
@@ -46,8 +43,12 @@ const OrderDonutLegendWrap = styled.ul`
         line-height: 110%;
       }
 
-      .comparison_sales_count,
+      .comparison_sales_count {
+        font-size: 1.4rem;
+        font-weight: 500;
+      }
       .rate {
+        margin-top: 0.5rem;
         font-size: 1.2rem;
         font-weight: 500;
       }
@@ -82,13 +83,15 @@ export const OrderDonutLegend = (props: any) => {
               <span className="txt">{data.payload.item_label}</span>
             </dt>
             <dd>
-              <span className="base_sales_count">
-                {data.payload.base_sales_count.toLocaleString()}
-              </span>
-              <span className="comparison_sales_count">
-                {data.payload.comparison_sales_count.toLocaleString()}
-              </span>
-              <span
+              <div>
+                <span className="base_sales_count">
+                  {data.payload.base_sales_count.toLocaleString()}
+                </span>
+                <span className="comparison_sales_count">
+                  {data.payload.comparison_sales_count.toLocaleString()}
+                </span>
+              </div>
+              <div
                 className={`rate ${
                   data?.payload?.increase_decrease_rate > 0
                     ? 'increase'
@@ -97,9 +100,9 @@ export const OrderDonutLegend = (props: any) => {
               >
                 <span className="txt">
                   ({data?.payload?.increase_decrease_rate > 0 && '+'}
-                  {data?.payload?.increase_decrease_rate}%)
+                  {data?.payload?.increase_decrease_rate.toLocaleString()}%)
                 </span>
-              </span>
+              </div>
             </dd>
           </dl>
         </li>

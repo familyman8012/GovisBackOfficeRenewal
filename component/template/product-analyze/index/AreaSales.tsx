@@ -9,7 +9,7 @@ import DonutChart from '@ComponentFarm/chart/DonutChart';
 import { AreaBox } from '@ComponentFarm/template/common/AreaBox';
 import { QueryParams } from '@HookFarm/useQueryParams';
 import { dateParams } from './moreLinkDateParams';
-import { AreaDonutLegend } from '../area/areaDonutLegend';
+import { OrderDonutLegend } from '../order/OrderDonutLegend';
 
 const AreaSales = ({ params }: { params: QueryParams }) => {
   const { data } = useQuery(
@@ -50,7 +50,7 @@ const AreaSales = ({ params }: { params: QueryParams }) => {
         <DonutChart
           height="50rem"
           chartData={chartData}
-          legend={<AreaDonutLegend />}
+          legend={<OrderDonutLegend />}
         />
       )}
     </AreaBox>

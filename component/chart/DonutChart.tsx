@@ -76,6 +76,7 @@ const DonutChart = ({
               verticalAlign="bottom"
               align="center"
               content={legend}
+              wrapperStyle={{ width: '100%' }}
             />
             <Tooltip content={toolTip} />
           </PieChart>

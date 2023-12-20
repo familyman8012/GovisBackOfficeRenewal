@@ -106,10 +106,9 @@ const StoreSalesTable = ({
                     )
                   }
                 >
-                  {String(Math.ceil(el.increase_decrease_rate)).replace(
-                    '-',
-                    ''
-                  )}
+                  {String(
+                    Math.ceil(el.increase_decrease_rate).toLocaleString()
+                  ).replace('-', '')}
                   %
                 </Badge>
               </td>

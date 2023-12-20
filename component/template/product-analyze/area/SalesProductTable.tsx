@@ -31,7 +31,7 @@ const SalesProductTable = ({
           <th>
             {data?.total.total_increase_decrease_number.toLocaleString()}개 (
             {data && data?.total.total_increase_decrease_rate > 0 && '+'}
-            {data?.total.total_increase_decrease_rate}%)
+            {data?.total.total_increase_decrease_rate.toLocaleString()}%)
           </th>
         </tr>
         <tr>
@@ -66,7 +66,7 @@ const SalesProductTable = ({
               <td>
                 {el.increase_decrease_number.toLocaleString()}개 (
                 {el.increase_decrease_rate > 0 && '+'}
-                {el.increase_decrease_rate}%)
+                {el.increase_decrease_rate.toLocaleString()}%)
               </td>
             </tr>
           ))

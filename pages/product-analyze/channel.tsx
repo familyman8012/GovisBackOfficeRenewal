@@ -117,7 +117,9 @@ const ChannelAnalyze = () => {
             isTooltip={false}
             isLabelList
             LabelListFormatter={(value: number) =>
-              `${value > 0 ? '+' : ''}${value.toFixed(2)}%`
+              `${value > 0 ? '+' : ''}${Number(
+                value.toFixed(2)
+              ).toLocaleString()}%`
             }
           />
         )}
