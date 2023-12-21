@@ -253,7 +253,6 @@ export const TotalMenu: MenuType[] = [
       },
     ],
   },
-
   {
     depth1: '이벤트 관리',
     group: 'Franchise',
