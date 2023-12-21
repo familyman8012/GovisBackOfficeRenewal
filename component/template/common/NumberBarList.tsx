@@ -28,11 +28,12 @@ export const NumberBarWrap = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
     width: 9.7rem;
     width: 5rem;
     height: 5rem;
     margin: 0 2.4rem;
-    padding: 1.3rem;
+    padding: 0;
     border-radius: 0.8rem;
     background: var(--color-neutral90);
 
