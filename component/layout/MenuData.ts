@@ -236,7 +236,7 @@ export const TotalMenu: MenuType[] = [
       {
         name: '제품 분석',
         path: '/aistt-analysis',
-        perm_code: '',
+        perm_code: 'aistt_analysis',
         perm_info_idx: 71,
       },
       // {
