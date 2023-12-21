@@ -34,7 +34,7 @@ const AreaSales = ({ params }: { params: QueryParams }) => {
 
   return (
     <AreaBox
-      title="상권별 제품판매 현황"
+      title="상권별 제품 판매 현황"
       moreLink={`/product-analyze/area${
         params.base_dt_start ? `?${dateParams(params)}` : ''
       }`}

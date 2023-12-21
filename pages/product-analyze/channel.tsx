@@ -77,7 +77,7 @@ const ChannelAnalyze = () => {
           },
         ]}
       />
-      <AreaBox title="카테고리별 제품판매 현황">
+      <AreaBox title="카테고리별 제품 판매 현황">
         {data?.total.total_base_sales_count === 0 &&
         data.total.total_comparison_sales_count === 0 ? (
           <Empty Icon={<IoAlertCircleOutline size={42} />}>

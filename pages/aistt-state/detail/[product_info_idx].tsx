@@ -5,7 +5,6 @@ import styled from '@emotion/styled';
 import { fetchDetailState } from '@ApiFarm/aistt';
 import { IAisttStateReq } from '@InterfaceFarm/aistt';
 import { Button } from '@ComponentFarm/atom/Button/Button';
-import { PageSpinner } from '@ComponentFarm/atom/Spinner/Spinner';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
 import {
@@ -55,7 +54,15 @@ export const Detail = () => {
       <TitleArea
         title="현황"
         BtnBox={
-          <Button variant="gostSecondary" onClick={() => router.back()}>
+          <Button
+            variant="gostSecondary"
+            onClick={() =>
+              router.push({
+                pathname: `/aistt-state/quality`,
+                query: rest,
+              })
+            }
+          >
             이전
           </Button>
         }
@@ -96,7 +103,6 @@ export const Detail = () => {
         />
         <ReportTable isLoading={isLoading} data={data?.report} /> */}
       </DetailInfoWrap>
-      {!data && <PageSpinner spinnerText="PROCESSING" />}
     </>
   );
 };
