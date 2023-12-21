@@ -87,6 +87,13 @@ export const TotalMenu: MenuType[] = [
     perm_info_idx: 19,
   },
   {
+    depth1: '제품 분석 및 통계',
+    group: 'HeadOffice',
+    path: '/product-analyze',
+    perm_code: 'product_sales_analytics',
+    perm_info_idx: 100,
+  },
+  {
     depth1: '원재료 관리',
     group: 'HeadOffice',
     path: '/material',
@@ -106,13 +113,6 @@ export const TotalMenu: MenuType[] = [
     path: '/menu',
     perm_code: 'menu',
     perm_info_idx: 20,
-  },
-  {
-    depth1: '제품 분석 및 통계',
-    group: 'HeadOffice',
-    path: '/product-analyze',
-    perm_code: 'product_sales_analytics',
-    perm_info_idx: 100,
   },
   {
     depth1: '매장 관리',
