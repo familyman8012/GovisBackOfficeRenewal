@@ -115,6 +115,36 @@ export const TotalMenu: MenuType[] = [
     perm_info_idx: 20,
   },
   {
+    depth1: `AI Smart\nTopping table`,
+    group: 'HeadOffice',
+    depth2: [
+      {
+        name: '현황',
+        path: '/aistt-state',
+        perm_code: 'aistt_state',
+        perm_info_idx: 70,
+      },
+      {
+        name: '제품 분석',
+        path: '/aistt-analysis',
+        perm_code: '',
+        perm_info_idx: 71,
+      },
+      // {
+      //   name: '레포트 관리',
+      //   path: '/aistt-report',
+      //   perm_code: '',
+      //   perm_info_idx: 35,
+      // },
+      {
+        name: '매장 모니터링',
+        path: '/aistt-device',
+        perm_code: 'aistt_device',
+        perm_info_idx: 72,
+      },
+    ],
+  },
+  {
     depth1: '매장 관리',
     group: 'HeadOffice',
     depth2: [
@@ -223,36 +253,7 @@ export const TotalMenu: MenuType[] = [
       },
     ],
   },
-  {
-    depth1: `AI Smart\nTopping table`,
-    group: 'Franchise',
-    depth2: [
-      {
-        name: '현황',
-        path: '/aistt-state',
-        perm_code: 'aistt_state',
-        perm_info_idx: 70,
-      },
-      {
-        name: '제품 분석',
-        path: '/aistt-analysis',
-        perm_code: '',
-        perm_info_idx: 71,
-      },
-      // {
-      //   name: '레포트 관리',
-      //   path: '/aistt-report',
-      //   perm_code: '',
-      //   perm_info_idx: 35,
-      // },
-      {
-        name: '매장 모니터링',
-        path: '/aistt-device',
-        perm_code: 'aistt_device',
-        perm_info_idx: 72,
-      },
-    ],
-  },
+
   {
     depth1: '이벤트 관리',
     group: 'Franchise',
