@@ -75,7 +75,7 @@ export const StoreManufacturingTable = ({
       </thead>
       <tbody>
         {isLoading ? (
-          <SkeletonTh colLength={3} />
+          <SkeletonTh colLength={6} />
         ) : Number(data?.list.length) > 0 ? (
           data?.list.map(item => (
             <tr
