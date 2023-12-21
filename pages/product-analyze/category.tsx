@@ -171,7 +171,8 @@ const CategoryAnalyze = () => {
               </span>
               <span>
                 {data?.total.total_increase_decrease_number.toLocaleString()}개
-                ({data?.total.total_increase_decrease_rate.toLocaleString()}%)
+                ({data && data?.total.total_increase_decrease_rate > 0 && '+'}
+                {data?.total.total_increase_decrease_rate.toLocaleString()}%)
               </span>
             </li>
             <li className="wrap_total th">
@@ -222,6 +223,7 @@ const CategoryAnalyze = () => {
                     <span>{el.comparison_sales_count.toLocaleString()}개</span>
                     <span>
                       {el.increase_decrease_number.toLocaleString()}개 (
+                      {el?.increase_decrease_rate > 0 && '+'}
                       {el?.increase_decrease_rate.toLocaleString()}%)
                     </span>
                   </div>
@@ -265,7 +267,7 @@ const CategoryAnalyze = () => {
                                 </td>
                                 <td>
                                   {item.increase_decrease_number.toLocaleString()}
-                                  개 (
+                                  개 ({item?.increase_decrease_rate > 0 && '+'}
                                   {item.increase_decrease_rate.toLocaleString()}
                                   %)
                                 </td>
