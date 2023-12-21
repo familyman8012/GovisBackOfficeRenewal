@@ -5,6 +5,7 @@ import CircleUp from '@ComponentFarm/atom/icons/CircleUp';
 const ExpandRowStyle = styled.tr`
   & ~ tr.expand-content > td {
     padding: 0 !important;
+    cursor: default;
   }
 
   & ~ tr.expand-content:hover {
