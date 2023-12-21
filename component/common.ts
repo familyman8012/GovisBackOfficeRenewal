@@ -682,6 +682,14 @@ export const FormWrap = styled.div`
   .box_upload_image {
     display: flex;
     width: 100%;
+
+    label {
+      width: auto !important;
+    }
+    .box_inp {
+      width: 40rem;
+      margin: 0 auto;
+    }
   }
 `;
 
