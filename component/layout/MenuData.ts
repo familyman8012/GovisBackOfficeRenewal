@@ -87,6 +87,13 @@ export const TotalMenu: MenuType[] = [
     perm_info_idx: 19,
   },
   {
+    depth1: '제품 분석 및 통계',
+    group: 'HeadOffice',
+    path: '/product-analyze',
+    perm_code: 'product_sales_analytics',
+    perm_info_idx: 100,
+  },
+  {
     depth1: '원재료 관리',
     group: 'HeadOffice',
     path: '/material',
@@ -107,13 +114,6 @@ export const TotalMenu: MenuType[] = [
     perm_code: 'menu',
     perm_info_idx: 20,
   },
-  // {
-  //   depth1: '제품 분석 및 통계',
-  //   group: 'HeadOffice',
-  //   path: '/product-analyze',
-  //   perm_code: 'product_sales_analytics',
-  //   perm_info_idx: 100,
-  // },
   {
     depth1: '매장 관리',
     group: 'HeadOffice',
@@ -223,36 +223,36 @@ export const TotalMenu: MenuType[] = [
       },
     ],
   },
-  // {
-  //   depth1: `AI Smart\n Topping table`,
-  //   group: 'Franchise',
-  //   depth2: [
-  //     {
-  //       name: '현황',
-  //       path: '/aistt-state',
-  //       perm_code: '',
-  //       perm_info_idx: 35,
-  //     },
-  //     {
-  //       name: '제품 분석',
-  //       path: '/aistt-analysis',
-  //       perm_code: '',
-  //       perm_info_idx: 35,
-  //     },
-  //     // {
-  //     //   name: '레포트 관리',
-  //     //   path: '/aistt-report',
-  //     //   perm_code: '',
-  //     //   perm_info_idx: 35,
-  //     // },
-  //     {
-  //       name: '매장 모니터링',
-  //       path: '/aistt-device',
-  //       perm_code: '',
-  //       perm_info_idx: 35,
-  //     },
-  //   ],
-  // },
+  {
+    depth1: `AI Smart\nTopping table`,
+    group: 'Franchise',
+    depth2: [
+      {
+        name: '현황',
+        path: '/aistt-state',
+        perm_code: 'aistt_state',
+        perm_info_idx: 70,
+      },
+      {
+        name: '제품 분석',
+        path: '/aistt-analysis',
+        perm_code: '',
+        perm_info_idx: 71,
+      },
+      // {
+      //   name: '레포트 관리',
+      //   path: '/aistt-report',
+      //   perm_code: '',
+      //   perm_info_idx: 35,
+      // },
+      {
+        name: '매장 모니터링',
+        path: '/aistt-device',
+        perm_code: 'aistt_device',
+        perm_info_idx: 72,
+      },
+    ],
+  },
   {
     depth1: '이벤트 관리',
     group: 'Franchise',
