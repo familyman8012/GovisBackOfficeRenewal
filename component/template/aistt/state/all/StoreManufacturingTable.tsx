@@ -33,6 +33,11 @@ export const StoreManufacturingTable = ({
         tr:last-of-type td {
           border-bottom: none;
         }
+        th {
+          &:not(:nth-of-type(1)) {
+            padding: 0;
+          }
+        }
         th,
         td {
           border: 1px solid var(--color-neutral90);
@@ -47,12 +52,12 @@ export const StoreManufacturingTable = ({
       `}
     >
       <colgroup>
-        <col width={getTableWidthPercentage(636)} />
+        <col width={getTableWidthPercentage(516)} />
         <col width={getTableWidthPercentage(200)} />
         <col width={getTableWidthPercentage(200)} />
-        <col width={getTableWidthPercentage(200)} />
-        <col width={getTableWidthPercentage(150)} />
-        <col width={getTableWidthPercentage(150)} />
+        <col width={getTableWidthPercentage(220)} />
+        <col width={getTableWidthPercentage(190)} />
+        <col width={getTableWidthPercentage(190)} />
       </colgroup>
       <thead>
         <tr>

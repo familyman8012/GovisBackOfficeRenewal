@@ -11,7 +11,7 @@ export const ProgressStatus = styled.div`
   line-height: 120%;
 
   .label {
-    width: 6.9rem;
+    width: 7.1rem;
     margin-right: 1rem;
   }
 

@@ -43,7 +43,6 @@ export const NumberBarWrap = styled.div`
   }
 
   .box1 {
-    width: 50%;
     padding: 0 2.4rem;
     font-weight: 400;
     line-height: 120%;
