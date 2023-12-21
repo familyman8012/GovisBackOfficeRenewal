@@ -224,20 +224,20 @@ export const TotalMenu: MenuType[] = [
     ],
   },
   {
-    depth1: `AI Smart\n Topping table`,
+    depth1: `AI Smart\nTopping table`,
     group: 'Franchise',
     depth2: [
       {
         name: '현황',
         path: '/aistt-state',
-        perm_code: '',
-        perm_info_idx: 35,
+        perm_code: 'aistt_state',
+        perm_info_idx: 70,
       },
       {
         name: '제품 분석',
         path: '/aistt-analysis',
         perm_code: '',
-        perm_info_idx: 35,
+        perm_info_idx: 71,
       },
       // {
       //   name: '레포트 관리',
@@ -248,8 +248,8 @@ export const TotalMenu: MenuType[] = [
       {
         name: '매장 모니터링',
         path: '/aistt-device',
-        perm_code: '',
-        perm_info_idx: 35,
+        perm_code: 'aistt_device',
+        perm_info_idx: 72,
       },
     ],
   },
