@@ -49,7 +49,7 @@ const DeviceListPage = () => {
       <DevicePageStyle className="bg-gray">
         <TitleBox
           title="Smart Topping Table 상태"
-          desc="분류, 기간 유형별 통계를 확인할 수 있습니다."
+          desc="Smart Topping Table이 적용된 매장을 확인할 수 있습니다."
           hideUnderline
         />
         <AisttDeviceFilter
