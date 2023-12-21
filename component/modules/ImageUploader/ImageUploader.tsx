@@ -120,7 +120,6 @@ const ImageUploader: FC<ImageUploaderProps> = ({
           <img
             src={typeof image === 'string' ? image : URL.createObjectURL(image)}
             alt="Uploaded"
-            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           />
         ) : (
           <>
