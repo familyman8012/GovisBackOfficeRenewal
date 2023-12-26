@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
@@ -43,41 +43,6 @@ const AisttState = () => {
   const { data: manufacturingTimeData } = useQuery(
     ['manufacturingTimeList', params],
     () => fetchManufacturingTime(params as IAisttStateReq)
-  );
-
-  const chartData = useMemo(
-    () =>
-      manufacturingQualityData?.list?.map((el, i) =>
-        i === 0
-          ? {
-              item_label: '100점~80점',
-              base_sales_count: el.manufacturing_count,
-              manufacturing_count_per: el.manufacturing_count_per,
-              fill: '#3B82F6',
-            }
-          : i === 1
-          ? {
-              item_label: '80점~50점',
-              base_sales_count: el.manufacturing_count,
-              manufacturing_count_per: el.manufacturing_count_per,
-              fill: '#0EA5E9',
-            }
-          : {
-              item_label: '50점~0점',
-              base_sales_count: el.manufacturing_count,
-              manufacturing_count_per: el.manufacturing_count_per,
-              fill: '#06B6D4',
-            }
-      ),
-    [manufacturingQualityData]
-  );
-
-  console.log(
-    'manufacturingQualityData',
-    manufacturingQualityData &&
-      manufacturingQualityData.list.every(el => el.manufacturing_count === 0),
-    'manufacturingTimeData',
-    manufacturingTimeData && manufacturingTimeData
   );
 
   return (

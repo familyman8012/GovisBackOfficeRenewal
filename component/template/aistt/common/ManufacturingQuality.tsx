@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import React, { SetStateAction, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 import { IoAlertCircleOutline } from 'react-icons/io5';
 import Skeleton from 'react-loading-skeleton';
@@ -113,16 +113,10 @@ const textBadgeLabel: {
 };
 
 export const ManufacturingQuality = ({
-  type,
   selectScoreRange,
-  setselectScoreRange,
-  updateParams,
   data,
 }: {
-  type?: string;
   selectScoreRange: string;
-  setselectScoreRange: React.Dispatch<SetStateAction<string>>;
-  updateParams?: (newParams: QueryParams) => void;
   data: IManufacturingQualityItem;
 }) => {
   const chartArray = [
@@ -192,9 +186,9 @@ export const ManufacturingQualityList = ({
 
   const chartDataArr = useMemo(
     () => [
-      { item_label: '100점~80점', fill: '#3B82F6' },
-      { item_label: '80점~50점', fill: '#0EA5E9' },
-      { item_label: '50점~0점', fill: '#06B6D4' },
+      { item_label: '100점~80점', fill: '#0EA5E9' },
+      { item_label: '80점~50점', fill: '#3B82F6' },
+      { item_label: '50점~0점', fill: 'var(--color-red60)' },
     ],
     []
   );
