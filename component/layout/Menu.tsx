@@ -15,7 +15,8 @@ const Menu = ({ permissionList }: { permissionList: PermissionList }) => {
     return pathArr.length > 2
       ? `/${urlArr[urlArr.length - 2]}${currentUrl}` ===
           `/${pathArr[pathArr.length - 2]}/${pathArr[pathArr.length - 1]}`
-      : currentUrl === `/${pathArr[pathArr.length - 1]}`;
+      : currentUrl === `/${pathArr[pathArr.length - 1]}` ||
+          `/${urlArr[1]}/` === `/${pathArr[1]}/`;
   };
 
   const host = window.location.host.includes('dev')

@@ -87,6 +87,13 @@ export const TotalMenu: MenuType[] = [
     perm_info_idx: 19,
   },
   {
+    depth1: '제품 분석 및 통계',
+    group: 'HeadOffice',
+    path: '/product-analyze',
+    perm_code: 'product_sales_analytics',
+    perm_info_idx: 100,
+  },
+  {
     depth1: '원재료 관리',
     group: 'HeadOffice',
     path: '/material',
@@ -108,6 +115,36 @@ export const TotalMenu: MenuType[] = [
     perm_info_idx: 20,
   },
   {
+    depth1: `AI Smart\nTopping table`,
+    group: 'HeadOffice',
+    depth2: [
+      {
+        name: '현황',
+        path: '/aistt-state',
+        perm_code: 'aistt_state',
+        perm_info_idx: 70,
+      },
+      {
+        name: '제품 분석',
+        path: '/aistt-analysis',
+        perm_code: '',
+        perm_info_idx: 71,
+      },
+      // {
+      //   name: '레포트 관리',
+      //   path: '/aistt-report',
+      //   perm_code: '',
+      //   perm_info_idx: 35,
+      // },
+      {
+        name: '매장 모니터링',
+        path: '/aistt-device',
+        perm_code: 'aistt_device',
+        perm_info_idx: 72,
+      },
+    ],
+  },
+  {
     depth1: '매장 관리',
     group: 'HeadOffice',
     depth2: [
@@ -120,7 +157,7 @@ export const TotalMenu: MenuType[] = [
       {
         name: '매출 채널 관리',
         path: '/bo/sales-channel',
-        perm_code: '',
+        perm_code: 'sales_channel_management',
         perm_info_idx: 999,
       },
       {
@@ -217,24 +254,6 @@ export const TotalMenu: MenuType[] = [
     ],
   },
   {
-    depth1: `AI Smart\n Topping table`,
-    group: 'Franchise',
-    depth2: [
-      {
-        name: '현황',
-        path: '/aistt-state',
-        perm_code: 'board_recipe',
-        perm_info_idx: 35,
-      },
-      {
-        name: '캘린더',
-        path: '/fc/calendar',
-        perm_code: 'board_calendar',
-        perm_info_idx: 35,
-      },
-    ],
-  },
-  {
     depth1: '이벤트 관리',
     group: 'Franchise',
     depth2: [
@@ -274,31 +293,6 @@ export const TotalMenu: MenuType[] = [
         path: '/fc/returns',
         perm_code: 'board_return',
         perm_info_idx: 34,
-      },
-    ],
-  },
-
-  {
-    depth1: 'AI-FQS',
-    group: 'Franchise',
-    depth2: [
-      {
-        name: '대시보드',
-        path: '/aistt/dashboard',
-        perm_code: 'ai_fqs_dashboard',
-        perm_info_idx: 36,
-      },
-      {
-        name: '제품 분석',
-        path: '/aistt/analysis',
-        perm_code: 'ai_fqs_analysis',
-        perm_info_idx: 37,
-      },
-      {
-        name: '데이터 검수',
-        path: '/aistt/inspection',
-        perm_code: 'ai_fqs_Inspection',
-        perm_info_idx: 38,
       },
     ],
   },
@@ -350,7 +344,6 @@ export const TotalMenu: MenuType[] = [
       },
     ],
   },
-
   {
     depth1: '매장 평가',
     group: 'Franchise',
@@ -440,13 +433,14 @@ export const Goivs2Menu = [
   '/material',
   '/menu',
   '/product-recipes',
-  '/product-statistics',
+  '/product-analyze',
   '/storybook',
   '/aistt-analysis',
   '/aistt-device',
   '/aistt-state',
-  '/ai-fqs-analysis',
-  '/ai-fqs-device',
-  '/ai-fqs-state',
+  '/aistt-report',
+  '/aistt-tmp',
+  '/menu/link',
+  '/menu/link-history',
   '/demo',
 ];

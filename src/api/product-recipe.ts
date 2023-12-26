@@ -106,12 +106,12 @@ export const fetchRecipe = async ({
   });
 
   const recipe_steps = await Promise.all(
-    basicInfo.recipe_step_list.map(({ recipe_step_idx }) =>
+    basicInfo.recipe_step_list.map(({ recipe_step_idx, sort_number }) =>
       fetchRecipeStepInfo({
         product_info_idx,
         recipe_info_idx,
         recipe_step_idx,
-      })
+      }).then(step => ({ sort_number, ...step }))
     )
   );
 
@@ -242,3 +242,18 @@ export const removeRecipeStep = async ({
   BoV2Request.delete<IResponse<{ recipe_step_idx: number }>>(
     `/recipe/info/detail/${product_info_idx}/basic/${recipe_info_idx}/step/${recipe_step_idx}`
   ).then(res => res.data.data);
+
+export const updateRecipeStepOrder = async ({
+  product_info_idx,
+  recipe_info_idx,
+  ...parmas
+}: {
+  product_info_idx: number;
+  recipe_info_idx: number;
+  change_info_list: { recipe_step_idx: number; sort_number: number }[];
+}) => {
+  return BoV2Request.put<IResponse<any>>(
+    `/recipe/info/detail/${product_info_idx}/basic/${recipe_info_idx}/step/sort_change`,
+    parmas
+  );
+};

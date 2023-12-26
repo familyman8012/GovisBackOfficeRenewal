@@ -21,6 +21,7 @@ const ProductSearchPopup = ({
   const {
     isOpen,
     setIsOpen,
+    selectItems,
     setSelectItems,
     initialValues,
     filters,
@@ -53,6 +54,7 @@ const ProductSearchPopup = ({
   return (
     <SearchPopup<IProductResultData>
       title="제품 상세 설정"
+      keyWordSearchTitle="제품명"
       selectConfig={selectConfig}
       tableCofig={tableCofig}
       resultData={resultData}
@@ -61,7 +63,9 @@ const ProductSearchPopup = ({
       filters={filters}
       setFilters={setFilters}
       initialValues={initialValues}
+      selectItems={selectItems}
       setSelectItems={setSelectItems}
+      badge={['운영', '중단', '폐기']}
     />
   );
 };

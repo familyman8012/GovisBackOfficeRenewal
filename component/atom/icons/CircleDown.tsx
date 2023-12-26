@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 type Props = React.SVGProps<SVGSVGElement> & {
   size?: number;
   viewBoxSize?: number;
-  customCss?: string;
+  customCss?: any;
 };
 const CircleDown = ({ size, viewBoxSize, ...props }: Props) => (
   <svg

@@ -20,6 +20,7 @@ const StoreSearchPopup = ({
   const {
     isOpen,
     setIsOpen,
+    selectItems,
     setSelectItems,
     initialValues,
     filters,
@@ -48,6 +49,7 @@ const StoreSearchPopup = ({
   return (
     <SearchPopup<IStoreResultData>
       title="매장 상세 설정"
+      keyWordSearchTitle="매장명"
       selectConfig={selectConfig}
       tableCofig={tableCofig}
       resultData={resultData}
@@ -56,7 +58,9 @@ const StoreSearchPopup = ({
       filters={filters}
       setFilters={setFilters}
       initialValues={initialValues}
+      selectItems={selectItems}
       setSelectItems={setSelectItems}
+      badge={['운영중', '운영예정', '폐업']}
     />
   );
 };

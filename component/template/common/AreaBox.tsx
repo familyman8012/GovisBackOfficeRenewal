@@ -1,136 +1,168 @@
 import { FC } from 'react';
 import Link from 'next/link';
 import styled from '@emotion/styled';
+import { SubTitleBoxWrap } from './SubTitleBox';
 
-const AreaBoxWrap = styled.div`
+export const AreaBoxWrap = styled.div`
   width: 100%;
   padding: 2.4rem;
   border-radius: 0.8rem;
   border: 2px solid #e5e5e5;
   background: #fff;
 
+  &.noPadding {
+    padding: 0;
+    padding-top: 2.4rem;
+
+    .box_head {
+      margin-bottom: 2.4rem;
+      .head {
+        margin-bottom: 0;
+        padding: 0 2.4rem;
+      }
+    }
+  }
+
+  &.underline {
+    padding: 0;
+    padding-top: 2.4rem;
+
+    &.tab .head {
+      align-items: start;
+    }
+
+    .box_head {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0;
+      border-bottom: 1px solid #e5e5e5;
+      .head {
+        margin-bottom: 0;
+        padding: 0 2.4rem;
+      }
+    }
+    .content {
+      padding: 3.6rem 2.4rem;
+    }
+  }
+
   & + .areaBox {
-    margin-top: 6.4rem;
+    margin-top: 3.2rem;
   }
 
-  &.best .box_txt1 {
-    &:not(:has(span:nth-of-type(2))),
-    span:first-of-type {
-      color: var(--color-green50);
-    }
-  }
-
-  &.worst .box_txt1 {
-    &:not(:has(span:nth-of-type(2))),
-    span:first-of-type {
-      color: var(--color-red50);
-    }
+  .box_head {
+    display: flex;
+    align-items: center;
+    margin-bottom: 3.2rem;
   }
 
   .head {
-    margin-bottom: 3.2rem;
-    padding: 2.4rem 4.8rem;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0;
+    margin-bottom: 1.2rem;
 
     h2 {
-      display: flex;
-      align-items: center;
-      margin-bottom: 1.2rem;
-
       color: var(--color-neutral10);
       font-size: 1.8rem;
       font-weight: 700;
-
-      .link_more {
-        color: var(--color-neutral10);
-        font-size: 1.4rem;
-        font-weight: 500;
-      }
     }
 
-    .box_txt1 {
-      margin: 0.8rem 0 1.2rem;
-
-      &:not(:has(span:nth-of-type(2))),
-      span:first-of-type {
-        margin-bottom: 1.2rem;
-        color: var(--color-neutral20);
-        font-size: 3.6rem;
-        font-style: normal;
-        font-weight: 700;
-        line-height: 120%; /* 4.32rem */
-      }
-      span:nth-of-type(2) {
-        margin-left: 1.6rem;
-        color: var(--color-green50);
-        font-size: 1.6rem;
-        font-weight: 500;
-        line-height: 2.8rem;
-        letter-spacing: -0.0144rem;
-      }
+    .link_more {
+      color: var(--color-neutral10);
+      font-size: 1.4rem;
+      font-weight: 500;
     }
 
-    .box_txt2 {
-      line-height: 120%;
-      &:not(:has(span:nth-of-type(2))),
-      span:first-of-type {
-        color: var(--color-neutral50);
-        font-size: 1.4rem;
-        font-weight: 500;
-      }
-      span:nth-of-type(2) {
-        margin-left: 0.8rem;
-        color: var(--color-green50);
-        font-size: 1.4rem;
-        font-weight: 500;
-      }
+    .box_add_func {
+      margin-left: auto;
     }
+  }
+`;
+
+export const AddTab = styled.ul`
+  display: flex;
+
+  right: 2.4rem;
+  li {
+    &:first-of-type {
+      margin-right: 1.6rem;
+    }
+    padding: 0 1rem 2.4rem;
+    button {
+      color: #667085;
+      font-size: 1.4rem;
+      font-weight: 700;
+      line-height: 2rem;
+      cursor: pointer;
+      background: transparent;
+    }
+
+    &.on {
+      button {
+        color: var(--color-blue60);
+      }
+      border-bottom: 2px solid var(--color-blue60);
+    }
+  }
+`;
+
+export const GridAreaWrap = styled.div`
+  display: grid;
+  grid-template-columns: repeat(2, calc(50% - 1.6rem));
+  gap: 3.2rem;
+
+  .areaBox + .areaBox {
+    margin-top: 0;
+  }
+`;
+
+export const ButtonWidthTextDiv = styled.div`
+  display: flex;
+  align-items: center;
+  margin: 3.2rem 0;
+  ${SubTitleBoxWrap} {
+    padding: 0;
+    margin: 0;
+  }
+  button {
+    margin-left: auto;
   }
 `;
 
 interface AreaBoxProps {
   title: string;
+  desc?: string;
   moreLink?: string;
-  txt1?: string | string[];
-  txt2?: string | string[];
   className?: string;
+  addFunc?: React.ReactNode;
   children: React.ReactNode;
 }
 
 export const AreaBox: FC<AreaBoxProps> = ({
   title,
-  txt1,
-  txt2,
+  desc,
   moreLink,
   className,
+  addFunc,
   children,
 }) => {
   return (
     <AreaBoxWrap className={`areaBox ${className}`}>
-      <div className="head">
-        <h2>
-          <span>{title}</span>
+      <div className="box_head">
+        <div className="head">
+          <h2>{title}</h2>
+          <span className="desc">{desc}</span>
           {moreLink && (
             <Link href={moreLink} className="link_more">
               더보기
             </Link>
           )}
-        </h2>
-        {txt1 && (
-          <p className="box_txt1">
-            {typeof txt1 === 'string'
-              ? txt1
-              : txt1?.map((el, i) => <span key={i}>{el}</span>)}
-          </p>
-        )}
-        {txt2 && (
-          <div className="box_txt2">
-            {typeof txt2 === 'string'
-              ? txt2
-              : txt2?.map((el, i) => <span key={i}>{el}</span>)}
-          </div>
-        )}
+          {addFunc && <div className="box_add_func">{addFunc}</div>}
+        </div>
       </div>
-      {children}
+      <div className="content">{children}</div>
     </AreaBoxWrap>
   );
 };

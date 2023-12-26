@@ -25,18 +25,21 @@ export interface IFqsInspectionInfo {
     step_variable_idx: number;
     step_variable_name: string;
     rating_scale_idx_1: number;
-    rating_scale_name_1: number;
+    rating_scale_name_1: string;
     rating_scale_idx_2: number;
-    rating_scale_name_2: number;
+    rating_scale_name_2: string;
     rating_scale_idx_3: number;
-    rating_scale_name_3: number;
+    rating_scale_name_3: string;
     step_image_url: string;
     step_color_image_url: string;
+    section_description: string;
     section_dt_start: number;
     section_dt_finish: number;
     section_score: number;
     section_score_std: number;
     conversion_score: number;
+    improvement_label?: string;
+    decrease_label?: string;
   }[];
 }
 
@@ -81,6 +84,7 @@ export interface IFqsStoreDeviceListResponse {
     program_status: number;
     camera_enabled: number;
     camera_total: number;
+    is_use_stt: number;
   }[];
 }
 
@@ -88,7 +92,7 @@ export interface IFqsStoreInfoResponse {
   info: {
     store_name: string;
     opening_time: string;
-    closeing_time: string;
+    closing_time: string;
     wifi_ssid: string;
     wifi_pwd: string;
     host_ip: string;

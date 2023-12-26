@@ -24,6 +24,8 @@ import { EnvStore, authStore } from '@MobxFarm/store';
 import { errorHandler } from '@UtilFarm/error-handler';
 // import 'react-datepicker/dist/react-datepicker.css';
 import 'react-loading-skeleton/dist/skeleton.css';
+import 'swiper/css';
+import 'swiper/css/pagination';
 
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;
@@ -33,6 +35,9 @@ export type NextPageWithLayout = NextPage & {
 type AppPropsWithLayout = AppProps & {
   Component: NextPageWithLayout;
 };
+
+const useIsomorphicLayoutEffect =
+  typeof window !== 'undefined' ? useLayoutEffect : useEffect;
 
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   const router = useRouter();
@@ -44,12 +49,11 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
       ? 'https://dev.govis.gopizza.kr'
       : 'https://govis.gopizza.kr';
 
-  const useIsomorphicLayoutEffect =
-    typeof window !== 'undefined' ? useLayoutEffect : useEffect;
-
   useIsomorphicLayoutEffect(() => {
-    // 현재 URL이 Goivs2Menu에 없으면 리다이렉트
-    if (!Goivs2Menu.includes(currentUrl) && currentUrl !== '/') {
+    // 현재 URL이 Goivs2Menu에 없으면 리다이렉트 localhost 제외
+    const isLocalDev = window.location.host.includes('localhost');
+
+    if (!isLocalDev && !Goivs2Menu.includes(currentUrl) && currentUrl !== '/') {
       window.location.href = `${host}${router.asPath}`;
     }
   }, [currentUrl, router.asPath]);

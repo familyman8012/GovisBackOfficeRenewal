@@ -1,80 +1,177 @@
 import React from 'react';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
+import { Badge } from '@ComponentFarm/atom/Badge/Badge';
+import Arrow2Up from '@ComponentFarm/atom/icons/Arrow2Up';
 
-export const GrayUnderLineTable = styled.table`
+export const TableSty1 = styled.table`
+  width: 100%;
+
+  th,
+  td {
+    &:first-of-type {
+      padding: 0 2.4rem;
+      text-align: left;
+    }
+  }
+
+  th {
+    height: 4.8rem;
+    padding: 0 2.4rem;
+    color: var(--color-gray500);
+    font-size: 1.4rem;
+    font-weight: 500;
+    line-height: 1.8rem;
+    letter-spacing: 0.042rem;
+    border-top: 1px solid var(--color-neutral90);
+    border-bottom: 1px solid var(--color-neutral90);
+    background: #f7f9fc;
+  }
+  td {
+    height: 7rem;
+    text-align: center;
+    border-bottom: 1px solid var(--color-neutral90);
+  }
+`;
+
+export const TableSty2 = styled.table`
   width: 100%;
 
   th {
-    padding: 1.6rem;
-    text-align: center;
-    color: var(--color-gray7);
-    font-family: Pretendard;
-    font-size: 1.3rem;
-    font-weight: 600;
-    line-height: 120%; /* 1.56rem */
+    height: 4.8rem;
+    padding: 0 2rem;
+    border-right: 1px solid var(--color-neutral90);
+    background: #171c8f;
   }
-  td {
-    padding: 0 1;
-    height: 7.8rem;
-    text-overflow: ellipsis;
-    font-family: Pretendard;
-    font-size: 1.4rem;
+
+  tr:nth-of-type(1) th {
+    text-align: right;
     font-weight: 600;
-    line-height: 110%;
-    border-top: 1px solid var(--color-neutral90);
-    border-bottom: 1px solid var(--color-neutral90);
-
-    &.no {
-      color: var(--color-gray8);
+    color: #fff;
+    &:first-of-type {
+      text-align: left;
     }
+  }
 
-    &.tac {
-      text-align: center;
+  tr:nth-of-type(2) {
+    th {
+      color: var(--color-gray500);
+      font-weight: 600;
+      text-align: left;
+      border-bottom: 1px solid var(--color-neutral90);
+      background: #f3f2f2;
     }
+  }
 
-    .rate {
-      display: inline-block;
-      margin-left: 0.8rem;
-      color: var(--color-green50);
-      font-size: 1.4rem;
-      font-weight: 400;
-      line-height: 120%;
+  td {
+    height: 4.8rem;
+    padding: 0 2rem;
+    font-weight: 600;
+    text-align: right;
+    border: 1px solid var(--color-neutral90);
+    border-left: none;
 
-      &.increase {
-        /* color: var(--color-orange70); */
-      }
-      &.decrease {
-        /* color: var(--color-blue60); */
-      }
+    &:nth-of-type(2) {
+      text-align: left;
     }
   }
 `;
 
-export const TableSty2 = () => {
+export const TableSty3 = styled.table`
+  th,
+  td {
+    font-size: 1.4rem;
+    border: 1px solid var(--color-gray6);
+  }
+  th {
+    height: 6.4rem;
+    text-align: right;
+    padding-right: 2rem;
+
+    background: var(--color-gray2);
+    color: var(--color-neutral50);
+    font-weight: 700;
+  }
+  td {
+    text-align: left;
+    padding-left: 2.4rem;
+    color: var(--color-neutral10);
+    font-weight: 400;
+  }
+`;
+
+export const TableSty4 = styled.table`
+  width: 100%;
+  tr.td_chk {
+    &:not(first-of-type) {
+      background: #fafafa;
+    }
+  }
+
+  th,
+  td {
+    padding: 1.2rem 2.4rem !important;
+    font-size: 1.4rem;
+    text-align: center;
+    border: 1px solid var(--color-gray6);
+    &:first-of-type {
+      border-left: none;
+    }
+    &:last-of-type {
+      border-right: none;
+    }
+  }
+  th {
+    color: var(--color-neutral50);
+    font-weight: 700;
+    background: var(--color-gray2);
+  }
+  td {
+    color: var(--color-neutral10, #181818);
+  }
+`;
+
+export const TableSty1View = () => {
   return (
-    <GrayUnderLineTable>
+    <TableSty1>
+      <colgroup>
+        <col width="33%" />
+        <col width="22%" />
+        <col width="22%" />
+        <col width="22%" />
+      </colgroup>
       <thead>
         <tr>
-          <td>
-            <span className="hiddenZoneV">NO.</span>
-          </td>
-          <td>
-            <span className="hiddenZoneV">time</span>
-          </td>
-          <td>비교일 판매</td>
-          <td>기준일 판매</td>
-          <td>증감율</td>
+          <th>시간</th>
+          <th>기준일</th>
+          <th>비교일</th>
+          <th>증감율</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td>1</td>
           <td>01:00</td>
           <td>113개</td>
           <td>113개</td>
-          <td>10개 ( +11% )</td>
+          <td>
+            <Badge
+              type="square"
+              color="green"
+              LeadingIcon={
+                <Arrow2Up
+                  customCss={css`
+                    path {
+                      fill: var(--bage-greenLabel);
+                    }
+                  `}
+                />
+              }
+            >
+              10%
+            </Badge>
+          </td>
         </tr>
       </tbody>
-    </GrayUnderLineTable>
+    </TableSty1>
   );
 };

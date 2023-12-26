@@ -2,10 +2,13 @@ import styled from '@emotion/styled';
 
 export const FilterTable = styled.table`
   width: 100%;
+  background-color: var(--color-gray1);
+
   th,
   td {
     border: 1px solid var(--color-gray6);
   }
+
   th {
     width: fit-content;
     padding: 1.95rem 2rem 1.95rem 0;
@@ -16,8 +19,10 @@ export const FilterTable = styled.table`
     text-align: right;
     background: var(--color-gray2);
   }
+
   td {
     border-right: 0;
+
     .inner {
       display: flex;
       align-items: center;
@@ -35,16 +40,25 @@ export const FilterTable = styled.table`
       }
 
       .list_select_item {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 1.6rem 0;
+        display: flex;
+        gap: 1rem;
+      }
+
+      .select_box {
+        display: flex;
+        align-items: center;
+        gap: 0 1.6rem;
+
+        & + .btn_reset {
+          margin-left: 1.6rem;
+        }
       }
     }
   }
 `;
 
 export const FilterTableBtnBox = styled.div`
-  diplay: flex;
+  display: flex;
   width: fit-content;
   margin: 3.6rem auto;
 

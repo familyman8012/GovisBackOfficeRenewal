@@ -3,8 +3,8 @@ import { useRouter } from 'next/router';
 import { useMutation } from 'react-query';
 import { updateUpdateAisttInfo } from '@ApiFarm/aistt';
 import { Button } from '@ComponentFarm/atom/Button/Button';
-import DeviceManageForm from '@ComponentFarm/template/aistt/DeviceManageForm';
-import DeviceView from '@ComponentFarm/template/aistt/DeviceView';
+import DeviceManageForm from '@ComponentFarm/template/aistt/device/DeviceManageForm';
+import DeviceView from '@ComponentFarm/template/aistt/device/DeviceView';
 import LayoutTitleBoxWithTab from '@ComponentFarm/template/layout/LayoutWithTitleBoxAndTab';
 import { useGoMove } from '@HookFarm/useGoMove';
 import { formRequestSubmit } from '@UtilFarm/form';
@@ -39,14 +39,14 @@ const DeviceDetailPage = () => {
     <>
       <LayoutTitleBoxWithTab
         id="ai-fqs-device-view"
-        title="기기관리"
+        title="매장 모니터링"
         tabs={[
           {
-            title: '기기 정보',
+            title: 'Smart Topping Table 정보',
             path: '/aistt-device/view/[id]',
           },
           {
-            title: '기기 정보 입력',
+            title: 'Smart Topping Table 상세 정보',
             path: '/aistt-device/setting/[id]',
           },
         ]}

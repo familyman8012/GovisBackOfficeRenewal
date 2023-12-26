@@ -135,3 +135,25 @@ export interface IMenuListItem {
   created_date: string;
   updated_date: string;
 }
+
+export interface IUnLinkMenuListItem {
+  sequence_number: number;
+  unidentified_menu_name: string;
+  order_channel_count: number;
+  order_channel_list: string[];
+  order_store_count: number;
+  order_store_list: string[];
+}
+
+export interface IMenuLinkHistoryItem {
+  sequence_number: number;
+  unidentified_menu_name: string;
+  order_channel_count: number;
+  order_channel_list: string[];
+  order_store_count: number;
+  order_store_list: string[];
+  linked_menu_classification: string;
+  linked_menu_name: string;
+  processed_user_name: string;
+  processed_date: string;
+}

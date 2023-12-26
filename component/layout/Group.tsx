@@ -4,6 +4,7 @@ import { observer } from 'mobx-react';
 import { useRouter } from 'next/router';
 import { toast } from 'react-toastify';
 import Modal from '@ComponentFarm/modules/Modal/Modal';
+import Tooltip from '@ComponentFarm/atom/Tooltip/Tooltip';
 import { IconViewArea } from '@ComponentFarm/common';
 import { PermissionList, authStore, menuStore } from '@MobxFarm/store';
 import ChangePasswordModal from './ChangePasswordModal';
@@ -119,6 +120,9 @@ const Group = ({ permissionList }: { permissionList: PermissionList }) => {
                   </IconViewArea>
                 </span>
                 <span className="hiddenZoneV">{menuName}</span>
+                <Tooltip eventType="hover" direction="right">
+                  {menuName}
+                </Tooltip>
               </button>
             </li>
           );

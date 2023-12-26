@@ -153,7 +153,8 @@ export const authStore = observable<IAuthStore>({
         return {
           ...menu,
           depth2: menu.depth2.filter(
-            item => this.permissionCodes?.includes(item.perm_code)
+            item =>
+              this.permissionCodes?.includes(item.perm_code) || !item.perm_code
           ),
         };
       }
@@ -193,6 +194,7 @@ interface ModalState {
   content?: React.ReactNode;
   onFormSubmit?: () => void;
   onCancel?: () => void;
+  onClose?: () => void;
   submitButtonText?: string;
   cancelButtonText?: string;
   showCloseButton?: boolean;
@@ -213,6 +215,9 @@ export const confirmModalStore = observable({
   content: null,
   onFormSubmit: () => {},
   onCancel() {
+    this.isOpen = false;
+  },
+  onClose() {
     this.isOpen = false;
   },
   submitButtonText: '확인',

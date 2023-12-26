@@ -8,7 +8,7 @@ import CheckBox from '@ComponentFarm/atom/Checkbox/CheckBox';
 import Radio from '@ComponentFarm/atom/Radio/Radio';
 import { IOption, Select } from '@ComponentFarm/atom/Select/Select';
 import { Table, TableWrap } from '@ComponentFarm/common';
-import SearchKeyword from '@ComponentFarm/molecule/SearchKeyword/SearchKeyword';
+import SearchKeyword from '@ComponentFarm/template/common/FilterTable/SearchKeyword';
 import { getTableWidthPercentage } from '@UtilFarm/calcSize';
 import { SelectConfig } from '@UtilFarm/convertEnvironment';
 import { SearchBox, SearchResult } from '../searchPopup_style';
@@ -35,6 +35,7 @@ export interface ICommonResultData {
 interface SearchPopupProps<T extends ICommonResultData> {
   width?: string;
   title: string;
+  keyWordSearchTitle: string;
   selectConfig?: SelectConfig[];
   tableCofig: ColumnNameType;
   resultData: T[];
@@ -45,12 +46,19 @@ interface SearchPopupProps<T extends ICommonResultData> {
   filters: selectOptionsType;
   setFilters: Dispatch<SetStateAction<selectOptionsType>>;
   initialValues: string[];
+  selectItems: checkedItemType[];
   setSelectItems: Dispatch<SetStateAction<checkedItemType[]>>;
+  badge: string[];
+  defaultKeyword?: {
+    search_target: string;
+    search_keyword: string;
+  };
 }
 
 const SearchPopup = <T extends ICommonResultData>({
   width = '68.3rem',
   title,
+  keyWordSearchTitle,
   selectConfig,
   tableCofig,
   resultData,
@@ -61,8 +69,15 @@ const SearchPopup = <T extends ICommonResultData>({
   filters,
   setFilters,
   initialValues,
+  selectItems,
   setSelectItems,
+  badge,
+  defaultKeyword = {
+    search_target: '',
+    search_keyword: '',
+  },
 }: SearchPopupProps<T>) => {
+  const [keyword, setKeyword] = useState(defaultKeyword);
   const [checkedItems, setCheckedItems] = useState<string[]>([]);
 
   const onFormSubmit = () => {
@@ -70,7 +85,28 @@ const SearchPopup = <T extends ICommonResultData>({
       .filter((item: T) => checkedItems.includes(String(item.idx)))
       .map((item: T) => ({ idx: String(item.idx), name: item.label || '' }));
 
-    setSelectItems(selectedProducts);
+    const filterSelectItems = selectItems?.filter(item =>
+      checkedItems.includes(item.idx)
+    );
+
+    const combineItems = [...filterSelectItems, ...selectedProducts].reduce(
+      (accumulator: checkedItemType[], currentItem) => {
+        if (!accumulator.some(item => item.idx === currentItem.idx)) {
+          accumulator.push(currentItem);
+        }
+        return accumulator;
+      },
+      []
+    );
+
+    console.log('combineItems', combineItems);
+
+    setSelectItems(combineItems);
+    setFilters({ search_target: filters.search_target });
+    setKeyword({
+      search_target: '',
+      search_keyword: '',
+    });
     setIsOpen(false);
   };
 
@@ -83,6 +119,11 @@ const SearchPopup = <T extends ICommonResultData>({
   }, [isOpen]);
 
   const handlerClose = () => {
+    setFilters({ search_target: filters.search_target });
+    setKeyword({
+      search_target: '',
+      search_keyword: '',
+    });
     setIsOpen(false);
   };
 
@@ -93,10 +134,29 @@ const SearchPopup = <T extends ICommonResultData>({
   ) => {
     setFilters(prev => ({
       ...prev,
+      search_keyword: keyword.search_keyword,
       [field]:
         typeof value === 'string' ? value : value ? String(value.value) : null,
     }));
   };
+
+  const [reorderedArray, setReorderedArray] = useState<T[]>([]);
+
+  useEffect(() => {
+    const selectIdxs = new Set(selectItems.map(item => item.idx));
+    const selectedItems: T[] = [];
+    const remainingItems: T[] = [];
+
+    resultData.forEach((item: T) => {
+      if (selectIdxs.has(String(item.idx))) {
+        selectedItems.push(item);
+      } else {
+        remainingItems.push(item);
+      }
+    });
+
+    setReorderedArray([...selectedItems.reverse(), ...remainingItems]);
+  }, [selectItems, resultData]);
 
   const renderTable = () => {
     return (
@@ -124,7 +184,7 @@ const SearchPopup = <T extends ICommonResultData>({
           </tr>
         </thead>
         <tbody>
-          {resultData?.map((el: T) => (
+          {reorderedArray?.map((el: T) => (
             <tr key={el.idx}>
               <td>
                 {type === 'radio' ? (
@@ -140,9 +200,9 @@ const SearchPopup = <T extends ICommonResultData>({
                       {key === 'status' ? (
                         <Badge
                           color={
-                            value === '운영'
+                            value === badge[0]
                               ? 'green'
-                              : value === '중단'
+                              : value === badge[badge.length - 1]
                               ? 'red'
                               : 'yellow'
                           }
@@ -239,15 +299,17 @@ const SearchPopup = <T extends ICommonResultData>({
                 </td>
               </tr>
               <tr>
-                <th scope="row">매장명</th>
+                <th scope="row">{keyWordSearchTitle}</th>
                 <td>
                   <SearchKeyword
-                    handler={keyword =>
+                    keyword={keyword}
+                    setKeyword={setKeyword}
+                    handler={keywordConfig => {
                       handleFilterChange(
                         'search_keyword',
-                        keyword.search_keyword
-                      )
-                    }
+                        keywordConfig.search_keyword
+                      );
+                    }}
                     placeholder="검색어를 입력해 주세요"
                   />
                 </td>

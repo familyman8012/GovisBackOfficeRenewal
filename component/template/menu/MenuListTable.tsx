@@ -3,6 +3,7 @@ import { Badge } from '@ComponentFarm/atom/Badge/Badge';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import Empty from '@ComponentFarm/atom/Empty/Empty';
 import Copy from '@ComponentFarm/atom/icons/Copy';
+import SkeletonTh from '@ComponentFarm/atom/Skeleton/SkeletonTh';
 import ToggleSort from '@ComponentFarm/atom/Sort/ToggleSort';
 import { Table, TableWrap } from '@ComponentFarm/common';
 import { QueryParams } from '@HookFarm/useQueryParams';
@@ -11,6 +12,7 @@ import { getTableWidthPercentage } from '@UtilFarm/calcSize';
 import { toPrice } from '@UtilFarm/number';
 
 interface IMenuListTableProps {
+  loading?: boolean;
   list: IMenuListItem[];
   onClick: (item: IMenuListItem) => void;
   onClickCopy?: (item: IMenuListItem) => void;
@@ -31,6 +33,7 @@ const menuSortItems = [
 ];
 
 const MenuListTable = ({
+  loading,
   list,
   onClick,
   onClickCopy,
@@ -69,14 +72,15 @@ const MenuListTable = ({
           </tr>
         </thead>
         <tbody>
-          {list.length === 0 && (
+          {loading && <SkeletonTh colLength={10} rowLength={10} />}
+          {!loading && list.length === 0 && (
             <tr className="empty">
               <td colSpan={menuSortItems.length}>
                 <Empty>데이터가 없습니다.</Empty>
               </td>
             </tr>
           )}
-          {list.map((menuRowData, index) => (
+          {list.map(menuRowData => (
             <tr
               key={menuRowData.menu_code}
               onClick={() => onClick?.(menuRowData)}

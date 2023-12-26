@@ -1,7 +1,11 @@
 import { useMemo, useState } from 'react';
 import { checkedItemType } from '@ComponentFarm/modal/SearchPopup/SearchPopup';
 
-function useSelectItems(search_target: string, initial = []) {
+function useSelectItems(
+  search_target: string,
+  initial: checkedItemType[] = []
+) {
+  const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [selectItems, setSelectItems] = useState<checkedItemType[]>(initial);
   const [isOpen, setIsOpen] = useState(false);
   const [filters, setFilters] = useState<{
@@ -13,14 +17,14 @@ function useSelectItems(search_target: string, initial = []) {
     [selectItems]
   );
 
-  console.log('selectItems', selectItems);
-
   const handleDeleteItem = (itemIdx: string) => {
     const updatedItems = selectItems.filter(item => item.idx !== itemIdx);
     setSelectItems(updatedItems);
   };
 
   return {
+    isFirstLoad,
+    setIsFirstLoad,
     selectItems,
     setSelectItems,
     isOpen,

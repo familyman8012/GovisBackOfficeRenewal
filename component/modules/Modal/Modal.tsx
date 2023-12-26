@@ -1,4 +1,4 @@
-import React, { FC, ReactNode } from 'react';
+import React, { FC, ReactNode, useLayoutEffect, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { css, SerializedStyles } from '@emotion/react';
 import styled from '@emotion/styled';
@@ -6,6 +6,11 @@ import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Cross } from '@ComponentFarm/atom/icons';
 import { IconViewArea } from '@ComponentFarm/common';
 import Portal from './Portal';
+
+const modalOpenQueue: string[] = [];
+
+const useIsomorphicLayoutEffect =
+  typeof window !== 'undefined' ? useLayoutEffect : useEffect;
 
 interface ModalProps {
   isOpen: boolean;
@@ -25,6 +30,7 @@ interface ModalProps {
 
 const DimmedBackground = styled(motion.div)`
   position: fixed;
+  z-index: 100;
   top: 0;
   left: 0;
   right: 0;
@@ -119,12 +125,29 @@ const Modal: FC<ModalProps> = ({
     border-radius: 12px;
     max-height: 100%;
     overflow-y: auto;
+    // modal z-index 추가
+    z-index: 100;
   `;
 
   const combinedStyles = css`
     ${defaultStyles};
     ${addStyles};
   `;
+
+  // modal open queue 데이터를 통해서 body 스크롤 제어
+  useIsomorphicLayoutEffect(() => {
+    const uuid = Math.random().toString(36).substr(2, 9);
+    if (isOpen) {
+      modalOpenQueue.push(uuid);
+      document.body.style.overflow = 'hidden';
+    }
+    return () => {
+      modalOpenQueue.splice(modalOpenQueue.indexOf(uuid), 1);
+      if (modalOpenQueue.length === 0) {
+        document.body.style.overflow = '';
+      }
+    };
+  }, [isOpen]);
 
   const modalContent = (
     <>

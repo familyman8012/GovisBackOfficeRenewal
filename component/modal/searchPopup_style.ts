@@ -31,7 +31,8 @@ export const SearchBox = styled.form<{ width?: string }>`
         display: flex;
         gap: 0.8rem;
       }
-      .box_searchkeyword {
+      .box_searchkeyword,
+      .box_searchkeyword .inp {
         width: 100%;
       }
     }

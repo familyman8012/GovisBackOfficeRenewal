@@ -174,7 +174,7 @@ const RecipeStepDetail = ({
                         evi_recipe_material_meterage_unit:
                           options.recipe_material_meterage_unit[0]?.value,
                         evi_recipe_material_quantity_unit:
-                          options.recipe_material_quantity_unit[0]?.value,
+                          options.recipe_material_quantity_unit[1]?.value,
                         evv_country: item.evv_country,
                         pcn_manufacturer: item.pcn_manufacturer,
                         recipe_material_meterage_value: 0,

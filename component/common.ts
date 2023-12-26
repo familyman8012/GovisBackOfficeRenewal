@@ -291,6 +291,7 @@ const reset = css`
   input[type='checkbox'] {
     margin: 0;
   }
+
   input.inp,
   select,
   textarea {
@@ -330,7 +331,9 @@ const reset = css`
   button {
     &:disabled {
       color: var(--textcolor-buttonDisabled);
+      cursor: not-allowed !important;
     }
+
     &.btn_reset {
       min-width: auto;
       height: 4.4rem;
@@ -424,11 +427,6 @@ const reset = css`
     border: 1px solid currentColor;
   }
 
-  [role='button'] {
-    display: inline-flex;
-    align-items: center;
-  }
-
   .link_more {
     display: flex;
     align-items: center;
@@ -447,6 +445,37 @@ const reset = css`
       background: url('/images/common/arrow_right.svg') no-repeat left center /
         1.6rem;
     }
+  }
+
+  .link_popup {
+    display: inline-flex;
+    appearance: none;
+    align-items: center;
+    justify-content: center;
+    text-decoration: underline;
+    color: var(--color-blue60);
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .swiper {
+    width: 100%;
+    height: 100%;
+  }
+
+  .swiper-pagination-bullet {
+    width: 1rem;
+    height: 1rem;
+    background: #d9d9d9;
+    opacity: 1;
+
+    &:hover {
+      background: var(--color-blue60);
+    }
+  }
+
+  .swiper-pagination-bullet-active {
+    background: var(--color-blue60);
   }
 
   /* input.inp,
@@ -653,6 +682,14 @@ export const FormWrap = styled.div`
   .box_upload_image {
     display: flex;
     width: 100%;
+
+    label {
+      width: auto !important;
+    }
+    .box_inp {
+      width: 40rem;
+      margin: 0 auto;
+    }
   }
 `;
 
@@ -672,6 +709,10 @@ export const TableWrap = styled.div`
   height: fit-content;
   border: 1px solid var(--color-neutral90);
   border-radius: 0.6rem;
+
+  &.overflow-visible {
+    overflow: visible;
+  }
 `;
 
 export const Table = styled.table`
@@ -693,7 +734,7 @@ export const Table = styled.table`
     &.center {
       text-align: center;
       padding-left: 1rem !important;
-      padding-right: 1rem;
+      padding-right: 1rem !important;
     }
   }
 
