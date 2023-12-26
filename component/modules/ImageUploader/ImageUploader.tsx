@@ -23,10 +23,13 @@ const GrayBox = styled.div`
   position: relative;
   cursor: pointer;
 
+  &.on {
+    background: transparent;
+  }
+
   img {
-    width: 100%;
+    width: auto;
     height: 100%;
-    objectfit: cover;
   }
 `;
 
@@ -101,7 +104,10 @@ const ImageUploader: FC<ImageUploaderProps> = ({
 
   return (
     <Container>
-      <GrayBox onClick={imgSelect}>
+      <GrayBox
+        onClick={imgSelect}
+        className={image && String(image) !== 'null' ? 'on' : ''}
+      >
         <ImageInput
           type="file"
           ref={imageInputRef}
@@ -114,7 +120,6 @@ const ImageUploader: FC<ImageUploaderProps> = ({
           <img
             src={typeof image === 'string' ? image : URL.createObjectURL(image)}
             alt="Uploaded"
-            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
           />
         ) : (
           <>
