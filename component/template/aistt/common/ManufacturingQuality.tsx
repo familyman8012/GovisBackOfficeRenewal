@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { SetStateAction, useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 import { IoAlertCircleOutline } from 'react-icons/io5';
@@ -123,37 +125,13 @@ export const ManufacturingQuality = ({
   updateParams?: (newParams: QueryParams) => void;
   data: IManufacturingQualityItem;
 }) => {
-  const router = useRouter();
   const chartArray = [
     {
       title: '제조수',
       color: 'var(--color-green30)',
       progress: data.manufacturing_count_per,
     },
-    // {
-    //   title: '개선 필요 수',
-    //   color: 'var(--color-orange80)',
-    //   progress: data.improvement_needed_count_per,
-    // },
   ];
-
-  const handlerScoreRange = () => {
-    if (type === 'state') {
-      router.push({
-        pathname: '/aistt-state/quality',
-        query: { ...router.query, score_range: data.score_range },
-      });
-    }
-    if (type !== 'state' && updateParams) {
-      if (selectScoreRange === String(data.score_range)) {
-        setselectScoreRange('');
-        updateParams({ score_range: undefined });
-      } else {
-        setselectScoreRange(String(data.score_range));
-        updateParams({ score_range: data.score_range });
-      }
-    }
-  };
 
   return (
     <ManufacturingQualityWrap
@@ -162,7 +140,6 @@ export const ManufacturingQuality = ({
           ? `manufacturing on_${data.score_range}`
           : 'manufacturing'
       }
-      onClick={handlerScoreRange}
     >
       <div className="status_head">
         <span className="title">점수대별 현황</span>
@@ -204,6 +181,7 @@ export const ManufacturingQualityList = ({
   updateParams?: (newParams: QueryParams) => void;
   data?: IManufacturingQualityItem[];
 }) => {
+  const router = useRouter();
   const [selectScoreRange, setselectScoreRange] = useState('');
 
   useEffect(() => {
@@ -240,6 +218,24 @@ export const ManufacturingQualityList = ({
       setActiveIndex(Number(params.score_range) - 1);
     }
   }, []);
+
+  const handlerScoreRange = (item: any) => {
+    if (type === 'state') {
+      router.push({
+        pathname: '/aistt-state/quality',
+        query: { ...router.query, score_range: item.score_range },
+      });
+    }
+    if (type !== 'state' && updateParams) {
+      if (selectScoreRange === String(item.score_range)) {
+        setselectScoreRange('');
+        updateParams({ score_range: undefined });
+      } else {
+        setselectScoreRange(String(item.score_range));
+        updateParams({ score_range: item.score_range });
+      }
+    }
+  };
 
   return (
     <>
@@ -294,6 +290,7 @@ export const ManufacturingQualityList = ({
                   setselectScoreRange(String(params?.score_range));
                   setActiveIndex(Number(params?.score_range) - 1);
                 }}
+                onClick={() => handlerScoreRange(item)}
               >
                 <ManufacturingQuality
                   type={type}

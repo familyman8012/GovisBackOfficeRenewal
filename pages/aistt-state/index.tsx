@@ -120,6 +120,7 @@ const AisttState = () => {
       >
         {statusSelect === 0 ? (
           <ManufacturingQualityList
+            type="state"
             params={params}
             updateParams={updateParams}
             data={manufacturingQualityData?.list}
