@@ -84,13 +84,28 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
   const handleStartDateChange = (e: ChangeEvent<HTMLInputElement>) => {
     const dateStr = e.target.value;
     setStartDateInput(dateStr);
+
     if (validateDate(dateStr)) {
-      const date = new Date(dateStr);
-      setDateRange((prev): DateRangeType => {
-        const update: DateRangeType = [date, prev[1]];
-        onDateRangeChange(update);
-        return update;
-      });
+      const startDate = new Date(dateStr);
+      const endDate = dateRange[1];
+
+      // 종료일이 설정되어 있고, 시작일이 종료일로부터 1년 이내인지 확인
+      if (endDate) {
+        const oneYearAfterStartDate = new Date(startDate);
+        oneYearAfterStartDate.setFullYear(
+          oneYearAfterStartDate.getFullYear() + 1
+        );
+
+        if (endDate > oneYearAfterStartDate) {
+          setEndDateInput('');
+          setDateRange([startDate, null]);
+          onDateRangeChange([startDate, null]);
+        }
+      } else {
+        // 시작일과 (조정된) 종료일 업데이트
+        setDateRange([startDate, endDate]);
+        onDateRangeChange([startDate, endDate]);
+      }
     }
   };
 
