@@ -186,8 +186,8 @@ export const ManufacturingQualityList = ({
 
   const chartDataArr = useMemo(
     () => [
-      { item_label: '100점~80점', fill: '#0EA5E9' },
-      { item_label: '80점~50점', fill: '#3B82F6' },
+      { item_label: '100점~80점', fill: '#3B82F6' },
+      { item_label: '80점~50점', fill: '#0EA5E9' },
       { item_label: '50점~0점', fill: 'var(--color-red60)' },
     ],
     []
