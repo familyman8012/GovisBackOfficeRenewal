@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction, useEffect } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import { css } from '@emotion/react';
 import DateRangePicker from '@ComponentFarm/modules/DateRange/DateRange';
@@ -99,7 +99,25 @@ export const DiffDateRanger = ({
     }
   }, [dateKeys.endKey, dateKeys.startKey, params, setSelectedDateRanges, type]);
 
-  console.log('selectedDateRanges', selectedDateRanges);
+  // 1년까지의 범위로.
+  const [maxEndDate1, setMaxEndDate1] = useState<Date | null>(null);
+  const [maxEndDate2, setMaxEndDate2] = useState<Date | null>(null);
+
+  const calculateMaxEndDate = (startDate: Date | null) => {
+    if (!startDate) return null;
+    const newMaxDate = new Date(startDate);
+    newMaxDate.setFullYear(newMaxDate.getFullYear() + 1);
+    return newMaxDate;
+  };
+
+  useEffect(() => {
+    setMaxEndDate1(calculateMaxEndDate(selectedDateRanges.range1[0]));
+    setMaxEndDate2(
+      calculateMaxEndDate(
+        selectedDateRanges.range2 ? selectedDateRanges.range2[0] : null
+      )
+    );
+  }, [selectedDateRanges.range1, selectedDateRanges.range2]);
 
   return (
     <DiffDateRangerWrap>
@@ -118,6 +136,7 @@ export const DiffDateRanger = ({
         <DateRangePicker
           onDateRangeChange={update => handleDateRangeChange('range1', update)}
           initialDateRange={selectedDateRanges.range1}
+          maxDate={maxEndDate1}
           placeholder={type === 'diff' ? '기준일' : '기간을 선택하세요'}
         />
       </span>
@@ -143,6 +162,7 @@ export const DiffDateRanger = ({
                 handleDateRangeChange('range2', update)
               }
               initialDateRange={selectedDateRanges.range2}
+              maxDate={maxEndDate2}
               exceptDateRange={selectedDateRanges.range1}
               placeholder="비교일"
               disabled={selectedDateRanges.range1.every(date => date === null)}

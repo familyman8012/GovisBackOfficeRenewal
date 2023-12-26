@@ -21,6 +21,7 @@ interface DateRangePickerProps {
   exceptDateRange?: DateRangeType;
   placeholder?: string;
   disabled?: boolean;
+  maxDate?: any;
 }
 
 const DateRangePicker: React.FC<DateRangePickerProps> = ({
@@ -29,6 +30,7 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
   exceptDateRange = [null, null],
   placeholder,
   disabled = false,
+  maxDate,
 }) => {
   const [dateRange, setDateRange] = useState<DateRangeType>(initialDateRange);
   const [startDateInput, setStartDateInput] = useState<string | null>('');
@@ -95,13 +97,27 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
   const handleEndDateChange = (e: ChangeEvent<HTMLInputElement>) => {
     const dateStr = e.target.value;
     setEndDateInput(dateStr);
+
     if (validateDate(dateStr)) {
-      const date = new Date(dateStr);
-      if (dateRange[0] && date < dateRange[0]) {
-        return;
+      const endDate = new Date(dateStr);
+      const startDate = dateRange[0];
+
+      // 시작일이 설정되어 있고, 종료일이 시작일로부터 1년 이내인지 확인
+      if (startDate && endDate) {
+        const oneYearLater = new Date(startDate);
+        oneYearLater.setFullYear(oneYearLater.getFullYear() + 1);
+
+        if (endDate > oneYearLater) {
+          alert('종료일은 시작일로부터 최대 1년 이내로 설정해야 합니다.');
+          setEndDateInput('');
+
+          return; // 조건을 충족하지 않으면 업데이트 중단
+        }
       }
+
+      // 종료일 업데이트
       setDateRange((prev): DateRangeType => {
-        const update: DateRangeType = [prev[0], date];
+        const update: DateRangeType = [prev[0], endDate];
         onDateRangeChange(update);
         return update;
       });
@@ -237,6 +253,7 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
                 yearDropdownItemNumber={8}
                 dateFormatCalendar="yyyy년 MM월"
                 excludeDates={getExcludedDates(exceptDateRange)}
+                maxDate={maxDate}
               />
             </div>
             <div className="box_btn">
