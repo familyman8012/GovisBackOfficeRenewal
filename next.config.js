@@ -7,6 +7,8 @@ const nextConfig = {
     domains: [
       'dev-govis.s3.ap-northeast-2.amazonaws.com',
       'dev-govis-ai.s3.ap-northeast-2.amazonaws.com',
+      'govis.s3.ap-northeast-2.amazonaws.com',
+      'govis-ai.s3.ap-northeast-2.amazonaws.com',
     ],
     formats: ['image/avif', 'image/webp'],
   },
