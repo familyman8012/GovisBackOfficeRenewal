@@ -16,6 +16,7 @@ export const ManufacturingQualityWrap = styled.div`
   overflow: hidden;
 
   min-width: 50rem;
+  height: 15.6rem;
   cursor: pointer;
   border-radius: 0.8rem;
   border: 1px solid #e5e5e5;
