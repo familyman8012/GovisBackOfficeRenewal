@@ -171,7 +171,13 @@ const DonutChart = ({
                 : x + 13 * scaleX
               : x
           }
-          y={y}
+          y={
+            activeIndex !== props.index
+              ? y
+              : props.item_label === '50점~0점'
+              ? y - 5
+              : y - 15
+          }
           fill="white" // 텍스트 색상을 흰색으로 변경
           textAnchor="middle" // 텍스트를 가운데 정렬
           dominantBaseline="central"
@@ -189,7 +195,7 @@ const DonutChart = ({
                   : x + 13 * scaleX
                 : x
             }
-            y={y + 23}
+            y={props.item_label === '50점~0점' ? y + 14 : y + 8}
             fill="white" // 텍스트 색상을 흰색으로 변경
             textAnchor="middle" // 텍스트를 가운데 정렬
             dominantBaseline="central"
