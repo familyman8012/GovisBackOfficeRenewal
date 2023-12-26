@@ -287,11 +287,8 @@ export const ManufacturingQualityList = ({
                 onClick={() => handlerScoreRange(item)}
               >
                 <ManufacturingQuality
-                  type={type}
                   data={item}
                   selectScoreRange={selectScoreRange}
-                  setselectScoreRange={setselectScoreRange}
-                  updateParams={updateParams}
                 />
               </div>
             ))}
