@@ -1,19 +1,18 @@
 import React, { SetStateAction, useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
-import { IoAlertCircleOutline } from 'react-icons/io5';
 import Skeleton from 'react-loading-skeleton';
-import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { IManufacturingQualityItem } from '@InterfaceFarm/aistt';
 import { TextBadge, TextBadgeColor } from '@ComponentFarm/atom/Badge/TextBadge';
-import Empty from '@ComponentFarm/atom/Empty/Empty';
 import DonutChart from '@ComponentFarm/chart/DonutChart2';
+import { Progress } from '@ComponentFarm/chart/Progress';
+import { ProgressStatus } from '@ComponentFarm/template/common/ProgressStatusExample';
+import { OrderDonutLegend } from '@ComponentFarm/template/product-analyze/order/OrderDonutLegend2';
 import { QueryParams } from '@HookFarm/useQueryParams';
 
 export const ManufacturingQualityWrap = styled.div`
   overflow: hidden;
-
-  min-width: 50rem;
+  width: 33.3%;
   cursor: pointer;
   border-radius: 0.8rem;
   border: 1px solid #e5e5e5;
@@ -34,6 +33,10 @@ export const ManufacturingQualityWrap = styled.div`
     box-shadow: 0 0 0 0.8rem var(--color-red90);
   }
 
+  &:nth-of-type(2) {
+    width: 33.4%;
+  }
+
   .status_head {
     display: flex;
     align-items: center;
@@ -51,13 +54,12 @@ export const ManufacturingQualityWrap = styled.div`
   }
 
   .status_content {
-    .info {
+    .dd {
       display: flex;
       padding: 2.4rem;
+      border-bottom: 1px solid #e5e5e5;
       dl {
-        width: 80%;
         &:first-of-type {
-          width: 20%;
           margin-right: 2.4rem;
         }
         dt {
@@ -77,11 +79,22 @@ export const ManufacturingQualityWrap = styled.div`
         }
       }
     }
+    .box_chart {
+      padding: 2.4rem;
+
+      > div + div {
+        margin-top: 1.6rem;
+      }
+    }
   }
 `;
 
 export const ManufacturingQualityListWrap = styled.div`
-  display: flex;
+  display: block;
+  gap: 2.4rem;
+  height: 26.9rem; 
+
+  > div + div {
 `;
 
 export const SkeletonWrap = styled.div`
@@ -130,11 +143,11 @@ export const ManufacturingQuality = ({
       color: 'var(--color-green30)',
       progress: data.manufacturing_count_per,
     },
-    // {
-    //   title: '개선 필요 수',
-    //   color: 'var(--color-orange80)',
-    //   progress: data.improvement_needed_count_per,
-    // },
+    {
+      title: '개선 필요 수',
+      color: 'var(--color-orange80)',
+      progress: data.improvement_needed_count_per,
+    },
   ];
 
   const handlerScoreRange = () => {
@@ -159,8 +172,8 @@ export const ManufacturingQuality = ({
     <ManufacturingQualityWrap
       className={
         selectScoreRange === String(data.score_range)
-          ? `manufacturing on_${data.score_range}`
-          : 'manufacturing'
+          ? `on_${data.score_range}`
+          : ''
       }
       onClick={handlerScoreRange}
     >
@@ -175,18 +188,26 @@ export const ManufacturingQuality = ({
         <div className="info">
           <dl>
             <dt>제조 수</dt>
-            <dd>{data.manufacturing_count.toLocaleString()}개</dd>
+            <dd>{data.manufacturing_count.toLocaleString()}</dd>
           </dl>
           <dl>
-            <dt>제조 비율</dt>
-            <dd>
-              {chartArray.map(el => (
-                <span className="txt_progress" key={el.title}>
-                  {el.progress.toFixed(1)}%
-                </span>
-              ))}
-            </dd>
+            <dt>개선 필요 수</dt>
+            <dd>{data.improvement_needed_count.toLocaleString()}</dd>
           </dl>
+        </div>
+        <div className="box_chart">
+          {chartArray.map(el => (
+            <ProgressStatus key={el.title}>
+              <span className="label">{el.title}</span>
+              <Progress
+                width="calc(100% - 13rem)"
+                height="0.8rem"
+                color={el.color}
+                progress={el.progress}
+              />
+              <span className="txt_progress">{el.progress.toFixed(1)}%</span>
+            </ProgressStatus>
+          ))}
         </div>
       </div>
     </ManufacturingQualityWrap>
@@ -212,100 +233,47 @@ export const ManufacturingQualityList = ({
     }
   }, [data]);
 
-  const chartDataArr = useMemo(
-    () => [
-      { item_label: '100점~80점', fill: '#3B82F6' },
-      { item_label: '80점~50점', fill: '#0EA5E9' },
-      { item_label: '50점~0점', fill: '#06B6D4' },
-    ],
-    []
-  );
+  console.log('ManufacturingQualityList', data);
 
   const chartData = useMemo(
     () =>
-      data?.map((el, i) => {
-        return {
-          ...chartDataArr[i],
-          base_sales_count: el.manufacturing_count,
-          manufacturing_count_per: el.manufacturing_count_per,
-        };
-      }),
-    [chartDataArr, data]
+      data?.map((el, i) =>
+        i === 0
+          ? {
+              item_label: '100점 ~ 80점',
+              base_sales_count: el.manufacturing_count,
+              manufacturing_count_per: el.manufacturing_count_per,
+              fill: '#3B82F6',
+            }
+          : i === 1
+          ? {
+              item_label: '80점 ~ 50점',
+              base_sales_count: el.manufacturing_count,
+              manufacturing_count_per: el.manufacturing_count_per,
+              fill: '#0EA5E9',
+            }
+          : {
+              item_label: '50점 ~ 0점',
+              base_sales_count: el.manufacturing_count,
+              manufacturing_count_per: el.manufacturing_count_per,
+              fill: '#06B6D4',
+            }
+      ),
+    [data]
   );
 
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
-
-  useEffect(() => {
-    if (params?.score_range) {
-      setActiveIndex(Number(params.score_range) - 1);
-    }
-  }, []);
+  console.log('chartData', chartData);
 
   return (
     <>
       {data ? (
-        <ManufacturingQualityListWrap>
-          {data?.every(el => el.manufacturing_count === 0) ? (
-            <Empty Icon={<IoAlertCircleOutline size={42} />}>
-              조회된 조건의 제조 피자가 없습니다.
-            </Empty>
-          ) : (
-            <DonutChart
-              height="50rem"
-              chartData={chartData}
-              activeIndex={activeIndex}
-            />
-          )}
-          <div>
-            {data?.map((item, i: number) => (
-              // eslint-disable-next-line jsx-a11y/mouse-events-have-key-events
-              <div
-                key={i}
-                css={css`
-                  display: block;
-                  margin-top: 10px;
-                  &:hover {
-                    &:nth-of-type(1) {
-                      .manufacturing {
-                        border: 0.2rem solid #2a31de;
-                        box-shadow: 0 0 0 0.8rem #eaebff;
-                      }
-                    }
-                    &:nth-of-type(2) {
-                      .manufacturing {
-                        border: 0.2rem solid var(--color-yellow50);
-                        box-shadow: 0 0 0 0.8rem var(--color-yellow90);
-                      }
-                    }
-
-                    &:nth-of-type(3) {
-                      .manufacturing {
-                        border: 0.2rem solid var(--color-orange70);
-                        box-shadow: 0 0 0 0.8rem var(--color-red90);
-                      }
-                    }
-                  }
-                `}
-                onMouseOver={() => {
-                  setselectScoreRange('');
-                  setActiveIndex(i);
-                }}
-                onMouseLeave={() => {
-                  setselectScoreRange(String(params?.score_range));
-                  setActiveIndex(Number(params?.score_range) - 1);
-                }}
-              >
-                <ManufacturingQuality
-                  type={type}
-                  data={item}
-                  selectScoreRange={selectScoreRange}
-                  setselectScoreRange={setselectScoreRange}
-                  updateParams={updateParams}
-                />
-              </div>
-            ))}
-          </div>
-        </ManufacturingQualityListWrap>
+        <div>
+          <DonutChart
+            height="50rem"
+            chartData={chartData}
+            legend={<OrderDonutLegend />}
+          />
+        </div>
       ) : (
         <SkeletonWrap>
           {Array.from({ length: 3 }, (_, i) => (

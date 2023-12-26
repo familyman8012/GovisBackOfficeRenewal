@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
+import { IoAlertCircleOutline } from 'react-icons/io5';
 import { useQuery } from 'react-query';
 import { css } from '@emotion/react';
 import {
@@ -9,6 +10,7 @@ import {
   fetchManufacturingTime,
 } from '@ApiFarm/aistt';
 import { IAisttStateReq } from '@InterfaceFarm/aistt';
+import Empty from '@ComponentFarm/atom/Empty/Empty';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
 import { ManufacturingQualityList } from '@ComponentFarm/template/aistt/common/ManufacturingQuality';
@@ -82,7 +84,12 @@ const AisttQualityState = () => {
           </AddTab>
         }
       >
-        {statusSelect === 0 ? (
+        {manufacturingQualityData?.list.length === 0 &&
+        manufacturingTimeData?.list.length === 0 ? (
+          <Empty Icon={<IoAlertCircleOutline size={42} />}>
+            조회된 결과가 없습니다.
+          </Empty>
+        ) : statusSelect === 0 ? (
           <ManufacturingQualityList
             params={params}
             updateParams={updateParams}

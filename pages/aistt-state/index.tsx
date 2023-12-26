@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
@@ -45,6 +45,41 @@ const AisttState = () => {
     () => fetchManufacturingTime(params as IAisttStateReq)
   );
 
+  const chartData = useMemo(
+    () =>
+      manufacturingQualityData?.list?.map((el, i) =>
+        i === 0
+          ? {
+              item_label: '100점~80점',
+              base_sales_count: el.manufacturing_count,
+              manufacturing_count_per: el.manufacturing_count_per,
+              fill: '#3B82F6',
+            }
+          : i === 1
+          ? {
+              item_label: '80점~50점',
+              base_sales_count: el.manufacturing_count,
+              manufacturing_count_per: el.manufacturing_count_per,
+              fill: '#0EA5E9',
+            }
+          : {
+              item_label: '50점~0점',
+              base_sales_count: el.manufacturing_count,
+              manufacturing_count_per: el.manufacturing_count_per,
+              fill: '#06B6D4',
+            }
+      ),
+    [manufacturingQualityData]
+  );
+
+  console.log(
+    'manufacturingQualityData',
+    manufacturingQualityData &&
+      manufacturingQualityData.list.every(el => el.manufacturing_count === 0),
+    'manufacturingTimeData',
+    manufacturingTimeData && manufacturingTimeData
+  );
+
   return (
     <>
       <TitleArea title="현황" />
@@ -63,7 +98,7 @@ const AisttState = () => {
         updateParams={updateParams}
         resetParams={resetParams}
       />
-      <SubTitleBox title="개선 필요 피자 현황" hideUnderline />
+      <SubTitleBox title="확인 필요 피자 현황" hideUnderline />
       <ImprovementStatusList params={params} />
       <AreaBox
         title="제조 현황"
@@ -85,7 +120,8 @@ const AisttState = () => {
       >
         {statusSelect === 0 ? (
           <ManufacturingQualityList
-            type="state"
+            params={params}
+            updateParams={updateParams}
             data={manufacturingQualityData?.list}
           />
         ) : (

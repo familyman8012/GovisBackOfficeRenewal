@@ -32,6 +32,8 @@ const AreaSales = ({ params }: { params: QueryParams }) => {
     [data?.list]
   );
 
+  console.log('chartData', chartData);
+
   return (
     <AreaBox
       title="상권별 제품 판매 현황"
