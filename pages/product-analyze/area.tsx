@@ -133,7 +133,6 @@ const AreaAnalyze = () => {
             ) : (
               <BarCharts
                 height="50rem"
-                tickCount={6}
                 barSize={30}
                 hasGrid
                 xKey="name"
