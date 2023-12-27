@@ -1,16 +1,21 @@
-import React, { SetStateAction, useEffect, useState } from 'react';
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+import React, { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
+import { IoAlertCircleOutline } from 'react-icons/io5';
 import Skeleton from 'react-loading-skeleton';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { IManufacturingQualityItem } from '@InterfaceFarm/aistt';
 import { TextBadge, TextBadgeColor } from '@ComponentFarm/atom/Badge/TextBadge';
-import { Progress } from '@ComponentFarm/chart/Progress';
-import { ProgressStatus } from '@ComponentFarm/template/common/ProgressStatusExample';
+import Empty from '@ComponentFarm/atom/Empty/Empty';
+import DonutChart from '@ComponentFarm/chart/DonutChart2';
 import { QueryParams } from '@HookFarm/useQueryParams';
 
 export const ManufacturingQualityWrap = styled.div`
   overflow: hidden;
-  width: 33.3%;
+
+  min-width: 50rem;
   cursor: pointer;
   border-radius: 0.8rem;
   border: 1px solid #e5e5e5;
@@ -29,10 +34,6 @@ export const ManufacturingQualityWrap = styled.div`
   &.on_3 {
     border: 0.2rem solid var(--color-orange70);
     box-shadow: 0 0 0 0.8rem var(--color-red90);
-  }
-
-  &:nth-of-type(2) {
-    width: 33.4%;
   }
 
   .status_head {
@@ -55,9 +56,10 @@ export const ManufacturingQualityWrap = styled.div`
     .info {
       display: flex;
       padding: 2.4rem;
-      border-bottom: 1px solid #e5e5e5;
       dl {
+        width: 80%;
         &:first-of-type {
+          width: 20%;
           margin-right: 2.4rem;
         }
         dt {
@@ -77,20 +79,11 @@ export const ManufacturingQualityWrap = styled.div`
         }
       }
     }
-    .box_chart {
-      padding: 2.4rem;
-
-      > div + div {
-        margin-top: 1.6rem;
-      }
-    }
   }
 `;
 
 export const ManufacturingQualityListWrap = styled.div`
   display: flex;
-  gap: 2.4rem;
-  height: 26.9rem;
 `;
 
 export const SkeletonWrap = styled.div`
@@ -120,58 +113,27 @@ const textBadgeLabel: {
 };
 
 export const ManufacturingQuality = ({
-  type,
   selectScoreRange,
-  setselectScoreRange,
-  updateParams,
   data,
 }: {
-  type?: string;
   selectScoreRange: string;
-  setselectScoreRange: React.Dispatch<SetStateAction<string>>;
-  updateParams?: (newParams: QueryParams) => void;
   data: IManufacturingQualityItem;
 }) => {
-  const router = useRouter();
   const chartArray = [
     {
       title: '제조수',
       color: 'var(--color-green30)',
       progress: data.manufacturing_count_per,
     },
-    {
-      title: '개선 필요 수',
-      color: 'var(--color-orange80)',
-      progress: data.improvement_needed_count_per,
-    },
   ];
-
-  const handlerScoreRange = () => {
-    if (type === 'state') {
-      router.push({
-        pathname: '/aistt-state/quality',
-        query: { ...router.query, score_range: data.score_range },
-      });
-    }
-    if (type !== 'state' && updateParams) {
-      if (selectScoreRange === String(data.score_range)) {
-        setselectScoreRange('');
-        updateParams({ score_range: undefined });
-      } else {
-        setselectScoreRange(String(data.score_range));
-        updateParams({ score_range: data.score_range });
-      }
-    }
-  };
 
   return (
     <ManufacturingQualityWrap
       className={
         selectScoreRange === String(data.score_range)
-          ? `on_${data.score_range}`
-          : ''
+          ? `manufacturing on_${data.score_range}`
+          : 'manufacturing'
       }
-      onClick={handlerScoreRange}
     >
       <div className="status_head">
         <span className="title">점수대별 현황</span>
@@ -184,26 +146,18 @@ export const ManufacturingQuality = ({
         <div className="info">
           <dl>
             <dt>제조 수</dt>
-            <dd>{data.manufacturing_count.toLocaleString()}</dd>
+            <dd>{data.manufacturing_count.toLocaleString()}개</dd>
           </dl>
           <dl>
-            <dt>개선 필요 수</dt>
-            <dd>{data.improvement_needed_count.toLocaleString()}</dd>
+            <dt>제조 비율</dt>
+            <dd>
+              {chartArray.map(el => (
+                <span className="txt_progress" key={el.title}>
+                  {el.progress.toFixed(1)}%
+                </span>
+              ))}
+            </dd>
           </dl>
-        </div>
-        <div className="box_chart">
-          {chartArray.map(el => (
-            <ProgressStatus key={el.title}>
-              <span className="label">{el.title}</span>
-              <Progress
-                width="calc(100% - 13rem)"
-                height="0.8rem"
-                color={el.color}
-                progress={el.progress}
-              />
-              <span className="txt_progress">{el.progress.toFixed(1)}%</span>
-            </ProgressStatus>
-          ))}
         </div>
       </div>
     </ManufacturingQualityWrap>
@@ -221,6 +175,7 @@ export const ManufacturingQualityList = ({
   updateParams?: (newParams: QueryParams) => void;
   data?: IManufacturingQualityItem[];
 }) => {
+  const router = useRouter();
   const [selectScoreRange, setselectScoreRange] = useState('');
 
   useEffect(() => {
@@ -229,20 +184,115 @@ export const ManufacturingQualityList = ({
     }
   }, [data]);
 
+  const chartDataArr = useMemo(
+    () => [
+      { item_label: '100점~80점', fill: '#3B82F6' },
+      { item_label: '80점~50점', fill: '#0EA5E9' },
+      { item_label: '50점~0점', fill: 'var(--color-red60)' },
+    ],
+    []
+  );
+
+  const chartData = useMemo(
+    () =>
+      data?.map((el, i) => {
+        return {
+          ...chartDataArr[i],
+          base_sales_count: el.manufacturing_count,
+          manufacturing_count_per: el.manufacturing_count_per,
+        };
+      }),
+    [chartDataArr, data]
+  );
+
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (params?.score_range) {
+      setActiveIndex(Number(params.score_range) - 1);
+    }
+  }, []);
+
+  const handlerScoreRange = (item: any) => {
+    if (type === 'state') {
+      router.push({
+        pathname: '/aistt-state/quality',
+        query: { ...router.query, score_range: item.score_range },
+      });
+    }
+    if (type !== 'state' && updateParams) {
+      if (selectScoreRange === String(item.score_range)) {
+        setselectScoreRange('');
+        updateParams({ score_range: undefined });
+      } else {
+        setselectScoreRange(String(item.score_range));
+        updateParams({ score_range: item.score_range });
+      }
+    }
+  };
+
   return (
     <>
       {data ? (
         <ManufacturingQualityListWrap>
-          {data?.map((item, i: number) => (
-            <ManufacturingQuality
-              key={i}
-              type={type}
-              data={item}
-              selectScoreRange={selectScoreRange}
-              setselectScoreRange={setselectScoreRange}
-              updateParams={updateParams}
+          {data?.every(el => el.manufacturing_count === 0) ? (
+            <Empty Icon={<IoAlertCircleOutline size={42} />}>
+              조회된 조건의 제조 피자가 없습니다.
+            </Empty>
+          ) : (
+            <DonutChart
+              height="50rem"
+              chartData={chartData}
+              activeIndex={activeIndex}
             />
-          ))}
+          )}
+          <div>
+            {data?.map((item, i: number) => (
+              // eslint-disable-next-line jsx-a11y/mouse-events-have-key-events
+              <div
+                key={i}
+                css={css`
+                  display: block;
+                  margin-top: 10px;
+                  &:hover {
+                    &:nth-of-type(1) {
+                      .manufacturing {
+                        border: 0.2rem solid #2a31de;
+                        box-shadow: 0 0 0 0.8rem #eaebff;
+                      }
+                    }
+                    &:nth-of-type(2) {
+                      .manufacturing {
+                        border: 0.2rem solid var(--color-yellow50);
+                        box-shadow: 0 0 0 0.8rem var(--color-yellow90);
+                      }
+                    }
+
+                    &:nth-of-type(3) {
+                      .manufacturing {
+                        border: 0.2rem solid var(--color-orange70);
+                        box-shadow: 0 0 0 0.8rem var(--color-red90);
+                      }
+                    }
+                  }
+                `}
+                onMouseOver={() => {
+                  setselectScoreRange('');
+                  setActiveIndex(i);
+                }}
+                onMouseLeave={() => {
+                  setselectScoreRange(String(params?.score_range));
+                  setActiveIndex(Number(params?.score_range) - 1);
+                }}
+                onClick={() => handlerScoreRange(item)}
+              >
+                <ManufacturingQuality
+                  data={item}
+                  selectScoreRange={selectScoreRange}
+                />
+              </div>
+            ))}
+          </div>
         </ManufacturingQualityListWrap>
       ) : (
         <SkeletonWrap>
