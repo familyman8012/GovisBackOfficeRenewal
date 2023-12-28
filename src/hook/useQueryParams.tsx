@@ -14,6 +14,7 @@ function useQueryParams(
 ): [QueryParams, (newParams: QueryParams) => void, () => void] {
   const router = useRouter();
   const isInitialMount = useRef(true);
+  const pathname = router.asPath.split('?')[0];
 
   const getMergedParams = () => {
     const queryParamsString = router.asPath.split('?')[1] || '';
@@ -22,12 +23,14 @@ function useQueryParams(
     urlParams.forEach((value, key) => {
       queryParams[key] = value;
     });
-    return { ...initialParams, ...queryParams };
+    return { ...router.query, ...initialParams, ...queryParams };
   };
 
   const [params, setParams] = useState<QueryParams>(getMergedParams);
 
   useEffect(() => {
+    if (!router.isReady) return;
+
     if (isInitialMount.current) {
       isInitialMount.current = false;
       const mergedParams = getMergedParams();
@@ -42,8 +45,9 @@ function useQueryParams(
       );
       return;
     }
+
     setParams(prevParams => ({ ...prevParams, ...router.query }));
-  }, [router.query]);
+  }, [router.query, router.isReady]);
 
   const updateParams = (newParams: QueryParams) => {
     Object.keys(newParams).forEach(key => {
@@ -63,7 +67,7 @@ function useQueryParams(
     setParams(prevParams => ({ ...prevParams, ...newParams }));
     router.push(
       {
-        pathname: router.pathname,
+        pathname,
         query: updatedQuery,
       },
       undefined,
@@ -75,7 +79,7 @@ function useQueryParams(
     setParams({ ...initialParams });
     router.push(
       {
-        pathname: router.pathname,
+        pathname,
         query: { ...initialParams },
       },
       undefined,

@@ -171,7 +171,7 @@ const Tooltip = ({
     const $parent = $tooltip?.parentElement?.closest(
       'div, a, button, span'
     ) as HTMLElement;
-    console.log($parent);
+
     if (eventType === 'hover') {
       const handleMouseEnter = () => setShow(true);
       const handleMouseLeave = () => setShow(false);

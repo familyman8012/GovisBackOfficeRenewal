@@ -87,6 +87,7 @@
     "rgba": "^0.0.0",
     "sanitize-html": "^2.11.0",
     "swiper": "^11.0.5",
+    "tesseract.js": "^5.0.4",
     "tls": "^0.0.1",
     "typescript": "5.1.6"
   },

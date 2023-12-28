@@ -45,8 +45,9 @@ export const VideoWrapStyle = styled.div`
     height: 100%;
     display: flex;
     align-items: center;
+    justify-content: center;
 
-    & > div {
+    & > p {
       color: var(--color-gray1) !important;
     }
   }
@@ -105,9 +106,11 @@ const FqsVideo = React.forwardRef<
   HTMLAttributes<HTMLVideoElement> & {
     sticky?: boolean;
     closeButton?: boolean;
+    loading?: boolean;
     src?: string;
+    crossOrigin?: 'anonymous' | 'use-credentials' | '' | undefined;
   }
->(({ sticky, closeButton, ...props }, ref) => {
+>(({ sticky, closeButton, crossOrigin, loading, ...props }, ref) => {
   const wrapperRef = useSyncedRef<HTMLDivElement>(null);
   const [viewportIn, setViewportIn] = React.useState(true);
 
@@ -127,13 +130,22 @@ const FqsVideo = React.forwardRef<
     return () => io.disconnect();
   }, [wrapperRef, sticky]);
 
+  if (loading) {
+    return (
+      <VideoWrapStyle ref={wrapperRef}>
+        <div className="empty">
+          <p>비디오 정보를 불러오는중입니다.</p>
+        </div>
+      </VideoWrapStyle>
+    );
+  }
   return (
     <VideoWrapStyle
       ref={wrapperRef}
       className={sticky ? (viewportIn ? 'viewport-in' : 'viewport-out') : ''}
     >
       <div className="video-position">
-        <video ref={ref} controls muted {...props} />
+        <video ref={ref} controls muted crossOrigin={crossOrigin} {...props} />
         {!viewportIn && closeButton && (
           <button
             type="button"

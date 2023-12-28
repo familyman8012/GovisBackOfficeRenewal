@@ -47,6 +47,11 @@ export const AnalysisPageStyle = styled.div`
       margin-bottom: 1rem;
       display: flex;
       align-items: center;
+      justify-content: space-between;
+      span {
+        display: inline-flex;
+        align-items: center;
+      }
     }
 
     p {

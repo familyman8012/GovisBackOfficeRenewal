@@ -18,6 +18,7 @@ interface FilterTableFormProps {
   params: QueryParams;
   updateParams: (newParams: QueryParams) => void;
   resetParams: () => void;
+  hideStatusFilter?: boolean;
 }
 
 const statusOptions = [
@@ -54,6 +55,7 @@ const AisttDeviceFilter = ({
   params,
   updateParams,
   resetParams,
+  hideStatusFilter,
 }: FilterTableFormProps) => {
   const [useStt, setUseStt] = useState(params.is_use_stt ?? '');
   const [programStatus, setProgramStatus] = useState(
@@ -119,44 +121,46 @@ const AisttDeviceFilter = ({
           <col width={getTableWidthPercentage(1416)} />
         </colgroup>
         <tbody>
-          <tr>
-            <th scope="row">상태별 구분</th>
-            <td>
-              <div className="inner">
-                <div className="select_box">
-                  <Select
-                    options={useOptions}
-                    selectedOption={useStt ?? ''}
-                    setSelectedOption={({ value }: { value: string }) =>
-                      setUseStt(value)
-                    }
-                    placeholder="전체"
-                    prefixLabel="도입 상태"
-                  />
-                  <Select
-                    options={statusOptions}
-                    selectedOption={programStatus ?? ''}
-                    setSelectedOption={({ value }: { value: string }) =>
-                      setProgramStatus(value)
-                    }
-                    prefixLabel="프로그램 상태"
-                  />
-                </div>
+          {!hideStatusFilter && (
+            <tr>
+              <th scope="row">상태별 구분</th>
+              <td>
+                <div className="inner">
+                  <div className="select_box">
+                    <Select
+                      options={useOptions}
+                      selectedOption={useStt ?? ''}
+                      setSelectedOption={({ value }: { value: string }) =>
+                        setUseStt(value)
+                      }
+                      placeholder="전체"
+                      prefixLabel="도입 상태"
+                    />
+                    <Select
+                      options={statusOptions}
+                      selectedOption={programStatus ?? ''}
+                      setSelectedOption={({ value }: { value: string }) =>
+                        setProgramStatus(value)
+                      }
+                      prefixLabel="프로그램 상태"
+                    />
+                  </div>
 
-                <Button
-                  className="btn_reset"
-                  variant="transparent"
-                  onClick={() => {
-                    setUseStt('');
-                    setProgramStatus('');
-                  }}
-                  LeadingIcon={<Sync />}
-                >
-                  초기화
-                </Button>
-              </div>
-            </td>
-          </tr>
+                  <Button
+                    className="btn_reset"
+                    variant="transparent"
+                    onClick={() => {
+                      setUseStt('');
+                      setProgramStatus('');
+                    }}
+                    LeadingIcon={<Sync />}
+                  >
+                    초기화
+                  </Button>
+                </div>
+              </td>
+            </tr>
+          )}
           {filterItems.map(({ title, select }) => (
             <SelectItemsList
               key={title}
