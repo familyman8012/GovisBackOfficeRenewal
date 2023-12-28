@@ -79,6 +79,7 @@ const DeviceView = () => {
           </tr>
         </tbody>
       </FqsInfoTable>
+
       {cameraList.length > 0 && (
         <DeviceCameraList storeId={id} cameraList={cameraList} />
       )}

@@ -28,6 +28,7 @@ export interface IProductSearchModalRes {
 
 // 매장상세설정 팝업
 export interface IStoreModalReq {
+  store_idx?: number | string;
   region?: string;
   commercial_area?: string;
   store_type?: string;

@@ -47,10 +47,12 @@ const AnalysisView = ({
   loading,
   data,
   inspectionId,
+  onViewOriginVideo,
 }: {
   loading?: boolean;
   data?: IFqsInspectionInfo;
   inspectionId?: number | string;
+  onViewOriginVideo?: (item: IFqsInspectionInfo) => void;
 }) => {
   const router = useRouter();
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -148,24 +150,38 @@ const AnalysisView = ({
       />
       <div className="info">
         <h2>
-          {`[${data?.store_name ?? ''}] ${data?.product_info_name ?? ''}`}
-          <Badge
-            color={
-              data?.inspection_status === 'complete'
-                ? 'green'
+          <span>
+            {`[${data?.store_name ?? ''}] ${data?.product_info_name ?? ''}`}
+            <Badge
+              color={
+                data?.inspection_status === 'complete'
+                  ? 'green'
+                  : data?.inspection_status === 'indeterminate'
+                  ? 'red'
+                  : 'yellow'
+              }
+              dot
+              size="sm"
+            >
+              {data?.inspection_status === 'complete'
+                ? '검수 완료'
                 : data?.inspection_status === 'indeterminate'
-                ? 'red'
-                : 'yellow'
-            }
-            dot
-            size="sm"
-          >
-            {data?.inspection_status === 'complete'
-              ? '검수 완료'
-              : data?.inspection_status === 'indeterminate'
-              ? '판단 불가'
-              : '영상 불량'}
-          </Badge>
+                ? '판단 불가'
+                : '영상 불량'}
+            </Badge>
+          </span>
+
+          {/**
+           * onViewOriginVideo props 전달 시 원본 영상 보기 버튼 노출
+           */}
+          {data && onViewOriginVideo && (
+            <Button
+              variant="gostPrimary"
+              onClick={() => onViewOriginVideo(data)}
+            >
+              원본 영상 보기
+            </Button>
+          )}
         </h2>
         <p>평가일자 {data?.inspection_dt}</p>
         <p>제조일자 {data?.manufacture_dt}</p>
@@ -284,7 +300,7 @@ const AnalysisView = ({
                   <th>구간 종류</th>
                   <th>구간 이미지</th>
                   <th className="center">구간 시작 및 종료</th>
-                  <th>구간 점수</th>
+                  <th>레시피 단계별 점수</th>
                 </tr>
               </thead>
               <tbody>
@@ -306,34 +322,13 @@ const AnalysisView = ({
                               <DataFilled />
                             </span>
                             <div className="cont">
-                              <div className="inspection">
-                                <h3>개선 요인</h3>
-                                <div className="effect">
-                                  {item.rating_scale_idx_1 !== 1 && (
-                                    <Badge
-                                      color={
-                                        item.rating_scale_idx_1 === 2
-                                          ? 'yellow'
-                                          : item.rating_scale_idx_1 === 3
-                                          ? 'red'
-                                          : 'gray'
-                                      }
-                                      size="sm"
-                                    >
-                                      {item.rating_scale_name_1 === '감점 항목'
-                                        ? '미흡'
-                                        : item.rating_scale_name_1 ===
-                                          '개선 필요'
-                                        ? '심각'
-                                        : item.rating_scale_name_1}
-                                    </Badge>
-                                  )}
-                                  <p>
-                                    {item.improvement_label ||
-                                      item.decrease_label ||
-                                      '개선 요인이 없습니다.'}
-                                  </p>
-                                </div>
+                              <div className="inspection-img">
+                                <h3>제조 이미지</h3>
+                                <img
+                                  src={item.step_color_image_url}
+                                  alt=""
+                                  width="100%"
+                                />
                               </div>
                             </div>
                           </li>
@@ -343,12 +338,14 @@ const AnalysisView = ({
                             </span>
                             <div className="cont">
                               <div className="inspection-img">
-                                <h3>제조 이미지 컬러맵</h3>
-                                <img
-                                  src={item.step_color_image_url}
-                                  alt=""
-                                  width="100%"
-                                />
+                                <h3>레시피 표준 이미지</h3>
+                                {item.ground_truth_image_url && (
+                                  <img
+                                    src={item.ground_truth_image_url}
+                                    alt=""
+                                    width="100%"
+                                  />
+                                )}
                               </div>
                             </div>
                           </li>
@@ -357,7 +354,7 @@ const AnalysisView = ({
                           <li className="hide-line">
                             {item.section_description && (
                               <div className="inspection-img">
-                                <h3>세부 분석</h3>
+                                <h3>세부 분석 결과</h3>
                                 <AnalysisStepDescription
                                   description={item.section_description}
                                 />

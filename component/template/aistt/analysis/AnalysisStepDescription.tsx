@@ -43,8 +43,22 @@ type StepDescriptionType = {
   '3_상태': string;
   '4_상태': string;
   '5_상태': string;
+  '0_점수': string;
+  '1_점수': string;
+  '2_점수': string;
+  '3_점수': string;
+  '4_점수': string;
+  '5_점수': string;
+  '0_감점': string;
+  '1_감점': string;
+  '2_감점': string;
+  '3_감점': string;
+  '4_감점': string;
+  '5_감점': string;
   전체검사: string;
   전체검사_상태: string;
+  전체검사_점수: string;
+  전체검사_감점: string;
   개선사항: string;
 };
 
@@ -67,12 +81,16 @@ const AnalysisStepDescription = ({ description }: Props) => {
           <colgroup>
             <col width={getTableWidthPercentage(120, 1000)} />
             <col width={getTableWidthPercentage(120, 1000)} />
+            <col width={getTableWidthPercentage(120, 1000)} />
+            <col width={getTableWidthPercentage(120, 1000)} />
             <col width={getTableWidthPercentage(760, 1000)} />
           </colgroup>
           <thead>
             <tr>
               <th>평가항목</th>
               <th className="center">결과</th>
+              <th className="center">평가 점수</th>
+              <th className="center">감점</th>
               <th className="center">설명</th>
             </tr>
           </thead>
@@ -83,6 +101,16 @@ const AnalysisStepDescription = ({ description }: Props) => {
                 <td className="center">
                   <StatusBadge status={descriptionObj['전체검사_상태']} />
                 </td>
+                <td className="center">
+                  {descriptionObj['전체검사_점수']
+                    ? `${descriptionObj['전체검사_점수']}`
+                    : '-'}
+                </td>
+                <td className="center">
+                  {descriptionObj['전체검사_감점']
+                    ? `${descriptionObj['전체검사_감점']}`
+                    : '-'}
+                </td>
                 <td>{descriptionObj['전체검사']}</td>
               </tr>
             )}
@@ -91,6 +119,10 @@ const AnalysisStepDescription = ({ description }: Props) => {
                 descriptionObj[`${step}` as keyof StepDescriptionType];
               const status =
                 descriptionObj[`${step}_상태` as keyof StepDescriptionType];
+              const score =
+                descriptionObj[`${step}_점수` as keyof StepDescriptionType];
+              const subtractScore =
+                descriptionObj[`${step}_감점` as keyof StepDescriptionType];
               if (!data) return null;
 
               return (
@@ -99,14 +131,16 @@ const AnalysisStepDescription = ({ description }: Props) => {
                   <td className="center">
                     <StatusBadge status={status} />
                   </td>
+                  <td className="center">{score || '-'}</td>
+                  <td className="center">{subtractScore || '-'}</td>
                   <td style={{ whiteSpace: 'pre-wrap' }}>{data}</td>
                 </tr>
               );
             })}
             {descriptionObj['개선사항'] && (
               <tr className="empty">
-                <td colSpan={2}>개선사항</td>
-                <td>{descriptionObj['개선사항']}</td>
+                <td>개선사항</td>
+                <td colSpan={4}>{descriptionObj['개선사항']}</td>
               </tr>
             )}
           </tbody>
