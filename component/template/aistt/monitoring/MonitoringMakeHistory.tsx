@@ -42,6 +42,9 @@ const MakeHistoryStyle = styled.div`
     flex-direction: row;
     gap: 0.6rem;
     align-items: center;
+    .badge {
+      flex: none;
+    }
   }
 
   .bottom {

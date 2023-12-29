@@ -26,7 +26,7 @@ const VideoTimeDiffWrap = styled.div`
   opacity: 0;
 `;
 
-const FRAME_COUNT = 8 as const;
+const FRAME_COUNT = 6 as const;
 
 async function* frameAsyncIterable(
   totalDuration: number,

@@ -46,7 +46,7 @@ const MonitoringVideoViewStyle = styled.div`
       overflow: auto;
       position: absolute;
       height: 100%;
-      width: 25.6rem;
+      width: 26.6rem;
       margin-left: 1.6rem;
       border: 1px solid var(--color-neutral90);
       border-radius: 0.4rem;
