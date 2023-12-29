@@ -82,7 +82,10 @@ const Menu = ({ permissionList }: { permissionList: PermissionList }) => {
                         <li key={subMenu.name}>
                           <Link
                             href={
-                              Goivs2Menu.some(el => el === currentUrl)
+                              Goivs2Menu.some(
+                                el =>
+                                  el === currentUrl || currentUrl.startsWith(el)
+                              )
                                 ? subMenu.path
                                 : `${host}${subMenu.path}`
                             }
