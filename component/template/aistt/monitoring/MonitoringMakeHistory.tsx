@@ -101,7 +101,7 @@ const MonitoringMakeHistory = ({
       ref.current?.scrollIntoView({
         behavior: 'smooth',
         block: 'start',
-        inline: 'center',
+        inline: 'start',
       });
     }
   }, [active]);

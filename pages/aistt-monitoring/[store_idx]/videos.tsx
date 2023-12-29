@@ -7,6 +7,7 @@ import {
   fetchMonitoringStoreVideoList,
 } from '@ApiFarm/aistt';
 import { IFqsMonitoringVideoInfo } from '@InterfaceFarm/ai-fqs';
+import Empty from '@ComponentFarm/atom/Empty/Empty';
 import { DevicePageStyle } from '@ComponentFarm/template/aistt/device/style';
 import MonitoringRecordItem from '@ComponentFarm/template/aistt/monitoring/MonitoringRecordItem';
 import MonitoringVideoView from '@ComponentFarm/template/aistt/monitoring/MonitoringVideoView';
@@ -16,18 +17,22 @@ import {
 } from '@ComponentFarm/template/aistt/style';
 import LayoutTitleBoxWithTab from '@ComponentFarm/template/layout/LayoutWithTitleBoxAndTab';
 import { MenuOptionListStyle } from '@ComponentFarm/template/menu/style';
+import { confirmModalStore } from '@MobxFarm/store';
 import { getTableWidthPercentage } from '@UtilFarm/calcSize';
 
 const MonitoringStoreVideos = () => {
   const router = useRouter();
-  const makingTime = React.useMemo(
-    () => dayjs(router.query.d as string),
-    [router.query]
-  );
+  // video 탐색시 최초 한번되도록 하는 플래그
+  const [initialVideoSearched, setInitialVideoSearched] = React.useState(false);
+
   const [activeDate, setActiveDate] = React.useState<string>('');
   const [activeVideo, setActiveVideo] =
     React.useState<IFqsMonitoringVideoInfo | null>(null);
 
+  const makingTime = useMemo(
+    () => dayjs((router.query.d ? router.query.d : 'invalid Date') as string),
+    [router.query]
+  );
   const store_idx = useMemo(
     () => parseInt(router.query?.store_idx as string, 10),
     [router.query, router.isReady]
@@ -55,14 +60,23 @@ const MonitoringStoreVideos = () => {
 
   // 최초 로딩 시 activeDate 설정
   useEffect(() => {
-    if (router.isReady && makingTime.isValid()) {
-      setActiveDate(makingTime.format('YYYY-MM-DD'));
-    }
+    if (!router.isReady || !makingTime.isValid() || initialVideoSearched)
+      return;
+
+    setActiveDate(makingTime.format('YYYY-MM-DD'));
   }, [router.isReady]);
 
   // 최초 로딩 시 activeVideo 설정
   useEffect(() => {
-    if (!storeVideoData || !router.isReady) return;
+    if (
+      !storeVideoData ||
+      !router.isReady ||
+      !makingTime?.isValid() ||
+      initialVideoSearched
+    )
+      return;
+
+    setInitialVideoSearched(true);
 
     const currentVideo = storeVideoData.list.find(video => {
       const start = dayjs(video.record_dt);
@@ -73,6 +87,25 @@ const MonitoringStoreVideos = () => {
 
     if (currentVideo) {
       setActiveVideo(currentVideo);
+    } else {
+      confirmModalStore.openModal({
+        title: '원본 영상 확인',
+        content: <p>조회된 영상 내역이 없습니다.</p>,
+        showCloseButton: false,
+        showCancelButton: false,
+        onFormSubmit: () => {
+          confirmModalStore.isOpen = false;
+          router.back();
+        },
+        onClose: () => {
+          confirmModalStore.isOpen = false;
+          router.back();
+        },
+        onCancel: () => {
+          confirmModalStore.isOpen = false;
+          router.back();
+        },
+      });
     }
   }, [storeVideoData, router.isReady]);
 
@@ -160,7 +193,13 @@ const MonitoringStoreVideos = () => {
                   videoInfo={activeVideo}
                 />
               ) : (
-                <p>영상을 선택해주세요.</p>
+                <Empty>
+                  <b>조회된 영상내역이 없습니다.</b>
+                  <br />
+                  {!makingTime.isValid() && (
+                    <span className="sub">날짜 및 영상을 조회해주세요.</span>
+                  )}
+                </Empty>
               )}
             </div>
           </div>
