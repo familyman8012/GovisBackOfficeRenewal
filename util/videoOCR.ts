@@ -1,9 +1,12 @@
 import dayjs from 'dayjs';
 import { createWorker, createScheduler } from 'tesseract.js';
 
-const newWorker = createWorker('eng');
 const scheduler = createScheduler();
+const newWorker = createWorker('eng');
+const newWorker2 = createWorker('eng');
+
 newWorker.then(worker => scheduler.addWorker(worker));
+newWorker2.then(worker => scheduler.addWorker(worker));
 
 /**
  * 비디오의 currentTime을 수정한 후, 프레임이 변경될 때까지 대기합니다.

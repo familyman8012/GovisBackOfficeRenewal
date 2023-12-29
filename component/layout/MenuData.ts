@@ -124,12 +124,6 @@ export const TotalMenu: MenuType[] = [
         perm_code: 'aistt_state',
         perm_info_idx: 70,
       },
-      {
-        name: '제품 분석',
-        path: '/aistt-analysis',
-        perm_code: '',
-        perm_info_idx: 71,
-      },
       // {
       //   name: '레포트 관리',
       //   path: '/aistt-report',
@@ -141,6 +135,12 @@ export const TotalMenu: MenuType[] = [
         path: '/aistt-monitoring',
         perm_code: '',
         perm_info_idx: 72,
+      },
+      {
+        name: '제품 분석',
+        path: '/aistt-analysis',
+        perm_code: '',
+        perm_info_idx: 71,
       },
       {
         name: 'AISTT 관리',
