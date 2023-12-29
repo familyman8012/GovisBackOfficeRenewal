@@ -102,12 +102,12 @@ const AnalysisStepDescription = ({ description }: Props) => {
                   <StatusBadge status={descriptionObj['전체검사_상태']} />
                 </td>
                 <td className="center">
-                  {descriptionObj['전체검사_점수']
+                  {typeof descriptionObj['전체검사_점수'] !== 'undefined'
                     ? `${descriptionObj['전체검사_점수']}`
                     : '-'}
                 </td>
                 <td className="center">
-                  {descriptionObj['전체검사_감점']
+                  {typeof descriptionObj['전체검사_감점'] !== 'undefined'
                     ? `${descriptionObj['전체검사_감점']}`
                     : '-'}
                 </td>
@@ -131,8 +131,14 @@ const AnalysisStepDescription = ({ description }: Props) => {
                   <td className="center">
                     <StatusBadge status={status} />
                   </td>
-                  <td className="center">{score || '-'}</td>
-                  <td className="center">{subtractScore || '-'}</td>
+                  <td className="center">
+                    {typeof score !== 'undefined' ? `${score}` : '-'}
+                  </td>
+                  <td className="center">
+                    {typeof subtractScore !== 'undefined'
+                      ? `${subtractScore}`
+                      : '-'}
+                  </td>
                   <td style={{ whiteSpace: 'pre-wrap' }}>{data}</td>
                 </tr>
               );
