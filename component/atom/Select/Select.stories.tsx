@@ -51,6 +51,7 @@ const StorySelect: Story<Props> = args => {
           options={options}
           selectedOption={selectedOption}
           setSelectedOption={setSelectedOption}
+          placeholder="전체"
           prefixLabel="전체분류"
         />
 

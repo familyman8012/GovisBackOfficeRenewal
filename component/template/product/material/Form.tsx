@@ -151,8 +151,6 @@ const MaterialForm: React.FC<FormProps> = ({
     SALE_BRAND,
   } = useEnvironments(environment?.list, envKeys);
 
-  console.log('COUNTRY', COUNTRY);
-
   // // 거래처 변환
   const PARTNER = useMemo(
     () =>

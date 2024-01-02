@@ -33,7 +33,6 @@ const StoreSales = ({ params }: { params: QueryParams }) => {
     { enabled: !!params.evi_product_category }
   );
 
-  console.log('rankingData', rankingData);
   return (
     <AreaBoxWrap
       className="areaBox"

@@ -37,8 +37,6 @@ const CategorySales = ({ params }: { params: QueryParams }) => {
   const fontSizeCal =
     categoryData && categoryData?.length > 10 ? '12px' : '14px';
 
-  console.log('data', data);
-
   return (
     <AreaBox
       title="카테고리별 제품 판매 현황"

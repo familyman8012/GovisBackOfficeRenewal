@@ -39,8 +39,6 @@ const DonutChart = ({
     };
   }, []);
 
-  console.log('containerSize', containerSize);
-
   const renderActiveShape = (props: any) => {
     const RADIAN = Math.PI / 180;
     const {
@@ -95,8 +93,6 @@ const DonutChart = ({
       '80점~50점': ex + (cos >= 0 ? 1 : -1) * (11 * scaleX) * 7.8,
       '50점~0점': ex + (cos >= 0 ? 1 : -1) * (11 * scaleX),
     };
-
-    console.log('pros', props);
 
     return (
       <g>

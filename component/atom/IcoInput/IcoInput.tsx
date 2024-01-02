@@ -43,7 +43,7 @@ const InputContainer = styled.div<{ leadingText?: string }>`
 `;
 
 const IconContainer = styled.div`
-  /* width: 100%; */
+  width: 100%;
   height: 4.4rem;
   position: absolute;
   display: flex;
@@ -140,6 +140,7 @@ export const IcoInput: FC<IcoInputProps> = ({
         <IconContainer>
           {LeadingIcon ? (
             <LeadingIcon.type
+              className="trailingIcon"
               style={{
                 color: theme.colors.gray500,
               }}

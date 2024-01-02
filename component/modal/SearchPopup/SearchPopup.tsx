@@ -99,8 +99,6 @@ const SearchPopup = <T extends ICommonResultData>({
       []
     );
 
-    console.log('combineItems', combineItems);
-
     setSelectItems(combineItems);
     setFilters({ search_target: filters.search_target });
     setKeyword({
