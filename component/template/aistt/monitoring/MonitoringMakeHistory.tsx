@@ -100,14 +100,19 @@ const MonitoringMakeHistory = ({
   const ref = React.useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (active && ref.current) {
+    if (
+      active &&
+      ref.current &&
+      !ref.current?.previousElementSibling?.classList.contains('active')
+    ) {
       ref.current?.scrollIntoView({
         behavior: 'smooth',
-        block: 'start',
-        inline: 'start',
+        block: 'center',
+        inline: 'nearest',
       });
     }
   }, [active]);
+
   return (
     <MakeHistoryStyle
       ref={ref}

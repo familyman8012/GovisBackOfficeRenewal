@@ -124,7 +124,6 @@ const VideoTimeDiffCalculator = ({ videoSrc, debug, onLoaded }: Props) => {
         controls
         crossOrigin="anonymous"
       />
-
       <canvas ref={canvasRef} />
     </VideoTimeDiffWrap>
   );
