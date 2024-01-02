@@ -26,7 +26,7 @@ const VideoTimeDiffWrap = styled.div`
   opacity: 0;
 `;
 
-const FRAME_COUNT = 5 as const;
+const FRAME_COUNT = 6 as const;
 
 async function* frameAsyncIterable(
   totalDuration: number,
@@ -78,8 +78,6 @@ const VideoTimeDiffCalculator = ({ videoSrc, onLoaded }: Props) => {
       video,
       canvas
     );
-
-    frameList.sort((a, b) => a.time - b.time);
 
     const timeDiffInfoList = await Promise.all(
       frameList.map(async data => {

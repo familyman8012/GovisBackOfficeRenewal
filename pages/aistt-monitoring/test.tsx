@@ -12,7 +12,7 @@ const VideoTimeDiffCalculator = dynamic(
 );
 
 const src =
-  'https://govis-ai.s3.ap-northeast-2.amazonaws.com/cctv/2023/12/27/cctv_13_20231227110000_20231227120000.mp4';
+  'https://dev-govis-ai.s3.ap-northeast-2.amazonaws.com/cctv/2024/01/01/cctv_11_20240101111041_20240101120000_dev.mp4';
 
 const MonitoringPageWrap = styled.div`
   button {
@@ -102,6 +102,7 @@ const AisttMonitoringPage = () => {
   return (
     <MonitoringPageWrap>
       <h1>Aistt Monitoring</h1>
+      {JSON.stringify(data)}
       <VideoTimeDiffCalculator
         videoSrc={src}
         onLoaded={loadData => {
