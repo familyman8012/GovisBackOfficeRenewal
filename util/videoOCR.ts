@@ -15,9 +15,8 @@ newWorker2.then(worker => scheduler.addWorker(worker));
  */
 const waitChangeFrame = (video: HTMLVideoElement) =>
   new Promise((resolve, reject) => {
-    video.onloadeddata = resolve;
-    video.onseeked = resolve;
-    video.onended = resolve;
+    video.onseeked = () => requestAnimationFrame(resolve);
+    video.onended = () => requestAnimationFrame(resolve);
     video.onerror = reject;
   });
 

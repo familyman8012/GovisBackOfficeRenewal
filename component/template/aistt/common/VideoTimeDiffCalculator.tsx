@@ -32,6 +32,7 @@ const VideoTimeDiffWrap = styled.div`
     width: 640px;
     height: auto;
     opacity: 1;
+    z-index: auto !important;
   }
 `;
 
@@ -90,18 +91,18 @@ const VideoTimeDiffCalculator = ({ videoSrc, debug, onLoaded }: Props) => {
 
     const timeDiffInfoList = await Promise.all(
       frameList.map(async data => {
-        const timeText = await getTimeWithOCR(
+        const timeSecond = await getTimeWithOCR(
           data?.dataURL ?? '',
           data.time,
           video.duration
         );
 
-        if (typeof timeText !== 'number') return null;
+        if (typeof timeSecond !== 'number') return null;
 
         return {
           time: data.time,
-          videoTime: Number(timeText),
-          diff: Number(timeText) - data.time,
+          videoTime: timeSecond,
+          diff: timeSecond - data.time,
         };
       })
     ).catch(error => console.error(error));
