@@ -39,7 +39,8 @@ function thresholdFilter(pixels: Uint8ClampedArray, level = 0.5) {
 }
 
 /**
- * 특정 시간에 있는 비디오 프레임을 가져와서 OCR을 수행하여 시간을 추출합니다.
+ * 특정 시간에 있는 비디오 프레임을 캔버스에 그린 후, 배경을 제거합니다.
+ * 배경이 제거된 캔버스 이미지의 데이터 URL을 반환합니다.
  * @param time - 시간(초)입니다.
  * @param video - HTMLVideoElement입니다.
  * @param canvas - HTMLCanvasElement입니다.
@@ -86,12 +87,16 @@ export const getVideoFrame = async (
  * @param dataURL - 이미지 데이터 URL입니다.
  * @returns 시간(초)입니다. 시간 형식이 잘못되었거나 인식할 수 없는 경우 null입니다.
  */
-export const getTimeWithOCR = async (dataURL: string) => {
+export const getTimeWithOCR = async (dataURL: string, time: number) => {
   const ret = await scheduler.addJob('recognize', dataURL);
   const timeText = ret.data?.text?.trim() ?? '';
 
   const ocrDate = dayjs(`1970-01-01 ${timeText}`);
-  const timeSecond = ocrDate.minute() * 60 + ocrDate.second();
+  // 시간이 다음시간 0분인 경우, 1시간을 더해줍니다.
+  const timeSecond =
+    time > 3000 && ocrDate.minute() === 0
+      ? 3600 + (ocrDate.minute() * 60 + ocrDate.second())
+      : ocrDate.minute() * 60 + ocrDate.second();
 
   // Return null if the time format is not in HH:mm:ss or cannot be parsed as a valid date
   if (!/\d{2}:\d{2}:\d{2}/.test(timeText) || Number.isNaN(timeSecond))

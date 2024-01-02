@@ -89,7 +89,7 @@ const VideoTimeDiffCalculator = ({ videoSrc, onLoaded }: Props) => {
             diff: 0,
           };
 
-        const timeText = await getTimeWithOCR(data?.dataURL ?? '');
+        const timeText = await getTimeWithOCR(data?.dataURL ?? '', data.time);
 
         if (!timeText) return null;
 
