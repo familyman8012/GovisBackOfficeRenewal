@@ -42,11 +42,9 @@ const config: StorybookConfig = {
 
     // .ts, .tsx 확장자 지원 추가
     config.resolve.extensions.push('.ts', '.tsx');
-    config.output.publicPath = '/storybook/';
 
     return config;
   },
-
   framework: {
     name: '@storybook/nextjs',
     options: {},
