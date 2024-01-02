@@ -10,7 +10,7 @@ import type { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
 import { ReactQueryDevtools } from 'react-query/devtools';
 import { NextPage } from 'next';
-import { QueryClient, QueryClientProvider } from 'react-query';
+import { QueryCache, QueryClient, QueryClientProvider } from 'react-query';
 import { ToastContainer } from 'react-toastify';
 import { Global } from '@emotion/react';
 import 'react-toastify/dist/ReactToastify.css';
@@ -87,10 +87,6 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
       new QueryClient({
         defaultOptions: {
           queries: {
-            onError: (error: unknown) => {
-              const { code, message } = error as ServerError;
-              errorHandler(code, message);
-            },
             refetchOnWindowFocus: false,
             retry: false,
           },
@@ -102,6 +98,12 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
             },
           },
         },
+        queryCache: new QueryCache({
+          onError: (error: unknown) => {
+            const { code, message } = error as ServerError;
+            errorHandler(code, message);
+          },
+        }),
       }),
     []
   );

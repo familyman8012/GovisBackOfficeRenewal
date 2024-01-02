@@ -28,7 +28,9 @@ export const errorHandler = (code: string, message?: string) => {
   const errorMsg = getExceptionMessage(code, message);
 
   if (Number(code) >= 8000 && Number(code) < 9000) {
-    toast.error(errorMsg);
+    toast.error(errorMsg, {
+      toastId: code,
+    });
 
     if (code === '8001' || code === '8999') {
       authStore.logOut();
@@ -38,6 +40,8 @@ export const errorHandler = (code: string, message?: string) => {
       router.replace('/');
     }
   } else {
-    toast.error(`요청 처리에 실패하였습니다. (Error Code: ${code})`);
+    toast.error(`요청 처리에 실패하였습니다. (Error Code: ${code})`, {
+      toastId: code,
+    });
   }
 };
