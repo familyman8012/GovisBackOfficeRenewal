@@ -13,6 +13,7 @@ export type VideoTimeDiff = {
 
 interface Props {
   videoSrc?: string;
+  debug?: boolean;
   onLoaded: (data: VideoTimeDiff[]) => void;
 }
 
@@ -24,6 +25,14 @@ const VideoTimeDiffWrap = styled.div`
   overflow: hidden;
   z-index: -1;
   opacity: 0;
+
+  &.debug {
+    position: relative;
+    pointer-events: auto;
+    width: 640px;
+    height: auto;
+    opacity: 1;
+  }
 `;
 
 const FRAME_COUNT = 6 as const;
@@ -59,7 +68,7 @@ const getFrameListByDuration = async (
   return arr;
 };
 
-const VideoTimeDiffCalculator = ({ videoSrc, onLoaded }: Props) => {
+const VideoTimeDiffCalculator = ({ videoSrc, debug, onLoaded }: Props) => {
   const ref = React.useRef<HTMLVideoElement>(null);
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
 
@@ -87,7 +96,7 @@ const VideoTimeDiffCalculator = ({ videoSrc, onLoaded }: Props) => {
           video.duration
         );
 
-        if (!timeText) return null;
+        if (typeof timeText !== 'number') return null;
 
         return {
           time: data.time,
@@ -103,7 +112,7 @@ const VideoTimeDiffCalculator = ({ videoSrc, onLoaded }: Props) => {
   }, [onLoaded]);
 
   return (
-    <VideoTimeDiffWrap>
+    <VideoTimeDiffWrap className={debug ? 'debug' : ''}>
       <video
         ref={ref}
         src={videoSrc}
