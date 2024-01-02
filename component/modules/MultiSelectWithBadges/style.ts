@@ -21,12 +21,17 @@ export const ReactMultiSelectWrap = styled.div`
     position: relative;
   }
   .react-select__control:not(.react-select__control--menu-is-open)
-    .react-select__value-container--has-value:before {
-    position: absolute;
+    .react-select__value-container--has-value {
+    &:before {
+      position: absolute;
 
-    left: 1rem;
-    content: 'Select...';
-    color: hsl(0, 0%, 50%);
+      left: 1rem;
+      content: 'Select...';
+      color: hsl(0, 0%, 50%);
+    }
+    .react-select__multi-value {
+      display: none;
+    }
   }
   .react-select__clear-indicator {
     display: none;

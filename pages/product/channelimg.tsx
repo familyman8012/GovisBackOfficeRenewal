@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { css } from '@emotion/react';
@@ -48,6 +47,10 @@ const pageStyle = css`
         width: 5.6rem;
         height: 5.6rem;
         margin: 0 auto;
+
+        img {
+          width: 100%;
+        }
       }
     }
 
@@ -241,13 +244,12 @@ const Channelimg = () => {
                 <tr key={el.evi_sale_channel}>
                   <td>
                     <span className="thumb">
-                      <Image
+                      <img
                         src={
                           el.product_image === ''
                             ? '/images/product/manage/channel/thumb_default.svg'
                             : el.product_image
                         }
-                        fill
                         alt="기본 이미지"
                       />
                     </span>

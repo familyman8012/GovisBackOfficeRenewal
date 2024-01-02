@@ -55,30 +55,30 @@ export const TotalMenu: MenuType[] = [
       },
     ],
   },
-  {
-    depth1: '제품 실적',
-    group: 'HeadOffice',
-    depth2: [
-      {
-        name: '주 제품 판매 현황',
-        path: '/product/main',
-        perm_code: 'order_menu',
-        perm_info_idx: 16,
-      },
-      {
-        name: '제품 그룹 현황',
-        path: '/product/group',
-        perm_code: 'order_product',
-        perm_info_idx: 17,
-      },
-      {
-        name: '주문 제품 구성 현황',
-        path: '/product/combo',
-        perm_code: 'order_menu_detail',
-        perm_info_idx: 18,
-      },
-    ],
-  },
+  // {
+  //   depth1: '제품 실적',
+  //   group: 'HeadOffice',
+  //   depth2: [
+  //     {
+  //       name: '주 제품 판매 현황',
+  //       path: '/product/main',
+  //       perm_code: 'order_menu',
+  //       perm_info_idx: 16,
+  //     },
+  //     {
+  //       name: '제품 그룹 현황',
+  //       path: '/product/group',
+  //       perm_code: 'order_product',
+  //       perm_info_idx: 17,
+  //     },
+  //     {
+  //       name: '주문 제품 구성 현황',
+  //       path: '/product/combo',
+  //       perm_code: 'order_menu_detail',
+  //       perm_info_idx: 18,
+  //     },
+  //   ],
+  // },
   {
     depth1: '제품 관리',
     group: 'HeadOffice',
@@ -443,4 +443,5 @@ export const Goivs2Menu = [
   '/menu/link',
   '/menu/link-history',
   '/demo',
+  '/storybook',
 ];

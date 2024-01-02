@@ -19,6 +19,9 @@ const Column = styled.ol`
 
   li {
     margin-bottom: 2.4rem;
+    &:last-of-type {
+      margin-bottom: 0;
+    }
   }
 `;
 
