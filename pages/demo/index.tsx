@@ -126,8 +126,6 @@ const Index = () => {
 
     const salesStats = calculateSalesStats();
 
-    console.log('salesStats', salesStats);
-
     // 상위 5개 판매 항목 추출
 
     const topItems = Object.entries(salesStats)

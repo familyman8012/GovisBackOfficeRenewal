@@ -44,17 +44,19 @@ const buttons: ButtonVariant[] = [
   'secondary',
   'gostPrimary',
   'gostSecondary',
-  'selectItem',
-  'selectItem_on',
 ];
 
 const StoryButton: Story<Props> = args => {
   return (
     <StoryLayout
       {...args}
-      customCss={css`
-        button {
-          margin-bottom: 20px;
+      css={css`
+        .box_btn_line {
+          display: flex;
+          margin: 30px 0;
+          button {
+            margin-right: 5px;
+          }
         }
       `}
     >
@@ -86,16 +88,11 @@ const StoryButton: Story<Props> = args => {
       <Button variant="selectItem_on" disabled TrailingIcon={<BtnDelete />}>
         Exception
       </Button>
+      <Button {...args} IconOnly={<FiArrowRight />} />
+
       {buttons.map(el => (
         <div key={el}>
-          <div
-            css={css`
-              display: flex;
-              button {
-                margin-right: 5px;
-              }
-            `}
-          >
+          <div className="box_btn_line">
             <Button {...args} variant={el}>
               Button default
             </Button>
@@ -106,14 +103,7 @@ const StoryButton: Story<Props> = args => {
               Button default
             </Button>
           </div>
-          <div
-            css={css`
-              display: flex;
-              button {
-                margin-right: 5px;
-              }
-            `}
-          >
+          <div className="box_btn_line">
             <Button {...args} variant={el} disabled>
               Button default
             </Button>
@@ -124,14 +114,7 @@ const StoryButton: Story<Props> = args => {
               Button default
             </Button>
           </div>
-          <div
-            css={css`
-              display: flex;
-              button {
-                margin-right: 5px;
-              }
-            `}
-          >
+          <div className="box_btn_line">
             {/* sizeLg */}
             <Button {...args} variant={el} size="lg">
               Button default
@@ -143,14 +126,7 @@ const StoryButton: Story<Props> = args => {
               Button default
             </Button>
           </div>{' '}
-          <div
-            css={css`
-              display: flex;
-              button {
-                margin-right: 5px;
-              }
-            `}
-          >
+          <div className="box_btn_line">
             {/* disabled */}
             <Button {...args} variant={el} size="lg" disabled>
               Button default
@@ -176,8 +152,6 @@ const StoryButton: Story<Props> = args => {
           </div>
         </div>
       ))}
-
-      <Button {...args} IconOnly={<FiArrowRight />} />
     </StoryLayout>
   );
 };

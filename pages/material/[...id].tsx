@@ -52,8 +52,6 @@ const ProductDetail = () => {
     { enabled: !!materialPatnerParams }
   );
 
-  console.log('materialPatner', materialPatner);
-
   // 등록일때, 데이터 저장
   const saveSubmit = useMutation(fetchMaterialFormSave, {
     onSuccess: data => {

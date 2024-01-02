@@ -109,8 +109,6 @@ const Channelimg = () => {
     }
   );
 
-  console.log('ChannelImg', ChannelImg);
-
   const saveSubmit = useMutation(fetchChannelImgSave, {
     onSuccess: (data: any) => {
       queryClient.invalidateQueries(['channelImgList']);
@@ -167,7 +165,6 @@ const Channelimg = () => {
     channel_code: string,
     channel_idx: number
   ) => {
-    console.log('channel_code', channel_code, 'environment', environment);
     if (isUploading) return;
     setCurrentChannel({ channel_code, channel_idx });
     const input = document.createElement('input');

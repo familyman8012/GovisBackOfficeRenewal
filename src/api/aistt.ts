@@ -150,7 +150,6 @@ export const fetchStoreManufacturingState = async (params?: IAisttStateReq) => {
 };
 
 export const fetchPizzaStatus = async (params?: IAisttStateReq) => {
-  console.log('fetchPizzaStatus params', params);
   const response = await BoV2Request.get<IResponse<IPizzaStatusRes>>(
     `/aifqs/quality/pizza-status`,
     {

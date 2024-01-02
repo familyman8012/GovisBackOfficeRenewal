@@ -22,7 +22,6 @@ export const StoreManufacturingTable = ({
     () => fetchStoreManufacturingState(params as IAisttStateReq)
   );
 
-  console.log('data', data);
   return (
     <TableSty1
       css={css`
