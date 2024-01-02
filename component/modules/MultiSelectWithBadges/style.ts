@@ -25,7 +25,7 @@ export const ReactMultiSelectWrap = styled.div`
     position: absolute;
 
     left: 1rem;
-    content: 'Select...';
+    /* content: 'Select...'; */
     color: hsl(0, 0%, 50%);
   }
   .react-select__clear-indicator {
