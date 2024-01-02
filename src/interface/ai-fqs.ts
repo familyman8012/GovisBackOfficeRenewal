@@ -40,6 +40,7 @@ export interface IFqsInspectionInfo {
     conversion_score: number;
     improvement_label?: string;
     decrease_label?: string;
+    ground_truth_image_url?: string;
   }[];
 }
 
@@ -85,6 +86,7 @@ export interface IFqsStoreDeviceListResponse {
     camera_enabled: number;
     camera_total: number;
     is_use_stt: number;
+    cctv_video_count: number;
   }[];
 }
 
@@ -187,3 +189,34 @@ export type FqsStoreInfoParams = Partial<
   store_idx: number | string;
   info: Omit<IFqsStoreInfoResponse['info'], 'store_name'>;
 };
+
+export interface IFqsMonitoringVideoInfo {
+  record_date: string;
+  record_count: number;
+  video_length_sum: number;
+  store_stt_cctv_idx: number;
+  record_dt: string;
+  record_finish_dt: string;
+  video_length: number;
+  cctv_video_url: string;
+  cctv_video_name: string;
+}
+
+export interface IFqsMonitoringMakeHistory {
+  inspection_info_idx: number;
+  store_idx: number;
+  store_name: string;
+  video_info_idx: number;
+  inspection_image_url: string;
+  product_info_idx: number;
+  product_info_name: string;
+  analysis_object_idx: number;
+  total_score: number;
+  converted_score: number;
+  good_count: number;
+  average_count: number;
+  poor_count: number;
+  manufacture_dt: string;
+  manufacture_since_time: number;
+  is_re_requests: number;
+}

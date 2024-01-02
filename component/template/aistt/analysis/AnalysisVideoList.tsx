@@ -11,9 +11,14 @@ import { VideoListStyle } from './style';
 type VideoListProps = {
   loading?: boolean;
   list: IFqsInspectionListResponse['list'];
+  onItemSelect?: (item: IFqsInspectionListResponse['list'][0]) => void;
 };
 
-const AnalysisVideoList: React.FC<VideoListProps> = ({ loading, list }) => {
+const AnalysisVideoList: React.FC<VideoListProps> = ({
+  loading,
+  list,
+  onItemSelect,
+}) => {
   const router = useRouter();
 
   if (loading) {
@@ -28,10 +33,12 @@ const AnalysisVideoList: React.FC<VideoListProps> = ({ loading, list }) => {
           <button
             type="button"
             onClick={() =>
-              router.push({
-                pathname: `/aistt-analysis/view/${item.inspection_info_idx}`,
-                search: router.asPath.split('?')?.[1] ?? '',
-              })
+              onItemSelect
+                ? onItemSelect(item)
+                : router.push({
+                    pathname: `/aistt-analysis/view/${item.inspection_info_idx}`,
+                    search: router.asPath.split('?')?.[1] ?? '',
+                  })
             }
           >
             <div className="img-wrap">

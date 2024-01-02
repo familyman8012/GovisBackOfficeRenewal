@@ -6,6 +6,7 @@ export const DevicePageStyle = styled.div`
   padding-top: 3.2rem;
   margin: 0 -3.2rem -3.2rem;
   padding: 0 3.2rem 3.2rem;
+  min-height: calc(100vh - 13.4rem);
 
   &.bg-gray {
     background-color: var(--color-blue_gray10);

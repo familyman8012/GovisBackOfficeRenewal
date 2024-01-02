@@ -124,12 +124,6 @@ export const TotalMenu: MenuType[] = [
         perm_code: 'aistt_state',
         perm_info_idx: 70,
       },
-      {
-        name: '제품 분석',
-        path: '/aistt-analysis',
-        perm_code: '',
-        perm_info_idx: 71,
-      },
       // {
       //   name: '레포트 관리',
       //   path: '/aistt-report',
@@ -138,6 +132,18 @@ export const TotalMenu: MenuType[] = [
       // },
       {
         name: '매장 모니터링',
+        path: '/aistt-monitoring',
+        perm_code: '',
+        perm_info_idx: 72,
+      },
+      {
+        name: '제품 분석',
+        path: '/aistt-analysis',
+        perm_code: '',
+        perm_info_idx: 71,
+      },
+      {
+        name: 'AISTT 관리',
         path: '/aistt-device',
         perm_code: 'aistt_device',
         perm_info_idx: 72,
@@ -439,6 +445,7 @@ export const Goivs2Menu = [
   '/aistt-device',
   '/aistt-state',
   '/aistt-report',
+  '/aistt-monitoring',
   '/aistt-tmp',
   '/menu/link',
   '/menu/link-history',

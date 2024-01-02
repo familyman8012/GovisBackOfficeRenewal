@@ -1,8 +1,6 @@
-import { useMemo } from 'react';
 import { useRouter } from 'next/router';
 import { IFqsStoreDeviceListResponse } from '@InterfaceFarm/ai-fqs';
 import { Badge } from '@ComponentFarm/atom/Badge/Badge';
-import { Button } from '@ComponentFarm/atom/Button/Button';
 import Empty from '@ComponentFarm/atom/Empty/Empty';
 import SkeletonTh from '@ComponentFarm/atom/Skeleton/SkeletonTh';
 import ToggleSort from '@ComponentFarm/atom/Sort/ToggleSort';
@@ -20,30 +18,27 @@ interface Props {
 const sortItems = [
   { id: 1, label: '매장 번호', sort: '' },
   { id: 2, label: '매장명', sort: 'store_name' },
-  { id: 3, label: '도입 상태', sort: 'is_use_stt', align: 'center' },
-  { id: 4, label: '프로그램 상태', sort: 'program_status', align: 'center' },
-  { id: 5, label: '활성 카메라 수', sort: 'camera_enabled', align: 'center' },
-  { id: 6, label: '총 카메라 수', sort: 'camera_total', align: 'center' },
-  { id: 7, label: '', sort: '' },
+  {
+    id: 3,
+    label: 'TABLE 카메라 상태',
+    sort: 'program_status',
+    align: 'center',
+  },
+  { id: 4, label: '영상 수', sort: '', align: 'center' },
 ];
 
-const DeviceStoreList = ({ loading, list, updateParams }: Props) => {
+const MonitoringStoreList = ({ loading, list, updateParams }: Props) => {
   const router = useRouter();
   const { sortState, toggleSort } = useSortable(updateParams);
-
-  const search = useMemo(() => router.asPath.split('?')[1], [router]);
 
   return (
     <TableWrap className="">
       <Table className="basic">
         <colgroup>
           <col width={getTableWidthPercentage(140)} />
-          <col width={getTableWidthPercentage(450)} />
-          <col width={getTableWidthPercentage(150)} />
-          <col width={getTableWidthPercentage(150)} />
-          <col width={getTableWidthPercentage(210)} />
-          <col width={getTableWidthPercentage(210)} />
-          <col width={getTableWidthPercentage(250)} />
+          <col width={getTableWidthPercentage(516)} />
+          <col width={getTableWidthPercentage(395)} />
+          <col width={getTableWidthPercentage(485)} />
         </colgroup>
         <thead>
           <tr>
@@ -63,10 +58,10 @@ const DeviceStoreList = ({ loading, list, updateParams }: Props) => {
         </thead>
         <tbody>
           {loading ? (
-            <SkeletonTh colLength={7} rowLength={10} />
+            <SkeletonTh colLength={4} rowLength={10} />
           ) : !loading && list.length === 0 ? (
             <tr>
-              <td colSpan={7}>
+              <td colSpan={4}>
                 <Empty>데이터가 없습니다.</Empty>
               </td>
             </tr>
@@ -76,22 +71,12 @@ const DeviceStoreList = ({ loading, list, updateParams }: Props) => {
                 key={item.store_idx}
                 onClick={() =>
                   router.push({
-                    pathname: `/aistt-device/view/${item.store_idx}`,
-                    search,
+                    pathname: `/aistt-monitoring/${item.store_idx}`,
                   })
                 }
               >
                 <td className="code">{item.store_idx}</td>
                 <td>{item.store_name}</td>
-
-                <td className="center">
-                  <Badge
-                    color={item.is_use_stt === 0 ? 'red' : 'green'}
-                    size="sm"
-                  >
-                    {item.is_use_stt === 0 ? '미사용' : '사용'}
-                  </Badge>
-                </td>
                 <td className="center">
                   <Badge
                     dot
@@ -101,11 +86,7 @@ const DeviceStoreList = ({ loading, list, updateParams }: Props) => {
                     {item.program_status === 0 ? 'OFF' : 'ON'}
                   </Badge>
                 </td>
-                <td className="center">{item.camera_enabled}</td>
-                <td className="center">{item.camera_total}</td>
-                <td className="center">
-                  <Button variant="gostSecondary">기기 정보 관리</Button>
-                </td>
+                <td className="center">{item.cctv_video_count}</td>
               </tr>
             ))
           )}
@@ -115,4 +96,4 @@ const DeviceStoreList = ({ loading, list, updateParams }: Props) => {
   );
 };
 
-export default DeviceStoreList;
+export default MonitoringStoreList;

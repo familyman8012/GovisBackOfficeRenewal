@@ -21,10 +21,12 @@ export const MenuOptionListStyle = styled.section`
       padding: 3.2rem;
       width: calc(100% - 30rem);
       border-left: 1px solid var(--color-neutral90);
+      min-height: 46.6rem;
     }
   }
 
   .side {
+    position: relative;
     flex: none;
     width: 30rem;
     padding: 1.6rem;
@@ -40,6 +42,18 @@ export const MenuOptionListStyle = styled.section`
   .list {
     border-bottom: 1px solid var(--color-neutral90);
     padding-bottom: 1.2rem;
+
+    &.abs {
+      padding: inherit;
+      margin-bottom: 1.2rem;
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      top: 0;
+      left: 0;
+      width: 100%;
+      border-bottom: 0;
+    }
   }
 `;
 
@@ -190,6 +204,14 @@ export const MenuOptionGroupStyle = styled.div`
     white-space: nowrap;
     box-sizing: border-box;
     border: 1px solid var(--color-grayborder);
+    align-items: baseline;
+
+    .sub {
+      margin-left: 0.8rem;
+      color: var(--color-neutral50);
+      font-size: 0.8em;
+      vertical-align: baseline;
+    }
 
     &.active {
       background-color: ${Button.ghostPrimaryHoverBg};
@@ -202,6 +224,14 @@ export const MenuOptionGroupStyle = styled.div`
 
     & + .option {
       margin-top: 1.2rem;
+    }
+
+    &:first-of-type {
+      margin-top: 1.2rem;
+    }
+
+    &:last-of-type {
+      margin-bottom: 1.2rem;
     }
   }
 
@@ -220,6 +250,7 @@ export const MenuOptionGroupStyle = styled.div`
 
   .content {
     overflow: hidden;
+    box-sizing: border-box;
   }
 
   .add-button {
