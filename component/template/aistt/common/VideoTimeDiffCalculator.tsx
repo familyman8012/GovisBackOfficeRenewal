@@ -26,7 +26,7 @@ const VideoTimeDiffWrap = styled.div`
   opacity: 0;
 `;
 
-const FRAME_COUNT = 6 as const;
+const FRAME_COUNT = 5 as const;
 
 async function* frameAsyncIterable(
   totalDuration: number,
@@ -34,13 +34,13 @@ async function* frameAsyncIterable(
   canvas: HTMLCanvasElement
 ) {
   const cycle = totalDuration / FRAME_COUNT;
-  let i = 0;
+  let i = FRAME_COUNT;
 
-  while (i <= FRAME_COUNT) {
+  while (i >= 0) {
     // eslint-disable-next-line no-await-in-loop
     const dataURL = await getVideoFrame(cycle * i, video, canvas);
     yield { time: Math.min(cycle * i, totalDuration), dataURL };
-    i += 1;
+    i -= 1;
   }
 }
 
@@ -79,17 +79,15 @@ const VideoTimeDiffCalculator = ({ videoSrc, onLoaded }: Props) => {
       canvas
     );
 
+    frameList.sort((a, b) => a.time - b.time);
+
     const timeDiffInfoList = await Promise.all(
       frameList.map(async data => {
-        // 0초의 오차는 없음
-        if (data.time === 0)
-          return {
-            time: data.time,
-            videoTime: 0,
-            diff: 0,
-          };
-
-        const timeText = await getTimeWithOCR(data?.dataURL ?? '', data.time);
+        const timeText = await getTimeWithOCR(
+          data?.dataURL ?? '',
+          data.time,
+          video.duration
+        );
 
         if (!timeText) return null;
 

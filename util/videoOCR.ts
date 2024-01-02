@@ -15,8 +15,9 @@ newWorker2.then(worker => scheduler.addWorker(worker));
  */
 const waitChangeFrame = (video: HTMLVideoElement) =>
   new Promise((resolve, reject) => {
-    video.onended = resolve;
+    video.onloadeddata = resolve;
     video.onseeked = resolve;
+    video.onended = resolve;
     video.onerror = reject;
   });
 
@@ -87,14 +88,18 @@ export const getVideoFrame = async (
  * @param dataURL - 이미지 데이터 URL입니다.
  * @returns 시간(초)입니다. 시간 형식이 잘못되었거나 인식할 수 없는 경우 null입니다.
  */
-export const getTimeWithOCR = async (dataURL: string, time: number) => {
+export const getTimeWithOCR = async (
+  dataURL: string,
+  time: number,
+  duration: number
+) => {
   const ret = await scheduler.addJob('recognize', dataURL);
   const timeText = ret.data?.text?.trim() ?? '';
 
   const ocrDate = dayjs(`1970-01-01 ${timeText}`);
   // 시간이 다음시간 0분인 경우, 1시간을 더해줍니다.
   const timeSecond =
-    time > 3000 && ocrDate.minute() === 0
+    time + 15 >= duration && ocrDate.minute() === 0
       ? 3600 + (ocrDate.minute() * 60 + ocrDate.second())
       : ocrDate.minute() * 60 + ocrDate.second();
 
