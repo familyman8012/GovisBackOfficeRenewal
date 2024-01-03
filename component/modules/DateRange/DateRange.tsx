@@ -91,12 +91,10 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
 
       // 종료일이 설정되어 있고, 시작일이 종료일로부터 1년 이내인지 확인
       if (endDate) {
-        const oneYearAfterStartDate = new Date(startDate);
-        oneYearAfterStartDate.setFullYear(
-          oneYearAfterStartDate.getFullYear() + 1
-        );
+        const oneMonthAfterStartDate = new Date(startDate);
+        oneMonthAfterStartDate.setMonth(oneMonthAfterStartDate.getMonth() + 1); // 변경된 부분
 
-        if (endDate > oneYearAfterStartDate) {
+        if (endDate > oneMonthAfterStartDate) {
           setEndDateInput('');
           setDateRange([startDate, null]);
           onDateRangeChange([startDate, null]);
@@ -119,11 +117,11 @@ const DateRangePicker: React.FC<DateRangePickerProps> = ({
 
       // 시작일이 설정되어 있고, 종료일이 시작일로부터 1년 이내인지 확인
       if (startDate && endDate) {
-        const oneYearLater = new Date(startDate);
-        oneYearLater.setFullYear(oneYearLater.getFullYear() + 1);
+        const oneMonthLater = new Date(startDate);
+        oneMonthLater.setMonth(oneMonthLater.getMonth() + 1);
 
-        if (endDate > oneYearLater) {
-          alert('종료일은 시작일로부터 최대 1년 이내로 설정해야 합니다.');
+        if (endDate > oneMonthLater) {
+          alert('종료일은 시작일로부터 최대 1개월 이내로 설정해야 합니다.');
           setEndDateInput('');
 
           return; // 조건을 충족하지 않으면 업데이트 중단
