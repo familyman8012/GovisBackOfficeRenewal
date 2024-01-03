@@ -106,7 +106,8 @@ export const DiffDateRanger = ({
   const calculateMaxEndDate = (startDate: Date | null) => {
     if (!startDate) return null;
     const newMaxDate = new Date(startDate);
-    newMaxDate.setFullYear(newMaxDate.getFullYear() + 1);
+    // newMaxDate.setFullYear(newMaxDate.getFullYear() + 1);
+    newMaxDate.setMonth(newMaxDate.getMonth() + 1);
     return newMaxDate;
   };
 
