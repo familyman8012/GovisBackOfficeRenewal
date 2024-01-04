@@ -9,7 +9,6 @@ import { IFqsInspectionInfo } from '@InterfaceFarm/ai-fqs';
 import { Badge } from '@ComponentFarm/atom/Badge/Badge';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import Empty from '@ComponentFarm/atom/Empty/Empty';
-import DataFilled from '@ComponentFarm/atom/icons/DataFilled';
 import Info from '@ComponentFarm/atom/icons/Info';
 import Pic from '@ComponentFarm/atom/icons/Pic';
 import Tooltip from '@ComponentFarm/atom/Tooltip/Tooltip';
@@ -317,9 +316,13 @@ const AnalysisView = ({
                     content={
                       <FqsAnalysisDataStyle>
                         <ul>
-                          <li>
+                          <li
+                            className={
+                              !item.ground_truth_image_url ? 'hide-line' : ''
+                            }
+                          >
                             <span className="ico">
-                              <DataFilled />
+                              <Pic />
                             </span>
                             <div className="cont">
                               <div className="inspection-img">
@@ -332,23 +335,25 @@ const AnalysisView = ({
                               </div>
                             </div>
                           </li>
-                          <li className="hide-line">
-                            <span className="ico">
-                              <Pic />
-                            </span>
-                            <div className="cont">
-                              <div className="inspection-img">
-                                <h3>레시피 표준 이미지</h3>
-                                {item.ground_truth_image_url && (
-                                  <img
-                                    src={item.ground_truth_image_url}
-                                    alt=""
-                                    width="100%"
-                                  />
-                                )}
+                          {item.ground_truth_image_url && (
+                            <li className="hide-line">
+                              <span className="ico">
+                                <Pic />
+                              </span>
+                              <div className="cont">
+                                <div className="inspection-img">
+                                  <h3>레시피 표준 이미지</h3>
+                                  {item.ground_truth_image_url && (
+                                    <img
+                                      src={item.ground_truth_image_url}
+                                      alt=""
+                                      width="100%"
+                                    />
+                                  )}
+                                </div>
                               </div>
-                            </div>
-                          </li>
+                            </li>
+                          )}
                         </ul>
                         <ul>
                           <li className="hide-line">
