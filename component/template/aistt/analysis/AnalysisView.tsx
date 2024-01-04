@@ -343,13 +343,11 @@ const AnalysisView = ({
                               <div className="cont">
                                 <div className="inspection-img">
                                   <h3>레시피 표준 이미지</h3>
-                                  {item.ground_truth_image_url && (
-                                    <img
-                                      src={item.ground_truth_image_url}
-                                      alt=""
-                                      width="100%"
-                                    />
-                                  )}
+                                  <img
+                                    src={item.ground_truth_image_url}
+                                    alt=""
+                                    width="100%"
+                                  />
                                 </div>
                               </div>
                             </li>
