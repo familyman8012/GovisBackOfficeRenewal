@@ -289,8 +289,8 @@ const AnalysisView = ({
                 <col width={getTableWidthPercentage(100)} />
                 <col width={getTableWidthPercentage(160)} />
                 <col width={getTableWidthPercentage(150)} />
-                <col width={getTableWidthPercentage(840)} />
-                <col width={getTableWidthPercentage(120)} />
+                <col width={getTableWidthPercentage(740)} />
+                <col width={getTableWidthPercentage(220)} />
               </colgroup>
               <thead>
                 <tr>
@@ -299,7 +299,7 @@ const AnalysisView = ({
                   <th>구간 종류</th>
                   <th>구간 이미지</th>
                   <th className="center">구간 시작 및 종료</th>
-                  <th>레시피 단계별 점수</th>
+                  <th className="center">레시피 단계별 점수</th>
                 </tr>
               </thead>
               <tbody>
@@ -404,7 +404,7 @@ const AnalysisView = ({
                         onClickAfterSecond={handleChangeVideoTime}
                       />
                     </td>
-                    <td>{item.conversion_score}/100</td>
+                    <td className="center">{item.conversion_score}/100</td>
                   </TableExpandRow>
                 ))}
               </tbody>
