@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
 import { fetchInspectionInfo } from '@ApiFarm/aistt';
@@ -9,20 +9,24 @@ import AnalysisView from '@ComponentFarm/template/aistt/analysis/AnalysisView';
 import { useGoMove } from '@HookFarm/useGoMove';
 
 const MonitoringAnalysisViewPage = () => {
-  const { onBack } = useGoMove();
-
+  const { onMove } = useGoMove();
   const router = useRouter();
 
   const id = useMemo(() => router.query.id ?? '', [router.isReady]);
 
-  const { data, isLoading } = useQuery(
+  const { data, isLoading, isError } = useQuery(
     ['fqs-analysis-view', id],
     () => fetchInspectionInfo(Number(id)),
     {
-      onError: () => onBack(),
       enabled: router.isReady,
     }
   );
+
+  useEffect(() => {
+    if (isError) {
+      onMove(`/aistt-monitoring/${router.query.store_idx}`);
+    }
+  }, [isError]);
 
   return (
     <>

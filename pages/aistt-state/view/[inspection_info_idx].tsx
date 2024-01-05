@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
 import { fetchManufacturingInfo } from '@ApiFarm/aistt';
@@ -9,7 +9,7 @@ import AnalysisView from '@ComponentFarm/template/aistt/analysis/AnalysisView';
 import { useGoMove } from '@HookFarm/useGoMove';
 
 const AisttStateAnalysisViewPage = () => {
-  const { onBack } = useGoMove();
+  const { onMove } = useGoMove();
 
   const router = useRouter();
   const id = useMemo(
@@ -17,14 +17,19 @@ const AisttStateAnalysisViewPage = () => {
     [router.isReady]
   );
 
-  const { data, isLoading } = useQuery(
+  const { data, isLoading, isError } = useQuery(
     ['fqs-state-analysis-view', id],
     () => fetchManufacturingInfo(Number(id)),
     {
-      onError: () => onBack(),
       enabled: router.isReady,
     }
   );
+
+  useEffect(() => {
+    if (isError) {
+      onMove('/aistt-state/list');
+    }
+  }, [isError]);
 
   return (
     <>
