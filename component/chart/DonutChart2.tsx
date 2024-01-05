@@ -63,9 +63,9 @@ const DonutChart = ({
     const ey = my;
     const textAnchor = cos >= 0 ? 'start' : 'end';
 
-    const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
-    const x = cx + radius * Math.cos(-midAngle * RADIAN);
-    const y = cy + radius * Math.sin(-midAngle * RADIAN);
+    // const radius = innerRadius + (outerRadius - innerRadius) * 0.5;
+    // const x = cx + radius * Math.cos(-midAngle * RADIAN);
+    // const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
     // 추가된 배경색 사각형을 위한 계산
     const textHeight = 20; // 텍스트 높이 추정값
@@ -89,10 +89,20 @@ const DonutChart = ({
     };
 
     const dynamicX: Idynamic = {
-      '100점~80점': ex + (cos >= 0 ? 1 : -1) * (11 * scaleX),
-      '80점~50점': ex + (cos >= 0 ? 1 : -1) * (11 * scaleX) * 7.8,
-      '50점~0점': ex + (cos >= 0 ? 1 : -1) * (11 * scaleX),
+      '100점~80점': ex + (cos >= 0 ? 1 : -8.4) * (11 * scaleX),
+      '80점~50점': ex + (cos >= 0 ? 1 : -1 * 7.8) * (11 * scaleX),
+      '50점~0점': ex + (cos >= 0 ? 1 : -7) * (11 * scaleX),
     };
+
+    // 활성화된 Sector의 중심 좌표 계산
+    const activeInnerRadius =
+      activeIndex === props.index ? innerRadius - 10 * 1.2 : innerRadius - 10;
+    const activeOuterRadius =
+      activeIndex === props.index ? outerRadius + 35 * 1.2 : outerRadius + 10;
+    const activeRadius =
+      activeInnerRadius + (activeOuterRadius - activeInnerRadius) * 0.5;
+    const activeX = cx + activeRadius * Math.cos(-midAngle * RADIAN);
+    const activeY = cy + activeRadius * Math.sin(-midAngle * RADIAN);
 
     return (
       <g>
@@ -161,22 +171,8 @@ const DonutChart = ({
               }
             >{`${props.item_label}`}</text>
             <text
-              x={
-                activeIndex === props.index
-                  ? props.item_label === '100점~80점'
-                    ? x + 13 * scaleX
-                    : props.item_label === '80점~50점'
-                    ? x - 14 * scaleX
-                    : x + 13 * scaleX
-                  : x
-              }
-              y={
-                activeIndex !== props.index
-                  ? y
-                  : props.item_label === '50점~0점'
-                  ? y - 5
-                  : y - 15
-              }
+              x={activeX}
+              y={activeIndex === props.index ? activeY - 5 : activeY}
               fill="white" // 텍스트 색상을 흰색으로 변경
               textAnchor="middle" // 텍스트를 가운데 정렬
               dominantBaseline="central"
@@ -185,16 +181,8 @@ const DonutChart = ({
             </text>
             {activeIndex === props.index && (
               <text
-                x={
-                  activeIndex === props.index
-                    ? props.item_label === '100점~80점'
-                      ? x + 13 * scaleX
-                      : props.item_label === '80점~50점'
-                      ? x - 14 * scaleX
-                      : x + 13 * scaleX
-                    : x
-                }
-                y={props.item_label === '50점~0점' ? y + 14 : y + 8}
+                x={activeX}
+                y={activeY + 12}
                 fill="white" // 텍스트 색상을 흰색으로 변경
                 textAnchor="middle" // 텍스트를 가운데 정렬
                 dominantBaseline="central"
