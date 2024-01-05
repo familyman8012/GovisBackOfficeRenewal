@@ -80,18 +80,18 @@ export const TotalMenu: MenuType[] = [
   //   ],
   // },
   {
-    depth1: '제품 관리',
-    group: 'HeadOffice',
-    path: '/product',
-    perm_code: 'product',
-    perm_info_idx: 19,
-  },
-  {
     depth1: '제품 분석 및 통계',
     group: 'HeadOffice',
     path: '/product-analyze',
     perm_code: 'product_sales_analytics',
     perm_info_idx: 100,
+  },
+  {
+    depth1: '제품 관리',
+    group: 'HeadOffice',
+    path: '/product',
+    perm_code: 'product',
+    perm_info_idx: 19,
   },
   {
     depth1: '원재료 관리',
@@ -133,8 +133,8 @@ export const TotalMenu: MenuType[] = [
       {
         name: '매장 모니터링',
         path: '/aistt-monitoring',
-        perm_code: '',
-        perm_info_idx: 72,
+        perm_code: 'aistt_monitering',
+        perm_info_idx: 73,
       },
       {
         name: '제품 분석',

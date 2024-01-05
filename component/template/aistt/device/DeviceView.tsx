@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
 import { fetchAisttDeviceInfo, fetchAisttStoreInfo } from '@ApiFarm/aistt';
@@ -17,13 +17,16 @@ const DeviceView = () => {
     [router.isReady]
   );
 
-  const { data: storeInfoData } = useQuery(
+  const { data: storeInfoData, isError } = useQuery(
     ['aistt-store-info', id],
-    () => fetchAisttStoreInfo(Number(id)),
-    {
-      onError: () => onBack(),
-    }
+    () => fetchAisttStoreInfo(Number(id))
   );
+
+  useEffect(() => {
+    if (isError) {
+      onBack();
+    }
+  }, [isError]);
 
   const { data: deviceInfoData } = useQuery(['aistt-device-info'], () =>
     fetchAisttDeviceInfo(id)
