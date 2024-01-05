@@ -3,7 +3,9 @@ import React from 'react';
 import { Meta, Story } from '@storybook/react';
 import { FiArrowRight } from 'react-icons/fi';
 import { css } from '@emotion/react';
+import ExportButton from '@ComponentFarm/modules/ExportButton/ExportButton';
 import StoryLayout from '@ComponentFarm/modules/story_layout/StoryLayout';
+import useQueryParams from '@HookFarm/useQueryParams';
 import { BtnDelete, Button, ButtonProps } from './Button';
 import { Export, Plus, Right } from '../icons';
 
@@ -156,6 +158,24 @@ const StoryButton: Story<Props> = args => {
   );
 };
 export const Default = StoryButton.bind({});
+
+const StoryButton2: Story<Props> = args => {
+  const [params] = useQueryParams({
+    current_num: 1,
+    per_num: 10,
+  });
+  return (
+    <StoryLayout {...args}>
+      <ExportButton
+        params={params}
+        endPoint="/origin/list"
+        title="원산지 목록"
+      />
+    </StoryLayout>
+  );
+};
+
+export const ExportButtonExample = StoryButton2.bind({});
 
 Default.args = {
   variant: 'primary',

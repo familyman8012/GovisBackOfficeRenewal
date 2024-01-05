@@ -89,10 +89,12 @@ const DonutChart = ({
     };
 
     const dynamicX: Idynamic = {
-      '100점~80점': ex + (cos >= 0 ? 1 : -1) * (11 * scaleX),
-      '80점~50점': ex + (cos >= 0 ? 1 : -1) * (11 * scaleX) * 7.8,
-      '50점~0점': ex + (cos >= 0 ? 1 : -1) * (11 * scaleX),
+      '100점~80점': ex + (cos >= 0 ? 1 : -8.4) * (11 * scaleX),
+      '80점~50점': ex + (cos >= 0 ? 1 : -1 * 7.8) * (11 * scaleX),
+      '50점~0점': ex + (cos >= 0 ? 1 : -8) * (11 * scaleX),
     };
+
+    console.log('props', props);
 
     return (
       <g>
@@ -161,22 +163,8 @@ const DonutChart = ({
               }
             >{`${props.item_label}`}</text>
             <text
-              x={
-                activeIndex === props.index
-                  ? props.item_label === '100점~80점'
-                    ? x + 13 * scaleX
-                    : props.item_label === '80점~50점'
-                    ? x - 14 * scaleX
-                    : x + 13 * scaleX
-                  : x
-              }
-              y={
-                activeIndex !== props.index
-                  ? y
-                  : props.item_label === '50점~0점'
-                  ? y - 5
-                  : y - 15
-              }
+              x={x}
+              y={activeIndex !== props.index ? y : y - 5}
               fill="white" // 텍스트 색상을 흰색으로 변경
               textAnchor="middle" // 텍스트를 가운데 정렬
               dominantBaseline="central"
@@ -185,16 +173,8 @@ const DonutChart = ({
             </text>
             {activeIndex === props.index && (
               <text
-                x={
-                  activeIndex === props.index
-                    ? props.item_label === '100점~80점'
-                      ? x + 13 * scaleX
-                      : props.item_label === '80점~50점'
-                      ? x - 14 * scaleX
-                      : x + 13 * scaleX
-                    : x
-                }
-                y={props.item_label === '50점~0점' ? y + 14 : y + 8}
+                x={x - 3}
+                y={y + 12}
                 fill="white" // 텍스트 색상을 흰색으로 변경
                 textAnchor="middle" // 텍스트를 가운데 정렬
                 dominantBaseline="central"

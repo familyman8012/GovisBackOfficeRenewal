@@ -7,6 +7,7 @@ import { css } from '@emotion/react';
 import StoryLayout from '@ComponentFarm/modules/story_layout/StoryLayout';
 import { TextBadge } from '@ComponentFarm/atom/Badge/TextBadge';
 import { Badge, BadgeProps } from './Badge';
+import { TimeBadge } from './TimeBadge';
 
 const meta: Meta = {
   title: 'Atoms/Badge',
@@ -286,6 +287,15 @@ Default.args = {
 Default.parameters = {
   controls: { exclude: ['LeadingIcon', 'TrailingIcon', 'className'] },
 };
+
+const StoryTimeBadge: Story<Props> = args => {
+  return (
+    <StoryLayout {...args}>
+      <TimeBadge time="65" />
+    </StoryLayout>
+  );
+};
+export const TimeBadgeCase = StoryTimeBadge.bind({});
 
 const StoryTextBadge: Story<Props> = args => {
   return (

@@ -3,7 +3,9 @@ import { Meta, Story } from '@storybook/react';
 import { Controller, FieldValues, useForm } from 'react-hook-form';
 import { css } from '@emotion/react';
 import StoryLayout from '@ComponentFarm/modules/story_layout/StoryLayout';
-import Editor, { EditorProps } from './Editor';
+import HtmlViewer from '@ComponentFarm/atom/HtmlViewer/HtmlViewer';
+import { EditorProps } from './Editor';
+import EditorStory from './EditorStory';
 
 const meta: Meta = {
   title: 'MODULES/Editor(WysWig)',
@@ -43,7 +45,9 @@ const StoryEditor: Story<Props> = args => {
         height: 500px;
       `}
     >
-      <Editor value={text} onChange={handleTextChange} disabled />
+      {/* 실제 사용시에는, EditorStory 가 아니라, Editor 를 사용 (스토리북에서는
+      dynamic ssr 사용이 불가하여, 스토리북용으로 만듬) */}
+      <EditorStory value={text} onChange={handleTextChange} />
     </StoryLayout>
   );
 };
@@ -72,7 +76,7 @@ const StoryEditor2: Story<Props> = args => {
           name="text"
           defaultValue=""
           render={({ field }) => (
-            <Editor
+            <EditorStory
               value={field.value}
               onChange={value => field.onChange(value)}
             />
@@ -84,3 +88,17 @@ const StoryEditor2: Story<Props> = args => {
   );
 };
 export const ReactHookForm = StoryEditor2.bind({});
+
+const StoryHtmlView: Story<Props> = args => {
+  return (
+    <StoryLayout
+      {...args}
+      customCss={css`
+        height: 500px;
+      `}
+    >
+      <HtmlViewer html="<p>Test1</p><strong>asdasfd</strong>" />
+    </StoryLayout>
+  );
+};
+export const HtmlView = StoryHtmlView.bind({});

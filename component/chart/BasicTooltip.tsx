@@ -74,8 +74,15 @@ const BasicTooltipWrap = styled.div`
   }
 `;
 
-export const BasicTooltip = ({ active, payload, label }: any) => {
+export const BasicTooltip = ({
+  active,
+  payload,
+}: {
+  active?: boolean;
+  payload?: any;
+}) => {
   const data = payload[0];
+  console.log('payload', payload);
   if (active) {
     return (
       <BasicTooltipWrap>

@@ -16,6 +16,8 @@ const ChannelSaels = ({ params }: { params: QueryParams }) => {
     { enabled: !!params.evi_product_category }
   );
 
+  console.log('channelData', channelData);
+
   return (
     <AreaBox
       title="주문채널별 제품 판매 현황"

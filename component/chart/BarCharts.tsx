@@ -11,6 +11,11 @@ import {
   LabelList,
   Legend,
 } from 'recharts';
+import {
+  NameType,
+  ValueType,
+} from 'recharts/types/component/DefaultTooltipContent';
+import { ContentType } from 'recharts/types/component/Tooltip';
 import { BasicTooltip } from './BasicTooltip';
 
 const LegendFormatter = ({ value }: { value: string }) => {
@@ -23,11 +28,8 @@ export const BarCharts = ({
   chartData,
   barSize,
   tickCount,
-  domain,
   xKey = 'item_label',
-  yKey,
   xTickFormatter,
-  yTickFormatter,
   toolTip = <BasicTooltip />,
   fill,
   hasGrid = false,
@@ -43,12 +45,9 @@ export const BarCharts = ({
   chartData: any;
   barSize?: number;
   tickCount?: number;
-  domain?: any[];
   xKey?: string;
-  yKey?: string;
   xTickFormatter?: (value: string) => string;
-  yTickFormatter?: (value: number) => string;
-  toolTip?: any;
+  toolTip?: ContentType<ValueType, NameType>;
   fill?: string;
   hasGrid?: boolean;
   isTooltip?: boolean;
@@ -91,7 +90,6 @@ export const BarCharts = ({
               tickCount={tickCount}
               axisLine={false}
               tickLine={false}
-              domain={domain}
               interval={0}
               tickFormatter={(value: number) => value.toLocaleString()}
             />
@@ -121,7 +119,7 @@ export const BarCharts = ({
               <Bar dataKey={chartDataName[1]} fill={fill}>
                 {isLabelList && (
                   <LabelList
-                    dataKey={yKey ?? chartDataName[1]}
+                    dataKey={chartDataName[1]}
                     position="top"
                     formatter={LabelListFormatter}
                   />

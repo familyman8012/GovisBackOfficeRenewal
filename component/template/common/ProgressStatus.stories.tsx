@@ -3,7 +3,9 @@ import React from 'react';
 import { Meta, Story } from '@storybook/react';
 import { css } from '@emotion/react';
 import StoryLayout from '@ComponentFarm/modules/story_layout/StoryLayout';
+import { Progress } from '@ComponentFarm/chart/Progress';
 import { AreaBox } from './AreaBox';
+import { ProgressStatus } from './ProgressStatusExample';
 
 const meta: Meta = {
   title: 'TEMPLATE/ProgressStatus',
@@ -40,17 +42,16 @@ const StoryCheckboxGroup: Story<Props> = args => {
       `}
     >
       <AreaBox title="전체 제품판매 현황">
-        <br />
-      </AreaBox>
-      <AreaBox title="전체 제품판매 현황" moreLink="/">
-        <br />
-      </AreaBox>
-      <AreaBox title="카테고리별 제품 판매 현황" moreLink="/">
-        <br />
-      </AreaBox>
-
-      <AreaBox title="전체 제품판매 현황" moreLink="/">
-        <br />
+        <ProgressStatus>
+          <span className="label">제조수</span>
+          <Progress
+            width="31.4rem"
+            height="0.8rem"
+            color="var(--color-green30)"
+            progress={50}
+          />
+          <span className="txt_progress">14%</span>
+        </ProgressStatus>
       </AreaBox>
     </StoryLayout>
   );

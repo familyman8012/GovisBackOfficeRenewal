@@ -1,8 +1,10 @@
 /* eslint-disable react/destructuring-assignment */
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Meta, Story } from '@storybook/react';
 import { css } from '@emotion/react';
 import StoryLayout from '@ComponentFarm/modules/story_layout/StoryLayout';
+import { OrderDonutLegend } from '@ComponentFarm/template/product-analyze/order/OrderDonutLegend';
+import DonutChart from './DonutChart';
 import RingChart from './RingChart';
 import ScoreLabel from './ScoreLabel';
 
@@ -29,12 +31,58 @@ interface Props {
   darkMode: boolean;
 }
 
+const chartServerData = [
+  {
+    item_label: '시가지',
+    base_sales_count: 6588,
+    comparison_sales_count: 6529,
+    increase_decrease_number: 59,
+    increase_decrease_rate: 0.9,
+  },
+  {
+    item_label: '학원가',
+    base_sales_count: 1473,
+    comparison_sales_count: 1447,
+    increase_decrease_number: 26,
+    increase_decrease_rate: 1.8,
+  },
+  {
+    item_label: '주거지',
+    base_sales_count: 1448,
+    comparison_sales_count: 1456,
+    increase_decrease_number: -8,
+    increase_decrease_rate: -0.55,
+  },
+  {
+    item_label: '대학가',
+    base_sales_count: 742,
+    comparison_sales_count: 671,
+    increase_decrease_number: 71,
+    increase_decrease_rate: 10.58,
+  },
+  {
+    item_label: '쇼핑',
+    base_sales_count: 343,
+    comparison_sales_count: 341,
+    increase_decrease_number: 2,
+    increase_decrease_rate: 0.59,
+  },
+];
+
 const StoryDonutChart: Story<Props> = args => {
-  // const data = [
-  //   { name: '배달', value: 3054, increase: 34, percent: 34, fill: '#0088FE' },
-  //   { name: '내점', value: 1654, increase: 26, percent: 26, fill: '#00C49F' },
-  //   { name: '포장', value: 80, increase: -8, percent: -8, fill: '#FFBB28' },
-  // ];
+  const chartData = useMemo(
+    () =>
+      chartServerData.map((el, i) =>
+        i === 0
+          ? { ...el, fill: '#06B6D4' }
+          : i === 1
+          ? { ...el, fill: '#3B82F6' }
+          : i === 2
+          ? { ...el, fill: '#0EA5E9' }
+          : { ...el, fill: '#6366F1' }
+      ),
+    [chartServerData]
+  );
 
   return (
     <StoryLayout
@@ -47,8 +95,11 @@ const StoryDonutChart: Story<Props> = args => {
       `}
     >
       <div style={{ height: '40rem' }}>
-        {/* <DonutChart chartData={data} /> */}
-        asd
+        <DonutChart
+          height="50rem"
+          chartData={chartData}
+          legend={<OrderDonutLegend />}
+        />
       </div>
     </StoryLayout>
   );

@@ -5,6 +5,10 @@ import { css } from '@emotion/react';
 import StoryLayout from '@ComponentFarm/modules/story_layout/StoryLayout';
 import { Badge } from '@ComponentFarm/atom/Badge/Badge';
 import Arrow2Up from '@ComponentFarm/atom/icons/Arrow2Up';
+import ToggleSort from '@ComponentFarm/atom/Sort/ToggleSort';
+import { Table, TableWrap } from '@ComponentFarm/common';
+import useQueryParams from '@HookFarm/useQueryParams';
+import useSortable from '@HookFarm/useSortable';
 import { getTableWidthPercentage } from '@UtilFarm/calcSize';
 import { TableSty1, TableSty2, TableSty3, TableSty4 } from './TableSty';
 
@@ -30,6 +34,87 @@ export default meta;
 interface Props {
   darkMode: boolean;
 }
+
+const StoryListTableSty: Story<Props> = args => {
+  const Th = [
+    { label: '제품코드', sort: 'product_code' },
+    { label: '제품분류', sort: '' },
+    { label: '제품명', sort: 'product_name_ko' },
+    { label: '판매분류', sort: '' },
+    { label: '판매 시작일', sort: 'sale_start_date' },
+    { label: '판매 종료일', sort: 'sale_end_date' },
+    { label: '등록일', sort: 'created_date' },
+    { label: '수정일', sort: 'updated_date' },
+    { label: '제품상태', sort: '' },
+    { label: '레시피', sort: '' },
+  ];
+  // eslint-disable-next-line no-unused-vars
+  const [params, updateParams] = useQueryParams({
+    page: 1,
+    size: 10,
+    search_type: 0,
+  });
+  const { sortState, toggleSort } = useSortable(updateParams);
+
+  return (
+    <StoryLayout
+      {...args}
+      customCss={css`
+        /* display: flex; */
+        & > div + div {
+          margin-top: 1rem; /* Corresponds to space-y-5 in Tailwind CSS */
+        }
+      `}
+    >
+      <TableWrap>
+        <Table className="basic">
+          <colgroup>
+            {[119, 102, 293, 180, 150, 150, 150, 150, 110, 120].map((el, i) => (
+              <col key={i} width={getTableWidthPercentage(el)} />
+            ))}
+          </colgroup>
+          <thead>
+            <tr>
+              {Th.map((el, i) => (
+                <th key={i} onClick={() => el.sort && toggleSort(el.sort)}>
+                  <span className="th_title">
+                    {el.label}
+                    {el.sort && <ToggleSort el={el} sortState={sortState} />}
+                  </span>
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td className="code">X_000246</td>
+              <td>주류</td>
+              <td>[한화]테라</td>
+              <td>내점/포장/배달</td>
+              <td>2023-03-10</td>
+              <td>
+                <span style={{ paddingLeft: '3.5rem' }}>-</span>
+              </td>
+              <td>2023-10-18</td>
+              <td>2023-11-28</td>
+              <td>
+                <Badge dot color="green">
+                  운영
+                </Badge>
+              </td>
+              <td>
+                <Badge color="red" fill="transparent" size="sm" dot>
+                  미등록
+                </Badge>
+              </td>
+            </tr>
+          </tbody>
+        </Table>
+      </TableWrap>
+    </StoryLayout>
+  );
+};
+export const ListTable = StoryListTableSty.bind({});
 
 const StoryTableSty1: Story<Props> = args => {
   return (
