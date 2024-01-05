@@ -133,8 +133,8 @@ export const TotalMenu: MenuType[] = [
       {
         name: '매장 모니터링',
         path: '/aistt-monitoring',
-        perm_code: '',
-        perm_info_idx: 72,
+        perm_code: 'aistt_monitering',
+        perm_info_idx: 73,
       },
       {
         name: '제품 분석',

@@ -16,11 +16,10 @@ const AnalysisViewPage = () => {
   const path = useMemo(() => router.query.id?.[0] ?? 'view', [router.isReady]);
   const id = useMemo(() => router.query.id?.[1] ?? '', [router.isReady]);
 
-  const { data, isLoading } = useQuery(
+  const { data, isLoading, isError } = useQuery(
     ['fqs-analysis-view', id],
     () => fetchInspectionInfo(Number(id)),
     {
-      onError: () => onBack(2),
       enabled: router.isReady,
     }
   );
@@ -30,6 +29,12 @@ const AnalysisViewPage = () => {
       onBack(id ? 2 : 1);
     }
   }, [path, router.isReady]);
+
+  useEffect(() => {
+    if (isError) {
+      onBack(1);
+    }
+  }, [isError]);
 
   return (
     <>

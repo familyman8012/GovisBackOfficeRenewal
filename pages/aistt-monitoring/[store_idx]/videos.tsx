@@ -68,15 +68,11 @@ const MonitoringStoreVideos = () => {
 
   // 최초 로딩 시 activeVideo 설정
   useEffect(() => {
-    if (
-      !storeVideoData ||
-      !router.isReady ||
-      !makingTime?.isValid() ||
-      initialVideoSearched
-    )
-      return;
+    if (!storeVideoData || !router.isReady || initialVideoSearched) return;
 
     setInitialVideoSearched(true);
+
+    if (!makingTime.isValid()) return;
 
     const currentVideo = storeVideoData.list.find(video => {
       const start = dayjs(video.record_dt);
