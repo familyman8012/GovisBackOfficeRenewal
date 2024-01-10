@@ -103,7 +103,7 @@ const AisttMonitoringPage = () => {
   return (
     <MonitoringPageWrap>
       <h1>Aistt Monitoring</h1>
-      {JSON.stringify(data)}
+
       <VideoTimeDiffCalculator
         videoSrc={src}
         debug
@@ -133,6 +133,7 @@ const AisttMonitoringPage = () => {
           </li>
         ))}
       </ul>
+      {JSON.stringify(data)}
     </MonitoringPageWrap>
   );
 };
