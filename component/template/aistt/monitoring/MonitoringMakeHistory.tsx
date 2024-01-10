@@ -54,7 +54,7 @@ const MakeHistoryStyle = styled.div`
     gap: 0.3rem;
     align-items: flex-start;
     justify-content: flex-start;
-    margin: 0 -0.6rem;
+    margin: 0;
   }
 
   .product-name {

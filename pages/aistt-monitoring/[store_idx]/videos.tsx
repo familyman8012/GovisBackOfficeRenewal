@@ -78,7 +78,11 @@ const MonitoringStoreVideos = () => {
       const start = dayjs(video.record_dt);
       const end = dayjs(video.record_finish_dt);
 
-      return makingTime.isAfter(start) && makingTime.isBefore(end);
+      return (
+        makingTime.isSame(start) ||
+        makingTime.isSame(end) ||
+        (makingTime.isAfter(start) && makingTime.isBefore(end))
+      );
     });
 
     if (currentVideo) {
@@ -183,7 +187,6 @@ const MonitoringStoreVideos = () => {
             <div className="view">
               {activeVideo ? (
                 <MonitoringVideoView
-                  key={activeVideo.store_stt_cctv_idx}
                   storeIdx={store_idx}
                   activeDate={activeDate}
                   videoInfo={activeVideo}

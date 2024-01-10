@@ -1,6 +1,7 @@
 import React, { HTMLAttributes } from 'react';
 import styled from '@emotion/styled';
 import { Cross } from '@ComponentFarm/atom/icons';
+import useIsomorphicLayoutEffect from '@HookFarm/useIsomorphicLayoutEffect';
 import useSyncedRef from '@HookFarm/useSyncedRef';
 
 export const VideoWrapStyle = styled.div`
@@ -98,9 +99,6 @@ export const VideoWrapStyle = styled.div`
   }
 `;
 
-const useLayoutEffect =
-  typeof window !== 'undefined' ? React.useLayoutEffect : React.useEffect;
-
 const FqsVideo = React.forwardRef<
   HTMLVideoElement,
   HTMLAttributes<HTMLVideoElement> & {
@@ -114,7 +112,7 @@ const FqsVideo = React.forwardRef<
   const wrapperRef = useSyncedRef<HTMLDivElement>(null);
   const [viewportIn, setViewportIn] = React.useState(true);
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (!wrapperRef.current || !sticky) return () => {};
 
     const io = new IntersectionObserver(entries => {
