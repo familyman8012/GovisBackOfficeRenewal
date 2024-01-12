@@ -91,7 +91,7 @@ const DonutChart = ({
     const dynamicX: Idynamic = {
       '100점~80점': ex + (cos >= 0 ? 1 : -8.4) * (11 * scaleX),
       '80점~50점': ex + (cos >= 0 ? 1 : -1 * 7.8) * (11 * scaleX),
-      '50점~0점': ex + (cos >= 0 ? 1 : -8) * (11 * scaleX),
+      '50점~0점': ex + (cos >= 0 ? 1 : -7) * (11 * scaleX),
     };
 
     // 활성화된 Sector의 중심 좌표 계산

@@ -57,10 +57,12 @@ const CameraRecordList = ({
         <col />
       </colgroup>
       <thead>
-        <th>&nbsp;</th>
-        <th className="left">등록시간</th>
-        <th className="left">영상명</th>
-        <th className="left">영상시간</th>
+        <tr>
+          <th>&nbsp;</th>
+          <th className="left">등록시간</th>
+          <th className="left">영상명</th>
+          <th className="left">영상시간</th>
+        </tr>
       </thead>
       <tbody>
         {isLoading ? (
