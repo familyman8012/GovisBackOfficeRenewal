@@ -54,10 +54,7 @@ const AisttState = () => {
         activeTabIndex={activeTabIndex}
         onTabChange={index => hanldeTabMove(index)}
       />
-      <SubTitleBox
-        title="전체 현황"
-        desc="분류, 기간 유형별 통계를 확인할 수 있습니다."
-      />
+      <SubTitleBox title="전체 현황" />
       <FilterTableForm
         params={params}
         updateParams={updateParams}

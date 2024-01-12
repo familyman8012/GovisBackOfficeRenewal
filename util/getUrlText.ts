@@ -5,7 +5,7 @@ export function getUrlText(urlPath: string) {
 
   const routeInfo = TotalMenu.find(
     menu =>
-      (menu.path && menu.path.includes(path)) ||
+      (menu.path && `${menu.path}/` === `/${path}/`) ||
       (menu.depth2 && menu.depth2.some(item => item.path.includes(path)))
   );
 
