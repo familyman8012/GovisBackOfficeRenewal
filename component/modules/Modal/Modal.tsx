@@ -1,16 +1,14 @@
-import React, { FC, ReactNode, useLayoutEffect, useEffect } from 'react';
+import React, { FC, ReactNode } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { css, SerializedStyles } from '@emotion/react';
 import styled from '@emotion/styled';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Cross } from '@ComponentFarm/atom/icons';
 import { IconViewArea } from '@ComponentFarm/common';
+import useIsomorphicLayoutEffect from '@HookFarm/useIsomorphicLayoutEffect';
 import Portal from './Portal';
 
 const modalOpenQueue: string[] = [];
-
-const useIsomorphicLayoutEffect =
-  typeof window !== 'undefined' ? useLayoutEffect : useEffect;
 
 interface ModalProps {
   isOpen: boolean;

@@ -15,6 +15,7 @@ interface Props {
   videoSrc?: string;
   debug?: boolean;
   onLoaded: (data: VideoTimeDiff[]) => void;
+  onError?: (error: Error) => void;
 }
 
 const VideoTimeDiffWrap = styled.div`
@@ -69,7 +70,12 @@ const getFrameListByDuration = async (
   return arr;
 };
 
-const VideoTimeDiffCalculator = ({ videoSrc, debug, onLoaded }: Props) => {
+const VideoTimeDiffCalculator = ({
+  videoSrc,
+  debug,
+  onLoaded,
+  onError,
+}: Props) => {
   const ref = React.useRef<HTMLVideoElement>(null);
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
 
@@ -105,24 +111,28 @@ const VideoTimeDiffCalculator = ({ videoSrc, debug, onLoaded }: Props) => {
           diff: timeSecond - data.time,
         };
       })
-    ).catch(error => console.error(error));
+    ).catch(error => {
+      onError?.(error);
+    });
 
     onLoaded(
       (timeDiffInfoList?.filter(item => item !== null) ?? []) as VideoTimeDiff[]
     );
-  }, [onLoaded]);
+  }, [onLoaded, onError]);
 
   return (
     <VideoTimeDiffWrap className={debug ? 'debug' : ''}>
       <video
+        key={videoSrc}
         ref={ref}
         src={videoSrc}
         width={640}
         height={360}
         muted
-        onLoadedData={onInitialize}
         controls
         crossOrigin="anonymous"
+        onLoadedData={onInitialize}
+        onError={e => onError?.(e as any)}
       />
       <canvas ref={canvasRef} />
     </VideoTimeDiffWrap>

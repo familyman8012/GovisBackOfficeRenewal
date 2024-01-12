@@ -3,6 +3,7 @@ import dynamic from 'next/dynamic';
 import styled from '@emotion/styled';
 import FqsVideo from '@ComponentFarm/template/aistt/common/FqsVideo';
 import type { VideoTimeDiff } from '@ComponentFarm/template/aistt/common/VideoTimeDiffCalculator';
+import useIsomorphicLayoutEffect from '@HookFarm/useIsomorphicLayoutEffect';
 
 const VideoTimeDiffCalculator = dynamic(
   () => import('@ComponentFarm/template/aistt/common/VideoTimeDiffCalculator'),
@@ -39,7 +40,7 @@ const AisttMonitoringPage = () => {
   const [ocrLoading, setOcrLoading] = React.useState<boolean>(true);
   const [data, setData] = React.useState<VideoTimeDiff[]>([]);
 
-  React.useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     videoRef.current?.addEventListener('loadedmetadata', () => {
       setDuration(videoRef.current?.duration ?? 0);
     });
@@ -102,7 +103,7 @@ const AisttMonitoringPage = () => {
   return (
     <MonitoringPageWrap>
       <h1>Aistt Monitoring</h1>
-      {JSON.stringify(data)}
+
       <VideoTimeDiffCalculator
         videoSrc={src}
         debug
@@ -110,6 +111,7 @@ const AisttMonitoringPage = () => {
           setData(loadData);
           setOcrLoading(false);
         }}
+        onError={err => setData([])}
       />
       <FqsVideo
         ref={videoRef}
@@ -131,6 +133,7 @@ const AisttMonitoringPage = () => {
           </li>
         ))}
       </ul>
+      {JSON.stringify(data)}
     </MonitoringPageWrap>
   );
 };

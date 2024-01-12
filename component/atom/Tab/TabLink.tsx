@@ -1,8 +1,9 @@
-import { FC, useEffect, useLayoutEffect, useMemo, useState } from 'react';
+import { FC, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import styled from '@emotion/styled';
+import useIsomorphicLayoutEffect from '@HookFarm/useIsomorphicLayoutEffect';
 import { Badge } from '../Badge/Badge';
 
 export interface BaseTabProps {
@@ -92,8 +93,6 @@ export const Tabs: FC<any> = ({ tabs }) => {
   );
   const tabId = useMemo(() => router?.asPath?.split('?')[0], [router?.asPath]);
 
-  const useIsomorphicLayoutEffect =
-    typeof window !== 'undefined' ? useLayoutEffect : useEffect;
   useIsomorphicLayoutEffect(() => {
     if (typeof tabIndex === 'number') {
       setActiveTabIndex(tabIndex);

@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useIsomorphicLayoutEffect } from '@dnd-kit/utilities';
 import dayjs from 'dayjs';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
@@ -161,6 +162,10 @@ const MonitoringVideoView = ({
     if (dt.isValid()) setVideoRealTime(time);
   }, [videoRef, makingTime, isVideoLoaded]);
 
+  useIsomorphicLayoutEffect(() => {
+    setIsVideoLoaded(false);
+  }, [videoInfo.cctv_video_url]);
+
   return (
     <>
       <SectionStyle>
@@ -179,6 +184,10 @@ const MonitoringVideoView = ({
             onLoaded={diffList => {
               setIsVideoLoaded(true);
               setTimeDiffList(diffList);
+            }}
+            onError={() => {
+              setIsVideoLoaded(true);
+              setTimeDiffList([]);
             }}
           />
         </div>

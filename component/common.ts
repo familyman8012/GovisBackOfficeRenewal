@@ -217,6 +217,7 @@ const reset = css`
   fieldset,
   button {
     border: none;
+    font-size: 100%;
   }
   hr,
   legend {

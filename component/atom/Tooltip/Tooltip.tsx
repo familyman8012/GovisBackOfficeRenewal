@@ -1,5 +1,6 @@
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import styled from '@emotion/styled';
+import useIsomorphicLayoutEffect from '@HookFarm/useIsomorphicLayoutEffect';
 
 interface Props {
   direction?: 'top' | 'bottom' | 'left' | 'right';
@@ -146,7 +147,7 @@ const Tooltip = ({
   const [show, setShow] = useState(false);
 
   // position: static인 부모에 relative를 추가해줌
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (!tooltipRef.current) return;
 
     const $tooltip = tooltipRef.current;
@@ -164,7 +165,7 @@ const Tooltip = ({
   }, [show]);
 
   // event type에 따라서 show를 관리해야함
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     if (!tooltipRef.current) return () => {};
 
     const $tooltip = tooltipRef.current;
