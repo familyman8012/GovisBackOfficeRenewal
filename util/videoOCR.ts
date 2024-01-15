@@ -98,7 +98,7 @@ export const getTimeWithOCR = async (
   const ocrDate = dayjs(`1970-01-01 ${timeText}`);
   // 시간이 다음시간 0분인 경우, 1시간을 더해줍니다.
   const timeSecond =
-    time + 15 >= duration && ocrDate.minute() === 0
+    time + 15 >= duration && ocrDate.minute() < 6
       ? 3600 + (ocrDate.minute() * 60 + ocrDate.second())
       : ocrDate.minute() * 60 + ocrDate.second();
 
