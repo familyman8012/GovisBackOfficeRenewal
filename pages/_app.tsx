@@ -53,7 +53,12 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
     // 현재 URL이 Goivs2Menu에 없으면 리다이렉트 localhost 제외
     const isLocalDev = window.location.host.includes('localhost');
 
-    if (!isLocalDev && !Goivs2Menu.includes(currentUrl) && currentUrl !== '/') {
+    if (
+      !isLocalDev &&
+      router.asPath !== '/demo' &&
+      !Goivs2Menu.includes(currentUrl) &&
+      currentUrl !== '/'
+    ) {
       window.location.href = `${host}${router.asPath}`;
     }
   }, [currentUrl, router.asPath]);

@@ -449,6 +449,5 @@ export const Goivs2Menu = [
   '/aistt-tmp',
   '/menu/link',
   '/menu/link-history',
-  '/demo',
   '/storybook',
 ];
