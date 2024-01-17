@@ -251,6 +251,7 @@ const Index = () => {
 
   return (
     <Content>
+      <img src="/images/character.png" />
       {/* <TitleArea title="매장 실시간 주문 현황" />
       <Tabs
         id="product"
