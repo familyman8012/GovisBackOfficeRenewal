@@ -177,7 +177,7 @@ const Login = () => {
               ? undefined
               : chkhost?.indexOf('dev.govis') !== -1
               ? '.dev.govis.gopizza.kr'
-              : '.gopizza.kr',
+              : '.govis.gopizza.kr',
           sameSite: 'none',
           path: '/',
         }
