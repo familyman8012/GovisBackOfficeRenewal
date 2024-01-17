@@ -152,8 +152,8 @@ const Login = () => {
       const authData = await fetchMyInfo(tokenData['GO-AUTH']);
 
       const cookieData = { ...authData };
-      // const chkhost =
-      //   typeof window !== 'undefined' ? window?.location?.host : null;
+      const chkhost =
+        typeof window !== 'undefined' ? window?.location?.host : null;
 
       if (
         cookieData.permission &&
@@ -172,7 +172,12 @@ const Login = () => {
         }),
         {
           secure: true,
-          domain: '.gopizza.kr',
+          domain:
+            chkhost?.indexOf('localhost') !== -1
+              ? undefined
+              : chkhost?.indexOf('dev.govis') !== -1
+              ? '.dev.govis.gopizza.kr'
+              : '.gopizza.kr',
           sameSite: 'none',
           path: '/',
         }
