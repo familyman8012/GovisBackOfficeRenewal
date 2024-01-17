@@ -173,11 +173,7 @@ const Login = () => {
         {
           secure: true,
           domain:
-            chkhost?.indexOf('localhost') !== -1
-              ? undefined
-              : chkhost?.indexOf('dev.govis') !== -1
-              ? '.dev.govis.gopizza.kr'
-              : '.govis.gopizza.kr',
+            chkhost?.indexOf('localhost') !== -1 ? undefined : '.gopizza.kr',
           sameSite: 'none',
           path: '/',
         }
