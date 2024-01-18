@@ -71,10 +71,10 @@ export const getVideoFrame = async (
     canvas.height
   );
 
-  // 배경을 검은색으로 만들어 OCR 성능을 향상시킵니다.
   const imageData = ctx?.getImageData(0, 0, canvas.width, canvas.height);
   const { data } = imageData;
 
+  // 배경을 검은색으로 만들어 OCR 성능을 향상시킵니다.
   thresholdFilter(data, 0.95);
 
   ctx?.putImageData(imageData, 0, 0);

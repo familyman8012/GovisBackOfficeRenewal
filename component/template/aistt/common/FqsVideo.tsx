@@ -15,8 +15,8 @@ export const VideoWrapStyle = styled.div`
   background-color: #000;
 
   &:before {
-    display: block;
     content: '';
+    display: block;
     padding-bottom: 56.25%;
   }
 

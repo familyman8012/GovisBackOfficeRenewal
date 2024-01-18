@@ -11,13 +11,6 @@ export type VideoTimeDiff = {
   diff: number;
 };
 
-interface Props {
-  videoSrc?: string;
-  debug?: boolean;
-  onLoaded: (data: VideoTimeDiff[]) => void;
-  onError?: (error: Error) => void;
-}
-
 const VideoTimeDiffWrap = styled.div`
   position: absolute;
   pointer-events: none;
@@ -37,6 +30,13 @@ const VideoTimeDiffWrap = styled.div`
   }
 `;
 
+interface Props {
+  videoSrc?: string;
+  debug?: boolean;
+  onLoaded: (data: VideoTimeDiff[]) => void;
+  onError?: (error: Error) => void;
+}
+
 const FRAME_COUNT = 4 as const;
 
 async function* frameAsyncIterable(
@@ -45,13 +45,11 @@ async function* frameAsyncIterable(
   canvas: HTMLCanvasElement
 ) {
   const cycle = totalDuration / FRAME_COUNT;
-  let i = FRAME_COUNT;
 
-  while (i >= 0) {
+  for (let i = FRAME_COUNT; i >= 0; i -= 1) {
     // eslint-disable-next-line no-await-in-loop
     const dataURL = await getVideoFrame(cycle * i, video, canvas);
     yield { time: Math.min(cycle * i, totalDuration), dataURL };
-    i -= 1;
   }
 }
 

@@ -13,7 +13,7 @@ const ExpandRowStyle = styled.tr`
   }
 
   td:first-of-type {
-    padding: 0;
+    padding: 0 !important;
   }
 
   .dropdown-btn {
@@ -57,7 +57,7 @@ const TableExpandRow = ({
   return (
     <>
       <ExpandRowStyle onClick={toggleExpand}>
-        <td className="right">
+        <td className="right" style={{ paddingRight: 0 }}>
           <button type="button" className="dropdown-btn">
             <CircleUp transform={`rotate(${expanded ? 180 : 90})`} />
           </button>

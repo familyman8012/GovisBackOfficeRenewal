@@ -37,6 +37,7 @@
     "@hookform/error-message": "^2.0.1",
     "@svgr/core": "^8.0.0",
     "@table-library/react-table-library": "^4.1.4",
+    "@tanstack/react-table": "^8.11.6",
     "@types/crypto-js": "^4.1.1",
     "@types/js-cookie": "^3.0.4",
     "@types/node": "20.3.3",

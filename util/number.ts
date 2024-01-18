@@ -10,3 +10,7 @@ export const getComputedCost = (
 export const getScoreFormat = (score: number | undefined = 0) => {
   return score % 1 === 0 ? score : score.toFixed(2);
 };
+
+export const replaceNumber = (value?: string | number) => {
+  return value?.toString().replace(/[^0-9]/g, '');
+};

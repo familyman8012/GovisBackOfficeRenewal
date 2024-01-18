@@ -184,6 +184,7 @@ const reset = css`
     border: 0;
     cursor: pointer;
   }
+
   a:link {
     color: var(--color-neutral10);
     text-decoration: none;
@@ -204,6 +205,7 @@ const reset = css`
     color: var(--color-neutral10);
     text-decoration: none;
   }
+
   em {
     font-style: normal;
   }
@@ -428,7 +430,7 @@ const reset = css`
     border: 1px solid currentColor;
   }
 
-  .link_more {
+  a.link_more {
     display: flex;
     align-items: center;
     margin-left: auto;
@@ -448,7 +450,7 @@ const reset = css`
     }
   }
 
-  .link_popup {
+  a.link_popup {
     display: inline-flex;
     appearance: none;
     align-items: center;
@@ -456,6 +458,13 @@ const reset = css`
     text-decoration: underline;
     color: var(--color-blue60);
     background: transparent;
+    cursor: pointer;
+  }
+
+  .remove-icon {
+    width: 1.6rem;
+    height: 1.6rem;
+    color: var(--color-red50);
     cursor: pointer;
   }
 
@@ -668,6 +677,7 @@ export const FormWrap = styled.div`
   .box_checkbox_group label {
     width: auto !important;
   }
+
   .box_inp {
     align-items: center;
     width: 100%;
@@ -714,6 +724,19 @@ export const TableWrap = styled.div`
   &.overflow-visible {
     overflow: visible;
   }
+
+  .caption {
+    display: flex;
+    padding: 1.2rem 2rem;
+    width: 100%;
+    align-items: center;
+    gap: 0 1.2rem;
+    border-bottom: 1px solid var(--color-neutral90);
+
+    .title {
+      margin-bottom: 0;
+    }
+  }
 `;
 
 export const Table = styled.table`
@@ -728,8 +751,8 @@ export const Table = styled.table`
 
     &.right {
       text-align: right;
-      padding-left: 0;
-      padding-right: 2rem;
+      padding-left: 0 !important;
+      padding-right: 2rem !important;
     }
 
     &.center {
@@ -775,6 +798,7 @@ export const Table = styled.table`
         border-bottom: none;
       }
     }
+
     th {
       height: 4.8rem;
       padding-left: 2rem;
@@ -785,6 +809,7 @@ export const Table = styled.table`
       word-break: keep-all;
       background: var(--color-blue_gray10);
     }
+
     td {
       padding: 1.2rem 0 1.2rem 2rem;
       color: var(--color-neutral10);
