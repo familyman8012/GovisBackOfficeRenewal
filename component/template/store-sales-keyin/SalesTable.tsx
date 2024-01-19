@@ -16,6 +16,7 @@ import {
 } from '@tanstack/react-table';
 import { debounce } from 'lodash';
 import { ISalesKeyInFetchResponse } from '@InterfaceFarm/store-sales-keyin';
+import Empty from '@ComponentFarm/atom/Empty/Empty';
 import SkeletonTh from '@ComponentFarm/atom/Skeleton/SkeletonTh';
 import useCheckScroll from '@HookFarm/useCheckScroll';
 import { SalesTableStyle, SalesTableWrap } from './style';
@@ -141,6 +142,12 @@ const SalesTable = ({ list, total, loading, onBottomScroll }: Props) => {
         <tbody>
           {loading ? (
             <SkeletonTh colLength={lastDepthHeaders.length} rowLength={10} />
+          ) : list.length === 0 ? (
+            <tr>
+              <td colSpan={lastDepthHeaders.length}>
+                <Empty>조회된 데이터가 없습니다.</Empty>
+              </td>
+            </tr>
           ) : (
             table.getRowModel().rows.map(row => (
               <tr key={row.id}>
@@ -192,7 +199,7 @@ const SalesTable = ({ list, total, loading, onBottomScroll }: Props) => {
             ))
           )}
         </tbody>
-        {!loading && (
+        {!loading && list.length > 0 && (
           <tfoot>
             <tr>
               {table.getFooterGroups()?.[0].headers.map(header => {
