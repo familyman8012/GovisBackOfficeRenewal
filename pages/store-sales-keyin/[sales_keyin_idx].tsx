@@ -45,7 +45,7 @@ const StoreSalesKeyinUpdatePage = () => {
         id=""
         tabs={[
           {
-            title: '매출 수기 입력 수정',
+            title: '매출 입력 수정',
           },
         ]}
         activeTabIndex={0}
