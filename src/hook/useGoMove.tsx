@@ -15,7 +15,7 @@ export const useGoMove = () => {
   const onBack = (depth = -1) => {
     const newPath = pathname.split('/').slice(0, depth).join('/');
     router.push({
-      pathname: `/${newPath}`,
+      pathname: newPath,
       query,
     });
   };
