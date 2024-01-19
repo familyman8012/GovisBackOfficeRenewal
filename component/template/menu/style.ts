@@ -4,6 +4,7 @@ import { Button } from '@ComponentFarm/token';
 
 export const MenuOptionListStyle = styled.section`
   border-radius: 0.4rem;
+
   h2 {
     margin-bottom: 0;
   }
@@ -281,6 +282,10 @@ export const MenuOptionDetailStyle = styled.div`
 
     input {
       border-radius: 0.4rem;
+      max-width: 74.6rem;
+    }
+
+    .react-datepicker__input-container {
       max-width: 74.6rem;
     }
 

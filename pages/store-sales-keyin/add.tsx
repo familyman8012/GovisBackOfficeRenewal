@@ -1,11 +1,11 @@
 import { useRef } from 'react';
 import { useMutation } from 'react-query';
-import { fetchRegisterSales } from '@ApiFarm/sales-keyin';
+import { fetchRegisterSales } from '@ApiFarm/store-sales-keyin';
 import { ISaleskeyInRegisterParams } from '@InterfaceFarm/store-sales-keyin';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
-import SalesDataForm from '@ComponentFarm/template/store/SalesDataForm';
+import SalesDataForm from '@ComponentFarm/template/store-sales-keyin/SalesDataForm';
 import { useGoMove } from '@HookFarm/useGoMove';
 import { formRequestSubmit } from '@UtilFarm/form';
 

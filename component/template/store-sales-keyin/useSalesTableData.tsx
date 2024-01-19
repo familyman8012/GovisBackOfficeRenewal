@@ -127,7 +127,7 @@ export default function useTableData(
         cell: info => (
           <Link
             className="link_popup"
-            href={`/store/sales-keyin/${info.getValue<string>()}`}
+            href={`/store-sales-keyin/${info.getValue<string>()}`}
           >
             수정
           </Link>

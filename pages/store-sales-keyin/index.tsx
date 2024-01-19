@@ -2,14 +2,14 @@ import React from 'react';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import { useInfiniteQuery } from 'react-query';
-import { fetchStoreSalesList } from '@ApiFarm/sales-keyin';
+import { fetchStoreSalesList } from '@ApiFarm/store-sales-keyin';
 import { ISalesKeyInFetchResponse } from '@InterfaceFarm/store-sales-keyin';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import Plus from '@ComponentFarm/atom/icons/Plus';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
-import StoreSalesFilter from '@ComponentFarm/template/store/SalesFIlter';
-import SalesTable from '@ComponentFarm/template/store/SalesTable';
+import StoreSalesFilter from '@ComponentFarm/template/store-sales-keyin/SalesFIlter';
+import SalesTable from '@ComponentFarm/template/store-sales-keyin/SalesTable';
 import useQueryParams from '@HookFarm/useQueryParams';
 
 const defaultEndDt = dayjs().add(1, 'month').date(1).add(-1, 'day');
@@ -68,7 +68,7 @@ const SalesKeyInPage = () => {
           <Button
             variant="primary"
             LeadingIcon={<Plus />}
-            onClick={() => router.push('/store/sales-keyin/add')}
+            onClick={() => router.push('/store-sales-keyin/add')}
           >
             매출 등록
           </Button>

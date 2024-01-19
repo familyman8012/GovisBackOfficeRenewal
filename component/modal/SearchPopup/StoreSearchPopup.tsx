@@ -24,6 +24,7 @@ const StoreSearchPopup = ({
     setSelectItems,
     initialValues,
     filters,
+    type,
     setFilters,
   } = setConfig;
 
@@ -56,6 +57,7 @@ const StoreSearchPopup = ({
       isOpen={isOpen}
       setIsOpen={setIsOpen}
       filters={filters}
+      type={type}
       setFilters={setFilters}
       initialValues={initialValues}
       selectItems={selectItems}

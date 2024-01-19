@@ -8,8 +8,8 @@ import {
 } from 'react-hook-form';
 import { useQuery } from 'react-query';
 import { toast } from 'react-toastify';
-import { fetchStoreSalesView } from '@ApiFarm/sales-keyin';
 import { fetchStoreSearchModal } from '@ApiFarm/search-modal';
+import { fetchStoreSalesView } from '@ApiFarm/store-sales-keyin';
 import { ISaleskeyInRegisterParams } from '@InterfaceFarm/store-sales-keyin';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import Empty from '@ComponentFarm/atom/Empty/Empty';
@@ -96,6 +96,7 @@ const SalesDataForm = forwardRef<HTMLFormElement, SalesDataFormProps>(
     const storeSelectForParmas = useMemo(
       () => ({
         ...storeSelect,
+        type: 'radio',
         setSelectItems: (items: any) => {
           methods.setValue('store_id', items[0].idx);
           methods.setValue('store_name', items[0].name);
@@ -193,8 +194,8 @@ const SalesDataForm = forwardRef<HTMLFormElement, SalesDataFormProps>(
             <MenuOptionListStyle ref={saleRef}>
               <h2>일자별 매출</h2>
               <div className="wrap">
-                {!isUpdate && (
-                  <div className="side">
+                <div className="side">
+                  {!isUpdate && (
                     <Button
                       size="lg"
                       LeadingIcon={<Plus />}
@@ -216,22 +217,22 @@ const SalesDataForm = forwardRef<HTMLFormElement, SalesDataFormProps>(
                     >
                       매출 추가하기
                     </Button>
-                    <div className="list">
-                      {fields.map(({ id }, index) => (
-                        <SalesDataDailyItem
-                          key={id}
-                          index={index}
-                          selectView={view}
-                          onSelectOption={setView}
-                          onRemoveCategory={() => {
-                            remove(index);
-                            setView(undefined);
-                          }}
-                        />
-                      ))}
-                    </div>
+                  )}
+                  <div className="list">
+                    {fields.map((item, index) => (
+                      <SalesDataDailyItem
+                        key={item.id}
+                        index={index}
+                        selectView={view}
+                        onSelectOption={setView}
+                        onRemoveCategory={() => {
+                          remove(index);
+                          setView(undefined);
+                        }}
+                      />
+                    ))}
                   </div>
-                )}
+                </div>
                 <div className="view">
                   {fields.length === 0 ? (
                     <Empty>

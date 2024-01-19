@@ -1,11 +1,11 @@
 import { useMemo, useRef } from 'react';
 import { useRouter } from 'next/router';
 import { useMutation } from 'react-query';
-import { fetchRegisterSales } from '@ApiFarm/sales-keyin';
+import { fetchRegisterSales } from '@ApiFarm/store-sales-keyin';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
-import SalesDataForm from '@ComponentFarm/template/store/SalesDataForm';
+import SalesDataForm from '@ComponentFarm/template/store-sales-keyin/SalesDataForm';
 import { useGoMove } from '@HookFarm/useGoMove';
 import { formRequestSubmit } from '@UtilFarm/form';
 
@@ -18,15 +18,6 @@ const StoreSalesKeyinUpdatePage = () => {
     () => parseInt(router.query.sales_keyin_idx as string, 10),
     [router]
   );
-
-  //   const {} = useQuery(
-  //     ['store-sales-keyin-list', sales_keyin_idx],
-  //     () => fetch({}),
-  //     {
-  //       onError: () => onBack(),
-  //       enabled: !!sales_keyin_idx,
-  //     }
-  //   );
 
   const updateSalesMutation = useMutation(fetchRegisterSales, {
     onSuccess: () => onBack(),
@@ -54,7 +45,7 @@ const StoreSalesKeyinUpdatePage = () => {
         id=""
         tabs={[
           {
-            title: '매출 수기 등록',
+            title: '매출 수기 입력 수정',
           },
         ]}
         activeTabIndex={0}
@@ -62,8 +53,8 @@ const StoreSalesKeyinUpdatePage = () => {
       />
       {router.isReady && (
         <SalesDataForm
-          ref={formRef}
           id={sales_keyin_idx}
+          ref={formRef}
           onSubmit={updateSalesMutation.mutate}
         />
       )}

@@ -20,12 +20,15 @@ const SalesDataDailyItem = ({
   onRemoveCategory,
   onSelectOption,
 }: MenuOptionGroupProps) => {
-  const { watch, getFieldState } = useFormContext<ISalesKeyInFormFields>();
-
-  const [canEdit, setCanEdit] = React.useState(true);
+  const { watch, getFieldState } = useFormContext<
+    ISalesKeyInFormFields & { isUpdate: boolean }
+  >();
 
   const formKey = `key_in.${index}` as `key_in.${number}`;
   const categoryFormData = watch(formKey);
+  const isUpdate = !!watch('isUpdate');
+
+  const [canEdit, setCanEdit] = React.useState(!isUpdate);
 
   const checkSaveHandler = () => {
     setCanEdit(false);
@@ -67,7 +70,7 @@ const SalesDataDailyItem = ({
           >
             저장
           </button>
-        ) : (
+        ) : !isUpdate ? (
           <OptionDropdown
             actions={
               <>
@@ -102,6 +105,8 @@ const SalesDataDailyItem = ({
               </>
             }
           />
+        ) : (
+          <></>
         )}
       </div>
     </SalesDataDailyItemStyle>
