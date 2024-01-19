@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { runInAction } from 'mobx';
 import { useFieldArray, useFormContext } from 'react-hook-form';
@@ -11,11 +11,11 @@ import {
 } from '@ApiFarm/menu';
 import { IMenuFormFields } from '@InterfaceFarm/menu';
 import { Button } from '@ComponentFarm/atom/Button/Button';
-import More from '@ComponentFarm/atom/icons/More';
 import Plus from '@ComponentFarm/atom/icons/Plus';
 import Up from '@ComponentFarm/atom/icons/Up';
 import { confirmModalStore } from '@MobxFarm/store';
 import { MenuOptionGroupStyle } from './style';
+import OptionDropdown from './TabDropdown';
 
 interface MenuOptionGroupProps {
   index: number;
@@ -48,7 +48,7 @@ const MenuOptionCategory = ({
   const [canEditName, setCanEditName] = React.useState(
     !getValues(`${formKey}.menu_option_category_idx`)
   );
-  const [dropDown, setDropDown] = React.useState(false);
+
   const [expanded, setExpanded] = React.useState(true);
 
   const categoryFormData = watch(`${formKey}`);
@@ -60,20 +60,6 @@ const MenuOptionCategory = ({
     control,
     name: `${formKey}.menu_options`,
   });
-
-  useEffect(() => {
-    if (!dropDown) return () => {};
-
-    const clickOutside = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      if (!target.closest('.dropdown')) {
-        setDropDown(false);
-      }
-    };
-
-    document.addEventListener('click', clickOutside);
-    return () => document.removeEventListener('click', clickOutside);
-  }, [dropDown]);
 
   const createMenuCategory = useMutation(createMenuOptionCategory, {
     onSuccess: data => {
@@ -204,23 +190,13 @@ const MenuOptionCategory = ({
           </button>
         ) : (
           <>
-            <div className="dropdown">
-              {editable && (
-                <button
-                  type="button"
-                  className="icon-btn"
-                  onClick={() => setDropDown(val => !val)}
-                >
-                  <More />
-                </button>
-              )}
-              {dropDown && (
-                <div className="dropdown-list">
+            <OptionDropdown
+              actions={
+                <>
                   <button
                     type="button"
                     disabled={isLoading}
                     onClick={() => {
-                      setDropDown(false);
                       setCanEditName(true);
                     }}
                   >
@@ -230,7 +206,6 @@ const MenuOptionCategory = ({
                     type="button"
                     disabled={isLoading}
                     onClick={() => {
-                      setDropDown(false);
                       runInAction(() => {
                         confirmModalStore.openModal({
                           title: '옵션 삭제',
@@ -248,9 +223,9 @@ const MenuOptionCategory = ({
                   >
                     삭제
                   </button>
-                </div>
-              )}
-            </div>
+                </>
+              }
+            />
             <button
               type="button"
               className={`icon-btn ${expanded ? 'expanded' : ''}`}

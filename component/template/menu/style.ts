@@ -4,6 +4,7 @@ import { Button } from '@ComponentFarm/token';
 
 export const MenuOptionListStyle = styled.section`
   border-radius: 0.4rem;
+
   h2 {
     margin-bottom: 0;
   }
@@ -19,9 +20,13 @@ export const MenuOptionListStyle = styled.section`
     > .view {
       flex: 1;
       padding: 3.2rem;
-      width: calc(100% - 30rem);
-      border-left: 1px solid var(--color-neutral90);
+      width: 100%;
       min-height: 46.6rem;
+    }
+
+    > .side + .view {
+      border-left: 1px solid var(--color-neutral90);
+      width: calc(100% - 30rem);
     }
   }
 
@@ -265,13 +270,22 @@ export const MenuOptionDetailStyle = styled.div`
     margin-bottom: 1.2rem;
   }
 
+  section {
+    margin: 4rem 0;
+  }
+
   .header {
     display: flex;
     justify-content: space-between;
     margin-bottom: 12px;
     gap: 0 0.8rem;
+
     input {
       border-radius: 0.4rem;
+      max-width: 74.6rem;
+    }
+
+    .react-datepicker__input-container {
       max-width: 74.6rem;
     }
 
@@ -337,6 +351,9 @@ export const FormStyle = css`
     gap: 0.8rem;
     width: 52rem;
 
+    button {
+      display: inline-flex;
+    }
     select {
       width: 21%;
       min-width: 15rem;

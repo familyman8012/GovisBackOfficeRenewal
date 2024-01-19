@@ -56,6 +56,7 @@ export interface ISearcPopupProps {
   isOpen: boolean;
   setIsOpen: Dispatch<SetStateAction<boolean>>;
   initialValues: string[];
+  type?: 'radio' | 'checkbox' | string;
   selectItems: checkedItemType[];
   setSelectItems: Dispatch<SetStateAction<checkedItemType[]>>;
   filters: {

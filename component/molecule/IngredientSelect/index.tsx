@@ -23,9 +23,11 @@ const IngredientModalContent = styled.div`
     display: flex;
     align-items: center;
     height: 6.4rem;
+
     input {
       width: 100%;
     }
+
     &:not(:first-of-type) {
       flex: 1;
       margin-bottom: 2.4rem;

@@ -167,8 +167,8 @@ export const TotalMenu: MenuType[] = [
         perm_info_idx: 999,
       },
       {
-        name: 'XGOPIZZA 매출 관리',
-        path: '/bo/sales-keyin',
+        name: '매장 매출 수기입력',
+        path: '/store-sales-keyin',
         perm_code: 'sales_keyin',
         perm_info_idx: 25,
       },
@@ -451,4 +451,5 @@ export const Goivs2Menu = [
   '/menu/link-history',
   '/demo',
   '/storybook',
+  '/store-sales-keyin',
 ];
