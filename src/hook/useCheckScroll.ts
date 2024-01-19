@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { debounce } from 'lodash';
+import { throttle } from 'lodash';
 
 const useCheckScroll = (ref: React.RefObject<HTMLDivElement>) => {
   const [hasScroll, setHasScroll] = React.useState(false);
@@ -10,7 +10,7 @@ const useCheckScroll = (ref: React.RefObject<HTMLDivElement>) => {
     const wrapper = ref.current;
     if (!wrapper) return () => {};
 
-    const onScroll = debounce(() => {
+    const onScroll = throttle(() => {
       setHasScroll(wrapper.scrollWidth > wrapper.clientWidth);
       setIsScrollLeft(wrapper.scrollLeft > 0);
       setIsScrollRight(
@@ -20,10 +20,17 @@ const useCheckScroll = (ref: React.RefObject<HTMLDivElement>) => {
 
     onScroll();
 
+    const observer = new MutationObserver(() => onScroll());
+
+    observer.observe(wrapper, { childList: true, subtree: true });
     window.addEventListener('resize', onScroll);
     wrapper.addEventListener('scroll', onScroll);
 
-    return () => wrapper.removeEventListener('scroll', onScroll);
+    return () => {
+      wrapper.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+      observer.disconnect();
+    };
   }, [ref.current]);
 
   return [hasScroll, isScrollLeft, isScrollRight];
