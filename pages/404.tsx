@@ -6,8 +6,12 @@ import { Goivs2Menu } from '@ComponentFarm/layout/MenuData';
 
 const NotAccess = () => {
   const router = useRouter();
-  const isLocalDev = window.location.host.includes('localhost');
   const currentUrl = `/${router.asPath.split('/')[1].split('?')[0]}`;
+
+  let isLocalDev;
+  if (typeof window !== 'undefined') {
+    isLocalDev = window.location.host.includes('localhost');
+  }
 
   if (!isLocalDev && !Goivs2Menu.includes(currentUrl)) {
     return (
