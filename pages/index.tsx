@@ -122,6 +122,22 @@ const Login = () => {
     }
   }, [router]);
 
+  useEffect(() => {
+    window.addEventListener(
+      'message',
+      function (event) {
+        if (event.origin !== 'https://dev.govis.gopizza.kr') return;
+
+        const { token } = event.data;
+        console.log('event.data.token', event.data.token);
+        if (token) {
+          authStore.login(token);
+        }
+      },
+      false
+    );
+  }, []);
+
   // 로그인 후 permission
   useQuery(['my-permission'], () => fetchMyPermissions(), {
     // eslint-disable-next-line consistent-return

@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import dayjs from 'dayjs';
 import { BoV2Request } from '@ApiFarm/index';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Export } from '@ComponentFarm/atom/icons';
+import Spinner from '@ComponentFarm/atom/Spinner/Spinner';
 import { downloadAxiosResponse } from '@UtilFarm/download';
 
 const ExportButton = ({
@@ -13,7 +15,10 @@ const ExportButton = ({
   endPoint: string;
   title: string;
 }) => {
+  const [isDownloading, setIsDownloading] = useState(false);
+
   const downloadRecipeProductList = async () => {
+    setIsDownloading(true);
     return BoV2Request.get(endPoint, {
       params: {
         ...params,
@@ -26,14 +31,32 @@ const ExportButton = ({
           `${title}_${dayjs().format('YYYY-MM-DD HH:mm:ss')}.xlsx`
         )
       )
-      .catch(() => new Error('다운로드에 실패하였습니다.'));
+      .catch(() => new Error('다운로드에 실패하였습니다.'))
+      .finally(() => setIsDownloading(false));
   };
 
   return (
     <Button
       variant="gostSecondary"
-      LeadingIcon={<Export />}
+      LeadingIcon={
+        isDownloading ? (
+          <span
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              overflow: 'hidden',
+              width: '3rem',
+              marginRight: '0.5rem',
+            }}
+          >
+            <Spinner width={10} height={10} />
+          </span>
+        ) : (
+          <Export />
+        )
+      }
       onClick={() => downloadRecipeProductList()}
+      disabled={isDownloading}
     >
       내보내기
     </Button>

@@ -1,18 +1,10 @@
-import { useEffect } from 'react';
 import { runInAction } from 'mobx';
 import { observer } from 'mobx-react';
+import useIsomorphicLayoutEffect from '@HookFarm/useIsomorphicLayoutEffect';
 import { confirmModalStore } from '@MobxFarm/store';
 import Modal from './Modal';
 
 const ConfirmModal = () => {
-  useEffect(() => {
-    if (confirmModalStore.isOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-  }, []);
-
   const onClose = () => {
     if (typeof confirmModalStore.onClose === 'function') {
       confirmModalStore.onClose();
@@ -32,6 +24,28 @@ const ConfirmModal = () => {
       });
     }
   };
+
+  useIsomorphicLayoutEffect(() => {
+    if (!confirmModalStore.isOpen) return () => {};
+
+    const handlekeydown = (e: KeyboardEvent) => {
+      switch (e.key) {
+        // ESC 클릭시 onClose 효과
+        case 'Escape':
+          onClose();
+          break;
+        case 'Enter':
+          confirmModalStore.onFormSubmit();
+          break;
+        default:
+          break;
+      }
+    };
+
+    document.addEventListener('keydown', handlekeydown);
+
+    return () => document.addEventListener('keydown', handlekeydown);
+  }, [confirmModalStore.isOpen]);
 
   return (
     <Modal
