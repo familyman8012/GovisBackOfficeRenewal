@@ -41,7 +41,7 @@ const useIsomorphicLayoutEffect =
 
 const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   const router = useRouter();
-  const currentUrl = `/${router.asPath.split('/')[1].split('?')[0]}`;
+
   const host =
     typeof window !== 'undefined' &&
     (window.location.host.includes('dev') ||
@@ -52,16 +52,12 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   useIsomorphicLayoutEffect(() => {
     // 현재 URL이 Goivs2Menu에 없으면 리다이렉트 localhost 제외
     const isLocalDev = window.location.host.includes('localhost');
+    const currentUrl = `/${router.asPath.split('/')[1].split('?')[0]}`;
 
-    if (
-      !isLocalDev &&
-      router.asPath !== '/demo' &&
-      !Goivs2Menu.includes(currentUrl) &&
-      currentUrl !== '/'
-    ) {
+    if (!isLocalDev && !Goivs2Menu.includes(currentUrl)) {
       window.location.href = `${host}${router.asPath}`;
     }
-  }, [currentUrl, router.asPath]);
+  }, [router.asPath]);
 
   useIsomorphicLayoutEffect(() => {
     if (!localStorage.getItem('BO_AUTH_TOKEN') && !!Cookies.get('AUTH_DATA')) {
