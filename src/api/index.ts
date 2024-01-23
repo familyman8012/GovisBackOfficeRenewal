@@ -70,6 +70,8 @@ export const getToolBaseUrl = () => {
   return reVal;
 };
 
+axios.defaults.timeout = 6000;
+
 // ApiRequest 생성
 export const ApiRequest = axios.create({
   baseURL: `${getBaseUrl()}/runway/v2`,
@@ -80,7 +82,9 @@ export const BoRequest = axios.create({
   baseURL: `${getBaseUrl()}/bo/v1/`,
 });
 
-export const BoV2Request = axios.create({ baseURL: `${getBaseUrl()}/bo/v2` });
+export const BoV2Request = axios.create({
+  baseURL: `${getBaseUrl()}/bo/v2`,
+});
 
 // Common Request 생성
 export const CommonRequest = axios.create({
@@ -142,6 +146,13 @@ interface IErrorResponse {
 }
 
 export const handleResponseReject = (error: AxiosError) => {
+  if (error.code === 'ECONNABORTED' && error.message.includes('timeout')) {
+    alert(
+      '연결이 지연되고 있습니다. 잠시 후 다시 시도해주세요.\n (지속적으로 지연이 발생하면 연구소로 문의 바랍니다.)'
+    ); // 타임아웃 시 메시지 표시
+    window.location.href = '/';
+    return;
+  }
   if (
     error.response &&
     (error.response.data as IErrorResponse).message === 'Signature has expired.'
