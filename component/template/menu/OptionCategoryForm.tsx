@@ -190,42 +190,44 @@ const MenuOptionCategory = ({
           </button>
         ) : (
           <>
-            <OptionDropdown
-              actions={
-                <>
-                  <button
-                    type="button"
-                    disabled={isLoading}
-                    onClick={() => {
-                      setCanEditName(true);
-                    }}
-                  >
-                    편집
-                  </button>
-                  <button
-                    type="button"
-                    disabled={isLoading}
-                    onClick={() => {
-                      runInAction(() => {
-                        confirmModalStore.openModal({
-                          title: '옵션 삭제',
-                          content: <p>옵션 항목을 삭제하시겠습니까?</p>,
-                          onFormSubmit: () => {
-                            checkRemoveHandler();
-                            confirmModalStore.isOpen = false;
-                          },
-                          onCancel: () => {
-                            confirmModalStore.isOpen = false;
-                          },
+            {editable && (
+              <OptionDropdown
+                actions={
+                  <>
+                    <button
+                      type="button"
+                      disabled={isLoading}
+                      onClick={() => {
+                        setCanEditName(true);
+                      }}
+                    >
+                      편집
+                    </button>
+                    <button
+                      type="button"
+                      disabled={isLoading}
+                      onClick={() => {
+                        runInAction(() => {
+                          confirmModalStore.openModal({
+                            title: '옵션 삭제',
+                            content: <p>옵션 항목을 삭제하시겠습니까?</p>,
+                            onFormSubmit: () => {
+                              checkRemoveHandler();
+                              confirmModalStore.isOpen = false;
+                            },
+                            onCancel: () => {
+                              confirmModalStore.isOpen = false;
+                            },
+                          });
                         });
-                      });
-                    }}
-                  >
-                    삭제
-                  </button>
-                </>
-              }
-            />
+                      }}
+                    >
+                      삭제
+                    </button>
+                  </>
+                }
+              />
+            )}
             <button
               type="button"
               className={`icon-btn ${expanded ? 'expanded' : ''}`}
