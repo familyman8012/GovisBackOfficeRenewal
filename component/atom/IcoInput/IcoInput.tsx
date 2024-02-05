@@ -77,8 +77,8 @@ const IcoInputComponent = styled.input<IcoInputComponentProps>`
   border: 1px solid
     ${props => (props.error ? theme.colors.error300 : theme.colors.gray300)};
   height: 4.4rem;
-  padding-left: ${props => (props.LeadingIcon ? '36px' : '0.75rem')};
-  padding-right: ${props => (props.TrailingIcon ? '36px' : '0.75rem')};
+  padding-left: ${props => (props.LeadingIcon ? '3rem' : '0.75rem')};
+  padding-right: ${props => (props.TrailingIcon ? '3rem' : '0.75rem')};
   border-top-left-radius: ${props => (props.leadingText ? '0px' : '0.8rem')};
   border-bottom-left-radius: ${props => (props.leadingText ? '0px' : '0.8rem')};
   border-top-right-radius: 0.8rem;

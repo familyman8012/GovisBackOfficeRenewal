@@ -2,6 +2,33 @@ import React, { useEffect, useRef, useState } from 'react';
 import { debounce } from 'lodash';
 import Skeleton from 'react-loading-skeleton';
 import { ResponsiveContainer, PieChart, Pie, Sector } from 'recharts';
+import styled from '@emotion/styled';
+import { mq } from '@ComponentFarm/common';
+
+export const DonutArea = styled.div`
+  width: 50%;
+  height: 50rem;
+  max-height: 500px;
+  max-width: 565px;
+  margin: 0 auto;
+
+  .donut-text {
+    font-weight: bold;
+  }
+
+  ${mq[0]} {
+    width: 100%;
+    height: 25.2rem;
+    margin-right: 0;
+
+    .donut-text {
+      font-size: 8px;
+      &.text2 {
+        font-size: 8px;
+      }
+    }
+  }
+`;
 
 const DonutChart = ({
   chartData,
@@ -24,18 +51,15 @@ const DonutChart = ({
     }
   };
 
+  const debouncedUpdateSize = debounce(updateContainerSize, 250);
+
   useEffect(() => {
-    // debounce를 사용하여 리사이즈 핸들러 설정
-    const debouncedHandleResize = debounce(updateContainerSize, 200);
-
-    window.addEventListener('resize', debouncedHandleResize);
-
     // 첫 마운트에서 컨테이너 크기를 설정
     updateContainerSize();
+    window.addEventListener('resize', debouncedUpdateSize);
 
-    // 컴포넌트 언마운트 시 이벤트 리스너 제거
     return () => {
-      window.removeEventListener('resize', debouncedHandleResize);
+      window.removeEventListener('resize', debouncedUpdateSize);
     };
   }, []);
 
@@ -53,13 +77,16 @@ const DonutChart = ({
       payload,
       percent,
     } = props;
-    const sin = Math.sin(-RADIAN * midAngle);
-    const cos = Math.cos(-RADIAN * midAngle);
+    const sin =
+      Math.sin(-RADIAN * midAngle) * (activeIndex === props.index ? 1.2 : 1);
+    const cos =
+      Math.cos(-RADIAN * midAngle) * (activeIndex === props.index ? 1.2 : 1);
     const sx = cx + (outerRadius + 10) * cos;
     const sy = cy + (outerRadius + 10) * sin;
     const mx = cx + (outerRadius + 30) * cos;
     const my = cy + (outerRadius + 30) * sin;
-    const ex = mx + (cos >= 0 ? 1 : -1) * 22;
+    const ex = mx;
+    // const ex = mx + (cos >= 0 ? 1 : -1) * 22;
     const ey = my;
     const textAnchor = cos >= 0 ? 'start' : 'end';
 
@@ -67,32 +94,10 @@ const DonutChart = ({
     // const x = cx + radius * Math.cos(-midAngle * RADIAN);
     // const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
-    // 추가된 배경색 사각형을 위한 계산
-    const textHeight = 20; // 텍스트 높이 추정값
-
     // 초기 차트 너비 설정
     const initialWidth = 600; // 초기 차트 너비를 적절한 값으로 설정하세요
-    const initialHeight = 500; // 초기 차트 높이
 
     const scaleX = containerSize.width / initialWidth;
-    const scaleY = containerSize.height / initialHeight;
-
-    interface Idynamic {
-      [key: string]: number;
-    }
-
-    // 동적으로 조정된 너비와 위치 계산
-    const dynamicWidth: Idynamic = {
-      '100점~80점': 81 * scaleX,
-      '80점~50점': 76 * scaleX,
-      '50점~0점': 66 * scaleX, // '50점 미만'과 같은 다른 레이블에 대한 처리
-    };
-
-    const dynamicX: Idynamic = {
-      '100점~80점': ex + (cos >= 0 ? 1 : -8.4) * (11 * scaleX),
-      '80점~50점': ex + (cos >= 0 ? 1 : -1 * 7.8) * (11 * scaleX),
-      '50점~0점': ex + (cos >= 0 ? 1 : -7) * (11 * scaleX),
-    };
 
     // 활성화된 Sector의 중심 좌표 계산
     const activeInnerRadius =
@@ -127,12 +132,12 @@ const DonutChart = ({
           endAngle={endAngle}
           innerRadius={
             activeIndex === props.index
-              ? outerRadius + 31 * 1.2
+              ? outerRadius + containerSize.width * 0.05 * 1.2
               : outerRadius + 6
           }
           outerRadius={
             activeIndex === props.index
-              ? outerRadius + 35 * 1.2
+              ? outerRadius + (containerSize.width * 0.05 + 4) * 1.2
               : outerRadius + 10
           }
           fill={fill}
@@ -145,30 +150,13 @@ const DonutChart = ({
               fill="none"
             />
             <circle cx={ex} cy={ey} r={2} fill={fill} stroke="none" />
-            <rect
-              x={dynamicX[props.item_label]}
-              y={ey - 11 * scaleY}
-              width={dynamicWidth[props.item_label]}
-              height={textHeight * scaleY}
-              fill={
-                props.item_label === '100점~80점'
-                  ? 'var(--color-blue90)'
-                  : props.item_label === '80점~50점'
-                  ? 'var(--color-yellow90)'
-                  : 'var(--color-red90)'
-              } // 배경색을 원하는 색으로 설정하세요
-            />
+
             <text
               x={ex + (cos >= 0 ? 1 : -1) * (15 * scaleX)}
               y={ey + 4 * scaleX}
               textAnchor={textAnchor}
-              fill={
-                props.item_label === '100점~80점'
-                  ? 'var(--color-blue70)'
-                  : props.item_label === '80점~50점'
-                  ? 'var(--color-yellow50)'
-                  : 'var(--color-orange70)'
-              }
+              fill={fill}
+              className="donut-text"
             >{`${props.item_label}`}</text>
             <text
               x={activeX}
@@ -176,6 +164,7 @@ const DonutChart = ({
               fill="white" // 텍스트 색상을 흰색으로 변경
               textAnchor="middle" // 텍스트를 가운데 정렬
               dominantBaseline="central"
+              className="donut-text text2"
             >
               {`${(percent * 100).toFixed(0)}%`}
             </text>
@@ -197,10 +186,7 @@ const DonutChart = ({
   };
 
   return (
-    <div
-      ref={containerRef}
-      style={{ width: '60rem', height, margin: '0 auto' }}
-    >
+    <DonutArea ref={containerRef}>
       {chartData ? (
         <ResponsiveContainer width="100%" height="100%">
           <PieChart
@@ -227,7 +213,7 @@ const DonutChart = ({
       ) : (
         <Skeleton height={height} baseColor="#fcfcfc" />
       )}
-    </div>
+    </DonutArea>
   );
 };
 

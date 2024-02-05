@@ -221,8 +221,9 @@ export const ManufacturingQualityList = ({
         query: { ...router.query, score_range: item.score_range },
       });
     }
+
     if (type !== 'state' && updateParams) {
-      if (selectScoreRange === String(item.score_range)) {
+      if (String(router.query.score_range) === String(item.score_range)) {
         setselectScoreRange('');
         updateParams({ score_range: undefined });
       } else {

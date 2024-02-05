@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 export const DateRangeWrap = styled.div`
   width: fit-content;
   .box_daterange_input {
-    width: 20.5rem;
+    width: 100%;
   }
 
   .react-datepicker {
