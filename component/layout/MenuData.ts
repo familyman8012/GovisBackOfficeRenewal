@@ -246,7 +246,7 @@ export const TotalMenu: MenuType[] = [
         perm_info_idx: 28,
       },
       {
-        name: '우수사례&성공사례',
+        name: '우리가 불편해야\n 고객이 만족한다',
         path: '/fc/best-practices',
         perm_code: 'board_story',
         perm_info_idx: 30,

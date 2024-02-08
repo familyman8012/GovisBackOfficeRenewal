@@ -202,6 +202,7 @@ export const MenuWrap = styled.div`
       .link_depth2 {
         display: block;
         padding: 1rem 0;
+        white-space: pre-line;
 
         &.on {
           color: var(--color-blue60);
