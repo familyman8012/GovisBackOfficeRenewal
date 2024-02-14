@@ -115,7 +115,7 @@ export const TotalMenu: MenuType[] = [
     perm_info_idx: 20,
   },
   {
-    depth1: `AI Smart\nTopping table`,
+    depth1: `AI Smart\nTopping Table`,
     group: 'HeadOffice',
     depth2: [
       {
