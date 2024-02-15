@@ -1,8 +1,10 @@
 import React from 'react';
+import dynamic from 'next/dynamic';
+import Skeleton from 'react-loading-skeleton';
 import { useQuery } from 'react-query';
 import { fetchInspectionList } from '@ApiFarm/aistt';
 import Pagination from '@ComponentFarm/modules/Paginate/Pagination';
-import { Select } from '@ComponentFarm/atom/Select/Select';
+// import { Select } from '@ComponentFarm/atom/Select/Select';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
 import AisttAnalysisFilter from '@ComponentFarm/template/aistt/analysis/AnalysisFilter';
@@ -11,6 +13,18 @@ import { AnalysisPageStyle } from '@ComponentFarm/template/aistt/analysis/style'
 import { inspectionOptions } from '@ComponentFarm/template/aistt/const';
 import { SectionStyle } from '@ComponentFarm/template/aistt/style';
 import useQueryParams from '@HookFarm/useQueryParams';
+
+/**
+ * @TODO SSR 에러 해결 필요
+ * 임시 조치: SSR 에러로 인해 dynamic import로 변경
+ */
+const Select = dynamic(
+  () => import('@ComponentFarm/atom/Select/Select').then(comps => comps.Select),
+  {
+    ssr: false,
+    loading: () => <Skeleton width={200} height="4rem" />,
+  }
+);
 
 const AnalysisListPage = () => {
   const [params, updateParams, resetParams] = useQueryParams({

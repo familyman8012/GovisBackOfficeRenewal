@@ -1,23 +1,13 @@
 import React, { useEffect } from 'react';
-import { useIsomorphicLayoutEffect } from '@dnd-kit/utilities';
 import dayjs from 'dayjs';
-import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useQuery } from 'react-query';
 import styled from '@emotion/styled';
 import { fetchMonitoringStoreProductList } from '@ApiFarm/aistt';
 import { IFqsMonitoringVideoInfo } from '@InterfaceFarm/ai-fqs';
-import type { VideoTimeDiff } from '@ComponentFarm/template/aistt/common/VideoTimeDiffCalculator';
 import MonitoringMakeHistory from './MonitoringMakeHistory';
 import FqsVideo from '../common/FqsVideo';
 import { SectionStyle } from '../style';
-
-const VideoTimeDiffCalculator = dynamic(
-  () => import('@ComponentFarm/template/aistt/common/VideoTimeDiffCalculator'),
-  {
-    ssr: false,
-  }
-);
 
 const MonitoringVideoViewStyle = styled.div`
   position: relative;
@@ -83,15 +73,12 @@ const MonitoringVideoView = ({
   const videoRef = React.useRef<HTMLVideoElement>(null);
   const router = useRouter();
 
-  const [isVideoLoaded, setIsVideoLoaded] = React.useState<boolean>(false);
-  const [timeDiffList, setTimeDiffList] = React.useState<VideoTimeDiff[]>([]);
-
   const makingTime = React.useMemo(
     () => router.query.d as string,
     [router.query]
   );
 
-  const { data } = useQuery(
+  const { data, isLoading } = useQuery(
     [
       'aistt-monitoring-time-products',
       storeIdx,
@@ -106,49 +93,8 @@ const MonitoringVideoView = ({
       })
   );
 
-  const setVideoRealTime = (time: number) => {
-    const video = videoRef.current;
-    if (!video || timeDiffList.length === 0) return;
-
-    // 가장 가까운 작은 값과 가장 가까운 큰 값 변수
-    let closestSmaller: VideoTimeDiff | undefined;
-    let closestLarger: VideoTimeDiff | undefined;
-
-    timeDiffList.forEach(entry => {
-      if (
-        entry.videoTime <= time &&
-        (!closestSmaller || entry.videoTime > closestSmaller.videoTime)
-      ) {
-        closestSmaller = entry;
-      }
-
-      if (
-        entry.videoTime >= time &&
-        (!closestLarger || entry.videoTime < closestLarger.videoTime)
-      ) {
-        closestLarger = entry;
-      }
-    });
-
-    if (!closestSmaller || !closestLarger) {
-      video.currentTime = time;
-      return;
-    }
-
-    // closestSmaller.videoTime 값들 사이의 차이의 백분율을 계산합니다.
-    const percentageDifference =
-      (time - closestSmaller.videoTime) /
-      (closestSmaller === closestLarger
-        ? 1
-        : closestLarger.videoTime - closestSmaller.videoTime);
-
-    video.currentTime =
-      closestSmaller.time +
-      (closestLarger.time - closestSmaller.time) * percentageDifference;
-  };
-
   useEffect(() => {
-    if (!isVideoLoaded || !makingTime) return;
+    if (isLoading || !makingTime) return;
     const dt = dayjs(makingTime);
 
     if (
@@ -157,14 +103,16 @@ const MonitoringVideoView = ({
     )
       return;
 
-    const time = dt.minute() * 60 + dt.second();
+    const { video_play_seconds } = data?.list.find(item =>
+      dt.isSame(item.manufacture_dt)
+    ) ?? {
+      video_play_seconds: 0,
+    };
 
-    if (dt.isValid()) setVideoRealTime(time);
-  }, [videoRef, makingTime, isVideoLoaded]);
-
-  useIsomorphicLayoutEffect(() => {
-    setIsVideoLoaded(false);
-  }, [videoInfo.cctv_video_url]);
+    if (dt.isValid() && videoRef.current && video_play_seconds) {
+      videoRef.current.currentTime = video_play_seconds;
+    }
+  }, [videoRef, makingTime, isLoading]);
 
   return (
     <>
@@ -175,20 +123,8 @@ const MonitoringVideoView = ({
         <div className="video-wrap">
           <FqsVideo
             ref={videoRef}
-            loading={!isVideoLoaded}
             src={videoInfo.cctv_video_url}
             crossOrigin="anonymous"
-          />
-          <VideoTimeDiffCalculator
-            videoSrc={videoInfo.cctv_video_url}
-            onLoaded={diffList => {
-              setIsVideoLoaded(true);
-              setTimeDiffList(diffList);
-            }}
-            onError={() => {
-              setIsVideoLoaded(true);
-              setTimeDiffList([]);
-            }}
           />
         </div>
         <div className="product-wrap">

@@ -1,4 +1,4 @@
-import React, { FC, useMemo } from 'react';
+import React, { FC, useMemo, useId } from 'react';
 import { FiChevronDown } from 'react-icons/fi';
 import {
   default as SelectLibrary,
@@ -162,6 +162,7 @@ export const Select: FC<SelectProps> = ({
       isSearchable={isSearchable}
       isDisabled={isDisabled}
       formatOptionLabel={customFormatOptionLabel}
+      instanceId={useId()}
     />
   );
 };

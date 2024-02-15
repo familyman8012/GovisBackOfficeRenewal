@@ -108,14 +108,14 @@ export const VideoListStyle = styled.div`
   padding: 0;
   cursor: pointer;
 
-  button {
+  /* button {
     text-align: left;
     display: flex;
     flex-wrap: wrap;
     background-color: transparent;
     appearance: none;
     cursor: pointer;
-  }
+  } */
 
   .item {
     flex: 0 0 auto;
@@ -162,12 +162,17 @@ export const VideoListStyle = styled.div`
   }
 
   .info-wrap {
+    flex: 1;
     padding: 2.4rem;
 
     h3 {
       font-size: 2.4rem;
       line-height: inherit;
       line-height: 1.1;
+    }
+
+    h3::before {
+      content: '\200b';
     }
 
     .score {

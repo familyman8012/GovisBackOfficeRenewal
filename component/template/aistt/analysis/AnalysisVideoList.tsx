@@ -25,59 +25,59 @@ const AnalysisVideoList: React.FC<VideoListProps> = ({
     return <SkeletonVideoThumb count={20} />;
   }
 
+  const handleClick = (item: IFqsInspectionListResponse['list'][number]) =>
+    onItemSelect
+      ? onItemSelect(item)
+      : router.push({
+          pathname: `/aistt-analysis/view/${item.inspection_info_idx}`,
+          search: router.asPath.split('?')?.[1] ?? '',
+        });
+
   return (
     <VideoListStyle>
       {list.length === 0 && <Empty>조회된 데이터가 없습니다.</Empty>}
       {list.map(item => (
-        <div className="item" key={item.inspection_info_idx}>
-          <button
-            type="button"
-            onClick={() =>
-              onItemSelect
-                ? onItemSelect(item)
-                : router.push({
-                    pathname: `/aistt-analysis/view/${item.inspection_info_idx}`,
-                    search: router.asPath.split('?')?.[1] ?? '',
-                  })
-            }
-          >
-            <div className="img-wrap">
-              <Badge
-                color={
-                  item.inspection_status === 'complete'
-                    ? 'green'
-                    : item.inspection_status === 'indeterminate'
-                    ? 'red'
-                    : 'yellow'
-                }
-                dot
-                size="sm"
-              >
-                {item.inspection_status === 'complete'
-                  ? '검수 완료'
+        <div
+          key={item.inspection_info_idx}
+          tabIndex={0}
+          role="button"
+          className="item"
+          onClick={() => handleClick(item)}
+          onKeyDown={e => e.key === 'Enter' && handleClick(item)}
+        >
+          <div className="img-wrap">
+            <Badge
+              color={
+                item.inspection_status === 'complete'
+                  ? 'green'
                   : item.inspection_status === 'indeterminate'
-                  ? '판단 불가'
-                  : '영상 불량'}
-              </Badge>
-              <img
-                src={item.inspection_image_url}
-                alt={item.product_info_name}
-              />
-            </div>
-            <div className="info-wrap">
-              <h3>{item.product_info_name}</h3>
-              <ul>
-                <li className="score">
-                  {getScoreFormat(item.converted_score)}점
-                </li>
-              </ul>
-              <p>{item.store_name}</p>
-              <p>
-                제조일자{' '}
-                {dayjs(item.manufacture_dt).format('YYYY-MM-DD HH:mm:ss')}
-              </p>
-            </div>
-          </button>
+                  ? 'red'
+                  : 'yellow'
+              }
+              dot
+              size="sm"
+            >
+              {item.inspection_status === 'complete'
+                ? '검수 완료'
+                : item.inspection_status === 'indeterminate'
+                ? '판단 불가'
+                : '영상 불량'}
+            </Badge>
+            <img src={item.inspection_image_url} alt={item.product_info_name} />
+          </div>
+          <div className="info-wrap">
+            <h3>{item.product_info_name}</h3>
+            <ul>
+              <li className="score">
+                {getScoreFormat(item.converted_score)}점
+              </li>
+            </ul>
+            <p>{item.store_name}</p>
+            <p>
+              제조일자{' '}
+              {dayjs(item.manufacture_dt).format('YYYY-MM-DD HH:mm:ss')}
+            </p>
+          </div>
         </div>
       ))}
     </VideoListStyle>
