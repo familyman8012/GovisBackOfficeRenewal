@@ -451,4 +451,5 @@ export const Goivs2Menu = [
   '/menu/link-history',
   '/storybook',
   '/store-sales-keyin',
+  '/scroll_demo',
 ];
