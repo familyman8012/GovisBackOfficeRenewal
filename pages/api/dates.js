@@ -5,6 +5,7 @@ export default function handler(req, res) {
   // 날짜 데이터 생성 로직
   const dates = [];
   const startDate = new Date('2024-02-12'); // 시작 날짜
+  // eslint-disable-next-line no-plusplus
   for (let i = 0; i < limit; i++) {
     const newDate = new Date(startDate);
     newDate.setDate(newDate.getDate() + (page - 1) * limit + i);
