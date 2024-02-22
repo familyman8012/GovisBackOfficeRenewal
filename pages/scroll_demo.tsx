@@ -1,110 +1,176 @@
-// components/StickyTable.js
-import React, { SyntheticEvent } from 'react';
+import React from 'react';
 import axios from 'axios';
+import { MultiGrid, AutoSizer } from 'react-virtualized';
 import { useInfiniteQuery } from 'react-query';
-import styled from '@emotion/styled';
+import { css } from '@emotion/react';
 
-const StickyTableWrap = styled.div`
-  overflow-x: auto; /* 테이블이 너무 넓어지면 스크롤바가 생깁니다 */
-  overflow-y: auto;
-  max-width: 100%;
-  height: 500px;
-
-  table {
-    border-collapse: collapse;
-    width: 100%;
-  }
-
-  th,
-  td {
-    width: 200px;
-
-    text-align: left;
-    padding: 8px;
-  }
-
-  .stickyColumn {
-    position: sticky;
-    left: 0;
-    background-color: #f9f9f9;
-    z-index: 2;
-
-    &:nth-of-type(2) {
-      left: 200px;
-    }
-  }
-  /* 상단 헤더 고정 */
-  thead th {
-    position: sticky;
-    top: 0;
-    background-color: #f9f9f9;
-    z-index: 2; /* 매장명과 합계 컬럼보다 높은 z-index 값을 주어 상단에 고정 */
-
-    &.stickyColumn {
-      z-index: 3;
-    }
-  }
-`;
-
-const fetchDates = async ({ pageParam = 1 }) => {
-  // Next.js API 라우트를 호출합니다. 여기서는 페이지 번호를 쿼리 파라미터로 전달합니다.
-  const res = await axios.get(`/api/dates?page=${pageParam}`);
-  // 응답 데이터를 반환합니다.
-  // getNextPageParam 함수에서 사용할 수 있도록, 다음 페이지 정보도 함께 반환합니다.
-  return res.data;
+const STYLE = {
+  border: '1px solid #ddd',
+};
+const STYLE_BOTTOM_LEFT_GRID = {
+  borderRight: '2px solid #aaa',
+  backgroundColor: '#f7f7f7',
+};
+const STYLE_TOP_LEFT_GRID = {
+  borderBottom: '2px solid #aaa',
+  borderRight: '2px solid #aaa',
+  fontWeight: 'bold',
+};
+const STYLE_TOP_RIGHT_GRID = {
+  borderBottom: '2px solid #aaa',
+  fontWeight: 'bold',
 };
 
-const StickyTable = () => {
-  // 예제 데이터
+const fetchSalesData = async ({ pageParam = 1 }) => {
+  const response = await axios.get(`/api/dates?page=${pageParam}`);
+  return response.data;
+};
 
-  const stores = Array.from({ length: 150 }, (_, index) => `매장${index + 1}`);
-
+const MultiGridExample = () => {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
-    useInfiniteQuery('dates', fetchDates, {
-      getNextPageParam: (lastPage, pages) => lastPage.nextPage,
+    useInfiniteQuery('salesData', fetchSalesData, {
+      getNextPageParam: lastPage => lastPage.nextPage ?? false,
     });
 
-  const dates = data?.pages.flatMap(page => page.dates) ?? [];
+  const updatedStores = React.useMemo(() => {
+    const storesMap = new Map();
 
-  // 스크롤 이벤트 핸들러
-  const handleScroll = (e: SyntheticEvent) => {
-    const { scrollLeft, clientWidth, scrollWidth } = e.currentTarget;
-    // 가로 스크롤이 거의 끝에 도달했는지 확인합니다.
+    data?.pages.forEach(page => {
+      page.list.forEach(
+        (store: { store_idx: number; daily_sales_list: any[] }) => {
+          if (!storesMap.has(store.store_idx)) {
+            storesMap.set(store.store_idx, { ...store, daily_sales_list: [] });
+          }
+          const updatedStore = storesMap.get(store.store_idx);
+          updatedStore.daily_sales_list = [
+            ...updatedStore.daily_sales_list,
+            ...store.daily_sales_list,
+          ];
+          storesMap.set(store.store_idx, updatedStore);
+        }
+      );
+    });
+
+    return Array.from(storesMap.values());
+  }, [data?.pages]);
+
+  // 날짜 데이터 업데이트 로직을 통합한 후, uniqueDates 계산
+  const allDates = updatedStores.flatMap(store =>
+    store.daily_sales_list.map((sale: any) => sale.sales_day)
+  );
+  const uniqueDates = [...new Set(allDates)];
+
+  const cellRenderer = ({
+    columnIndex,
+    key,
+    rowIndex,
+    style,
+  }: {
+    columnIndex: number;
+    key: string;
+    rowIndex: number;
+    style: object;
+  }) => {
+    let content;
+
+    if (rowIndex === 0) {
+      // 헤더 로우
+      if (columnIndex < 2) {
+        content = columnIndex === 0 ? '매장명' : '총합';
+      } else {
+        content = uniqueDates[columnIndex - 2] || '';
+      }
+    } else {
+      // 데이터 로우
+      const store = updatedStores[rowIndex - 1];
+      if (columnIndex === 0) {
+        content = store.store_name;
+      } else if (columnIndex === 1) {
+        content = store.total_sales_amount.toLocaleString();
+      } else {
+        const date = uniqueDates[columnIndex - 2];
+        const sale = store.daily_sales_list.find(
+          (s: any) => s.sales_day === date
+        );
+        content = sale ? sale.sales_amount.toLocaleString() : '0';
+      }
+    }
+
+    return (
+      <div
+        css={css`
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          border-bottom: 1px solid #eee;
+          border-right: 1px solid #eee;
+        `}
+        key={key}
+        style={style}
+      >
+        {content}
+      </div>
+    );
+  };
+
+  const onScroll = ({
+    scrollLeft,
+    clientWidth,
+    scrollWidth,
+  }: {
+    scrollLeft: number;
+    clientWidth: number;
+    scrollWidth: number;
+  }) => {
     if (
-      scrollWidth - scrollLeft <= clientWidth * 1.5 &&
+      scrollWidth - scrollLeft <= clientWidth + 100 &&
       hasNextPage &&
       !isFetchingNextPage
     ) {
-      fetchNextPage(); // 다음 페이지 데이터를 불러옵니다.
+      fetchNextPage();
     }
   };
 
   return (
-    <StickyTableWrap onScroll={handleScroll}>
-      <table>
-        <thead>
-          <tr>
-            <th className="stickyColumn">매장명</th>
-            <th className="stickyColumn">합계</th>
-            {dates.map(date => (
-              <th key={date}>{date}</th>
-            ))}
-          </tr>
-        </thead>
-        <tbody>
-          {stores.map(store => (
-            <tr key={store}>
-              <td className="stickyColumn">{store}</td>
-              <td className="stickyColumn">합계 데이터</td>
-              {dates.map(date => (
-                <td key={date}>4,118,700</td> // 실제 데이터로 채울 부분
-              ))}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </StickyTableWrap>
+    <div
+      css={css`
+        flex: 1 0 auto;
+        display: flex;
+        flex-direction: column;
+        background-color: #fff;
+        padding: 0 1rem 1rem 1rem;
+        overflow: auto;
+        background: white;
+      `}
+    >
+      <AutoSizer disableHeight>
+        {({ width }) => (
+          <MultiGrid
+            columnCount={2 + uniqueDates.length} // 고정된 컬럼 + 날짜 데이터 컬럼
+            rowCount={updatedStores.length + 1} // 매장 수 + 헤더
+            fixedColumnCount={2}
+            fixedRowCount={1}
+            scrollToColumn={0}
+            scrollToRow={0}
+            cellRenderer={cellRenderer}
+            height={600}
+            rowHeight={40}
+            columnWidth={75}
+            enableFixedColumnScroll
+            enableFixedRowScroll
+            width={width}
+            style={STYLE}
+            styleBottomLeftGrid={STYLE_BOTTOM_LEFT_GRID}
+            styleTopLeftGrid={STYLE_TOP_LEFT_GRID}
+            styleTopRightGrid={STYLE_TOP_RIGHT_GRID}
+            hideTopRightGridScrollbar
+            hideBottomLeftGridScrollbar
+            onScroll={onScroll}
+          />
+        )}
+      </AutoSizer>
+    </div>
   );
 };
 
-export default StickyTable;
+export default MultiGridExample;
