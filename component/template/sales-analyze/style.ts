@@ -29,7 +29,6 @@ export const VirtualTableWrap = styled.div`
     .ReactVirtualized__Grid__innerScrollContainer > div {
       background: #fff !important;
     }
-    border-bottom: 1px solid var(--color-neutral90) !important;
 
     .wrap_storename {
       width: 100%;
@@ -48,6 +47,14 @@ export const VirtualTableWrap = styled.div`
     font-size: 1.6rem;
     font-weight: 600;
     color: var(--color-neutral10);
+    border-bottom: 1px solid var(--color-neutral90) !important;
+  }
+
+  &.scroll_empty {
+    .bottomLeftGrid,
+    .bottomRightGrid {
+      height: auto !important;
+    }
   }
 `;
 

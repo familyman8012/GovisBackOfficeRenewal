@@ -94,10 +94,6 @@ const VirtualizedTable = ({
             classNameBottomLeftGrid="bottomLeftGrid"
             classNameTopRightGrid="topRightGrid"
             classNameBottomRightGrid="bottomRightGrid"
-            enableFixedColumnScroll
-            enableFixedRowScroll
-            hideTopRightGridScrollbar
-            hideBottomLeftGridScrollbar
           />
         )}
       </AutoSizer>
