@@ -5,10 +5,10 @@ import { css } from '@emotion/react';
 import ExportButton from '@ComponentFarm/modules/ExportButton/ExportButton';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
-import { salesAnalysisTabData } from '@ComponentFarm/template/sales-analysis/const';
-import FilterTableForm from '@ComponentFarm/template/sales-analysis/FilterSalesAnalysis';
-import SalesSummaryTable from '@ComponentFarm/template/sales-analysis/SalesSummaryTable';
-import SalesTotal from '@ComponentFarm/template/sales-analysis/SalesTotalTable';
+import { salesAnalyzeTabData } from '@ComponentFarm/template/sales-analyze/const';
+import FilterTableForm from '@ComponentFarm/template/sales-analyze/FilterSalesAnalyze';
+import SalesSummaryTable from '@ComponentFarm/template/sales-analyze/SalesSummaryTable';
+import SalesTotal from '@ComponentFarm/template/sales-analyze/SalesTotalTable';
 import useQueryParams from '@HookFarm/useQueryParams';
 
 const Index = () => {
@@ -21,15 +21,15 @@ const Index = () => {
 
   const hanldeTabMove = (index: number) => {
     setActiveTabIndex(index);
-    router.push(salesAnalysisTabData[index].url);
+    router.push(salesAnalyzeTabData[index].url);
   };
 
   return (
     <>
       <TitleArea title="매출 분석" />
       <Tabs
-        id="salesAnalysis"
-        tabs={salesAnalysisTabData}
+        id="salesAnalyze"
+        tabs={salesAnalyzeTabData}
         activeTabIndex={activeTabIndex}
         onTabChange={(index: number) => hanldeTabMove(index)}
       />

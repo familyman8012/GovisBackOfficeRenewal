@@ -3,6 +3,7 @@ import { useQuery } from 'react-query';
 import styled from '@emotion/styled';
 import { fetchStoreSale } from '@ApiFarm/sales';
 import { Badge } from '@ComponentFarm/atom/Badge/Badge';
+import SkeletonTh from '@ComponentFarm/atom/Skeleton/SkeletonTh';
 import { StatusStr, StoreStr } from '@ComponentFarm/modal/SearchPopup/const';
 import { getTableWidthPercentage } from '@UtilFarm/calcSize';
 import { tableField } from './const';
@@ -75,10 +76,6 @@ const SalesTotal = ({ params }: any) => {
     fetchStoreSale(params)
   );
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <SummaryWrap>
       <TableSty1>
@@ -106,55 +103,59 @@ const SalesTotal = ({ params }: any) => {
           </tr>
         </thead>
         <tbody>
-          {data?.list.map(store => (
-            <tr key={store.store_idx}>
-              <td>
-                <div className="wrap_storename">
-                  <div className="store_name">{store.store_name}</div>
-                  <div className="info">
-                    <Badge color="gray" size="sm">
-                      {StoreStr[store.store_type]}
-                    </Badge>
-                    <Badge
-                      color={
-                        store.store_status === 'OPEN'
-                          ? 'blue'
-                          : store.store_status === 'CLOSED'
-                          ? 'red'
-                          : 'yellow'
-                      }
-                      size="sm"
-                    >
-                      {StatusStr[store.store_status]}
-                    </Badge>
+          {isLoading ? (
+            <SkeletonTh colLength={12} />
+          ) : (
+            data?.list.map(store => (
+              <tr key={store.store_idx}>
+                <td>
+                  <div className="wrap_storename">
+                    <div className="store_name">{store.store_name}</div>
+                    <div className="info">
+                      <Badge color="gray" size="sm">
+                        {StoreStr[store.store_type]}
+                      </Badge>
+                      <Badge
+                        color={
+                          store.store_status === 'OPEN'
+                            ? 'blue'
+                            : store.store_status === 'CLOSED'
+                            ? 'red'
+                            : 'yellow'
+                        }
+                        size="sm"
+                      >
+                        {StatusStr[store.store_status]}
+                      </Badge>
+                    </div>
                   </div>
-                </div>
-              </td>
-              <td className="txt_amount">
-                {store.total_sales_amount.toLocaleString()}
-              </td>
-              {tableField.types.map((type, i) => (
-                <td
-                  key={type.field}
-                  className={i % 2 !== 0 ? 'bg txt_amount' : 'txt_amount'}
-                >
-                  {Number(
-                    store.by_order_type[`${type.field}_sales_amount`]
-                  ).toLocaleString()}
                 </td>
-              ))}
-              {tableField.channels.map((channel, i) => (
-                <td
-                  key={channel.field}
-                  className={i % 2 !== 0 ? 'bg txt_amount' : 'txt_amount'}
-                >
-                  {store.by_order_channel[
-                    `${channel.field}_sales_amount`
-                  ].toLocaleString()}
+                <td className="txt_amount">
+                  {store.total_sales_amount.toLocaleString()}
                 </td>
-              ))}
-            </tr>
-          ))}
+                {tableField.types.map((type, i) => (
+                  <td
+                    key={type.field}
+                    className={i % 2 !== 0 ? 'bg txt_amount' : 'txt_amount'}
+                  >
+                    {Number(
+                      store.by_order_type[`${type.field}_sales_amount`]
+                    ).toLocaleString()}
+                  </td>
+                ))}
+                {tableField.channels.map((channel, i) => (
+                  <td
+                    key={channel.field}
+                    className={i % 2 !== 0 ? 'bg txt_amount' : 'txt_amount'}
+                  >
+                    {store.by_order_channel[
+                      `${channel.field}_sales_amount`
+                    ].toLocaleString()}
+                  </td>
+                ))}
+              </tr>
+            ))
+          )}
         </tbody>
       </TableSty1>
     </SummaryWrap>

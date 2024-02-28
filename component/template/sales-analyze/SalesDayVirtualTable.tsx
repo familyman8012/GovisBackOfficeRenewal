@@ -1,12 +1,13 @@
 import React from 'react';
+import Skeleton from 'react-loading-skeleton';
 import { useQuery } from 'react-query';
 import { css } from '@emotion/react';
 import { fetchDaySale } from '@ApiFarm/sales';
 import VirtualizedTable from '@ComponentFarm/modules/VirtualizedTable/VirtualizedTable';
-import { VirtualTableWrap } from '@ComponentFarm/template/sales-analysis/style';
+import { VirtualTableWrap } from '@ComponentFarm/template/sales-analyze/style';
 import SalesVirtualCell, {
   SalesVirtualCellProps,
-} from '@ComponentFarm/template/sales-analysis/VirtualCell';
+} from '@ComponentFarm/template/sales-analyze/VirtualCell';
 
 const SalesDayVirtualTable = ({ params }: { params: any }) => {
   const { isLoading, data: salesData } = useQuery(['DaySale', params], () =>
@@ -18,7 +19,11 @@ const SalesDayVirtualTable = ({ params }: { params: any }) => {
   );
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div>
+        <Skeleton height="81rem" baseColor="#fcfcfc" />
+      </div>
+    );
   }
 
   return (

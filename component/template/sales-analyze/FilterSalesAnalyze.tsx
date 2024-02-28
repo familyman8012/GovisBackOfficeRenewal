@@ -16,7 +16,7 @@ import { QueryParams } from '@HookFarm/useQueryParams';
 import { salesTypeSelect, storeStatusOption } from './const';
 import useSelectItems from '../common/FilterTable/useFilterHandler';
 
-export const FilterSalesAnalysisWrap = styled.div`
+export const FilterSalesAnalyzeWrap = styled.div`
   display: flex;
 
   margin: 1.6rem 0;
@@ -179,7 +179,7 @@ const FilterTableForm = ({
   }, [paramsSalesType, params.sales_type]);
 
   return (
-    <FilterSalesAnalysisWrap>
+    <FilterSalesAnalyzeWrap>
       {salesType && (
         <dl>
           <dt>매출종류</dt>
@@ -230,7 +230,7 @@ const FilterTableForm = ({
         </dd>
       </dl>
       <StoreSearchPopup setConfig={storeSelect} data={storeModalData} />
-    </FilterSalesAnalysisWrap>
+    </FilterSalesAnalyzeWrap>
   );
 };
 

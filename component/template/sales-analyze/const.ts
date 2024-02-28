@@ -1,12 +1,12 @@
 // Tab
-export const salesAnalysisTabData = [
+export const salesAnalyzeTabData = [
   {
     title: '전체',
-    url: '/sales-analysis',
+    url: '/sales-analyze',
   },
   {
     title: '일별',
-    url: '/sales-analysis/day',
+    url: '/sales-analyze/day',
   },
 ];
 

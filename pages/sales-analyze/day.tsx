@@ -3,10 +3,10 @@ import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
-import { salesAnalysisTabData } from '@ComponentFarm/template/sales-analysis/const';
-import FilterTableForm from '@ComponentFarm/template/sales-analysis/FilterSalesAnalysis';
-import SalesDayVirtualTable from '@ComponentFarm/template/sales-analysis/SalesDayVirtualTable';
-import SalesSummaryTable from '@ComponentFarm/template/sales-analysis/SalesSummaryTable';
+import { salesAnalyzeTabData } from '@ComponentFarm/template/sales-analyze/const';
+import FilterTableForm from '@ComponentFarm/template/sales-analyze/FilterSalesAnalyze';
+import SalesDayVirtualTable from '@ComponentFarm/template/sales-analyze/SalesDayVirtualTable';
+import SalesSummaryTable from '@ComponentFarm/template/sales-analyze/SalesSummaryTable';
 import useQueryParams from '@HookFarm/useQueryParams';
 
 const Index = () => {
@@ -19,15 +19,15 @@ const Index = () => {
 
   const hanldeTabMove = (index: number) => {
     setActiveTabIndex(index);
-    router.push(salesAnalysisTabData[index].url);
+    router.push(salesAnalyzeTabData[index].url);
   };
 
   return (
     <>
       <TitleArea title="매출 분석" />
       <Tabs
-        id="salesAnalysis2"
-        tabs={salesAnalysisTabData}
+        id="salesAnalyze2"
+        tabs={salesAnalyzeTabData}
         activeTabIndex={activeTabIndex}
         onTabChange={(index: number) => hanldeTabMove(index)}
       />

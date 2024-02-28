@@ -3,6 +3,7 @@ import { useQuery } from 'react-query';
 import styled from '@emotion/styled';
 import { fetchSalesSummary } from '@ApiFarm/sales';
 import { ISalesSummaryReq } from '@InterfaceFarm/sales';
+import SkeletonTh from '@ComponentFarm/atom/Skeleton/SkeletonTh';
 import { getTableWidthPercentage } from '@UtilFarm/calcSize';
 import { tableField } from './const';
 import SubTitleBox from '../common/SubTitleBox';
@@ -80,10 +81,6 @@ const SalesSummaryTable = ({ params }: { params: any }) => {
     fetchSalesSummary(params as ISalesSummaryReq)
   );
 
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
   return (
     <SummaryWrap>
       <SubTitleBox title="통계요약" desc="단위 : 원" hideUnderline />
@@ -110,39 +107,43 @@ const SalesSummaryTable = ({ params }: { params: any }) => {
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td className="total_price">
-              {Number(data?.result.total_sales_amount).toLocaleString()}
-            </td>
-            {tableField.types.map((type, i) => (
-              <td key={type.field} className={i % 2 !== 0 ? 'bg' : ''}>
-                <div className="txt_amount">
-                  {data?.result.by_order_type[
-                    `${type.field}_sales_amount`
-                  ].toLocaleString()}
-                </div>
-                <div className="txt_ratio">
-                  {data?.result.by_order_type[`${type.field}_sales_ratio`]}
-                </div>
+          {isLoading ? (
+            <SkeletonTh colLength={11} rowLength={1} />
+          ) : (
+            <tr>
+              <td className="total_price">
+                {Number(data?.result.total_sales_amount).toLocaleString()}
               </td>
-            ))}
-            {tableField.channels.map((channel, i) => (
-              <td key={channel.field} className={i % 2 !== 0 ? 'bg' : ''}>
-                <div className="txt_amount">
-                  {data?.result.by_order_channel[
-                    `${channel.field}_sales_amount`
-                  ].toLocaleString()}
-                </div>
-                <div className="txt_ratio">
-                  {
-                    data?.result.by_order_channel[
-                      `${channel.field}_sales_ratio`
-                    ]
-                  }
-                </div>
-              </td>
-            ))}
-          </tr>
+              {tableField.types.map((type, i) => (
+                <td key={type.field} className={i % 2 !== 0 ? 'bg' : ''}>
+                  <div className="txt_amount">
+                    {data?.result.by_order_type[
+                      `${type.field}_sales_amount`
+                    ].toLocaleString()}
+                  </div>
+                  <div className="txt_ratio">
+                    {data?.result.by_order_type[`${type.field}_sales_ratio`]}
+                  </div>
+                </td>
+              ))}
+              {tableField.channels.map((channel, i) => (
+                <td key={channel.field} className={i % 2 !== 0 ? 'bg' : ''}>
+                  <div className="txt_amount">
+                    {data?.result.by_order_channel[
+                      `${channel.field}_sales_amount`
+                    ].toLocaleString()}
+                  </div>
+                  <div className="txt_ratio">
+                    {
+                      data?.result.by_order_channel[
+                        `${channel.field}_sales_ratio`
+                      ]
+                    }
+                  </div>
+                </td>
+              ))}
+            </tr>
+          )}
         </tbody>
       </TableSty1>
     </SummaryWrap>
