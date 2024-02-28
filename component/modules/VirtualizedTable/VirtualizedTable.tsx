@@ -35,16 +35,23 @@ const VirtualizedTable = ({
     if (viewColumn <= 9) {
       if (index < 2) {
         // 첫 2개의 열은 각각 전체 너비의 20%
-        return gridSize.width * 0.15;
+        return gridSize.width * 0.13;
       }
       // 나머지 열은 전체 너비의 80%를 나머지 열 수로 나눔
-      const remainingWidth = gridSize.width * 0.7;
+      const remainingWidth = gridSize.width * 0.77;
       const remainingColumns = viewColumn - 2;
 
       return remainingWidth / remainingColumns;
     }
-    // viewColumn > 9 인 경우, 모든 열은 동일한 너비를 가짐
-    return gridSize.width / viewColumn;
+
+    if (index < 2) {
+      // 첫 2개의 열은 각각 전체 너비의 20%
+      return gridSize.width * 0.13;
+    }
+    // 나머지 열은 전체 너비의 80%를 나머지 열 수로 나눔
+    const remainingWidth = gridSize.width * 0.77;
+
+    return remainingWidth / 9;
   };
 
   return (

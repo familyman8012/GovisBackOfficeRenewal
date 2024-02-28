@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 
 export const VirtualTableWrap = styled.div`
   width: 100%;
-  height: 81rem;
+
   margin-bottom: 10rem;
 
   .topLeftGrid,
