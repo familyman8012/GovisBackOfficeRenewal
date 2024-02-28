@@ -97,7 +97,7 @@ export const DiffDateRanger = ({
         ],
       });
     }
-  }, [dateKeys.endKey, dateKeys.startKey, params, setSelectedDateRanges, type]);
+  }, [dateKeys.endKey, dateKeys.startKey, setSelectedDateRanges, type]);
 
   // 1년까지의 범위로.
   const [maxEndDate1, setMaxEndDate1] = useState<Date | null>(null);

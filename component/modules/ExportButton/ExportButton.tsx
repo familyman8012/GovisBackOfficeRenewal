@@ -10,10 +10,12 @@ const ExportButton = ({
   params,
   endPoint,
   title,
+  buttonTxt = '내보내기',
 }: {
   params: any;
   endPoint: string;
   title: string;
+  buttonTxt?: string;
 }) => {
   const [isDownloading, setIsDownloading] = useState(false);
 
@@ -58,7 +60,7 @@ const ExportButton = ({
       onClick={() => downloadRecipeProductList()}
       disabled={isDownloading}
     >
-      내보내기
+      {buttonTxt}
     </Button>
   );
 };

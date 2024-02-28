@@ -89,7 +89,7 @@ const SubTitleBox: FC<ISubTitleBoxProps> = ({
   descBottom,
 }) => {
   return (
-    <SubTitleBoxWrap hideUnderline={hideUnderline}>
+    <SubTitleBoxWrap hideUnderline={hideUnderline} className="SubTitleBoxWrap">
       <div>
         {title && <h2>{title}</h2>}
         {descBottom && (
