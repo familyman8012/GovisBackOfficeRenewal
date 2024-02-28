@@ -1,7 +1,6 @@
 import React from 'react';
 import { css } from '@emotion/react';
 import InfinityVirtualizedTable from '@ComponentFarm/modules/VirtualizedTable/Infinity';
-import OneDataTable from '@ComponentFarm/modules/VirtualizedTable/oneDataTable';
 
 const ScrollDemo = () => {
   return (
@@ -18,10 +17,10 @@ const ScrollDemo = () => {
         <InfinityVirtualizedTable />
         <p>Infinity Scroll 적용에제</p>
       </div>
-      <div>
+      {/* <div>
         <OneDataTable />
         <p>데이터 한번에 불러왔을때.</p>
-      </div>
+      </div> */}
     </div>
   );
 };
