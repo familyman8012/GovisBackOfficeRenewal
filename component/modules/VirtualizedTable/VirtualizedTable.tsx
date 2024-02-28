@@ -78,11 +78,7 @@ const VirtualizedTable = ({
               if (index === 0) {
                 return thHeight;
               }
-              return (
-                gridSize.height / viewRow +
-                (gridSize.height / viewRow - thHeight) / viewRow +
-                1
-              );
+              return 77;
             }}
             columnCount={viewColumn}
             rowCount={rowCount}

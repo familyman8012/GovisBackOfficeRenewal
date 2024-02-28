@@ -30,10 +30,13 @@ const SalesDayVirtualTable = ({ params }: { params: any }) => {
     <>
       {salesData && (
         <VirtualTableWrap
+          //   css={css`
+          //   height: ${`${Number(salesData?.list.length) * 77 + 64}px`};
+          // `}
           css={css`
             height: ${salesData?.list.length > 10
               ? '81rem'
-              : `${Number(salesData?.list.length) * 77 + 48}px`};
+              : `${Number(salesData?.list.length) * 77 + 64}px`};
           `}
         >
           <VirtualizedTable
