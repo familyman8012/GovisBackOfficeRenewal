@@ -53,7 +53,9 @@ const StoreSearchPopup = ({
   return (
     <SearchPopup<IStoreResultData>
       title="매장 상세 설정"
-      keyWordSearchTitle="매장명"
+      className="pop_store"
+      searchBoxPlaceHolder="매장명 혹은 담당 SV 이름을 입력해주세요"
+      keyWordSearchTitle="매장명 / 담당 SV"
       selectConfig={selectConfig}
       tableCofig={tableCofig}
       resultData={resultData}

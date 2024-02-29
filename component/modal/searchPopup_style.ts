@@ -8,6 +8,12 @@ export const SearchBox = styled.form<{ width?: number }>`
   border-radius: 4px;
   border: 1px solid var(--color-neutral90);
 
+  &.pop_store {
+    th {
+      width: 13.5rem;
+    }
+  }
+
   table {
     width: 100%;
     text-align: left;
@@ -56,7 +62,6 @@ export const SearchResult = styled.form<{ width: number; col?: number[] }>`
     border: none;
     display: block;
     width: 100%;
-    overflow: visible !important;
   }
 
   tabel {

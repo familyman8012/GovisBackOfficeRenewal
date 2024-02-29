@@ -42,6 +42,8 @@ export interface ICommonResultData {
 interface SearchPopupProps<T extends ICommonResultData> {
   width?: number;
   title: string;
+  className?: string;
+  searchBoxPlaceHolder?: string;
   keyWordSearchTitle: string;
   selectConfig?: SelectConfig[];
   tableCofig: ColumnNameType;
@@ -65,6 +67,8 @@ interface SearchPopupProps<T extends ICommonResultData> {
 const SearchPopup = <T extends ICommonResultData>({
   width = 833,
   title,
+  className,
+  searchBoxPlaceHolder,
   keyWordSearchTitle,
   selectConfig,
   tableCofig,
@@ -320,7 +324,7 @@ const SearchPopup = <T extends ICommonResultData>({
       `}
       onFormSubmit={onFormSubmit}
     >
-      <SearchBox width={width}>
+      <SearchBox width={width} className={className}>
         <fieldset>
           <legend>{title} 검색</legend>
           <table>
@@ -356,7 +360,9 @@ const SearchPopup = <T extends ICommonResultData>({
                         keywordConfig.search_keyword
                       );
                     }}
-                    placeholder="검색어를 입력해 주세요"
+                    placeholder={
+                      searchBoxPlaceHolder ?? '검색어를 입력해 주세요'
+                    }
                   />
                 </td>
               </tr>
