@@ -30,11 +30,8 @@ const SalesDayVirtualTable = ({ params }: { params: any }) => {
     <>
       {salesData && (
         <VirtualTableWrap
-          //   css={css`
-          //   height: ${`${Number(salesData?.list.length) * 77 + 64}px`};
-          // `}
           className={`${
-            salesData.list[0].daily_sales_list.length < 7 &&
+            salesData.list[0].daily_sales_list.length < 8 &&
             salesData?.list.length < 11
               ? 'scroll_empty'
               : ''

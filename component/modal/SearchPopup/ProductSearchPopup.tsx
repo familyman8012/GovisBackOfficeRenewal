@@ -55,6 +55,7 @@ const ProductSearchPopup = ({
     <SearchPopup<IProductResultData>
       title="제품 상세 설정"
       keyWordSearchTitle="제품명"
+      width={646}
       selectConfig={selectConfig}
       tableCofig={tableCofig}
       resultData={resultData}

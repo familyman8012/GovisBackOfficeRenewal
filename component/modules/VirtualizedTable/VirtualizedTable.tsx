@@ -57,7 +57,7 @@ const VirtualizedTable = ({
     // 나머지 열은 전체 너비의 80%를 나머지 열 수로 나눔
     const remainingWidth = gridSize.width * 0.78;
 
-    return remainingWidth / 7;
+    return (remainingWidth - 27) / 7;
   };
 
   return (

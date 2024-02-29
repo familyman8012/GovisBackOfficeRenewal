@@ -1,10 +1,10 @@
 import styled from '@emotion/styled';
 import { TableWrap } from '@ComponentFarm/common';
 
-export const SearchBox = styled.form<{ width?: string }>`
+export const SearchBox = styled.form<{ width?: number }>`
   position: relative;
   z-index: 100;
-  width: ${props => `${props.width}`};
+  width: ${props => `${`${Number(props.width) / 10}rem`}`};
   border-radius: 4px;
   border: 1px solid var(--color-neutral90);
 
@@ -46,8 +46,8 @@ export const SearchBox = styled.form<{ width?: string }>`
   }
 `;
 
-export const SearchResult = styled.form<{ width?: string; col?: number[] }>`
-  width: ${props => `${props.width}`};
+export const SearchResult = styled.form<{ width: number; col?: number[] }>`
+  width: ${props => `${`${props.width / 10}rem`}`};
   margin-top: 1.5rem;
   border: 1px solid var(--color-neutral90);
   border-radius: 0.6rem;
@@ -56,6 +56,7 @@ export const SearchResult = styled.form<{ width?: string; col?: number[] }>`
     border: none;
     display: block;
     width: 100%;
+    overflow: visible !important;
   }
 
   tabel {
@@ -70,11 +71,24 @@ export const SearchResult = styled.form<{ width?: string; col?: number[] }>`
     z-index: 10; /* 다른 요소들 위에 위치하도록 z-index 설정 */
   }
 
+  thead th,
+  tbody td {
+    boder: 1px solid;
+  }
+
   tbody {
     display: block;
-    width: ${props => `${props.width}`};
+    width: ${props => `${`${props.width / 10}rem`}`};
     height: 300px; /* 원하는 높이 설정 */
     overflow-y: auto; /* 스크롤 가능하게 설정 */
+
+    tr {
+      display: flex;
+      td {
+        display: flex;
+        align-items: center;
+      }
+    }
   }
 
   thead tr:first-of-type th {
@@ -85,10 +99,10 @@ export const SearchResult = styled.form<{ width?: string; col?: number[] }>`
     ${props =>
       props.col
         ?.map(
-          (width, index) =>
-            `&:nth-of-type(${
-              index + 1
-            }) { width: calc((${width} / 694) * 100%); }`
+          (colWidth, index) =>
+            `&:nth-of-type(${index + 1})  { width: ${`${Math.round(
+              (colWidth / props.width) * 100
+            )}%`} }`
         )
         .join('')}
   }
