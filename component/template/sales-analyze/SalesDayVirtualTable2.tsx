@@ -35,7 +35,7 @@ export const VirtusoTable = styled.table`
     }
 
     &:not(:first-of-type) {
-      width: 14rem;
+      width: auto;
       text-align: center;
     }
   }
