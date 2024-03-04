@@ -161,22 +161,29 @@ const FilterTableForm = ({
     });
   }, [storeStatus]);
 
-  useEffect(() => {
-    updateParams({
-      ...params,
-      sales_type: selectedOption?.value,
-    });
-  }, [selectedOption]);
-
   // ssr 문제 해결
-  const [paramsSalesType, setParamsSalesType] = useState<any>(null);
+  // const [paramsSalesType, setParamsSalesType] = useState<any>(null);
+
+  // useEffect(() => {
+  //   setParamsSalesType(params.sales_type);
+  //   setSelectedOption(
+  //     salesTypeSelect.find(el => el.value === params.sales_type) as IOption
+  //   );
+  // }, [paramsSalesType, params.sales_type]);
+
+  const [winReady, setwinReady] = useState(false);
+  useEffect(() => {
+    setwinReady(true);
+  }, []);
 
   useEffect(() => {
-    setParamsSalesType(params.sales_type);
-    setSelectedOption(
-      salesTypeSelect.find(el => el.value === params.sales_type) as IOption
-    );
-  }, [paramsSalesType, params.sales_type]);
+    if (winReady) {
+      updateParams({
+        ...params,
+        sales_type: selectedOption?.value,
+      });
+    }
+  }, [selectedOption]);
 
   return (
     <FilterSalesAnalyzeWrap>
@@ -184,12 +191,20 @@ const FilterTableForm = ({
         <dl>
           <dt>매출종류</dt>
           <dd>
-            <Select
-              options={[{ label: '전체', value: '' }, ...salesTypeSelect]}
-              selectedOption={paramsSalesType}
-              setSelectedOption={setSelectedOption}
-              placeholder="매출 종류 선택"
-            />
+            {winReady && (
+              <Select
+                options={[{ label: '전체', value: '' }, ...salesTypeSelect]}
+                selectedOption={
+                  selectedOption === null && params.sales_type
+                    ? (salesTypeSelect.find(
+                        el => el.value === params.sales_type
+                      ) as IOption)
+                    : selectedOption
+                }
+                setSelectedOption={setSelectedOption}
+                placeholder="매출 종류 선택"
+              />
+            )}
           </dd>
         </dl>
       )}
