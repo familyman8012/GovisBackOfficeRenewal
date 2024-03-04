@@ -29,12 +29,12 @@ export const TotalMenu: MenuType[] = [
         perm_code: 'sales_stores_report',
         perm_info_idx: 11,
       },
-      {
-        name: '매장별 통계',
-        path: '/sales/store',
-        perm_code: 'sales_stores',
-        perm_info_idx: 12,
-      },
+      // {
+      //   name: '매장별 통계',
+      //   path: '/sales/store',
+      //   perm_code: 'sales_stores',
+      //   perm_info_idx: 12,
+      // },
       {
         name: '시간대별 통계',
         path: '/sales/time',
@@ -83,8 +83,8 @@ export const TotalMenu: MenuType[] = [
     depth1: '매장별 통계',
     group: 'HeadOffice',
     path: '/sales-analyze',
-    // perm_code: 'sales_analyze',
-    // perm_info_idx: 999,
+    perm_code: 'sales_stores',
+    perm_info_idx: 12,
   },
   {
     depth1: '제품 분석 및 통계',

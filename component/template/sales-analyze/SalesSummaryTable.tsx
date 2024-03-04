@@ -49,7 +49,7 @@ const SummaryWrap = styled.div`
     }
     td:first-of-type,
     td:nth-of-type(4) {
-      border-right: 1px olid var(--color-neutral90);
+      border-right: 1px solid var(--color-neutral90);
     }
 
     .total_price,
