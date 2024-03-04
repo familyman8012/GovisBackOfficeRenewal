@@ -40,6 +40,15 @@ export const VirtusoTable = styled.table`
     }
   }
 
+  &.lessSty {
+    th,
+    td {
+      &:not(:first-of-type) {
+        width: auto;
+      }
+    }
+  }
+
   th {
     position: relative;
     z-index: 2;
@@ -109,6 +118,8 @@ const SalesDayVirtualTable2 = ({ params }: { params: any }) => {
     fetchDaySale(params)
   );
 
+  console.log('data?.list[0].daily_sales_list', data?.list[0].daily_sales_list);
+
   return (
     <>
       {data && (
@@ -117,7 +128,13 @@ const SalesDayVirtualTable2 = ({ params }: { params: any }) => {
           data={data?.list}
           components={{
             Table: ({ style, ...props }) => (
-              <VirtusoTable {...props} style={{ ...style }} />
+              <VirtusoTable
+                {...props}
+                style={{ ...style }}
+                className={
+                  data?.list[0].daily_sales_list.length <= 3 ? 'lessSty' : ''
+                }
+              />
             ),
           }}
           fixedHeaderContent={() => (

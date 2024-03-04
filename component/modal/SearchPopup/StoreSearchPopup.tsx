@@ -48,8 +48,6 @@ const StoreSearchPopup = ({
       };
     }) || [];
 
-  console.log('resultData', data);
-
   return (
     <SearchPopup<IStoreResultData>
       title="매장 상세 설정"

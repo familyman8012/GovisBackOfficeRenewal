@@ -198,8 +198,6 @@ const SearchPopup = <T extends ICommonResultData>({
     };
   }, [resultData]); // resultData 변경 시 재검사
 
-  console.log('tableCofig.col', tableCofig.col.length);
-
   const renderTable = () => {
     return (
       <Table className="basic">
