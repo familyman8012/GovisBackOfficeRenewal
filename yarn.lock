@@ -1862,6 +1862,11 @@
   resolved "https://registry.yarnpkg.com/@eslint/js/-/js-8.44.0.tgz#961a5903c74139390478bdc808bcde3fc45ab7af"
   integrity sha512-Ag+9YM4ocKQx9AarydN0KY2j0ErMHNIocPDrVo8zAE44xLTjEtz81OdR68/cydGtk6m6jDb5Za3r2useMzYmSw==
 
+"@faker-js/faker@^8.4.1":
+  version "8.4.1"
+  resolved "https://registry.yarnpkg.com/@faker-js/faker/-/faker-8.4.1.tgz#5d5e8aee8fce48f5e189bf730ebd1f758f491451"
+  integrity sha512-XQ3cU+Q8Uqmrbf2e0cIC/QN43sTBSC8KF12u29Mb47tWrt2hAgBXSgpZMj4Ao8Uk0iJcU99QsOCaIL8934obCg==
+
 "@fal-works/esbuild-plugin-global-externals@^2.1.2":
   version "2.1.2"
   resolved "https://registry.yarnpkg.com/@fal-works/esbuild-plugin-global-externals/-/esbuild-plugin-global-externals-2.1.2.tgz#c05ed35ad82df8e6ac616c68b92c2282bd083ba4"
@@ -6781,6 +6786,11 @@ extract-zip@^1.6.6:
     mkdirp "^0.5.4"
     yauzl "^2.10.0"
 
+faker@^6.6.6:
+  version "6.6.6"
+  resolved "https://registry.yarnpkg.com/faker/-/faker-6.6.6.tgz#e9529da0109dca4c7c5dbfeaadbd9234af943033"
+  integrity sha512-9tCqYEDHI5RYFQigXFwF1hnCwcWCOJl/hmll0lr5D2Ljjb0o4wphb69wikeJDz5qCEzXCoPvG6ss5SDP6IfOdg==
+
 fast-deep-equal@^3.1.1, fast-deep-equal@^3.1.3:
   version "3.1.3"
   resolved "https://registry.yarnpkg.com/fast-deep-equal/-/fast-deep-equal-3.1.3.tgz#3a7d56b559d6cbc3eb512325244e619a65c6c525"
@@ -10285,6 +10295,11 @@ react-virtualized@^9.22.5:
     loose-envify "^1.4.0"
     prop-types "^15.7.2"
     react-lifecycles-compat "^3.0.4"
+
+react-virtuoso@^4.7.1:
+  version "4.7.1"
+  resolved "https://registry.yarnpkg.com/react-virtuoso/-/react-virtuoso-4.7.1.tgz#a86dc0336e85f63ebcfc960bec1a83bca1bc75a4"
+  integrity sha512-V1JIZLEwgX7R+YNkbY8dq6NcnIGKGWXe4mnMJJPsA2L4qeFKst0LY3mDk6sBCJyKRbMzYFxTZWyTT4QsA1JvVQ==
 
 react-window@1.8.7:
   version "1.8.7"
