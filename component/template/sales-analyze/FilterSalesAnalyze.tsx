@@ -161,16 +161,6 @@ const FilterTableForm = ({
     });
   }, [storeStatus]);
 
-  // ssr 문제 해결
-  // const [paramsSalesType, setParamsSalesType] = useState<any>(null);
-
-  // useEffect(() => {
-  //   setParamsSalesType(params.sales_type);
-  //   setSelectedOption(
-  //     salesTypeSelect.find(el => el.value === params.sales_type) as IOption
-  //   );
-  // }, [paramsSalesType, params.sales_type]);
-
   const [winReady, setwinReady] = useState(false);
   useEffect(() => {
     setwinReady(true);
