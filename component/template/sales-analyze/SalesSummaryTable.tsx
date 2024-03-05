@@ -63,8 +63,15 @@ const SummaryWrap = styled.div`
     }
 
     .txt_amount {
-      font-size: 1.4rem;
+      font-size: 1.6rem;
       font-weight: 600;
+    }
+
+    @media (max-width: 1850) {
+      .txt_amount {
+        font-size: 1.4rem;
+        font-weight: 600;
+      }
     }
 
     .txt_ratio {
