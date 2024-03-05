@@ -58,12 +58,12 @@ const SummaryWrap = styled.div`
     }
 
     .total_price {
-      font-size: 2.4rem;
+      font-size: 2rem;
       font-weight: 700;
     }
 
     .txt_amount {
-      font-size: 1.6rem;
+      font-size: 1.4rem;
       font-weight: 600;
     }
 
@@ -86,12 +86,12 @@ const SalesSummaryTable = ({ params }: { params: any }) => {
       <SubTitleBox title="통계요약" desc="단위 : 원" hideUnderline />
       <TableSty1>
         <colgroup>
-          <col width={getTableWidthPercentage(280)} />
+          <col width={getTableWidthPercentage(188)} />
           {tableField.types.map((el, i) => (
-            <col key={i} width={getTableWidthPercentage(167)} />
+            <col key={i} width={getTableWidthPercentage(116)} />
           ))}
           {tableField.channels.map((el, i) => (
-            <col key={i} width={getTableWidthPercentage(108)} />
+            <col key={i} width={getTableWidthPercentage(127)} />
           ))}
         </colgroup>
         <thead>
