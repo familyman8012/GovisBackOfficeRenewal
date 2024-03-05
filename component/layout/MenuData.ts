@@ -80,7 +80,7 @@ export const TotalMenu: MenuType[] = [
   //   ],
   // },
   {
-    depth1: '매장별 통계',
+    depth1: '매장별 매출',
     group: 'HeadOffice',
     path: '/sales-analyze',
     perm_code: 'sales_stores',
@@ -122,7 +122,7 @@ export const TotalMenu: MenuType[] = [
     perm_info_idx: 20,
   },
   {
-    depth1: `AI Smart\nTopping table`,
+    depth1: `AI Smart\nTopping Table`,
     group: 'HeadOffice',
     depth2: [
       {
@@ -253,7 +253,7 @@ export const TotalMenu: MenuType[] = [
         perm_info_idx: 28,
       },
       {
-        name: '우수사례&성공사례',
+        name: '우리가 불편해야\n 고객이 만족한다',
         path: '/fc/best-practices',
         perm_code: 'board_story',
         perm_info_idx: 30,

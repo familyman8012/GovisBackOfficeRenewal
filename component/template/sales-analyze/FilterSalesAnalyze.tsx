@@ -206,7 +206,7 @@ const FilterTableForm = ({
             selectedDateRanges={selectedDateRanges}
             setSelectedDateRanges={setSelectedDateRanges}
             params={params}
-            // maxDateRanger={3}
+            maxDateRanger={6}
           />
         </dd>
       </dl>
