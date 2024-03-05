@@ -80,7 +80,7 @@ export const TotalMenu: MenuType[] = [
   //   ],
   // },
   {
-    depth1: '매장별 통계',
+    depth1: '매장별 매출',
     group: 'HeadOffice',
     path: '/sales-analyze',
     perm_code: 'sales_stores',

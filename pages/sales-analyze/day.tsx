@@ -24,7 +24,7 @@ const Index = () => {
 
   return (
     <>
-      <TitleArea title="매출 분석" />
+      <TitleArea title="매장별 매출" />
       <Tabs
         id="salesAnalyze2"
         tabs={salesAnalyzeTabData}
