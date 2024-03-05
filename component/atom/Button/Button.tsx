@@ -58,7 +58,7 @@ const buttonVariants = {
   gostPrimary: css`
     color: var(--button-blue);
     border: 1px solid var(--button-blue);
-    background-color: transparent;
+    background-color: #fff;
 
     &:not(&:disabled) {
       &:hover {
@@ -74,7 +74,7 @@ const buttonVariants = {
   gostSecondary: css`
     color: var(--button-textBlack);
     border: 1px solid var(--button-gray);
-    background-color: transparent;
+    background-color: #fff;
 
     &:not(&:disabled) {
       &:hover {

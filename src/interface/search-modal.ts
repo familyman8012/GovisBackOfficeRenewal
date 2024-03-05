@@ -44,6 +44,7 @@ interface IStoreSearchModalResItem {
   store_type: string;
   store_status: string;
   open_date: string;
+  sv_user_name: string;
 }
 
 export interface IStoreModalRes {

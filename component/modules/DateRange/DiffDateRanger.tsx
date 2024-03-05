@@ -21,6 +21,7 @@ interface DiffDateRangerProps {
     startKey: string;
     endKey: string;
   };
+  maxDateRanger?: number;
 }
 
 export const DiffDateRanger = ({
@@ -32,6 +33,7 @@ export const DiffDateRanger = ({
     startKey: 'search_dt',
     endKey: 'end_dt',
   },
+  maxDateRanger = 1,
 }: DiffDateRangerProps) => {
   const handleDateRangeChange = (
     rangeType: 'range1' | 'range2',
@@ -97,7 +99,7 @@ export const DiffDateRanger = ({
         ],
       });
     }
-  }, [dateKeys.endKey, dateKeys.startKey, params, setSelectedDateRanges, type]);
+  }, [dateKeys.endKey, dateKeys.startKey, setSelectedDateRanges, type]);
 
   // 1년까지의 범위로.
   const [maxEndDate1, setMaxEndDate1] = useState<Date | null>(null);
@@ -107,7 +109,7 @@ export const DiffDateRanger = ({
     if (!startDate) return null;
     const newMaxDate = new Date(startDate);
     // newMaxDate.setFullYear(newMaxDate.getFullYear() + 1);
-    newMaxDate.setMonth(newMaxDate.getMonth() + 1);
+    newMaxDate.setMonth(newMaxDate.getMonth() + maxDateRanger);
     return newMaxDate;
   };
 

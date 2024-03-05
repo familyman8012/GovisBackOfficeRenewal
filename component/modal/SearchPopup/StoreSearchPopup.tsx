@@ -30,8 +30,8 @@ const StoreSearchPopup = ({
 
   // 테이블 셋팅
   const tableCofig = {
-    th: ['지역별', '상권별', '매장별', '매장 상태', '매장명'],
-    col: [46, 120, 120, 120, 120, 157],
+    th: ['지역별', '상권별', '매장별', '매장 상태', '매장명', '담당 SV'],
+    col: [46, 80, 120, 120, 120, 197, 150],
   };
 
   // 검색 테이블에 맞추어 정리.
@@ -44,13 +44,16 @@ const StoreSearchPopup = ({
         store_type: StoreStr[el.store_type],
         status: StatusStr[el.store_status],
         label: el.store_name,
+        sv_user_name: el.sv_user_name,
       };
     }) || [];
 
   return (
     <SearchPopup<IStoreResultData>
       title="매장 상세 설정"
-      keyWordSearchTitle="매장명"
+      className="pop_store"
+      searchBoxPlaceHolder="매장명 혹은 담당 SV 이름을 입력해주세요"
+      keyWordSearchTitle="매장명 / 담당 SV"
       selectConfig={selectConfig}
       tableCofig={tableCofig}
       resultData={resultData}

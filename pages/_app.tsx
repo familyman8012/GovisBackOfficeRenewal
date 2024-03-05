@@ -26,6 +26,7 @@ import { errorHandler } from '@UtilFarm/error-handler';
 import 'react-loading-skeleton/dist/skeleton.css';
 import 'swiper/css';
 import 'swiper/css/pagination';
+import 'react-virtualized/styles.css'; // react-virtualized의 기본 스타일
 
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: ReactElement) => ReactNode;

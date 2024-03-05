@@ -1,4 +1,11 @@
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import React, {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
+import { debounce } from 'lodash';
 import { css } from '@emotion/react';
 import CheckBoxGroup from '@ComponentFarm/modules/CheckBoxGroup/CheckBoxGroup';
 import Modal from '@ComponentFarm/modules/Modal/Modal';
@@ -33,8 +40,10 @@ export interface ICommonResultData {
 }
 
 interface SearchPopupProps<T extends ICommonResultData> {
-  width?: string;
+  width?: number;
   title: string;
+  className?: string;
+  searchBoxPlaceHolder?: string;
   keyWordSearchTitle: string;
   selectConfig?: SelectConfig[];
   tableCofig: ColumnNameType;
@@ -56,8 +65,10 @@ interface SearchPopupProps<T extends ICommonResultData> {
 }
 
 const SearchPopup = <T extends ICommonResultData>({
-  width = '68.3rem',
+  width = 833,
   title,
+  className,
+  searchBoxPlaceHolder,
   keyWordSearchTitle,
   selectConfig,
   tableCofig,
@@ -79,6 +90,7 @@ const SearchPopup = <T extends ICommonResultData>({
 }: SearchPopupProps<T>) => {
   const [keyword, setKeyword] = useState(defaultKeyword);
   const [checkedItems, setCheckedItems] = useState<string[]>([]);
+  const [tbodyScrollChk, setTbodyScrollChk] = useState(true);
 
   const onFormSubmit = () => {
     const selectedProducts = resultData
@@ -156,12 +168,50 @@ const SearchPopup = <T extends ICommonResultData>({
     setReorderedArray([...selectedItems.reverse(), ...remainingItems]);
   }, [selectItems, resultData]);
 
+  const tbodyRef = useRef<HTMLTableSectionElement>(null); // <tbody> 요소를 위한 ref 생성
+
+  useEffect(() => {
+    const checkScroll = () => {
+      const tbody = tbodyRef.current;
+      if (tbody) {
+        // 스크롤 여부 확인
+        const hasScroll = tbody.scrollHeight > tbody.clientHeight;
+        if (hasScroll) {
+          // 스크롤이 있으면 'scroll' 클래스 추가
+          setTbodyScrollChk(true);
+        } else {
+          // 스크롤이 없으면 'scroll' 클래스 제거
+          setTbodyScrollChk(false);
+        }
+      }
+    };
+
+    const debouncedCheckScroll = debounce(checkScroll, 100); // 100ms 동안 debounce 적용
+
+    // 컴포넌트 마운트 시 및 창 크기 변경 시 검사 실행
+    debouncedCheckScroll();
+    window.addEventListener('resize', debouncedCheckScroll);
+
+    return () => {
+      window.removeEventListener('resize', debouncedCheckScroll);
+      debouncedCheckScroll.cancel(); // 컴포넌트 언마운트 시 debounce 대기 중인 호출 취소
+    };
+  }, [resultData]); // resultData 변경 시 재검사
+
   const renderTable = () => {
     return (
       <Table className="basic">
         <colgroup>
           {tableCofig.col.map((el, i) => (
-            <col key={i} width={getTableWidthPercentage(el, 646)} />
+            <col
+              key={i}
+              width={getTableWidthPercentage(
+                el,
+                tbodyScrollChk && tableCofig.col.length === i + 1
+                  ? width - 67
+                  : width
+              )}
+            />
           ))}
         </colgroup>
         <thead>
@@ -181,7 +231,7 @@ const SearchPopup = <T extends ICommonResultData>({
             ))}
           </tr>
         </thead>
-        <tbody>
+        <tbody ref={tbodyRef}>
           {reorderedArray?.map((el: T) => (
             <tr key={el.idx}>
               <td>
@@ -272,7 +322,7 @@ const SearchPopup = <T extends ICommonResultData>({
       `}
       onFormSubmit={onFormSubmit}
     >
-      <SearchBox width={width}>
+      <SearchBox width={width} className={className}>
         <fieldset>
           <legend>{title} 검색</legend>
           <table>
@@ -308,7 +358,9 @@ const SearchPopup = <T extends ICommonResultData>({
                         keywordConfig.search_keyword
                       );
                     }}
-                    placeholder="검색어를 입력해 주세요"
+                    placeholder={
+                      searchBoxPlaceHolder ?? '검색어를 입력해 주세요'
+                    }
                   />
                 </td>
               </tr>
