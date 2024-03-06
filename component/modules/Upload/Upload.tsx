@@ -1,7 +1,6 @@
 // FileDropzone.tsx
-import React, { useCallback, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { useMutation } from 'react-query';
 import styled from '@emotion/styled';
 
 const UploadWrap = styled.div`
@@ -47,53 +46,55 @@ export interface UploadProps {
 }
 
 const Upload: React.FC<UploadProps> = ({ onFileUpload }) => {
-  const [previewSource, setPreviewSource] = useState<string | null>(null);
-  const [file, setFile] = useState<File | null>(null);
+  // const [previewSource, setPreviewSource] = useState<string | null>(null);
+  const [file, setFile] = useState<any>(null);
 
-  const { mutate: uploadFile } = useMutation(
-    async (fileToUpload: File) => {
-      const formData = new FormData();
-      formData.append('file', fileToUpload);
+  // const { mutate: uploadFile } = useMutation(
+  //   async (fileToUpload: File) => {
+  //     const formData = new FormData();
+  //     formData.append('file', fileToUpload);
 
-      const response = await fetch('/api/upload', {
-        method: 'POST',
-        body: formData,
-      });
+  //     const response = await fetch('/api/upload', {
+  //       method: 'POST',
+  //       body: formData,
+  //     });
 
-      if (!response.ok) {
-        throw new Error('File upload failed');
-      }
-    },
-    {
-      onError: error => {
-        console.error(error);
-      },
-      onSuccess: () => {
-        console.log('File uploaded successfully');
-      },
-    }
-  );
+  //     if (!response.ok) {
+  //       throw new Error('File upload failed');
+  //     }
+  //   },
+  //   {
+  //     onError: error => {
+  //       console.error(error);
+  //     },
+  //     onSuccess: () => {
+  //       console.log('File uploaded successfully');
+  //     },
+  //   }
+  // );
 
-  const onDrop = useCallback(
-    (acceptedFiles: File[]) => {
-      onFileUpload(acceptedFiles);
-      const previewURL = URL.createObjectURL(acceptedFiles[0]);
-      setPreviewSource(previewURL);
-      setFile(acceptedFiles[0]);
-    },
-    [onFileUpload]
-  );
+  const onDrop = (acceptedFiles: File[]) => {
+    console.log('acceptedFiles', acceptedFiles);
+    onFileUpload(acceptedFiles);
+    // const previewURL = URL.createObjectURL(acceptedFiles[0]);
+    // setPreviewSource(previewURL);
+    setFile(acceptedFiles);
+  };
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
-    multiple: false,
+    multiple: true,
   });
 
-  const handleUploadClick = () => {
-    if (file) {
-      uploadFile(file);
-    }
-  };
+  // const handleUploadClick = () => {
+  //   if (file) {
+  //     uploadFile(file);
+  //   }
+  // };
+
+  useEffect(() => {
+    console.log('file', file);
+  }, [file]);
 
   return (
     <UploadWrap>
@@ -105,17 +106,24 @@ const Upload: React.FC<UploadProps> = ({ onFileUpload }) => {
           <p>Drag 1 drop a file here, or click to select a file</p>
         )}
       </div>
-      {previewSource && (
+      {/* {file && (
+        <>
+          {file.map((el: any) => (
+            <p>{el.path}</p>
+          ))}
+        </>
+      )} */}
+      {/* {previewSource && (
         // eslint-disable-next-line @next/next/no-img-element
         <img
           src={previewSource}
           alt="file preview"
           style={{ marginTop: '10px', width: '100%', height: 'auto' }}
         />
-      )}
-      <button type="button" onClick={handleUploadClick}>
+      )} */}
+      {/* <button type="button" onClick={handleUploadClick}>
         Upload to server
-      </button>
+      </button> */}
     </UploadWrap>
   );
 };

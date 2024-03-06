@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Meta, Story } from '@storybook/react';
 import { css } from '@emotion/react';
 import StoryLayout from '@ComponentFarm/modules/story_layout/StoryLayout';
@@ -28,10 +28,11 @@ interface Props extends UploadProps {
 }
 
 const StoryUpload: Story<Props> = args => {
-  const [files, setFiles] = useState<File[]>([]);
+  // const [files, setFiles] = useState<File[]>([]);
 
   const handleFileUpload = (uploadedFiles: File[]) => {
-    setFiles([uploadedFiles[0]]);
+    console.log('uploadedFiles', uploadedFiles);
+    // setFiles([uploadedFiles[0]]);
   };
 
   return (
@@ -42,9 +43,9 @@ const StoryUpload: Story<Props> = args => {
       `}
     >
       <Upload onFileUpload={handleFileUpload} />
-      {files.map(file => (
-        <p key={file.name}>{file.name}</p>
-      ))}
+      {/* {files.map(file => (
+        <div />
+      ))} */}
     </StoryLayout>
   );
 };

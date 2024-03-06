@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import dayjs from 'dayjs';
 import { useRouter } from 'next/router';
+import { ISalesParam } from '@InterfaceFarm/sales';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
 import { salesAnalyzeTabData } from '@ComponentFarm/template/sales-analyze/const';
@@ -12,7 +13,7 @@ import useQueryParams from '@HookFarm/useQueryParams';
 const Index = () => {
   const router = useRouter();
   const [activeTabIndex, setActiveTabIndex] = useState(1);
-  const [params, updateParams] = useQueryParams({
+  const [params, updateParams] = useQueryParams<ISalesParam>({
     order_dt_start: dayjs().subtract(7, 'day').format('YYYY-MM-DD'),
     order_dt_finish: dayjs().subtract(1, 'days').format('YYYY-MM-DD'),
   });

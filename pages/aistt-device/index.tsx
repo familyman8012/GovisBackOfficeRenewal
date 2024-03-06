@@ -13,7 +13,7 @@ import TitleBox from '@ComponentFarm/template/common/SubTitleBox';
 import useQueryParams from '@HookFarm/useQueryParams';
 
 const DeviceListPage = () => {
-  const [params, updateParams, resetParams] = useQueryParams({
+  const [params, updateParams, resetParams] = useQueryParams<any>({
     current_num: 1,
     per_num: 10,
     is_use_stt: '1',

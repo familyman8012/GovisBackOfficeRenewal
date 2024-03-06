@@ -42,7 +42,7 @@ const AllAnalyze = () => {
   ];
 
   const [selectedOption, setSelectedOption] = useState(options[0]);
-  const [params, updateParams, resetParams] = useQueryParams({
+  const [params, updateParams, resetParams] = useQueryParams<any>({
     type: 'hourly',
     ...initialDay,
   });

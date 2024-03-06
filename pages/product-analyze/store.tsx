@@ -33,7 +33,7 @@ const SelectStoreType = styled.div`
 `;
 
 const StoreAnalyze = () => {
-  const [params, updateParams, resetParams] = useQueryParams(initialDay);
+  const [params, updateParams, resetParams] = useQueryParams<any>(initialDay);
   const [selectStoreType, setSelectStoreType] = useState('direct');
   const { activeTabIndex, handleTabWithDateQuery } = useTabWithDateQuery({
     tabIdx: 5,

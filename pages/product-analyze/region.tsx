@@ -16,7 +16,7 @@ import useTabWithDateQuery from '@ComponentFarm/template/product-analyze/useTabW
 import useQueryParams from '@HookFarm/useQueryParams';
 
 const RegionAnalyze = () => {
-  const [params, updateParams, resetParams] = useQueryParams(initialDay);
+  const [params, updateParams, resetParams] = useQueryParams<any>(initialDay);
   const { activeTabIndex, handleTabWithDateQuery } = useTabWithDateQuery({
     tabIdx: 6,
     params,

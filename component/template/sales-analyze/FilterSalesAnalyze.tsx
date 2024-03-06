@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 import { useQuery } from 'react-query';
 import styled from '@emotion/styled';
 import { fetchStoreSearchModal } from '@ApiFarm/search-modal';
+import { ISalesParam } from '@InterfaceFarm/sales';
 import CheckBoxGroup from '@ComponentFarm/modules/CheckBoxGroup/CheckBoxGroup';
 import {
   DiffDateRanger,
@@ -12,7 +13,6 @@ import { Button } from '@ComponentFarm/atom/Button/Button';
 import Building from '@ComponentFarm/atom/icons/Building';
 import { IOption, Select } from '@ComponentFarm/atom/Select/Select';
 import StoreSearchPopup from '@ComponentFarm/modal/SearchPopup/StoreSearchPopup';
-import { QueryParams } from '@HookFarm/useQueryParams';
 import { salesTypeSelect, storeStatusOption } from './const';
 import useSelectItems from '../common/FilterTable/useFilterHandler';
 
@@ -81,8 +81,8 @@ export const FilterSalesAnalyzeWrap = styled.div`
 
 interface FilterTableFormProps {
   salesType?: boolean;
-  params: QueryParams;
-  updateParams: (newParams: QueryParams) => void;
+  params: ISalesParam;
+  updateParams: (newParams: ISalesParam) => void;
 }
 
 const FilterTableForm = ({
@@ -170,7 +170,7 @@ const FilterTableForm = ({
     if (winReady) {
       updateParams({
         ...params,
-        sales_type: selectedOption?.value,
+        sales_type: String(selectedOption?.value),
       });
     }
   }, [selectedOption]);

@@ -17,7 +17,7 @@ import useQueryParams from '@HookFarm/useQueryParams';
 const Manage = () => {
   const router = useRouter();
   const [activeTabIndex, setActiveTabIndex] = useState(0);
-  const [params, updateParams] = useQueryParams({
+  const [params, updateParams] = useQueryParams<any>({
     current_num: 1,
     per_num: 10,
   });

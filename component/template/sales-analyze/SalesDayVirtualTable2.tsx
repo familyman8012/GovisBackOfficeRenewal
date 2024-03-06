@@ -3,6 +3,7 @@ import { TableVirtuoso } from 'react-virtuoso';
 import { useQuery } from 'react-query';
 import styled from '@emotion/styled';
 import { fetchDaySale } from '@ApiFarm/sales';
+import { IDaySaleReq } from '@InterfaceFarm/sales';
 import { Badge } from '@ComponentFarm/atom/Badge/Badge';
 import { StatusStr, StoreStr } from '@ComponentFarm/modal/SearchPopup/const';
 
@@ -113,7 +114,7 @@ export const VirtusoTable = styled.table`
   }
 `;
 
-const SalesDayVirtualTable2 = ({ params }: { params: any }) => {
+const SalesDayVirtualTable2 = ({ params }: { params: IDaySaleReq }) => {
   const { isLoading, data } = useQuery(['DaySale', params], () =>
     fetchDaySale(params)
   );
