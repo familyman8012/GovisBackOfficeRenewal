@@ -161,13 +161,8 @@ const FilterTableForm = ({
     });
   }, [storeStatus]);
 
-  const [winReady, setwinReady] = useState(false);
   useEffect(() => {
-    setwinReady(true);
-  }, []);
-
-  useEffect(() => {
-    if (winReady) {
+    if (typeof window !== 'undefined') {
       updateParams({
         ...params,
         sales_type: String(selectedOption?.value),
@@ -181,20 +176,18 @@ const FilterTableForm = ({
         <dl>
           <dt>매출종류</dt>
           <dd>
-            {winReady && (
-              <Select
-                options={[{ label: '전체', value: '' }, ...salesTypeSelect]}
-                selectedOption={
-                  selectedOption === null && params.sales_type
-                    ? (salesTypeSelect.find(
-                        el => el.value === params.sales_type
-                      ) as IOption)
-                    : selectedOption
-                }
-                setSelectedOption={setSelectedOption}
-                placeholder="매출 종류 선택"
-              />
-            )}
+            <Select
+              options={[{ label: '전체', value: '' }, ...salesTypeSelect]}
+              selectedOption={
+                selectedOption === null && params.sales_type
+                  ? (salesTypeSelect.find(
+                      el => el.value === params.sales_type
+                    ) as IOption)
+                  : selectedOption
+              }
+              setSelectedOption={setSelectedOption}
+              placeholder="매출 종류 선택"
+            />
           </dd>
         </dl>
       )}

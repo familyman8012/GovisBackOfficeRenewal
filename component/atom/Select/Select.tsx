@@ -1,11 +1,21 @@
 import React, { FC, useMemo, useId } from 'react';
+import dynamic from 'next/dynamic';
 import { FiChevronDown } from 'react-icons/fi';
+import Skeleton from 'react-loading-skeleton';
 import {
-  default as SelectLibrary,
   components,
   DropdownIndicatorProps,
+  GroupBase,
   StylesConfig,
 } from 'react-select';
+
+const SelectLibrary = dynamic(
+  () => import('react-select').then(comps => comps.default),
+  {
+    ssr: false,
+    loading: () => <Skeleton width={200} height="4rem" />,
+  }
+);
 
 export interface IOption {
   value: string | number;
@@ -28,7 +38,7 @@ export interface SelectProps {
   prefixLabel?: string;
 }
 
-const DropdownIndicator = (props: DropdownIndicatorProps<IOption, false>) => {
+const DropdownIndicator = (props: DropdownIndicatorProps<unknown, false>) => {
   return (
     <components.DropdownIndicator {...props}>
       <FiChevronDown size={20} className="text-gray-500" />
@@ -71,7 +81,7 @@ export const Select: FC<SelectProps> = ({
   prefixLabel,
   ...restProps
 }) => {
-  const customStyles: StylesConfig<IOption, false> = {
+  const customStyles: StylesConfig<unknown, false, GroupBase<unknown>> = {
     control: (provided, state) => ({
       ...provided,
       width,
@@ -122,7 +132,7 @@ export const Select: FC<SelectProps> = ({
   };
 
   // 상태에 따라 뱃지와 라벨을 포맷하는 함수
-  const customFormatOptionLabel = (option: IOption) => {
+  const customFormatOptionLabel = (option: any) => {
     const statusBadge = formatStatus
       ? formatStatus(String(option.status))
       : null;
