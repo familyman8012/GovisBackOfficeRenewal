@@ -119,14 +119,13 @@ const SalesDayVirtualTable2 = ({ params }: { params: IDaySaleReq }) => {
     fetchDaySale(params)
   );
 
-  console.log('data?.list[0].daily_sales_list', data?.list[0].daily_sales_list);
-
   return (
     <>
       {data && (
         <TableVirtuoso
           style={{ height: '81rem' }}
           data={data?.list}
+          // onScroll={() => console.log('aaa')}
           components={{
             Table: ({ style, ...props }) => (
               <VirtusoTable

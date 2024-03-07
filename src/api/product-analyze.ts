@@ -89,6 +89,18 @@ export const fetchStoreAnalyze = async (params?: IProductAnalyzeReq) => {
   return response.data.data;
 };
 
+// 2024.03.07 매장별 현황 - 매장별 제품 판매 현황 (일별)
+export const fetchStoreDayAnalyze = async (params?: any) => {
+  const response = await BoV2Request.get<IResponse<any>>(
+    `/analytics/product/sales/by_store/daily`,
+    {
+      params,
+    }
+  );
+
+  return response.data.data;
+};
+
 export const fetchRegionAnalyze = async (params?: IProductAnalyzeReq) => {
   const response = await BoV2Request.get<IResponse<IProductAnalyzeRes>>(
     `/analytics/product/sales/by_region`,

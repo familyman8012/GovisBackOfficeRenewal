@@ -5,6 +5,7 @@ import styled from '@emotion/styled';
 import {
   fetchStoreRankingAnalyze,
   fetchStoreAnalyze,
+  fetchStoreDayAnalyze,
 } from '@ApiFarm/product-analyze';
 import { IProductAnalyzeReq } from '@InterfaceFarm/product-analyze';
 import ExportButton from '@ComponentFarm/modules/ExportButton/ExportButton';
@@ -48,6 +49,12 @@ const StoreAnalyze = () => {
   const { isLoading, data } = useQuery(['StoreAnalyze', params], () =>
     fetchStoreAnalyze(params as IProductAnalyzeReq)
   );
+
+  const { data: dayData } = useQuery(['StoreAnalyze', params], () =>
+    fetchStoreDayAnalyze(params as IProductAnalyzeReq)
+  );
+
+  console.log('dayData', dayData);
 
   return (
     <>
