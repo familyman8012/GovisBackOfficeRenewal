@@ -20,6 +20,7 @@ export const ImprovementNeedCauseWrap = styled.div`
     dt {
       order: 2;
       display: flex;
+      justify-content: center;
       align-items: center;
       margin-bottom: 1.2rem;
 
