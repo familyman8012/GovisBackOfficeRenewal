@@ -455,6 +455,7 @@ export const Goivs2Menu = [
   '/product-recipes',
   '/sales-analyze',
   '/product-analyze',
+  '/menu-analyze',
   '/storybook',
   '/aistt-analysis',
   '/aistt-device',
