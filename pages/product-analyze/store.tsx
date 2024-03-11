@@ -136,7 +136,7 @@ const StoreAnalyze = () => {
                 margin-right: 3rem;
               `}
             >
-              {['판매 현황', '일 판매 정보'].map((el, i: number) => (
+              {['전체', '일별'].map((el, i: number) => (
                 <li key={i} className={i === statusSelect ? 'on' : ''}>
                   <button type="button" onClick={() => setstatusSelect(i)}>
                     {el}
