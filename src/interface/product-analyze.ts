@@ -26,6 +26,11 @@ export interface IProductAllAnalyzeReq extends IProductAnalyzeReq {
   type?: string;
 }
 
+export interface IProductDailyAnalyzeReq extends IProductAnalyzeReq {
+  current_page_number?: number;
+  per_page_number?: number;
+}
+
 export interface IStoreAnalyzeReq extends IProductAnalyzeReq {
   ranking_limit_number?: number;
 }
@@ -113,4 +118,36 @@ export interface IChannelRankingRes {
   info: IChannelRankingReq;
   direct_store_list: IChannelStoreListItem[];
   franchisee_store_list: IChannelStoreListItem[];
+}
+
+// 2024.03.08 매장별 일별 제품 판매현황
+
+export interface IStoreSalesDayInfo {
+  sales_day: string;
+  sales_amount: number;
+}
+
+export interface IStoreDailySalesList {
+  store_idx: number;
+  store_name: string;
+  store_type_code: string;
+  store_type_value: string;
+  store_status_code: string;
+  store_status_value: string;
+  daily_sales_list: IStoreSalesDayInfo[];
+}
+
+export interface IStoreDailySales {
+  info: IProductDailyAnalyzeReq;
+  list: IStoreDailySalesList[];
+  daily_sales_list_info: {
+    total_items: number;
+    is_last_page: number;
+  };
+  total: {
+    total_base_sales_count: number;
+    total_comparison_sales_count: number;
+    total_increase_decrease_number: number;
+    total_increase_decrease_rate: number;
+  };
 }

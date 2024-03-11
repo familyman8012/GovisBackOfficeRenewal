@@ -1,18 +1,18 @@
 import { useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { useQuery } from 'react-query';
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import {
   fetchStoreRankingAnalyze,
   fetchStoreAnalyze,
-  fetchStoreDayAnalyze,
 } from '@ApiFarm/product-analyze';
 import { IProductAnalyzeReq } from '@InterfaceFarm/product-analyze';
 import ExportButton from '@ComponentFarm/modules/ExportButton/ExportButton';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
-import { AreaBox } from '@ComponentFarm/template/common/AreaBox';
+import { AddTab, AreaBox } from '@ComponentFarm/template/common/AreaBox';
 import FilterTableForm from '@ComponentFarm/template/common/FilterTable/FilterTableForm';
 import SubTitleBox from '@ComponentFarm/template/common/SubTitleBox';
 import {
@@ -20,6 +20,7 @@ import {
   productAnalyzeTabData,
 } from '@ComponentFarm/template/product-analyze/const';
 import SalesProductTable from '@ComponentFarm/template/product-analyze/store/SalesProductTable';
+import StoreDayVirtualTable from '@ComponentFarm/template/product-analyze/store/StoreDayVirtualTable';
 import StoreSalesTable from '@ComponentFarm/template/product-analyze/store/StoreSalesTable';
 import useTabWithDateQuery from '@ComponentFarm/template/product-analyze/useTabWithDateQuery';
 import useQueryParams from '@HookFarm/useQueryParams';
@@ -41,6 +42,8 @@ const StoreAnalyze = () => {
     params,
     productAnalyzeTabData,
   });
+  // AreaBox Tab
+  const [statusSelect, setstatusSelect] = useState(0);
 
   const { data: rankingData } = useQuery(['StoreRankingAnalyze', params], () =>
     fetchStoreRankingAnalyze(params as IProductAnalyzeReq)
@@ -49,12 +52,6 @@ const StoreAnalyze = () => {
   const { isLoading, data } = useQuery(['StoreAnalyze', params], () =>
     fetchStoreAnalyze(params as IProductAnalyzeReq)
   );
-
-  const { data: dayData } = useQuery(['StoreAnalyze', params], () =>
-    fetchStoreDayAnalyze(params as IProductAnalyzeReq)
-  );
-
-  console.log('dayData', dayData);
 
   return (
     <>
@@ -69,6 +66,7 @@ const StoreAnalyze = () => {
       <FilterTableForm
         type="diff"
         params={params}
+        maxDateRanger={6}
         updateParams={updateParams}
         resetParams={resetParams}
       />
@@ -117,16 +115,48 @@ const StoreAnalyze = () => {
       </AreaBox>
       <AreaBox
         title="판매 제품 수"
-        className="noPadding"
+        className="underline tab"
+        css={css`
+          margin-top: 3.2rem;
+          .content {
+            padding: 3.6rem 0 !important;
+          }
+        `}
         addFunc={
-          <ExportButton
-            params={params}
-            endPoint="/analytics/product/sales/export/order_raw_data"
-            title="판매 제품 수"
-          />
+          <div
+            css={css`
+              display: flex;
+              button {
+                margin-top: -1rem;
+              }
+            `}
+          >
+            <AddTab
+              css={css`
+                margin-right: 3rem;
+              `}
+            >
+              {['판매 현황', '일 판매 정보'].map((el, i: number) => (
+                <li key={i} className={i === statusSelect ? 'on' : ''}>
+                  <button type="button" onClick={() => setstatusSelect(i)}>
+                    {el}
+                  </button>
+                </li>
+              ))}
+            </AddTab>
+            <ExportButton
+              params={params}
+              endPoint="/analytics/product/sales/export/order_raw_data"
+              title="판매 제품 수"
+            />
+          </div>
         }
       >
-        <SalesProductTable data={data} isLoading={isLoading} />
+        {statusSelect === 0 ? (
+          <SalesProductTable data={data} isLoading={isLoading} />
+        ) : (
+          <StoreDayVirtualTable params={params} />
+        )}
       </AreaBox>
     </>
   );
