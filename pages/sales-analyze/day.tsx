@@ -6,7 +6,7 @@ import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
 import { salesAnalyzeTabData } from '@ComponentFarm/template/sales-analyze/const';
 import FilterTableForm from '@ComponentFarm/template/sales-analyze/FilterSalesAnalyze';
-import SalesDayVirtualTable2 from '@ComponentFarm/template/sales-analyze/SalesDayVirtualTable2';
+import SalesDayVirtualTable from '@ComponentFarm/template/sales-analyze/SalesDayVirtualTable';
 import SalesSummaryTable from '@ComponentFarm/template/sales-analyze/SalesSummaryTable';
 import useQueryParams from '@HookFarm/useQueryParams';
 
@@ -34,8 +34,7 @@ const Index = () => {
       />
       <FilterTableForm salesType params={params} updateParams={updateParams} />
       <SalesSummaryTable params={params} />
-      {/* <SalesDayVirtualTable params={params} /> */}
-      <SalesDayVirtualTable2 params={params} />
+      <SalesDayVirtualTable params={params} />
     </>
   );
 };
