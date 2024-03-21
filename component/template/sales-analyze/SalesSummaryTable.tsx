@@ -2,7 +2,7 @@ import React from 'react';
 import { useQuery } from 'react-query';
 import styled from '@emotion/styled';
 import { fetchSalesSummary } from '@ApiFarm/sales';
-import { ISalesSummaryReq } from '@InterfaceFarm/sales';
+import { ISalesParam } from '@InterfaceFarm/sales';
 import SkeletonTh from '@ComponentFarm/atom/Skeleton/SkeletonTh';
 import { getTableWidthPercentage } from '@UtilFarm/calcSize';
 import { tableField } from './const';
@@ -63,7 +63,7 @@ const SummaryWrap = styled.div`
     }
 
     .txt_amount {
-      font-size: 1.6rem;
+      font-size: 1.4rem;
       font-weight: 600;
     }
 
@@ -83,9 +83,9 @@ const SummaryWrap = styled.div`
   }
 `;
 
-const SalesSummaryTable = ({ params }: { params: any }) => {
+const SalesSummaryTable = ({ params }: { params: ISalesParam }) => {
   const { isLoading, data } = useQuery(['SalesSummary', params], () =>
-    fetchSalesSummary(params as ISalesSummaryReq)
+    fetchSalesSummary(params)
   );
 
   return (

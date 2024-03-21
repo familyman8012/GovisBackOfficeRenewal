@@ -22,7 +22,7 @@ const StoreSalesFilter = ({ params, updateParams, resetParams }: Props) => {
     params.store_id
       ?.toString()
       .split(',')
-      .map(item => ({ idx: item, name: '' }))
+      .map((item: any) => ({ idx: item, name: '' }))
   );
 
   const { data: storeModalData } = useQuery(

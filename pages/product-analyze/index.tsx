@@ -23,7 +23,7 @@ import { EnvStore } from '@MobxFarm/store';
 import { convertEnv } from '@UtilFarm/convertEnvironment';
 
 const DashBoardAnalyze = () => {
-  const [params, updateParams, resetParams] = useQueryParams({
+  const [params, updateParams, resetParams] = useQueryParams<any>({
     evi_product_category: convertEnv('product_category').find(
       el => el.label === '피자'
     )?.value,

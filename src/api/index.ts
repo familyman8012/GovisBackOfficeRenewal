@@ -70,7 +70,8 @@ export const getToolBaseUrl = () => {
   return reVal;
 };
 
-axios.defaults.timeout = 6000;
+// axios 기본 시간 (연결시간 지연시 aler문구 띄움)
+axios.defaults.timeout = 1000 * 30;
 
 // ApiRequest 생성
 export const ApiRequest = axios.create({

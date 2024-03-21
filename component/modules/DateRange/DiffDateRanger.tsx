@@ -2,7 +2,6 @@ import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import dayjs from 'dayjs';
 import { css } from '@emotion/react';
 import DateRangePicker from '@ComponentFarm/modules/DateRange/DateRange';
-import { QueryParams } from '@HookFarm/useQueryParams';
 import { DiffDateRangerWrap } from './style';
 
 export type DateRangeType = [Date | null, Date | null];
@@ -16,7 +15,7 @@ interface DiffDateRangerProps {
   type?: string;
   selectedDateRanges: DiffDateType;
   setSelectedDateRanges: Dispatch<SetStateAction<DiffDateType>>;
-  params: QueryParams;
+  params: any;
   dateKeys?: {
     startKey: string;
     endKey: string;

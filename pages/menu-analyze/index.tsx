@@ -4,10 +4,10 @@ import { useQuery } from 'react-query';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import {
-  fetchStoreRankingAnalyze,
-  fetchStoreAnalyze,
-} from '@ApiFarm/product-analyze';
-import { IProductAnalyzeReq } from '@InterfaceFarm/product-analyze';
+  fetchMenuStoreAnalyze,
+  fetchMenuStoreRankingAnalyze,
+} from '@ApiFarm/menu-analyze';
+import { IMenuAnalyzeReq } from '@InterfaceFarm/menu-analyze';
 import ExportButton from '@ComponentFarm/modules/ExportButton/ExportButton';
 import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
@@ -17,12 +17,12 @@ import FilterTableForm from '@ComponentFarm/template/common/FilterTable/FilterTa
 import SubTitleBox from '@ComponentFarm/template/common/SubTitleBox';
 import {
   initialDay,
-  productAnalyzeTabData,
-} from '@ComponentFarm/template/product-analyze/const';
+  menuAnalyzeTabData,
+} from '@ComponentFarm/template/menu-analyze/const';
+import useTabWithDateQuery from '@ComponentFarm/template/menu-analyze/useTabWithDateQuery';
 import SalesProductTable from '@ComponentFarm/template/product-analyze/store/SalesProductTable';
 import StoreDayVirtualTable from '@ComponentFarm/template/product-analyze/store/StoreDayVirtualTable';
 import StoreSalesTable from '@ComponentFarm/template/product-analyze/store/StoreSalesTable';
-import useTabWithDateQuery from '@ComponentFarm/template/product-analyze/useTabWithDateQuery';
 import useQueryParams from '@HookFarm/useQueryParams';
 
 const SelectStoreType = styled.div`
@@ -38,27 +38,28 @@ const StoreAnalyze = () => {
   const [params, updateParams, resetParams] = useQueryParams<any>(initialDay);
   const [selectStoreType, setSelectStoreType] = useState('direct');
   const { activeTabIndex, handleTabWithDateQuery } = useTabWithDateQuery({
-    tabIdx: 5,
+    tabIdx: 0,
     params,
-    productAnalyzeTabData,
+    menuAnalyzeTabData,
   });
   // AreaBox Tab
   const [statusSelect, setstatusSelect] = useState(0);
 
-  const { data: rankingData } = useQuery(['StoreRankingAnalyze', params], () =>
-    fetchStoreRankingAnalyze(params as IProductAnalyzeReq)
+  const { data: rankingData } = useQuery(
+    ['MenuStoreRankingAnalyze', params],
+    () => fetchMenuStoreRankingAnalyze(params as IMenuAnalyzeReq)
   );
 
-  const { isLoading, data } = useQuery(['StoreAnalyze', params], () =>
-    fetchStoreAnalyze(params as IProductAnalyzeReq)
+  const { isLoading, data } = useQuery(['MenuStoreAnalyze', params], () =>
+    fetchMenuStoreAnalyze(params as IMenuAnalyzeReq)
   );
 
   return (
     <>
-      <TitleArea title="제품 분석 및 통계" />
+      <TitleArea title="메뉴 분석 및 통계" />
       <Tabs
         id="store-analyze"
-        tabs={productAnalyzeTabData}
+        tabs={menuAnalyzeTabData}
         activeTabIndex={activeTabIndex}
         onTabChange={index => handleTabWithDateQuery(index)}
       />

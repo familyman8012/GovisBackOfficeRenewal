@@ -24,6 +24,7 @@ interface FilterTableFormProps {
     startKey: string; // 시작 날짜의 파라미터 키
     endKey: string; // 종료 날짜의 파라미터 키
   };
+  maxDateRanger?: number;
   params: QueryParams;
   updateParams: (newParams: QueryParams) => void;
   resetParams: () => void;
@@ -35,6 +36,7 @@ const FilterTableForm = ({
     startKey: 'search_start_dt',
     endKey: 'search_end_dt',
   },
+  maxDateRanger,
   params,
   updateParams,
   resetParams,
@@ -187,6 +189,7 @@ const FilterTableForm = ({
                 setSelectedDateRanges={setSelectedDateRanges}
                 params={params}
                 dateKeys={dateKeys}
+                maxDateRanger={maxDateRanger}
               />
             </td>
           </tr>

@@ -1,10 +1,13 @@
-export interface ISalesSummaryReq {
-  order_dt_start: string;
-  order_dt_finish: string;
-  store_idx: string;
-  store_status: string;
-  sales_type: string;
+export interface ISalesParam {
+  order_dt_start?: string;
+  order_dt_finish?: string;
+  store_idx?: string;
+  store_status?: string;
+  sales_type?: string;
+  is_export?: string;
 }
+
+export interface ISalesSummaryReq extends Omit<ISalesParam, 'is_export'> {}
 
 export interface ISalesOrderType {
   [key: string]: string | number;
@@ -43,13 +46,7 @@ export interface ISalesSummaryRes {
   };
 }
 
-export interface IStoreSaleReq {
-  order_dt_start: string;
-  order_dt_finish: string;
-  store_idx: string;
-  store_status: string;
-  is_export: string;
-}
+export interface IStoreSaleReq extends ISalesSummaryReq {}
 
 export interface IStoreSaleOrderType
   extends Pick<
@@ -86,13 +83,7 @@ export interface IStoreSaleRes {
   }[];
 }
 
-export interface IDaySaleReq {
-  order_dt_start: string;
-  order_dt_finish: string;
-  store_idx: string;
-  store_status: string;
-  sales_type: string;
-}
+export interface IDaySaleReq extends Omit<ISalesParam, 'is_export'> {}
 
 export interface IDaySaleRes {
   info: IDaySaleReq;

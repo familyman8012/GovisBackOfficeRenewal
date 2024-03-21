@@ -6,6 +6,8 @@ import {
   IProductAnalyzeRes,
   IProductAnalyzeReq,
   IProductAllAnalyzeReq,
+  IProductDailyAnalyzeReq,
+  IStoreDailySales,
 } from '@InterfaceFarm/product-analyze';
 import { BoV2Request } from '.';
 
@@ -83,6 +85,20 @@ export const fetchStoreAnalyze = async (params?: IProductAnalyzeReq) => {
     `/analytics/product/sales/by_store`,
     {
       params,
+    }
+  );
+
+  return response.data.data;
+};
+
+// 2024.03.07 매장별 현황 - 매장별 제품 판매 현황 (일별)
+export const fetchStoreDayAnalyze = async (
+  params?: IProductDailyAnalyzeReq
+) => {
+  const response = await BoV2Request.get<IResponse<IStoreDailySales>>(
+    `/analytics/product/sales/by_store/daily`,
+    {
+      params: { ...params },
     }
   );
 

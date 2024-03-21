@@ -47,7 +47,7 @@ export const Detail = () => {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const [mailOpen, setMailOpen] = useState(false);
   const [mailListOpen, setMailListOpen] = useState(false);
-  const [params, updateParams, resetParams] = useQueryParams({
+  const [params, updateParams, resetParams] = useQueryParams<any>({
     id,
     ...rest,
   });

@@ -1,4 +1,4 @@
-export interface IProductTotalRes {
+export interface IMenuTotalRes {
   info: {
     base_dt_start: string;
     base_dt_finish: string;
@@ -13,29 +13,29 @@ export interface IProductTotalRes {
   };
 }
 
-export interface IProductAnalyzeReq {
+export interface IMenuAnalyzeReq {
   [key: string]: string | number | undefined | string[]; // QueryParam Type과 호환을 위해 추가
   base_dt_start?: string;
   base_dt_finish?: string;
   comparison_dt_start?: string;
   comparison_dt_finish?: string;
-  product_info_idx?: string;
+  menu_info_idx?: string;
   store_idx?: string;
 }
-export interface IProductAllAnalyzeReq extends IProductAnalyzeReq {
+export interface IMenuAllAnalyzeReq extends IMenuAnalyzeReq {
   type?: string;
 }
 
-export interface IProductDailyAnalyzeReq extends IProductAnalyzeReq {
+export interface IMenuDailyAnalyzeReq extends IMenuAnalyzeReq {
   current_page_number?: number;
   per_page_number?: number;
 }
 
-export interface IStoreAnalyzeReq extends IProductAnalyzeReq {
+export interface IStoreAnalyzeReq extends IMenuAnalyzeReq {
   ranking_limit_number?: number;
 }
 
-export interface IProductAnalyzeResListItem {
+export interface IMenuAnalyzeResListItem {
   item_label: string;
   base_sales_count: number;
   comparison_sales_count: number;
@@ -45,9 +45,9 @@ export interface IProductAnalyzeResListItem {
   comparison_included_days?: number;
 }
 
-export interface IProductAnalyzeRes {
-  info: IProductAnalyzeReq;
-  list: IProductAnalyzeResListItem[];
+export interface IMenuAnalyzeRes {
+  info: IMenuAnalyzeReq;
+  list: IMenuAnalyzeResListItem[];
   total: {
     total_base_sales_count: number;
     total_comparison_sales_count: number;
@@ -56,11 +56,11 @@ export interface IProductAnalyzeRes {
   };
 }
 
-export interface ICategoryAnalyzeListItem extends IProductAnalyzeResListItem {
+export interface ICategoryAnalyzeListItem extends IMenuAnalyzeResListItem {
   item_key: number;
 }
 
-export interface ICategoryAnalyzeRes extends Omit<IProductAnalyzeRes, 'list'> {
+export interface ICategoryAnalyzeRes extends Omit<IMenuAnalyzeRes, 'list'> {
   list: ICategoryAnalyzeListItem[];
 }
 
@@ -74,12 +74,12 @@ export interface ICategoryDetailListItem {
 }
 
 export interface ICategoryDetailRes {
-  info: IProductAnalyzeReq;
+  info: IMenuAnalyzeReq;
   list: ICategoryDetailListItem[];
 }
 
 export interface IChannelRes {
-  info: IProductAnalyzeReq;
+  info: IMenuAnalyzeReq;
   list: {
     store_idx: number;
     store_name: string;
@@ -100,7 +100,7 @@ export interface IChannelRes {
   };
 }
 
-export interface IChannelRankingReq extends IProductAnalyzeReq {
+export interface IChannelRankingReq extends IMenuAnalyzeReq {
   ranking_limit_number?: number;
 }
 
@@ -138,7 +138,7 @@ export interface IStoreDailySalesList {
 }
 
 export interface IStoreDailySales {
-  info: IProductDailyAnalyzeReq;
+  info: IMenuDailyAnalyzeReq;
   list: IStoreDailySalesList[];
   daily_sales_list_info: {
     total_items: number;

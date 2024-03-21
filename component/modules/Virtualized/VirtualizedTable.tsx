@@ -1,12 +1,10 @@
 /* eslint-disable react/no-unstable-nested-components */
+import React from 'react';
 import { TableVirtuoso } from 'react-virtuoso';
-import { useQuery } from 'react-query';
 import styled from '@emotion/styled';
-import { fetchDaySale } from '@ApiFarm/sales';
-import { IDaySaleReq } from '@InterfaceFarm/sales';
-import ExportButton from '@ComponentFarm/modules/ExportButton/ExportButton';
 import { Badge } from '@ComponentFarm/atom/Badge/Badge';
 import { StatusStr, StoreStr } from '@ComponentFarm/modal/SearchPopup/const';
+import { virtrualTestData } from './testData';
 
 export const VirtusoTable = styled.table`
   width: 100%;
@@ -115,27 +113,12 @@ export const VirtusoTable = styled.table`
   }
 `;
 
-const SalesDayVirtualTable = ({ params }: { params: IDaySaleReq }) => {
-  const { isLoading, data } = useQuery(['DaySale', params], () =>
-    fetchDaySale(params)
-  );
+const VirtualizedTable = () => {
+  const isLoading = false;
+  const data = virtrualTestData;
 
   return (
-    <div>
-      <div
-        style={{
-          display: 'flex',
-          margin: '3.2rem 0 1.6rem 0',
-          justifyContent: 'end',
-        }}
-      >
-        <ExportButton
-          params={params}
-          endPoint="/analytics/amount/sales/by_store/daily"
-          title="매장별 매출"
-          buttonTxt="일별 매출 분석 다운로드"
-        />
-      </div>
+    <>
       {data && (
         <TableVirtuoso
           style={{ height: '81rem' }}
@@ -208,8 +191,8 @@ const SalesDayVirtualTable = ({ params }: { params: IDaySaleReq }) => {
           )}
         />
       )}
-    </div>
+    </>
   );
 };
 
-export default SalesDayVirtualTable;
+export default VirtualizedTable;

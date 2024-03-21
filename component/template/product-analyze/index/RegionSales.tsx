@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { useQuery } from 'react-query';
 import { fetchRegionAnalyze } from '@ApiFarm/product-analyze-dashboard';
@@ -7,12 +7,7 @@ import { QueryParams } from '@HookFarm/useQueryParams';
 import RegionSalesTable from '../region/RegionSalesTable';
 
 const RegionSales = ({ params }: { params: QueryParams }) => {
-  const [winReady, setwinReady] = useState(false);
-  useEffect(() => {
-    setwinReady(true);
-  }, []);
-
-  const { isLoading, data } = useQuery(
+  const { data } = useQuery(
     ['regionDashboard', params],
     () => fetchRegionAnalyze(params),
     { enabled: !!params.evi_product_category }
@@ -20,10 +15,10 @@ const RegionSales = ({ params }: { params: QueryParams }) => {
 
   return (
     <AreaBox title="지역별 제품 판매 현황" className="noPadding">
-      {winReady && isLoading ? (
-        <Skeleton height="30rem" baseColor="#fcfcfc" />
-      ) : (
+      {data ? (
         <RegionSalesTable data={data} />
+      ) : (
+        <Skeleton height="30rem" baseColor="#fcfcfc" />
       )}
     </AreaBox>
   );

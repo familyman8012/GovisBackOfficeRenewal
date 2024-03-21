@@ -9,7 +9,6 @@ import {
 import { BoV2Request } from '.';
 
 export const fetchSalesSummary = async (params?: ISalesSummaryReq) => {
-  console.log('fetchSalesSummary params', params);
   const response = await BoV2Request.get<IResponse<ISalesSummaryRes>>(
     '/analytics/amount/sales/summary',
     {

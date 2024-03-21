@@ -2,10 +2,10 @@
 import { TableVirtuoso } from 'react-virtuoso';
 import { useQuery } from 'react-query';
 import styled from '@emotion/styled';
-import { fetchDaySale } from '@ApiFarm/sales';
+import { fetchStoreDayAnalyze } from '@ApiFarm/product-analyze';
 import { IDaySaleReq } from '@InterfaceFarm/sales';
-import ExportButton from '@ComponentFarm/modules/ExportButton/ExportButton';
 import { Badge } from '@ComponentFarm/atom/Badge/Badge';
+import { PageSpinner } from '@ComponentFarm/atom/Spinner/Spinner';
 import { StatusStr, StoreStr } from '@ComponentFarm/modal/SearchPopup/const';
 
 export const VirtusoTable = styled.table`
@@ -16,15 +16,8 @@ export const VirtusoTable = styled.table`
     &:first-of-type {
       width: 18rem;
     }
-    &:first-of-type,
-    &:nth-of-type(2) {
-      position: sticky !important;
-    }
     &:first-of-type {
-      left: 0;
-    }
-    &:nth-of-type(2) {
-      left: 18rem;
+      position: sticky !important;
       &::after {
         content: '';
         position: absolute;
@@ -34,6 +27,9 @@ export const VirtusoTable = styled.table`
         width: 1px;
         background-color: var(--color-neutral90); /* Border 색상 */
       }
+    }
+    &:first-of-type {
+      left: 0;
     }
 
     &:not(:first-of-type) {
@@ -75,8 +71,7 @@ export const VirtusoTable = styled.table`
       background-color: var(--color-neutral90); /* Border 색상 */
     }
 
-    &:first-of-type,
-    &:nth-of-type(2) {
+    &:first-of-type {
       z-index: 3;
     }
 
@@ -92,8 +87,8 @@ export const VirtusoTable = styled.table`
     color: var(--color-neutral10);
     border-bottom: 1px solid var(--color-neutral90);
 
-    &:first-of-type,
-    &:nth-of-type(2) {
+    &:first-of-type {
+      padding-left: 1rem;
       background: #fff;
     }
 
@@ -115,27 +110,25 @@ export const VirtusoTable = styled.table`
   }
 `;
 
-const SalesDayVirtualTable = ({ params }: { params: IDaySaleReq }) => {
-  const { isLoading, data } = useQuery(['DaySale', params], () =>
-    fetchDaySale(params)
+const StoreDayVirtualTable = ({ params }: { params: IDaySaleReq }) => {
+  const { isLoading, data } = useQuery(['DayStore', params], () =>
+    fetchStoreDayAnalyze({
+      ...params,
+      current_page_number: 1,
+      per_page_number: 180,
+    })
   );
 
-  return (
-    <div>
-      <div
-        style={{
-          display: 'flex',
-          margin: '3.2rem 0 1.6rem 0',
-          justifyContent: 'end',
-        }}
-      >
-        <ExportButton
-          params={params}
-          endPoint="/analytics/amount/sales/by_store/daily"
-          title="매장별 매출"
-          buttonTxt="일별 매출 분석 다운로드"
-        />
+  if (isLoading) {
+    return (
+      <div style={{ position: 'relative', height: '81rem', left: '-16rem' }}>
+        <PageSpinner />
       </div>
+    );
+  }
+
+  return (
+    <>
       {data && (
         <TableVirtuoso
           style={{ height: '81rem' }}
@@ -155,7 +148,6 @@ const SalesDayVirtualTable = ({ params }: { params: IDaySaleReq }) => {
           fixedHeaderContent={() => (
             <tr>
               <th>매장명</th>
-              <th>총합</th>
               {data?.list[0].daily_sales_list.map((el, i) => (
                 <th key={el.sales_day} className={`${i % 2 !== 0 ? 'bg' : ''}`}>
                   {el.sales_day}
@@ -174,24 +166,23 @@ const SalesDayVirtualTable = ({ params }: { params: IDaySaleReq }) => {
                       <div className="store_name">{store.store_name}</div>
                       <div className="info">
                         <Badge color="gray" size="sm">
-                          {StoreStr[store.store_type]}
+                          {StoreStr[store.store_type_code]}
                         </Badge>
                         <Badge
                           color={
-                            store.store_status === 'OPEN'
+                            store.store_status_code === 'OPEN'
                               ? 'blue'
-                              : store.store_status === 'CLOSED'
+                              : store.store_status_code === 'CLOSED'
                               ? 'red'
                               : 'yellow'
                           }
                           size="sm"
                         >
-                          {StatusStr[store.store_status]}
+                          {StatusStr[store.store_status_code]}
                         </Badge>
                       </div>
                     </div>
                   </td>
-                  <td>{store?.total_sales_amount.toLocaleString()}</td>
                   {data?.list[0].daily_sales_list.map((el, index: number) => (
                     <td
                       key={el.sales_day}
@@ -208,8 +199,8 @@ const SalesDayVirtualTable = ({ params }: { params: IDaySaleReq }) => {
           )}
         />
       )}
-    </div>
+    </>
   );
 };
 
-export default SalesDayVirtualTable;
+export default StoreDayVirtualTable;

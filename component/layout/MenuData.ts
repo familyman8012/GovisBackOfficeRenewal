@@ -94,6 +94,13 @@ export const TotalMenu: MenuType[] = [
     perm_info_idx: 100,
   },
   {
+    depth1: '메뉴 분석 및 통계',
+    group: 'HeadOffice',
+    path: '/menu-analyze',
+    perm_code: 'product_sales_analytics',
+    perm_info_idx: 100,
+  },
+  {
     depth1: '제품 관리',
     group: 'HeadOffice',
     path: '/product',
@@ -448,6 +455,7 @@ export const Goivs2Menu = [
   '/product-recipes',
   '/sales-analyze',
   '/product-analyze',
+  '/menu-analyze',
   '/storybook',
   '/aistt-analysis',
   '/aistt-device',

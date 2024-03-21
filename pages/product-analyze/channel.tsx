@@ -20,7 +20,7 @@ import useTabWithDateQuery from '@ComponentFarm/template/product-analyze/useTabW
 import useQueryParams from '@HookFarm/useQueryParams';
 
 const ChannelAnalyze = () => {
-  const [params, updateParams, resetParams] = useQueryParams(initialDay);
+  const [params, updateParams, resetParams] = useQueryParams<any>(initialDay);
   const { activeTabIndex, handleTabWithDateQuery } = useTabWithDateQuery({
     tabIdx: 4,
     params,

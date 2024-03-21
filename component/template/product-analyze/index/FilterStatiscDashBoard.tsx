@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import dayjs from 'dayjs';
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
@@ -49,11 +49,6 @@ const FilterTableForm = ({
     range2: [null, null],
   });
 
-  const [winReady, setWinReady] = useState(false);
-  useEffect(() => {
-    setWinReady(true);
-  }, []);
-
   const handleFilterResult = () => {
     const { range1, range2 } = selectedDateRanges;
 
@@ -101,30 +96,19 @@ const FilterTableForm = ({
           min-width: 10.84rem;
         `}
       >
-        {winReady ? (
-          <Select
-            options={convertEnv('product_category')}
-            selectedOption={
-              selectedOption === null && params.evi_product_category
-                ? convertEnv('product_category').find(
-                    el =>
-                      String(el.value) === String(params.evi_product_category)
-                  )
-                : selectedOption
-            }
-            setSelectedOption={setSelectedOption}
-            prefixLabel="제품"
-            placeholder="전체"
-          />
-        ) : (
-          <div
-            css={css`
-              height: 4.4rem;
-              border: 1px solid var(--input-selectBorder) !important;
-              border-radius: 4px;
-            `}
-          />
-        )}
+        <Select
+          options={convertEnv('product_category')}
+          selectedOption={
+            selectedOption === null && params.evi_product_category
+              ? convertEnv('product_category').find(
+                  el => String(el.value) === String(params.evi_product_category)
+                )
+              : selectedOption
+          }
+          setSelectedOption={setSelectedOption}
+          prefixLabel="제품"
+          placeholder="전체"
+        />
       </div>
       <DiffDateRanger
         type="diff"

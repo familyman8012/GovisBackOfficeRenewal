@@ -2,6 +2,7 @@ import React from 'react';
 import { useQuery } from 'react-query';
 import styled from '@emotion/styled';
 import { fetchStoreSale } from '@ApiFarm/sales';
+import { IStoreSaleReq } from '@InterfaceFarm/sales';
 import { Badge } from '@ComponentFarm/atom/Badge/Badge';
 import SkeletonTh from '@ComponentFarm/atom/Skeleton/SkeletonTh';
 import { StatusStr, StoreStr } from '@ComponentFarm/modal/SearchPopup/const';
@@ -71,7 +72,7 @@ const SummaryWrap = styled.div`
   }
 `;
 
-const SalesTotal = ({ params }: any) => {
+const SalesTotal = ({ params }: { params: IStoreSaleReq }) => {
   const { isLoading, data } = useQuery(['SalesTotal', params], () =>
     fetchStoreSale(params)
   );

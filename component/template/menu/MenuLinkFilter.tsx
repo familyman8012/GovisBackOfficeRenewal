@@ -22,7 +22,7 @@ const MenuLinkFilter = ({ params, updateParams, resetParams }: Props) => {
     params.store_idx
       ?.toString()
       .split(',')
-      .map(item => ({ idx: item, name: '' }))
+      .map((item: any) => ({ idx: item, name: '' }))
   );
 
   const { data: storeModalData } = useQuery(

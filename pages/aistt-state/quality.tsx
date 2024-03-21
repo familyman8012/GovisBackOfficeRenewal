@@ -24,7 +24,7 @@ const AisttQualityState = () => {
   const router = useRouter();
   const [statusSelect, setstatusSelect] = useState(0);
   const [activeTabIndex, setActiveTabIndex] = useState(1);
-  const [params, updateParams, resetParams] = useQueryParams({
+  const [params, updateParams, resetParams] = useQueryParams<any>({
     search_start_dt: dayjs().format('YYYY-MM-DD'),
     search_end_dt: dayjs().format('YYYY-MM-DD'),
   });
