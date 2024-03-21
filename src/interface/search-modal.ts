@@ -52,6 +52,41 @@ export interface IStoreModalRes {
   list: IStoreSearchModalResItem[];
 }
 
+export interface IMenuSearchModalReq {
+  per_num?: number;
+  current_num?: number;
+  evi_menu_group?: number;
+  evi_menu_status?: number;
+  evi_menu_type?: number;
+  evi_menu_classification?: number;
+  menu_category_idx?: number;
+  search_target?: string;
+  search_keyword?: string;
+  sort_target?: string;
+  sort_type?: string;
+}
+
+interface IMenuSearchModalResItem {
+  menu_info_idx: number;
+  menu_code: string;
+  evi_menu_group: number;
+  evv_menu_group: string;
+  evi_menu_type: number;
+  evv_menu_type: string;
+  evi_menu_classification: number;
+  evv_menu_classification: string;
+  menu_category_idx: number;
+  menu_category_name: string;
+  menu_name: string;
+  evi_menu_status: number;
+  evv_menu_status: string;
+}
+
+export interface IMenuSearchModalRes {
+  info: IMenuSearchModalReq;
+  list: IMenuSearchModalResItem[];
+}
+
 // productSearch, storeSearch
 export interface ISearcPopupProps {
   isOpen: boolean;
