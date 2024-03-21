@@ -16,7 +16,7 @@ interface IMenuResultData extends ICommonResultData {
   status: string;
 }
 
-const ProductSearchPopup = ({
+const MenuSearchPopup = ({
   setConfig,
   data,
 }: {
@@ -91,4 +91,4 @@ const ProductSearchPopup = ({
   );
 };
 
-export default ProductSearchPopup;
+export default MenuSearchPopup;

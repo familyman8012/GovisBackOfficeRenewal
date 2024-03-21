@@ -69,7 +69,7 @@ const FilterTableForm = ({
 
   const filterItems = [
     {
-      title: '제품 구분',
+      title: '메뉴 구분',
       select: menuSelect,
     },
     {
