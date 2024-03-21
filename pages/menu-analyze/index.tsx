@@ -13,7 +13,7 @@ import { Button } from '@ComponentFarm/atom/Button/Button';
 import { Tabs } from '@ComponentFarm/atom/Tab/Tab';
 import TitleArea from '@ComponentFarm/layout/TitleArea';
 import { AddTab, AreaBox } from '@ComponentFarm/template/common/AreaBox';
-import FilterTableForm from '@ComponentFarm/template/common/FilterTable/FilterTableForm';
+import FilterTableFormMenu from '@ComponentFarm/template/common/FilterTable/FilterTableFormMenu';
 import SubTitleBox from '@ComponentFarm/template/common/SubTitleBox';
 import {
   initialDay,
@@ -64,7 +64,7 @@ const StoreAnalyze = () => {
         onTabChange={index => handleTabWithDateQuery(index)}
       />
       <SubTitleBox title="매장별 현황" hideUnderline />
-      <FilterTableForm
+      <FilterTableFormMenu
         type="diff"
         params={params}
         maxDateRanger={6}
