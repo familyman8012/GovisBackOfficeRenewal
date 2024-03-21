@@ -73,6 +73,7 @@ const MenuSearchPopup = ({
   return (
     <SearchPopup<IMenuResultData>
       title="메뉴 상세 설정"
+      className="menuPopup"
       searchBoxPlaceHolder="메뉴명을 입력해주세요"
       keyWordSearchTitle="메뉴명"
       width={946}

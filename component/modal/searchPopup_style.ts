@@ -14,6 +14,14 @@ export const SearchBox = styled.form<{ width?: number }>`
     }
   }
 
+  &.menuPopup {
+    .wrap_input {
+      > div {
+        flex: 1;
+      }
+    }
+  }
+
   table {
     width: 100%;
     text-align: left;
