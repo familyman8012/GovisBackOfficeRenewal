@@ -36,7 +36,10 @@ export const fetchMenuSearchModal = async (params?: IMenuSearchModalReq) => {
   const response = await CommonRequest.get<IResponse<IMenuSearchModalRes>>(
     '/menu/info/list',
     {
-      params,
+      params: {
+        ...params,
+        per_num: 9999,
+      },
     }
   );
 
